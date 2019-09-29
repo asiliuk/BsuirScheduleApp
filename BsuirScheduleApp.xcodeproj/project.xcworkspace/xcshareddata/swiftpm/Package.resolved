@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "BsuirApi",
+        "repositoryURL": "/Users/antonsiliuk/HomeProjects/BsuirSchedule/BsuirApi",
+        "state": {
+          "branch": "master",
+          "revision": "736736dacfc94a9bf8b3db483c52a9d1037b63f9",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
