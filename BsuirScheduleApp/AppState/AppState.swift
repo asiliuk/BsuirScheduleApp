@@ -10,6 +10,11 @@ import Foundation
 import BsuirApi
 import Combine
 
+import os.log
+
+let appStateLog = OSLog(subsystem: "com.saute.BsuirScheduleApp", category: "AppState")
+func log(_ message: StaticString, _ arguments: CVarArg...) { os_log(.error, log: appStateLog, message, arguments) }
+
 enum ContentState<Value: Equatable>: Equatable {
     case loading
     case error
@@ -63,10 +68,14 @@ final class AllGroupsState: ObservableObject {
     @Published var groups: [MyGroup] = []
 
     func request() {
-        print("requesting...")
+        log("Requesting all groups...")
         cancellable = requestManager
             .request(BsuirApi.Groups())
             .map { $0.map(MyGroup.init) }
+            .handleEvents(
+                receiveOutput: { log("Got some groups %@", String(describing: $0)) },
+                receiveCompletion: { log("Groups request completed %@", String(describing: $0)) }
+            )
             .replaceError(with: [])
             .map { $0.sorted() }
             .receive(on: RunLoop.main)
@@ -101,10 +110,14 @@ final class GroupState: ObservableObject {
     @Published var days: [Day] = []
 
     func request() {
-        print("Requesting days...")
+        log("Requesting days...")
         cancellable = requestManager
             .request(BsuirApi.Schedule(agent: .groupID(group.id)))
             .map { $0.schedules.map(Day.init) }
+            .handleEvents(
+                receiveOutput: { log("Got some days %@", String(describing: $0)) },
+                receiveCompletion: { log("Days request completed %@", String(describing: $0)) }
+            )
             .replaceError(with: [])
             .receive(on: RunLoop.main)
             .weekAssign(to: \.days, on: self)
@@ -139,14 +152,9 @@ final class AllLecturersState: ObservableObject {
     }
 
     func state(for lecturer: Lecturer) -> LecturerState {
-        let a = LecturerState(employee: lecturer.employee, requestManager: requestManager)
-        cancellable2 = a.objectWillChange.sink {
-            print("LecturerState will change")
-        }
-        return a
+        return LecturerState(employee: lecturer.employee, requestManager: requestManager)
     }
 
-    private var cancellable2: AnyCancellable?
     private var cancellable: AnyCancellable?
     private let requestManager: RequestsManager
 }
