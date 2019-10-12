@@ -22,24 +22,41 @@ struct ContentView: View {
 struct PairCell: View {
     
     let image: Image
+    @Environment(\.sizeCategory) var sizeCategory
     
     var body: some View {
         HStack() {
 
-            VStack(alignment: .trailing) {
-                Text("20:25").font(.callout)
-                Text("22:00").font(.footnote)
+            if sizeCategory.isAccessibility {
+
+                Rectangle().frame(width: 5).foregroundColor(.red)
+
+                VStack(alignment: .leading) {
+                    
+                    Text("20:25-22:00").font(.callout)
+
+                    HStack() {
+                        Text("ОТ").font(.headline).bold()
+                        Text("601-2").font(.caption)
+                    }
+                }
+            } else {
+
+                VStack(alignment: .trailing) {
+                    Text("20:25").font(.callout)
+                    Text("22:00").font(.footnote)
+                }
+
+                Rectangle().frame(width: 2).foregroundColor(.red)
+
+                VStack(alignment: .leading) {
+                    Text("ОТ").font(.headline).bold()
+                    Text("601-2").font(.callout)
+                }
             }
             
-            Rectangle().frame(width: 2).foregroundColor(.red)
-            
-            VStack(alignment: .leading) {
-                Text("ОТ").font(.headline).bold()
-                Text("601-2").font(.callout)
-            }
-            
-            Spacer()
-            
+            Spacer().layoutPriority(-1)
+
             image
                 .resizable()
                 .scaledToFill()
@@ -49,12 +66,38 @@ struct PairCell: View {
     }
 }
 
+extension ContentSizeCategory {
+
+    var isAccessibility: Bool {
+        switch self {
+        case .accessibilityLarge,
+             .accessibilityMedium,
+             .accessibilityExtraLarge,
+             .accessibilityExtraExtraLarge,
+             .accessibilityExtraExtraExtraLarge:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
 #if DEBUG
 struct ContentView_Previews: PreviewProvider {
+    static let image = Image("barkova")
     static var previews: some View {
-        ContentView(image: Image("barkova"))
-            .environment(\.colorScheme, .dark)
-            .environment(\.sizeCategory, .extraLarge)
+        Group {
+            PairCell(image: image)
+                .environment(\.colorScheme, .dark)
+                .background(Color.black)
+
+            PairCell(image: image)
+                .environment(\.sizeCategory, .accessibilityMedium)
+                .previewLayout(.fixed(width: 320, height: 100))
+
+            PairCell(image: image)
+        }
+        .previewLayout(.fixed(width: 320, height: 60))
     }
 }
 #endif

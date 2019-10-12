@@ -31,4 +31,3 @@ struct LecturerView: View {
         .navigationBarTitle(Text(state.name), displayMode: .inline)
     }
 }
-
