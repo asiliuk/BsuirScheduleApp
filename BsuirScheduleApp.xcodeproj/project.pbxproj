@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E633E7FA22F8B75F00E109E2 /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E633E7F922F8B75F00E109E2 /* BsuirApi */; };
+		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
 		E695524D22F9D11100EEFA72 /* BsuirApi+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */; };
 		E6964820233F7BD3007EF2CB /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E696481F233F7BD3007EF2CB /* AppState.swift */; };
 		E6964822233F7C45007EF2CB /* AllGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6964821233F7C45007EF2CB /* AllGroupsView.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
 		E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsuirApi+Combine.swift"; sourceTree = "<group>"; };
 		E696481F233F7BD3007EF2CB /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E6964821233F7C45007EF2CB /* AllGroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsView.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				E6F931B522F8B1C10038FC43 /* AppDelegate.swift */,
 				E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */,
 				E6F931BC22F8B1C10038FC43 /* ContentView.swift */,
+				E64D431923758CFE00FA117C /* ContentStateView.swift */,
 				E6964823233F7D72007EF2CB /* RootView.swift */,
 				E6964821233F7C45007EF2CB /* AllGroupsView.swift */,
 				E6964825233F8936007EF2CB /* GroupView.swift */,
@@ -211,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */,
 				E69648282340CA53007EF2CB /* AllLecturersView.swift in Sources */,
 				E6964824233F7D72007EF2CB /* RootView.swift in Sources */,
 				E695524D22F9D11100EEFA72 /* BsuirApi+Combine.swift in Sources */,

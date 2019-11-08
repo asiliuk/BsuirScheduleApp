@@ -14,18 +14,15 @@ struct AllLecturersView: View {
 
     var body: some View {
         NavigationView {
-            Group {
-                if state.lecturers.isEmpty {
-                    Text("Загрузка...")
-                } else {
-                    List(state.lecturers) { lecturer in
-                        NavigationLink(destination: LecturerView(state: self.state.state(for: lecturer))) {
-                            Text(lecturer.fullName)
-                        }
+            ContentStateView(content: state.lecturers) { value in
+                List(value) { lecturer in
+                    NavigationLink(destination: LecturerView(state: self.state.state(for: lecturer))) {
+                        Text(lecturer.fullName)
                     }
                 }
             }
             .navigationBarTitle("Все преподаватели")
-        }.onAppear(perform: state.request)
+            .onAppear(perform: state.request)
+        }
     }
 }

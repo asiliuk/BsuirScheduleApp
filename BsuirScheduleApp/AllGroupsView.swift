@@ -15,18 +15,15 @@ struct AllGroupsView: View {
 
     var body: some View {
         NavigationView {
-            Group {
-                if state.groups.isEmpty {
-                    Text("Загрузка...")
-                } else {
-                    List(state.groups) { group in
-                        NavigationLink(destination: GroupView(state: self.state.state(for: group))) {
-                            Text(group.name)
-                        }
+            ContentStateView(content: state.groups) { value in
+                List(value) { group in
+                    NavigationLink(destination: GroupView(state: self.state.state(for: group))) {
+                        Text(group.name)
                     }
                 }
             }
             .navigationBarTitle("Все группы")
-        }.onAppear(perform: state.request)
+            .onAppear(perform: state.request)
+        }
     }
 }

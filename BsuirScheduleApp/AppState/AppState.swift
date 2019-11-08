@@ -15,24 +15,25 @@ import os.log
 let appStateLog = OSLog(subsystem: "com.saute.BsuirScheduleApp", category: "AppState")
 func log(_ message: StaticString, _ arguments: CVarArg...) { os_log(.error, log: appStateLog, message, arguments) }
 
-enum ContentState<Value: Equatable>: Equatable {
+enum ContentState<Value> {
     case loading
     case error
     case some(Value)
+}
+
+extension ContentState {
 
     var isLoading: Bool {
         switch self {
         case .loading: return true
-        case .error, .some: return true
+        case .error, .some: return false
         }
     }
-
-    var isEmpty: Bool { isLoading }
 
     var isError: Bool {
         switch self {
         case .error: return true
-        case .loading, .some: return true
+        case .loading, .some: return false
         }
     }
 
@@ -43,6 +44,8 @@ enum ContentState<Value: Equatable>: Equatable {
         }
     }
 }
+
+extension ContentState: Equatable where Value: Equatable {}
 
 final class AppState: ObservableObject {
     let requestManager: RequestsManager
@@ -65,19 +68,18 @@ final class AllGroupsState: ObservableObject {
         fileprivate let group: Group
     }
 
-    @Published var groups: [MyGroup] = []
+    @Published var groups: ContentState<[MyGroup]> = .loading
 
     func request() {
         log("Requesting all groups...")
         cancellable = requestManager
             .request(BsuirApi.Groups())
-            .map { $0.map(MyGroup.init) }
+            .map { .some($0.map(MyGroup.init).sorted()) }
             .handleEvents(
                 receiveOutput: { log("Got some groups %@", String(describing: $0)) },
                 receiveCompletion: { log("Groups request completed %@", String(describing: $0)) }
             )
-            .replaceError(with: [])
-            .map { $0.sorted() }
+            .replaceError(with: .error)
             .receive(on: RunLoop.main)
             .weekAssign(to: \.groups, on: self)
     }
@@ -107,18 +109,18 @@ final class GroupState: ObservableObject {
     }
 
     var name: String { group.name }
-    @Published var days: [Day] = []
+    @Published var days: ContentState<[Day]> = .loading
 
     func request() {
         log("Requesting days...")
         cancellable = requestManager
             .request(BsuirApi.Schedule(agent: .groupID(group.id)))
-            .map { $0.schedules.map(Day.init) }
+            .map { .some($0.schedules.map(Day.init)) }
             .handleEvents(
                 receiveOutput: { log("Got some days %@", String(describing: $0)) },
                 receiveCompletion: { log("Days request completed %@", String(describing: $0)) }
             )
-            .replaceError(with: [])
+            .replaceError(with: .error)
             .receive(on: RunLoop.main)
             .weekAssign(to: \.days, on: self)
     }
@@ -138,15 +140,15 @@ final class AllLecturersState: ObservableObject {
         fileprivate let employee: Employee
     }
 
-    @Published var lecturers: [Lecturer] = []
+    @Published var lecturers: ContentState<[Lecturer]> = .loading
 
     init(requestManager: RequestsManager) { self.requestManager = requestManager }
 
     func request() {
         cancellable = requestManager
             .request(BsuirApi.Employees())
-            .map { $0.map(Lecturer.init) }
-            .replaceError(with: [])
+            .map { .some($0.map(Lecturer.init)) }
+            .replaceError(with: .error)
             .receive(on: RunLoop.main)
             .weekAssign(to: \.lecturers, on: self)
     }
@@ -167,13 +169,13 @@ final class LecturerState: ObservableObject {
     }
 
     var name: String { employee.fio }
-    @Published var days: [Day] = []
+    @Published var days: ContentState<[Day]> = .loading
 
     func request() {
         cancellable = requestManager
             .request(BsuirApi.EmployeeSchedule(id: employee.id))
-            .map { dump($0); return $0.schedules?.map(Day.init) ?? [] }
-            .replaceError(with: [])
+            .map { .some($0.schedules?.map(Day.init) ?? []) }
+            .replaceError(with: .error)
             .receive(on: RunLoop.main)
             .weekAssign(to: \.days, on: self)
     }

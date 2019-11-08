@@ -13,21 +13,26 @@ struct GroupView: View {
     @ObservedObject var state: GroupState
 
     var body: some View {
-        Group {
-            if state.days.isEmpty {
-                Text("Загрузка...")
-            } else {
-                List {
-                    ForEach(state.days, id: \.title) { day in
-                        Section(header: Text(day.title)) {
-                            ForEach(day.pairs, id: \.self) { Text($0) }
-                        }
+        ScheduleView(schedule: state.days)
+            .onAppear(perform: state.request)
+            .navigationBarTitle(Text(state.name), displayMode: .inline)
+    }
+}
+
+struct ScheduleView: View {
+
+    let schedule: ContentState<[Day]>
+
+    var body: some View {
+        ContentStateView(content: schedule) { value in
+            List {
+                ForEach(value, id: \.title) { day in
+                    Section(header: Text(day.title)) {
+                        ForEach(day.pairs, id: \.self) { Text($0) }
                     }
                 }
-                .listStyle(GroupedListStyle())
             }
+            .listStyle(GroupedListStyle())
         }
-        .onAppear(perform: state.request)
-        .navigationBarTitle(Text(state.name), displayMode: .inline)
     }
 }

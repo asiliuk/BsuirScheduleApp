@@ -13,21 +13,8 @@ struct LecturerView: View {
     @ObservedObject var state: LecturerState
 
     var body: some View {
-        Group {
-            if state.days.isEmpty {
-                Text("Загрузка...")
-            } else {
-                List {
-                    ForEach(state.days, id: \.title) { day in
-                        Section(header: Text(day.title)) {
-                            ForEach(day.pairs, id: \.self) { Text($0) }
-                        }
-                    }
-                }
-                .listStyle(GroupedListStyle())
-            }
-        }
-        .onAppear(perform: state.request)
-        .navigationBarTitle(Text(state.name), displayMode: .inline)
+        ScheduleView(schedule: state.days)
+            .onAppear(perform: state.request)
+            .navigationBarTitle(Text(state.name), displayMode: .inline)
     }
 }
