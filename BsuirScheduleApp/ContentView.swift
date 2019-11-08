@@ -29,7 +29,9 @@ struct PairCell: View {
 
             if sizeCategory.isAccessibility {
 
-                Rectangle().frame(width: 5).foregroundColor(.red)
+                Rectangle()
+                    .frame(width: 5)
+                    .foregroundColor(.red)
 
                 VStack(alignment: .leading) {
                     
@@ -68,18 +70,15 @@ struct PairCell: View {
 
 extension ContentSizeCategory {
 
-    var isAccessibility: Bool {
-        switch self {
-        case .accessibilityLarge,
-             .accessibilityMedium,
-             .accessibilityExtraLarge,
-             .accessibilityExtraExtraLarge,
-             .accessibilityExtraExtraExtraLarge:
-            return true
-        default:
-            return false
-        }
-    }
+    var isAccessibility: Bool { Self.accessibility.contains(self) }
+
+    private static let accessibility: Set<ContentSizeCategory> = [
+        .accessibilityMedium,
+        .accessibilityLarge,
+        .accessibilityExtraLarge,
+        .accessibilityExtraExtraLarge,
+        .accessibilityExtraExtraExtraLarge
+    ]
 }
 
 #if DEBUG
@@ -93,11 +92,10 @@ struct ContentView_Previews: PreviewProvider {
 
             PairCell(image: image)
                 .environment(\.sizeCategory, .accessibilityMedium)
-                .previewLayout(.fixed(width: 320, height: 100))
 
             PairCell(image: image)
         }
-        .previewLayout(.fixed(width: 320, height: 60))
+        .previewLayout(.sizeThatFits)
     }
 }
 #endif
