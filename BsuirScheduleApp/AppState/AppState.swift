@@ -51,7 +51,7 @@ final class AllGroupsState: ObservableObject {
     func request() {
         log("Requesting all groups...")
         cancellable = requestManager
-            .request(BsuirApi.Groups())
+            .request(BsuirTargets.Groups())
             .map { .some($0.map(MyGroup.init).sorted()) }
             .handleEvents(
                 receiveOutput: { log("Got some groups %@", String(describing: $0)) },
@@ -70,12 +70,66 @@ final class AllGroupsState: ObservableObject {
 }
 
 struct Day: Equatable {
+
+    struct Pair: Hashable, Equatable {
+
+        enum Form {
+            case lecture
+            case practice
+            case lab
+            case exam
+            case unknown
+        }
+
+        let from: String
+        let to: String
+        let form: Form
+        let subject: String
+        let note: String
+
+        init(_ pair: BsuirApi.Pair) {
+            self.from = Self.timeFormatter.string(from: pair.startLessonTime.components) ?? "N/A"
+            self.to = Self.timeFormatter.string(from: pair.endLessonTime.components) ?? "N/A"
+            self.form = Form(pair.lessonType)
+            self.subject = pair.subject
+            self.note = (pair.auditory.map(Optional.some) + [pair.note]).compactMap { $0 }.joined(separator: ", ")
+        }
+
+        private static let timeFormatter: DateComponentsFormatter = {
+            let formatter = DateComponentsFormatter()
+            formatter.allowedUnits = [.hour, .minute]
+            formatter.unitsStyle = .positional
+            formatter.zeroFormattingBehavior = .pad
+            return formatter
+        }()
+    }
+
     let title: String
-    let pairs: [String]
+    let pairs: [Pair]
 
     init(day: DaySchedule) {
         self.title = day.weekDay.title
-        self.pairs = day.schedule.map { $0.subject }
+        self.pairs = day.schedule.map(Pair.init)
+    }
+}
+
+private extension BsuirApi.Pair.Time {
+
+    var components: DateComponents {
+        DateComponents(timeZone: timeZone, hour: hour, minute: minute)
+    }
+}
+
+private extension Day.Pair.Form {
+
+    init(_ form: BsuirApi.Pair.Form) {
+        switch form {
+        case .lecture: self = .lecture
+        case .practice: self = .practice
+        case .lab: self = .lab
+        case .exam: self = .exam
+        case .unknown: self = .unknown
+        }
     }
 }
 
@@ -92,7 +146,7 @@ final class GroupState: ObservableObject {
     func request() {
         log("Requesting days...")
         cancellable = requestManager
-            .request(BsuirApi.Schedule(agent: .groupID(group.id)))
+            .request(BsuirTargets.Schedule(agent: .groupID(group.id)))
             .map { .some($0.schedules.map(Day.init)) }
             .handleEvents(
                 receiveOutput: { log("Got some days %@", String(describing: $0)) },
@@ -124,7 +178,7 @@ final class AllLecturersState: ObservableObject {
 
     func request() {
         cancellable = requestManager
-            .request(BsuirApi.Employees())
+            .request(BsuirTargets.Employees())
             .map { .some($0.map(Lecturer.init)) }
             .replaceError(with: .error)
             .receive(on: RunLoop.main)
@@ -185,7 +239,7 @@ final class LecturerState: ObservableObject {
 
     func request() {
         cancellable = requestManager
-            .request(BsuirApi.EmployeeSchedule(id: employee.id))
+            .request(BsuirTargets.EmployeeSchedule(id: employee.id))
             .map { .some($0.schedules?.map(Day.init) ?? []) }
             .replaceError(with: .error)
             .receive(on: RunLoop.main)

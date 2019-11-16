@@ -8,20 +8,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    let image: Image
-    var body: some View {
-        List {
-            ForEach(0..<10) { _ in
-                PairCell(image: self.image)
-            }
-        }
-    }
-}
-
 struct PairCell: View {
-    
-    let image: Image
+
+    let pair: Day.Pair
     @Environment(\.sizeCategory) var sizeCategory
     
     var body: some View {
@@ -31,39 +20,52 @@ struct PairCell: View {
 
                 Rectangle()
                     .frame(width: 5)
-                    .foregroundColor(.red)
+                    .foregroundColor(pair.form.color)
 
                 VStack(alignment: .leading) {
                     
-                    Text("20:25-22:00").font(.callout)
+                    Text("\(pair.from)-\(pair.to)").font(.system(.callout, design: .monospaced))
 
                     HStack() {
-                        Text("ОТ").font(.headline).bold()
-                        Text("601-2").font(.caption)
+                        Text(pair.subject).font(.headline).bold()
+                        Text(pair.note).font(.caption)
                     }
                 }
             } else {
 
                 VStack(alignment: .trailing) {
-                    Text("20:25").font(.callout)
-                    Text("22:00").font(.footnote)
+                    Text(pair.from).font(.system(.callout, design: .monospaced))
+                    Text(pair.to).font(.system(.footnote, design: .monospaced))
                 }
 
-                Rectangle().frame(width: 2).foregroundColor(.red)
+                Rectangle().frame(width: 2).foregroundColor(pair.form.color)
 
                 VStack(alignment: .leading) {
-                    Text("ОТ").font(.headline).bold()
-                    Text("601-2").font(.callout)
+                    Text(pair.subject).font(.headline).bold()
+                    Text(pair.note).font(.callout)
                 }
             }
             
             Spacer().layoutPriority(-1)
 
-            image
-                .resizable()
-                .scaledToFill()
-                .frame(width: 50, height: 50)
-                .clipShape(Circle())
+//            image
+//                .resizable()
+//                .scaledToFill()
+//                .frame(width: 50, height: 50)
+//                .clipShape(Circle())
+        }
+    }
+}
+
+extension Day.Pair.Form {
+
+    var color: Color {
+        switch self {
+        case .lecture: return .green
+        case .practice: return .red
+        case .lab: return .yellow
+        case .exam: return .purple
+        case .unknown: return .gray
         }
     }
 }
@@ -81,21 +83,20 @@ extension ContentSizeCategory {
     ]
 }
 
-#if DEBUG
-struct ContentView_Previews: PreviewProvider {
-    static let image = Image("barkova")
-    static var previews: some View {
-        Group {
-            PairCell(image: image)
-                .environment(\.colorScheme, .dark)
-                .background(Color.black)
-
-            PairCell(image: image)
-                .environment(\.sizeCategory, .accessibilityMedium)
-
-            PairCell(image: image)
-        }
-        .previewLayout(.sizeThatFits)
-    }
-}
-#endif
+//#if DEBUG
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+////        Group {
+////            PairCell()
+////                .environment(\.colorScheme, .dark)
+////                .background(Color.black)
+////
+////            PairCell()
+////                .environment(\.sizeCategory, .accessibilityMedium)
+////
+////            PairCell()
+////        }
+////        .previewLayout(.sizeThatFits)
+//    }
+//}
+//#endif

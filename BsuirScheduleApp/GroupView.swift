@@ -28,7 +28,7 @@ struct ScheduleView: View {
             List {
                 ForEach(value, id: \.title) { day in
                     Section(header: Text(day.title)) {
-                        ForEach(day.pairs, id: \.self) { Text($0) }
+                        ForEach(day.pairs, id: \.self) { PairCell(pair: $0) }
                     }
                 }
             }
