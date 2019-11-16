@@ -24,8 +24,8 @@ struct AllLecturersView: View {
                 }
             }
             .navigationBarTitle("Все преподаватели")
-            .onAppear(perform: state.request)
         }
+        .onAppear(perform: state.request)
     }
 }
 

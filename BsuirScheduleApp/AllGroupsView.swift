@@ -23,7 +23,7 @@ struct AllGroupsView: View {
                 }
             }
             .navigationBarTitle("Все группы")
-            .onAppear(perform: state.request)
         }
+        .onAppear(perform: state.request)
     }
 }
