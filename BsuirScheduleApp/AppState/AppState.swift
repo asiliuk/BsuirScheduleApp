@@ -86,6 +86,7 @@ struct Day: Equatable {
         let form: Form
         let subject: String
         let note: String
+        let weeks: String
 
         init(_ pair: BsuirApi.Pair) {
             self.from = Self.timeFormatter.string(from: pair.startLessonTime.components) ?? "N/A"
@@ -93,6 +94,7 @@ struct Day: Equatable {
             self.form = Form(pair.lessonType)
             self.subject = pair.subject
             self.note = (pair.auditory.map(Optional.some) + [pair.note]).compactMap { $0 }.joined(separator: ", ")
+            self.weeks = pair.weekNumber.prettyName.capitalized
         }
 
         private static let timeFormatter: DateComponentsFormatter = {
@@ -130,6 +132,28 @@ private extension Day.Pair.Form {
         case .exam: self = .exam
         case .unknown: self = .unknown
         }
+    }
+}
+
+private extension BsuirApi.WeekNum {
+
+    var prettyName: String {
+        switch self {
+        case []: return "никогда"
+        case .oddWeeks: return "нечетные"
+        case .evenWeeks: return "четные"
+        case .always: return "вчегда"
+        case let numbers: return numbers.name
+        }
+    }
+
+    private var name: String {
+        var result: [String] = []
+        if contains(.first) { result.append("первая") }
+        if contains(.second) { result.append("вторая") }
+        if contains(.third) { result.append("третья") }
+        if contains(.forth) { result.append("четвертая") }
+        return result.joined(separator: ", ")
     }
 }
 

@@ -23,13 +23,10 @@ struct PairCell: View {
                     .foregroundColor(pair.form.color)
 
                 VStack(alignment: .leading) {
-                    
                     Text("\(pair.from)-\(pair.to)").font(.system(.callout, design: .monospaced))
-
-                    HStack() {
-                        Text(pair.subject).font(.headline).bold()
-                        Text(pair.note).font(.caption)
-                    }
+                    Text(pair.subject).font(.headline).bold()
+                    Text(pair.weeks).font(.caption)
+                    Text(pair.note).font(.caption)
                 }
             } else {
 
@@ -41,7 +38,10 @@ struct PairCell: View {
                 Rectangle().frame(width: 2).foregroundColor(pair.form.color)
 
                 VStack(alignment: .leading) {
-                    Text(pair.subject).font(.headline).bold()
+                    HStack {
+                        Text(pair.subject).font(.headline).bold()
+                        Text("(\(pair.weeks))").font(.callout)
+                    }
                     Text(pair.note).font(.callout)
                 }
             }
