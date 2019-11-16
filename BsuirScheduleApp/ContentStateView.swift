@@ -15,14 +15,15 @@ struct ContentStateView<Value, SubView: View>: View {
     let makeContent: (Value) -> SubView
 
     var body: some View {
-        if content.isLoading {
-            return AnyView(Text("Загрузка..."))
-        } else if content.isError {
-            return AnyView(Text("Что-то пошло не так..."))
-        } else if let value = content.some {
-            return AnyView(makeContent(value))
-        } else {
-            fatalError()
+        switch content {
+        case .initial, .loading: return Text("Загрузка...").eraseToAnyView()
+        case .error: return Text("Что-то пошло не так...").eraseToAnyView()
+        case let .some(value): return makeContent(value).eraseToAnyView()
         }
     }
+}
+
+extension View {
+
+    func eraseToAnyView() -> AnyView { AnyView(self) }
 }

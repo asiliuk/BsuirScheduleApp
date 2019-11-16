@@ -9,6 +9,7 @@
 import Foundation
 import BsuirApi
 import Combine
+import UIKit
 
 import os.log
 
@@ -16,33 +17,10 @@ let appStateLog = OSLog(subsystem: "com.saute.BsuirScheduleApp", category: "AppS
 func log(_ message: StaticString, _ arguments: CVarArg...) { os_log(.error, log: appStateLog, message, arguments) }
 
 enum ContentState<Value> {
+    case initial
     case loading
     case error
     case some(Value)
-}
-
-extension ContentState {
-
-    var isLoading: Bool {
-        switch self {
-        case .loading: return true
-        case .error, .some: return false
-        }
-    }
-
-    var isError: Bool {
-        switch self {
-        case .error: return true
-        case .loading, .some: return false
-        }
-    }
-
-    var some: Value? {
-        switch self {
-        case let .some(value): return value
-        case .loading, .error: return nil
-        }
-    }
 }
 
 extension ContentState: Equatable where Value: Equatable {}
@@ -157,8 +135,42 @@ final class AllLecturersState: ObservableObject {
         return LecturerState(employee: lecturer.employee, requestManager: requestManager)
     }
 
+    func image(for lecturer: Lecturer) -> RemoteImage {
+        RemoteImage(requestManager: requestManager, url: lecturer.employee.photoLink)
+    }
+
     private var cancellable: AnyCancellable?
     private let requestManager: RequestsManager
+}
+
+final class RemoteImage: ObservableObject {
+
+    init(requestManager: RequestsManager, url: URL?) {
+        self.requestManager = requestManager
+        self.url = url
+    }
+
+    @Published var image: ContentState<UIImage?> = .initial
+
+    func request() {
+        guard let url = self.url else {
+            image = .some(nil)
+            cancellable = nil
+            return
+        }
+        image = .loading
+        cancellable = requestManager.session
+            .dataTaskPublisher(for: url)
+            .log(appStateLog, identifier: "RemoteImage(\(url.absoluteString))")
+            .map { .some(UIImage(data: $0.data)) }
+            .replaceError(with: .error)
+            .receive(on: RunLoop.main)
+            .weekAssign(to: \.image, on: self)
+    }
+
+    private var cancellable: AnyCancellable?
+    private let requestManager: RequestsManager
+    private let url: URL?
 }
 
 final class LecturerState: ObservableObject {
@@ -215,5 +227,18 @@ private extension Publisher where Failure == Never {
 
     func weekAssign<Root: AnyObject>(to keyPath: ReferenceWritableKeyPath<Root, Output>, on root: Root) -> AnyCancellable {
         sink(receiveValue: { [weak root] in root?[keyPath: keyPath] = $0 })
+    }
+}
+
+private extension Publisher {
+
+    func log(_ log: OSLog, identifier: String) -> Publishers.HandleEvents<Self> {
+        handleEvents(
+            receiveSubscription: { _ in os_log(.error, log: log, "%@{public}: received Subscription", identifier) },
+            receiveOutput: { _ in os_log(.error, log: log, "%@{public}: received Output", identifier) },
+            receiveCompletion: { _ in os_log(.error, log: log, "%@{public}: received Completion", identifier) },
+            receiveCancel: { os_log(.error, log: log, "%@{public}: received Cancel", identifier) },
+            receiveRequest: { _ in os_log(.error, log: log, "%@{public}: received Request", identifier) }
+        )
     }
 }
