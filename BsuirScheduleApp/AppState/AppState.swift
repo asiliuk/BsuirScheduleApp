@@ -288,11 +288,11 @@ private extension Publisher {
 
     func log(_ log: OSLog, identifier: String) -> Publishers.HandleEvents<Self> {
         handleEvents(
-            receiveSubscription: { _ in os_log(.error, log: log, "%@{public}: received Subscription", identifier) },
-            receiveOutput: { _ in os_log(.error, log: log, "%@{public}: received Output", identifier) },
-            receiveCompletion: { _ in os_log(.error, log: log, "%@{public}: received Completion", identifier) },
-            receiveCancel: { os_log(.error, log: log, "%@{public}: received Cancel", identifier) },
-            receiveRequest: { _ in os_log(.error, log: log, "%@{public}: received Request", identifier) }
+            receiveSubscription: { _ in os_log(.error, log: log, "%{public}@: received Subscription", identifier) },
+            receiveOutput: { _ in os_log(.error, log: log, "%{public}@: received Output", identifier) },
+            receiveCompletion: { _ in os_log(.error, log: log, "%{public}@: received Completion", identifier) },
+            receiveCancel: { os_log(.error, log: log, "%{public}@: received Cancel", identifier) },
+            receiveRequest: { _ in os_log(.error, log: log, "%{public}@: received Request", identifier) }
         )
     }
 }
