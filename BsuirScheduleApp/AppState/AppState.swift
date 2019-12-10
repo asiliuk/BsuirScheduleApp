@@ -124,13 +124,13 @@ private extension BsuirApi.Pair.Time {
 
 private extension Day.Pair.Form {
 
-    init(_ form: BsuirApi.Pair.Form) {
+    init(_ form: BsuirApi.Pair.Form?) {
         switch form {
         case .lecture: self = .lecture
         case .practice: self = .practice
         case .lab: self = .lab
         case .exam: self = .exam
-        case .unknown: self = .unknown
+        case nil: self = .unknown
         }
     }
 }
