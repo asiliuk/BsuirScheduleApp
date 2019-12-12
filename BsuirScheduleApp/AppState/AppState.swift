@@ -52,11 +52,8 @@ final class AllGroupsState: ObservableObject {
         log("Requesting all groups...")
         cancellable = requestManager
             .request(BsuirTargets.Groups())
+            .log(appStateLog, identifier: "All groups")
             .map { .some($0.map(MyGroup.init).sorted()) }
-            .handleEvents(
-                receiveOutput: { log("Got some groups %@", String(describing: $0)) },
-                receiveCompletion: { log("Groups request completed %@", String(describing: $0)) }
-            )
             .replaceError(with: .error)
             .receive(on: RunLoop.main)
             .weekAssign(to: \.groups, on: self)
@@ -308,15 +305,42 @@ private extension Publisher where Failure == Never {
     }
 }
 
+private struct LogEvents: OptionSet {
+    let rawValue: UInt
+
+    static let subscription = LogEvents(rawValue: 1 << 0)
+    static let output = LogEvents(rawValue: 1 << 1)
+    static let completion = LogEvents(rawValue: 1 << 2)
+    static let cancel = LogEvents(rawValue: 1 << 3)
+    static let request = LogEvents(rawValue: 1 << 4)
+
+    static let all: LogEvents = [.subscription, .output, .completion, .cancel, .request]
+}
+
 private extension Publisher {
 
-    func log(_ log: OSLog, identifier: String) -> Publishers.HandleEvents<Self> {
+    func log(_ log: OSLog, identifier: String, events:LogEvents = [.output, .completion]) -> Publishers.HandleEvents<Self> {
         handleEvents(
-            receiveSubscription: { _ in os_log(.error, log: log, "%{public}@: received Subscription", identifier) },
-            receiveOutput: { _ in os_log(.error, log: log, "%{public}@: received Output", identifier) },
-            receiveCompletion: { _ in os_log(.error, log: log, "%{public}@: received Completion", identifier) },
-            receiveCancel: { os_log(.error, log: log, "%{public}@: received Cancel", identifier) },
-            receiveRequest: { _ in os_log(.error, log: log, "%{public}@: received Request", identifier) }
+            receiveSubscription: { _ in
+                guard events.contains(.subscription) else { return }
+                os_log(.error, log: log, "%{public}@: received Subscription", identifier)
+            },
+            receiveOutput: { _ in
+                guard events.contains(.output) else { return }
+                os_log(.error, log: log, "%{public}@: received Output", identifier)
+            },
+            receiveCompletion: { _ in
+                guard events.contains(.completion) else { return }
+                os_log(.error, log: log, "%{public}@: received Completion", identifier)
+            },
+            receiveCancel: {
+                guard events.contains(.cancel) else { return }
+                os_log(.error, log: log, "%{public}@: received Cancel", identifier)
+            },
+            receiveRequest: { _ in
+                guard events.contains(.request) else { return }
+                os_log(.error, log: log, "%{public}@: received Request", identifier)
+            }
         )
     }
 }
