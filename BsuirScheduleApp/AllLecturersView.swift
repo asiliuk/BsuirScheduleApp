@@ -31,12 +31,12 @@ struct AllLecturersView: View {
 
 struct RemoteImageView: View {
 
-    @ObservedObject var image: RemoteImage
+    @ObservedObject var image: Store<RemoteImage.State, RemoteImage.Action>
 
     var body: some View {
-        switch image.image {
+        switch image.value {
         case .initial:
-            return UserPlaceholder().onAppear(perform: image.request).eraseToAnyView()
+            return UserPlaceholder().onAppear(perform: { self.image.send(.request) }).eraseToAnyView()
         case .loading, .error, .some(nil):
             return UserPlaceholder().eraseToAnyView()
         case let .some(image?):
@@ -52,7 +52,7 @@ struct RemoteImageView: View {
 private struct UserPlaceholder: View {
 
     var body: some View {
-        ZStack{
+        ZStack {
             Circle().foregroundColor(Color.gray)
             Image(systemName: "photo")
         }

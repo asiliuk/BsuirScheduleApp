@@ -25,6 +25,60 @@ enum ContentState<Value> {
 
 extension ContentState: Equatable where Value: Equatable {}
 
+enum LoadableContent<Value> {
+
+    typealias State = ContentState<Value>
+
+    enum Action {
+        case request
+        case fail
+        case receive(Value)
+    }
+
+    static func reducer<P>(request: P) -> Reducer<State, Action> where P: Publisher, P.Output == Value {
+        { state, action in
+            switch action {
+            case .request:
+                state = .loading
+                return [
+                    request
+                        .map(Action.receive)
+                        .replaceError(with: .fail)
+                        .receive(on: RunLoop.main)
+                        .eraseToAnyPublisher()
+                ]
+            case .fail:
+                state = .error
+                return []
+            case let .receive(value):
+                state = .some(value)
+                return []
+            }
+        }
+    }
+}
+
+enum RemoteImage {
+
+    typealias Loadable = LoadableContent<UIImage?>
+
+    typealias State = Loadable.State
+    typealias Action = Loadable.Action
+
+    static func reducer(requestManager: RequestsManager, url: URL?) -> Reducer<State, Action> {
+        Loadable.reducer(request: Deferred { () -> AnyPublisher<UIImage?, URLError> in
+            guard let url = url else { return Just(nil).mapError(impossible).eraseToAnyPublisher() }
+            return requestManager.session
+                .dataTaskPublisher(for: url)
+                .log(appStateLog, identifier: "RemoteImage(\(url.absoluteString))")
+                .map { UIImage(data: $0.data) }
+                .eraseToAnyPublisher()
+        })
+    }
+}
+
+func impossible<E: Error>(_ value: Never) -> E {}
+
 final class AppState: ObservableObject {
     let requestManager: RequestsManager
     init(requestManager: RequestsManager) { self.requestManager = requestManager }
@@ -210,42 +264,18 @@ final class AllLecturersState: ObservableObject {
         return LecturerState(employee: lecturer.employee, requestManager: requestManager)
     }
 
-    func image(for lecturer: Lecturer) -> RemoteImage {
-        RemoteImage(requestManager: requestManager, url: lecturer.employee.photoLink)
+    func image(for lecturer: Lecturer) -> Store<RemoteImage.State, RemoteImage.Action> {
+        Store(
+            initialValue: .initial,
+            reducer: RemoteImage.reducer(
+                requestManager: requestManager,
+                url: lecturer.employee.photoLink
+            )
+        )
     }
 
     private var cancellable: AnyCancellable?
     private let requestManager: RequestsManager
-}
-
-final class RemoteImage: ObservableObject {
-
-    init(requestManager: RequestsManager, url: URL?) {
-        self.requestManager = requestManager
-        self.url = url
-    }
-
-    @Published var image: ContentState<UIImage?> = .initial
-
-    func request() {
-        guard let url = self.url else {
-            image = .some(nil)
-            cancellable = nil
-            return
-        }
-        image = .loading
-        cancellable = requestManager.session
-            .dataTaskPublisher(for: url)
-            .log(appStateLog, identifier: "RemoteImage(\(url.absoluteString))")
-            .map { .some(UIImage(data: $0.data)) }
-            .replaceError(with: .error)
-            .receive(on: RunLoop.main)
-            .weekAssign(to: \.image, on: self)
-    }
-
-    private var cancellable: AnyCancellable?
-    private let requestManager: RequestsManager
-    private let url: URL?
 }
 
 final class LecturerState: ObservableObject {

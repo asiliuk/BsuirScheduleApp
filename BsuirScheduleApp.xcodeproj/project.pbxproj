@@ -16,6 +16,7 @@
 		E6964826233F8936007EF2CB /* GroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6964825233F8936007EF2CB /* GroupView.swift */; };
 		E69648282340CA53007EF2CB /* AllLecturersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69648272340CA53007EF2CB /* AllLecturersView.swift */; };
 		E696482A2340CF0D007EF2CB /* LecturerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69648292340CF0D007EF2CB /* LecturerView.swift */; };
+		E69F9C0F23A8E4DE008F464F /* ComposableArchitecture.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69F9C0E23A8E4DD008F464F /* ComposableArchitecture.swift */; };
 		E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B522F8B1C10038FC43 /* AppDelegate.swift */; };
 		E6F931B822F8B1C10038FC43 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */; };
 		E6F931BB22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B922F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld */; };
@@ -34,6 +35,7 @@
 		E6964825233F8936007EF2CB /* GroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupView.swift; sourceTree = "<group>"; };
 		E69648272340CA53007EF2CB /* AllLecturersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLecturersView.swift; sourceTree = "<group>"; };
 		E69648292340CF0D007EF2CB /* LecturerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturerView.swift; sourceTree = "<group>"; };
+		E69F9C0E23A8E4DD008F464F /* ComposableArchitecture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposableArchitecture.swift; sourceTree = "<group>"; };
 		E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BsuirScheduleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6F931B522F8B1C10038FC43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 		E696481E233F7BBE007EF2CB /* AppState */ = {
 			isa = PBXGroup;
 			children = (
+				E69F9C0E23A8E4DD008F464F /* ComposableArchitecture.swift */,
 				E696481F233F7BD3007EF2CB /* AppState.swift */,
 			);
 			path = AppState;
@@ -224,6 +227,7 @@
 				E696482A2340CF0D007EF2CB /* LecturerView.swift in Sources */,
 				E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */,
 				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
+				E69F9C0F23A8E4DE008F464F /* ComposableArchitecture.swift in Sources */,
 				E6F931BD22F8B1C10038FC43 /* ContentView.swift in Sources */,
 				E6F931B822F8B1C10038FC43 /* SceneDelegate.swift in Sources */,
 			);
