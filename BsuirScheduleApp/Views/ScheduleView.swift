@@ -1,5 +1,5 @@
 //
-//  GroupView.swift
+//  ScheduleView.swift
 //  BsuirScheduleApp
 //
 //  Created by Anton Siliuk on 9/28/19.
@@ -8,23 +8,12 @@
 
 import SwiftUI
 
-struct GroupView: View {
-
-    @ObservedObject var state: GroupState
-
-    var body: some View {
-        ScheduleView(schedule: state.days)
-            .onAppear(perform: state.request)
-            .navigationBarTitle(Text(state.name), displayMode: .inline)
-    }
-}
-
 struct ScheduleView: View {
 
-    let schedule: ContentState<[Day]>
+    @ObservedObject var screen: ScheduleScreen
 
     var body: some View {
-        ContentStateView(content: schedule) { value in
+        ContentStateView(content: screen.state) { value in
             List {
                 ForEach(value, id: \.title) { day in
                     Section(header: Text(day.title)) {
@@ -34,5 +23,7 @@ struct ScheduleView: View {
             }
             .listStyle(GroupedListStyle())
         }
+        .onAppear(perform: screen.load)
+        .navigationBarTitle(Text(screen.name), displayMode: .inline)
     }
 }

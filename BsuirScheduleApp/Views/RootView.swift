@@ -15,13 +15,13 @@ struct RootView: View {
 
     var body: some View {
         TabView {
-            AllGroupsView(state: state.allGroups)
+            AllGroupsView(screen: state.allGroups)
                 .tabItem {
                     Image(systemName: "person.3")
                     Text("Группы")
                 }
 
-            AllLecturersView(state: state.allLecturers)
+            AllLecturersView(screen: state.allLecturers)
                 .tabItem {
                     Image(systemName: "person.crop.rectangle")
                     Text("Препедаватели")

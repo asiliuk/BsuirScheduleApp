@@ -11,19 +11,19 @@ import Foundation
 
 struct AllGroupsView: View {
 
-    @ObservedObject var state: AllGroupsState
+    @ObservedObject var screen: AllGroupsScreen
 
     var body: some View {
         NavigationView {
-            ContentStateView(content: state.groups) { value in
+            ContentStateView(content: screen.state) { value in
                 List(value) { group in
-                    NavigationLink(destination: GroupView(state: self.state.state(for: group))) {
+                    NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: group))) {
                         Text(group.name)
                     }
                 }
             }
             .navigationBarTitle("Все группы")
         }
-        .onAppear(perform: state.request)
+        .onAppear(perform: screen.load)
     }
 }

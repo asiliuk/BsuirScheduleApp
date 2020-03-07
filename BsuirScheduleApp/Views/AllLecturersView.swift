@@ -10,14 +10,14 @@ import SwiftUI
 
 struct AllLecturersView: View {
 
-    @ObservedObject var state: AllLecturersState
+    @ObservedObject var screen: AllLecturersScreen
 
     var body: some View {
         NavigationView {
-            ContentStateView(content: state.lecturers) { value in
+            ContentStateView(content: screen.state) { value in
                 List(value) { lecturer in
-                    NavigationLink(destination: LecturerView(state: self.state.state(for: lecturer))) {
-                        RemoteImageView(image: self.state.image(for: lecturer))
+                    NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
+                        RemoteImageView(image: self.screen.image(for: lecturer))
                             .frame(width: 50, height: 50)
                         Text(lecturer.fullName)
                     }
@@ -25,18 +25,21 @@ struct AllLecturersView: View {
             }
             .navigationBarTitle("Все преподаватели")
         }
-        .onAppear(perform: state.request)
+        .onAppear(perform: screen.load)
     }
 }
 
 struct RemoteImageView: View {
 
-    @ObservedObject var image: Store<RemoteImage.State, RemoteImage.Action>
+    @ObservedObject var image: RemoteImage
 
     var body: some View {
-        switch image.value {
+        switch image.state {
         case .initial:
-            return UserPlaceholder().onAppear(perform: { self.image.send(.request) }).eraseToAnyView()
+            return UserPlaceholder()
+                .onAppear(perform: self.image.load)
+                .onDisappear(perform: self.image.stop)
+                .eraseToAnyView()
         case .loading, .error, .some(nil):
             return UserPlaceholder().eraseToAnyView()
         case let .some(image?):
