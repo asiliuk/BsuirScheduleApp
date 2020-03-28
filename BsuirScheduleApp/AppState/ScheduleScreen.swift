@@ -20,7 +20,7 @@ final class ScheduleScreen: LoadableContent<[Day]> {
     }
 }
 
-struct Day: Equatable {
+struct Day: Hashable, Equatable {
 
     struct Pair: Hashable, Equatable {
 

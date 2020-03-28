@@ -14,14 +14,10 @@ struct ScheduleView: View {
 
     var body: some View {
         ContentStateView(content: screen.state) { value in
-            List {
-                ForEach(value, id: \.title) { day in
-                    Section(header: Text(day.title)) {
-                        ForEach(day.pairs, id: \.self) { PairCell(pair: $0) }
-                    }
-                }
+            VStack {
+                ScheduleCollectionView(weeks: [value])
+                    .edgesIgnoringSafeArea(.all)
             }
-            .listStyle(GroupedListStyle())
         }
         .onAppear(perform: screen.load)
         .navigationBarTitle(Text(screen.name), displayMode: .inline)
