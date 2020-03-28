@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "BsuirApi",
-        "repositoryURL": "/Users/antonsiliuk/HomeProjects/BsuirSchedule/BsuirApi",
+        "repositoryURL": "https://github.com/asiliuk/BsuirApi",
         "state": {
-          "branch": "master",
-          "revision": "736736dacfc94a9bf8b3db483c52a9d1037b63f9",
-          "version": null
+          "branch": null,
+          "revision": "325c2a4aa1a8c908df0d048dd291e4ce83fc2876",
+          "version": "0.0.2"
         }
       }
     ]

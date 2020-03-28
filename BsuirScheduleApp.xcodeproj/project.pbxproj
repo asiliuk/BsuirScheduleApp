@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E633E7FA22F8B75F00E109E2 /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E633E7F922F8B75F00E109E2 /* BsuirApi */; };
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
@@ -23,6 +22,7 @@
 		E69648282340CA53007EF2CB /* AllLecturersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69648272340CA53007EF2CB /* AllLecturersView.swift */; };
 		E6A6A87F24142BAB0024D738 /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A6A87E24142BAB0024D738 /* RemoteImage.swift */; };
 		E6A6A88324142F2C0024D738 /* CombineHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A6A88224142F2C0024D738 /* CombineHelpers.swift */; };
+		E6EEDB22242FC9DC00A3BB6F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6EEDB21242FC9DC00A3BB6F /* BsuirApi */; };
 		E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B522F8B1C10038FC43 /* AppDelegate.swift */; };
 		E6F931B822F8B1C10038FC43 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */; };
 		E6F931BB22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B922F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld */; };
@@ -57,7 +57,6 @@
 		E6F931C122F8B1C20038FC43 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E6F931C422F8B1C20038FC43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E6F931C622F8B1C20038FC43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E6F931CF22F8B6D80038FC43 /* BsuirApi */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BsuirApi; path = ../BsuirApi; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E633E7FA22F8B75F00E109E2 /* BsuirApi in Frameworks */,
+				E6EEDB22242FC9DC00A3BB6F /* BsuirApi in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +130,6 @@
 		E6F931A922F8B1C10038FC43 = {
 			isa = PBXGroup;
 			children = (
-				E6F931CF22F8B6D80038FC43 /* BsuirApi */,
 				E6F931B422F8B1C10038FC43 /* BsuirScheduleApp */,
 				E6F931B322F8B1C10038FC43 /* Products */,
 				E633E7F822F8B75F00E109E2 /* Frameworks */,
@@ -184,7 +182,7 @@
 			);
 			name = BsuirScheduleApp;
 			packageProductDependencies = (
-				E633E7F922F8B75F00E109E2 /* BsuirApi */,
+				E6EEDB21242FC9DC00A3BB6F /* BsuirApi */,
 			);
 			productName = BsuirScheduleApp;
 			productReference = E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */;
@@ -215,6 +213,7 @@
 			);
 			mainGroup = E6F931A922F8B1C10038FC43;
 			packageReferences = (
+				E6EEDB20242FC9DC00A3BB6F /* XCRemoteSwiftPackageReference "BsuirApi" */,
 			);
 			productRefGroup = E6F931B322F8B1C10038FC43 /* Products */;
 			projectDirPath = "";
@@ -456,9 +455,21 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		E6EEDB20242FC9DC00A3BB6F /* XCRemoteSwiftPackageReference "BsuirApi" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/asiliuk/BsuirApi";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
-		E633E7F922F8B75F00E109E2 /* BsuirApi */ = {
+		E6EEDB21242FC9DC00A3BB6F /* BsuirApi */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = E6EEDB20242FC9DC00A3BB6F /* XCRemoteSwiftPackageReference "BsuirApi" */;
 			productName = BsuirApi;
 		};
 /* End XCSwiftPackageProductDependency section */
