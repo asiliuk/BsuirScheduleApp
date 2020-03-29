@@ -13,10 +13,14 @@ import BsuirApi
 extension RequestsManager {
 
     public func dataRequest<T: Target>(for target: T) -> AnyPublisher<(Data, URLResponse), DataRequestError> {
-        AnyPublisher(Future { handler in self.dataRequest(for: target, completion: handler) }.share())
+        Deferred { Future { handler in
+            self.dataRequest(for: target, completion: handler)
+        } }.eraseToAnyPublisher()
     }
 
     func request<T: Target>(_ target: T) -> AnyPublisher<T.Value, RequestError> {
-        AnyPublisher(Future { handler in self.request(target, completion: handler) }.share())
+        Deferred { Future { handler in
+            self.request(target, completion: handler)
+        } }.eraseToAnyPublisher()
     }
 }

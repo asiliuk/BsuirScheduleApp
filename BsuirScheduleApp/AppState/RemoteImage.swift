@@ -25,7 +25,7 @@ class LoadableContent<Value>: ObservableObject {
     @Published private(set) var state: ContentState<Value> = .initial
     
     init(_ load: AnyPublisher<Value, Error>) {
-        self.loadPublisher = load
+        self.loadPublisher = Deferred { load }
     }
 
     func load() {
@@ -40,7 +40,7 @@ class LoadableContent<Value>: ObservableObject {
         loading = nil
     }
 
-    private let loadPublisher: AnyPublisher<Value, Error>
+    private let loadPublisher: Deferred<AnyPublisher<Value, Error>>
     private var loading: AnyCancellable?
 }
 
