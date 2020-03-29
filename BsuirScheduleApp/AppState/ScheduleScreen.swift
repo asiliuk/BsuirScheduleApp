@@ -10,13 +10,17 @@ import BsuirApi
 import Combine
 import Foundation
 
-final class ScheduleScreen: LoadableContent<[Day]> {
+final class ScheduleScreen: LoadableContent<(schedule: [Day], exams: [Day])> {
 
     let name: String
 
-    init(name: String, request: AnyPublisher<[DaySchedule], RequestsManager.RequestError>) {
+    init(name: String, request: AnyPublisher<(schedule: [DaySchedule], exams: [DaySchedule]), RequestsManager.RequestError>) {
         self.name = name
-        super.init(request.map { $0.map(Day.init) }.eraseToLoading())
+        super.init(
+            request
+                .map { ($0.schedule.map(Day.init), $0.exams.map(Day.init)) }
+                .eraseToLoading()
+        )
     }
 }
 

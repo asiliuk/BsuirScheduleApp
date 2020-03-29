@@ -10,19 +10,53 @@ import SwiftUI
 
 struct ScheduleView: View {
 
+    enum ScheduleType: Hashable {
+        case everyday
+        case exams
+    }
+
     @ObservedObject var screen: ScheduleScreen
+    @State var scheduleType: ScheduleType = .everyday
 
     var body: some View {
-        ContentStateView(content: screen.state) { value in
-            if value.isEmpty {
-                EmptyState()
-            } else {
-                ScheduleCollectionView(weeks: [value])
-                    .edgesIgnoringSafeArea(.all)
+        VStack {
+            Picker("Тип расписания", selection: $scheduleType) {
+                Text("Расписание").tag(ScheduleType.everyday)
+                Text("Экзамены").tag(ScheduleType.exams)
             }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+
+            Spacer()
+
+            ContentStateView(content: screen.state) { value in
+                if self.scheduleType == .everyday {
+                    SomeState(days: value.schedule)
+                } else if self.scheduleType == .exams {
+                    SomeState(days: value.exams)
+                }
+            }
+
+            Spacer()
         }
         .onAppear(perform: screen.load)
         .navigationBarTitle(Text(screen.name), displayMode: .inline)
+    }
+}
+
+struct SomeState: View {
+
+    let days: [Day]
+
+    var body: some View {
+        Group {
+            if days.isEmpty {
+                EmptyState()
+            } else {
+                ScheduleCollectionView(weeks: [days])
+                    .edgesIgnoringSafeArea(.all)
+            }
+        }
     }
 }
 
