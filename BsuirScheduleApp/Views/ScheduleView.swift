@@ -14,7 +14,9 @@ struct ScheduleView: View {
 
     var body: some View {
         ContentStateView(content: screen.state) { value in
-            VStack {
+            if value.isEmpty {
+                EmptyState()
+            } else {
                 ScheduleCollectionView(weeks: [value])
                     .edgesIgnoringSafeArea(.all)
             }
@@ -23,3 +25,31 @@ struct ScheduleView: View {
         .navigationBarTitle(Text(screen.name), displayMode: .inline)
     }
 }
+
+struct EmptyState: View {
+
+    var body: some View {
+        VStack {
+            Image(systemName: imageNames.randomElement()!).font(.largeTitle)
+            Text("Похоже, занятий нет").font(.title)
+            Text("Все свободны!").font(.subheadline)
+        }
+    }
+
+    private let imageNames = [
+        "sportscourt",
+        "film",
+        "house",
+        "gamecontroller",
+        "eyeglasses"
+    ]
+}
+
+#if DEBUG
+struct ScheduleView_Preview: PreviewProvider {
+
+    static var previews: some View {
+        EmptyState()
+    }
+}
+#endif
