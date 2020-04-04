@@ -97,7 +97,7 @@ private extension BsuirApi.WeekNum {
         case []: return "никогда"
         case .oddWeeks: return "нечетные"
         case .evenWeeks: return "четные"
-        case .always: return "вчегда"
+        case .always: return "вcегда"
         case let numbers: return numbers.name
         }
     }
