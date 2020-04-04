@@ -9,9 +9,11 @@
 import SwiftUI
 import BsuirApi
 
+import os.log
+
 struct RootView: View {
 
-    @State var state = AppState(requestManager: .bsuir())
+    @State var state = AppState(requestManager: .bsuir(logger: .osLog))
 
     var body: some View {
         TabView {
@@ -29,3 +31,34 @@ struct RootView: View {
         }.edgesIgnoringSafeArea(.top)
     }
 }
+
+private extension RequestsManager.Logger {
+
+    static let osLog = Self(constructRequest: { request in
+        os_log(.debug, log: .targetRequest, "%@", request.curlDescription)
+    })
+}
+
+private extension OSLog {
+
+    static let targetRequest = bsuirSchedule(category: "TargetRequest")
+}
+
+private extension URLRequest {
+
+    var curlDescription: String {
+        guard let url = url else { return "[Unknown]" }
+
+        let body = httpBody
+            .flatMap { String(data: $0, encoding: .utf8) }
+            .map { "-d '\($0)'" }
+
+        let headers = allHTTPHeaderFields?
+            .map { "-H '\($0.0): \($0.1)'" }
+
+        let components = ["curl", url.absoluteString] + ([body].compactMap { $0 }) + (headers ?? [])
+
+        return components.joined(separator: " ")
+    }
+}
+

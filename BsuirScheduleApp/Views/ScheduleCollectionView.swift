@@ -18,7 +18,7 @@ final class ScheduleCollectionView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UICollectionView {
         let collectionView = UICollectionView(
-            frame: CGRect(x: 0, y: 0, width: 300, height: 600),
+            frame: UIScreen.main.bounds,
             collectionViewLayout: collectionLayout()
         )
         collectionView.backgroundColor = .secondarySystemBackground
@@ -81,8 +81,8 @@ private extension NSCollectionLayoutEnvironment {
     var columns: Int {
         switch container.contentSize.width {
         case ..<500: return 1
-        case 500..<700: return 2
-        case 700..<1200: return 3
+        case 500..<1000: return 2
+        case 1000..<1500: return 3
         default: return 4
         }
     }
@@ -99,7 +99,15 @@ private final class DayScheduleCollectionCell: UICollectionViewCell {
             guard let value = day else { return }
             title.text = value.title.capitalized
             value.pairs
-                .map { PairCell(pair: $0).padding(.horizontal, 8).padding(.vertical, 4) }
+                .map {
+                    PairCell(pair: $0)
+                        .padding(EdgeInsets(
+                            top: 4,
+                            leading: 8,
+                            bottom: 4,
+                            trailing: 8
+                        ))
+                }
                 .map { UIHostingController(rootView: $0).view }
                 .forEach(stack.addArrangedSubview)
         }

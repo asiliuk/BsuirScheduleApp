@@ -14,11 +14,37 @@ struct ContentStateView<Value, SubView: View>: View {
     let content: ContentState<Value>
     let makeContent: (Value) -> SubView
 
+    init(content: ContentState<Value>, @ViewBuilder makeContent: @escaping (Value) -> SubView) {
+        self.content = content
+        self.makeContent = makeContent
+    }
+
     var body: some View {
         switch content {
-        case .initial, .loading: return Text("Загрузка...").eraseToAnyView()
-        case .error: return Text("Что-то пошло не так...").eraseToAnyView()
+        case .initial, .loading: return LoadingState().eraseToAnyView()
+        case .error: return ErrorState(retry: nil).eraseToAnyView()
         case let .some(value): return makeContent(value).eraseToAnyView()
+        }
+    }
+}
+
+struct LoadingState: View {
+
+    var body: some View {
+        Text("Загрузка...")
+    }
+}
+
+struct ErrorState: View {
+
+    let retry: (() -> Void)?
+
+    var body: some View {
+        VStack {
+            Text("Что-то пошло не так...").font(.title)
+            retry.map { Button(action: $0) {
+                Text("Повторить попытку")
+            } }
         }
     }
 }
