@@ -36,7 +36,6 @@ struct ScheduleView: View {
                     SomeState(days: value.exams)
                 }
             }
-
             Spacer()
         }
         .onAppear(perform: screen.load)

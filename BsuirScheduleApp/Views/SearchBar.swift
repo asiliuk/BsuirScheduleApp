@@ -2,15 +2,18 @@ import Foundation
 import SwiftUI
 
 struct SearchBar: UIViewRepresentable {
-    
+
     @Binding var text: String
+    let placeholder: String
     
     class Coordinator: NSObject, UISearchBarDelegate {
         
         @Binding var text: String
+        let placeholder: String
         
-        init(text: Binding<String>) {
+        init(text: Binding<String>, placeholder: String) {
             _text = text
+            self.placeholder = placeholder
         }
         
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -18,20 +21,20 @@ struct SearchBar: UIViewRepresentable {
         }
     }
     
-    func makeCoordinator() -> SearchBar.Coordinator {
-        return Coordinator(text: $text)
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(text: $text, placeholder: placeholder)
     }
     
-    func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
+    func makeUIView(context: Context) -> UISearchBar {
         let searchBar = UISearchBar(frame: .zero)
         searchBar.delegate = context.coordinator
         searchBar.searchBarStyle = .minimal
+        searchBar.placeholder = placeholder
         searchBar.autocapitalizationType = .none
-        searchBar.placeholder = "Найти группу"
         return searchBar
     }
     
-    func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
+    func updateUIView(_ uiView: UISearchBar, context: Context) {
         uiView.text = text
     }
 }
