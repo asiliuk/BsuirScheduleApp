@@ -28,7 +28,7 @@ struct RootView: View {
                     Image(systemName: "person.crop.rectangle")
                     Text("Преподаватели")
                 }
-        }
+        }.edgesIgnoringSafeArea(.top)
     }
 }
 

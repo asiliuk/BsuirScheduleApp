@@ -23,19 +23,32 @@ struct AllGroupsScreenGroup: Identifiable, Comparable {
 
 final class AllGroupsScreen: LoadableContent<[AllGroupsScreenGroup]> {
 
+    @Published var searchQuery: String = ""
+
     let requestManager: RequestsManager
     init(requestManager: RequestsManager) {
         self.requestManager = requestManager
         super.init(
             requestManager
-            .request(BsuirTargets.Groups())
-            .log(.appState, identifier: "All groups")
-            .map { $0.map(AllGroupsScreenGroup.init).sorted() }
-            .eraseToLoading()
+                .request(BsuirTargets.Groups())
+                .log(.appState, identifier: "All groups")
+                .map { $0.map(AllGroupsScreenGroup.init).sorted() }
+                .combineLatest(
+                    _searchQuery.projectedValue
+                        .debounce(for: 0.2, scheduler: RunLoop.main)
+                        .setFailureType(to: RequestsManager.RequestError.self)
+                )
+                .map { groups, query in
+                    guard !query.isEmpty else { return groups }
+                    return groups.filter { $0.name.starts(with: query) }
+                }
+                .eraseToLoading()
         )
     }
 
     func screen(for group: AllGroupsScreenGroup) -> ScheduleScreen {
         .group(group.group, requestManager: requestManager)
     }
+
+    private var cancellables = Set<AnyCancellable>()
 }
