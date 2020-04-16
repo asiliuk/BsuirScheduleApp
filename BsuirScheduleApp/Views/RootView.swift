@@ -26,9 +26,9 @@ struct RootView: View {
             AllLecturersView(screen: state.allLecturers)
                 .tabItem {
                     Image(systemName: "person.crop.rectangle")
-                    Text("Препедаватели")
+                    Text("Преподаватели")
                 }
-        }.edgesIgnoringSafeArea(.top)
+        }
     }
 }
 

@@ -29,22 +29,26 @@ struct ContentStateView<Value, SubView: View>: View {
 }
 
 struct LoadingState: View {
-
+    
     var body: some View {
-        Text("Загрузка...")
+        VStack {
+            Spacer()
+            Text("Загрузка...")
+            Spacer()
+        }
     }
 }
 
 struct ErrorState: View {
-
+    
     let retry: (() -> Void)?
-
+    
     var body: some View {
         VStack {
             Text("Что-то пошло не так...").font(.title)
             retry.map { Button(action: $0) {
                 Text("Повторить попытку")
-            } }
+                } }
         }
     }
 }
