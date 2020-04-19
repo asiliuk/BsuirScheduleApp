@@ -82,21 +82,3 @@ extension ContentSizeCategory {
         .accessibilityExtraExtraExtraLarge
     ]
 }
-
-//#if DEBUG
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-////        Group {
-////            PairCell()
-////                .environment(\.colorScheme, .dark)
-////                .background(Color.black)
-////
-////            PairCell()
-////                .environment(\.sizeCategory, .accessibilityMedium)
-////
-////            PairCell()
-////        }
-////        .previewLayout(.sizeThatFits)
-//    }
-//}
-//#endif

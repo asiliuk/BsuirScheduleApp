@@ -29,7 +29,7 @@ struct ContentStateView<Value, SubView: View>: View {
 }
 
 struct LoadingState: View {
-    
+
     var body: some View {
         VStack {
             Spacer()
@@ -40,15 +40,17 @@ struct LoadingState: View {
 }
 
 struct ErrorState: View {
-    
+
     let retry: (() -> Void)?
-    
+
     var body: some View {
         VStack {
+            Spacer()
             Text("Что-то пошло не так...").font(.title)
             retry.map { Button(action: $0) {
                 Text("Повторить попытку")
-                } }
+            } }
+            Spacer()
         }
     }
 }

@@ -20,11 +20,22 @@ struct AllLecturersScreenLecturer: Identifiable {
 
 final class AllLecturersScreen: LoadableContent<[AllLecturersScreenLecturer]> {
 
+    @Published var searchQuery: String = ""
+
     init(requestManager: RequestsManager) {
         self.requestManager = requestManager
         super.init(
             requestManager.request(BsuirTargets.Employees())
                 .map { $0.map(AllLecturersScreenLecturer.init) }
+                .combineLatest(
+                    _searchQuery.projectedValue
+                        .debounce(for: 0.3, scheduler: RunLoop.main)
+                        .setFailureType(to: RequestsManager.RequestError.self)
+                )
+                .map { lecturers, query in
+                    guard !query.isEmpty else { return lecturers }
+                    return lecturers.filter { $0.fullName.lowercased().contains(query.lowercased()) }
+                }
                 .eraseToLoading()
         )
     }

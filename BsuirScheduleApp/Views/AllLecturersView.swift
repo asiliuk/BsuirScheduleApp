@@ -14,18 +14,22 @@ struct AllLecturersView: View {
 
     var body: some View {
         NavigationView {
-            ContentStateView(content: screen.state) { value in
-                List(value) { lecturer in
-                    NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
-                        RemoteImageView(image: self.screen.image(for: lecturer))
-                            .frame(width: 50, height: 50)
-                        Text(lecturer.fullName)
+            VStack {
+                SearchBar(text: $screen.searchQuery, placeholder: "Найти преподавателя")
+
+                ContentStateView(content: screen.state) { value in
+                    List(value) { lecturer in
+                        NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
+                            RemoteImageView(image: self.screen.image(for: lecturer))
+                                .frame(width: 50, height: 50)
+                            Text(lecturer.fullName)
+                        }
                     }
                 }
             }
             .navigationBarTitle("Все преподаватели")
+            .onAppear(perform: screen.load)
         }
-        .onAppear(perform: screen.load)
     }
 }
 
