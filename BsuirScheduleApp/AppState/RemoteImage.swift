@@ -29,6 +29,11 @@ final class LoadableContent<Value>: ObservableObject {
     }
 
     func load() {
+        guard case .initial = state else {
+            loading = nil
+            return
+        }
+
         loading = loadPublisher
             .map(ContentState.some)
             .receive(on: RunLoop.main)
@@ -65,5 +70,17 @@ extension LoadableContent {
                 .map { UIImage(data: $0.data) }
                 .eraseToLoading()
         )
+    }
+}
+
+extension ContentState {
+
+    func map<U>(_ transform: (Value) -> U) -> ContentState<U> {
+        switch self {
+        case .initial: return .initial
+        case .loading: return .loading
+        case .error: return .error
+        case let .some(value): return .some(transform(value))
+        }
     }
 }

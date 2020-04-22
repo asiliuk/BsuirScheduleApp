@@ -34,12 +34,7 @@ final class AllGroupsScreen: ObservableObject {
                 .request(BsuirTargets.Groups())
                 .log(.appState, identifier: "All groups")
                 .map { $0.map(AllGroupsScreenGroup.init).sorted() }
-                .combineLatest(
-                    _searchQuery.projectedValue
-                        .debounce(for: 0.2, scheduler: RunLoop.main)
-                        .setFailureType(to: RequestsManager.RequestError.self)
-                )
-                .map { groups, query in
+                .query(by: _searchQuery.projectedValue) { groups, query in
                     guard !query.isEmpty else { return groups }
                     return groups.filter { $0.name.starts(with: query) }
                 }
