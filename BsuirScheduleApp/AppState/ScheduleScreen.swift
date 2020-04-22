@@ -10,13 +10,14 @@ import BsuirApi
 import Combine
 import Foundation
 
-final class ScheduleScreen: LoadableContent<(schedule: [Day], exams: [Day])> {
+final class ScheduleScreen: ObservableObject {
 
     let name: String
+    let schedule: LoadableContent<(schedule: [Day], exams: [Day])>
 
     init(name: String, request: AnyPublisher<(schedule: [DaySchedule], exams: [DaySchedule]), RequestsManager.RequestError>) {
         self.name = name
-        super.init(
+        self.schedule = LoadableContent(
             request
                 .map { ($0.schedule.map(Day.init), $0.exams.map(Day.init)) }
                 .eraseToLoading()
@@ -41,7 +42,7 @@ struct Day: Hashable, Equatable {
         let form: Form
         let subject: String
         let note: String
-        let weeks: String
+        let weeks: String?
 
         init(_ pair: BsuirApi.Pair) {
             self.from = Self.timeFormatter.string(from: pair.startLessonTime.components) ?? "N/A"

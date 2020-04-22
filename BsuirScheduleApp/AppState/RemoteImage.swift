@@ -20,10 +20,10 @@ enum ContentState<Value> {
 
 extension ContentState: Equatable where Value: Equatable {}
 
-class LoadableContent<Value>: ObservableObject {
+final class LoadableContent<Value>: ObservableObject {
 
     @Published private(set) var state: ContentState<Value> = .initial
-    
+
     init(_ load: AnyPublisher<Value, Error>) {
         self.loadPublisher = Deferred { load }
     }
@@ -51,10 +51,12 @@ extension Publisher {
     }
 }
 
-final class RemoteImage: LoadableContent<UIImage?> {
+typealias RemoteImage = LoadableContent<UIImage?>
 
-    init(requestManager: RequestsManager, url: URL?) {
-        super.init(
+extension LoadableContent {
+
+    static func remoteImage(requestManager: RequestsManager, url: URL?) -> RemoteImage {
+        RemoteImage(
             Just(url)
                 .compactMap { $0 }
                 .setFailureType(to: URLError.self)

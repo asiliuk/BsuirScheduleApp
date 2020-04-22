@@ -21,14 +21,15 @@ struct AllGroupsScreenGroup: Identifiable, Comparable {
     fileprivate let group: Group
 }
 
-final class AllGroupsScreen: LoadableContent<[AllGroupsScreenGroup]> {
+final class AllGroupsScreen: ObservableObject {
 
     @Published var searchQuery: String = ""
+    let groups: LoadableContent<[AllGroupsScreenGroup]>
 
     let requestManager: RequestsManager
     init(requestManager: RequestsManager) {
         self.requestManager = requestManager
-        super.init(
+        self.groups = LoadableContent(
             requestManager
                 .request(BsuirTargets.Groups())
                 .log(.appState, identifier: "All groups")

@@ -6,7 +6,7 @@ struct SearchBar: UIViewRepresentable {
     @Binding var text: String
     let placeholder: String
     
-    class Coordinator: NSObject, UISearchBarDelegate {
+    final class Coordinator: NSObject, UISearchBarDelegate {
         
         @Binding var text: String
         let placeholder: String

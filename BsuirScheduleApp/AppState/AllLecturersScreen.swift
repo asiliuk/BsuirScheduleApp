@@ -18,13 +18,14 @@ struct AllLecturersScreenLecturer: Identifiable {
     fileprivate let employee: Employee
 }
 
-final class AllLecturersScreen: LoadableContent<[AllLecturersScreenLecturer]> {
+final class AllLecturersScreen: ObservableObject {
 
     @Published var searchQuery: String = ""
+    let lecturers: LoadableContent<[AllLecturersScreenLecturer]>
 
     init(requestManager: RequestsManager) {
         self.requestManager = requestManager
-        super.init(
+        self.lecturers = LoadableContent(
             requestManager.request(BsuirTargets.Employees())
                 .map { $0.map(AllLecturersScreenLecturer.init) }
                 .combineLatest(
@@ -45,7 +46,7 @@ final class AllLecturersScreen: LoadableContent<[AllLecturersScreenLecturer]> {
     }
 
     func image(for lecturer: AllLecturersScreenLecturer) -> RemoteImage {
-        RemoteImage(
+        .remoteImage(
             requestManager: requestManager,
             url: lecturer.employee.photoLink
         )
