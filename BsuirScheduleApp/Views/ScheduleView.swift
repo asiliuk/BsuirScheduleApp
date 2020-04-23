@@ -29,7 +29,7 @@ struct ScheduleView: View {
 
             Spacer()
 
-            ContentStateView(content: screen.state) { value in
+            ContentStateView(content: screen.schedule) { value in
                 if self.scheduleType == .everyday {
                     SomeState(days: value.schedule)
                 } else if self.scheduleType == .exams {
@@ -38,7 +38,7 @@ struct ScheduleView: View {
             }
             Spacer()
         }
-        .onAppear(perform: screen.load)
+        .onAppear(perform: screen.schedule.load)
         .navigationBarTitle(Text(screen.name), displayMode: .inline)
     }
 }

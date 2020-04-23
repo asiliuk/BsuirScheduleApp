@@ -11,19 +11,22 @@ import Foundation
 
 struct ContentStateView<Value, SubView: View>: View {
 
-    let content: ContentState<Value>
+    @ObservedObject var content: LoadableContent<Value>
     let makeContent: (Value) -> SubView
 
-    init(content: ContentState<Value>, @ViewBuilder makeContent: @escaping (Value) -> SubView) {
+    init(content: LoadableContent<Value>, @ViewBuilder makeContent: @escaping (Value) -> SubView) {
         self.content = content
         self.makeContent = makeContent
     }
 
     var body: some View {
-        switch content {
-        case .initial, .loading: return LoadingState().eraseToAnyView()
-        case .error: return ErrorState(retry: nil).eraseToAnyView()
-        case let .some(value): return makeContent(value).eraseToAnyView()
+        switch content.state {
+        case .initial, .loading:
+            return LoadingState().eraseToAnyView()
+        case .error:
+            return ErrorState(retry: nil).eraseToAnyView()
+        case let .some(value):
+            return makeContent(value).eraseToAnyView()
         }
     }
 }

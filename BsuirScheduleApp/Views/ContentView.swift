@@ -25,7 +25,7 @@ struct PairCell: View {
                 VStack(alignment: .leading) {
                     Text("\(pair.from)-\(pair.to)").font(.system(.callout, design: .monospaced))
                     Text(pair.subject).font(.headline).bold()
-                    Text(pair.weeks).font(.caption)
+                    pair.weeks.map { Text($0).font(.caption) }
                     Text(pair.note).font(.caption)
                 }
             } else {
@@ -40,7 +40,7 @@ struct PairCell: View {
                 VStack(alignment: .leading) {
                     HStack {
                         Text(pair.subject).font(.headline).bold()
-                        Text("(\(pair.weeks))").font(.callout)
+                        pair.weeks.map { Text("(\($0))").font(.callout) }
                     }
                     Text(pair.note).font(.callout)
                 }

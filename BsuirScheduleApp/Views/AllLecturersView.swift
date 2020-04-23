@@ -17,7 +17,7 @@ struct AllLecturersView: View {
             VStack {
                 SearchBar(text: $screen.searchQuery, placeholder: "Найти преподавателя")
 
-                ContentStateView(content: screen.state) { value in
+                ContentStateView(content: screen.lecturers) { value in
                     List(value) { lecturer in
                         NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
                             RemoteImageView(image: self.screen.image(for: lecturer))
@@ -28,7 +28,7 @@ struct AllLecturersView: View {
                 }
             }
             .navigationBarTitle("Все преподаватели")
-            .onAppear(perform: screen.load)
+            .onAppear(perform: screen.lecturers.load)
         }
     }
 }

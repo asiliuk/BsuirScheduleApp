@@ -18,7 +18,7 @@ struct AllGroupsView: View {
             VStack {
                 SearchBar(text: $screen.searchQuery, placeholder: "Найти группу")
 
-                ContentStateView(content: screen.state) { value in
+                ContentStateView(content: screen.groups) { value in
                     List(value) { group in
                         NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: group))) {
                             Text(group.name)
@@ -27,7 +27,7 @@ struct AllGroupsView: View {
                 }
             }
             .navigationBarTitle("Все группы")
-            .onAppear(perform: screen.load)
+            .onAppear(perform: screen.groups.load)
         }
     }
 }

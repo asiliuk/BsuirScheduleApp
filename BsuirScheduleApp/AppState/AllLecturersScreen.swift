@@ -18,21 +18,17 @@ struct AllLecturersScreenLecturer: Identifiable {
     fileprivate let employee: Employee
 }
 
-final class AllLecturersScreen: LoadableContent<[AllLecturersScreenLecturer]> {
+final class AllLecturersScreen: ObservableObject {
 
     @Published var searchQuery: String = ""
+    let lecturers: LoadableContent<[AllLecturersScreenLecturer]>
 
     init(requestManager: RequestsManager) {
         self.requestManager = requestManager
-        super.init(
+        self.lecturers = LoadableContent(
             requestManager.request(BsuirTargets.Employees())
                 .map { $0.map(AllLecturersScreenLecturer.init) }
-                .combineLatest(
-                    _searchQuery.projectedValue
-                        .debounce(for: 0.3, scheduler: RunLoop.main)
-                        .setFailureType(to: RequestsManager.RequestError.self)
-                )
-                .map { lecturers, query in
+                .query(by: _searchQuery.projectedValue) { lecturers, query in
                     guard !query.isEmpty else { return lecturers }
                     return lecturers.filter { $0.fullName.lowercased().contains(query.lowercased()) }
                 }
@@ -45,11 +41,30 @@ final class AllLecturersScreen: LoadableContent<[AllLecturersScreenLecturer]> {
     }
 
     func image(for lecturer: AllLecturersScreenLecturer) -> RemoteImage {
-        RemoteImage(
+        .remoteImage(
             requestManager: requestManager,
             url: lecturer.employee.photoLink
         )
     }
 
     private let requestManager: RequestsManager
+}
+
+extension Publisher {
+
+    func query<Query>(
+        by query: Query,
+        transform: @escaping (Output, Query.Output) -> Output
+    ) -> AnyPublisher<Output, Failure>
+    where Query: Publisher, Query.Output: Equatable, Query.Failure == Never
+    {
+        self.combineLatest(
+                query
+                    .debounce(for: 0.2, scheduler: RunLoop.main)
+                    .removeDuplicates()
+                    .setFailureType(to: Failure.self)
+            )
+            .map(transform)
+            .eraseToAnyPublisher()
+    }
 }
