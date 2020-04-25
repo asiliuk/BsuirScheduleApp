@@ -10,16 +10,9 @@ import SwiftUI
 import URLImage
 
 struct AllLecturersView: View {
-    
-    private func shouldShowPlaceholder(for state: URL?) -> AnyView {
-        switch state {
-        case nil: return AnyView(UserPlaceholder())
-        case .some(let url): return AnyView(Avatar(url: url))
-        }
-    }
-    
+
     @ObservedObject var screen: AllLecturersScreen
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -27,13 +20,10 @@ struct AllLecturersView: View {
                 ContentStateView(content: screen.lecturers) { value in
                     List(value) { lecturer in
                         NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
-                            self.shouldShowPlaceholder(for: self.screen.imageURL(for: lecturer))
-                                .frame(width: 50, height: 50)
-                                .clipShape(Circle())
+                            Avatar(url: lecturer.imageURL)
                             Text(lecturer.fullName)
                         }
                     }
-                    .id(UUID())
                 }
             }
             .navigationBarTitle("Все преподаватели")
@@ -43,23 +33,51 @@ struct AllLecturersView: View {
 }
 
 struct Avatar: View {
-    let url: URL
+
+    let url: URL?
+
     var body: some View {
-        URLImage(url,
-                 expireAfter: Date(timeIntervalSinceNow: 31_556_926.0),
-                 processors: [ Resize(size: CGSize(width: 50.0,
-                                                   height: 50.0), scale: UIScreen.main.scale) ],
-                 placeholder: Image(systemName: "photo"),
-                 content:  {
-                    $0.image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .clipped()
-        })
+        Group {
+            if url == nil {
+                UserPlaceholder()
+            } else {
+                RemoteAvatar(url: url!, targetSize: targetSize)
+            }
+        }
+        .frame(width: targetSize.width, height: targetSize.height)
+        .clipShape(Circle())
+    }
+
+    private var expireAfter: Date {
+        Date(timeIntervalSinceNow: expirationInterval.converted(to: .seconds).value)
+    }
+
+    private let expirationInterval = Measurement<UnitDuration>(value: 24 * 7, unit: .hours)
+    private let targetSize = CGSize(width: 50, height: 50)
+}
+
+private struct RemoteAvatar: View {
+
+    let url: URL
+    let targetSize: CGSize
+
+    var body: some View {
+        URLImage(
+            url,
+            processors: [Resize(size: targetSize, scale: UIScreen.main.scale)],
+            placeholder: { _ in UserPlaceholder() },
+            content: {
+               $0.image
+                   .resizable()
+                   .aspectRatio(contentMode: .fill)
+                   .clipped()
+            }
+        )
     }
 }
 
 private struct UserPlaceholder: View {
+
     var body: some View {
         ZStack {
             Circle().foregroundColor(Color.gray)
@@ -67,4 +85,3 @@ private struct UserPlaceholder: View {
         }
     }
 }
-

@@ -15,6 +15,7 @@ import SwiftUI
 struct AllLecturersScreenLecturer: Identifiable {
     var id: Int { employee.id }
     var fullName: String { employee.fio }
+    var imageURL: URL? { employee.photoLink }
 
     fileprivate init(employee: Employee) { self.employee = employee }
     fileprivate let employee: Employee
@@ -40,10 +41,6 @@ final class AllLecturersScreen: ObservableObject {
 
     func screen(for lecturer: AllLecturersScreenLecturer) -> ScheduleScreen {
         .lecturer(lecturer.employee, requestManager: requestManager)
-    }
-    
-    func imageURL(for lecturer: AllLecturersScreenLecturer) -> URL? {
-        return lecturer.employee.photoLink
     }
     
     private let requestManager: RequestsManager
