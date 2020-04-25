@@ -9,6 +9,8 @@
 import BsuirApi
 import Combine
 import Foundation
+import URLImage
+import SwiftUI
 
 struct AllLecturersScreenLecturer: Identifiable {
     var id: Int { employee.id }
@@ -39,14 +41,11 @@ final class AllLecturersScreen: ObservableObject {
     func screen(for lecturer: AllLecturersScreenLecturer) -> ScheduleScreen {
         .lecturer(lecturer.employee, requestManager: requestManager)
     }
-
-    func image(for lecturer: AllLecturersScreenLecturer) -> RemoteImage {
-        .remoteImage(
-            requestManager: requestManager,
-            url: lecturer.employee.photoLink
-        )
+    
+    func imageURL(for lecturer: AllLecturersScreenLecturer) -> URL? {
+        return lecturer.employee.photoLink
     }
-
+    
     private let requestManager: RequestsManager
 }
 

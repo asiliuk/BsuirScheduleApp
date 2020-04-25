@@ -56,23 +56,6 @@ extension Publisher {
     }
 }
 
-typealias RemoteImage = LoadableContent<UIImage?>
-
-extension LoadableContent {
-
-    static func remoteImage(requestManager: RequestsManager, url: URL?) -> RemoteImage {
-        RemoteImage(
-            Just(url)
-                .compactMap { $0 }
-                .setFailureType(to: URLError.self)
-                .flatMap(requestManager.session.dataTaskPublisher)
-                .log(.appState, identifier: "RemoteImage(\(url?.absoluteString ?? "No url"))")
-                .map { UIImage(data: $0.data) }
-                .eraseToLoading()
-        )
-    }
-}
-
 extension ContentState {
 
     func map<U>(_ transform: (Value) -> U) -> ContentState<U> {
