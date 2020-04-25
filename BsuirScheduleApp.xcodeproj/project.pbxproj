@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04187F0C2438A4A20099855E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04187F0B2438A4A20099855E /* SearchBar.swift */; };
+		04C0743424520BBC00362531 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 04C0743324520BBC00362531 /* URLImage */; };
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
@@ -66,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C0743424520BBC00362531 /* URLImage in Frameworks */,
 				E6EEDB22242FC9DC00A3BB6F /* BsuirApi in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,6 +188,7 @@
 			name = BsuirScheduleApp;
 			packageProductDependencies = (
 				E6EEDB21242FC9DC00A3BB6F /* BsuirApi */,
+				04C0743324520BBC00362531 /* URLImage */,
 			);
 			productName = BsuirScheduleApp;
 			productReference = E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */;
@@ -217,6 +220,7 @@
 			mainGroup = E6F931A922F8B1C10038FC43;
 			packageReferences = (
 				E6EEDB20242FC9DC00A3BB6F /* XCRemoteSwiftPackageReference "BsuirApi" */,
+				04C0743224520BBC00362531 /* XCRemoteSwiftPackageReference "url-image" */,
 			);
 			productRefGroup = E6F931B322F8B1C10038FC43 /* Products */;
 			projectDirPath = "";
@@ -460,6 +464,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		04C0743224520BBC00362531 /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.15;
+			};
+		};
 		E6EEDB20242FC9DC00A3BB6F /* XCRemoteSwiftPackageReference "BsuirApi" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/asiliuk/BsuirApi";
@@ -471,6 +483,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		04C0743324520BBC00362531 /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04C0743224520BBC00362531 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
+		};
 		E6EEDB21242FC9DC00A3BB6F /* BsuirApi */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E6EEDB20242FC9DC00A3BB6F /* XCRemoteSwiftPackageReference "BsuirApi" */;

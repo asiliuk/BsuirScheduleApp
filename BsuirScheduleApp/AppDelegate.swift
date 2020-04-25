@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import URLImage
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

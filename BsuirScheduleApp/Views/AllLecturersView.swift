@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct AllLecturersView: View {
 
@@ -16,15 +17,16 @@ struct AllLecturersView: View {
         NavigationView {
             VStack {
                 SearchBar(text: $screen.searchQuery, placeholder: "Найти преподавателя")
-
                 ContentStateView(content: screen.lecturers) { value in
                     List(value) { lecturer in
                         NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
-                            RemoteImageView(image: self.screen.image(for: lecturer))
+                            self.screen.imageURL(for: lecturer)
                                 .frame(width: 50, height: 50)
+                                .clipShape(Circle())
                             Text(lecturer.fullName)
                         }
                     }
+                    .id(UUID())
                 }
             }
             .navigationBarTitle("Все преподаватели")
@@ -33,31 +35,7 @@ struct AllLecturersView: View {
     }
 }
 
-struct RemoteImageView: View {
-
-    @ObservedObject var image: RemoteImage
-
-    var body: some View {
-        switch image.state {
-        case .initial:
-            return UserPlaceholder()
-                .onAppear(perform: self.image.load)
-                .onDisappear(perform: self.image.stop)
-                .eraseToAnyView()
-        case .loading, .error, .some(nil):
-            return UserPlaceholder().eraseToAnyView()
-        case let .some(image?):
-            return Image(uiImage: image)
-                .resizable()
-                .scaledToFill()
-                .clipShape(Circle())
-                .eraseToAnyView()
-        }
-    }
-}
-
-private struct UserPlaceholder: View {
-
+struct UserPlaceholder: View {
     var body: some View {
         ZStack {
             Circle().foregroundColor(Color.gray)
@@ -65,3 +43,4 @@ private struct UserPlaceholder: View {
         }
     }
 }
+
