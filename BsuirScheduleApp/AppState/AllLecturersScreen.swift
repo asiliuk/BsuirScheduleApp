@@ -32,7 +32,7 @@ final class AllLecturersScreen: ObservableObject {
                 .map { $0.map(AllLecturersScreenLecturer.init) }
                 .query(by: _searchQuery.projectedValue) { lecturers, query in
                     guard !query.isEmpty else { return lecturers }
-                    return lecturers.filter { $0.fullName.lowercased().starts(with: query.lowercased()) }
+                    return lecturers.filter { $0.fullName.lowercased().contains(query.lowercased()) }
                 }
                 .eraseToLoading()
         )
@@ -42,19 +42,8 @@ final class AllLecturersScreen: ObservableObject {
         .lecturer(lecturer.employee, requestManager: requestManager)
     }
     
-    func imageURL(for lecturer: AllLecturersScreenLecturer) -> AnyView {
-        guard let url = lecturer.employee.photoLink else { return AnyView(UserPlaceholder().eraseToAnyView()) }
-        return AnyView(URLImage(url,
-                                expireAfter: Date(timeIntervalSinceNow: 31_556_926.0),
-                                processors: [ Resize(size: CGSize(width: 50.0,
-                                                                  height: 50.0), scale: UIScreen.main.scale) ],
-                                placeholder: Image(systemName: "photo"),
-                                content:  {
-                                    $0.image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .clipped()
-        }))
+    func imageURL(for lecturer: AllLecturersScreenLecturer) -> URL? {
+        return lecturer.employee.photoLink
     }
     
     private let requestManager: RequestsManager
