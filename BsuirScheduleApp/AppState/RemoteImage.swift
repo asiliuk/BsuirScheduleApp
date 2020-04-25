@@ -30,7 +30,6 @@ final class LoadableContent<Value>: ObservableObject {
 
     func load() {
         guard case .initial = state else {
-            loading = nil
             return
         }
 
