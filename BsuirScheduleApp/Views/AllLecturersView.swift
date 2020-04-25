@@ -48,11 +48,6 @@ struct Avatar: View {
         .clipShape(Circle())
     }
 
-    private var expireAfter: Date {
-        Date(timeIntervalSinceNow: expirationInterval.converted(to: .seconds).value)
-    }
-
-    private let expirationInterval = Measurement<UnitDuration>(value: 24 * 7, unit: .hours)
     private let targetSize = CGSize(width: 50, height: 50)
 }
 
