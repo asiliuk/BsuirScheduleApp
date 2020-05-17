@@ -31,6 +31,8 @@ struct SearchBar: UIViewRepresentable {
         searchBar.searchBarStyle = .minimal
         searchBar.placeholder = placeholder
         searchBar.autocapitalizationType = .none
+        searchBar.barTintColor = .red
+        searchBar.backgroundImage = UIImage()
         return searchBar
     }
     
@@ -38,4 +40,3 @@ struct SearchBar: UIViewRepresentable {
         uiView.text = text
     }
 }
-
