@@ -15,19 +15,17 @@ struct AllLecturersView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                SearchBar(text: $screen.searchQuery, placeholder: "Найти преподавателя")
-                ContentStateView(content: screen.lecturers) { value in
-                    List(value) { lecturer in
-                        NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
-                            Avatar(url: lecturer.imageURL)
-                            Text(lecturer.fullName)
-                        }
-                    }
+            ContentStateWithSearchView(
+                content: screen.lecturers,
+                searchQuery: $screen.searchQuery,
+                searchPlaceholder: "Найти преподавателя"
+            ) { lecturer in
+                NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
+                    Avatar(url: lecturer.imageURL)
+                    Text(lecturer.fullName)
                 }
             }
             .navigationBarTitle("Все преподаватели")
-            .onAppear(perform: screen.lecturers.load)
         }
     }
 }
