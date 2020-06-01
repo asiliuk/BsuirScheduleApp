@@ -500,8 +500,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/asiliuk/BsuirApi";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 0.0.1;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
