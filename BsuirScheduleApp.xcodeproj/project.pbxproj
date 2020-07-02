@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		04187F0C2438A4A20099855E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04187F0B2438A4A20099855E /* SearchBar.swift */; };
 		04C0743424520BBC00362531 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 04C0743324520BBC00362531 /* URLImage */; };
+		E616B44024AE12F200A46E67 /* PairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B43F24AE12F200A46E67 /* PairView.swift */; };
+		E616B44224AE158400A46E67 /* iOS14_ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* iOS14_ScheduleGridView.swift */; };
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
@@ -30,7 +32,6 @@
 		E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B522F8B1C10038FC43 /* AppDelegate.swift */; };
 		E6F931B822F8B1C10038FC43 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */; };
 		E6F931BB22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B922F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld */; };
-		E6F931BD22F8B1C10038FC43 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931BC22F8B1C10038FC43 /* ContentView.swift */; };
 		E6F931BF22F8B1C20038FC43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931BE22F8B1C20038FC43 /* Assets.xcassets */; };
 		E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C122F8B1C20038FC43 /* Preview Assets.xcassets */; };
 		E6F931C522F8B1C20038FC43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */; };
@@ -38,6 +39,8 @@
 
 /* Begin PBXFileReference section */
 		04187F0B2438A4A20099855E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		E616B43F24AE12F200A46E67 /* PairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairView.swift; sourceTree = "<group>"; };
+		E616B44124AE158400A46E67 /* iOS14_ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS14_ScheduleGridView.swift; sourceTree = "<group>"; };
 		E61E120624AE0FFE00783F95 /* iOS14Support.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS14Support.xcconfig; sourceTree = "<group>"; };
 		E61E120724AE10E300783F95 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
@@ -61,7 +64,6 @@
 		E6F931B522F8B1C10038FC43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6F931BA22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BsuirScheduleApp.xcdatamodel; sourceTree = "<group>"; };
-		E6F931BC22F8B1C10038FC43 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E6F931BE22F8B1C20038FC43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E6F931C122F8B1C20038FC43 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E6F931C422F8B1C20038FC43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -81,6 +83,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E616B43E24AE12BE00A46E67 /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				E616B43F24AE12F200A46E67 /* PairView.swift */,
+				E6964825233F8936007EF2CB /* ScheduleView.swift */,
+				E66B412B241546A900A88BFD /* ScheduleCollectionView.swift */,
+				E616B44124AE158400A46E67 /* iOS14_ScheduleGridView.swift */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
 		E61E120524AE0FEE00783F95 /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,7 +122,6 @@
 		E68610C62471C52A001BF527 /* Content */ = {
 			isa = PBXGroup;
 			children = (
-				E6F931BC22F8B1C10038FC43 /* ContentView.swift */,
 				E64D431923758CFE00FA117C /* ContentStateView.swift */,
 				E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */,
 			);
@@ -147,11 +159,10 @@
 			children = (
 				E68610C62471C52A001BF527 /* Content */,
 				E68610C32471C2B0001BF527 /* Common */,
+				E616B43E24AE12BE00A46E67 /* Schedule */,
 				E6964823233F7D72007EF2CB /* RootView.swift */,
 				E6964821233F7C45007EF2CB /* AllGroupsView.swift */,
 				E69648272340CA53007EF2CB /* AllLecturersView.swift */,
-				E6964825233F8936007EF2CB /* ScheduleView.swift */,
-				E66B412B241546A900A88BFD /* ScheduleCollectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -285,11 +296,13 @@
 			files = (
 				E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */,
 				E69648282340CA53007EF2CB /* AllLecturersView.swift in Sources */,
+				E616B44024AE12F200A46E67 /* PairView.swift in Sources */,
 				E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */,
 				E6A6A87F24142BAB0024D738 /* RemoteImage.swift in Sources */,
 				E66B412A2414394600A88BFD /* AllGroupsScreen.swift in Sources */,
 				E6964824233F7D72007EF2CB /* RootView.swift in Sources */,
 				E695524D22F9D11100EEFA72 /* BsuirApi+Combine.swift in Sources */,
+				E616B44224AE158400A46E67 /* iOS14_ScheduleGridView.swift in Sources */,
 				E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */,
 				E66B412C241546A900A88BFD /* ScheduleCollectionView.swift in Sources */,
 				E66B41282414381D00A88BFD /* GroupScreen.swift in Sources */,
@@ -301,7 +314,6 @@
 				E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */,
 				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
 				E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */,
-				E6F931BD22F8B1C10038FC43 /* ContentView.swift in Sources */,
 				04187F0C2438A4A20099855E /* SearchBar.swift in Sources */,
 				E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */,
 				E6F931B822F8B1C10038FC43 /* SceneDelegate.swift in Sources */,

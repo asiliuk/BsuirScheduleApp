@@ -21,7 +21,7 @@ final class ScheduleCollectionView: UIViewRepresentable {
             frame: UIScreen.main.bounds,
             collectionViewLayout: collectionLayout()
         )
-        collectionView.backgroundColor = .secondarySystemBackground
+        collectionView.backgroundColor = .systemBackground
         collectionView.alwaysBounceVertical = true
 
         context.coordinator.dataSource = dataSource(for: collectionView)
