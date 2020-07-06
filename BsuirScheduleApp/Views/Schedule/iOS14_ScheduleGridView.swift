@@ -6,32 +6,16 @@ struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
     let makeDayView: (DayModel) -> DayView
 
     var body: some View {
-        GeometryReader { proxy in
-            ScrollView {
-                LazyVGrid(columns: gridColumns(proxy),  spacing: 24) {
-                    ForEach(days, content: makeDayView)
-                }
-                .padding()
+        ScrollView {
+            LazyVGrid(columns: gridColumns,  spacing: 24) {
+                ForEach(days, content: makeDayView)
             }
+            .padding()
         }
-        .edgesIgnoringSafeArea(.all)
     }
 
-    private func gridColumns(_ proxy: GeometryProxy) -> [GridItem] {
-        gridColumnSizes(proxy).map { GridItem($0, spacing: 24, alignment: .top) }
-    }
-
-    private func gridColumnSizes(_ proxy: GeometryProxy) -> [GridItem.Size] {
-        switch proxy.size.width {
-        case ..<500:
-            return [.flexible()]
-        case 500..<1000:
-            return [.flexible(), .flexible()]
-        case 1000..<1500:
-            return [.flexible(), .flexible(), .flexible()]
-        default:
-            return [.flexible(), .flexible(), .flexible(), .flexible()]
-        }
+    private var gridColumns: [GridItem] {
+        [GridItem(.adaptive(minimum: 300, maximum: 500), spacing: 24, alignment: .top)]
     }
 }
 
@@ -74,6 +58,9 @@ struct iOS14_ScheduleGridView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             schedule()
+
+            schedule()
+                .previewLayout(.fixed(width: 812, height: 375))
 
             schedule()
                 .environment(\.sizeCategory, .accessibilityMedium)
