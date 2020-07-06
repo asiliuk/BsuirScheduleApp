@@ -72,8 +72,13 @@ struct iOS14_ScheduleGridView_Previews: PreviewProvider {
 
             daySchedule(.init())
                 .padding()
-                .background(Color.gray)
                 .previewLayout(.sizeThatFits)
+
+            daySchedule(.init())
+                .padding()
+                .previewLayout(.sizeThatFits)
+                .colorScheme(.dark)
+                .background(Color.black)
         }
     }
 
