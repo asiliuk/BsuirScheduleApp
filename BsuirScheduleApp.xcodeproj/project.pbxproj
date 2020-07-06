@@ -38,6 +38,8 @@
 
 /* Begin PBXFileReference section */
 		04187F0B2438A4A20099855E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		E61E120624AE0FFE00783F95 /* iOS14Support.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS14Support.xcconfig; sourceTree = "<group>"; };
+		E61E120724AE10E300783F95 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
 		E66B4121241431F800A88BFD /* LecturerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturerScreen.swift; sourceTree = "<group>"; };
 		E66B41232414344900A88BFD /* AllLecturersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLecturersScreen.swift; sourceTree = "<group>"; };
@@ -79,6 +81,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E61E120524AE0FEE00783F95 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				E61E120624AE0FFE00783F95 /* iOS14Support.xcconfig */,
+				E61E120724AE10E300783F95 /* Common.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		E633E7F822F8B75F00E109E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +185,7 @@
 		E6F931B422F8B1C10038FC43 /* BsuirScheduleApp */ = {
 			isa = PBXGroup;
 			children = (
+				E61E120524AE0FEE00783F95 /* Config */,
 				E6A6A88524142F560024D738 /* Helpers */,
 				E696481E233F7BBE007EF2CB /* AppState */,
 				E6A6A88424142F490024D738 /* Views */,
@@ -312,6 +324,7 @@
 /* Begin XCBuildConfiguration section */
 		E6F931C722F8B1C20038FC43 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E61E120724AE10E300783F95 /* Common.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -372,6 +385,7 @@
 		};
 		E6F931C822F8B1C20038FC43 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E61E120724AE10E300783F95 /* Common.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
