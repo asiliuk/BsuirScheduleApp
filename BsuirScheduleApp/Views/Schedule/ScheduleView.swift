@@ -52,11 +52,42 @@ struct SomeState: View {
             if days.isEmpty {
                 EmptyState()
             } else {
+                #if SDK_iOS_14
+                if #available(iOS 14, *) {
+                    ScheduleGridView(
+                        days: days.map(IdentifiableDay.init),
+                        makeDayView: { day in
+                            ScheduleDay(
+                                title: day.title,
+                                pairs: day.pairs,
+                                makePairView: { PairCell(pair: $0.pair) }
+                            )
+                        }
+                    )
+                }
+                #else
                 ScheduleCollectionView(weeks: [days])
                     .edgesIgnoringSafeArea(.all)
+                #endif
             }
         }
     }
+}
+
+struct IdentifiableDay: Identifiable {
+    var id: String { title }
+    let title: String
+    let pairs: [IdentifiablePair]
+
+    init(day: Day) {
+        self.title = day.title
+        self.pairs = day.pairs.enumerated().map(IdentifiablePair.init)
+    }
+}
+
+struct IdentifiablePair: Identifiable {
+    let id: Int
+    let pair: Day.Pair
 }
 
 struct EmptyState: View {
@@ -82,7 +113,9 @@ struct EmptyState: View {
 struct ScheduleView_Preview: PreviewProvider {
 
     static var previews: some View {
-        EmptyState()
+        Group {
+            EmptyState()
+        }
     }
 }
 #endif
