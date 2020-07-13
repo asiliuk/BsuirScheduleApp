@@ -10,14 +10,13 @@
 		04187F0C2438A4A20099855E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04187F0B2438A4A20099855E /* SearchBar.swift */; };
 		04C0743424520BBC00362531 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 04C0743324520BBC00362531 /* URLImage */; };
 		E616B44024AE12F200A46E67 /* PairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B43F24AE12F200A46E67 /* PairView.swift */; };
-		E616B44224AE158400A46E67 /* iOS14_ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* iOS14_ScheduleGridView.swift */; };
+		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
 		E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41252414365700A88BFD /* ScheduleScreen.swift */; };
 		E66B41282414381D00A88BFD /* GroupScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41272414381D00A88BFD /* GroupScreen.swift */; };
 		E66B412A2414394600A88BFD /* AllGroupsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41292414394600A88BFD /* AllGroupsScreen.swift */; };
-		E66B412C241546A900A88BFD /* ScheduleCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B412B241546A900A88BFD /* ScheduleCollectionView.swift */; };
 		E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */; };
 		E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */; };
 		E695524D22F9D11100EEFA72 /* BsuirApi+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */; };
@@ -40,16 +39,13 @@
 /* Begin PBXFileReference section */
 		04187F0B2438A4A20099855E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		E616B43F24AE12F200A46E67 /* PairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairView.swift; sourceTree = "<group>"; };
-		E616B44124AE158400A46E67 /* iOS14_ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS14_ScheduleGridView.swift; sourceTree = "<group>"; };
-		E61E120624AE0FFE00783F95 /* iOS14Support.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS14Support.xcconfig; sourceTree = "<group>"; };
-		E61E120724AE10E300783F95 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
 		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
 		E66B4121241431F800A88BFD /* LecturerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturerScreen.swift; sourceTree = "<group>"; };
 		E66B41232414344900A88BFD /* AllLecturersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLecturersScreen.swift; sourceTree = "<group>"; };
 		E66B41252414365700A88BFD /* ScheduleScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleScreen.swift; sourceTree = "<group>"; };
 		E66B41272414381D00A88BFD /* GroupScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScreen.swift; sourceTree = "<group>"; };
 		E66B41292414394600A88BFD /* AllGroupsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsScreen.swift; sourceTree = "<group>"; };
-		E66B412B241546A900A88BFD /* ScheduleCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCollectionView.swift; sourceTree = "<group>"; };
 		E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissingKeyboardOnSwipe.swift; sourceTree = "<group>"; };
 		E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateWithSearchView.swift; sourceTree = "<group>"; };
 		E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsuirApi+Combine.swift"; sourceTree = "<group>"; };
@@ -88,19 +84,9 @@
 			children = (
 				E616B43F24AE12F200A46E67 /* PairView.swift */,
 				E6964825233F8936007EF2CB /* ScheduleView.swift */,
-				E66B412B241546A900A88BFD /* ScheduleCollectionView.swift */,
-				E616B44124AE158400A46E67 /* iOS14_ScheduleGridView.swift */,
+				E616B44124AE158400A46E67 /* ScheduleGridView.swift */,
 			);
 			path = Schedule;
-			sourceTree = "<group>";
-		};
-		E61E120524AE0FEE00783F95 /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				E61E120624AE0FFE00783F95 /* iOS14Support.xcconfig */,
-				E61E120724AE10E300783F95 /* Common.xcconfig */,
-			);
-			path = Config;
 			sourceTree = "<group>";
 		};
 		E633E7F822F8B75F00E109E2 /* Frameworks */ = {
@@ -196,7 +182,6 @@
 		E6F931B422F8B1C10038FC43 /* BsuirScheduleApp */ = {
 			isa = PBXGroup;
 			children = (
-				E61E120524AE0FEE00783F95 /* Config */,
 				E6A6A88524142F560024D738 /* Helpers */,
 				E696481E233F7BBE007EF2CB /* AppState */,
 				E6A6A88424142F490024D738 /* Views */,
@@ -302,9 +287,8 @@
 				E66B412A2414394600A88BFD /* AllGroupsScreen.swift in Sources */,
 				E6964824233F7D72007EF2CB /* RootView.swift in Sources */,
 				E695524D22F9D11100EEFA72 /* BsuirApi+Combine.swift in Sources */,
-				E616B44224AE158400A46E67 /* iOS14_ScheduleGridView.swift in Sources */,
+				E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */,
 				E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */,
-				E66B412C241546A900A88BFD /* ScheduleCollectionView.swift in Sources */,
 				E66B41282414381D00A88BFD /* GroupScreen.swift in Sources */,
 				E6964826233F8936007EF2CB /* ScheduleView.swift in Sources */,
 				E6F931BB22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld in Sources */,
@@ -336,7 +320,6 @@
 /* Begin XCBuildConfiguration section */
 		E6F931C722F8B1C20038FC43 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E61E120724AE10E300783F95 /* Common.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -385,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -397,7 +380,6 @@
 		};
 		E6F931C822F8B1C20038FC43 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E61E120724AE10E300783F95 /* Common.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -440,7 +422,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

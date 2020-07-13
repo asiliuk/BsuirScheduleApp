@@ -62,32 +62,15 @@ struct PairCell: View {
 
 private struct PairFormIndicator: View {
     var form: PairCell.Form
-    @Environment(\.sizeCategory) var sizeCategory
+    @Environment(\.sizeCategory) private var sizeCategory
+    @ScaledMetric(relativeTo: .body) private var formIndicatorWidth: CGFloat = 3
 
     var body: some View {
-        Group {
-            #if SDK_iOS_14
-            if #available(iOS 14, *) {
-                iOS14PairFormIndicator()
-            }
-            #else
-            Capsule().frame(width: sizeCategory.isAccessibility ? 5 : 2)
-            #endif
-        }
-        .foregroundColor(form.color)
+        Capsule()
+            .frame(width: formIndicatorWidth)
+            .foregroundColor(form.color)
     }
 }
-
-#if SDK_iOS_14
-@available(iOS 14, *)
-private struct iOS14PairFormIndicator: View {
-    @ScaledMetric(relativeTo: .body) var formIndicatorWidth: CGFloat = 3
-
-    var body: some View {
-        Capsule().frame(width: formIndicatorWidth)
-    }
-}
-#endif
 
 extension PairCell {
     init(pair: Day.Pair) {
