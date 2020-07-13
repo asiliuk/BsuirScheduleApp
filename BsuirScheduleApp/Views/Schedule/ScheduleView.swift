@@ -19,30 +19,49 @@ struct ScheduleView: View {
     @State var scheduleType: ScheduleType = .everyday
 
     var body: some View {
-        VStack {
-            Picker("Тип расписания", selection: $scheduleType) {
-                Text("Расписание").tag(ScheduleType.everyday)
-                Text("Экзамены").tag(ScheduleType.exams)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
+        content
+            .onAppear(perform: screen.schedule.load)
+            .navigationBarTitle(Text(screen.name), displayMode: .inline)
+    }
 
-            Spacer()
-
-            ContentStateView(content: screen.schedule) { value in
-                if self.scheduleType == .everyday {
-                    SomeState(days: value.schedule)
-                } else if self.scheduleType == .exams {
-                    SomeState(days: value.exams)
+    private var content: some View {
+        Group {
+#if SDK_iOS_14
+            if #available(iOS 14, *) {
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.flexible())], spacing: 24, pinnedViews: .sectionHeaders) {
+                        Section(header: header, content: { schedule })
+                    }
                 }
             }
-            Spacer()
+#else
+            VStack {
+                header
+                schedule
+            }
+#endif
         }
-        .onAppear(perform: screen.schedule.load)
-        .navigationBarTitle(Text(screen.name), displayMode: .inline)
+    }
+
+    private var header: some View {
+        Picker("Тип расписания", selection: $scheduleType) {
+            Text("Расписание").tag(ScheduleType.everyday)
+            Text("Экзамены").tag(ScheduleType.exams)
+        }
+        .pickerStyle(SegmentedPickerStyle())
+        .background(Color(.systemBackground))
+    }
+
+    private var schedule: some View {
+        ContentStateView(content: screen.schedule) { value in
+            if self.scheduleType == .everyday {
+                SomeState(days: value.schedule)
+            } else if self.scheduleType == .exams {
+                SomeState(days: value.exams)
+            }
+        }
     }
 }
-
 struct SomeState: View {
 
     let days: [Day]
@@ -52,7 +71,7 @@ struct SomeState: View {
             if days.isEmpty {
                 EmptyState()
             } else {
-                #if SDK_iOS_14
+#if SDK_iOS_14
                 if #available(iOS 14, *) {
                     ScheduleGridView(
                         days: days.map(IdentifiableDay.init),
@@ -65,10 +84,10 @@ struct SomeState: View {
                         }
                     )
                 }
-                #else
+#else
                 ScheduleCollectionView(weeks: [days])
                     .edgesIgnoringSafeArea(.all)
-                #endif
+#endif
             }
         }
     }
@@ -94,9 +113,11 @@ struct EmptyState: View {
 
     var body: some View {
         VStack {
+            Spacer()
             Image(systemName: imageNames.randomElement()!).font(.largeTitle)
             Text("Похоже, занятий нет").font(.title)
             Text("Все свободны!").font(.subheadline)
+            Spacer()
         }
     }
 
