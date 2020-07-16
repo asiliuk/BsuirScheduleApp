@@ -9,8 +9,8 @@ struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
         ScrollView {
             LazyVGrid(columns: gridColumns,  spacing: 24) {
                 ForEach(days, content: makeDayView)
+                    .padding(.horizontal)
             }
-            .padding()
         }
     }
 
@@ -26,7 +26,7 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
     let makePairView: (PairModel) -> PairView
 
     var body: some View {
-        LazyVStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 10) {
             Text(title).font(.headline)
             ForEach(pairs) {
                 makePairView($0)

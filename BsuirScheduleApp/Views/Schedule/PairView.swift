@@ -49,13 +49,8 @@ struct PairCell: View {
             }
 
             Spacer().layoutPriority(-1)
-
-//            image
-//                .resizable()
-//                .scaledToFill()
-//                .frame(width: 50, height: 50)
-//                .clipShape(Circle())
         }
+        .fixedSize(horizontal: false, vertical: true)
         .padding(.horizontal)
         .padding(.vertical, 8)
         .background(
@@ -174,9 +169,8 @@ struct PairView_Previews: PreviewProvider {
                 form: .lab
             )
             .environment(\.sizeCategory, .accessibilityMedium)
-            .previewLayout(.fixed(width: 320, height: 120))
         }
-        .previewLayout(.fixed(width: 320, height: 70))
+        .previewLayout(.sizeThatFits)
         .background(Color.gray)
     }
 }
