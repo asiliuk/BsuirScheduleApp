@@ -19,14 +19,14 @@ struct ContentStateView<Value, SubView: View>: View {
         self.makeContent = makeContent
     }
 
-    var body: some View {
+    @ViewBuilder var body: some View {
         switch content.state {
         case .initial, .loading:
-            return LoadingState().eraseToAnyView()
+            LoadingState()
         case .error:
-            return ErrorState(retry: nil).eraseToAnyView()
+            ErrorState(retry: nil)
         case let .some(value):
-            return makeContent(value).eraseToAnyView()
+            makeContent(value)
         }
     }
 }
@@ -56,9 +56,4 @@ struct ErrorState: View {
             Spacer()
         }
     }
-}
-
-extension View {
-
-    func eraseToAnyView() -> AnyView { AnyView(self) }
 }

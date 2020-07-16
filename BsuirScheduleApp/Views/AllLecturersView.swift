@@ -36,10 +36,10 @@ struct Avatar: View {
 
     var body: some View {
         Group {
-            if url == nil {
-                UserPlaceholder()
+            if let url = url {
+                RemoteAvatar(url: url, targetSize: targetSize)
             } else {
-                RemoteAvatar(url: url!, targetSize: targetSize)
+                UserPlaceholder()
             }
         }
         .frame(width: targetSize.width, height: targetSize.height)

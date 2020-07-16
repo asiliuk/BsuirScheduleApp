@@ -19,28 +19,13 @@ struct ScheduleView: View {
     @State var scheduleType: ScheduleType = .everyday
 
     var body: some View {
-        content
-            .onAppear(perform: screen.schedule.load)
-            .navigationBarTitle(Text(screen.name), displayMode: .inline)
-    }
-
-    private var content: some View {
-        Group {
-#if SDK_iOS_14
-            if #available(iOS 14, *) {
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.flexible())], spacing: 24, pinnedViews: .sectionHeaders) {
-                        Section(header: header, content: { schedule })
-                    }
+        ScrollView {
+                LazyVGrid(columns: [GridItem(.flexible())], spacing: 24, pinnedViews: .sectionHeaders) {
+                    Section(header: header, content: { schedule })
                 }
             }
-#else
-            VStack {
-                header
-                schedule
-            }
-#endif
-        }
+            .onAppear(perform: screen.schedule.load)
+            .navigationBarTitle(Text(screen.name), displayMode: .inline)
     }
 
     private var header: some View {
@@ -66,29 +51,20 @@ struct SomeState: View {
 
     let days: [Day]
 
-    var body: some View {
-        Group {
-            if days.isEmpty {
-                EmptyState()
-            } else {
-#if SDK_iOS_14
-                if #available(iOS 14, *) {
-                    ScheduleGridView(
-                        days: days.map(IdentifiableDay.init),
-                        makeDayView: { day in
-                            ScheduleDay(
-                                title: day.title,
-                                pairs: day.pairs,
-                                makePairView: { PairCell(pair: $0.pair) }
-                            )
-                        }
+    @ViewBuilder var body: some View {
+        if days.isEmpty {
+            EmptyState()
+        } else {
+            ScheduleGridView(
+                days: days.map(IdentifiableDay.init),
+                makeDayView: { day in
+                    ScheduleDay(
+                        title: day.title,
+                        pairs: day.pairs,
+                        makePairView: { PairCell(pair: $0.pair) }
                     )
                 }
-#else
-                ScheduleCollectionView(weeks: [days])
-                    .edgesIgnoringSafeArea(.all)
-#endif
-            }
+            )
         }
     }
 }

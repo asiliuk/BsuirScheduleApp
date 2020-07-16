@@ -1,6 +1,5 @@
 import SwiftUI
 
-@available(iOS 14, *)
 struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
     let days: [DayModel]
     let makeDayView: (DayModel) -> DayView
@@ -19,7 +18,6 @@ struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
     }
 }
 
-@available(iOS 14, *)
 struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
     let title: String
     let pairs: [PairModel]
@@ -53,8 +51,7 @@ struct MockDay: Identifiable {
     ]
 }
 
-@available(iOS 14, *)
-struct iOS14_ScheduleGridView_Previews: PreviewProvider {
+struct ScheduleGridView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             schedule()
