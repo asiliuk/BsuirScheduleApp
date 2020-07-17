@@ -11,26 +11,27 @@ import SwiftUI
 struct ScheduleView: View {
 
     enum ScheduleType: Hashable {
-        case everyday
+        case continuous
+        case compact
         case exams
     }
 
     @ObservedObject var screen: ScheduleScreen
-    @State var scheduleType: ScheduleType = .everyday
+    @State var scheduleType: ScheduleType = .continuous
 
     var body: some View {
-        ScrollView {
-                LazyVGrid(columns: [GridItem(.flexible())], spacing: 24, pinnedViews: .sectionHeaders) {
-                    Section(header: header, content: { schedule })
-                }
-            }
-            .onAppear(perform: screen.schedule.load)
-            .navigationBarTitle(Text(screen.name), displayMode: .inline)
+        VStack(spacing: 0) {
+            header
+            schedule
+        }
+        .onAppear(perform: screen.schedule.load)
+        .navigationBarTitle(Text(screen.name), displayMode: .inline)
     }
 
     private var header: some View {
         Picker("Тип расписания", selection: $scheduleType) {
-            Text("Расписание").tag(ScheduleType.everyday)
+            Text("Расписание").tag(ScheduleType.continuous)
+            Text("По дням").tag(ScheduleType.compact)
             Text("Экзамены").tag(ScheduleType.exams)
         }
         .pickerStyle(SegmentedPickerStyle())
@@ -39,17 +40,33 @@ struct ScheduleView: View {
 
     private var schedule: some View {
         ContentStateView(content: screen.schedule) { value in
-            if self.scheduleType == .everyday {
-                SomeState(days: value.schedule)
-            } else if self.scheduleType == .exams {
+            switch scheduleType {
+            case .continuous:
+                ContinuousScheduleView(schedule: value.continuous)
+            case .compact:
+                SomeState(days: value.compact)
+            case .exams:
                 SomeState(days: value.exams)
             }
         }
     }
 }
+
+struct ContinuousScheduleView: View {
+    @ObservedObject var schedule: ContinuousSchedule
+
+    var body: some View {
+        SomeState(
+            days: schedule.days,
+            loadMore: schedule.loadMore
+        )
+    }
+}
+
 struct SomeState: View {
 
     let days: [Day]
+    var loadMore: (() -> Void)?
 
     @ViewBuilder var body: some View {
         if days.isEmpty {
@@ -60,10 +77,13 @@ struct SomeState: View {
                 makeDayView: { day in
                     ScheduleDay(
                         title: day.title,
+                        subtitle: day.subtitle,
+                        isToday: day.isToday,
                         pairs: day.pairs,
                         makePairView: { PairCell(pair: $0.pair) }
                     )
-                }
+                },
+                loadMore: loadMore
             )
         }
     }
@@ -72,11 +92,15 @@ struct SomeState: View {
 struct IdentifiableDay: Identifiable {
     var id: String { title }
     let title: String
+    let subtitle: String?
     let pairs: [IdentifiablePair]
+    let isToday: Bool
 
     init(day: Day) {
         self.title = day.title
+        self.subtitle = day.subtitle
         self.pairs = day.pairs.enumerated().map(IdentifiablePair.init)
+        self.isToday = day.isToday
     }
 }
 

@@ -3,12 +3,21 @@ import SwiftUI
 struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
     let days: [DayModel]
     let makeDayView: (DayModel) -> DayView
+    var loadMore: (() -> Void)?
 
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: gridColumns,  spacing: 24) {
-                ForEach(days, content: makeDayView)
-                    .padding(.horizontal)
+            ScrollViewReader { proxy in
+                LazyVGrid(columns: gridColumns) {
+                    ForEach(days, content: makeDayView)
+
+                    if let load = loadMore {
+                        ProgressView()
+                            .onAppear(perform: load)
+                    }
+                }
+                .onAppear { proxy.scrollTo(CurrentDayViewID()) }
+                .padding()
             }
         }
     }
@@ -20,16 +29,56 @@ struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
 
 struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
     let title: String
+    let subtitle: String?
+    var isToday: Bool
     let pairs: [PairModel]
     let makePairView: (PairModel) -> PairView
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(title).font(.headline)
+            HStack {
+                Text(title).font(.headline)
+                subtitle
+                    .map(Text.init)
+                    .font(.headline)
+                    .apply(
+                        when: isToday,
+                        then: { $0.foregroundColor(.blue) },
+                        else: { $0.foregroundColor(.red) }
+                    )
+            }
+
             ForEach(pairs) {
                 makePairView($0)
             }
         }
+        .apply(when: isToday) { $0.id(CurrentDayViewID()) }
+        .padding(.vertical, 10)
+    }
+}
+
+private struct CurrentDayViewID: Hashable {}
+
+private extension View {
+    func apply<Then: View, Else: View>(
+        when condition: Bool,
+        then makeThen: (Self) -> Then,
+        else makeElse: (Self) -> Else
+    ) -> some View {
+        Group {
+            if condition {
+                makeThen(self)
+            } else {
+                makeElse(self)
+            }
+        }
+    }
+
+    func apply<Then: View>(
+        when condition: Bool,
+        then makeThen: (Self) -> Then
+    ) -> some View {
+        apply(when: condition, then: makeThen, else: { $0 })
     }
 }
 
@@ -42,6 +91,7 @@ struct MockPair: Identifiable {
 struct MockDay: Identifiable {
     let id = UUID()
     var title: String = "01.02.0003"
+    var subtitle: String?
     var pairs: [MockPair] = [
         MockPair(name: "Pair 1"),
         MockPair(name: "Pair 10"),
@@ -56,6 +106,12 @@ struct ScheduleGridView_Previews: PreviewProvider {
         Group {
             schedule()
 
+            ScheduleGridView(
+                days: [MockDay(title: "06.02.0003"),],
+                makeDayView: daySchedule,
+                loadMore: {}
+            )
+
             schedule()
                 .previewLayout(.fixed(width: 812, height: 375))
 
@@ -64,6 +120,7 @@ struct ScheduleGridView_Previews: PreviewProvider {
 
             schedule()
                 .previewDevice("iPad Pro (11-inch) (2nd generation)")
+
             schedule()
                 .previewDevice("iPad Pro (12.9-inch) (4th generation)")
 
@@ -104,6 +161,8 @@ struct ScheduleGridView_Previews: PreviewProvider {
     private static func daySchedule(_ day: MockDay) -> some View {
         ScheduleDay(
             title: day.title,
+            subtitle: day.subtitle,
+            isToday: false,
             pairs: day.pairs,
             makePairView: pairCell
         )

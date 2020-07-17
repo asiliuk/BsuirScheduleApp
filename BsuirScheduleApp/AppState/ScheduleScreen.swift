@@ -1,27 +1,34 @@
-//
-//  ScheduleScreen.swift
-//  BsuirScheduleApp
-//
-//  Created by Anton Siliuk on 3/7/20.
-//  Copyright © 2020 Saute. All rights reserved.
-//
-
 import BsuirApi
 import Combine
 import Foundation
+import os.log
 
 final class ScheduleScreen: ObservableObject {
 
     let name: String
-    let schedule: LoadableContent<(schedule: [Day], exams: [Day])>
+    let schedule: LoadableContent<Schedule>
 
     init(name: String, request: AnyPublisher<(schedule: [DaySchedule], exams: [DaySchedule]), RequestsManager.RequestError>) {
         self.name = name
         self.schedule = LoadableContent(
             request
-                .map { ($0.schedule.map(Day.init), $0.exams.map(Day.init)) }
+                .map(Schedule.init)
                 .eraseToLoading()
         )
+    }
+}
+
+extension ScheduleScreen {
+    final class Schedule {
+        let continuous: ContinuousSchedule
+        let compact: [Day]
+        let exams: [Day]
+
+        init(schedule: [DaySchedule], exams: [DaySchedule]) {
+            self.continuous = ContinuousSchedule(schedule: schedule)
+            self.compact = schedule.map(Day.init)
+            self.exams = exams.map(Day.init)
+        }
     }
 }
 
@@ -44,13 +51,13 @@ struct Day: Hashable, Equatable {
         let note: String
         let weeks: String?
 
-        init(_ pair: BsuirApi.Pair) {
+        init(_ pair: BsuirApi.Pair, showWeeks: Bool = true) {
             self.from = Self.timeFormatter.string(from: pair.startLessonTime.components) ?? "N/A"
             self.to = Self.timeFormatter.string(from: pair.endLessonTime.components) ?? "N/A"
             self.form = Form(pair.lessonType)
             self.subject = pair.subject
             self.note = (pair.auditory.map(Optional.some) + [pair.note]).compactMap { $0 }.joined(separator: ", ")
-            self.weeks = pair.weekNumber.prettyName.capitalized
+            self.weeks = showWeeks ? pair.weekNumber.prettyName.capitalized : nil
         }
 
         private static let timeFormatter: DateComponentsFormatter = {
@@ -62,12 +69,18 @@ struct Day: Hashable, Equatable {
         }()
     }
 
-    let title: String
-    let pairs: [Pair]
+    var title: String
+    var subtitle: String?
+    var pairs: [Pair]
+    var isToday: Bool = false
+}
 
+extension Day {
     init(day: DaySchedule) {
-        self.title = day.weekDay.title
-        self.pairs = day.schedule.map(Pair.init)
+        self.init(
+            title: day.weekDay.title,
+            pairs: day.schedule.map { Pair($0) }
+        )
     }
 }
 
