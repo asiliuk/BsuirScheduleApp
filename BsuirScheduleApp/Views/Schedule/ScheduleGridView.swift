@@ -33,19 +33,14 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
     var isToday: Bool
     let pairs: [PairModel]
     let makePairView: (PairModel) -> PairView
+    @Environment(\.sizeCategory) var sizeCategory
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text(title).font(.headline)
-                subtitle
-                    .map(Text.init)
-                    .font(.headline)
-                    .apply(
-                        when: isToday,
-                        then: { $0.foregroundColor(.blue) },
-                        else: { $0.foregroundColor(.red) }
-                    )
+            if sizeCategory.isAccessibilityCategory {
+                VStack(alignment: .leading) { titleText; subtitleText }
+            } else {
+                HStack { titleText; subtitleText }
             }
 
             ForEach(pairs) {
@@ -54,6 +49,21 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
         }
         .apply(when: isToday) { $0.id(CurrentDayViewID()) }
         .padding(.vertical, 10)
+    }
+
+    private var titleText: some View {
+        Text(title).font(.headline)
+    }
+
+    private var subtitleText: some View {
+        subtitle
+            .map(Text.init)
+            .font(.headline)
+            .apply(
+                when: isToday,
+                then: { $0.foregroundColor(.blue) },
+                else: { $0.foregroundColor(.red) }
+            )
     }
 }
 
