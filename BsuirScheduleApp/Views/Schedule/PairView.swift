@@ -20,7 +20,7 @@ struct PairCell: View {
     var body: some View {
         HStack() {
 
-            if sizeCategory.isAccessibility {
+            if sizeCategory.isAccessibilityCategory {
 
                 PairFormIndicator(form: form)
 
@@ -105,19 +105,6 @@ extension PairCell.Form {
         case .unknown: self = .unknown
         }
     }
-}
-
-extension ContentSizeCategory {
-
-    var isAccessibility: Bool { Self.accessibility.contains(self) }
-
-    private static let accessibility: Set<ContentSizeCategory> = [
-        .accessibilityMedium,
-        .accessibilityLarge,
-        .accessibilityExtraLarge,
-        .accessibilityExtraExtraLarge,
-        .accessibilityExtraExtraExtraLarge
-    ]
 }
 
 #if DEBUG
