@@ -32,9 +32,35 @@ extension ScheduleScreen {
     }
 }
 
-struct Day: Hashable, Equatable {
+final class PairProgress: ObservableObject {
+    @Published private(set) var value: Double
 
-    struct Pair: Hashable, Equatable {
+    init(constant value: Double) {
+        self.value = value
+    }
+
+    init(from: Date, to: Date) {
+        self.value = 0
+        Timer
+            .publish(every: 15, on: .main, in: .default)
+            .autoconnect()
+            .prepend(Date())
+            .map { date in
+                guard date >= from else { return 0 }
+                guard date <= to else { return 1 }
+
+                let timeframe = to.timeIntervalSince(from)
+                guard timeframe > 0 else { return 0 }
+
+                return date.timeIntervalSince(from) / timeframe
+            }
+            .assign(to: &_value.projectedValue)
+    }
+}
+
+struct Day {
+
+    struct Pair {
 
         enum Form {
             case lecture
@@ -50,14 +76,16 @@ struct Day: Hashable, Equatable {
         let subject: String
         let note: String
         let weeks: String?
+        let progress: PairProgress
 
-        init(_ pair: BsuirApi.Pair, showWeeks: Bool = true) {
+        init(_ pair: BsuirApi.Pair, showWeeks: Bool = true, progress: PairProgress = .init(constant: 0)) {
             self.from = Self.timeFormatter.string(from: pair.startLessonTime.components) ?? "N/A"
             self.to = Self.timeFormatter.string(from: pair.endLessonTime.components) ?? "N/A"
             self.form = Form(pair.lessonType)
             self.subject = pair.subject
             self.note = (pair.auditory.map(Optional.some) + [pair.note]).compactMap { $0 }.joined(separator: ", ")
             self.weeks = showWeeks ? pair.weekNumber.prettyName.capitalized : nil
+            self.progress = progress
         }
 
         private static let timeFormatter: DateComponentsFormatter = {

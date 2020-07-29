@@ -15,6 +15,7 @@ struct PairCell: View {
     var weeks: String?
     var note: String
     var form: Form
+    @ObservedObject var progress: PairProgress
     @Environment(\.sizeCategory) var sizeCategory
 
     var body: some View {
@@ -22,7 +23,7 @@ struct PairCell: View {
 
             if sizeCategory.isAccessibilityCategory {
 
-                PairFormIndicator(form: form)
+                PairFormIndicator(form: form, progress: progress.value)
 
                 VStack(alignment: .leading) {
                     Text("\(from)-\(to)").font(.system(.callout, design: .monospaced))
@@ -37,7 +38,7 @@ struct PairCell: View {
                     Text(to).font(.system(.footnote, design: .monospaced))
                 }
 
-                PairFormIndicator(form: form)
+                PairFormIndicator(form: form, progress: progress.value)
 
                 VStack(alignment: .leading) {
                     HStack {
@@ -62,13 +63,29 @@ struct PairCell: View {
 
 private struct PairFormIndicator: View {
     var form: PairCell.Form
-    @Environment(\.sizeCategory) private var sizeCategory
-    @ScaledMetric(relativeTo: .body) private var formIndicatorWidth: CGFloat = 3
+    var progress: Double
+    @ScaledMetric(relativeTo: .body) private var formIndicatorWidth: CGFloat = 8
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
-        Capsule()
-            .frame(width: formIndicatorWidth)
-            .foregroundColor(form.color)
+        GeometryReader { proxy in
+            ZStack(alignment: .bottom) {
+                Capsule()
+                    .opacity(colorScheme == .dark ? 0.5 : 0.3)
+
+                Capsule()
+                    .frame(height: progressHeight(proxy: proxy))
+            }
+        }
+        .foregroundColor(form.color)
+        .frame(width: formIndicatorWidth)
+    }
+
+    private func progressHeight(proxy: GeometryProxy) -> CGFloat {
+        let height = proxy.size.height
+        guard progress > 0 else { return height }
+        guard progress < 1 else { return 0 }
+        return max(height * CGFloat(1 - progress), formIndicatorWidth)
     }
 }
 
@@ -80,7 +97,8 @@ extension PairCell {
             subject: pair.subject,
             weeks: pair.weeks,
             note: pair.note,
-            form: Form(pair.form)
+            form: Form(pair.form),
+            progress: pair.progress
         )
     }
 }
@@ -108,6 +126,30 @@ extension PairCell.Form {
 }
 
 #if DEBUG
+struct PairFormIndicator_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            HStack {
+                PairFormIndicator(form: .lecture, progress: 0.95)
+                PairFormIndicator(form: .lab, progress: 0.3)
+                PairFormIndicator(form: .practice, progress: 0.3)
+                PairFormIndicator(form: .exam, progress: 0.3)
+            }
+
+            HStack {
+                PairFormIndicator(form: .lecture, progress: 0.3)
+                PairFormIndicator(form: .lab, progress: 0.3)
+                PairFormIndicator(form: .practice, progress: 0.3)
+                PairFormIndicator(form: .exam, progress: 0.3)
+            }
+            .background(Color.black)
+            .colorScheme(.dark)
+        }
+        .frame(height: 50)
+        .previewLayout(.sizeThatFits)
+    }
+}
+
 struct PairView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -117,7 +159,8 @@ struct PairView_Previews: PreviewProvider {
                 subject: "ОСиСП",
                 weeks: "1,2",
                 note: "Пара проходит в подвале",
-                form: .lab
+                form: .lab,
+                progress: PairProgress(constant: 0)
             )
 
             PairCell(
@@ -126,7 +169,8 @@ struct PairView_Previews: PreviewProvider {
                 subject: "ОСиСП",
                 weeks: "1,2",
                 note: "Пара проходит в подвале",
-                form: .lab
+                form: .lab,
+                progress: PairProgress(constant: 0)
             )
             .colorScheme(.dark)
 
@@ -136,7 +180,8 @@ struct PairView_Previews: PreviewProvider {
                 subject: "ОСиСП",
                 weeks: "1,2",
                 note: "Пара проходит в подвале",
-                form: .lab
+                form: .lab,
+                progress: PairProgress(constant: 0)
             )
             .environment(\.sizeCategory, .accessibilityMedium)
         }

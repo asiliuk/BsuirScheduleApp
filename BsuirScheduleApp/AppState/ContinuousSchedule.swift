@@ -52,10 +52,14 @@ final class ContinuousSchedule: ObservableObject {
             ? Self.relativeFormatter.localizedString(from: DateComponents(day: offset))
             : nil
 
+        let pairProgress = { [calendar] pair in
+            PairProgress(pair: pair, day: date, calendar: calendar) ?? PairProgress(constant: 0)
+        }
+
         return Day(
             title: title,
             subtitle: subtitle,
-            pairs: pairs.map { Day.Pair($0, showWeeks: false) },
+            pairs: pairs.map { Day.Pair($0, showWeeks: false, progress: pairProgress($0)) },
             isToday: offset == 0
         )
     }
@@ -165,5 +169,27 @@ private extension DaySchedule.WeekDay {
         case 7: self = .saturday
         default: return nil
         }
+    }
+}
+
+private extension PairProgress {
+    convenience init?(pair: BsuirApi.Pair, day: Date, calendar: Calendar) {
+        guard
+            let from = calendar.date(bySetting: pair.startLessonTime, of: day),
+            let to = calendar.date(bySetting: pair.endLessonTime, of: day)
+        else { return nil }
+
+        self.init(from: from, to: to)
+    }
+}
+
+private extension Calendar {
+    func date(bySetting time: BsuirApi.Pair.Time, of date: Date) -> Date? {
+        self.date(
+            bySettingHour: time.hour,
+            minute: time.minute,
+            second: 0,
+            of: date
+        )
     }
 }
