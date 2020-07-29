@@ -120,16 +120,16 @@ final class ContinuousSchedule: ObservableObject {
 
     private static let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.setLocalizedDateFormatFromTemplate("EEEEdMMMM")
         formatter.locale = Locale(identifier: "ru_BY")
+        formatter.setLocalizedDateFormatFromTemplate("EEEEdMMMM")
         return formatter
     }()
 
     private static let relativeFormatter: RelativeDateTimeFormatter = {
         let formatter = RelativeDateTimeFormatter()
+        formatter.locale = Locale(identifier: "ru_BY")
         formatter.dateTimeStyle = .named
         formatter.formattingContext = .beginningOfSentence
-        formatter.locale = Locale(identifier: "ru_BY")
         return formatter
     }()
 }

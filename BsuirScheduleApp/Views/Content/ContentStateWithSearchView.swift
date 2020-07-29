@@ -23,12 +23,14 @@ struct ContentStateWithSearchView<Model: Identifiable, ItemView: View>: View {
         ContentStateView(content: content) { value in
             List {
                 Section(header: SearchBar(text: self.$searchQuery, placeholder: self.searchPlaceholder)) {
-                    ForEach(value) { item in
-                        self.itemView(item)
-                    }
+                    EmptyView()
+                }
+
+                ForEach(value) { item in
+                    self.itemView(item)
                 }
             }
-            .listStyle(GroupedListStyle())
+            .listStyle(InsetGroupedListStyle())
             .dismissingKeyboardOnSwipe()
         }
         .onAppear(perform: content.load)
