@@ -69,7 +69,7 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
 
 private struct CurrentDayViewID: Hashable {}
 
-private extension View {
+extension View {
     func apply<Then: View, Else: View>(
         when condition: Bool,
         then makeThen: (Self) -> Then,
@@ -185,7 +185,8 @@ struct ScheduleGridView_Previews: PreviewProvider {
             subject: pair.name,
             weeks: "1,2",
             note: "Пара проходит в подвале. ",
-            form: .lab
+            form: .lab,
+            progress: PairProgress(constant: 0)
         )
     }
 }
