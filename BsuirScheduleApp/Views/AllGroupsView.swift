@@ -14,17 +14,19 @@ struct AllGroupsView: View {
     @ObservedObject var screen: AllGroupsScreen
 
     var body: some View {
-        NavigationView {
-            ContentStateWithSearchView(
-                content: screen.groups,
-                searchQuery: $screen.searchQuery,
-                searchPlaceholder: "Найти группу"
-            ) { group in
-                NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: group))) {
-                    Text(group.name)
+        ContentStateWithSearchView(
+            content: screen.groups,
+            searchQuery: $screen.searchQuery,
+            searchPlaceholder: "Найти группу"
+        ) { section in
+            Section(header: Text(section.title)) {
+                ForEach(section.groups, id: \.id) { group in
+                    NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: group))) {
+                        Text(group.name)
+                    }
                 }
             }
-            .navigationBarTitle("Все группы")
         }
+        .navigationBarTitle("Все группы")
     }
 }

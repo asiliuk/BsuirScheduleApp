@@ -14,19 +14,17 @@ struct AllLecturersView: View {
     @ObservedObject var screen: AllLecturersScreen
 
     var body: some View {
-        NavigationView {
-            ContentStateWithSearchView(
-                content: screen.lecturers,
-                searchQuery: $screen.searchQuery,
-                searchPlaceholder: "Найти преподавателя"
-            ) { lecturer in
-                NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
-                    Avatar(url: lecturer.imageURL)
-                    Text(lecturer.fullName)
-                }
+        ContentStateWithSearchView(
+            content: screen.lecturers,
+            searchQuery: $screen.searchQuery,
+            searchPlaceholder: "Найти преподавателя"
+        ) { lecturer in
+            NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
+                Avatar(url: lecturer.imageURL)
+                Text(lecturer.fullName)
             }
-            .navigationBarTitle("Все преподаватели")
         }
+        .navigationBarTitle("Все преподаватели")
     }
 }
 

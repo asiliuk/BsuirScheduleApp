@@ -11,23 +11,95 @@ import BsuirApi
 
 import os.log
 
+enum CurrentTab: CaseIterable {
+    case groups
+    case lecturers
+}
+
 struct RootView: View {
+    @StateObject private var state = AppState(
+        requestManager: .bsuir(
+            session: {
+                var configuration = URLSessionConfiguration.default
+                configuration.urlCache = .init(memoryCapacity: Int(1e7),
+                                               diskCapacity: Int(1e7),
+                                               diskPath: nil)
+                configuration.requestCachePolicy = .returnCacheDataElseLoad
+                return URLSession(configuration: configuration)
+            }(),
+            logger: .osLog
+        )
+    )
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @State private var currentTab: CurrentTab? = .groups
 
-    @State var state = AppState(requestManager: .bsuir(logger: .osLog))
+    @ViewBuilder var body: some View {
+        switch horizontalSizeClass {
+        case nil, .compact?:
+            TabView(selection: $currentTab) {
+                NavigationView { allGroups }.tab(.groups)
+                NavigationView { allLecturers }.tab(.lecturers)
+            }
+        case .regular?:
+            NavigationView {
+                sidebar
 
+                switch currentTab {
+                case nil, .groups:
+                    allGroups
+                case .lecturers:
+                    allLecturers
+                }
+
+                SchedulePlaceholder()
+            }
+        }
+    }
+
+    private var allGroups: some View {
+        AllGroupsView(screen: state.allGroups)
+    }
+
+    private var allLecturers: some View {
+        AllLecturersView(screen: state.allLecturers)
+    }
+
+    private var sidebar: some View {
+        List {
+            NavigationLink(destination: allGroups, tag: .groups, selection: $currentTab) {
+                CurrentTab.groups.label
+            }
+
+            NavigationLink(destination: allLecturers, tag: .lecturers, selection: $currentTab) {
+                CurrentTab.lecturers.label
+            }
+        }
+        .listStyle(SidebarListStyle())
+        .listItemTint(.fixed(.red))
+        .navigationTitle("Расписание")
+    }
+}
+
+struct SchedulePlaceholder: View {
     var body: some View {
-        TabView {
-            AllGroupsView(screen: state.allGroups)
-                .tabItem {
-                    Image(systemName: "person.3")
-                    Text("Группы")
-                }
+        Text("Please select schedule to view...")
+    }
+}
 
-            AllLecturersView(screen: state.allLecturers)
-                .tabItem {
-                    Image(systemName: "person.crop.rectangle")
-                    Text("Преподаватели")
-                }
+private extension View {
+    func tab(_ tab: CurrentTab) -> some View {
+        self
+            .tabItem { tab.label }
+            .tag(tab)
+    }
+}
+private extension CurrentTab {
+    @ViewBuilder var label: some View {
+        switch self {
+        case .groups:
+            Label("Группы", systemImage: "person.2")
+        case .lecturers:
+            Label("Преподаватели", systemImage: "person.crop.rectangle")
         }
     }
 }
