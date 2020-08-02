@@ -14,6 +14,7 @@ import os.log
 enum CurrentTab: CaseIterable {
     case groups
     case lecturers
+    case about
 }
 
 struct RootView: View {
@@ -39,6 +40,7 @@ struct RootView: View {
             TabView(selection: $currentTab) {
                 NavigationView { allGroups }.tab(.groups)
                 NavigationView { allLecturers }.tab(.lecturers)
+                NavigationView { about }.tab(.about)
             }
         case .regular?:
             NavigationView {
@@ -49,6 +51,8 @@ struct RootView: View {
                     allGroups
                 case .lecturers:
                     allLecturers
+                case .about:
+                    about
                 }
 
                 SchedulePlaceholder()
@@ -64,6 +68,10 @@ struct RootView: View {
         AllLecturersView(screen: state.allLecturers)
     }
 
+    private var about: some View {
+        AboutView()
+    }
+
     private var sidebar: some View {
         List {
             NavigationLink(destination: allGroups, tag: .groups, selection: $currentTab) {
@@ -72,6 +80,10 @@ struct RootView: View {
 
             NavigationLink(destination: allLecturers, tag: .lecturers, selection: $currentTab) {
                 CurrentTab.lecturers.label
+            }
+
+            NavigationLink(destination: about, tag: .about, selection: $currentTab) {
+                CurrentTab.about.label
             }
         }
         .listStyle(SidebarListStyle())
@@ -100,6 +112,8 @@ private extension CurrentTab {
             Label("Группы", systemImage: "person.2")
         case .lecturers:
             Label("Преподаватели", systemImage: "person.crop.rectangle")
+        case .about:
+            Label("О приложении", systemImage: "wrench")
         }
     }
 }
@@ -133,4 +147,3 @@ private extension URLRequest {
         return components.joined(separator: " ")
     }
 }
-
