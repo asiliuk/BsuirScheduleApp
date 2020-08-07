@@ -26,6 +26,7 @@ final class AppState: ObservableObject {
     let requestManager: RequestsManager
     init(requestManager: RequestsManager) { self.requestManager = requestManager }
 
-    private(set) lazy var allGroups = AllGroupsScreen(requestManager: requestManager)
-    private(set) lazy var allLecturers = AllLecturersScreen(requestManager: requestManager)
+    private lazy var favorites = FavoritesContainer(storage: .standard)
+    private(set) lazy var allGroups = AllGroupsScreen(requestManager: requestManager, favorites: favorites)
+    private(set) lazy var allLecturers = AllLecturersScreen(requestManager: requestManager, favorites: favorites)
 }

@@ -26,8 +26,9 @@ final class AllLecturersScreen: ObservableObject {
     @Published var searchQuery: String = ""
     let lecturers: LoadableContent<[AllLecturersScreenLecturer]>
 
-    init(requestManager: RequestsManager) {
+    init(requestManager: RequestsManager, favorites: FavoritesContainer) {
         self.requestManager = requestManager
+        self.favorites = favorites
         self.lecturers = LoadableContent(
             requestManager.request(BsuirTargets.Employees())
                 .map { $0.map(AllLecturersScreenLecturer.init) }
@@ -40,9 +41,10 @@ final class AllLecturersScreen: ObservableObject {
     }
 
     func screen(for lecturer: AllLecturersScreenLecturer) -> ScheduleScreen {
-        .lecturer(lecturer.employee, requestManager: requestManager)
+        .lecturer(lecturer.employee, favorites: favorites, requestManager: requestManager)
     }
-    
+
+    private let favorites: FavoritesContainer
     private let requestManager: RequestsManager
 }
 

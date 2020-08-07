@@ -7,14 +7,24 @@ final class ScheduleScreen: ObservableObject {
 
     let name: String
     let schedule: LoadableContent<Schedule>
+    @Published private(set) var isFavorite: Bool = false
+    let toggleFavorite: () -> Void
 
-    init(name: String, request: AnyPublisher<(schedule: [DaySchedule], exams: [DaySchedule]), RequestsManager.RequestError>) {
+    init(
+        name: String,
+        isFavorite: AnyPublisher<Bool, Never>,
+        toggleFavorite: @escaping () -> Void,
+        request: AnyPublisher<(schedule: [DaySchedule], exams: [DaySchedule]), RequestsManager.RequestError>
+    ) {
         self.name = name
         self.schedule = LoadableContent(
             request
                 .map(Schedule.init)
                 .eraseToLoading()
         )
+
+        self.toggleFavorite = toggleFavorite
+        isFavorite.assign(to: &self.$isFavorite)
     }
 }
 

@@ -23,7 +23,20 @@ struct ScheduleView: View {
         schedule
             .onAppear(perform: screen.schedule.load)
             .navigationBarTitle(Text(screen.name), displayMode: .inline)
-            .navigationBarItems(trailing: picker)
+            .navigationBarItems(trailing: HStack { favorite; picker })
+    }
+
+    private var favorite: some View {
+        Button(action: screen.toggleFavorite) {
+            Image(systemName: screen.isFavorite ? "star.fill" : "star")
+                .accentColor(.yellow)
+                .padding(.horizontal, 4)
+        }
+        .accessibility(
+            label: screen.isFavorite
+                ? Text("Добавить в избранное")
+                : Text("Убрать из избранного")
+        )
     }
 
     private var picker: some View {
@@ -35,6 +48,7 @@ struct ScheduleView: View {
             }
         } label: {
             Image(systemName: "calendar")
+                .padding(.horizontal, 4)
         }
         .accessibility(label: Text("Тип расписания"))
     }

@@ -12,9 +12,11 @@ import Foundation
 
 extension ScheduleScreen {
 
-    static func lecturer(_ employee: Employee, requestManager: RequestsManager) -> Self {
+    static func lecturer(_ employee: Employee, favorites: FavoritesContainer, requestManager: RequestsManager) -> Self {
         Self(
             name: employee.fio,
+            isFavorite: Just(false).eraseToAnyPublisher(),
+            toggleFavorite: {},
             request: requestManager
                 .request(BsuirTargets.EmployeeSchedule(id: employee.id))
                 .map { ($0.schedules ?? [], $0.examSchedules ?? []) }
