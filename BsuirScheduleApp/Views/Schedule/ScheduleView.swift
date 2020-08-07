@@ -20,22 +20,23 @@ struct ScheduleView: View {
     @State var scheduleType: ScheduleType = .continuous
 
     var body: some View {
-        VStack(spacing: 0) {
-            header
-            schedule
-        }
-        .onAppear(perform: screen.schedule.load)
-        .navigationBarTitle(Text(screen.name), displayMode: .inline)
+        schedule
+            .onAppear(perform: screen.schedule.load)
+            .navigationBarTitle(Text(screen.name), displayMode: .inline)
+            .navigationBarItems(trailing: picker)
     }
 
-    private var header: some View {
-        Picker("Тип расписания", selection: $scheduleType) {
-            Text("Расписание").tag(ScheduleType.continuous)
-            Text("По дням").tag(ScheduleType.compact)
-            Text("Экзамены").tag(ScheduleType.exams)
+    private var picker: some View {
+        Menu { EmptyView()
+            Picker("Тип расписания", selection: $scheduleType) {
+                Text("Расписание").tag(ScheduleType.continuous)
+                Text("По дням").tag(ScheduleType.compact)
+                Text("Экзамены").tag(ScheduleType.exams)
+            }
+        } label: {
+            Image(systemName: "calendar")
         }
-        .pickerStyle(SegmentedPickerStyle())
-        .background(Color(.systemBackground))
+        .accessibility(label: Text("Тип расписания"))
     }
 
     private var schedule: some View {
