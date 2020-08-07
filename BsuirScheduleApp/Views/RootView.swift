@@ -110,9 +110,9 @@ struct SchedulePlaceholder: View {
 }
 
 private extension View {
-    func tab(_ tab: CurrentTab) -> some View {
+    func tab(_ tab: CurrentTab?) -> some View {
         self
-            .tabItem { tab.label }
+            .tabItem { tab?.label }
             .tag(tab)
     }
 }
