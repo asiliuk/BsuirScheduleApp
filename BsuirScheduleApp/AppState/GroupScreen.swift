@@ -14,11 +14,11 @@ extension ScheduleScreen {
     static func group(_ group: Group, favorites: FavoritesContainer, requestManager: RequestsManager) -> Self {
         Self(
             name: group.name,
-            isFavorite: favorites.$favorites
+            isFavorite: favorites.$groups
                 .map { $0.contains(group.id) }
                 .removeDuplicates()
                 .eraseToAnyPublisher(),
-            toggleFavorite: { favorites.toggleFavorite(id: group.id) },
+            toggleFavorite: { favorites.toggleGroupFavorite(id: group.id) },
             request: requestManager
                 .request(BsuirTargets.Schedule(agent: .groupID(group.id)))
                 .map { ($0.schedules, $0.examSchedules) }

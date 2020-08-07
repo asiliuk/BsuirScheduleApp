@@ -11,26 +11,38 @@ import Combine
 import Foundation
 
 final class FavoritesContainer {
-    @Published private(set) var favorites: Set<Int> {
-        didSet {
-            storage.set(favorites.sorted(), forKey: key)
-        }
+    @Published private(set) var groups: Set<Int> {
+        didSet { storage.set(groups.sorted(), forKey: groupsKey) }
+    }
+
+    @Published private(set) var lecturers: Set<Int> {
+        didSet { storage.set(lecturers.sorted(), forKey: lecturersKey) }
     }
 
     init(storage: UserDefaults) {
         self.storage = storage
-        self.favorites = Set(storage.object(forKey: key) as? [Int] ?? [])
+        self.groups = Set(storage.object(forKey: groupsKey) as? [Int] ?? [])
+        self.lecturers = Set(storage.object(forKey: lecturersKey) as? [Int] ?? [])
     }
 
-    func toggleFavorite(id: Int) {
-        if favorites.contains(id) {
-            favorites.remove(id)
+    func toggleGroupFavorite(id: Int) {
+        if groups.contains(id) {
+            groups.remove(id)
         } else {
-            favorites.insert(id)
+            groups.insert(id)
         }
     }
 
-    private let key = "favorite-group-ids"
+    func toggleLecturerFavorite(id: Int) {
+        if lecturers.contains(id) {
+            lecturers.remove(id)
+        } else {
+            lecturers.insert(id)
+        }
+    }
+
+    private let groupsKey = "favorite-group-ids"
+    private let lecturersKey = "favorite-lecturer-ids"
     private let storage: UserDefaults
 }
 
@@ -51,7 +63,7 @@ final class AllGroupsScreen: ObservableObject {
                     guard !query.isEmpty else { return groups }
                     return groups.filter { $0.name.starts(with: query) }
                 }
-                .combineLatest(favorites.$favorites.setFailureType(to: RequestsManager.RequestError.self))
+                .combineLatest(favorites.$groups.setFailureType(to: RequestsManager.RequestError.self))
                 .map { .init(favorites: $1, groups: $0) }
                 .eraseToLoading()
         )

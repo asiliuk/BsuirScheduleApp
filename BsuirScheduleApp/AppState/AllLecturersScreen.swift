@@ -24,7 +24,7 @@ struct AllLecturersScreenLecturer: Identifiable {
 final class AllLecturersScreen: ObservableObject {
 
     @Published var searchQuery: String = ""
-    let lecturers: LoadableContent<[AllLecturersScreenLecturer]>
+    let lecturers: LoadableContent<[AllLecturersScreenGroupSection]>
 
     init(requestManager: RequestsManager, favorites: FavoritesContainer) {
         self.requestManager = requestManager
@@ -36,6 +36,8 @@ final class AllLecturersScreen: ObservableObject {
                     guard !query.isEmpty else { return lecturers }
                     return lecturers.filter { $0.fullName.lowercased().contains(query.lowercased()) }
                 }
+                .combineLatest(favorites.$lecturers.setFailureType(to: RequestsManager.RequestError.self))
+                .map { .init(lecturers: $0, favorites: $1) }
                 .eraseToLoading()
         )
     }
@@ -46,6 +48,37 @@ final class AllLecturersScreen: ObservableObject {
 
     private let favorites: FavoritesContainer
     private let requestManager: RequestsManager
+}
+
+private extension Array where Element == AllLecturersScreenGroupSection {
+    init(lecturers: [AllLecturersScreenLecturer], favorites: Set<Int>) {
+        let favoritesGroup = AllLecturersScreenGroupSection(
+            section: .favorites,
+            lecturers: lecturers.filter { favorites.contains($0.id) }
+        )
+
+        let otherGroup = AllLecturersScreenGroupSection(
+            section: .other,
+            lecturers: lecturers
+        )
+
+        if favoritesGroup.lecturers.isEmpty {
+            self = [otherGroup]
+        } else {
+            self = [favoritesGroup, otherGroup]
+        }
+    }
+}
+
+struct AllLecturersScreenGroupSection: Identifiable {
+    enum Section {
+        case favorites
+        case other
+    }
+
+    var id: Section { section }
+    let section: Section
+    let lecturers: [AllLecturersScreenLecturer]
 }
 
 extension Publisher {

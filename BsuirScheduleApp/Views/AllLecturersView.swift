@@ -18,13 +18,28 @@ struct AllLecturersView: View {
             content: screen.lecturers,
             searchQuery: $screen.searchQuery,
             searchPlaceholder: "Найти преподавателя"
-        ) { lecturer in
-            NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
-                Avatar(url: lecturer.imageURL)
-                Text(lecturer.fullName)
+        ) { section in
+            Section(header: section.header) {
+                ForEach(section.lecturers, id: \.id) { lecturer in
+                    NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
+                        Avatar(url: lecturer.imageURL)
+                        Text(lecturer.fullName)
+                    }
+                }
             }
         }
         .navigationBarTitle("Все преподаватели")
+    }
+}
+
+private extension AllLecturersScreenGroupSection {
+    @ViewBuilder var header: some View {
+        switch section {
+        case .favorites:
+            Text("⭐️ Избранные")
+        case .other:
+            EmptyView()
+        }
     }
 }
 
