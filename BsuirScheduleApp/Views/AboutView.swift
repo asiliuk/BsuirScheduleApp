@@ -1,83 +1,91 @@
-//
-//  AboutView.swift
-//  BsuirScheduleApp
-//
-//  Created by mac on 6/20/20.
-//  Copyright © 2020 Saute. All rights reserved.
-//
-
 import SwiftUI
 import Foundation
 
 struct AboutView: View {
     var body: some View {
-        VStack {
-            ScheduleInfoView()
-                .padding(EdgeInsets(top: 10, leading: 15, bottom: 0, trailing: 15))
-            InfoView()
-                .padding(EdgeInsets(top: 10, leading: 15, bottom: 0, trailing: 15))
-            Spacer()
+        List {
+            Section(header: Text("Цвета")) {
+                ForEach(PairCell.Form.allCases, id: \.self) { form in
+                    PairTypeView(name: form.name, color: form.color)
+                }
+            }
+
+            Section(header: Text("Пара")) {
+                PairCell(
+                    from: "начало",
+                    to: "конец",
+                    subject: "Предмет",
+                    weeks: "неделя",
+                    note: "Кабинет - корпус",
+                    form: .practice,
+                    progress: PairProgress(constant: 0.5)
+                )
+                .fixedSize(horizontal: false, vertical: true)
+            }
+
+            Section(header: Text("О приложении")) {
+                Text("Версия \(Bundle.main.version)")
+                GithubButton()
+            }
         }
+        .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("Информация")
     }
 }
 
-struct ScheduleInfoView: View {
+private struct GithubButton: View {
     var body: some View {
-        VStack(alignment: .leading) {
-            VStack(alignment: .leading) {
-                PairTypeView(type: "Лекция", color: .green)
-                    .padding([.leading, .top], 20)
-                PairTypeView(type: "Лабораторная работа", color: .yellow)
-                    .padding(.leading, 20)
-                PairTypeView(type: "Практическая работа", color: .red)
-                    .padding(.leading, 20)
-            }
-            PairCell(from: "начало", to: "конец", subject: "Предмет", weeks: "неделя", note: "Кабинет - корпус", form: .practice, progress: PairProgress(constant: 0.5))
-                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-                .fixedSize(horizontal: false, vertical: true)
-                .overlay(RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.2), lineWidth: 1))
+        Button(action: openURL) {
+            Text("GitHub").underline()
         }
+    }
+
+    func openURL() {
+        guard let url = URL(string: "https://github.com/asiliuk/BsuirScheduleApp") else { return }
+        UIApplication.shared.open(url)
     }
 }
 
-struct InfoView: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack() {
-                Text("О приложении")
-                    .font(.headline)
-                    .bold()
-                Spacer()
-            }
-            VStack(alignment: .leading, spacing: 5) {
-                Text("Версия 1.0")
-                Button(action: {
-                    guard let url = URL(string: "https://github.com/asiliuk/BsuirScheduleApp") else { return }
-                    UIApplication.shared.open(url)
-                }, label: {
-                    Text("GitHub")
-                        .underline()
-                        .foregroundColor(.black)
-                })
-            }
-        }
-        .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
-        .overlay(RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray.opacity(0.2), lineWidth: 1))
+private extension Bundle {
+    var version: String {
+        "\(shortVersion)(\(buildNumber))"
+    }
+
+    var shortVersion: String {
+        infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+    }
+
+    var buildNumber: String {
+        infoDictionary?["CFBundleVersion"] as? String ?? ""
     }
 }
 
 struct PairTypeView: View {
-    var type: String
+    var name: LocalizedStringKey
     var color: Color
 
     var body: some View {
         HStack {
-            color.frame(width: 30, height: 30)
-                .clipShape(Circle())
-            Text(type)
+            Circle().foregroundColor(color).frame(width: 30, height: 30)
+            Text(name)
         }
+    }
+}
+
+private extension PairCell.Form {
+    var name: LocalizedStringKey {
+        switch self {
+        case .lecture: return "Лекция"
+        case .lab: return "Лабораторная работа"
+        case .practice: return "Практическая работа"
+        case .exam: return "Экзамен"
+        case .unknown: return "Неизвестно"
+        }
+    }
+}
+
+struct AboutView_Previews: PreviewProvider {
+    static var previews: some View {
+        AboutView()
     }
 }

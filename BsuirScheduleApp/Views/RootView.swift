@@ -11,9 +11,14 @@ import BsuirApi
 
 import os.log
 
-enum CurrentTab: CaseIterable {
+enum CurrentTab {
     case groups
     case lecturers
+    case about
+}
+
+enum Overlay: Identifiable {
+    var id: Self { self }
     case about
 }
 
@@ -33,6 +38,7 @@ struct RootView: View {
     )
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var currentTab: CurrentTab? = .groups
+    @State private var currentOverlay: Overlay? = nil
 
     @ViewBuilder var body: some View {
         switch horizontalSizeClass {
@@ -56,6 +62,12 @@ struct RootView: View {
                 }
 
                 SchedulePlaceholder()
+            }
+            .sheet(item: $currentOverlay) {
+                switch $0 {
+                case .about:
+                    NavigationView { about }
+                }
             }
         }
     }
@@ -82,12 +94,11 @@ struct RootView: View {
                 CurrentTab.lecturers.label
             }
 
-            NavigationLink(destination: about, tag: .about, selection: $currentTab) {
+            Button(action: { currentOverlay = .about }) {
                 CurrentTab.about.label
             }
         }
         .listStyle(SidebarListStyle())
-        .listItemTint(.fixed(.red))
         .navigationTitle("Расписание")
     }
 }
@@ -113,7 +124,7 @@ private extension CurrentTab {
         case .lecturers:
             Label("Преподаватели", systemImage: "person.crop.rectangle")
         case .about:
-            Label("О приложении", systemImage: "wrench")
+            Label("О приложении", systemImage: "info.circle")
         }
     }
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PairCell: View {
-    enum Form {
+    enum Form: CaseIterable {
         case lecture
         case practice
         case lab
