@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04187F0C2438A4A20099855E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04187F0B2438A4A20099855E /* SearchBar.swift */; };
 		04C0743424520BBC00362531 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 04C0743324520BBC00362531 /* URLImage */; };
+		04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0F8B924D7354B00A1C74F /* AboutView.swift */; };
 		E616B44024AE12F200A46E67 /* PairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B43F24AE12F200A46E67 /* PairView.swift */; };
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		04187F0B2438A4A20099855E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		E616B43F24AE12F200A46E67 /* PairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairView.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
 		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				E6964823233F7D72007EF2CB /* RootView.swift */,
 				E6964821233F7C45007EF2CB /* AllGroupsView.swift */,
 				E69648272340CA53007EF2CB /* AllLecturersView.swift */,
+				04F0F8B924D7354B00A1C74F /* AboutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */,
 				E6964822233F7C45007EF2CB /* AllGroupsView.swift in Sources */,
 				E6A6A88324142F2C0024D738 /* CombineHelpers.swift in Sources */,
+				04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */,
 				E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */,
 				E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */,
 				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
