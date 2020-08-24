@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/asiliuk/BsuirApi",
         "state": {
           "branch": null,
-          "revision": "5d04360428f4726690c194366f6f13ca4052ef26",
-          "version": "0.0.4"
+          "revision": "d4094c8dd6f680475aec2725712c3768071f8372",
+          "version": "0.0.5"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/dmytro-anokhin/url-image",
         "state": {
           "branch": null,
-          "revision": "d0ee03498e743c0377a8b3211ce8da2e20be1bac",
-          "version": "0.9.18"
+          "revision": "22eca5ee4f317e0283da75426849ee23f0516022",
+          "version": "0.9.19"
         }
       }
     ]
