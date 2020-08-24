@@ -17,8 +17,8 @@ struct AllLecturersScreenLecturer: Identifiable {
     var fullName: String { employee.fio }
     var imageURL: URL? { employee.photoLink }
 
-    fileprivate init(employee: Employee) { self.employee = employee }
-    fileprivate let employee: Employee
+    init(employee: Employee) { self.employee = employee }
+    let employee: Employee
 }
 
 final class AllLecturersScreen: ObservableObject {

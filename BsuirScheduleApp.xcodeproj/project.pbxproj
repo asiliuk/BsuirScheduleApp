@@ -19,6 +19,9 @@
 		E66B41282414381D00A88BFD /* GroupScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41272414381D00A88BFD /* GroupScreen.swift */; };
 		E66B412A2414394600A88BFD /* AllGroupsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41292414394600A88BFD /* AllGroupsScreen.swift */; };
 		E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66C1D8E24C2704D008391B6 /* ContinuousSchedule.swift */; };
+		E67503A524F424840030D0EC /* AppState+Bsuir.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503A424F424840030D0EC /* AppState+Bsuir.swift */; };
+		E67503A824F427020030D0EC /* FavoritesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503A724F427020030D0EC /* FavoritesContainer.swift */; };
+		E67503AB24F430BD0030D0EC /* AllFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */; };
 		E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */; };
 		E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */; };
 		E695524D22F9D11100EEFA72 /* BsuirApi+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */; };
@@ -50,6 +53,10 @@
 		E66B41272414381D00A88BFD /* GroupScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScreen.swift; sourceTree = "<group>"; };
 		E66B41292414394600A88BFD /* AllGroupsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsScreen.swift; sourceTree = "<group>"; };
 		E66C1D8E24C2704D008391B6 /* ContinuousSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinuousSchedule.swift; sourceTree = "<group>"; };
+		E67503A424F424840030D0EC /* AppState+Bsuir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState+Bsuir.swift"; sourceTree = "<group>"; };
+		E67503A724F427020030D0EC /* FavoritesContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesContainer.swift; sourceTree = "<group>"; };
+		E67503A924F42AF60030D0EC /* BsuirApi */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BsuirApi; path = ../BsuirApi; sourceTree = "<group>"; };
+		E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFavoritesView.swift; sourceTree = "<group>"; };
 		E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissingKeyboardOnSwipe.swift; sourceTree = "<group>"; };
 		E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateWithSearchView.swift; sourceTree = "<group>"; };
 		E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsuirApi+Combine.swift"; sourceTree = "<group>"; };
@@ -100,6 +107,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E67503A624F426F70030D0EC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E67503A724F427020030D0EC /* FavoritesContainer.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		E68610C32471C2B0001BF527 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,7 +148,9 @@
 		E696481E233F7BBE007EF2CB /* AppState */ = {
 			isa = PBXGroup;
 			children = (
+				E67503A624F426F70030D0EC /* Common */,
 				E696481F233F7BD3007EF2CB /* AppState.swift */,
+				E67503A424F424840030D0EC /* AppState+Bsuir.swift */,
 				E6A6A87E24142BAB0024D738 /* RemoteImage.swift */,
 				E66B41232414344900A88BFD /* AllLecturersScreen.swift */,
 				E66B4121241431F800A88BFD /* LecturerScreen.swift */,
@@ -155,6 +172,7 @@
 				E6964821233F7C45007EF2CB /* AllGroupsView.swift */,
 				E69648272340CA53007EF2CB /* AllLecturersView.swift */,
 				04F0F8B924D7354B00A1C74F /* AboutView.swift */,
+				E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -171,6 +189,7 @@
 		E6F931A922F8B1C10038FC43 = {
 			isa = PBXGroup;
 			children = (
+				E67503A924F42AF60030D0EC /* BsuirApi */,
 				E6F931B422F8B1C10038FC43 /* BsuirScheduleApp */,
 				E6F931B322F8B1C10038FC43 /* Products */,
 				E633E7F822F8B75F00E109E2 /* Frameworks */,
@@ -296,6 +315,7 @@
 				E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */,
 				E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */,
 				E66B41282414381D00A88BFD /* GroupScreen.swift in Sources */,
+				E67503A824F427020030D0EC /* FavoritesContainer.swift in Sources */,
 				E6964826233F8936007EF2CB /* ScheduleView.swift in Sources */,
 				E6F931BB22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld in Sources */,
 				E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */,
@@ -304,8 +324,10 @@
 				04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */,
 				E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */,
 				E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */,
+				E67503AB24F430BD0030D0EC /* AllFavoritesView.swift in Sources */,
 				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
 				E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */,
+				E67503A524F424840030D0EC /* AppState+Bsuir.swift in Sources */,
 				04187F0C2438A4A20099855E /* SearchBar.swift in Sources */,
 				E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */,
 				E6F931B822F8B1C10038FC43 /* SceneDelegate.swift in Sources */,

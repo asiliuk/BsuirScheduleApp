@@ -22,13 +22,23 @@ struct AllLecturersView: View {
             Section(header: section.header) {
                 ForEach(section.lecturers, id: \.id) { lecturer in
                     NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
-                        Avatar(url: lecturer.imageURL)
-                        Text(lecturer.fullName)
+                        LecturerCell(lecturer: lecturer)
                     }
                 }
             }
         }
         .navigationBarTitle("Все преподаватели")
+    }
+}
+
+struct LecturerCell: View {
+    let lecturer: AllLecturersScreenLecturer
+
+    var body: some View {
+        HStack {
+            Avatar(url: lecturer.imageURL)
+            Text(lecturer.fullName)
+        }
     }
 }
 

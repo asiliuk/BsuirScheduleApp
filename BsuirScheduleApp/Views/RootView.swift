@@ -7,14 +7,13 @@
 //
 
 import SwiftUI
-import BsuirApi
 
-import os.log
 
 enum CurrentTab {
     case groups
     case lecturers
     case about
+    case favorites
 }
 
 enum Overlay: Identifiable {
@@ -23,19 +22,7 @@ enum Overlay: Identifiable {
 }
 
 struct RootView: View {
-    @StateObject private var state = AppState(
-        requestManager: .bsuir(
-            session: {
-                var configuration = URLSessionConfiguration.default
-                configuration.urlCache = .init(memoryCapacity: Int(1e7),
-                                               diskCapacity: Int(1e7),
-                                               diskPath: nil)
-                configuration.requestCachePolicy = .returnCacheDataElseLoad
-                return URLSession(configuration: configuration)
-            }(),
-            logger: .osLog
-        )
-    )
+    @StateObject private var state = AppState.bsuir()
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var currentTab: CurrentTab? = .groups
     @State private var currentOverlay: Overlay? = nil
@@ -44,6 +31,8 @@ struct RootView: View {
         switch horizontalSizeClass {
         case nil, .compact?:
             TabView(selection: $currentTab) {
+                if !state.allFavorites.isEmpty { NavigationView { allFavorites }.tab(.favorites) }
+                NavigationView { allFavorites }.tab(.favorites)
                 NavigationView { allGroups }.tab(.groups)
                 NavigationView { allLecturers }.tab(.lecturers)
                 NavigationView { about }.tab(.about)
@@ -59,6 +48,8 @@ struct RootView: View {
                     allLecturers
                 case .about:
                     about
+                case .favorites:
+                    allFavorites
                 }
 
                 SchedulePlaceholder()
@@ -80,6 +71,10 @@ struct RootView: View {
         AllLecturersView(screen: state.allLecturers)
     }
 
+    private var allFavorites: some View {
+        AllFavoritesView(screen: state.allFavorites)
+    }
+
     private var about: some View {
         AboutView()
     }
@@ -96,6 +91,26 @@ struct RootView: View {
 
             Button(action: { currentOverlay = .about }) {
                 CurrentTab.about.label
+            }
+
+
+            if !state.allFavorites.isEmpty {
+                DisclosureGroup(
+                    content: {
+                        ForEach(state.allFavorites.groups) {
+                            Text($0.name)
+                        }
+
+                        ForEach(state.allFavorites.lecturers) {
+                            Text($0.fullName)
+                        }
+                    },
+                    label: {
+                        NavigationLink(destination: allFavorites, tag: .favorites, selection: $currentTab) {
+                            CurrentTab.favorites.label
+                        }
+                    }
+                )
             }
         }
         .listStyle(SidebarListStyle())
@@ -125,36 +140,8 @@ private extension CurrentTab {
             Label("Преподаватели", systemImage: "person.crop.rectangle")
         case .about:
             Label("О приложении", systemImage: "info.circle")
+        case .favorites:
+            Label("Избранные", systemImage: "star")
         }
-    }
-}
-
-private extension RequestsManager.Logger {
-
-    static let osLog = Self(constructRequest: { request in
-        os_log(.debug, log: .targetRequest, "%@", request.curlDescription)
-    })
-}
-
-private extension OSLog {
-
-    static let targetRequest = bsuirSchedule(category: "TargetRequest")
-}
-
-private extension URLRequest {
-
-    var curlDescription: String {
-        guard let url = url else { return "[Unknown]" }
-
-        let body = httpBody
-            .flatMap { String(data: $0, encoding: .utf8) }
-            .map { "-d '\($0)'" }
-
-        let headers = allHTTPHeaderFields?
-            .map { "-H '\($0.0): \($0.1)'" }
-
-        let components = ["curl", url.absoluteString] + ([body].compactMap { $0 }) + (headers ?? [])
-
-        return components.joined(separator: " ")
     }
 }
