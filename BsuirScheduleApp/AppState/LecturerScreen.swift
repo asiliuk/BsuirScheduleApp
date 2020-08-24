@@ -16,10 +16,10 @@ extension ScheduleScreen {
         Self(
             name: employee.fio,
             isFavorite: favorites.$lecturers
-                .map { $0.contains(employee.id) }
+                .map { $0.value.contains(employee) }
                 .removeDuplicates()
                 .eraseToAnyPublisher(),
-            toggleFavorite: { favorites.toggleLecturerFavorite(id: employee.id) },
+            toggleFavorite: { favorites.lecturers.toggle(employee) },
             request: requestManager
                 .request(BsuirTargets.EmployeeSchedule(id: employee.id))
                 .map { ($0.schedules ?? [], $0.examSchedules ?? []) }

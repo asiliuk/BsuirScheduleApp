@@ -36,7 +36,11 @@ final class AllLecturersScreen: ObservableObject {
                     guard !query.isEmpty else { return lecturers }
                     return lecturers.filter { $0.fullName.lowercased().contains(query.lowercased()) }
                 }
-                .combineLatest(favorites.$lecturers.setFailureType(to: RequestsManager.RequestError.self))
+                .combineLatest(
+                    favorites.$lecturers
+                        .map { $0.value }
+                        .setFailureType(to: RequestsManager.RequestError.self)
+                )
                 .map { .init(lecturers: $0, favorites: $1) }
                 .eraseToLoading()
         )
@@ -51,10 +55,10 @@ final class AllLecturersScreen: ObservableObject {
 }
 
 private extension Array where Element == AllLecturersScreenGroupSection {
-    init(lecturers: [AllLecturersScreenLecturer], favorites: Set<Int>) {
+    init(lecturers: [AllLecturersScreenLecturer], favorites: [Employee]) {
         let favoritesGroup = AllLecturersScreenGroupSection(
             section: .favorites,
-            lecturers: lecturers.filter { favorites.contains($0.id) }
+            lecturers: favorites.map(AllLecturersScreenLecturer.init)
         )
 
         let otherGroup = AllLecturersScreenGroupSection(

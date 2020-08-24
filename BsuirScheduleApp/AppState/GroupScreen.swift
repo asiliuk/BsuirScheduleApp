@@ -15,10 +15,10 @@ extension ScheduleScreen {
         Self(
             name: group.name,
             isFavorite: favorites.$groups
-                .map { $0.contains(group.id) }
+                .map { $0.value.contains(group) }
                 .removeDuplicates()
                 .eraseToAnyPublisher(),
-            toggleFavorite: { favorites.toggleGroupFavorite(id: group.id) },
+            toggleFavorite: { favorites.groups.toggle(group) },
             request: requestManager
                 .request(BsuirTargets.Schedule(agent: .groupID(group.id)))
                 .map { ($0.schedules, $0.examSchedules) }

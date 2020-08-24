@@ -10,40 +10,50 @@ import BsuirApi
 import Combine
 import Foundation
 
-final class FavoritesContainer {
-    @Published private(set) var groups: Set<Int> {
-        didSet { storage.set(groups.sorted(), forKey: groupsKey) }
+struct FavoritesValue<F: Codable & Equatable> {
+    private(set) var value: [F]
+
+    init(storage: UserDefaults, key: String) {
+        self.storage = storage
+        self.key = key
+        self.value = []
+        self.value = self.fetch()
     }
 
-    @Published private(set) var lecturers: Set<Int> {
-        didSet { storage.set(lecturers.sorted(), forKey: lecturersKey) }
+    mutating func toggle(_ favorite: F) {
+        if value.contains(favorite) {
+            value.removeAll(where: { $0 == favorite })
+        } else {
+            value.append(favorite)
+        }
     }
+
+    private func save(_ favorites: [F]) {
+        storage.set(try? encoder.encode(favorites), forKey: key)
+    }
+
+    private func fetch() -> [F] {
+        guard
+            let data = storage.data(forKey: key),
+            let favorites = try? decoder.decode([F].self, from: data)
+        else { return [] }
+        return favorites
+    }
+
+    private let encoder = JSONEncoder()
+    private let decoder = JSONDecoder()
+    private let storage: UserDefaults
+    private let key: String
+}
+
+final class FavoritesContainer {
+    @Published var groups: FavoritesValue<Group>
+    @Published var lecturers: FavoritesValue<Employee>
 
     init(storage: UserDefaults) {
-        self.storage = storage
-        self.groups = Set(storage.object(forKey: groupsKey) as? [Int] ?? [])
-        self.lecturers = Set(storage.object(forKey: lecturersKey) as? [Int] ?? [])
+        self.groups = FavoritesValue(storage: storage, key: "favorite-groups")
+        self.lecturers = FavoritesValue(storage: storage, key: "favorite-lecturers")
     }
-
-    func toggleGroupFavorite(id: Int) {
-        if groups.contains(id) {
-            groups.remove(id)
-        } else {
-            groups.insert(id)
-        }
-    }
-
-    func toggleLecturerFavorite(id: Int) {
-        if lecturers.contains(id) {
-            lecturers.remove(id)
-        } else {
-            lecturers.insert(id)
-        }
-    }
-
-    private let groupsKey = "favorite-group-ids"
-    private let lecturersKey = "favorite-lecturer-ids"
-    private let storage: UserDefaults
 }
 
 final class AllGroupsScreen: ObservableObject {
@@ -63,7 +73,11 @@ final class AllGroupsScreen: ObservableObject {
                     guard !query.isEmpty else { return groups }
                     return groups.filter { $0.name.starts(with: query) }
                 }
-                .combineLatest(favorites.$groups.setFailureType(to: RequestsManager.RequestError.self))
+                .combineLatest(
+                    favorites.$groups
+                        .map { $0.value }
+                        .setFailureType(to: RequestsManager.RequestError.self)
+                )
                 .map { .init(favorites: $1, groups: $0) }
                 .eraseToLoading()
         )
@@ -78,13 +92,10 @@ final class AllGroupsScreen: ObservableObject {
 }
 
 extension Array where Element == AllGroupsScreenGroupSection {
-    init(favorites: Set<Int>, groups: [Group]) {
+    init(favorites: [Group], groups: [Group]) {
         let favoritesGroup = AllGroupsScreenGroupSection(
             title: "⭐️ Избранные",
-            groups: groups
-                .filter { favorites.contains($0.id) }
-                .sorted { $0.name < $1.name }
-                .map(AllGroupsScreenGroup.init)
+            groups: favorites.map(AllGroupsScreenGroup.init)
         )
 
         let groupedGroups = Dictionary(grouping: groups, by: { $0.name.prefix(3) })
