@@ -9,11 +9,11 @@
 import SwiftUI
 
 
-enum CurrentTab {
+enum CurrentTab: Hashable {
     case groups
     case lecturers
     case about
-    case favorites
+    case favorites(selection: AllFavoritesView.Selection? = nil)
 }
 
 enum Overlay: Identifiable {
@@ -24,14 +24,29 @@ enum Overlay: Identifiable {
 struct RootView: View {
     @StateObject private var state = AppState.bsuir()
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @State private var currentTab: CurrentTab? = .groups
+    @State private var currentTab: CurrentTab?
     @State private var currentOverlay: Overlay? = nil
 
-    @ViewBuilder var body: some View {
+    var body: some View {
+        content
+            .onAppear {
+                if let group = state.allFavorites.groups.first {
+                    currentTab = .favorites(selection: .group(id: group.id))
+                } else if let lecturer = state.allFavorites.lecturers.first {
+                    currentTab = .favorites(selection: .lecturer(id: lecturer.id))
+                } else {
+                    currentTab = .groups
+                }
+            }
+    }
+
+    @ViewBuilder private var content: some View {
         switch horizontalSizeClass {
         case nil, .compact?:
             TabView(selection: $currentTab) {
-                if !state.allFavorites.isEmpty { NavigationView { allFavorites }.tab(.favorites) }
+                if !state.allFavorites.isEmpty {
+                    NavigationView { allFavorites(selection: currentTab?.favoriteSelection) }.tab(.favorites())
+                }
                 NavigationView { allGroups }.tab(.groups)
                 NavigationView { allLecturers }.tab(.lecturers)
                 NavigationView { about }.tab(.about)
@@ -47,8 +62,8 @@ struct RootView: View {
                     allLecturers
                 case .about:
                     about
-                case .favorites:
-                    allFavorites
+                case let .favorites(selection):
+                    allFavorites(selection: selection)
                 }
 
                 SchedulePlaceholder()
@@ -70,8 +85,8 @@ struct RootView: View {
         AllLecturersView(screen: state.allLecturers)
     }
 
-    private var allFavorites: some View {
-        AllFavoritesView(screen: state.allFavorites)
+    private func allFavorites(selection: AllFavoritesView.Selection? = nil) -> some View {
+        AllFavoritesView(screen: state.allFavorites, selection: selection)
     }
 
     private var about: some View {
@@ -92,21 +107,32 @@ struct RootView: View {
                 CurrentTab.about.label
             }
 
-
             if !state.allFavorites.isEmpty {
                 DisclosureGroup(
                     content: {
-                        ForEach(state.allFavorites.groups) {
-                            Text($0.name)
+                        ForEach(state.allFavorites.groups) { group in
+                            NavigationLink(
+                                destination: allFavorites(selection: .group(id: group.id)),
+                                tag: .favorites(selection: .group(id: group.id)),
+                                selection: $currentTab
+                            ) {
+                                Text(group.name)
+                            }
                         }
 
-                        ForEach(state.allFavorites.lecturers) {
-                            Text($0.fullName)
+                        ForEach(state.allFavorites.lecturers) { lecturer in
+                            NavigationLink(
+                                destination: allFavorites(selection: .lecturer(id: lecturer.id)),
+                                tag: .favorites(selection: .lecturer(id: lecturer.id)),
+                                selection: $currentTab
+                            ) {
+                                Text(lecturer.fullName)
+                            }
                         }
                     },
                     label: {
-                        NavigationLink(destination: allFavorites, tag: .favorites, selection: $currentTab) {
-                            CurrentTab.favorites.label
+                        NavigationLink(destination: allFavorites(), tag: .favorites(), selection: $currentTab) {
+                            CurrentTab.favorites().label
                         }
                     }
                 )
@@ -114,6 +140,17 @@ struct RootView: View {
         }
         .listStyle(SidebarListStyle())
         .navigationTitle("Расписание")
+    }
+}
+
+private extension CurrentTab {
+    var favoriteSelection: AllFavoritesView.Selection? {
+        switch self {
+        case let .favorites(selection):
+            return selection
+        case .about, .groups, .lecturers:
+            return nil
+        }
     }
 }
 
