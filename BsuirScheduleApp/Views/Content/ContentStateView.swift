@@ -36,6 +36,7 @@ struct LoadingState: View {
     var body: some View {
         VStack {
             Spacer()
+            ProgressView()
             Text("Загрузка...")
             Spacer()
         }

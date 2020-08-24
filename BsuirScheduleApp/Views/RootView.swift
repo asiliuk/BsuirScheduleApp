@@ -32,7 +32,6 @@ struct RootView: View {
         case nil, .compact?:
             TabView(selection: $currentTab) {
                 if !state.allFavorites.isEmpty { NavigationView { allFavorites }.tab(.favorites) }
-                NavigationView { allFavorites }.tab(.favorites)
                 NavigationView { allGroups }.tab(.groups)
                 NavigationView { allLecturers }.tab(.lecturers)
                 NavigationView { about }.tab(.about)

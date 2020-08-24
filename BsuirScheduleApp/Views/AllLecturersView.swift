@@ -33,11 +33,19 @@ struct AllLecturersView: View {
 
 struct LecturerCell: View {
     let lecturer: AllLecturersScreenLecturer
+    @Environment(\.sizeCategory) var sizeCategory
 
     var body: some View {
-        HStack {
-            Avatar(url: lecturer.imageURL)
-            Text(lecturer.fullName)
+        if sizeCategory.isAccessibilityCategory {
+            VStack(alignment: .leading) {
+                Avatar(url: lecturer.imageURL)
+                Text(lecturer.fullName)
+            }
+        } else {
+            HStack {
+                Avatar(url: lecturer.imageURL)
+                Text(lecturer.fullName)
+            }
         }
     }
 }
