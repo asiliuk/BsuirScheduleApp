@@ -184,6 +184,21 @@ struct PairView_Previews: PreviewProvider {
                 progress: PairProgress(constant: 0)
             )
             .environment(\.sizeCategory, .accessibilityMedium)
+
+            Rectangle()
+                .fill(Color.blue)
+                .frame(width: 100, height: 100)
+                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                .overlay(PairCell(
+                        from: "9:00",
+                        to: "11:30",
+                        subject: "ОСиСП",
+                        weeks: nil,
+                        note: "Пара as",
+                        form: .lab,
+                    progress: PairProgress(constant: 0.5)
+                ).frame(width: 150, height: 100).scaleEffect(0.6))
+                .redacted(reason: .placeholder)
         }
         .previewLayout(.sizeThatFits)
         .background(Color.gray)
