@@ -37,11 +37,16 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            if sizeCategory.isAccessibilityCategory {
-                VStack(alignment: .leading) { titleText; subtitleText }
-            } else {
-                HStack { titleText; subtitleText }
+            Group {
+                if sizeCategory.isAccessibilityCategory {
+                    VStack(alignment: .leading) { titleText; subtitleText }
+                } else {
+                    HStack { titleText; subtitleText }
+                }
             }
+            .accessibilityElement(children: .ignore)
+            .accessibility(label: Text("\(subtitle ?? ""), \(title)"))
+            .accessibility(addTraits: .isHeader)
 
             ForEach(pairs) {
                 makePairView($0)

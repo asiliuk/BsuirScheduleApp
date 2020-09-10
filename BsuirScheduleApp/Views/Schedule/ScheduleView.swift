@@ -34,8 +34,8 @@ struct ScheduleView: View {
         }
         .accessibility(
             label: screen.isFavorite
-                ? Text("Добавить в избранное")
-                : Text("Убрать из избранного")
+                ? Text("Убрать из избранного")
+                : Text("Добавить в избранное")
         )
     }
 
@@ -129,11 +129,12 @@ struct EmptyState: View {
     var body: some View {
         VStack {
             Spacer()
-            Image(systemName: imageNames.randomElement()!).font(.largeTitle)
+            Image(systemName: imageNames.randomElement()!).font(.largeTitle).accessibility(hidden: true)
             Text("Похоже, занятий нет").font(.title)
             Text("Все свободны!").font(.subheadline)
             Spacer()
         }
+        .accessibilityElement(children: .combine)
     }
 
     private let imageNames = [

@@ -10,7 +10,7 @@ struct AboutView: View {
                 }
             }
 
-            Section(header: Text("Пара")) {
+            Section(header: Text("Как выглядит пара")) {
                 PairCell(
                     from: "начало",
                     to: "конец",
@@ -22,6 +22,7 @@ struct AboutView: View {
                 )
                 .fixedSize(horizontal: false, vertical: true)
                 .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
+                .accessibility(label: Text("Визуальное отображение пары с подписанными элементами"))
             }
 
             Section(header: Text("О приложении")) {
@@ -75,7 +76,7 @@ struct PairTypeView: View {
     }
 }
 
-private extension PairCell.Form {
+extension PairCell.Form {
     var name: LocalizedStringKey {
         switch self {
         case .lecture: return "Лекция"

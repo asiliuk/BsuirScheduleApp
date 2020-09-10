@@ -58,6 +58,19 @@ struct PairCell: View {
             RoundedRectangle(cornerRadius: 8)
                 .foregroundColor(Color(.secondarySystemBackground))
         )
+        .accessibilityElement(children: .ignore)
+        .accessibility(label: Text("""
+            \(subject) \(Text(form.name)), \
+            \(progress.isNow ? "Идет сейчас" : "" ), \
+            с \(from) по \(to), \
+            аудитория: \(note)
+            """))
+    }
+}
+
+private extension PairProgress {
+    var isNow: Bool {
+        value > 0 && value < 1
     }
 }
 
