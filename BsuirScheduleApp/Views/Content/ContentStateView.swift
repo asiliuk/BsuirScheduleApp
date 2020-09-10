@@ -34,7 +34,7 @@ struct ContentStateView<Value, SubView: View>: View {
 struct LoadingState: View {
 
     var body: some View {
-        VStack {
+        VStack(spacing: 8) {
             Spacer()
             ProgressView()
             Text("Загрузка...")

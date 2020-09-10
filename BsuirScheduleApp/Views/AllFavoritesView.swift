@@ -21,7 +21,11 @@ struct AllFavoritesView: View {
     }
 
     private var placeholder: some View {
-        Text("Ты не избранный, Нео")
+        EmptyState(
+            image: Image(systemName: "hand.raised.fill"),
+            title: "Ты не избранный, Нео",
+            subtitle: "Выбери кого-нибудь другого"
+        )
     }
 
     private var list: some View {

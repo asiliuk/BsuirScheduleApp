@@ -63,6 +63,7 @@ struct PairCell: View {
             \(subject) \(Text(form.name)), \
             \(progress.isNow ? "Идет сейчас" : "" ), \
             с \(from) по \(to), \
+            \(weeks.map { "Недели: \($0)" } ?? ""), \
             аудитория: \(note)
             """))
     }

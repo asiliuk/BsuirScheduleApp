@@ -85,7 +85,7 @@ struct SomeState: View {
 
     @ViewBuilder var body: some View {
         if days.isEmpty {
-            EmptyState()
+            ScheduleEmptyState()
         } else {
             ScheduleGridView(
                 days: days.map(IdentifiableDay.init),
@@ -125,16 +125,30 @@ struct IdentifiablePair: Identifiable {
 }
 
 struct EmptyState: View {
+    let image: Image
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
 
     var body: some View {
         VStack {
             Spacer()
-            Image(systemName: imageNames.randomElement()!).font(.largeTitle).accessibility(hidden: true)
-            Text("Похоже, занятий нет").font(.title)
-            Text("Все свободны!").font(.subheadline)
+            image.font(.largeTitle)
+            Text(title).font(.title)
+            Text(subtitle).font(.subheadline)
             Spacer()
         }
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(title) + Text(", ") + Text(subtitle))
+    }
+}
+
+struct ScheduleEmptyState: View {
+    var body: some View {
+        EmptyState(
+            image: Image(systemName: imageNames.randomElement()!),
+            title: "Похоже, занятий нет",
+            subtitle: "Все свободны!"
+        )
     }
 
     private let imageNames = [
@@ -151,7 +165,7 @@ struct ScheduleView_Preview: PreviewProvider {
 
     static var previews: some View {
         Group {
-            EmptyState()
+            ScheduleEmptyState()
         }
     }
 }
