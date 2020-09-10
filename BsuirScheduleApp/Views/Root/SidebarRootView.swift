@@ -68,10 +68,12 @@ private struct Sidebar: View {
 private struct FavoritesDisclosureGroup: View {
     @ObservedObject var allFavorites: AllFavoritesScreen
     @Binding var currentTab: CurrentTab?
+    @State private var isExpanded: Bool = true
 
     @ViewBuilder var body: some View {
         if !allFavorites.isEmpty {
             DisclosureGroup(
+                isExpanded: $isExpanded,
                 content: {
                     ForEach(allFavorites.groups) { group in
                         NavigationLink(
