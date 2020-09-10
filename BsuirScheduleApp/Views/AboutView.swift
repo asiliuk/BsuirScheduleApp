@@ -21,6 +21,7 @@ struct AboutView: View {
                     progress: PairProgress(constant: 0.5)
                 )
                 .fixedSize(horizontal: false, vertical: true)
+                .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
             }
 
             Section(header: Text("О приложении")) {
@@ -66,7 +67,9 @@ struct PairTypeView: View {
 
     var body: some View {
         HStack {
-            Circle().foregroundColor(color).frame(width: 30, height: 30)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .foregroundColor(color)
+                .frame(width: 30, height: 30)
             Text(name)
         }
     }
@@ -87,5 +90,6 @@ private extension PairCell.Form {
 struct AboutView_Previews: PreviewProvider {
     static var previews: some View {
         AboutView()
+        AboutView().colorScheme(.dark)
     }
 }
