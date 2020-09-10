@@ -10,6 +10,21 @@ struct AllFavoritesView: View {
     @State var selection: Selection?
 
     var body: some View {
+        Group {
+            if screen.groups.isEmpty, screen.lecturers.isEmpty {
+                placeholder
+            } else {
+                list
+            }
+        }
+        .navigationTitle("Избранные")
+    }
+
+    private var placeholder: some View {
+        Text("Ты не избранный, Нео")
+    }
+
+    private var list: some View {
         List {
             if !screen.groups.isEmpty {
                 Section(header: Text("Группы")) {
@@ -40,6 +55,5 @@ struct AllFavoritesView: View {
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .navigationTitle("Избранные")
     }
 }

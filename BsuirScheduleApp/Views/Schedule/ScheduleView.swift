@@ -27,7 +27,7 @@ struct ScheduleView: View {
     }
 
     private var favorite: some View {
-        Button(action: screen.toggleFavorite) {
+        Button(action: { withAnimation { screen.toggleFavorite() } }) {
             Image(systemName: screen.isFavorite ? "star.fill" : "star")
                 .accentColor(.yellow)
                 .padding(.horizontal, 4)

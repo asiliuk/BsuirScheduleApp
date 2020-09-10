@@ -12,6 +12,8 @@
 		04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0F8B924D7354B00A1C74F /* AboutView.swift */; };
 		E616B44024AE12F200A46E67 /* PairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B43F24AE12F200A46E67 /* PairView.swift */; };
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
+		E6373F06250A387900729EC8 /* TabRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* TabRootView.swift */; };
+		E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* SidebarRootView.swift */; };
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
@@ -47,6 +49,8 @@
 		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		E616B43F24AE12F200A46E67 /* PairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairView.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
+		E6373F05250A387900729EC8 /* TabRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRootView.swift; sourceTree = "<group>"; };
+		E6373F07250A38C400729EC8 /* SidebarRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarRootView.swift; sourceTree = "<group>"; };
 		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
 		E66B4121241431F800A88BFD /* LecturerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturerScreen.swift; sourceTree = "<group>"; };
 		E66B41232414344900A88BFD /* AllLecturersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLecturersScreen.swift; sourceTree = "<group>"; };
@@ -108,6 +112,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E6373F04250A386600729EC8 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				E6964823233F7D72007EF2CB /* RootView.swift */,
+				E6373F05250A387900729EC8 /* TabRootView.swift */,
+				E6373F07250A38C400729EC8 /* SidebarRootView.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
 		E67503A624F426F70030D0EC /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,10 +181,10 @@
 		E6A6A88424142F490024D738 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E6373F04250A386600729EC8 /* Root */,
 				E68610C62471C52A001BF527 /* Content */,
 				E68610C32471C2B0001BF527 /* Common */,
 				E616B43E24AE12BE00A46E67 /* Schedule */,
-				E6964823233F7D72007EF2CB /* RootView.swift */,
 				E6964821233F7C45007EF2CB /* AllGroupsView.swift */,
 				E69648272340CA53007EF2CB /* AllLecturersView.swift */,
 				04F0F8B924D7354B00A1C74F /* AboutView.swift */,
@@ -309,6 +323,7 @@
 				E69648282340CA53007EF2CB /* AllLecturersView.swift in Sources */,
 				E616B44024AE12F200A46E67 /* PairView.swift in Sources */,
 				E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */,
+				E6373F06250A387900729EC8 /* TabRootView.swift in Sources */,
 				E6A6A87F24142BAB0024D738 /* RemoteImage.swift in Sources */,
 				E66B412A2414394600A88BFD /* AllGroupsScreen.swift in Sources */,
 				E6964824233F7D72007EF2CB /* RootView.swift in Sources */,
@@ -327,6 +342,7 @@
 				E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */,
 				E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */,
 				E67503AB24F430BD0030D0EC /* AllFavoritesView.swift in Sources */,
+				E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */,
 				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
 				E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */,
 				E67503A524F424840030D0EC /* AppState+Bsuir.swift in Sources */,
