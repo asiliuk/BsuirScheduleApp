@@ -43,11 +43,39 @@ struct AboutView: View {
                 GithubButton()
             }
         }
-        .onChange(of: icon) { application.setAlternateIconName($0.name, completionHandler: nil) }
+        .onChange(of: icon) { icon in
+            application.setAlternateIconName(icon.name) { error in
+                guard error == nil else { return }
+                alert = AlertIdentifier(appIcon: icon)
+            }
+        }
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("Информация")
+        .alert(item: $alert) { alert in
+            switch alert {
+            case .goodIconChoice:
+                return Alert(title: Text("Отличный выбор!"), message: Text("Жыве Беларусь!"))
+            case .badIconChoice:
+                return Alert(title: Text("Ну здравствуйте"), message: Text("Нас ждет очень серьезный разговор по поводу вашего выбора"))
+            }
+        }
     }
 
+    private enum AlertIdentifier: Identifiable {
+        var id: Self { self }
+        case goodIconChoice
+        case badIconChoice
+
+        init?(appIcon: AppIcon) {
+            switch appIcon {
+            case .resist: self = .goodIconChoice
+            case .dad: self = .badIconChoice
+            default: return nil
+            }
+        }
+    }
+
+    @State private var alert: AlertIdentifier?
     private let application = UIApplication.shared
     private let bundle = Bundle.main
     @State private var icon: AppIcon = .standard
