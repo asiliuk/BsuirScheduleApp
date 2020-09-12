@@ -25,13 +25,90 @@ struct AboutView: View {
                 .accessibility(label: Text("Визуальное отображение пары с подписанными элементами"))
             }
 
+            if application.supportsAlternateIcons {
+                Section(header: Text("Внешний вид")) {
+                    Picker(selection: $icon, label: Text("Иконка")) {
+                        ForEach(AppIcon.allCases) { icon in
+                            HStack {
+                                AppIconView(icon: icon, bundle: bundle)
+                                Text(icon.title)
+                            }
+                        }
+                    }
+                }
+            }
+
             Section(header: Text("О приложении")) {
-                Text("Версия \(Bundle.main.version)")
+                Text("Версия \(bundle.version)")
                 GithubButton()
             }
         }
+        .onChange(of: icon) { application.setAlternateIconName($0.name, completionHandler: nil) }
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("Информация")
+    }
+
+    private let application = UIApplication.shared
+    private let bundle = Bundle.main
+    @State private var icon: AppIcon = .standard
+}
+
+private struct AppIconView: View {
+    let icon: AppIcon
+    let bundle: Bundle
+
+    var body: some View {
+        icon.image(in: bundle)
+            .map { Image(uiImage: $0).resizable() }
+            .frame(width: 34, height: 34)
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+    }
+}
+
+private enum AppIcon: CaseIterable, Identifiable {
+    var id: Self { self }
+    case standard
+    case dark
+    case nostalgia
+    case resist
+    case dad
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .standard: return "Стандартная"
+        case .dark: return "Темная"
+        case .nostalgia: return "Ностальгия"
+        case .resist: return "❤️✊✌️"
+        case .dad: return "Я твой баця"
+        }
+    }
+
+    var name: String? {
+        switch self {
+        case .standard: return nil
+        case .dark: return "AppIconDark"
+        case .nostalgia: return "AppIconNostalgia"
+        case .resist: return "AppIconResist"
+        case .dad: return "AppIconDad"
+        }
+    }
+
+    func image(in bundle: Bundle) -> UIImage? {
+        guard let name = name else { return bundle.appIcon }
+        return UIImage(named: name)
+    }
+}
+
+private extension Bundle {
+    var appIcon: UIImage? {
+        guard
+            let icons = infoDictionary?["CFBundleIcons"] as? [String: Any],
+            let primaryIcon = icons["CFBundlePrimaryIcon"] as? [String: Any],
+            let iconFiles = primaryIcon["CFBundleIconFiles"] as? [String],
+            let lastIcon = iconFiles.last
+        else { return nil }
+
+        return UIImage(named: lastIcon)
     }
 }
 
@@ -90,7 +167,7 @@ extension PairCell.Form {
 
 struct AboutView_Previews: PreviewProvider {
     static var previews: some View {
-        AboutView()
-        AboutView().colorScheme(.dark)
+        NavigationView { AboutView() }
+        NavigationView { AboutView().colorScheme(.dark) }
     }
 }
