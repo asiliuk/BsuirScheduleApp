@@ -2,6 +2,10 @@ import SwiftUI
 import Foundation
 
 struct AboutView: View {
+    init() {
+        _icon = State(initialValue: application.alternateIconName.flatMap(AppIcon.init(name:)) ?? .standard)
+    }
+
     var body: some View {
         List {
             Section(header: Text("Цвета")) {
@@ -78,7 +82,7 @@ struct AboutView: View {
     @State private var alert: AlertIdentifier?
     private let application = UIApplication.shared
     private let bundle = Bundle.main
-    @State private var icon: AppIcon = .standard
+    @State private var icon: AppIcon
 }
 
 private struct AppIconView: View {
@@ -100,6 +104,16 @@ private enum AppIcon: CaseIterable, Identifiable {
     case nostalgia
     case resist
     case dad
+
+    init?(name: String) {
+        switch name {
+        case "AppIconDark": self = .dark
+        case "AppIconNostalgia": self = .nostalgia
+        case "AppIconResist": self = .resist
+        case "AppIconDad": self = .dad
+        default: return nil
+        }
+    }
 
     var title: LocalizedStringKey {
         switch self {
