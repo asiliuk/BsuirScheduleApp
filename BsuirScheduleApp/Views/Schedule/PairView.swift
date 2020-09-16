@@ -74,7 +74,7 @@ struct PairCell: View {
             weeks.map { "Недели: \($0)" },
             subgroup.map { "Подгруппа: \($0)" },
             "аудитория: \(auditory)",
-            note
+            note.map { "\($0)" }
         ))
     }
 
@@ -86,8 +86,19 @@ struct PairCell: View {
     }
 }
 
-private func accessibilityDescription(_ tokens: String?..., separator: String = ", ") -> Text {
-    Text(tokens.compactMap { $0 }.joined(separator: separator))
+private func accessibilityDescription(_ tokens: LocalizedStringKey?..., separator: String = ", ") -> Text {
+    let nonEmptyTokens = tokens.compactMap { $0 }
+    let initialInterpolation = LocalizedStringKey.StringInterpolation(
+        literalCapacity: nonEmptyTokens.count * separator.count,
+        interpolationCount: nonEmptyTokens.count
+    )
+
+    let interpolation = nonEmptyTokens.reduce(into: initialInterpolation) { interpolation, token in
+        interpolation.appendLiteral(separator)
+        interpolation.appendInterpolation(Text(token))
+    }
+
+    return Text(LocalizedStringKey(stringInterpolation: interpolation))
 }
 
 private extension PairProgress {
