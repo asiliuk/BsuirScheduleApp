@@ -189,7 +189,8 @@ struct ScheduleGridView_Previews: PreviewProvider {
             to: "11:30",
             subject: pair.name,
             weeks: "1,2",
-            note: "Пара проходит в подвале. ",
+            auditory: "101-1",
+            note: "Пара проходит в подвале.",
             form: .lab,
             progress: PairProgress(constant: 0)
         )

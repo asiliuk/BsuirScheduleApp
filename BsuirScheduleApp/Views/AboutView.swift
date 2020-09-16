@@ -16,8 +16,10 @@ struct AboutView: View {
                     from: "начало",
                     to: "конец",
                     subject: "Предмет",
-                    weeks: "неделя",
-                    note: "Кабинет - корпус",
+                    weeks: "нед.",
+                    subgroup: "подгр.",
+                    auditory: "Кабинет - корпус",
+                    note: "Комментарий",
                     form: .practice,
                     progress: PairProgress(constant: 0.5)
                 )

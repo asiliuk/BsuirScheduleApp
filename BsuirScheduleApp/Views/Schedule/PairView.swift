@@ -13,13 +13,15 @@ struct PairCell: View {
     var to: String
     var subject: String
     var weeks: String?
-    var note: String
+    var subgroup: String?
+    var auditory: String
+    var note: String?
     var form: Form
     @ObservedObject var progress: PairProgress
     @Environment(\.sizeCategory) var sizeCategory
 
     var body: some View {
-        HStack() {
+        HStack(spacing: 8) {
 
             if sizeCategory.isAccessibilityCategory {
 
@@ -28,8 +30,13 @@ struct PairCell: View {
                 VStack(alignment: .leading) {
                     Text("\(from)-\(to)").font(.system(.callout, design: .monospaced))
                     Text(subject).font(.headline).bold()
-                    weeks.map { Text($0).font(.caption) }
-                    Text(note).font(.caption)
+                    Group {
+                        periodityView
+                        Text(auditory)
+                        note.map { Text($0) }
+                    }
+                    .opacity(0.8)
+                    .font(Font.caption2)
                 }
             } else {
 
@@ -41,14 +48,15 @@ struct PairCell: View {
                 PairFormIndicator(form: form, progress: progress.value)
 
                 VStack(alignment: .leading) {
-                    HStack {
+                    HStack(spacing: 6) {
                         Text(subject).font(.headline).bold()
-                        weeks.map { Text("(\($0))").font(.callout) }
+                        periodityView.opacity(0.8)
                     }
-                    Text(note).font(.callout)
+                    Text(auditory).opacity(0.8)
+                    note.map { Text($0).fontWeight(.light) }.opacity(0.8)
                 }
+                .font(.callout)
             }
-
             Spacer().layoutPriority(-1)
         }
         .fixedSize(horizontal: false, vertical: true)
@@ -59,14 +67,27 @@ struct PairCell: View {
                 .foregroundColor(Color(.secondarySystemBackground))
         )
         .accessibilityElement(children: .ignore)
-        .accessibility(label: Text("""
-            \(subject) \(Text(form.name)), \
-            \(progress.isNow ? "Идет сейчас" : "" ), \
-            с \(from) по \(to), \
-            \(weeks.map { "Недели: \($0)" } ?? ""), \
-            аудитория: \(note)
-            """))
+        .accessibility(label: accessibilityDescription(
+            "\(subject) \(Text(form.name))",
+            progress.isNow ? "Идет сейчас" : nil,
+            "с \(from) по \(to)",
+            weeks.map { "Недели: \($0)" },
+            subgroup.map { "Подгруппа: \($0)" },
+            "аудитория: \(auditory)",
+            note
+        ))
     }
+
+    private var periodityView: some View {
+        HStack(spacing: 4) {
+            weeks.map { Text("\(Image(systemName: "calendar"))\($0)") }
+            subgroup.map { Text("\(Image(systemName: "person"))\($0)") }
+        }
+    }
+}
+
+private func accessibilityDescription(_ tokens: String?..., separator: String = ", ") -> Text {
+    Text(tokens.compactMap { $0 }.joined(separator: separator))
 }
 
 private extension PairProgress {
@@ -110,6 +131,8 @@ extension PairCell {
             to: pair.to,
             subject: pair.subject,
             weeks: pair.weeks,
+            subgroup: pair.subgroup,
+            auditory: pair.auditory,
             note: pair.note,
             form: Form(pair.form),
             progress: pair.progress
@@ -172,6 +195,8 @@ struct PairView_Previews: PreviewProvider {
                 to: "11:30",
                 subject: "ОСиСП",
                 weeks: "1,2",
+                subgroup: "1",
+                auditory: "101-1",
                 note: "Пара проходит в подвале",
                 form: .lab,
                 progress: PairProgress(constant: 0)
@@ -182,6 +207,8 @@ struct PairView_Previews: PreviewProvider {
                 to: "11:30",
                 subject: "ОСиСП",
                 weeks: "1,2",
+                subgroup: "1",
+                auditory: "101-1",
                 note: "Пара проходит в подвале",
                 form: .lab,
                 progress: PairProgress(constant: 0)
@@ -193,26 +220,13 @@ struct PairView_Previews: PreviewProvider {
                 to: "11:30",
                 subject: "ОСиСП",
                 weeks: "1,2",
+                subgroup: "1",
+                auditory: "101-1",
                 note: "Пара проходит в подвале",
                 form: .lab,
                 progress: PairProgress(constant: 0)
             )
             .environment(\.sizeCategory, .accessibilityMedium)
-
-            Rectangle()
-                .fill(Color.blue)
-                .frame(width: 100, height: 100)
-                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                .overlay(PairCell(
-                        from: "9:00",
-                        to: "11:30",
-                        subject: "ОСиСП",
-                        weeks: nil,
-                        note: "Пара as",
-                        form: .lab,
-                    progress: PairProgress(constant: 0.5)
-                ).frame(width: 150, height: 100).scaleEffect(0.6))
-                .redacted(reason: .placeholder)
         }
         .previewLayout(.sizeThatFits)
         .background(Color.gray)

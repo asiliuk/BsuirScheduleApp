@@ -84,8 +84,10 @@ struct Day {
         let to: String
         let form: Form
         let subject: String
-        let note: String
+        let auditory: String
+        let note: String?
         let weeks: String?
+        let subgroup: String?
         let progress: PairProgress
 
         init(_ pair: BsuirApi.Pair, showWeeks: Bool = true, progress: PairProgress = .init(constant: 0)) {
@@ -93,8 +95,10 @@ struct Day {
             self.to = Self.timeFormatter.string(from: pair.endLessonTime.components) ?? "N/A"
             self.form = Form(pair.lessonType)
             self.subject = pair.subject
-            self.note = (pair.auditory.map(Optional.some) + [pair.note]).compactMap { $0 }.joined(separator: ", ")
+            self.auditory = pair.auditory.joined(separator: ", ")
+            self.note = pair.note
             self.weeks = showWeeks ? pair.weekNumber.prettyName.capitalized : nil
+            self.subgroup = pair.numSubgroup == 0 ? nil : "\(pair.numSubgroup)"
             self.progress = progress
         }
 
@@ -146,21 +150,19 @@ private extension BsuirApi.WeekNum {
 
     var prettyName: String {
         switch self {
-        case []: return "никогда"
-        case .oddWeeks: return "нечетные"
-        case .evenWeeks: return "четные"
-        case .always: return "всегда"
+        case []: return "-"
+        case .always: return "♾"
         case let numbers: return numbers.name
         }
     }
 
     private var name: String {
         var result: [String] = []
-        if contains(.first) { result.append("первая") }
-        if contains(.second) { result.append("вторая") }
-        if contains(.third) { result.append("третья") }
-        if contains(.forth) { result.append("четвертая") }
-        return result.joined(separator: ", ")
+        if contains(.first) { result.append("1") }
+        if contains(.second) { result.append("2") }
+        if contains(.third) { result.append("3") }
+        if contains(.forth) { result.append("4") }
+        return result.joined(separator: ",")
     }
 }
 
