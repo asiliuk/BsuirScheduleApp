@@ -61,12 +61,13 @@ struct AppIconPicker: View {
 private struct AppIconView: View {
     let icon: AppIcon
     let bundle: Bundle
+    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 34
 
     var body: some View {
         icon.image(in: bundle)
             .map { Image(uiImage: $0).resizable() }
-            .frame(width: 34, height: 34)
-            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .frame(width: size, height: size)
+            .clipShape(RoundedRectangle(cornerRadius: (8 / 34) * size, style: .continuous))
     }
 }
 
