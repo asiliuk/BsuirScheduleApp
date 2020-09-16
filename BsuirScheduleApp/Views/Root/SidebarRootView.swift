@@ -116,6 +116,6 @@ fileprivate enum Overlay: Identifiable {
 
 private struct SchedulePlaceholder: View {
     var body: some View {
-        Text("Please select schedule to view...")
+        Text("Пожалуйста, выберите расписание чтобы отобразить...")
     }
 }
