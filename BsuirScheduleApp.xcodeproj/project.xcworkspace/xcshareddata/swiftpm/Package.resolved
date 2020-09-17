@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "BsuirApi",
-        "repositoryURL": "https://github.com/asiliuk/BsuirApi",
-        "state": {
-          "branch": null,
-          "revision": "d4094c8dd6f680475aec2725712c3768071f8372",
-          "version": "0.0.5"
-        }
-      },
-      {
         "package": "URLImage",
         "repositoryURL": "https://github.com/dmytro-anokhin/url-image",
         "state": {

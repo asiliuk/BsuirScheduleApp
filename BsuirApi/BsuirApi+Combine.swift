@@ -8,7 +8,6 @@
 
 import Foundation
 import Combine
-import BsuirApi
 
 extension RequestsManager {
 
@@ -18,7 +17,7 @@ extension RequestsManager {
         } }.eraseToAnyPublisher()
     }
 
-    func request<T: Target>(_ target: T) -> AnyPublisher<T.Value, RequestError> {
+    public func request<T: Target>(_ target: T) -> AnyPublisher<T.Value, RequestError> {
         Deferred { Future { handler in
             self.request(target, completion: handler)
         } }.eraseToAnyPublisher()
