@@ -4,19 +4,7 @@ import BsuirApi
 
 extension AppState {
     static func bsuir() -> Self {
-        Self(
-            requestManager: .bsuir(
-                session: {
-                    let configuration = URLSessionConfiguration.default
-                    configuration.urlCache = .init(memoryCapacity: Int(1e7),
-                                                   diskCapacity: Int(1e7),
-                                                   diskPath: nil)
-                    configuration.requestCachePolicy = .returnCacheDataElseLoad
-                    return URLSession(configuration: configuration)
-                }(),
-                logger: .osLog
-            )
-        )
+        Self(requestManager: .bsuir(logger: .osLog))
     }
 }
 

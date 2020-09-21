@@ -26,3 +26,11 @@ public struct Employee: Codable, Equatable {
 
     @NonEmpty public var academicDepartment: [String]
 }
+
+extension Employee {
+    public var fio: String {
+        return [lastName, firstName, middleName]
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
+    }
+}

@@ -145,7 +145,7 @@
 					<key>INIntentParameterDisplayPriority</key>
 					<integer>2</integer>
 					<key>INIntentParameterName</key>
-					<string>group_number</string>
+					<string>groupNumber</string>
 					<key>INIntentParameterObjectType</key>
 					<string>ScheduleIdentifier</string>
 					<key>INIntentParameterObjectTypeNamespace</key>
@@ -184,6 +184,19 @@
 					<integer>4</integer>
 					<key>INIntentParameterType</key>
 					<string>Object</string>
+					<key>INIntentParameterUnsupportedReasons</key>
+					<array>
+						<dict>
+							<key>INIntentParameterUnsupportedReasonCode</key>
+							<string>failed</string>
+							<key>INIntentParameterUnsupportedReasonCustom</key>
+							<true/>
+							<key>INIntentParameterUnsupportedReasonFormatString</key>
+							<string>Не удалось получить список групп</string>
+							<key>INIntentParameterUnsupportedReasonFormatStringID</key>
+							<string>Sgwawl</string>
+						</dict>
+					</array>
 				</dict>
 				<dict>
 					<key>INIntentParameterConfigurable</key>
@@ -234,6 +247,19 @@
 					<integer>8</integer>
 					<key>INIntentParameterType</key>
 					<string>Object</string>
+					<key>INIntentParameterUnsupportedReasons</key>
+					<array>
+						<dict>
+							<key>INIntentParameterUnsupportedReasonCode</key>
+							<string>failed</string>
+							<key>INIntentParameterUnsupportedReasonCustom</key>
+							<true/>
+							<key>INIntentParameterUnsupportedReasonFormatString</key>
+							<string>Не удалось получить список преподавателей</string>
+							<key>INIntentParameterUnsupportedReasonFormatStringID</key>
+							<string>NylLaI</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 			<key>INIntentResponse</key>
@@ -270,7 +296,7 @@
 			<key>INTypeDisplayNameID</key>
 			<string>bh4smd</string>
 			<key>INTypeLastPropertyTag</key>
-			<integer>99</integer>
+			<integer>101</integer>
 			<key>INTypeName</key>
 			<string>ScheduleIdentifier</string>
 			<key>INTypeProperties</key>

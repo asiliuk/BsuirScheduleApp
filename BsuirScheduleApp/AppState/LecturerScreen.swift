@@ -27,12 +27,3 @@ extension ScheduleScreen {
         )
     }
 }
-
-extension Employee {
-
-    var fio: String {
-        return [lastName, firstName, middleName]
-            .filter { !$0.isEmpty }
-            .joined(separator: " ")
-    }
-}

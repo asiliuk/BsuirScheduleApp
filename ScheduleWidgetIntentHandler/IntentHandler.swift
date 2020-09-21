@@ -1,35 +1,28 @@
-//
-//  IntentHandler.swift
-//  ScheduleWidgetIntentHandler
-//
-//  Created by Anton Siliuk on 9/19/20.
-//  Copyright © 2020 Saute. All rights reserved.
-//
-
 import Intents
+import BsuirApi
+import Combine
 
 class IntentHandler: INExtension, ConfigurationIntentHandling {
-
-    func resolveGroup_number(for intent: ConfigurationIntent, with completion: @escaping (ScheduleIdentifierResolutionResult) -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            completion(.disambiguation(with: [
-                ScheduleIdentifier(identifier: "1234", display: "014567"),
-                ScheduleIdentifier(identifier: "1235", display: "014568"),
-                ScheduleIdentifier(identifier: "1236", display: "014569"),
-                ScheduleIdentifier(identifier: "1237", display: "014560"),
-            ]))
-        }
+    func resolveGroupNumber(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationGroupNumberResolutionResult) -> Void) {
+        groupsRequestCancellable = requestManager
+            .request(BsuirTargets.Groups())
+            .map { $0.sorted { $0.name < $1.name } }
+            .map { $0.map { ScheduleIdentifier(identifier: String($0.id), display: $0.name) } }
+            .sink(
+                receiveFailure: { _ in completion(.unsupported(forReason: .failed)) },
+                receiveValue: { completion(.disambiguation(with: $0)) }
+            )
     }
 
-    func resolveLecturer(for intent: ConfigurationIntent, with completion: @escaping (ScheduleIdentifierResolutionResult) -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            completion(.disambiguation(with: [
-                ScheduleIdentifier(identifier: "1234", display: "Иванов И.В."),
-                ScheduleIdentifier(identifier: "1235", display: "Петров И.В."),
-                ScheduleIdentifier(identifier: "1236", display: "Иванова И.В."),
-                ScheduleIdentifier(identifier: "1237", display: "Сидоров И.В."),
-            ]))
-        }
+    func resolveLecturer(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationLecturerResolutionResult) -> Void) {
+        lecturersRequestCancellable = requestManager
+            .request(BsuirTargets.Employees())
+            .map { $0.sorted { $0.fio < $1.fio } }
+            .map { $0.map { ScheduleIdentifier(identifier: String($0.id), display: $0.fio) } }
+            .sink(
+                receiveFailure: { _ in completion(.unsupported(forReason: .failed)) },
+                receiveValue: { completion(.disambiguation(with: $0)) }
+            )
     }
 
     override func handler(for intent: INIntent) -> Any {
@@ -38,5 +31,22 @@ class IntentHandler: INExtension, ConfigurationIntentHandling {
         
         return self
     }
-    
+
+    private var groupsRequestCancellable: AnyCancellable?
+    private var lecturersRequestCancellable: AnyCancellable?
+    private let requestManager = RequestsManager.bsuir()
+}
+
+private extension Publisher {
+    func sink(receiveFailure: @escaping (Failure) -> Void, receiveValue: @escaping (Output) -> Void) -> AnyCancellable {
+        sink(
+            receiveCompletion: { completion in
+                switch completion {
+                case .finished: break
+                case let .failure(error): receiveFailure(error)
+                }
+            },
+            receiveValue: receiveValue
+        )
+    }
 }

@@ -45,7 +45,15 @@ struct ScheduleWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        Text(entry.date, style: .time)
+        VStack {
+            Text(entry.date, style: .time)
+            switch entry.configuration.type {
+            case .unknown, .group:
+                Text("Группа: \(entry.configuration.groupNumber?.displayString ?? "")")
+            case .lecturer:
+                Text("Препод: \(entry.configuration.lecturer?.displayString ?? "")")
+            }
+        }
     }
 }
 
