@@ -2,29 +2,39 @@ import Foundation
 import BsuirApi
 
 struct WeekSchedule {
-    init(schedule: [DaySchedule], calendar: Calendar, now: Date) {
+    init(schedule: [DaySchedule], calendar: Calendar) {
         self.groupedSchedule = schedule.groupByRelativeWeekday()
         self.calendar = calendar
-        self.now = now
     }
 
     func pairs(for date: Date) -> [BsuirApi.Pair] {
         let components = calendar.dateComponents([.weekday], from: date)
         guard
             let weekday = components.weekday.flatMap(DaySchedule.WeekDay.init),
-            let rawWeekNumber = calendar.weekNumber(for: date, now: now),
-            let weekNumber = WeekNum(weekNum: rawWeekNumber),
             let pairs = groupedSchedule[weekday]
         else {
             return []
         }
 
-        return pairs.filter { $0.weekNumber.contains(weekNumber) }
+        return pairs
     }
 
-    private let now: Date
     private let calendar: Calendar
     private let groupedSchedule: [DaySchedule.WeekDay: [BsuirApi.Pair]]
+}
+
+extension WeekSchedule {
+    typealias ScheduleElement = (date: Date, pairs: [BsuirApi.Pair])
+    func schedule(starting from: Date) -> AnySequence<ScheduleElement> {
+        AnySequence { () -> AnyIterator<ScheduleElement> in
+            var offset = 0
+            return AnyIterator {
+                guard let date = calendar.date(byAdding: .day, value: offset, to: from) else { return nil }
+                offset += 1
+                return (date: date, pairs: pairs(for: date))
+            }
+        }
+    }
 }
 
 extension Calendar {

@@ -11,7 +11,7 @@ final class ContinuousSchedule: ObservableObject {
     }
 
     init(schedule: [DaySchedule]) {
-        self.weekSchedule = WeekSchedule(schedule: schedule, calendar: calendar, now: now)
+        self.weekSchedule = WeekSchedule(schedule: schedule, calendar: calendar)
         self.loadDays(12)
 
         self.loadMoreSubject
@@ -24,39 +24,28 @@ final class ContinuousSchedule: ObservableObject {
     }
 
     private func loadDays(_ count: Int) {
-        self.days.append(
-            contentsOf: AnySequence {
-                AnyIterator {
-                    var newDay: Day?
-                    var offset = self.dayOffset
-                    repeat {
-                        let isMostRelevant = self.dayOffset < 0 && offset >= 0
-                        newDay = self.day(at: offset, isMostRelevant: isMostRelevant)
-                        offset += 1
-                    } while newDay == nil
-                    self.dayOffset = offset
-                    return newDay
-                }
-            }
-            .prefix(count)
+        guard let offset = offset, let start = calendar.date(byAdding: .day, value: 1, to: offset) else { return }
+        let days = Array(
+            weekSchedule.schedule(starting: start).lazy
+                .compactMap { date, pairs in self.day(at: date, pairs: pairs).map { (date, $0) } }
+                .prefix(count)
         )
+
+        self.offset = days.last?.0
+        self.days.append(contentsOf: days.map { $0.1 })
     }
 
-    private func day(at offset: Int, isMostRelevant: Bool) -> Day? {
+    private func day(at date: Date, pairs: [BsuirApi.Pair]) -> Day? {
         guard
-            let date = calendar.date(byAdding: .day, value: offset, to: now),
-            let weekNumber = calendar.weekNumber(for: date, now: now)
-        else {
-            return nil
-        }
+            let weekNumber = calendar.weekNumber(for: date, now: now),
+            let weekNum = WeekNum(weekNum: weekNumber)
+        else { return nil }
 
-        let pairs = weekSchedule.pairs(for: date)
+        let pairs = weekSchedule.pairs(for: date).filter { $0.weekNumber.contains(weekNum) }
         guard !pairs.isEmpty else { return nil }
 
         let title = "\(Self.formatter.string(from: date)), Неделя \(weekNumber)"
-        let subtitle = offset <= 1
-            ? Self.relativeFormatter.localizedString(from: DateComponents(day: offset))
-            : nil
+        let subtitle = relativeName(for: date)
 
         let pairProgress = { [calendar] pair in
             PairProgress(pair: pair, day: date, calendar: calendar) ?? PairProgress(constant: 0)
@@ -66,13 +55,19 @@ final class ContinuousSchedule: ObservableObject {
             title: title,
             subtitle: subtitle,
             pairs: pairs.map { Day.Pair($0, showWeeks: false, progress: pairProgress($0)) },
-            isToday: offset == 0,
-            isMostRelevant: isMostRelevant
+            isToday: calendar.compare(now, to: date, toGranularity: .day) == .orderedSame,
+            isMostRelevant: false
         )
     }
 
+    private func relativeName(for date: Date) -> String? {
+        let components = calendar.dateComponents([.day], from: now, to: date)
+        guard let day = components.day, -2...1 ~= day else { return nil }
+        return Self.relativeFormatter.localizedString(from: components)
+    }
+
     private let now = Date()
-    private var dayOffset: Int = -3
+    private lazy var offset = calendar.date(byAdding: .day, value: -4, to: now)
     private let weekSchedule: WeekSchedule
     private let calendar = Calendar.current
     private let loadMoreSubject = PassthroughSubject<Void, Never>()

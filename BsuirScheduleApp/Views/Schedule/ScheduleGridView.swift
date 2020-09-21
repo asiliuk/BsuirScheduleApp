@@ -34,20 +34,12 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
     let isToday: Bool
     let pairs: [PairModel]
     let makePairView: (PairModel) -> PairView
-    @Environment(\.sizeCategory) var sizeCategory
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Group {
-                if sizeCategory.isAccessibilityCategory {
-                    VStack(alignment: .leading) { titleText; subtitleText }
-                } else {
-                    HStack { titleText; subtitleText }
-                }
-            }
-            .accessibilityElement(children: .ignore)
-            .accessibility(label: Text("\(subtitle ?? ""), \(title)"))
-            .accessibility(addTraits: .isHeader)
+            titleText
+                .font(.headline)
+                .accessibility(addTraits: .isHeader)
 
             ForEach(pairs) {
                 makePairView($0)
@@ -57,36 +49,27 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
         .padding(.vertical, 10)
     }
 
-    private var titleText: some View {
-        Text(title).font(.headline)
-    }
-
-    private var subtitleText: some View {
-        subtitle
-            .map(Text.init)
-            .font(.headline)
-            .apply(
-                when: isToday,
-                then: { $0.foregroundColor(.blue) },
-                else: { $0.foregroundColor(.red) }
-            )
+    @ViewBuilder private var titleText: some View {
+        if let subtitle = subtitle {
+            Text("\(Text(subtitle).foregroundColor(isToday ? .blue : .red)), \(title)")
+        } else {
+            Text(title)
+        }
     }
 }
 
 private struct MostRelevantDayViewID: Hashable {}
 
 extension View {
-    func apply<Then: View, Else: View>(
+    @ViewBuilder func apply<Then: View, Else: View>(
         when condition: Bool,
         then makeThen: (Self) -> Then,
         else makeElse: (Self) -> Else
     ) -> some View {
-        Group {
-            if condition {
-                makeThen(self)
-            } else {
-                makeElse(self)
-            }
+        if condition {
+            makeThen(self)
+        } else {
+            makeElse(self)
         }
     }
 
