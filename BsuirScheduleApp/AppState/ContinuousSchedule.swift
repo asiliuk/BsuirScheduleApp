@@ -28,10 +28,13 @@ final class ContinuousSchedule: ObservableObject {
             contentsOf: AnySequence {
                 AnyIterator {
                     var newDay: Day?
+                    var offset = self.dayOffset
                     repeat {
-                        newDay = self.day(at: self.dayOffset)
-                        self.dayOffset += 1
+                        let isMostRelevant = self.dayOffset < 0 && offset >= 0
+                        newDay = self.day(at: offset, isMostRelevant: isMostRelevant)
+                        offset += 1
                     } while newDay == nil
+                    self.dayOffset = offset
                     return newDay
                 }
             }
@@ -39,7 +42,7 @@ final class ContinuousSchedule: ObservableObject {
         )
     }
 
-    private func day(at offset: Int) -> Day? {
+    private func day(at offset: Int, isMostRelevant: Bool) -> Day? {
         guard
             let date = calendar.date(byAdding: .day, value: offset, to: now),
             let (weekNumber, pairs) = pairs(for: date)
@@ -60,7 +63,8 @@ final class ContinuousSchedule: ObservableObject {
             title: title,
             subtitle: subtitle,
             pairs: pairs.map { Day.Pair($0, showWeeks: false, progress: pairProgress($0)) },
-            isToday: offset == 0
+            isToday: offset == 0,
+            isMostRelevant: isMostRelevant
         )
     }
 
@@ -111,7 +115,7 @@ final class ContinuousSchedule: ObservableObject {
         return (abs(dateWeekOfYear - firstDateWeekOfYear) % 4) + 1
     }
 
-    private var dayOffset: Int = -2
+    private var dayOffset: Int = -3
     private let now = Date()
     private let calendar = Calendar.current
     private let groupedSchedule: [DaySchedule.WeekDay: [BsuirApi.Pair]]

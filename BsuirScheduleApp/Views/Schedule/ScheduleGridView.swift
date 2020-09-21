@@ -16,7 +16,7 @@ struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
                             .onAppear(perform: load)
                     }
                 }
-                .onAppear { proxy.scrollTo(CurrentDayViewID()) }
+                .onAppear { proxy.scrollTo(MostRelevantDayViewID()) }
                 .padding()
             }
         }
@@ -30,7 +30,8 @@ struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
 struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
     let title: String
     let subtitle: String?
-    var isToday: Bool
+    var isMostRelevant: Bool
+    let isToday: Bool
     let pairs: [PairModel]
     let makePairView: (PairModel) -> PairView
     @Environment(\.sizeCategory) var sizeCategory
@@ -52,7 +53,7 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
                 makePairView($0)
             }
         }
-        .apply(when: isToday) { $0.id(CurrentDayViewID()) }
+        .apply(when: isMostRelevant) { $0.id(MostRelevantDayViewID()) }
         .padding(.vertical, 10)
     }
 
@@ -72,7 +73,7 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
     }
 }
 
-private struct CurrentDayViewID: Hashable {}
+private struct MostRelevantDayViewID: Hashable {}
 
 extension View {
     func apply<Then: View, Else: View>(
@@ -177,6 +178,7 @@ struct ScheduleGridView_Previews: PreviewProvider {
         ScheduleDay(
             title: day.title,
             subtitle: day.subtitle,
+            isMostRelevant: false,
             isToday: false,
             pairs: day.pairs,
             makePairView: pairCell

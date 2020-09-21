@@ -93,6 +93,7 @@ struct SomeState: View {
                     ScheduleDay(
                         title: day.title,
                         subtitle: day.subtitle,
+                        isMostRelevant: day.isMostRelevant,
                         isToday: day.isToday,
                         pairs: day.pairs,
                         makePairView: { PairCell(pair: $0.pair) }
@@ -110,12 +111,14 @@ struct IdentifiableDay: Identifiable {
     let subtitle: String?
     let pairs: [IdentifiablePair]
     let isToday: Bool
+    let isMostRelevant: Bool
 
     init(day: Day) {
         self.title = day.title
         self.subtitle = day.subtitle
         self.pairs = day.pairs.enumerated().map(IdentifiablePair.init)
         self.isToday = day.isToday
+        self.isMostRelevant = day.isMostRelevant
     }
 }
 

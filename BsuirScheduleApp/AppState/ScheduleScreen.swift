@@ -115,6 +115,7 @@ struct Day {
     var subtitle: String?
     var pairs: [Pair]
     var isToday: Bool = false
+    var isMostRelevant: Bool = false
 }
 
 extension Day {
