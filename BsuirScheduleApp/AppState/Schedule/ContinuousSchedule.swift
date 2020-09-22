@@ -25,38 +25,30 @@ final class ContinuousSchedule: ObservableObject {
 
     private func loadDays(_ count: Int) {
         guard let offset = offset, let start = calendar.date(byAdding: .day, value: 1, to: offset) else { return }
-        let days = Array(
-            weekSchedule.schedule(starting: start).lazy
-                .compactMap { date, pairs in self.day(at: date, pairs: pairs).map { (date, $0) } }
-                .prefix(count)
-        )
+        let days = Array(weekSchedule.schedule(starting: start, now: now).prefix(count))
 
-        self.offset = days.last?.0
-        self.days.append(contentsOf: days.map { $0.1 })
+        if mostRelevant == nil {
+            mostRelevant = days.first { $0.hasUnfinishedPairs(calendar: calendar, now: now) }?.date
+        }
+
+        self.offset = days.last?.date
+        self.days.append(contentsOf: days.map(self.day))
     }
 
-    private func day(at date: Date, pairs: [BsuirApi.Pair]) -> Day? {
-        guard
-            let weekNumber = calendar.weekNumber(for: date, now: now),
-            let weekNum = WeekNum(weekNum: weekNumber)
-        else { return nil }
-
-        let pairs = weekSchedule.pairs(for: date).filter { $0.weekNumber.contains(weekNum) }
-        guard !pairs.isEmpty else { return nil }
-
-        let title = "\(Self.formatter.string(from: date)), Неделя \(weekNumber)"
-        let subtitle = relativeName(for: date)
+    private func day(for element: WeekSchedule.ScheduleElement) -> Day {
+        let title = "\(Self.formatter.string(from: element.date)), Неделя \(element.weekNumber)"
+        let subtitle = relativeName(for: element.date)
 
         let pairProgress = { [calendar] pair in
-            PairProgress(pair: pair, day: date, calendar: calendar) ?? PairProgress(constant: 0)
+            PairProgress(pair: pair, day: element.date, calendar: calendar) ?? PairProgress(constant: 0)
         }
 
         return Day(
             title: title,
             subtitle: subtitle,
-            pairs: pairs.map { Day.Pair($0, showWeeks: false, progress: pairProgress($0)) },
-            isToday: calendar.compare(now, to: date, toGranularity: .day) == .orderedSame,
-            isMostRelevant: false
+            pairs: element.pairs.map { Day.Pair($0, showWeeks: false, progress: pairProgress($0)) },
+            isToday: calendar.compare(now, to: element.date, toGranularity: .day) == .orderedSame,
+            isMostRelevant: mostRelevant == element.date
         )
     }
 
@@ -68,6 +60,7 @@ final class ContinuousSchedule: ObservableObject {
 
     private let now = Date()
     private lazy var offset = calendar.date(byAdding: .day, value: -4, to: now)
+    private var mostRelevant: Date?
     private let weekSchedule: WeekSchedule
     private let calendar = Calendar.current
     private let loadMoreSubject = PassthroughSubject<Void, Never>()
@@ -76,7 +69,7 @@ final class ContinuousSchedule: ObservableObject {
     private static let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ru_BY")
-        formatter.setLocalizedDateFormatFromTemplate("EEEEdMMMM")
+        formatter.setLocalizedDateFormatFromTemplate("EEEdMMMM")
         return formatter
     }()
 
@@ -87,6 +80,15 @@ final class ContinuousSchedule: ObservableObject {
         formatter.formattingContext = .beginningOfSentence
         return formatter
     }()
+}
+
+private extension WeekSchedule.ScheduleElement {
+    func hasUnfinishedPairs(calendar: Calendar, now: Date) -> Bool {
+        pairs.contains { pair in
+            guard let pairEnd = calendar.date(bySetting: pair.endLessonTime, of: date) else { return false }
+            return pairEnd > now
+        }
+    }
 }
 
 private extension PairProgress {

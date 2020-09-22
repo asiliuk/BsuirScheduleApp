@@ -52,7 +52,7 @@ final class PairProgress: ObservableObject {
     init(from: Date, to: Date) {
         self.value = 0
         Timer
-            .publish(every: 15, on: .main, in: .default)
+            .publish(every: 60, on: .main, in: .default)
             .autoconnect()
             .prepend(Date())
             .map { date in
@@ -64,6 +64,7 @@ final class PairProgress: ObservableObject {
 
                 return date.timeIntervalSince(from) / timeframe
             }
+            .removeDuplicates()
             .assign(to: &_value.projectedValue)
     }
 }

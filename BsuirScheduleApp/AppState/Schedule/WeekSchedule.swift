@@ -24,14 +24,32 @@ struct WeekSchedule {
 }
 
 extension WeekSchedule {
-    typealias ScheduleElement = (date: Date, pairs: [BsuirApi.Pair])
-    func schedule(starting from: Date) -> AnySequence<ScheduleElement> {
+    struct ScheduleElement {
+        let date: Date
+        let weekNumber: Int
+        let pairs: [BsuirApi.Pair]
+    }
+
+    func schedule(starting start: Date, now: Date) -> AnySequence<ScheduleElement> {
         AnySequence { () -> AnyIterator<ScheduleElement> in
             var offset = 0
             return AnyIterator {
-                guard let date = calendar.date(byAdding: .day, value: offset, to: from) else { return nil }
-                offset += 1
-                return (date: date, pairs: pairs(for: date))
+                var element: ScheduleElement?
+                repeat {
+                    guard
+                        let date = calendar.date(byAdding: .day, value: offset, to: start),
+                        let rawWeekNumber = calendar.weekNumber(for: date, now: now),
+                        let weekNumber = WeekNum(weekNum: rawWeekNumber)
+                    else { return nil }
+
+                    let pairs = self.pairs(for: date).filter { $0.weekNumber.contains(weekNumber) }
+                    if !pairs.isEmpty {
+                        element = ScheduleElement(date: date, weekNumber: rawWeekNumber, pairs: pairs)
+                    }
+
+                    offset += 1
+                } while element == nil
+                return element
             }
         }
     }
