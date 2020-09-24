@@ -2,32 +2,33 @@ import WidgetKit
 import SwiftUI
 import Intents
 import BsuirApi
+import BsuirUI
 import Combine
 
 final class Provider: IntentTimelineProvider, ObservableObject {
     typealias Entry = ScheduleEntry
 
     func placeholder(in context: Context) -> Entry {
-        ScheduleEntry(date: Date(), name: "Some name")
+        ScheduleEntry(date: Date(), title: "Some name", pairs: [])
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Entry) -> ()) {
         requestSnapshotCancellable = requestSchedule(for: configuration)
-            .map { Entry(date: Date(), name: $0.name) }
-            .replaceError(with: Entry(date: Date(), name: "---"))
+            .map { Entry(date: Date(), title: $0.title, pairs: []) }
+            .replaceError(with: Entry(date: Date(), title: "---", pairs: []))
             .sink(receiveValue: completion)
     }
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         requestSnapshotCancellable = requestSchedule(for: configuration)
-            .map { Entry(date: Date(), name: $0.name, count: $0.schedules.count) }
-            .replaceError(with: Entry(date: Date(), name: "---"))
+            .map { Entry(date: Date(), title: $0.title, pairs: []) }
+            .replaceError(with: Entry(date: Date(), title: "---", pairs: []))
             .map { .init(entries: [$0], policy: .atEnd) }
             .sink(receiveValue: completion)
     }
 
     private struct ScheduleResponse {
-        let name: String
+        let title: String
         let schedules: [DaySchedule]
     }
 
@@ -45,14 +46,14 @@ final class Provider: IntentTimelineProvider, ObservableObject {
             return requestManager
                 .request(BsuirTargets.Schedule(agent: .groupID(groupId)))
                 .mapError(RequestScheduleError.request)
-                .map { ScheduleResponse(name: $0.studentGroup.name, schedules: $0.schedules) }
+                .map { ScheduleResponse(title: $0.studentGroup.name, schedules: $0.schedules) }
                 .eraseToAnyPublisher()
         case .lecturer:
             guard let lecturerId = makeId(configuration.lecturer?.identifier) else { return fail }
             return requestManager
                 .request(BsuirTargets.EmployeeSchedule(id: lecturerId))
                 .mapError(RequestScheduleError.request)
-                .map { ScheduleResponse(name: $0.employee.fio, schedules: $0.schedules ?? []) }
+                .map { ScheduleResponse(title: $0.employee.fio, schedules: $0.schedules ?? []) }
                 .eraseToAnyPublisher()
         }
     }
@@ -63,19 +64,34 @@ final class Provider: IntentTimelineProvider, ObservableObject {
 }
 
 struct ScheduleEntry: TimelineEntry {
+    struct Pair {
+        let from: String
+        let to: String
+        let title: String
+        let subtitle: String
+    }
     let date: Date
-    let name: String
-    var count: Int = 0
+    let title: String
+    let pairs: [Pair]
 }
 
 struct ScheduleWidgetEntryView : View {
     var entry: Provider.Entry
+    var pair: Provider.Entry.Pair { entry.pairs.first! }
 
     var body: some View {
         VStack {
-            Text(entry.date, style: .time)
-            Text(entry.name)
-            Text("\(entry.count)")
+            Text(entry.title)
+            PairCell(
+                from: pair.from,
+                to: pair.to,
+                subject: pair.title,
+                subgroup: nil,
+                auditory: pair.subtitle,
+                note: nil,
+                form: .lecture,
+                progress: PairProgress(constant: 0.5)
+            )
         }
     }
 }
@@ -96,7 +112,15 @@ struct ScheduleWidget: Widget {
 
 struct ScheduleWidget_Previews: PreviewProvider {
     static var previews: some View {
-        ScheduleWidgetEntryView(entry: ScheduleEntry(date: Date(), name: "010102"))
+        ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
+
+    static let entry = ScheduleEntry(
+        date: Date(),
+        title: "010102",
+        pairs: [
+            .init(from: "10:00", to: "11:45", title: "Философия", subtitle: "101-2")
+        ]
+    )
 }

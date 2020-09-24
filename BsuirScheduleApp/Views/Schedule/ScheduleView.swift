@@ -108,13 +108,13 @@ private extension PairCell {
             subgroup: pair.subgroup,
             auditory: pair.auditory,
             note: pair.note,
-            form: Form(pair.form),
+            form: PairView.Form(pair.form),
             progress: pair.progress
         )
     }
 }
 
-private extension PairCell.Form {
+private extension PairView.Form {
     init(_ form: Day.Pair.Form) {
         switch form {
         case .exam: self = .exam

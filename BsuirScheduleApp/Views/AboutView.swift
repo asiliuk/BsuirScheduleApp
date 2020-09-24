@@ -7,7 +7,7 @@ struct AboutView: View {
     var body: some View {
         List {
             Section(header: Text("Цвета")) {
-                ForEach(PairCell.Form.allCases, id: \.self) { form in
+                ForEach(PairView.Form.allCases, id: \.self) { form in
                     PairTypeView(name: form.name, color: form.color)
                 }
             }

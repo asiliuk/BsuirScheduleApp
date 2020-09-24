@@ -30,8 +30,12 @@
 		E690674D251CCB0200CF2DF2 /* BsuirUI.h in Headers */ = {isa = PBXBuildFile; fileRef = E690674B251CCB0200CF2DF2 /* BsuirUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6906750251CCB0200CF2DF2 /* BsuirUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */; };
 		E6906751251CCB0200CF2DF2 /* BsuirUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E6906763251CCB3200CF2DF2 /* PairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6906761251CCB3200CF2DF2 /* PairView.swift */; };
-		E6906764251CCB3200CF2DF2 /* PairProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6906762251CCB3200CF2DF2 /* PairProgress.swift */; };
+		E690676D251CCC6800CF2DF2 /* BsuirApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; };
+		E690676E251CCC6800CF2DF2 /* BsuirApi.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E6906775251CCC6C00CF2DF2 /* BsuirUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */; };
+		E6906776251CCC6C00CF2DF2 /* BsuirUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E6906784251CCEF500CF2DF2 /* PairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6906782251CCEF500CF2DF2 /* PairView.swift */; };
+		E6906785251CCEF500CF2DF2 /* PairProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6906783251CCEF500CF2DF2 /* PairProgress.swift */; };
 		E691E962250BD7E300116878 /* AppIconDad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E961250BD7E300116878 /* AppIconDad@2x.png */; };
 		E691E964250BD7EA00116878 /* AppIconDad@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E963250BD7EA00116878 /* AppIconDad@3x.png */; };
 		E691E96B250D2D6100116878 /* AppIconNostalgia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E966250D2D6100116878 /* AppIconNostalgia@2x.png */; };
@@ -94,6 +98,20 @@
 			remoteGlobalIDString = E6906748251CCB0200CF2DF2;
 			remoteInfo = BsuirUI;
 		};
+		E690676F251CCC6800CF2DF2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6D1F78325137C7A00CA6E20;
+			remoteInfo = BsuirApi;
+		};
+		E6906777251CCC6C00CF2DF2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6906748251CCB0200CF2DF2;
+			remoteInfo = BsuirUI;
+		};
 		E6AA8D1D25162F1B00788A02 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
@@ -118,6 +136,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		E6906771251CCC6800CF2DF2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E6906776251CCC6C00CF2DF2 /* BsuirUI.framework in Embed Frameworks */,
+				E690676E251CCC6800CF2DF2 /* BsuirApi.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E6AA8D2025162F1B00788A02 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -166,8 +196,8 @@
 		E6906749251CCB0200CF2DF2 /* BsuirUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BsuirUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E690674B251CCB0200CF2DF2 /* BsuirUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BsuirUI.h; sourceTree = "<group>"; };
 		E690674C251CCB0200CF2DF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E6906761251CCB3200CF2DF2 /* PairView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PairView.swift; path = ../../../Desktop/PairView.swift; sourceTree = "<group>"; };
-		E6906762251CCB3200CF2DF2 /* PairProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PairProgress.swift; path = ../../../Desktop/PairProgress.swift; sourceTree = "<group>"; };
+		E6906782251CCEF500CF2DF2 /* PairView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PairView.swift; sourceTree = "<group>"; };
+		E6906783251CCEF500CF2DF2 /* PairProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PairProgress.swift; sourceTree = "<group>"; };
 		E691E961250BD7E300116878 /* AppIconDad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDad@2x.png"; sourceTree = "<group>"; };
 		E691E963250BD7EA00116878 /* AppIconDad@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDad@3x.png"; sourceTree = "<group>"; };
 		E691E966250D2D6100116878 /* AppIconNostalgia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNostalgia@2x.png"; sourceTree = "<group>"; };
@@ -238,8 +268,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6906775251CCC6C00CF2DF2 /* BsuirUI.framework in Frameworks */,
 				E6AA8D1325162F1A00788A02 /* SwiftUI.framework in Frameworks */,
 				E6AA8D1125162F1A00788A02 /* WidgetKit.framework in Frameworks */,
+				E690676D251CCC6800CF2DF2 /* BsuirApi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,8 +360,8 @@
 		E690674A251CCB0200CF2DF2 /* BsuirUI */ = {
 			isa = PBXGroup;
 			children = (
-				E6906762251CCB3200CF2DF2 /* PairProgress.swift */,
-				E6906761251CCB3200CF2DF2 /* PairView.swift */,
+				E6906783251CCEF500CF2DF2 /* PairProgress.swift */,
+				E6906782251CCEF500CF2DF2 /* PairView.swift */,
 				E690674B251CCB0200CF2DF2 /* BsuirUI.h */,
 				E690674C251CCB0200CF2DF2 /* Info.plist */,
 			);
@@ -593,10 +625,13 @@
 				E6AA8D0B25162F1A00788A02 /* Sources */,
 				E6AA8D0C25162F1A00788A02 /* Frameworks */,
 				E6AA8D0D25162F1A00788A02 /* Resources */,
+				E6906771251CCC6800CF2DF2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E6906770251CCC6800CF2DF2 /* PBXTargetDependency */,
+				E6906778251CCC6C00CF2DF2 /* PBXTargetDependency */,
 			);
 			name = ScheduleWidgetExtension;
 			productName = ScheduleWidgetExtension;
@@ -778,8 +813,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6906764251CCB3200CF2DF2 /* PairProgress.swift in Sources */,
-				E6906763251CCB3200CF2DF2 /* PairView.swift in Sources */,
+				E6906785251CCEF500CF2DF2 /* PairProgress.swift in Sources */,
+				E6906784251CCEF500CF2DF2 /* PairView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -866,6 +901,16 @@
 			isa = PBXTargetDependency;
 			target = E6906748251CCB0200CF2DF2 /* BsuirUI */;
 			targetProxy = E690674E251CCB0200CF2DF2 /* PBXContainerItemProxy */;
+		};
+		E6906770251CCC6800CF2DF2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6D1F78325137C7A00CA6E20 /* BsuirApi */;
+			targetProxy = E690676F251CCC6800CF2DF2 /* PBXContainerItemProxy */;
+		};
+		E6906778251CCC6C00CF2DF2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6906748251CCB0200CF2DF2 /* BsuirUI */;
+			targetProxy = E6906777251CCC6C00CF2DF2 /* PBXContainerItemProxy */;
 		};
 		E6AA8D1E25162F1B00788A02 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
