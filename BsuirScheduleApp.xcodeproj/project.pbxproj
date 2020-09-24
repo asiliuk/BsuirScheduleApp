@@ -10,7 +10,6 @@
 		04187F0C2438A4A20099855E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04187F0B2438A4A20099855E /* SearchBar.swift */; };
 		04C0743424520BBC00362531 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 04C0743324520BBC00362531 /* URLImage */; };
 		04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0F8B924D7354B00A1C74F /* AboutView.swift */; };
-		E616B44024AE12F200A46E67 /* PairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B43F24AE12F200A46E67 /* PairView.swift */; };
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
 		E6373F06250A387900729EC8 /* TabRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* TabRootView.swift */; };
 		E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* SidebarRootView.swift */; };
@@ -28,6 +27,11 @@
 		E679A75825137DB200CBE8C7 /* BsuirApi+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */; };
 		E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */; };
 		E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */; };
+		E690674D251CCB0200CF2DF2 /* BsuirUI.h in Headers */ = {isa = PBXBuildFile; fileRef = E690674B251CCB0200CF2DF2 /* BsuirUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6906750251CCB0200CF2DF2 /* BsuirUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */; };
+		E6906751251CCB0200CF2DF2 /* BsuirUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E6906763251CCB3200CF2DF2 /* PairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6906761251CCB3200CF2DF2 /* PairView.swift */; };
+		E6906764251CCB3200CF2DF2 /* PairProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6906762251CCB3200CF2DF2 /* PairProgress.swift */; };
 		E691E962250BD7E300116878 /* AppIconDad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E961250BD7E300116878 /* AppIconDad@2x.png */; };
 		E691E964250BD7EA00116878 /* AppIconDad@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E963250BD7EA00116878 /* AppIconDad@3x.png */; };
 		E691E96B250D2D6100116878 /* AppIconNostalgia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E966250D2D6100116878 /* AppIconNostalgia@2x.png */; };
@@ -83,6 +87,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E690674E251CCB0200CF2DF2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6906748251CCB0200CF2DF2;
+			remoteInfo = BsuirUI;
+		};
 		E6AA8D1D25162F1B00788A02 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
@@ -125,6 +136,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				E6906751251CCB0200CF2DF2 /* BsuirUI.framework in Embed Frameworks */,
 				E6D1F78C25137C7A00CA6E20 /* BsuirApi.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -135,7 +147,6 @@
 /* Begin PBXFileReference section */
 		04187F0B2438A4A20099855E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
-		E616B43F24AE12F200A46E67 /* PairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairView.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
 		E6373F05250A387900729EC8 /* TabRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRootView.swift; sourceTree = "<group>"; };
 		E6373F07250A38C400729EC8 /* SidebarRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarRootView.swift; sourceTree = "<group>"; };
@@ -152,6 +163,11 @@
 		E67503AC24F4355B0030D0EC /* AllFavoritesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFavoritesScreen.swift; sourceTree = "<group>"; };
 		E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissingKeyboardOnSwipe.swift; sourceTree = "<group>"; };
 		E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateWithSearchView.swift; sourceTree = "<group>"; };
+		E6906749251CCB0200CF2DF2 /* BsuirUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BsuirUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E690674B251CCB0200CF2DF2 /* BsuirUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BsuirUI.h; sourceTree = "<group>"; };
+		E690674C251CCB0200CF2DF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6906761251CCB3200CF2DF2 /* PairView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PairView.swift; path = ../../../Desktop/PairView.swift; sourceTree = "<group>"; };
+		E6906762251CCB3200CF2DF2 /* PairProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PairProgress.swift; path = ../../../Desktop/PairProgress.swift; sourceTree = "<group>"; };
 		E691E961250BD7E300116878 /* AppIconDad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDad@2x.png"; sourceTree = "<group>"; };
 		E691E963250BD7EA00116878 /* AppIconDad@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDad@3x.png"; sourceTree = "<group>"; };
 		E691E966250D2D6100116878 /* AppIconNostalgia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNostalgia@2x.png"; sourceTree = "<group>"; };
@@ -211,6 +227,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E6906746251CCB0200CF2DF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E6AA8D0C25162F1A00788A02 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -239,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04C0743424520BBC00362531 /* URLImage in Frameworks */,
+				E6906750251CCB0200CF2DF2 /* BsuirUI.framework in Frameworks */,
 				E6D1F78B25137C7A00CA6E20 /* BsuirApi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -249,7 +273,6 @@
 		E616B43E24AE12BE00A46E67 /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
-				E616B43F24AE12F200A46E67 /* PairView.swift */,
 				E6964825233F8936007EF2CB /* ScheduleView.swift */,
 				E616B44124AE158400A46E67 /* ScheduleGridView.swift */,
 			);
@@ -300,6 +323,17 @@
 				E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */,
 			);
 			path = Content;
+			sourceTree = "<group>";
+		};
+		E690674A251CCB0200CF2DF2 /* BsuirUI */ = {
+			isa = PBXGroup;
+			children = (
+				E6906762251CCB3200CF2DF2 /* PairProgress.swift */,
+				E6906761251CCB3200CF2DF2 /* PairView.swift */,
+				E690674B251CCB0200CF2DF2 /* BsuirUI.h */,
+				E690674C251CCB0200CF2DF2 /* Info.plist */,
+			);
+			path = BsuirUI;
 			sourceTree = "<group>";
 		};
 		E691E965250D2CA500116878 /* Icons */ = {
@@ -473,6 +507,7 @@
 				E6D1F78525137C7A00CA6E20 /* BsuirApi */,
 				E6AA8D1425162F1A00788A02 /* ScheduleWidget */,
 				E6AA8D2B2516301500788A02 /* ScheduleWidgetIntentHandler */,
+				E690674A251CCB0200CF2DF2 /* BsuirUI */,
 				E6F931B322F8B1C10038FC43 /* Products */,
 				E633E7F822F8B75F00E109E2 /* Frameworks */,
 			);
@@ -485,6 +520,7 @@
 				E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */,
 				E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */,
 				E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */,
+				E6906749251CCB0200CF2DF2 /* BsuirUI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -513,6 +549,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		E6906744251CCB0200CF2DF2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E690674D251CCB0200CF2DF2 /* BsuirUI.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E6D1F77F25137C7A00CA6E20 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -524,6 +568,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		E6906748251CCB0200CF2DF2 /* BsuirUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6906752251CCB0200CF2DF2 /* Build configuration list for PBXNativeTarget "BsuirUI" */;
+			buildPhases = (
+				E6906744251CCB0200CF2DF2 /* Headers */,
+				E6906745251CCB0200CF2DF2 /* Sources */,
+				E6906746251CCB0200CF2DF2 /* Frameworks */,
+				E6906747251CCB0200CF2DF2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BsuirUI;
+			productName = BsuirUI;
+			productReference = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		E6AA8D0E25162F1A00788A02 /* ScheduleWidgetExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E6AA8D2325162F1B00788A02 /* Build configuration list for PBXNativeTarget "ScheduleWidgetExtension" */;
@@ -592,6 +654,7 @@
 				E6D1F78A25137C7A00CA6E20 /* PBXTargetDependency */,
 				E6AA8D1E25162F1B00788A02 /* PBXTargetDependency */,
 				E6AA8D302516301500788A02 /* PBXTargetDependency */,
+				E690674F251CCB0200CF2DF2 /* PBXTargetDependency */,
 			);
 			name = BsuirScheduleApp;
 			packageProductDependencies = (
@@ -611,6 +674,10 @@
 				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = Saute;
 				TargetAttributes = {
+					E6906748251CCB0200CF2DF2 = {
+						CreatedOnToolsVersion = 12.0;
+						LastSwiftMigration = 1200;
+					};
 					E6AA8D0E25162F1A00788A02 = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -645,6 +712,7 @@
 			targets = (
 				E6F931B122F8B1C10038FC43 /* BsuirScheduleApp */,
 				E6D1F78325137C7A00CA6E20 /* BsuirApi */,
+				E6906748251CCB0200CF2DF2 /* BsuirUI */,
 				E6AA8D0E25162F1A00788A02 /* ScheduleWidgetExtension */,
 				E6AA8D292516301500788A02 /* ScheduleWidgetIntentHandler */,
 			);
@@ -652,6 +720,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E6906747251CCB0200CF2DF2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E6AA8D0D25162F1A00788A02 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -699,6 +774,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E6906745251CCB0200CF2DF2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6906764251CCB3200CF2DF2 /* PairProgress.swift in Sources */,
+				E6906763251CCB3200CF2DF2 /* PairView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E6AA8D0B25162F1A00788A02 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -742,7 +826,6 @@
 			files = (
 				E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */,
 				E69648282340CA53007EF2CB /* AllLecturersView.swift in Sources */,
-				E616B44024AE12F200A46E67 /* PairView.swift in Sources */,
 				E69A965B2512000C0057FCD6 /* AppIconPicker.swift in Sources */,
 				E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */,
 				E6373F06250A387900729EC8 /* TabRootView.swift in Sources */,
@@ -779,6 +862,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E690674F251CCB0200CF2DF2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6906748251CCB0200CF2DF2 /* BsuirUI */;
+			targetProxy = E690674E251CCB0200CF2DF2 /* PBXContainerItemProxy */;
+		};
 		E6AA8D1E25162F1B00788A02 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E6AA8D0E25162F1A00788A02 /* ScheduleWidgetExtension */;
@@ -809,6 +897,71 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		E6906753251CCB0200CF2DF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 30;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 636FUHDF2R;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = BsuirUI/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asiliuk.BsuirUI;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E6906754251CCB0200CF2DF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 30;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 636FUHDF2R;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = BsuirUI/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 2.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asiliuk.BsuirUI;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		E6AA8D2125162F1B00788A02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1131,6 +1284,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E6906752251CCB0200CF2DF2 /* Build configuration list for PBXNativeTarget "BsuirUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6906753251CCB0200CF2DF2 /* Debug */,
+				E6906754251CCB0200CF2DF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E6AA8D2325162F1B00788A02 /* Build configuration list for PBXNativeTarget "ScheduleWidgetExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

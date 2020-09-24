@@ -2,6 +2,7 @@ import BsuirApi
 import Combine
 import Foundation
 import os.log
+import BsuirUI
 
 final class ScheduleScreen: ObservableObject {
 
@@ -42,30 +43,24 @@ extension ScheduleScreen {
     }
 }
 
-final class PairProgress: ObservableObject {
-    @Published private(set) var value: Double
+extension PairProgress {
+    convenience init(from: Date, to: Date) {
+        self.init(
+            Timer
+                .publish(every: 60, on: .main, in: .default)
+                .autoconnect()
+                .prepend(Date())
+                .map { date in
+                    guard date >= from else { return 0 }
+                    guard date <= to else { return 1 }
 
-    init(constant value: Double) {
-        self.value = value
-    }
+                    let timeframe = to.timeIntervalSince(from)
+                    guard timeframe > 0 else { return 0 }
 
-    init(from: Date, to: Date) {
-        self.value = 0
-        Timer
-            .publish(every: 60, on: .main, in: .default)
-            .autoconnect()
-            .prepend(Date())
-            .map { date in
-                guard date >= from else { return 0 }
-                guard date <= to else { return 1 }
-
-                let timeframe = to.timeIntervalSince(from)
-                guard timeframe > 0 else { return 0 }
-
-                return date.timeIntervalSince(from) / timeframe
-            }
-            .removeDuplicates()
-            .assign(to: &_value.projectedValue)
+                    return date.timeIntervalSince(from) / timeframe
+                }
+                .eraseToAnyPublisher()
+        )
     }
 }
 

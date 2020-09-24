@@ -1,12 +1,5 @@
-//
-//  ScheduleView.swift
-//  BsuirScheduleApp
-//
-//  Created by Anton Siliuk on 9/28/19.
-//  Copyright © 2019 Saute. All rights reserved.
-//
-
 import SwiftUI
+import BsuirUI
 
 struct ScheduleView: View {
 
@@ -101,6 +94,34 @@ struct SomeState: View {
                 },
                 loadMore: loadMore
             )
+        }
+    }
+}
+
+private extension PairCell {
+    init(pair: Day.Pair) {
+        self.init(
+            from: pair.from,
+            to: pair.to,
+            subject: pair.subject,
+            weeks: pair.weeks,
+            subgroup: pair.subgroup,
+            auditory: pair.auditory,
+            note: pair.note,
+            form: Form(pair.form),
+            progress: pair.progress
+        )
+    }
+}
+
+private extension PairCell.Form {
+    init(_ form: Day.Pair.Form) {
+        switch form {
+        case .exam: self = .exam
+        case .lab: self = .lab
+        case .lecture: self = .lecture
+        case .practice: self = .practice
+        case .unknown: self = .unknown
         }
     }
 }

@@ -1,5 +1,6 @@
 import SwiftUI
 import Foundation
+import BsuirUI
 
 struct AboutView: View {
 
@@ -83,18 +84,6 @@ struct PairTypeView: View {
                 .foregroundColor(color)
                 .frame(width: 30, height: 30)
             Text(name)
-        }
-    }
-}
-
-extension PairCell.Form {
-    var name: LocalizedStringKey {
-        switch self {
-        case .lecture: return "Лекция"
-        case .lab: return "Лабораторная работа"
-        case .practice: return "Практическая работа"
-        case .exam: return "Экзамен"
-        case .unknown: return "Неизвестно"
         }
     }
 }
