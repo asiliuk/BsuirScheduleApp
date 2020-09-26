@@ -100,18 +100,23 @@ struct ScheduleWidgetEntrySmallView : View {
             }
 
             Text("Сегодня 24.09").font(.headline).foregroundColor(.blue)
+
+            Spacer(minLength: 0)
+
             PairView(
                 from: pair.from,
                 to: pair.to,
                 subject: pair.title,
                 subgroup: "1",
                 auditory: pair.subtitle,
-                note: "asasasas as asas",
+                note: "a as assasasas",
                 form: .lecture,
                 progress: PairProgress(constant: 0.5),
                 distribution: .vertical,
                 isCompact: true
             )
+
+            Spacer(minLength: 0)
 
             if !pairs.isEmpty {
                 HStack {
@@ -121,7 +126,6 @@ struct ScheduleWidgetEntrySmallView : View {
                 }.foregroundColor(.secondary)
             }
 
-            Spacer(minLength: 0)
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 12)
@@ -274,10 +278,6 @@ struct ScheduleWidget_Previews: PreviewProvider {
     static var previews: some View {
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
-
-        ScheduleWidgetEntryView(entry: entry)
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-            .colorScheme(.dark)
 
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemMedium))

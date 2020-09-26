@@ -145,7 +145,7 @@ public struct PairView: View {
     private var subtitle: some View {
         Group {
             if isCompact {
-                combineTexts(auditoryText, noteText).lineLimit(1)
+                combineTexts(auditoryText, noteText).lineLimit(distribution == .vertical ? 2 : 1)
             } else {
                 VStack(alignment: .leading) {
                     auditoryText
