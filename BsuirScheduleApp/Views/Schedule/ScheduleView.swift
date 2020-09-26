@@ -99,34 +99,6 @@ struct SomeState: View {
     }
 }
 
-private extension PairCell {
-    init(pair: PairViewModel) {
-        self.init(
-            from: pair.from,
-            to: pair.to,
-            subject: pair.subject,
-            weeks: pair.weeks,
-            subgroup: pair.subgroup,
-            auditory: pair.auditory,
-            note: pair.note,
-            form: PairView.Form(pair.form),
-            progress: pair.progress
-        )
-    }
-}
-
-private extension PairView.Form {
-    init(_ form: PairViewModel.Form) {
-        switch form {
-        case .exam: self = .exam
-        case .lab: self = .lab
-        case .lecture: self = .lecture
-        case .practice: self = .practice
-        case .unknown: self = .unknown
-        }
-    }
-}
-
 struct IdentifiableDay: Identifiable {
     var id: String { title }
     let title: String
