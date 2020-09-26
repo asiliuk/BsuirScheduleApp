@@ -134,15 +134,17 @@ public struct PairView: View {
     private var title: some View {
         combineTexts(
             subjectText,
-            periodityText,
+            periodityText?.fontWeight(.light),
             separator: " "
-        ).font(isCompact ? .subheadline : .headline)
+        )
+        .font(isCompact ? .subheadline : .headline)
+        .lineLimit(2)
     }
 
     private var subtitle: some View {
         Group {
             if isCompact {
-                combineTexts(auditoryText, noteText)
+                combineTexts(auditoryText, noteText).lineLimit(2)
             } else {
                 VStack(alignment: .leading) {
                     auditoryText
