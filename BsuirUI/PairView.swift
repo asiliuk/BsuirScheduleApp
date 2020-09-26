@@ -1,7 +1,7 @@
 import SwiftUI
 
 public struct PairCell: View {
-    let pair: PairView
+    var pair: PairView
     public init(
         from: String,
         to: String,
@@ -46,6 +46,11 @@ public struct PairView: View {
         case unknown
     }
 
+    public enum Distribution {
+        case vertical
+        case horizontal
+    }
+
     public var from: String
     public var to: String
     public var subject: String
@@ -55,6 +60,8 @@ public struct PairView: View {
     public var note: String?
     public var form: Form
     @ObservedObject public var progress: PairProgress
+    public var distribution: Distribution
+    public var isCompact: Bool
     @Environment(\.sizeCategory) var sizeCategory
 
     public init(
@@ -66,7 +73,9 @@ public struct PairView: View {
         auditory: String,
         note: String? = nil,
         form: Form,
-        progress: PairProgress
+        progress: PairProgress,
+        distribution: Distribution = .horizontal,
+        isCompact: Bool = false
     ) {
         self.from = from
         self.to = to
@@ -77,46 +86,37 @@ public struct PairView: View {
         self.note = note
         self.form = form
         self.progress = progress
+        self.distribution = distribution
+        self.isCompact = isCompact
     }
 
     public var body: some View {
         HStack(spacing: 8) {
 
-            if sizeCategory.isAccessibilityCategory {
-
+            switch (distribution, sizeCategory.isAccessibilityCategory) {
+            case (.vertical, _), (.horizontal, true):
                 PairFormIndicator(form: form, progress: progress.value)
 
                 VStack(alignment: .leading) {
-                    Text("\(from)-\(to)").font(.system(.callout, design: .monospaced))
-                    Text(subject).font(.headline).bold()
-                    Group {
-                        periodityView
-                        Text(auditory)
-                        note.map { Text($0) }
-                    }
-                    .opacity(0.8)
-                    .font(Font.caption2)
+                    Text("\(from)-\(to)").font(.system(.footnote, design: .monospaced))
+                    title
+                    subtitle
                 }
-            } else {
-
+            case (.horizontal, false):
                 VStack(alignment: .trailing) {
-                    Text(from).font(.system(.callout, design: .monospaced))
-                    Text(to).font(.system(.footnote, design: .monospaced))
+                    Text(from).font(.system(isCompact ? .footnote : .callout, design: .monospaced))
+                    Text(to).font(.system(isCompact ? .caption2 : .footnote, design: .monospaced))
                 }
 
                 PairFormIndicator(form: form, progress: progress.value)
 
                 VStack(alignment: .leading) {
-                    HStack(spacing: 6) {
-                        Text(subject).font(.headline).bold()
-                        periodityView.opacity(0.8)
-                    }
-                    Text(auditory).opacity(0.8)
-                    note.map { Text($0).fontWeight(.light) }.opacity(0.8)
+                    title
+                    subtitle
                 }
-                .font(.callout)
             }
-            Spacer().layoutPriority(-1)
+
+            Spacer(minLength: 0).layoutPriority(-1)
         }
         .fixedSize(horizontal: false, vertical: true)
         .accessibilityElement(children: .ignore)
@@ -131,27 +131,48 @@ public struct PairView: View {
         ))
     }
 
-    private var periodityView: some View {
-        HStack(spacing: 4) {
-            weeks.map { Text("\(Image(systemName: "calendar"))\($0)") }
-            subgroup.map { Text("\(Image(systemName: "person"))\($0)") }
+    private var title: some View {
+        combineTexts(
+            subjectText,
+            periodityText,
+            separator: " "
+        ).font(isCompact ? .subheadline : .headline)
+    }
+
+    private var subtitle: some View {
+        Group {
+            if isCompact {
+                combineTexts(auditoryText, noteText)
+            } else {
+                VStack(alignment: .leading) {
+                    auditoryText
+                    noteText
+                }
+            }
         }
-    }
-}
-
-private func accessibilityDescription(_ tokens: LocalizedStringKey?..., separator: String = ", ") -> Text {
-    let nonEmptyTokens = tokens.compactMap { $0 }
-    let initialInterpolation = LocalizedStringKey.StringInterpolation(
-        literalCapacity: nonEmptyTokens.count * separator.count,
-        interpolationCount: nonEmptyTokens.count
-    )
-
-    let interpolation = nonEmptyTokens.reduce(into: initialInterpolation) { interpolation, token in
-        interpolation.appendLiteral(separator)
-        interpolation.appendInterpolation(Text(token))
+        .opacity(0.8)
+        .font(isCompact ? .footnote : .callout)
     }
 
-    return Text(LocalizedStringKey(stringInterpolation: interpolation))
+    private var subjectText: Text {
+        Text(subject).bold()
+    }
+
+    private var periodityText: Text? {
+        combineTexts(
+            weeks.map { Text("\(Image(systemName: "calendar"))\($0)") },
+            subgroup.map { Text("\(Image(systemName: "person"))\($0)") },
+            separator: " "
+        )?.foregroundColor(Color.primary.opacity(0.8))
+    }
+
+    private var auditoryText: Text {
+        Text(auditory)
+    }
+
+    private var noteText: Text? {
+        note.map { Text($0) }
+    }
 }
 
 private extension PairProgress {
@@ -238,46 +259,27 @@ struct PairFormIndicator_Previews: PreviewProvider {
 struct PairView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PairCell(
-                from: "9:00",
-                to: "11:30",
-                subject: "ОСиСП",
-                weeks: "1,2",
-                subgroup: "1",
-                auditory: "101-1",
-                note: "Пара проходит в подвале",
-                form: .lab,
-                progress: PairProgress(constant: 0)
-            )
-
-            PairCell(
-                from: "9:00",
-                to: "11:30",
-                subject: "ОСиСП",
-                weeks: "1,2",
-                subgroup: "1",
-                auditory: "101-1",
-                note: "Пара проходит в подвале",
-                form: .lab,
-                progress: PairProgress(constant: 0)
-            )
-            .colorScheme(.dark)
-
-            PairCell(
-                from: "9:00",
-                to: "11:30",
-                subject: "ОСиСП",
-                weeks: "1,2",
-                subgroup: "1",
-                auditory: "101-1",
-                note: "Пара проходит в подвале",
-                form: .lab,
-                progress: PairProgress(constant: 0)
-            )
-            .environment(\.sizeCategory, .accessibilityMedium)
+            pair
+            mutating(pair) { $0.pair.distribution = .vertical; $0.pair.isCompact = true }
+            mutating(pair) { $0.pair.isCompact = true }
+            mutating(pair) { $0.pair.weeks = nil; $0.pair.subgroup = nil }
+            pair.colorScheme(.dark)
+            pair.environment(\.sizeCategory, .accessibilityMedium)
         }
         .previewLayout(.sizeThatFits)
         .background(Color.gray)
     }
+
+    static let pair = PairCell(
+        from: "10:00",
+        to: "11:30",
+        subject: "ОСиСП",
+        weeks: "1,2",
+        subgroup: "1",
+        auditory: "101-1",
+        note: "Пара проходит в подвале",
+        form: .lab,
+        progress: PairProgress(constant: 0)
+    )
 }
 #endif

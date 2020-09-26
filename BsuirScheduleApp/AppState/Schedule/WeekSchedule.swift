@@ -1,5 +1,6 @@
 import Foundation
 import BsuirApi
+import BsuirUI
 
 struct WeekSchedule {
     init(schedule: [DaySchedule], calendar: Calendar) {
