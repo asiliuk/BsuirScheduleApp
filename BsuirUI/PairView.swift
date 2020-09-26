@@ -28,7 +28,8 @@ public struct PairCell: View {
 
     public var body: some View {
         pair
-            .padding(.horizontal)
+            .padding(.leading)
+            .padding(.trailing, 4)
             .padding(.vertical, 8)
             .background(
                 RoundedRectangle(cornerRadius: 8)
@@ -144,7 +145,7 @@ public struct PairView: View {
     private var subtitle: some View {
         Group {
             if isCompact {
-                combineTexts(auditoryText, noteText).lineLimit(2)
+                combineTexts(auditoryText, noteText).lineLimit(1)
             } else {
                 VStack(alignment: .leading) {
                     auditoryText
