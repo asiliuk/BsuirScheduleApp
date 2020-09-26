@@ -186,7 +186,7 @@ extension PairCell {
 }
 
 extension PairView {
-    public init(pair: PairViewModel) {
+    public init(pair: PairViewModel, distribution: Distribution = .horizontal, isCompact: Bool = false) {
         self.init(
             from: pair.from,
             to: pair.to,
@@ -196,7 +196,9 @@ extension PairView {
             auditory: pair.auditory,
             note: pair.note,
             form: PairView.Form(pair.form),
-            progress: pair.progress
+            progress: pair.progress,
+            distribution: distribution,
+            isCompact: isCompact
         )
     }
 }
