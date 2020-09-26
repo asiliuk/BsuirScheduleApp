@@ -3,7 +3,7 @@ import SwiftUI
 import Combine
 
 public final class PairProgress: ObservableObject {
-    @Published private(set) var value: Double
+    @Published private(set) public var value: Double
 
     public init(constant value: Double) {
         self.value = value

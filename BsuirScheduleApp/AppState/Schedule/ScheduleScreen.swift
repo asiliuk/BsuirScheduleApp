@@ -3,6 +3,7 @@ import Combine
 import Foundation
 import os.log
 import BsuirUI
+import BsuirCore
 
 final class ScheduleScreen: ObservableObject {
 
@@ -32,13 +33,13 @@ final class ScheduleScreen: ObservableObject {
 extension ScheduleScreen {
     final class Schedule {
         let continuous: ContinuousSchedule
-        let compact: [Day]
-        let exams: [Day]
+        let compact: [DayViewModel]
+        let exams: [DayViewModel]
 
         init(schedule: [DaySchedule], exams: [DaySchedule]) {
             self.continuous = ContinuousSchedule(schedule: schedule)
-            self.compact = schedule.map(Day.init)
-            self.exams = exams.map(Day.init)
+            self.compact = schedule.map(DayViewModel.init)
+            self.exams = exams.map(DayViewModel.init)
         }
     }
 }
@@ -64,102 +65,20 @@ extension PairProgress {
     }
 }
 
-struct Day {
-
-    struct Pair {
-
-        enum Form {
-            case lecture
-            case practice
-            case lab
-            case exam
-            case unknown
-        }
-
-        let from: String
-        let to: String
-        let form: Form
-        let subject: String
-        let auditory: String
-        let note: String?
-        let weeks: String?
-        let subgroup: String?
-        let progress: PairProgress
-
-        init(_ pair: BsuirApi.Pair, showWeeks: Bool = true, progress: PairProgress = .init(constant: 0)) {
-            self.from = Self.timeFormatter.string(from: pair.startLessonTime.components) ?? "N/A"
-            self.to = Self.timeFormatter.string(from: pair.endLessonTime.components) ?? "N/A"
-            self.form = Form(pair.lessonType)
-            self.subject = pair.subject
-            self.auditory = pair.auditory.joined(separator: ", ")
-            self.note = pair.note
-            self.weeks = showWeeks ? pair.weekNumber.prettyName.capitalized : nil
-            self.subgroup = pair.numSubgroup == 0 ? nil : "\(pair.numSubgroup)"
-            self.progress = progress
-        }
-
-        private static let timeFormatter: DateComponentsFormatter = {
-            let formatter = DateComponentsFormatter()
-            formatter.allowedUnits = [.hour, .minute]
-            formatter.unitsStyle = .positional
-            formatter.zeroFormattingBehavior = .pad
-            return formatter
-        }()
-    }
-
+struct DayViewModel {
     var title: String
     var subtitle: String?
-    var pairs: [Pair]
+    var pairs: [PairViewModel]
     var isToday: Bool = false
     var isMostRelevant: Bool = false
 }
 
-extension Day {
+extension DayViewModel {
     init(day: DaySchedule) {
         self.init(
             title: day.weekDay.title,
-            pairs: day.schedule.map { Pair($0) }
+            pairs: day.schedule.map { PairViewModel($0) }
         )
-    }
-}
-
-private extension Day.Pair.Form {
-
-    init(_ form: BsuirApi.Pair.Form?) {
-        switch form {
-        case .lecture: self = .lecture
-        case .practice: self = .practice
-        case .lab: self = .lab
-        case .exam: self = .exam
-        case nil: self = .unknown
-        }
-    }
-}
-
-private extension BsuirApi.Pair.Time {
-
-    var components: DateComponents {
-        DateComponents(timeZone: timeZone, hour: hour, minute: minute)
-    }
-}
-
-private extension BsuirApi.WeekNum {
-
-    var prettyName: String {
-        switch self {
-        case []: return "-"
-        case .always: return "♾"
-        case let numbers: return numbers.name
-        }
-    }
-
-    private var name: String {
-        var result: [String] = []
-        if contains(.first) { result.append("1") }
-        if contains(.second) { result.append("2") }
-        if contains(.third) { result.append("3") }
-        if contains(.forth) { result.append("4") }
-        return result.joined(separator: ",")
     }
 }
 

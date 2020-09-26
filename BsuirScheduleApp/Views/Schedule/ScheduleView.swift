@@ -1,5 +1,6 @@
 import SwiftUI
 import BsuirUI
+import BsuirCore
 
 struct ScheduleView: View {
 
@@ -73,7 +74,7 @@ struct ContinuousScheduleView: View {
 
 struct SomeState: View {
 
-    let days: [Day]
+    let days: [DayViewModel]
     var loadMore: (() -> Void)?
 
     @ViewBuilder var body: some View {
@@ -99,7 +100,7 @@ struct SomeState: View {
 }
 
 private extension PairCell {
-    init(pair: Day.Pair) {
+    init(pair: PairViewModel) {
         self.init(
             from: pair.from,
             to: pair.to,
@@ -115,7 +116,7 @@ private extension PairCell {
 }
 
 private extension PairView.Form {
-    init(_ form: Day.Pair.Form) {
+    init(_ form: PairViewModel.Form) {
         switch form {
         case .exam: self = .exam
         case .lab: self = .lab
@@ -134,7 +135,7 @@ struct IdentifiableDay: Identifiable {
     let isToday: Bool
     let isMostRelevant: Bool
 
-    init(day: Day) {
+    init(day: DayViewModel) {
         self.title = day.title
         self.subtitle = day.subtitle
         self.pairs = day.pairs.enumerated().map(IdentifiablePair.init)
@@ -145,7 +146,7 @@ struct IdentifiableDay: Identifiable {
 
 struct IdentifiablePair: Identifiable {
     let id: Int
-    let pair: Day.Pair
+    let pair: PairViewModel
 }
 
 struct EmptyState: View {

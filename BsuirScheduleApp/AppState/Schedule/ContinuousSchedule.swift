@@ -6,7 +6,7 @@ import BsuirUI
 import BsuirCore
 
 final class ContinuousSchedule: ObservableObject {
-    @Published private(set) var days: [Day] = []
+    @Published private(set) var days: [DayViewModel] = []
 
     func loadMore() {
         self.loadMoreSubject.send()
@@ -37,11 +37,11 @@ final class ContinuousSchedule: ObservableObject {
         self.days.append(contentsOf: days.map(self.day))
     }
 
-    private func day(for element: WeekSchedule.ScheduleElement) -> Day {
-        return Day(
+    private func day(for element: WeekSchedule.ScheduleElement) -> DayViewModel {
+        return DayViewModel(
             title: "\(Self.formatter.string(from: element.date)), Неделя \(element.weekNumber)",
             subtitle: relativeName(for: element.date),
-            pairs: element.pairs.map { Day.Pair(
+            pairs: element.pairs.map { PairViewModel(
                 $0.base,
                 showWeeks: false,
                 progress: PairProgress(from: $0.start, to: $0.end)

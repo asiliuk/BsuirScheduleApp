@@ -1,6 +1,7 @@
 import SwiftUI
 import Foundation
 import BsuirUI
+import BsuirCore
 
 struct AboutView: View {
 

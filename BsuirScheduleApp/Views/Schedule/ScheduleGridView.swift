@@ -1,5 +1,6 @@
 import SwiftUI
 import BsuirUI
+import BsuirCore
 
 struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
     let days: [DayModel]
