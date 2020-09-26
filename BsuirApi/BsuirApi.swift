@@ -2,9 +2,17 @@ import Foundation
 
 extension RequestsManager {
 
-    public static func bsuir(session: URLSession = .shared, logger: Logger? = nil) -> RequestsManager {
+    public static func bsuir(session: URLSession = .cached, logger: Logger? = nil) -> RequestsManager {
         return RequestsManager(base: "https://journal.bsuir.by/api/v1", session: session, decoder: decoder, logger: logger)
     }
+}
+
+extension URLSession {
+    public static let cached: URLSession = {
+        var configuration = URLSessionConfiguration.default
+        configuration.requestCachePolicy = .returnCacheDataElseLoad
+        return URLSession(configuration: configuration)
+    }()
 }
 
 public enum BsuirTargets {
