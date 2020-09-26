@@ -17,7 +17,11 @@ struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
                             .onAppear(perform: load)
                     }
                 }
-                .onAppear { proxy.scrollTo(MostRelevantDayViewID()) }
+                .onAppear {
+                    DispatchQueue.main.async {
+                        proxy.scrollTo(MostRelevantDayViewID(), anchor: .top)
+                    }
+                }
                 .padding()
             }
         }
