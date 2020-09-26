@@ -63,6 +63,17 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     private let requestManager = RequestsManager.bsuir()
 }
 
+private let listFormatter = mutating(ListFormatter()) { $0.locale = Locale(identifier: "ru_BY") }
+
+private extension ListFormatter {
+    func string<C: Collection>(from values: C, visibleCount: Int) -> String? {
+        let visible = values.prefix(visibleCount).map { $0 as Any }
+        let remaining = values.count - visibleCount
+        guard remaining > 0 else { return string(from: visible) }
+        return string(from: visible + ["еще \(remaining)"])
+    }
+}
+
 struct ScheduleEntry: TimelineEntry {
     struct Pair {
         let from: String
@@ -78,21 +89,43 @@ struct ScheduleEntry: TimelineEntry {
 struct ScheduleWidgetEntryView : View {
     var entry: Provider.Entry
     var pair: Provider.Entry.Pair { entry.pairs.first! }
+    var pairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst() }
 
     var body: some View {
-        VStack {
-            Text(entry.title)
-            PairCell(
+        VStack(alignment: .leading, spacing: 2) {
+            HStack {
+                Image("BsuirSymbol").resizable().scaledToFit().frame(width: 20, height: 20)
+                Text(entry.title).font(.subheadline).lineLimit(1)
+                Spacer()
+            }
+
+            Text("Сегодня").font(.headline).foregroundColor(.blue)
+            PairView(
                 from: pair.from,
                 to: pair.to,
                 subject: pair.title,
-                subgroup: nil,
+                subgroup: "1",
                 auditory: pair.subtitle,
-                note: nil,
+                note: "asasasas as asas",
                 form: .lecture,
-                progress: PairProgress(constant: 0.5)
+                progress: PairProgress(constant: 0.5),
+                distribution: .vertical,
+                isCompact: true
             )
+
+            if !pairs.isEmpty {
+                HStack {
+                    Circle().frame(width: 8, height: 8)
+                    Text(listFormatter.string(from: pairs.map { $0.title }, visibleCount: 1) ?? "")
+                        .font(.footnote)
+                }.foregroundColor(.secondary)
+            }
+
+            Spacer(minLength: 0)
         }
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
+        .background(Color(.systemBackground))
     }
 }
 
@@ -114,13 +147,19 @@ struct ScheduleWidget_Previews: PreviewProvider {
     static var previews: some View {
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
+
+        ScheduleWidgetEntryView(entry: entry)
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+            .colorScheme(.dark)
     }
 
     static let entry = ScheduleEntry(
         date: Date(),
         title: "010102",
         pairs: [
-            .init(from: "10:00", to: "11:45", title: "Философия", subtitle: "101-2")
+            .init(from: "10:00", to: "11:45", title: "Философ", subtitle: "101-2"),
+            .init(from: "10:00", to: "11:45", title: "Миапр", subtitle: "101-2"),
+            .init(from: "10:00", to: "11:45", title: "Физра", subtitle: "101-2")
         ]
     )
 }
