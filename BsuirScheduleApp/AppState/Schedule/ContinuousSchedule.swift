@@ -3,6 +3,7 @@ import Combine
 import Foundation
 import os.log
 import BsuirUI
+import BsuirCore
 
 final class ContinuousSchedule: ObservableObject {
     @Published private(set) var days: [Day] = []

@@ -1,4 +1,5 @@
 import SwiftUI
+import BsuirCore
 
 public struct PairCell: View {
     var pair: PairView

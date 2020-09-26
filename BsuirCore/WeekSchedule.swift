@@ -1,14 +1,13 @@
 import Foundation
 import BsuirApi
-import BsuirUI
 
-struct WeekSchedule {
-    init(schedule: [DaySchedule], calendar: Calendar) {
+public struct WeekSchedule {
+    public init(schedule: [DaySchedule], calendar: Calendar) {
         self.groupedSchedule = schedule.groupByRelativeWeekday()
         self.calendar = calendar
     }
 
-    func pairs(for date: Date) -> [BsuirApi.Pair] {
+    public func pairs(for date: Date) -> [BsuirApi.Pair] {
         let components = calendar.dateComponents([.weekday], from: date)
         guard
             let weekday = components.weekday.flatMap(DaySchedule.WeekDay.init),
@@ -25,13 +24,13 @@ struct WeekSchedule {
 }
 
 extension WeekSchedule {
-    struct ScheduleElement {
-        let date: Date
-        let weekNumber: Int
-        let pairs: [BsuirApi.Pair]
+    public struct ScheduleElement {
+        public let date: Date
+        public let weekNumber: Int
+        public let pairs: [BsuirApi.Pair]
     }
 
-    func schedule(starting start: Date, now: Date) -> AnySequence<ScheduleElement> {
+    public func schedule(starting start: Date, now: Date) -> AnySequence<ScheduleElement> {
         AnySequence { () -> AnyIterator<ScheduleElement> in
             var offset = 0
             return AnyIterator {

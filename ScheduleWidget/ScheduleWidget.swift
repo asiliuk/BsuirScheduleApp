@@ -3,6 +3,7 @@ import SwiftUI
 import Intents
 import BsuirApi
 import BsuirUI
+import BsuirCore
 import Combine
 
 final class Provider: IntentTimelineProvider, ObservableObject {
