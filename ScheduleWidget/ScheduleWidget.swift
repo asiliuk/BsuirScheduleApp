@@ -86,7 +86,7 @@ struct ScheduleEntry: TimelineEntry {
     let pairs: [Pair]
 }
 
-struct ScheduleWidgetEntryView : View {
+struct ScheduleWidgetEntrySmallView : View {
     var entry: Provider.Entry
     var pair: Provider.Entry.Pair { entry.pairs.first! }
     var pairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst() }
@@ -99,7 +99,7 @@ struct ScheduleWidgetEntryView : View {
                 Spacer()
             }
 
-            Text("Сегодня").font(.headline).foregroundColor(.blue)
+            Text("Сегодня 24.09").font(.headline).foregroundColor(.blue)
             PairView(
                 from: pair.from,
                 to: pair.to,
@@ -129,6 +129,82 @@ struct ScheduleWidgetEntryView : View {
     }
 }
 
+struct ScheduleWidgetEntryMediumView : View {
+    var entry: Provider.Entry
+    var pair: Provider.Entry.Pair { entry.pairs.first! }
+    var pairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst() }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            HStack {
+                Text("Сегодня, 24.09").font(.headline).foregroundColor(.blue)
+                Spacer()
+                Image("BsuirSymbol").resizable().scaledToFit().frame(width: 20, height: 20)
+                Text(entry.title).font(.subheadline).lineLimit(1)
+            }
+
+            Spacer().frame(height: 4)
+
+
+            VStack(alignment: .leading, spacing: 4) {
+
+                PairView(
+                    from: pair.from,
+                    to: pair.to,
+                    subject: pair.title,
+                    subgroup: "1",
+                    auditory: pair.subtitle,
+                    note: "asasasas as asas",
+                    form: .lecture,
+                    progress: PairProgress(constant: 0.5),
+                    isCompact: true
+                )
+
+                PairView(
+                    from: pair.from,
+                    to: pair.to,
+                    subject: pair.title,
+                    subgroup: "1",
+                    auditory: pair.subtitle,
+                    note: "asasasas as asas",
+                    form: .lecture,
+                    progress: PairProgress(constant: 0.5),
+                    isCompact: true
+                )
+
+                if !pairs.isEmpty {
+                    HStack {
+                        Text("12:00").font(.system(.footnote, design: .monospaced))
+                        Circle().frame(width: 8, height: 8)
+                        Text(listFormatter.string(from: pairs.map { $0.title }, visibleCount: 3) ?? "")
+                            .font(.footnote)
+                    }.foregroundColor(.secondary)
+                }
+            }
+
+            Spacer(minLength: 0)
+        }
+        .padding()
+        .background(Color(.systemBackground))
+    }
+}
+
+struct ScheduleWidgetEntryView: View {
+    let entry: Provider.Entry
+    @Environment(\.widgetFamily) var size
+
+    var body: some View {
+        switch size {
+        case .systemSmall:
+            ScheduleWidgetEntrySmallView(entry: entry)
+        case .systemMedium:
+            ScheduleWidgetEntryMediumView(entry: entry)
+        default:
+            EmptyView()
+        }
+    }
+}
+
 @main
 struct ScheduleWidget: Widget {
     let kind: String = "ScheduleWidget"
@@ -151,6 +227,9 @@ struct ScheduleWidget_Previews: PreviewProvider {
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
             .colorScheme(.dark)
+
+        ScheduleWidgetEntryView(entry: entry)
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 
     static let entry = ScheduleEntry(
@@ -159,7 +238,10 @@ struct ScheduleWidget_Previews: PreviewProvider {
         pairs: [
             .init(from: "10:00", to: "11:45", title: "Философ", subtitle: "101-2"),
             .init(from: "10:00", to: "11:45", title: "Миапр", subtitle: "101-2"),
-            .init(from: "10:00", to: "11:45", title: "Физра", subtitle: "101-2")
+            .init(from: "10:00", to: "11:45", title: "Физра", subtitle: "101-2"),
+            .init(from: "10:00", to: "11:45", title: "ПОИТ", subtitle: "101-2"),
+            .init(from: "10:00", to: "11:45", title: "ОкПрог", subtitle: "101-2"),
+            .init(from: "10:00", to: "11:45", title: "Философ", subtitle: "101-2")
         ]
     )
 }
