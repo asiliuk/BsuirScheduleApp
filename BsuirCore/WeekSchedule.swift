@@ -25,9 +25,15 @@ public struct WeekSchedule {
 
 extension WeekSchedule {
     public struct ScheduleElement {
+        public struct Pair {
+            public let start: Date
+            public let end: Date
+            public let base: BsuirApi.Pair
+        }
+
         public let date: Date
         public let weekNumber: Int
-        public let pairs: [BsuirApi.Pair]
+        public let pairs: [Pair]
     }
 
     public func schedule(starting start: Date, now: Date) -> AnySequence<ScheduleElement> {
@@ -42,9 +48,23 @@ extension WeekSchedule {
                         let weekNumber = WeekNum(weekNum: rawWeekNumber)
                     else { return nil }
 
-                    let pairs = self.pairs(for: date).filter { $0.weekNumber.contains(weekNumber) }
+                    let pairs = self.pairs(for: date)
+                        .filter { $0.weekNumber.contains(weekNumber) }
+                        .compactMap { pair -> ScheduleElement.Pair? in
+                            guard
+                                let start = calendar.date(bySetting: pair.startLessonTime, of: date),
+                                let end = calendar.date(bySetting: pair.endLessonTime, of: date)
+                            else { return nil }
+
+                            return ScheduleElement.Pair(start: start, end: end, base: pair)
+                        }
+
                     if !pairs.isEmpty {
-                        element = ScheduleElement(date: date, weekNumber: rawWeekNumber, pairs: pairs)
+                        element = ScheduleElement(
+                            date: date,
+                            weekNumber: rawWeekNumber,
+                            pairs: pairs
+                        )
                     }
 
                     offset += 1
@@ -55,7 +75,24 @@ extension WeekSchedule {
     }
 }
 
+extension WeekSchedule.ScheduleElement {
+    public func hasUnfinishedPairs(calendar: Calendar, now: Date) -> Bool {
+        pairs.contains { $0.end > now }
+    }
+}
+
 extension Calendar {
+    public func date(bySetting time: BsuirApi.Pair.Time, of date: Date) -> Date? {
+        self.date(
+            bySettingHour: time.hour,
+            minute: time.minute,
+            second: 0,
+            of: date
+        )
+    }
+}
+
+private extension Calendar {
     func weekNumber(for date: Date, now: Date) -> Int? {
         let components = dateComponents([.day, .month, .year, .weekday], from: date)
         let firstDayComponents = mutating(components) { $0.day = 1; $0.month = 9 }

@@ -38,17 +38,14 @@ final class ContinuousSchedule: ObservableObject {
     }
 
     private func day(for element: WeekSchedule.ScheduleElement) -> Day {
-        let title = "\(Self.formatter.string(from: element.date)), Неделя \(element.weekNumber)"
-        let subtitle = relativeName(for: element.date)
-
-        let pairProgress = { [calendar] pair in
-            PairProgress(pair: pair, day: element.date, calendar: calendar) ?? PairProgress(constant: 0)
-        }
-
         return Day(
-            title: title,
-            subtitle: subtitle,
-            pairs: element.pairs.map { Day.Pair($0, showWeeks: false, progress: pairProgress($0)) },
+            title: "\(Self.formatter.string(from: element.date)), Неделя \(element.weekNumber)",
+            subtitle: relativeName(for: element.date),
+            pairs: element.pairs.map { Day.Pair(
+                $0.base,
+                showWeeks: false,
+                progress: PairProgress(from: $0.start, to: $0.end)
+            ) },
             isToday: calendar.compare(now, to: element.date, toGranularity: .day) == .orderedSame,
             isMostRelevant: mostRelevant == element.date
         )
@@ -82,35 +79,4 @@ final class ContinuousSchedule: ObservableObject {
         formatter.formattingContext = .beginningOfSentence
         return formatter
     }()
-}
-
-private extension WeekSchedule.ScheduleElement {
-    func hasUnfinishedPairs(calendar: Calendar, now: Date) -> Bool {
-        pairs.contains { pair in
-            guard let pairEnd = calendar.date(bySetting: pair.endLessonTime, of: date) else { return false }
-            return pairEnd > now
-        }
-    }
-}
-
-private extension PairProgress {
-    convenience init?(pair: BsuirApi.Pair, day: Date, calendar: Calendar) {
-        guard
-            let from = calendar.date(bySetting: pair.startLessonTime, of: day),
-            let to = calendar.date(bySetting: pair.endLessonTime, of: day)
-        else { return nil }
-
-        self.init(from: from, to: to)
-    }
-}
-
-private extension Calendar {
-    func date(bySetting time: BsuirApi.Pair.Time, of date: Date) -> Date? {
-        self.date(
-            bySettingHour: time.hour,
-            minute: time.minute,
-            second: 0,
-            of: date
-        )
-    }
 }
