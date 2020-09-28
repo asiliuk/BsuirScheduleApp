@@ -9,24 +9,24 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     typealias Entry = ScheduleEntry
 
     func placeholder(in context: Context) -> Entry {
-        ScheduleEntry(date: Date(), title: "Some name", pairs: [])
+        return .placeholder
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Entry) -> ()) {
         guard let identifier = ScheduleIdentifier(configuration: configuration) else {
-            return completion(Entry(date: Date(), title: "---", pairs: []))
+            return completion(.placeholder)
         }
 
         requestSnapshotCancellable = mostRelevantSchedule(for: identifier)
             .map { response in Entry(response, at: Date()) }
-            .replaceNil(with: Entry(date: Date(), title: "---", pairs: []))
-            .replaceError(with: Entry(date: Date(), title: "---", pairs: []))
+            .replaceNil(with: .placeholder)
+            .replaceError(with: .placeholder)
             .sink(receiveValue: completion)
     }
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         guard let identifier = ScheduleIdentifier(configuration: configuration) else {
-            return completion(.init(entries: [Entry(date: Date(), title: "---", pairs: [])], policy: .never))
+            return completion(.init(entries: [.needsConfiguration], policy: .never))
         }
 
         requestTimelineCancellable = mostRelevantSchedule(for: identifier)
@@ -109,10 +109,17 @@ private extension Employee {
 }
 
 struct ScheduleEntry: TimelineEntry {
-    typealias Pair = PairViewModel
+    enum Content {
+        case pairs([PairViewModel])
+        case needsConfiguration
+    }
+
     let date: Date
     var title: String
-    var pairs: [Pair]
+    var content: Content
+
+    static let placeholder = Self(date: Date(), title: "---", content: .pairs([]))
+    static let needsConfiguration = Self(date: Date(), title: "---", content: .needsConfiguration)
 }
 
 private extension ScheduleEntry {
@@ -122,13 +129,13 @@ private extension ScheduleEntry {
         self.init(
             date: date,
             title: response.title,
-            pairs: remainingPairs.map {
-                Pair(
+            content: .pairs(remainingPairs.map {
+                PairViewModel(
                     $0.base,
                     showWeeks: false,
                     progress: PairProgress(at: date, pair: $0)
                 )
-            }
+            })
         )
     }
 }

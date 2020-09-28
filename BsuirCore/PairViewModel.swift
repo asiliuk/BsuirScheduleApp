@@ -1,8 +1,8 @@
 import Foundation
 import BsuirApi
 
-public struct PairViewModel {
-    public enum Form {
+public struct PairViewModel: Equatable {
+    public enum Form: Equatable {
         case lecture
         case practice
         case lab

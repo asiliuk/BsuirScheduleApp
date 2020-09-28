@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-public final class PairProgress: ObservableObject {
+public final class PairProgress: ObservableObject, Equatable {
     @Published private(set) public var value: Double
 
     public init(constant value: Double) {
@@ -22,5 +22,9 @@ public final class PairProgress: ObservableObject {
         guard timeframe > 0 else { return 0 }
 
         return date.timeIntervalSince(from) / timeframe
+    }
+
+    public static func == (lhs: PairProgress, rhs: PairProgress) -> Bool {
+        lhs.value == rhs.value
     }
 }

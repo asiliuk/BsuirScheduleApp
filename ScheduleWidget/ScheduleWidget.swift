@@ -42,8 +42,6 @@ struct ScheduleWidgetEntryView: View {
 
 struct ScheduleWidgetEntrySmallView : View {
     var entry: Provider.Entry
-    var currentPair: Provider.Entry.Pair? { entry.pairs.first }
-    var remainingPairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst() }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -54,17 +52,18 @@ struct ScheduleWidgetEntrySmallView : View {
 
             WidgetDateTitle(date: entry.date)
 
-            Spacer(minLength: 0)
-
-            if let pair = currentPair {
-                PairView(pair: pair, distribution: .vertical, isCompact: true)
-            } else {
+            switch entry.content {
+            case .needsConfiguration:
+                NeedsConfigurationView()
+            case .pairs([]):
                 NoPairsView()
+            case let .pairs(pairs):
+                Spacer(minLength: 0)
+                PairView(pair: pairs[0], distribution: .vertical, isCompact: true)
+                Spacer(minLength: 0)
+
+                RemainingPairs(pairs: pairs.dropFirst(), visibleCount: 1, showTime: false)
             }
-
-            Spacer(minLength: 0)
-
-            RemainingPairs(pairs: remainingPairs, visibleCount: 1, showTime: false)
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 12)
@@ -74,8 +73,7 @@ struct ScheduleWidgetEntrySmallView : View {
 
 struct ScheduleWidgetEntryMediumView : View {
     var entry: Provider.Entry
-    var visiblePairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.prefix(2) }
-    var remainingPairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst(2) }
+    let visiblePairsCount = 2
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -85,21 +83,23 @@ struct ScheduleWidgetEntryMediumView : View {
                 ScheduleIdentifierTitle(title: entry.title)
             }
 
-            if visiblePairs.isEmpty {
-                Spacer(minLength: 4)
+            switch entry.content {
+            case .needsConfiguration:
+                NeedsConfigurationView()
+            case .pairs([]):
                 NoPairsView()
-            } else {
+            case let .pairs(pairs):
                 VStack(alignment: .leading, spacing: 4) {
-                    ForEach(visiblePairs.indices, id: \.self) {
-                        PairView(pair: visiblePairs[$0], isCompact: true)
+                    ForEach(pairs.indices.prefix(visiblePairsCount), id: \.self) {
+                        PairView(pair: pairs[$0], isCompact: true)
                     }
                 }
                 .padding(.top, 6)
+
+                Spacer(minLength: 0)
+
+                RemainingPairs(pairs: pairs.dropFirst(visiblePairsCount), visibleCount: 3, showTime: true)
             }
-
-            Spacer(minLength: 0)
-
-            RemainingPairs(pairs: remainingPairs, visibleCount: 3, showTime: true)
         }
         .padding()
         .background(Color(.systemBackground))
@@ -108,8 +108,7 @@ struct ScheduleWidgetEntryMediumView : View {
 
 struct ScheduleWidgetEntryLargeView : View {
     var entry: Provider.Entry
-    var visiblePairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.prefix(6) }
-    var remainingPairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst(6) }
+    let visiblePairsCount = 6
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -119,25 +118,27 @@ struct ScheduleWidgetEntryLargeView : View {
                 ScheduleIdentifierTitle(title: entry.title)
             }
 
-            if visiblePairs.isEmpty {
-                Spacer(minLength: 0)
+            switch entry.content {
+            case .needsConfiguration:
+                NeedsConfigurationView()
+            case .pairs([]):
                 NoPairsView()
-            } else {
-                VStack(alignment: .leading, spacing: 04) {
-                    ForEach(visiblePairs.indices, id: \.self) {
-                        PairView(pair: visiblePairs[$0], isCompact: true)
+            case let .pairs(pairs):
+                VStack(alignment: .leading, spacing: 4) {
+                    ForEach(pairs.indices.prefix(visiblePairsCount), id: \.self) {
+                        PairView(pair: pairs[$0], isCompact: true)
                             .padding(.leading, 10)
                             .padding(.vertical, 4)
                             .background(ContainerRelativeShape().foregroundColor(Color(.secondarySystemBackground)))
                     }
                 }
                 .padding(.vertical, 6)
+
+                Spacer(minLength: 0)
+
+                RemainingPairs(pairs: pairs.dropFirst(visiblePairsCount), visibleCount: 3, showTime: true)
+                    .padding(.leading, 10)
             }
-
-            Spacer(minLength: 0)
-
-            RemainingPairs(pairs: remainingPairs, visibleCount: 3, showTime: true)
-                .padding(.leading, 10)
         }
         .padding()
         .background(Color(.systemBackground))
@@ -182,11 +183,17 @@ struct ScheduleIdentifierTitle: View {
 
 struct NoPairsView: View {
     var body: some View {
-        HStack {
-            Spacer()
-            Text("Нет занятий").foregroundColor(.secondary)
-            Spacer()
-        }
+        Text("Нет занятий")
+            .foregroundColor(.secondary)
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+    }
+}
+
+struct NeedsConfigurationView: View {
+    var body: some View {
+        Text("Выберите расписание")
+            .foregroundColor(.secondary)
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
     }
 }
 
@@ -204,7 +211,7 @@ struct WidgetDateTitle: View {
 }
 
 struct RemainingPairs: View {
-    let pairs: ArraySlice<Provider.Entry.Pair>
+    let pairs: ArraySlice<PairViewModel>
     let visibleCount: Int
     let showTime: Bool
 
@@ -232,29 +239,32 @@ struct ScheduleWidget_Previews: PreviewProvider {
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
 
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.pairs = [] })
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs([]) })
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .needsConfiguration })
             .previewContext(WidgetPreviewContext(family: .systemSmall))
 
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemMedium))
 
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.pairs = Array($0.pairs.prefix(1)) })
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs([]) })
             .previewContext(WidgetPreviewContext(family: .systemMedium))
 
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.pairs = [] })
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .needsConfiguration })
             .previewContext(WidgetPreviewContext(family: .systemMedium))
 
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemLarge))
 
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.pairs = [] })
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs([]) })
             .previewContext(WidgetPreviewContext(family: .systemLarge))
     }
 
     static let entry = ScheduleEntry(
         date: Date().addingTimeInterval(3600 * 20),
         title: "Иванов АН",
-        pairs: [
+        content: .pairs([
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "Философ", auditory: "101-2"),
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "Миапр", auditory: "101-2"),
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "Физра", auditory: "101-2"),
@@ -262,6 +272,6 @@ struct ScheduleWidget_Previews: PreviewProvider {
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "ОкПрог", auditory: "101-2"),
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "Философ", auditory: "101-2"),
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "Философ", auditory: "101-2"),
-        ]
+        ])
     )
 }
