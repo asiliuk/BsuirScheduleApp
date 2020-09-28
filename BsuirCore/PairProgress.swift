@@ -13,4 +13,14 @@ public final class PairProgress: ObservableObject {
         self.value = 0
         value.removeDuplicates().assign(to: &self.$value)
     }
+
+    public static func progress(at date: Date, from: Date, to: Date) -> Double {
+        guard date >= from else { return 0 }
+        guard date <= to else { return 1 }
+
+        let timeframe = to.timeIntervalSince(from)
+        guard timeframe > 0 else { return 0 }
+
+        return date.timeIntervalSince(from) / timeframe
+    }
 }

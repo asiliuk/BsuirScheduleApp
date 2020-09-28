@@ -93,6 +93,9 @@
 		E6EDC2B5251FCD4600C8A73C /* BsuirCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E6EDC288251FCC2700C8A73C /* BsuirCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E6EDC2BB251FD91100C8A73C /* PairViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2BA251FD91100C8A73C /* PairViewModel.swift */; };
 		E6EDC2BE251FD95700C8A73C /* PairProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6906783251CCEF500CF2DF2 /* PairProgress.swift */; };
+		E6EDC2CB2521ED6B00C8A73C /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2CA2521ED6B00C8A73C /* Locale.swift */; };
+		E6EDC2D12521EE2E00C8A73C /* RelativeDateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2D02521EE2E00C8A73C /* RelativeDateTimeFormatter.swift */; };
+		E6EDC2D72521F0DF00C8A73C /* ScheduleDateTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2D62521F0DF00C8A73C /* ScheduleDateTitle.swift */; };
 		E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B522F8B1C10038FC43 /* AppDelegate.swift */; };
 		E6F931B822F8B1C10038FC43 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */; };
 		E6F931BB22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B922F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld */; };
@@ -314,6 +317,9 @@
 		E6EDC28A251FCC2700C8A73C /* BsuirCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BsuirCore.h; sourceTree = "<group>"; };
 		E6EDC28B251FCC2700C8A73C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6EDC2BA251FD91100C8A73C /* PairViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairViewModel.swift; sourceTree = "<group>"; };
+		E6EDC2CA2521ED6B00C8A73C /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
+		E6EDC2D02521EE2E00C8A73C /* RelativeDateTimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeDateTimeFormatter.swift; sourceTree = "<group>"; };
+		E6EDC2D62521F0DF00C8A73C /* ScheduleDateTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDateTitle.swift; sourceTree = "<group>"; };
 		E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BsuirScheduleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6F931B522F8B1C10038FC43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -441,6 +447,7 @@
 			children = (
 				E6EDC27A251FA06800C8A73C /* Helpers */,
 				E6906782251CCEF500CF2DF2 /* PairView.swift */,
+				E6EDC2D62521F0DF00C8A73C /* ScheduleDateTitle.swift */,
 				E690674B251CCB0200CF2DF2 /* BsuirUI.h */,
 				E690674C251CCB0200CF2DF2 /* Info.plist */,
 			);
@@ -624,6 +631,8 @@
 				E69AE86225192F490060D761 /* WeekSchedule.swift */,
 				E6EDC2BA251FD91100C8A73C /* PairViewModel.swift */,
 				E6906783251CCEF500CF2DF2 /* PairProgress.swift */,
+				E6EDC2CA2521ED6B00C8A73C /* Locale.swift */,
+				E6EDC2D02521EE2E00C8A73C /* RelativeDateTimeFormatter.swift */,
 				E6EDC28A251FCC2700C8A73C /* BsuirCore.h */,
 				E6EDC28B251FCC2700C8A73C /* Info.plist */,
 			);
@@ -958,6 +967,7 @@
 			files = (
 				E6906784251CCEF500CF2DF2 /* PairView.swift in Sources */,
 				E6EDC27C251FA08200C8A73C /* CombineText.swift in Sources */,
+				E6EDC2D72521F0DF00C8A73C /* ScheduleDateTitle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1002,8 +1012,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6EDC2CB2521ED6B00C8A73C /* Locale.swift in Sources */,
 				E6EDC2A9251FCC7600C8A73C /* Mutating.swift in Sources */,
 				E6EDC2A5251FCC5400C8A73C /* WeekSchedule.swift in Sources */,
+				E6EDC2D12521EE2E00C8A73C /* RelativeDateTimeFormatter.swift in Sources */,
 				E6EDC2BE251FD95700C8A73C /* PairProgress.swift in Sources */,
 				E6EDC2BB251FD91100C8A73C /* PairViewModel.swift in Sources */,
 			);

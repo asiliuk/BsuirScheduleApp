@@ -14,47 +14,35 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Entry) -> ()) {
-//        requestSnapshotCancellable = requestSchedule(for: configuration)
-//            .map { Entry(date: Date(), title: $0.title, pairs: []) }
-//            .replaceError(with: Entry(date: Date(), title: "---", pairs: []))
-//            .sink(receiveValue: completion)
+        guard let identifier = ScheduleIdentifier(configuration: configuration) else {
+            return completion(Entry(date: Date(), title: "---", pairs: []))
+        }
 
-        requestSnapshotCancellable = mostRelevantSchedule(for: configuration)
-            .map { response in Entry(response, at: response.now) }
+        requestSnapshotCancellable = mostRelevantSchedule(for: identifier)
+            .map { response in Entry(response, at: Date()) }
             .replaceNil(with: Entry(date: Date(), title: "---", pairs: []))
             .replaceError(with: Entry(date: Date(), title: "---", pairs: []))
             .sink(receiveValue: completion)
     }
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-//        requestTimelineCancellable = requestSchedule(for: configuration)
-//            .map { Entry(date: Date(), title: $0.title, pairs: []) }
-//            .replaceError(with: Entry(date: Date(), title: "---", pairs: []))
-//            .map { .init(entries: [$0], policy: .atEnd) }
-//            .sink(receiveValue: completion)
+        guard let identifier = ScheduleIdentifier(configuration: configuration) else {
+            return completion(.init(entries: [Entry(date: Date(), title: "---", pairs: [])], policy: .never))
+        }
 
-        requestSnapshotCancellable = mostRelevantSchedule(for: configuration)
-            .map { response in Entry(response, at: response.now) }
-            .replaceNil(with: Entry(date: Date(), title: "---", pairs: []))
-            .replaceError(with: Entry(date: Date(), title: "---", pairs: []))
-            .map { .init(entries: [$0], policy: .atEnd) }
+        requestTimelineCancellable = mostRelevantSchedule(for: identifier)
+            .map { Timeline<Entry>($0) }
+            .replaceError(with: .init(entries: [], policy: .after(Date().advanced(by: 5 * 60))))
             .sink(receiveValue: completion)
-
-//        requestSnapshotCancellable2 = mostRelevantSchedule(for: configuration)
-//            .replaceError(with: MostRelevantScheduleResponse(title: "---", now: Date(), date: Date(), pairs: []))
-//            .sink(receiveValue: { most in
-//                dump(most)
-//            })
     }
 
     fileprivate struct MostRelevantScheduleResponse {
         let title: String
-        let now: Date
         let schedule: WeekSchedule.ScheduleElement
     }
 
-    private func mostRelevantSchedule(for configuration: ConfigurationIntent) -> AnyPublisher<MostRelevantScheduleResponse, RequestScheduleError> {
-        requestSchedule(for: configuration)
+    private func mostRelevantSchedule(for identifier: ScheduleIdentifier) -> AnyPublisher<MostRelevantScheduleResponse, RequestsManager.RequestError> {
+        requestSchedule(for: identifier)
             .compactMap { [calendar] response in
                 let now = Date()
 
@@ -65,7 +53,6 @@ final class Provider: IntentTimelineProvider, ObservableObject {
 
                 return MostRelevantScheduleResponse(
                     title: response.title,
-                    now: now,
                     schedule: mostRelevantElement
                 )
             }
@@ -77,41 +64,54 @@ final class Provider: IntentTimelineProvider, ObservableObject {
         let schedules: [DaySchedule]
     }
 
-    private enum RequestScheduleError: Error {
-        case invalidData
-        case request(RequestsManager.RequestError)
+    private enum ScheduleIdentifier {
+        case group(id: Int)
+        case lecturer(id: Int)
+
+        init?(configuration: ConfigurationIntent) {
+            func makeId(_ identifier: String?) -> Int? { identifier.flatMap(Int.init) }
+            switch configuration.type {
+            case .unknown, .group:
+                guard let groupId = makeId(configuration.groupNumber?.identifier) else { return nil }
+                self = .group(id: groupId)
+            case .lecturer:
+                guard let lecturerId = makeId(configuration.lecturer?.identifier) else { return nil }
+                self = .lecturer(id: lecturerId)
+            }
+        }
     }
 
-    private func requestSchedule(for configuration: ConfigurationIntent) -> AnyPublisher<ScheduleResponse, RequestScheduleError> {
-        func makeId(_ identifier: String?) -> Int? { identifier.flatMap(Int.init) }
-        let fail = Fail<ScheduleResponse, RequestScheduleError>(error: .invalidData).eraseToAnyPublisher()
-        switch configuration.type {
-        case .unknown, .group:
-            guard let groupId = makeId(configuration.groupNumber?.identifier) else { return fail }
+    private func requestSchedule(for identifier: ScheduleIdentifier) -> AnyPublisher<ScheduleResponse, RequestsManager.RequestError> {
+        switch identifier {
+        case let .group(groupId):
             return requestManager
                 .request(BsuirTargets.Schedule(agent: .groupID(groupId)))
-                .mapError(RequestScheduleError.request)
                 .map { ScheduleResponse(title: $0.studentGroup.name, schedules: $0.schedules) }
                 .eraseToAnyPublisher()
-        case .lecturer:
-            guard let lecturerId = makeId(configuration.lecturer?.identifier) else { return fail }
+        case let .lecturer(lecturerId):
             return requestManager
                 .request(BsuirTargets.EmployeeSchedule(id: lecturerId))
-                .mapError(RequestScheduleError.request)
                 .map { ScheduleResponse(title: $0.employee.fio, schedules: $0.schedules ?? []) }
                 .eraseToAnyPublisher()
         }
     }
 
     private let calendar = Calendar.current
-    private var requestSnapshotCancellable2: AnyCancellable?
     private var requestSnapshotCancellable: AnyCancellable?
     private var requestTimelineCancellable: AnyCancellable?
     private let requestManager = RequestsManager.bsuir()
 }
 
-private let listFormatter = mutating(ListFormatter()) { $0.locale = Locale(identifier: "ru_BY") }
-private let timeFormatter = mutating(DateFormatter()) { $0.timeStyle = .short; $0.dateStyle = .none }
+private let listFormatter = mutating(ListFormatter()) {
+    $0.locale = .by
+}
+
+private let dateFormatter = mutating(DateFormatter()) {
+    $0.locale = .by
+    $0.setLocalizedDateFormatFromTemplate("dMM")
+}
+
+private let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 
 private extension ListFormatter {
     func string<C: Collection>(from values: C, visibleCount: Int) -> String? {
@@ -125,8 +125,8 @@ private extension ListFormatter {
 struct ScheduleEntry: TimelineEntry {
     typealias Pair = PairViewModel
     let date: Date
-    let title: String
-    let pairs: [Pair]
+    var title: String
+    var pairs: [Pair]
 }
 
 private extension ScheduleEntry {
@@ -136,8 +136,37 @@ private extension ScheduleEntry {
         self.init(
             date: date,
             title: response.title,
-            pairs: remainingPairs.map { Pair($0.base, showWeeks: false) }
+            pairs: remainingPairs.map {
+                Pair(
+                    $0.base,
+                    showWeeks: false,
+                    progress: PairProgress(at: date, pair: $0)
+                )
+            }
         )
+    }
+}
+
+private extension Timeline where EntryType == ScheduleEntry {
+    init(_ response: Provider.MostRelevantScheduleResponse) {
+        let dates = response.schedule.pairs.flatMap { pair in
+            stride(
+                from: pair.start.timeIntervalSince1970,
+                through: pair.end.timeIntervalSince1970,
+                by: 10 * 60
+            ).map { Date(timeIntervalSince1970: $0) }
+        }
+
+        self.init(
+            entries: dates.compactMap { ScheduleEntry(response, at: $0) },
+            policy: .atEnd
+        )
+    }
+}
+
+private extension PairProgress {
+    convenience init(at date: Date, pair: WeekSchedule.ScheduleElement.Pair) {
+        self.init(constant: Self.progress(at: date, from: pair.start, to: pair.end))
     }
 }
 
@@ -156,8 +185,43 @@ struct NoPairsView: View {
     var body: some View {
         HStack {
             Spacer()
-            Text("Пар нет").foregroundColor(.secondary)
+            Text("Нет занятий").foregroundColor(.secondary)
             Spacer()
+        }
+    }
+}
+
+struct WidgetDateTitle: View {
+    let date: Date
+    @Environment(\.calendar) var calendar
+
+    var body: some View {
+        ScheduleDateTitle(
+            date: dateFormatter.string(from: date),
+            relativeDate: relativeFormatter.relativeName(for: date, now: Date()),
+            isToday: calendar.isDateInToday(date)
+        )
+    }
+}
+
+struct RemainingPairs: View {
+    let pairs: ArraySlice<Provider.Entry.Pair>
+    let visibleCount: Int
+    let showTime: Bool
+
+    var body: some View {
+        if !pairs.isEmpty {
+            HStack {
+                if showTime, let time = pairs.first?.from {
+                    Text(time).font(.system(.footnote, design: .monospaced))
+                }
+
+                Circle().frame(width: 8, height: 8)
+
+                Text(listFormatter.string(from: pairs.map { $0.subject }, visibleCount: visibleCount) ?? "")
+                    .font(.footnote)
+            }
+            .foregroundColor(.secondary)
         }
     }
 }
@@ -165,7 +229,7 @@ struct NoPairsView: View {
 struct ScheduleWidgetEntrySmallView : View {
     var entry: Provider.Entry
     var currentPair: Provider.Entry.Pair? { entry.pairs.first }
-    var restPairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst() }
+    var remainingPairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst() }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -174,7 +238,7 @@ struct ScheduleWidgetEntrySmallView : View {
                 Spacer(minLength: 0)
             }
 
-            Text("\(entry.date, style: .date)").font(.headline).foregroundColor(.blue)
+            WidgetDateTitle(date: entry.date)
 
             Spacer(minLength: 0)
 
@@ -184,18 +248,9 @@ struct ScheduleWidgetEntrySmallView : View {
                 NoPairsView()
             }
 
-
             Spacer(minLength: 0)
 
-            if !restPairs.isEmpty {
-                HStack {
-                    Circle().frame(width: 8, height: 8)
-                    Text(listFormatter.string(from: restPairs.map { $0.subject }, visibleCount: 1) ?? "")
-                        .font(.footnote)
-                }
-                .foregroundColor(.secondary)
-            }
-
+            RemainingPairs(pairs: remainingPairs, visibleCount: 1, showTime: false)
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 12)
@@ -205,61 +260,32 @@ struct ScheduleWidgetEntrySmallView : View {
 
 struct ScheduleWidgetEntryMediumView : View {
     var entry: Provider.Entry
-    var pair: Provider.Entry.Pair { entry.pairs[0] }
-    var secondPair: Provider.Entry.Pair { entry.pairs[1] }
-    var pairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst(2) }
+    var visiblePairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.prefix(2) }
+    var remainingPairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst(2) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            EmptyView()
-//            HStack {
-//                Text("Сегодня, 24.09").font(.headline).foregroundColor(.blue)
-//                Spacer()
-//                Image("BsuirSymbol").resizable().scaledToFit().frame(width: 20, height: 20)
-//                Text(entry.title).font(.subheadline).lineLimit(1)
-//
-//            }
-//
-//            Spacer().frame(height: 4)
-//
-//
-//            VStack(alignment: .leading, spacing: 4) {
-//
-//                PairView(
-//                    from: pair.from,
-//                    to: pair.to,
-//                    subject: pair.title,
-//                    subgroup: "1",
-//                    auditory: pair.subtitle,
-//                    note: "asasasas as asas",
-//                    form: .lecture,
-//                    progress: PairProgress(constant: 0.5),
-//                    isCompact: true
-//                )
-//
-//                PairView(
-//                    from: secondPair.from,
-//                    to: secondPair.to,
-//                    subject: secondPair.title,
-//                    subgroup: "1",
-//                    auditory: secondPair.subtitle,
-//                    note: "asasasas as asas",
-//                    form: .lecture,
-//                    progress: PairProgress(constant: 0.5),
-//                    isCompact: true
-//                )
-//
-//                if !pairs.isEmpty {
-//                    HStack {
-//                        Text("12:00").font(.system(.footnote, design: .monospaced))
-//                        Circle().frame(width: 8, height: 8)
-//                        Text(listFormatter.string(from: pairs.map { $0.title }, visibleCount: 3) ?? "")
-//                            .font(.footnote)
-//                    }.foregroundColor(.secondary)
-//                }
-//            }
+            HStack {
+                WidgetDateTitle(date: entry.date)
+                Spacer()
+                ScheduleIdentifierTitle(title: entry.title)
+            }
+
+            if visiblePairs.isEmpty {
+                Spacer(minLength: 4)
+                NoPairsView()
+            } else {
+                VStack(alignment: .leading, spacing: 4) {
+                    ForEach(visiblePairs.indices, id: \.self) {
+                        PairView(pair: visiblePairs[$0], isCompact: true)
+                    }
+                }
+                .padding(.top, 6)
+            }
 
             Spacer(minLength: 0)
+
+            RemainingPairs(pairs: remainingPairs, visibleCount: 3, showTime: true)
         }
         .padding()
         .background(Color(.systemBackground))
@@ -268,46 +294,36 @@ struct ScheduleWidgetEntryMediumView : View {
 
 struct ScheduleWidgetEntryLargeView : View {
     var entry: Provider.Entry
+    var visiblePairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.prefix(6) }
+    var remainingPairs: ArraySlice<Provider.Entry.Pair> { entry.pairs.dropFirst(6) }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            EmptyView()
-//            HStack {
-//                Text("Сегодня, 24.09").font(.headline).foregroundColor(.blue)
-//                Spacer()
-//                Image("BsuirSymbol").resizable().scaledToFit().frame(width: 20, height: 20)
-//                Text(entry.title).font(.subheadline).lineLimit(1)
-//            }
-//
-//            VStack(alignment: .leading, spacing: 8) {
-//                ForEach(entry.pairs.prefix(6), id: \.title) { pair in
-//                    PairView(
-//                        from: pair.from,
-//                        to: pair.to,
-//                        subject: pair.title,
-//                        subgroup: "1",
-//                        auditory: pair.subtitle,
-//                        note: "asasasas as asa as asassaa asas as s",
-//                        form: .lecture,
-//                        progress: PairProgress(constant: 0.5),
-//                        isCompact: true
-//                    )
-//                    .padding(.leading, 10)
-//                    .padding(.vertical, 4)
-//                    .background(ContainerRelativeShape().foregroundColor(Color(.secondarySystemBackground)))
-//                }
-////
-////                if !pairs.isEmpty {
-////                    HStack {
-////                        Text("12:00").font(.system(.footnote, design: .monospaced))
-////                        Circle().frame(width: 8, height: 8)
-////                        Text(listFormatter.string(from: pairs.map { $0.title }, visibleCount: 3) ?? "")
-////                            .font(.footnote)
-////                    }.foregroundColor(.secondary)
-////                }
-//            }
-//
-//            Spacer(minLength: 0)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                WidgetDateTitle(date: entry.date)
+                Spacer()
+                ScheduleIdentifierTitle(title: entry.title)
+            }
+
+            if visiblePairs.isEmpty {
+                Spacer(minLength: 0)
+                NoPairsView()
+            } else {
+                VStack(alignment: .leading, spacing: 04) {
+                    ForEach(visiblePairs.indices, id: \.self) {
+                        PairView(pair: visiblePairs[$0], isCompact: true)
+                            .padding(.leading, 10)
+                            .padding(.vertical, 4)
+                            .background(ContainerRelativeShape().foregroundColor(Color(.secondarySystemBackground)))
+                    }
+                }
+                .padding(.vertical, 6)
+            }
+
+            Spacer(minLength: 0)
+
+            RemainingPairs(pairs: remainingPairs, visibleCount: 3, showTime: true)
+                .padding(.leading, 10)
         }
         .padding()
         .background(Color(.systemBackground))
@@ -351,15 +367,27 @@ struct ScheduleWidget_Previews: PreviewProvider {
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
 
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.pairs = [] })
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+
         ScheduleWidgetEntryView(entry: entry)
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
+
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.pairs = Array($0.pairs.prefix(1)) })
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
+
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.pairs = [] })
             .previewContext(WidgetPreviewContext(family: .systemMedium))
 
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemLarge))
+
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.pairs = [] })
+            .previewContext(WidgetPreviewContext(family: .systemLarge))
     }
 
     static let entry = ScheduleEntry(
-        date: Date(),
+        date: Date().addingTimeInterval(3600 * 20),
         title: "Иванов А.Н.",
         pairs: [
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "Философ", auditory: "101-2"),
@@ -367,7 +395,8 @@ struct ScheduleWidget_Previews: PreviewProvider {
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "Физра", auditory: "101-2"),
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "ПОИТ", auditory: "101-2"),
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "ОкПрог", auditory: "101-2"),
-            .init(from: "10:00", to: "11:45", form: .lecture, subject: "Философ", auditory: "101-2")
+            .init(from: "10:00", to: "11:45", form: .lecture, subject: "Философ", auditory: "101-2"),
+            .init(from: "10:00", to: "11:45", form: .lecture, subject: "Философ", auditory: "101-2"),
         ]
     )
 }

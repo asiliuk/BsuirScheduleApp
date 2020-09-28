@@ -51,15 +51,7 @@ extension PairProgress {
                 .publish(every: 60, on: .main, in: .default)
                 .autoconnect()
                 .prepend(Date())
-                .map { date in
-                    guard date >= from else { return 0 }
-                    guard date <= to else { return 1 }
-
-                    let timeframe = to.timeIntervalSince(from)
-                    guard timeframe > 0 else { return 0 }
-
-                    return date.timeIntervalSince(from) / timeframe
-                }
+                .map { Self.progress(at: $0, from: from, to: to) }
                 .eraseToAnyPublisher()
         )
     }

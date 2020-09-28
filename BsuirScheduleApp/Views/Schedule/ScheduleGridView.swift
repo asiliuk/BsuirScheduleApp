@@ -43,9 +43,7 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            titleText
-                .font(.headline)
-                .accessibility(addTraits: .isHeader)
+            ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
 
             ForEach(pairs) {
                 makePairView($0)

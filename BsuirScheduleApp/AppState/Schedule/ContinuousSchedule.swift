@@ -40,21 +40,15 @@ final class ContinuousSchedule: ObservableObject {
     private func day(for element: WeekSchedule.ScheduleElement) -> DayViewModel {
         return DayViewModel(
             title: "\(Self.formatter.string(from: element.date)), Неделя \(element.weekNumber)",
-            subtitle: relativeName(for: element.date),
+            subtitle: Self.relativeFormatter.relativeName(for: element.date, now: now),
             pairs: element.pairs.map { PairViewModel(
                 $0.base,
                 showWeeks: false,
                 progress: PairProgress(from: $0.start, to: $0.end)
             ) },
-            isToday: calendar.compare(now, to: element.date, toGranularity: .day) == .orderedSame,
+            isToday: calendar.isDateInToday(element.date),
             isMostRelevant: mostRelevant == element.date
         )
-    }
-
-    private func relativeName(for date: Date) -> String? {
-        let components = calendar.dateComponents([.day], from: now, to: date)
-        guard let day = components.day, -2...1 ~= day else { return nil }
-        return Self.relativeFormatter.localizedString(from: components)
     }
 
     private let now = Date()
@@ -67,16 +61,10 @@ final class ContinuousSchedule: ObservableObject {
 
     private static let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ru_BY")
+        formatter.locale = .by
         formatter.setLocalizedDateFormatFromTemplate("EEEdMMMM")
         return formatter
     }()
 
-    private static let relativeFormatter: RelativeDateTimeFormatter = {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.locale = Locale(identifier: "ru_BY")
-        formatter.dateTimeStyle = .named
-        formatter.formattingContext = .beginningOfSentence
-        return formatter
-    }()
+    private static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 }
