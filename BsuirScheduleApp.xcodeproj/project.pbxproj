@@ -96,6 +96,7 @@
 		E6EDC2CB2521ED6B00C8A73C /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2CA2521ED6B00C8A73C /* Locale.swift */; };
 		E6EDC2D12521EE2E00C8A73C /* RelativeDateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2D02521EE2E00C8A73C /* RelativeDateTimeFormatter.swift */; };
 		E6EDC2D72521F0DF00C8A73C /* ScheduleDateTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2D62521F0DF00C8A73C /* ScheduleDateTitle.swift */; };
+		E6EDC2E42522101900C8A73C /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2DC25220F9800C8A73C /* Provider.swift */; };
 		E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B522F8B1C10038FC43 /* AppDelegate.swift */; };
 		E6F931B822F8B1C10038FC43 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */; };
 		E6F931BB22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B922F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld */; };
@@ -320,6 +321,7 @@
 		E6EDC2CA2521ED6B00C8A73C /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
 		E6EDC2D02521EE2E00C8A73C /* RelativeDateTimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeDateTimeFormatter.swift; sourceTree = "<group>"; };
 		E6EDC2D62521F0DF00C8A73C /* ScheduleDateTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDateTitle.swift; sourceTree = "<group>"; };
+		E6EDC2DC25220F9800C8A73C /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BsuirScheduleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6F931B522F8B1C10038FC43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -554,6 +556,7 @@
 		E6AA8D1425162F1A00788A02 /* ScheduleWidget */ = {
 			isa = PBXGroup;
 			children = (
+				E6EDC2DC25220F9800C8A73C /* Provider.swift */,
 				E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */,
 				E6AA8D1725162F1A00788A02 /* ScheduleWidget.intentdefinition */,
 				E6AA8D1825162F1B00788A02 /* Assets.xcassets */,
@@ -976,6 +979,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6AA8D1625162F1A00788A02 /* ScheduleWidget.swift in Sources */,
+				E6EDC2E42522101900C8A73C /* Provider.swift in Sources */,
 				E6AA8D1B25162F1B00788A02 /* ScheduleWidget.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
