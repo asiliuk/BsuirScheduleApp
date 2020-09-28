@@ -91,7 +91,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
         case let .lecturer(lecturerId):
             return requestManager
                 .request(BsuirTargets.EmployeeSchedule(id: lecturerId))
-                .map { ScheduleResponse(title: $0.employee.fio, schedules: $0.schedules ?? []) }
+                .map { ScheduleResponse(title: $0.employee.abbreviatedName, schedules: $0.schedules ?? []) }
                 .eraseToAnyPublisher()
         }
     }
@@ -100,6 +100,13 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     private var requestSnapshotCancellable: AnyCancellable?
     private var requestTimelineCancellable: AnyCancellable?
     private let requestManager = RequestsManager.bsuir()
+}
+
+private extension Employee {
+    var abbreviatedName: String {
+        let abbreviation = [firstName, middleName].compactMap { $0.first }.map { String($0).capitalized }.joined()
+        return [lastName, abbreviation].filter { !$0.isEmpty }.joined(separator: " ")
+    }
 }
 
 private let listFormatter = mutating(ListFormatter()) {
@@ -357,8 +364,8 @@ struct ScheduleWidget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: provider) { entry in
             ScheduleWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Расписание")
+        .description("Наиболее актуальное расписание для группы или преподавателя.")
     }
 }
 
@@ -388,7 +395,7 @@ struct ScheduleWidget_Previews: PreviewProvider {
 
     static let entry = ScheduleEntry(
         date: Date().addingTimeInterval(3600 * 20),
-        title: "Иванов А.Н.",
+        title: "Иванов АН",
         pairs: [
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "Философ", auditory: "101-2"),
             .init(from: "10:00", to: "11:45", form: .lecture, subject: "Миапр", auditory: "101-2"),
