@@ -3,8 +3,8 @@ import os.log
 import BsuirApi
 
 extension AppState {
-    static func bsuir() -> Self {
-        Self(requestManager: .bsuir(logger: .osLog))
+    static func bsuir(storage: UserDefaults) -> Self {
+        Self(requestManager: .bsuir(logger: .osLog), storage: storage)
     }
 }
 

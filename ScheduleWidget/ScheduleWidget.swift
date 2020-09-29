@@ -5,6 +5,7 @@ import BsuirApi
 import BsuirUI
 import BsuirCore
 import Combine
+import StoreKit
 
 @main
 struct ScheduleWidget: Widget {

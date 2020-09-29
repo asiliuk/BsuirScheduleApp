@@ -18,7 +18,7 @@ enum CurrentTab: Hashable {
 
 
 struct RootView: View {
-    @StateObject private var state = AppState.bsuir()
+    @StateObject var state: AppState
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var currentTab: CurrentTab?
 

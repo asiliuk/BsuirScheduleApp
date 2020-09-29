@@ -24,9 +24,13 @@ extension OSLog {
 
 final class AppState: ObservableObject {
     let requestManager: RequestsManager
-    init(requestManager: RequestsManager) { self.requestManager = requestManager }
+    init(requestManager: RequestsManager, storage: UserDefaults) {
+        self.requestManager = requestManager
+        self.storage = storage
+    }
 
-    private lazy var favorites = FavoritesContainer(storage: .standard)
+    private let storage: UserDefaults
+    private lazy var favorites = FavoritesContainer(storage: storage)
     private(set) lazy var allFavorites = AllFavoritesScreen(requestManager: requestManager, favorites: favorites)
     private(set) lazy var allGroups = AllGroupsScreen(requestManager: requestManager, favorites: favorites)
     private(set) lazy var allLecturers = AllLecturersScreen(requestManager: requestManager, favorites: favorites)

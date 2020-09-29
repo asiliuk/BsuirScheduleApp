@@ -12,16 +12,26 @@ struct ScheduleView: View {
 
     @ObservedObject var screen: ScheduleScreen
     @State var scheduleType: ScheduleType = .continuous
+    @Environment(\.reviewRequestService) var reviewRequestService
 
     var body: some View {
         schedule
-            .onAppear(perform: screen.schedule.load)
+            .onAppear {
+                reviewRequestService?.madeMeaningfulEvent(.scheduleRequested)
+                screen.schedule.load()
+            }
+            .onChange(of: scheduleType) { _ in
+                reviewRequestService?.madeMeaningfulEvent(.scheduleModeSwitched)
+            }
             .navigationBarTitle(Text(screen.name), displayMode: .inline)
             .navigationBarItems(trailing: HStack { favorite; picker })
     }
 
     private var favorite: some View {
-        Button(action: { withAnimation { screen.toggleFavorite() } }) {
+        Button(action: { withAnimation {
+            if !screen.isFavorite { reviewRequestService?.madeMeaningfulEvent(.addToFavorites) }
+            screen.toggleFavorite()
+        } }) {
             Image(systemName: screen.isFavorite ? "star.fill" : "star")
                 .accentColor(.yellow)
                 .padding(.horizontal, 4)
@@ -63,11 +73,15 @@ struct ScheduleView: View {
 
 struct ContinuousScheduleView: View {
     @ObservedObject var schedule: ContinuousSchedule
+    @Environment(\.reviewRequestService) var reviewRequestService
 
     var body: some View {
         SomeState(
             days: schedule.days,
-            loadMore: schedule.loadMore
+            loadMore: {
+                reviewRequestService?.madeMeaningfulEvent(.moreScheduleRequested)
+                schedule.loadMore()
+            }
         )
     }
 }

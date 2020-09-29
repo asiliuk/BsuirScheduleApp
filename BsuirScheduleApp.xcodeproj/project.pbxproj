@@ -25,6 +25,7 @@
 		E66B41282414381D00A88BFD /* GroupScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41272414381D00A88BFD /* GroupScreen.swift */; };
 		E66B412A2414394600A88BFD /* AllGroupsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41292414394600A88BFD /* AllGroupsScreen.swift */; };
 		E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66C1D8E24C2704D008391B6 /* ContinuousSchedule.swift */; };
+		E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67491122523BC40006CE90E /* ReviewRequestService.swift */; };
 		E67503A524F424840030D0EC /* AppState+Bsuir.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503A424F424840030D0EC /* AppState+Bsuir.swift */; };
 		E67503A824F427020030D0EC /* FavoritesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503A724F427020030D0EC /* FavoritesContainer.swift */; };
 		E67503AB24F430BD0030D0EC /* AllFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */; };
@@ -224,6 +225,7 @@
 		E66B41272414381D00A88BFD /* GroupScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScreen.swift; sourceTree = "<group>"; };
 		E66B41292414394600A88BFD /* AllGroupsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsScreen.swift; sourceTree = "<group>"; };
 		E66C1D8E24C2704D008391B6 /* ContinuousSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinuousSchedule.swift; sourceTree = "<group>"; };
+		E67491122523BC40006CE90E /* ReviewRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRequestService.swift; sourceTree = "<group>"; };
 		E67503A424F424840030D0EC /* AppState+Bsuir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState+Bsuir.swift"; sourceTree = "<group>"; };
 		E67503A724F427020030D0EC /* FavoritesContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesContainer.swift; sourceTree = "<group>"; };
 		E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFavoritesView.swift; sourceTree = "<group>"; };
@@ -388,6 +390,14 @@
 			path = Root;
 			sourceTree = "<group>";
 		};
+		E67491112523BC26006CE90E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E67491122523BC40006CE90E /* ReviewRequestService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		E67503A624F426F70030D0EC /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -459,7 +469,7 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		E696481E233F7BBE007EF2CB /* AppState */ = {
+		E696481E233F7BBE007EF2CB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
 				E67503A624F426F70030D0EC /* Common */,
@@ -470,7 +480,7 @@
 				E67503A424F424840030D0EC /* AppState+Bsuir.swift */,
 				E67503AC24F4355B0030D0EC /* AllFavoritesScreen.swift */,
 			);
-			path = AppState;
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		E69AE85625192C9B0060D761 /* Schedule */ = {
@@ -645,7 +655,8 @@
 			isa = PBXGroup;
 			children = (
 				E6A6A88524142F560024D738 /* Helpers */,
-				E696481E233F7BBE007EF2CB /* AppState */,
+				E67491112523BC26006CE90E /* Services */,
+				E696481E233F7BBE007EF2CB /* Screens */,
 				E6A6A88424142F490024D738 /* Views */,
 				E695524A22F9D0E000EEFA72 /* Resources */,
 				E6F931B522F8B1C10038FC43 /* AppDelegate.swift */,
@@ -1016,6 +1027,7 @@
 				E67503A824F427020030D0EC /* FavoritesContainer.swift in Sources */,
 				E6964826233F8936007EF2CB /* ScheduleView.swift in Sources */,
 				E6F931BB22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld in Sources */,
+				E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */,
 				E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */,
 				E6964822233F7C45007EF2CB /* AllGroupsView.swift in Sources */,
 				E6A6A88324142F2C0024D738 /* CombineHelpers.swift in Sources */,

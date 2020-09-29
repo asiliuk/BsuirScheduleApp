@@ -48,6 +48,7 @@ struct AboutView: View {
 
 private struct GithubButton: View {
     let application: UIApplication
+    @Environment(\.reviewRequestService) var reviewRequestService
 
     var body: some View {
         Button(action: openURL) {
@@ -57,11 +58,12 @@ private struct GithubButton: View {
 
     func openURL() {
         guard let url = URL(string: "https://github.com/asiliuk/BsuirScheduleApp") else { return }
+        reviewRequestService?.madeMeaningfulEvent(.githubOpened)
         application.open(url)
     }
 }
 
-private extension Bundle {
+extension Bundle {
     var version: String {
         "\(shortVersion)(\(buildNumber))"
     }

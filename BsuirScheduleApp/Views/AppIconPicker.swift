@@ -4,6 +4,7 @@ import SwiftUI
 struct AppIconPicker: View {
     let bundle: Bundle
     let application: UIApplication
+    @Environment(\.reviewRequestService) var reviewRequestService
 
     init(bundle: Bundle, application: UIApplication) {
         self.bundle = bundle
@@ -26,6 +27,7 @@ struct AppIconPicker: View {
             .onChange(of: icon) { icon in
                 application.setAlternateIconName(icon.name) { error in
                     guard error == nil else { return }
+                    reviewRequestService?.madeMeaningfulEvent(.appIconChanged)
                     alert = AlertIdentifier(appIcon: icon)
                 }
             }
