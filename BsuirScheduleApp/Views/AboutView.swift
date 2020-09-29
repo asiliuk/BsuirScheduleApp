@@ -9,7 +9,7 @@ struct AboutView: View {
         List {
             Section(header: Text("Цвета")) {
                 ForEach(PairView.Form.allCases, id: \.self) { form in
-                    PairTypeView(name: form.name, color: form.color)
+                    PairTypeView(name: form.name, form: form)
                 }
             }
 
@@ -77,13 +77,21 @@ private extension Bundle {
 
 struct PairTypeView: View {
     var name: LocalizedStringKey
-    var color: Color
+    var form: PairView.Form
+    @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
 
     var body: some View {
         HStack {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .foregroundColor(color)
-                .frame(width: 30, height: 30)
+            Group {
+                if differentiateWithoutColor {
+                    form.shape
+                } else {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                }
+            }
+            .foregroundColor(form.color)
+            .frame(width: 30, height: 30)
+
             Text(name)
         }
     }

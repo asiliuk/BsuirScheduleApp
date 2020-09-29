@@ -65,6 +65,7 @@ public struct PairView: View {
     public var distribution: Distribution
     public var isCompact: Bool
     @Environment(\.sizeCategory) var sizeCategory
+    @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
 
     public init(
         from: String,
@@ -97,7 +98,7 @@ public struct PairView: View {
 
             switch (distribution, sizeCategory.isAccessibilityCategory) {
             case (.vertical, _), (.horizontal, true):
-                PairFormIndicator(form: form, progress: progress.value)
+                PairFormIndicator(form: form, progress: progress.value, differentiateWithoutColor: differentiateWithoutColor)
 
                 VStack(alignment: .leading) {
                     Text("\(from)-\(to)").font(.system(.footnote, design: .monospaced))
@@ -110,7 +111,7 @@ public struct PairView: View {
                     Text(to).font(.system(isCompact ? .caption2 : .footnote, design: .monospaced))
                 }
 
-                PairFormIndicator(form: form, progress: progress.value)
+                PairFormIndicator(form: form, progress: progress.value, differentiateWithoutColor: differentiateWithoutColor)
 
                 VStack(alignment: .leading) {
                     title
@@ -224,28 +225,89 @@ private extension PairProgress {
 private struct PairFormIndicator: View {
     var form: PairView.Form
     var progress: Double
+    var differentiateWithoutColor: Bool
     @ScaledMetric(relativeTo: .body) private var formIndicatorWidth: CGFloat = 8
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         GeometryReader { proxy in
-            ZStack(alignment: .bottom) {
-                Capsule()
-                    .opacity(colorScheme == .dark ? 0.5 : 0.3)
-
-                Capsule()
-                    .frame(height: progressHeight(proxy: proxy))
+            if differentiateWithoutColor {
+                ShapePairFormIndicator(
+                    form: form,
+                    progress: progress,
+                    proxy: proxy,
+                    passedOpacity: passedOpacity
+                )
+            } else {
+                PillPairFormIndicator(
+                    progress: progress,
+                    proxy: proxy,
+                    passedOpacity: passedOpacity
+                )
             }
         }
         .foregroundColor(form.color)
         .frame(width: formIndicatorWidth)
     }
 
-    private func progressHeight(proxy: GeometryProxy) -> CGFloat {
+    private var passedOpacity: Double {
+        colorScheme == .dark ? 0.5 : 0.3
+    }
+}
+
+private struct PillPairFormIndicator: View {
+    var progress: Double
+    var proxy: GeometryProxy
+    var passedOpacity: Double
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            Capsule()
+                .opacity(passedOpacity)
+
+            Capsule()
+                .frame(height: progressHeight)
+        }
+    }
+
+    private var progressHeight: CGFloat {
         let height = proxy.size.height
         guard progress > 0 else { return height }
         guard progress < 1 else { return 0 }
-        return max(height * CGFloat(1 - progress), formIndicatorWidth)
+        return max(height * CGFloat(1 - progress), proxy.size.width)
+    }
+}
+
+private struct ShapePairFormIndicator: View {
+    var form: PairView.Form
+    var progress: Double
+    var proxy: GeometryProxy
+    var passedOpacity: Double
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ForEach(0..<numberOfViews, id: \.self) { index in
+                Spacer(minLength: 0)
+                form.shape
+                    .apply(when: index < passedIndex) { $0.opacity(passedOpacity) }
+                    .aspectRatio(contentMode: .fit)
+                Spacer(minLength: 0)
+            }
+        }
+    }
+
+    private var passedIndex: Int {
+        guard progress > 0 else { return 0 }
+        return Int(Double(numberOfViews) * max(progress, minProgress))
+    }
+
+    private var minProgress: Double {
+        guard numberOfViews > 0 else { return 1 }
+        return 1.0 / Double(numberOfViews)
+    }
+
+    private var numberOfViews: Int {
+        Int((proxy.size.height * 0.95) / proxy.size.width)
     }
 }
 
@@ -269,30 +331,46 @@ extension PairView.Form {
         case .unknown: return .gray
         }
     }
+
+    @ViewBuilder public var shape: some View {
+        switch self {
+        case .lecture: Circle()
+        case .practice: Rectangle()
+        case .lab: Image(systemName: "triangle.fill").resizable()
+        case .exam: Image(systemName: "star.fill").resizable()
+        case .unknown: Image(systemName: "rhombus.fill").resizable()
+        }
+    }
 }
 
 #if DEBUG
 struct PairFormIndicator_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HStack {
-                PairFormIndicator(form: .lecture, progress: 0.95)
-                PairFormIndicator(form: .lab, progress: 0.3)
-                PairFormIndicator(form: .practice, progress: 0.3)
-                PairFormIndicator(form: .exam, progress: 0.3)
-            }
+            indicators()
 
-            HStack {
-                PairFormIndicator(form: .lecture, progress: 0.3)
-                PairFormIndicator(form: .lab, progress: 0.3)
-                PairFormIndicator(form: .practice, progress: 0.3)
-                PairFormIndicator(form: .exam, progress: 0.3)
-            }
-            .background(Color.black)
-            .colorScheme(.dark)
+            indicators(differentiateWithoutColor: true)
+
+            indicators()
+                .background(Color.black)
+                .colorScheme(.dark)
+
+            indicators(differentiateWithoutColor: true)
+                .background(Color.black)
+                .colorScheme(.dark)
         }
         .frame(height: 50)
         .previewLayout(.sizeThatFits)
+    }
+
+    private static func indicators(differentiateWithoutColor: Bool = false) -> some View {
+        HStack {
+            PairFormIndicator(form: .lecture, progress: 0, differentiateWithoutColor: differentiateWithoutColor)
+            PairFormIndicator(form: .lab, progress: 0.3, differentiateWithoutColor: differentiateWithoutColor)
+            PairFormIndicator(form: .practice, progress: 0.5, differentiateWithoutColor: differentiateWithoutColor)
+            PairFormIndicator(form: .exam, progress: 1, differentiateWithoutColor: differentiateWithoutColor)
+            PairFormIndicator(form: .unknown, progress: 0.9, differentiateWithoutColor: differentiateWithoutColor)
+        }
     }
 }
 

@@ -14,6 +14,7 @@
 		E601A0A32523238E0056979A /* BsuirApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; };
 		E601A0A92523238F0056979A /* BsuirCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6EDC288251FCC2700C8A73C /* BsuirCore.framework */; };
 		E601A0AB252323910056979A /* BsuirUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */; };
+		E601A0B6252332000056979A /* ConditionalApply.swift in Sources */ = {isa = PBXBuildFile; fileRef = E601A0B5252332000056979A /* ConditionalApply.swift */; };
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
 		E6373F06250A387900729EC8 /* TabRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* TabRootView.swift */; };
 		E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* SidebarRootView.swift */; };
@@ -212,6 +213,7 @@
 /* Begin PBXFileReference section */
 		04187F0B2438A4A20099855E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		E601A0B5252332000056979A /* ConditionalApply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalApply.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
 		E6373F05250A387900729EC8 /* TabRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRootView.swift; sourceTree = "<group>"; };
 		E6373F07250A38C400729EC8 /* SidebarRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarRootView.swift; sourceTree = "<group>"; };
@@ -592,6 +594,7 @@
 			isa = PBXGroup;
 			children = (
 				E6EDC27B251FA08200C8A73C /* CombineText.swift */,
+				E601A0B5252332000056979A /* ConditionalApply.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -938,6 +941,7 @@
 				E6906784251CCEF500CF2DF2 /* PairView.swift in Sources */,
 				E6EDC27C251FA08200C8A73C /* CombineText.swift in Sources */,
 				E6EDC2D72521F0DF00C8A73C /* ScheduleDateTitle.swift in Sources */,
+				E601A0B6252332000056979A /* ConditionalApply.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

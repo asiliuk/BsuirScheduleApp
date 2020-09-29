@@ -64,27 +64,6 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
 
 private struct MostRelevantDayViewID: Hashable {}
 
-extension View {
-    @ViewBuilder func apply<Then: View, Else: View>(
-        when condition: Bool,
-        then makeThen: (Self) -> Then,
-        else makeElse: (Self) -> Else
-    ) -> some View {
-        if condition {
-            makeThen(self)
-        } else {
-            makeElse(self)
-        }
-    }
-
-    func apply<Then: View>(
-        when condition: Bool,
-        then makeThen: (Self) -> Then
-    ) -> some View {
-        apply(when: condition, then: makeThen, else: { $0 })
-    }
-}
-
 #if DEBUG
 struct MockPair: Identifiable {
     let id = UUID()
