@@ -10,6 +10,8 @@
 		04187F0C2438A4A20099855E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04187F0B2438A4A20099855E /* SearchBar.swift */; };
 		04C0743424520BBC00362531 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 04C0743324520BBC00362531 /* URLImage */; };
 		04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0F8B924D7354B00A1C74F /* AboutView.swift */; };
+		E601A08C25231D8A0056979A /* BsuirApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; };
+		E601A08D25231D8A0056979A /* BsuirApi.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
 		E6373F06250A387900729EC8 /* TabRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* TabRootView.swift */; };
 		E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* SidebarRootView.swift */; };
@@ -106,6 +108,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E601A08E25231D8A0056979A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6D1F78325137C7A00CA6E20;
+			remoteInfo = BsuirApi;
+		};
 		E690674E251CCB0200CF2DF2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
@@ -179,6 +188,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		E601A09025231D8B0056979A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E601A08D25231D8A0056979A /* BsuirApi.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E6906771251CCC6800CF2DF2 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -357,6 +377,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E601A08C25231D8A0056979A /* BsuirApi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,10 +789,12 @@
 				E6AA8D262516301500788A02 /* Sources */,
 				E6AA8D272516301500788A02 /* Frameworks */,
 				E6AA8D282516301500788A02 /* Resources */,
+				E601A09025231D8B0056979A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E601A08F25231D8A0056979A /* PBXTargetDependency */,
 			);
 			name = ScheduleWidgetIntentHandler;
 			productName = ScheduleWidgetIntentHandler;
@@ -1065,6 +1088,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E601A08F25231D8A0056979A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6D1F78325137C7A00CA6E20 /* BsuirApi */;
+			targetProxy = E601A08E25231D8A0056979A /* PBXContainerItemProxy */;
+		};
 		E690674F251CCB0200CF2DF2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E6906748251CCB0200CF2DF2 /* BsuirUI */;
