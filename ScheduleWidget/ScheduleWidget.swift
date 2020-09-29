@@ -304,17 +304,12 @@ struct ScheduleWidget_Previews: PreviewProvider {
         ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
             .previewContext(WidgetPreviewContext(family: .systemSmall))
 
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .needsConfiguration })
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemMedium))
 
         ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
             .previewContext(WidgetPreviewContext(family: .systemMedium))
 
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .needsConfiguration })
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
 
         ScheduleWidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemLarge))
