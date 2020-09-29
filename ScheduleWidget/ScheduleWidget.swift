@@ -50,7 +50,7 @@ struct ScheduleWidgetEntrySmallView : View {
                 Spacer(minLength: 0)
             }
 
-            WidgetDateTitle(date: entry.date)
+            WidgetDateTitle(date: entry.date, isSmall: true)
 
             switch entry.content {
             case .needsConfiguration:
@@ -198,9 +198,14 @@ private let listFormatter = mutating(ListFormatter()) {
     $0.locale = .by
 }
 
-private let dateFormatter = mutating(DateFormatter()) {
+private let smallDateFormatter = mutating(DateFormatter()) {
     $0.locale = .by
-    $0.setLocalizedDateFormatFromTemplate("dMM")
+    $0.setLocalizedDateFormatFromTemplate("dE")
+}
+
+private let normalDateFormatter = mutating(DateFormatter()) {
+    $0.locale = .by
+    $0.setLocalizedDateFormatFromTemplate("dEMM")
 }
 
 private let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
@@ -246,10 +251,11 @@ struct NeedsConfigurationView: View {
 struct WidgetDateTitle: View {
     let date: Date
     @Environment(\.calendar) var calendar
+    var isSmall: Bool = false
 
     var body: some View {
         ScheduleDateTitle(
-            date: dateFormatter.string(from: date),
+            date: (isSmall ? smallDateFormatter : normalDateFormatter).string(from: date),
             relativeDate: relativeFormatter.relativeName(for: date, now: Date()),
             isToday: calendar.isDateInToday(date)
         )
