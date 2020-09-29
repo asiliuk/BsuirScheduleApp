@@ -6,6 +6,11 @@ class IntentHandler: INExtension, ConfigurationIntentHandling {
     func resolveGroupNumber(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationGroupNumberResolutionResult) -> Void) {
         groupsRequestCancellable = requestManager
             .request(BsuirTargets.Groups())
+            .map { groups in
+                intent.groupNumber.map { number in
+                    groups.filter { $0.name.starts(with: number.displayString) }
+                } ?? groups
+            }
             .map { $0.sorted { $0.name < $1.name } }
             .map { $0.map { ScheduleIdentifier(identifier: String($0.id), display: $0.name) } }
             .sink(
@@ -17,6 +22,11 @@ class IntentHandler: INExtension, ConfigurationIntentHandling {
     func resolveLecturer(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationLecturerResolutionResult) -> Void) {
         lecturersRequestCancellable = requestManager
             .request(BsuirTargets.Employees())
+            .map { lecturers in
+                intent.lecturer.map { name in
+                    lecturers.filter { $0.fio.contains(name.displayString) }
+                } ?? lecturers
+            }
             .map { $0.sorted { $0.fio < $1.fio } }
             .map { $0.map { ScheduleIdentifier(identifier: String($0.id), display: $0.fio) } }
             .sink(
