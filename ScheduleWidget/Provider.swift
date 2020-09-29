@@ -110,7 +110,7 @@ private extension Employee {
 
 struct ScheduleEntry: TimelineEntry {
     enum Content {
-        case pairs([PairViewModel])
+        case pairs(passed: [PairViewModel] = [], upcoming: [PairViewModel] = [])
         case needsConfiguration
     }
 
@@ -118,24 +118,30 @@ struct ScheduleEntry: TimelineEntry {
     var title: String
     var content: Content
 
-    static let placeholder = Self(date: Date(), title: "---", content: .pairs([]))
+    static let placeholder = Self(date: Date(), title: "---", content: .pairs())
     static let needsConfiguration = Self(date: Date(), title: "---", content: .needsConfiguration)
 }
 
 private extension ScheduleEntry {
     init?(_ response: Provider.MostRelevantScheduleResponse, at date: Date) {
-        let remainingPairs = response.schedule.pairs.drop(while: { $0.end <= date })
-        guard !remainingPairs.isEmpty else { return nil }
+        guard let index = response.schedule.pairs.firstIndex(where: { $0.end > date }) else { return nil }
+        let passedPairs = response.schedule.pairs[..<index]
+        let upcomingPairs = response.schedule.pairs[index...]
+        guard !upcomingPairs.isEmpty else { return nil }
+        func makeViewModel(_ pair: WeekSchedule.ScheduleElement.Pair) -> PairViewModel {
+            PairViewModel(
+                pair.base,
+                showWeeks: false,
+                progress: PairProgress(at: date, pair: pair)
+            )
+        }
         self.init(
             date: date,
             title: response.title,
-            content: .pairs(remainingPairs.map {
-                PairViewModel(
-                    $0.base,
-                    showWeeks: false,
-                    progress: PairProgress(at: date, pair: $0)
-                )
-            })
+            content: .pairs(
+                passed: passedPairs.map(makeViewModel),
+                upcoming: upcomingPairs.map(makeViewModel)
+            )
         )
     }
 }
