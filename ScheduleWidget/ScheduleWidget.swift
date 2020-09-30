@@ -260,6 +260,8 @@ struct WidgetDateTitle: View {
             relativeDate: relativeFormatter.relativeName(for: date, now: Date()),
             isToday: calendar.isDateInToday(date)
         )
+        .lineLimit(1)
+        .allowsTightening(true)
     }
 }
 
