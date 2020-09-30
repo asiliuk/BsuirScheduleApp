@@ -114,12 +114,13 @@ struct ScheduleEntry: TimelineEntry {
         case needsConfiguration
     }
 
-    let date: Date
+    var date = Date()
+    var relevance: TimelineEntryRelevance? = nil
     var title: String
     var content: Content
 
-    static let placeholder = Self(date: Date(), title: "---", content: .pairs())
-    static let needsConfiguration = Self(date: Date(), title: "---", content: .needsConfiguration)
+    static let placeholder = Self(title: "---", content: .pairs())
+    static let needsConfiguration = Self(title: "---", content: .needsConfiguration)
 }
 
 private extension ScheduleEntry {
@@ -127,21 +128,40 @@ private extension ScheduleEntry {
         guard let index = response.schedule.pairs.firstIndex(where: { $0.end > date }) else { return nil }
         let passedPairs = response.schedule.pairs[..<index]
         let upcomingPairs = response.schedule.pairs[index...]
-        guard !upcomingPairs.isEmpty else { return nil }
-        func makeViewModel(_ pair: WeekSchedule.ScheduleElement.Pair) -> PairViewModel {
-            PairViewModel(
-                pair.base,
-                showWeeks: false,
-                progress: PairProgress(at: date, pair: pair)
-            )
+        guard let firstUpcomingPair = upcomingPairs.first else { return nil }
+
+        var relevance: TimelineEntryRelevance?
+        let timeToFirstPair = firstUpcomingPair.start.timeIntervalSince(date)
+        let relevanceInterval: TimeInterval = 10 * 60
+        if timeToFirstPair > 0, timeToFirstPair < relevanceInterval {
+            // Score should increase and be maximum when Pair starts
+            // relevance interval is 10min so it is going to be
+            // 1 -> 10 min before
+            // 2 -> 5 min before
+            // 3 -> when Pair starts
+            let score = ((relevanceInterval - timeToFirstPair) / 5 * 60) + 1
+
+            relevance = TimelineEntryRelevance(score: Float(score), duration: timeToFirstPair)
         }
+
         self.init(
             date: date,
+            relevance: relevance,
             title: response.title,
             content: .pairs(
-                passed: passedPairs.map(makeViewModel),
-                upcoming: upcomingPairs.map(makeViewModel)
+                passed: passedPairs.map { PairViewModel(pair: $0, date: date) },
+                upcoming: upcomingPairs.map { PairViewModel(pair: $0, date: date) }
             )
+        )
+    }
+}
+
+private extension PairViewModel {
+    init(pair: WeekSchedule.ScheduleElement.Pair, date: Date) {
+        self.init(
+            pair.base,
+            showWeeks: false,
+            progress: PairProgress(at: date, pair: pair)
         )
     }
 }
