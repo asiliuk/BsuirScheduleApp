@@ -143,7 +143,7 @@ struct ScheduleWidgetEntryLargeView : View {
                     maxVisibleCount: 6
                 )
 
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 4) {
                     RemainingPairs(pairs: pairs.passedInvisible, visibleCount: 3, showTime: .last)
                         .padding(.leading, 10)
 
@@ -151,7 +151,7 @@ struct ScheduleWidgetEntryLargeView : View {
                         ForEach(pairs.visible.indices, id: \.self) {
                             PairView(pair: pairs.visible[$0], isCompact: true)
                                 .padding(.leading, 10)
-                                .padding(.vertical, 4)
+                                .padding(.vertical, 2)
                                 .background(ContainerRelativeShape().foregroundColor(Color(.secondarySystemBackground)))
                         }
                     }
