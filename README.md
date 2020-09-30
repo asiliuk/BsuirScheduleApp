@@ -2,7 +2,7 @@
 A new version of famous Bsuir Schedule app, rewritten in Swift/SwiftUI
 
 Main focus of current version is simplicity and use of modern technologies for future profing of project.
-DarkMode, DynamicTYpe and VoiceOver should be supported out-of-the-box, also iPad version gets big attention this time.
+DarkMode, DynamicType and VoiceOver should be supported out-of-the-box, also iPad version gets big attention this time.
 
 If You found a bug or want to make a feture request, please create [New Issue](https://github.com/asiliuk/BsuirScheduleApp/issues/new/choose) in this Repo
 
