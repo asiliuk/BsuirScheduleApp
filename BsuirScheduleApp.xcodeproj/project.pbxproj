@@ -18,6 +18,12 @@
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
 		E6373F06250A387900729EC8 /* TabRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* TabRootView.swift */; };
 		E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* SidebarRootView.swift */; };
+		E6429E192525EE8300009E16 /* AppIconPride_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */; };
+		E6429E1A2525EE8300009E16 /* AppIconPride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E172525EE8300009E16 /* AppIconPride@2x.png */; };
+		E6429E1B2525EE8300009E16 /* AppIconPride@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E182525EE8300009E16 /* AppIconPride@3x.png */; };
+		E6429E222525EEA300009E16 /* AppIconNational@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E212525EEA300009E16 /* AppIconNational@2x.png */; };
+		E6429E2A2525EEAA00009E16 /* AppIconNational@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E282525EEAA00009E16 /* AppIconNational@3x.png */; };
+		E6429E2B2525EEAA00009E16 /* AppIconNational_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E292525EEAA00009E16 /* AppIconNational_83.5@2x.png */; };
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
@@ -218,6 +224,12 @@
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
 		E6373F05250A387900729EC8 /* TabRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRootView.swift; sourceTree = "<group>"; };
 		E6373F07250A38C400729EC8 /* SidebarRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarRootView.swift; sourceTree = "<group>"; };
+		E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconPride_83.5@2x.png"; sourceTree = "<group>"; };
+		E6429E172525EE8300009E16 /* AppIconPride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconPride@2x.png"; sourceTree = "<group>"; };
+		E6429E182525EE8300009E16 /* AppIconPride@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconPride@3x.png"; sourceTree = "<group>"; };
+		E6429E212525EEA300009E16 /* AppIconNational@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNational@2x.png"; sourceTree = "<group>"; };
+		E6429E282525EEAA00009E16 /* AppIconNational@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNational@3x.png"; sourceTree = "<group>"; };
+		E6429E292525EEAA00009E16 /* AppIconNational_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNational_83.5@2x.png"; sourceTree = "<group>"; };
 		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
 		E66B4121241431F800A88BFD /* LecturerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturerScreen.swift; sourceTree = "<group>"; };
 		E66B41232414344900A88BFD /* AllLecturersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLecturersScreen.swift; sourceTree = "<group>"; };
@@ -452,6 +464,12 @@
 				E691E963250BD7EA00116878 /* AppIconDad@3x.png */,
 				E691E961250BD7E300116878 /* AppIconDad@2x.png */,
 				E69A965E25121E850057FCD6 /* AppIconDad_83.5@2x.png */,
+				E6429E172525EE8300009E16 /* AppIconPride@2x.png */,
+				E6429E182525EE8300009E16 /* AppIconPride@3x.png */,
+				E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */,
+				E6429E212525EEA300009E16 /* AppIconNational@2x.png */,
+				E6429E282525EEAA00009E16 /* AppIconNational@3x.png */,
+				E6429E292525EEAA00009E16 /* AppIconNational_83.5@2x.png */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -927,15 +945,21 @@
 				E6F931C522F8B1C20038FC43 /* LaunchScreen.storyboard in Resources */,
 				E691E964250BD7EA00116878 /* AppIconDad@3x.png in Resources */,
 				E69A966125121EAD0057FCD6 /* AppIconNostalgia_83.5@2x.png in Resources */,
+				E6429E1A2525EE8300009E16 /* AppIconPride@2x.png in Resources */,
+				E6429E192525EE8300009E16 /* AppIconPride_83.5@2x.png in Resources */,
 				E691E962250BD7E300116878 /* AppIconDad@2x.png in Resources */,
 				E691E96C250D2D6100116878 /* AppIconResist@2x.png in Resources */,
 				E69A966325121EB70057FCD6 /* AppIconResist_83.5@2x.png in Resources */,
+				E6429E1B2525EE8300009E16 /* AppIconPride@3x.png in Resources */,
+				E6429E222525EEA300009E16 /* AppIconNational@2x.png in Resources */,
 				E691E971250D2D6D00116878 /* AppIconNostalgia@3x.png in Resources */,
 				E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */,
 				E691E96B250D2D6100116878 /* AppIconNostalgia@2x.png in Resources */,
+				E6429E2B2525EEAA00009E16 /* AppIconNational_83.5@2x.png in Resources */,
 				E691E96E250D2D6100116878 /* AppIconDark@2x.png in Resources */,
 				E691E96D250D2D6100116878 /* AppIconResist@3x.png in Resources */,
 				E69A965D25121DE30057FCD6 /* AppIconDark_83.5@2x.png in Resources */,
+				E6429E2A2525EEAA00009E16 /* AppIconNational@3x.png in Resources */,
 				E691E96F250D2D6100116878 /* AppIconDark@3x.png in Resources */,
 				E6F931BF22F8B1C20038FC43 /* Assets.xcassets in Resources */,
 				E69A965F25121E850057FCD6 /* AppIconDad_83.5@2x.png in Resources */,

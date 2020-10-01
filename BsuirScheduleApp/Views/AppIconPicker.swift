@@ -33,7 +33,7 @@ struct AppIconPicker: View {
             }
             .alert(item: $alert) { alert in
                 switch alert {
-                case .goodIconChoice:
+                case .belarusIconChoice:
                     return Alert(title: Text("Отличный выбор!"), message: Text("Жыве Беларусь!"))
                 case .badIconChoice:
                     return Alert(title: Text("Ну здравствуйте"), message: Text("Нас ждет очень серьезный разговор по поводу вашего выбора"))
@@ -44,12 +44,12 @@ struct AppIconPicker: View {
 
     private enum AlertIdentifier: Identifiable {
         var id: Self { self }
-        case goodIconChoice
+        case belarusIconChoice
         case badIconChoice
 
         init?(appIcon: AppIcon) {
             switch appIcon {
-            case .resist: self = .goodIconChoice
+            case .resist, .national: self = .belarusIconChoice
             case .dad: self = .badIconChoice
             default: return nil
             }
@@ -79,6 +79,8 @@ private enum AppIcon: CaseIterable, Identifiable {
     case dark
     case nostalgia
     case resist
+    case national
+    case pride
     case dad
 
     init?(name: String) {
@@ -86,6 +88,8 @@ private enum AppIcon: CaseIterable, Identifiable {
         case "AppIconDark": self = .dark
         case "AppIconNostalgia": self = .nostalgia
         case "AppIconResist": self = .resist
+        case "AppIconNational": self = .national
+        case "AppIconPride": self = .pride
         case "AppIconDad": self = .dad
         default: return nil
         }
@@ -97,6 +101,8 @@ private enum AppIcon: CaseIterable, Identifiable {
         case .dark: return "Темная"
         case .nostalgia: return "Ностальгия"
         case .resist: return "❤️✊✌️"
+        case .national: return "БЧБ"
+        case .pride: return "Pride"
         case .dad: return "Я твой баця"
         }
     }
@@ -107,6 +113,8 @@ private enum AppIcon: CaseIterable, Identifiable {
         case .dark: return "AppIconDark"
         case .nostalgia: return "AppIconNostalgia"
         case .resist: return "AppIconResist"
+        case .national: return "AppIconNational"
+        case .pride: return "AppIconPride"
         case .dad: return "AppIconDad"
         }
     }
