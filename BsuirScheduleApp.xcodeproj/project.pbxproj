@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		04187F0C2438A4A20099855E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04187F0B2438A4A20099855E /* SearchBar.swift */; };
-		04C0743424520BBC00362531 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 04C0743324520BBC00362531 /* URLImage */; };
 		04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0F8B924D7354B00A1C74F /* AboutView.swift */; };
 		E601A09C2523238A0056979A /* BsuirApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; };
 		E601A0A32523238E0056979A /* BsuirApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; };
@@ -18,6 +17,8 @@
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
 		E6373F06250A387900729EC8 /* TabRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* TabRootView.swift */; };
 		E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* SidebarRootView.swift */; };
+		E637DBBE252C9E4A00388537 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E637DBBD252C9E4A00388537 /* Avatar.swift */; };
+		E637DBC5252C9E5800388537 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = E637DBC4252C9E5800388537 /* URLImage */; };
 		E6429E192525EE8300009E16 /* AppIconPride_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */; };
 		E6429E1A2525EE8300009E16 /* AppIconPride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E172525EE8300009E16 /* AppIconPride@2x.png */; };
 		E6429E1B2525EE8300009E16 /* AppIconPride@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E182525EE8300009E16 /* AppIconPride@3x.png */; };
@@ -61,7 +62,7 @@
 		E69A965F25121E850057FCD6 /* AppIconDad_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A965E25121E850057FCD6 /* AppIconDad_83.5@2x.png */; };
 		E69A966125121EAD0057FCD6 /* AppIconNostalgia_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A966025121EAD0057FCD6 /* AppIconNostalgia_83.5@2x.png */; };
 		E69A966325121EB70057FCD6 /* AppIconResist_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A966225121EB70057FCD6 /* AppIconResist_83.5@2x.png */; };
-		E6A6A87F24142BAB0024D738 /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A6A87E24142BAB0024D738 /* RemoteImage.swift */; };
+		E6A6A87F24142BAB0024D738 /* LoadableContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A6A87E24142BAB0024D738 /* LoadableContent.swift */; };
 		E6A6A88324142F2C0024D738 /* CombineHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A6A88224142F2C0024D738 /* CombineHelpers.swift */; };
 		E6AA8D1125162F1A00788A02 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA8D1025162F1A00788A02 /* WidgetKit.framework */; };
 		E6AA8D1325162F1A00788A02 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA8D1225162F1A00788A02 /* SwiftUI.framework */; };
@@ -224,6 +225,7 @@
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
 		E6373F05250A387900729EC8 /* TabRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRootView.swift; sourceTree = "<group>"; };
 		E6373F07250A38C400729EC8 /* SidebarRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarRootView.swift; sourceTree = "<group>"; };
+		E637DBBD252C9E4A00388537 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconPride_83.5@2x.png"; sourceTree = "<group>"; };
 		E6429E172525EE8300009E16 /* AppIconPride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconPride@2x.png"; sourceTree = "<group>"; };
 		E6429E182525EE8300009E16 /* AppIconPride@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconPride@3x.png"; sourceTree = "<group>"; };
@@ -270,7 +272,7 @@
 		E69A966225121EB70057FCD6 /* AppIconResist_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconResist_83.5@2x.png"; sourceTree = "<group>"; };
 		E69AE86225192F490060D761 /* WeekSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekSchedule.swift; sourceTree = "<group>"; };
 		E69AE8672519316F0060D761 /* Mutating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutating.swift; sourceTree = "<group>"; };
-		E6A6A87E24142BAB0024D738 /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
+		E6A6A87E24142BAB0024D738 /* LoadableContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableContent.swift; sourceTree = "<group>"; };
 		E6A6A88224142F2C0024D738 /* CombineHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineHelpers.swift; sourceTree = "<group>"; };
 		E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D1025162F1A00788A02 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -321,6 +323,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E637DBC5252C9E5800388537 /* URLImage in Frameworks */,
 				E6EDC2AD251FCC8200C8A73C /* BsuirCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -364,7 +367,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04C0743424520BBC00362531 /* URLImage in Frameworks */,
 				E6EDC28F251FCC2700C8A73C /* BsuirCore.framework in Frameworks */,
 				E6906750251CCB0200CF2DF2 /* BsuirUI.framework in Frameworks */,
 				E6D1F78B25137C7A00CA6E20 /* BsuirApi.framework in Frameworks */,
@@ -413,7 +415,7 @@
 		E67503A624F426F70030D0EC /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				E6A6A87E24142BAB0024D738 /* RemoteImage.swift */,
+				E6A6A87E24142BAB0024D738 /* LoadableContent.swift */,
 				E67503A724F427020030D0EC /* FavoritesContainer.swift */,
 			);
 			path = Common;
@@ -443,6 +445,7 @@
 				E6EDC27A251FA06800C8A73C /* Helpers */,
 				E6906782251CCEF500CF2DF2 /* PairView.swift */,
 				E6EDC2D62521F0DF00C8A73C /* ScheduleDateTitle.swift */,
+				E637DBBD252C9E4A00388537 /* Avatar.swift */,
 				E690674B251CCB0200CF2DF2 /* BsuirUI.h */,
 				E690674C251CCB0200CF2DF2 /* Info.plist */,
 			);
@@ -736,6 +739,9 @@
 				E6EDC2B0251FCC8200C8A73C /* PBXTargetDependency */,
 			);
 			name = BsuirUI;
+			packageProductDependencies = (
+				E637DBC4252C9E5800388537 /* URLImage */,
+			);
 			productName = BsuirUI;
 			productReference = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */;
 			productType = "com.apple.product-type.framework";
@@ -836,7 +842,6 @@
 			);
 			name = BsuirScheduleApp;
 			packageProductDependencies = (
-				04C0743324520BBC00362531 /* URLImage */,
 			);
 			productName = BsuirScheduleApp;
 			productReference = E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */;
@@ -976,6 +981,7 @@
 				E6906784251CCEF500CF2DF2 /* PairView.swift in Sources */,
 				E6EDC27C251FA08200C8A73C /* CombineText.swift in Sources */,
 				E6EDC2D72521F0DF00C8A73C /* ScheduleDateTitle.swift in Sources */,
+				E637DBBE252C9E4A00388537 /* Avatar.swift in Sources */,
 				E601A0B6252332000056979A /* ConditionalApply.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1040,7 +1046,7 @@
 				E69A965B2512000C0057FCD6 /* AppIconPicker.swift in Sources */,
 				E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */,
 				E6373F06250A387900729EC8 /* TabRootView.swift in Sources */,
-				E6A6A87F24142BAB0024D738 /* RemoteImage.swift in Sources */,
+				E6A6A87F24142BAB0024D738 /* LoadableContent.swift in Sources */,
 				E66B412A2414394600A88BFD /* AllGroupsScreen.swift in Sources */,
 				E6964824233F7D72007EF2CB /* RootView.swift in Sources */,
 				E67503AD24F4355B0030D0EC /* AllFavoritesScreen.swift in Sources */,
@@ -1632,7 +1638,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		04C0743324520BBC00362531 /* URLImage */ = {
+		E637DBC4252C9E5800388537 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 04C0743224520BBC00362531 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;

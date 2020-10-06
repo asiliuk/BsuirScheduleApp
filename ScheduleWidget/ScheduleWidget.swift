@@ -67,7 +67,7 @@ struct ScheduleWidgetEntrySmallView : View {
 
                 Spacer(minLength: 0)
                 ForEach(pairs.visible.indices, id: \.self) {
-                    PairView(pair: pairs.visible[$0], distribution: .vertical, isCompact: true)
+                    PairView<EmptyView>(pair: pairs.visible[$0], distribution: .vertical, isCompact: true)
                 }
                 Spacer(minLength: 0)
 
@@ -105,7 +105,7 @@ struct ScheduleWidgetEntryMediumView : View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     ForEach(pairs.visible.indices, id: \.self) {
-                        PairView(pair: pairs.visible[$0], isCompact: true)
+                        PairView<EmptyView>(pair: pairs.visible[$0], isCompact: true)
                     }
                 }
                 .padding(.top, 6)
@@ -149,7 +149,7 @@ struct ScheduleWidgetEntryLargeView : View {
 
                     VStack(alignment: .leading, spacing: 4) {
                         ForEach(pairs.visible.indices, id: \.self) {
-                            PairView(pair: pairs.visible[$0], isCompact: true)
+                            PairView<EmptyView>(pair: pairs.visible[$0], isCompact: true)
                                 .padding(.leading, 10)
                                 .padding(.vertical, 2)
                                 .background(ContainerRelativeShape().foregroundColor(Color(.secondarySystemBackground)))

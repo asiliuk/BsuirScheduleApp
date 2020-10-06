@@ -104,7 +104,7 @@ struct SomeState: View {
                         isMostRelevant: day.isMostRelevant,
                         isToday: day.isToday,
                         pairs: day.pairs,
-                        makePairView: { PairCell(pair: $0.pair) }
+                        makePairView: { PairCell<EmptyView>(pair: $0.pair) }
                     )
                 },
                 loadMore: loadMore

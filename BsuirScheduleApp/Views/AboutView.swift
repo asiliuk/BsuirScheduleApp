@@ -8,13 +8,13 @@ struct AboutView: View {
     var body: some View {
         List {
             Section(header: Text("Цвета")) {
-                ForEach(PairView.Form.allCases, id: \.self) { form in
+                ForEach(PairViewForm.allCases, id: \.self) { form in
                     PairTypeView(name: form.name, form: form)
                 }
             }
 
             Section(header: Text("Как выглядит пара")) {
-                PairCell(
+                PairCell<EmptyView>(
                     from: "начало",
                     to: "конец",
                     subject: "Предмет",
@@ -79,7 +79,7 @@ extension Bundle {
 
 struct PairTypeView: View {
     var name: LocalizedStringKey
-    var form: PairView.Form
+    var form: PairViewForm
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
 
     var body: some View {

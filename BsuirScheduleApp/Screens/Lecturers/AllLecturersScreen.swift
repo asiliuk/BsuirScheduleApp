@@ -9,7 +9,6 @@
 import BsuirApi
 import Combine
 import Foundation
-import URLImage
 import SwiftUI
 
 struct AllLecturersScreenLecturer: Identifiable {

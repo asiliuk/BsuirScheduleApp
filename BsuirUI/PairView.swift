@@ -1,8 +1,8 @@
 import SwiftUI
 import BsuirCore
 
-public struct PairCell: View {
-    var pair: PairView
+public struct PairCell<Details: View>: View {
+    var pair: PairView<Details>
     public init(
         from: String,
         to: String,
@@ -11,7 +11,7 @@ public struct PairCell: View {
         subgroup: String? = nil,
         auditory: String,
         note: String? = nil,
-        form: PairView.Form,
+        form: PairViewForm,
         progress: PairProgress
     ) {
         self.pair = PairView(
@@ -39,15 +39,15 @@ public struct PairCell: View {
     }
 }
 
-public struct PairView: View {
-    public enum Form: CaseIterable {
-        case lecture
-        case practice
-        case lab
-        case exam
-        case unknown
-    }
+public enum PairViewForm: CaseIterable {
+    case lecture
+    case practice
+    case lab
+    case exam
+    case unknown
+}
 
+public struct PairView<Details: View>: View {
     public enum Distribution {
         case vertical
         case horizontal
@@ -60,7 +60,7 @@ public struct PairView: View {
     public var subgroup: String?
     public var auditory: String
     public var note: String?
-    public var form: Form
+    public var form: PairViewForm
     @ObservedObject public var progress: PairProgress
     public var distribution: Distribution
     public var isCompact: Bool
@@ -75,7 +75,7 @@ public struct PairView: View {
         subgroup: String? = nil,
         auditory: String,
         note: String? = nil,
-        form: Form,
+        form: PairViewForm,
         progress: PairProgress,
         distribution: Distribution = .horizontal,
         isCompact: Bool = false
@@ -196,7 +196,7 @@ extension PairView {
             subgroup: pair.subgroup,
             auditory: pair.auditory,
             note: pair.note,
-            form: PairView.Form(pair.form),
+            form: PairViewForm(pair.form),
             progress: pair.progress,
             distribution: distribution,
             isCompact: isCompact
@@ -204,7 +204,7 @@ extension PairView {
     }
 }
 
-private extension PairView.Form {
+private extension PairViewForm {
     init(_ form: PairViewModel.Form) {
         switch form {
         case .exam: self = .exam
@@ -223,7 +223,7 @@ private extension PairProgress {
 }
 
 private struct PairFormIndicator: View {
-    var form: PairView.Form
+    var form: PairViewForm
     var progress: Double
     var differentiateWithoutColor: Bool
     @ScaledMetric(relativeTo: .body) private var formIndicatorWidth: CGFloat = 8
@@ -279,7 +279,7 @@ private struct PillPairFormIndicator: View {
 }
 
 private struct ShapePairFormIndicator: View {
-    var form: PairView.Form
+    var form: PairViewForm
     var progress: Double
     var proxy: GeometryProxy
     var passedOpacity: Double
@@ -311,7 +311,7 @@ private struct ShapePairFormIndicator: View {
     }
 }
 
-extension PairView.Form {
+extension PairViewForm {
     public var name: LocalizedStringKey {
         switch self {
         case .lecture: return "Лекция"
@@ -388,7 +388,7 @@ struct PairView_Previews: PreviewProvider {
         .background(Color.gray)
     }
 
-    static let pair = PairCell(
+    static let pair = PairCell<EmptyView>(
         from: "10:00",
         to: "11:30",
         subject: "ОСиСП",

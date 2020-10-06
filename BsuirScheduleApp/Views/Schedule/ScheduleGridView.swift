@@ -152,7 +152,7 @@ struct ScheduleGridView_Previews: PreviewProvider {
     }
 
     private static func pairCell(_ pair: MockPair) -> some View {
-        PairCell(
+        PairCell<EmptyView>(
             from: "9:00",
             to: "11:30",
             subject: pair.name,
