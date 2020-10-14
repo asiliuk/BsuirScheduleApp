@@ -67,7 +67,7 @@ struct ScheduleWidgetEntrySmallView : View {
 
                 Spacer(minLength: 0)
                 ForEach(pairs.visible.indices, id: \.self) {
-                    PairView<EmptyView>(pair: pairs.visible[$0], distribution: .vertical, isCompact: true)
+                    PairView(pair: pairs.visible[$0], distribution: .vertical, isCompact: true)
                 }
                 Spacer(minLength: 0)
 

@@ -14,7 +14,7 @@ struct AboutView: View {
             }
 
             Section(header: Text("Как выглядит пара")) {
-                PairCell<EmptyView>(
+                PairCell(
                     from: "начало",
                     to: "конец",
                     subject: "Предмет",
@@ -23,7 +23,8 @@ struct AboutView: View {
                     auditory: "Кабинет - корпус",
                     note: "Комментарий",
                     form: .practice,
-                    progress: PairProgress(constant: 0.5)
+                    progress: PairProgress(constant: 0.5),
+                    details: EmptyView()
                 )
                 .fixedSize(horizontal: false, vertical: true)
                 .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))

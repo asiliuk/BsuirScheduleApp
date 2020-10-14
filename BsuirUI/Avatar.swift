@@ -4,6 +4,7 @@ import URLImage
 public struct Avatar: View {
     public let url: URL?
     public init(url: URL?) { self.url = url }
+    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 50
 
     public var body: some View {
         Group {
@@ -14,10 +15,10 @@ public struct Avatar: View {
             }
         }
         .frame(width: targetSize.width, height: targetSize.height)
-        .clipShape(Circle())
+        .clipShape(AvatarShape())
     }
 
-    private let targetSize = CGSize(width: 50, height: 50)
+    private var targetSize: CGSize { CGSize(width: size, height: size) }
 }
 
 private struct RemoteAvatar: View {
@@ -44,8 +45,14 @@ private struct UserPlaceholder: View {
 
     var body: some View {
         ZStack {
-            Circle().foregroundColor(Color.gray)
-            Image(systemName: "photo")
+            AvatarShape().foregroundColor(.gray)
+            Image(systemName: "photo").foregroundColor(.black)
         }
+    }
+}
+
+private struct AvatarShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        Circle().path(in: rect)
     }
 }

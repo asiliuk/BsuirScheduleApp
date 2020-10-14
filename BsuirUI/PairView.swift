@@ -12,7 +12,8 @@ public struct PairCell<Details: View>: View {
         auditory: String,
         note: String? = nil,
         form: PairViewForm,
-        progress: PairProgress
+        progress: PairProgress,
+        details: Details
     ) {
         self.pair = PairView(
             from: from,
@@ -23,7 +24,8 @@ public struct PairCell<Details: View>: View {
             auditory: auditory,
             note: note,
             form: form,
-            progress: progress
+            progress: progress,
+            details: details
         )
     }
 
@@ -64,6 +66,7 @@ public struct PairView<Details: View>: View {
     @ObservedObject public var progress: PairProgress
     public var distribution: Distribution
     public var isCompact: Bool
+    public let details: Details
     @Environment(\.sizeCategory) var sizeCategory
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
 
@@ -78,7 +81,8 @@ public struct PairView<Details: View>: View {
         form: PairViewForm,
         progress: PairProgress,
         distribution: Distribution = .horizontal,
-        isCompact: Bool = false
+        isCompact: Bool = false,
+        details: Details
     ) {
         self.from = from
         self.to = to
@@ -91,6 +95,7 @@ public struct PairView<Details: View>: View {
         self.progress = progress
         self.distribution = distribution
         self.isCompact = isCompact
+        self.details = details
     }
 
     public var body: some View {
@@ -120,6 +125,8 @@ public struct PairView<Details: View>: View {
             }
 
             Spacer(minLength: 0).layoutPriority(-1)
+
+            details
         }
         .fixedSize(horizontal: false, vertical: true)
         .accessibilityElement(children: .ignore)
@@ -180,14 +187,56 @@ public struct PairView<Details: View>: View {
     }
 }
 
-extension PairCell {
+extension PairCell where Details == LecturerAvatars {
+    public init(pair: PairViewModel, showDetails: @escaping (LecturerViewModel) -> Void) {
+        self.pair = PairView(
+            pair: pair,
+            details: LecturerAvatars(
+                lecturers: pair.lecturers,
+                showDetails: showDetails
+            )
+        )
+    }
+}
+
+extension PairCell where Details == EmptyView {
     public init(pair: PairViewModel) {
         self.pair = PairView(pair: pair)
     }
 }
 
+public struct LecturerAvatars: View {
+    let lecturers: [LecturerViewModel]
+    var showDetails: (LecturerViewModel) -> Void = { _ in }
+    @ScaledMetric(relativeTo: .body) private var overlap: CGFloat = 24
+
+    public var body: some View {
+        if lecturers.isEmpty {
+            EmptyView()
+        } else {
+            Menu {
+                ForEach(lecturers.indices, id: \.self) {
+                    let lecturer = lecturers[$0]
+                    Button { showDetails(lecturer) } label: { Text(lecturer.name) }
+                }
+            } label: {
+                HStack(spacing: -overlap) {
+                    ForEach(lecturers.indices, id: \.self) {
+                        Avatar(url: lecturers[$0].avatar)
+                    }
+                }
+            }
+        }
+    }
+}
+
 extension PairView {
-    public init(pair: PairViewModel, distribution: Distribution = .horizontal, isCompact: Bool = false) {
+    public init(
+        pair: PairViewModel,
+        distribution: Distribution = .horizontal,
+        isCompact: Bool = false,
+        details: Details
+    ) {
         self.init(
             from: pair.from,
             to: pair.to,
@@ -199,7 +248,23 @@ extension PairView {
             form: PairViewForm(pair.form),
             progress: pair.progress,
             distribution: distribution,
-            isCompact: isCompact
+            isCompact: isCompact,
+            details: details
+        )
+    }
+}
+
+extension PairView where Details == EmptyView {
+    public init(
+        pair: PairViewModel,
+        distribution: Distribution = .horizontal,
+        isCompact: Bool = false
+    ) {
+        self.init(
+            pair: pair,
+            distribution: distribution,
+            isCompact: isCompact,
+            details: Details()
         )
     }
 }
@@ -388,7 +453,7 @@ struct PairView_Previews: PreviewProvider {
         .background(Color.gray)
     }
 
-    static let pair = PairCell<EmptyView>(
+    static let pair = PairCell(
         from: "10:00",
         to: "11:30",
         subject: "ОСиСП",
@@ -397,7 +462,8 @@ struct PairView_Previews: PreviewProvider {
         auditory: "101-1",
         note: "Пара проходит в подвале",
         form: .lab,
-        progress: PairProgress(constant: 0)
+        progress: PairProgress(constant: 0),
+        details: EmptyView()
     )
 }
 #endif

@@ -21,7 +21,12 @@ struct AllGroupsView: View {
         ) { section in
             Section(header: Text(section.title)) {
                 ForEach(section.groups, id: \.id) { group in
-                    NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: group))) {
+                    NavigationLink(
+                        destination: ScheduleView(
+                            showLecturers: true,
+                            screen: self.screen.screen(for: group)
+                        )
+                    ) {
                         Text(group.name)
                     }
                 }

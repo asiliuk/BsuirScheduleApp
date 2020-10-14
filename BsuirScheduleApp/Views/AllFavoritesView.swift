@@ -34,7 +34,10 @@ struct AllFavoritesView: View {
                 Section(header: Text("Группы")) {
                     ForEach(screen.groups) { group in
                         NavigationLink(
-                            destination: ScheduleView(screen: screen.screen(for: group)),
+                            destination: ScheduleView(
+                                showLecturers: true,
+                                screen: screen.screen(for: group)
+                            ),
                             tag: .group(id: group.id),
                             selection: $selection
                         ) {
@@ -48,7 +51,10 @@ struct AllFavoritesView: View {
                 Section(header: Text("Преподаватели")) {
                     ForEach(screen.lecturers) { lecturer in
                         NavigationLink(
-                            destination: ScheduleView(screen: screen.screen(for: lecturer)),
+                            destination: ScheduleView(
+                                showLecturers: false,
+                                screen: screen.screen(for: lecturer)
+                            ),
                             tag: .lecturer(id: lecturer.id),
                             selection: $selection
                         ) {

@@ -13,7 +13,12 @@ struct AllLecturersView: View {
         ) { section in
             Section(header: section.header) {
                 ForEach(section.lecturers, id: \.id) { lecturer in
-                    NavigationLink(destination: ScheduleView(screen: self.screen.screen(for: lecturer))) {
+                    NavigationLink(
+                        destination: ScheduleView(
+                            showLecturers: false,
+                            screen: self.screen.screen(for: lecturer)
+                        )
+                    ) {
                         LecturerCell(lecturer: lecturer)
                     }
                 }

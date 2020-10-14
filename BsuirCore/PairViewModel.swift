@@ -1,6 +1,11 @@
 import Foundation
 import BsuirApi
 
+public struct LecturerViewModel: Equatable {
+    public let name: String
+    public let avatar: URL?
+}
+
 public struct PairViewModel: Equatable {
     public enum Form: Equatable {
         case lecture
@@ -19,6 +24,7 @@ public struct PairViewModel: Equatable {
     public var weeks: String?
     public var subgroup: String?
     public var progress: PairProgress
+    public var lecturers: [LecturerViewModel]
 
     public init(
         from: String,
@@ -29,7 +35,8 @@ public struct PairViewModel: Equatable {
         note: String? = nil,
         weeks: String? = nil,
         subgroup: String? = nil,
-        progress: PairProgress = .init(constant: 0)
+        progress: PairProgress = .init(constant: 0),
+        lecturers: [LecturerViewModel] = []
     ) {
         self.from = from
         self.to = to
@@ -40,6 +47,7 @@ public struct PairViewModel: Equatable {
         self.weeks = weeks
         self.subgroup = subgroup
         self.progress = progress
+        self.lecturers = lecturers
     }
 
     private static let timeFormatter: DateComponentsFormatter = {
@@ -52,7 +60,11 @@ public struct PairViewModel: Equatable {
 }
 
 extension PairViewModel {
-    public init(_ pair: BsuirApi.Pair, showWeeks: Bool = true, progress: PairProgress = .init(constant: 0)) {
+    public init(
+        _ pair: BsuirApi.Pair,
+        showWeeks: Bool = true,
+        progress: PairProgress = .init(constant: 0)
+    ) {
         self.init(
             from: Self.timeFormatter.string(from: pair.startLessonTime.components) ?? "N/A",
             to: Self.timeFormatter.string(from: pair.endLessonTime.components) ?? "N/A",
@@ -62,7 +74,8 @@ extension PairViewModel {
             note: pair.note,
             weeks: showWeeks ? pair.weekNumber.prettyName.capitalized : nil,
             subgroup: pair.numSubgroup == 0 ? nil : "\(pair.numSubgroup)",
-            progress: progress
+            progress: progress,
+            lecturers: pair.employee.map { .init(name: $0.fio, avatar: $0.photoLink) }
         )
     }
 }

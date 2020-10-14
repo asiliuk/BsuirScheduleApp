@@ -41,6 +41,22 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
     let pairs: [PairModel]
     let makePairView: (PairModel) -> PairView
 
+    init(
+        title: String,
+        subtitle: String?,
+        isMostRelevant: Bool,
+        isToday: Bool,
+        pairs: [PairModel],
+        @ViewBuilder makePairView: @escaping (PairModel) -> PairView
+    ) {
+        self.title = title
+        self.subtitle = subtitle
+        self.isMostRelevant = isMostRelevant
+        self.isToday = isToday
+        self.pairs = pairs
+        self.makePairView = makePairView
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
@@ -152,7 +168,7 @@ struct ScheduleGridView_Previews: PreviewProvider {
     }
 
     private static func pairCell(_ pair: MockPair) -> some View {
-        PairCell<EmptyView>(
+        PairCell(
             from: "9:00",
             to: "11:30",
             subject: pair.name,
@@ -160,7 +176,8 @@ struct ScheduleGridView_Previews: PreviewProvider {
             auditory: "101-1",
             note: "Пара проходит в подвале.",
             form: .lab,
-            progress: PairProgress(constant: 0)
+            progress: PairProgress(constant: 0),
+            details: EmptyView()
         )
     }
 }

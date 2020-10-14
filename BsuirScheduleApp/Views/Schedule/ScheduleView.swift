@@ -10,6 +10,7 @@ struct ScheduleView: View {
         case exams
     }
 
+    let showLecturers: Bool
     @ObservedObject var screen: ScheduleScreen
     @State var scheduleType: ScheduleType = .continuous
     @Environment(\.reviewRequestService) var reviewRequestService
@@ -44,7 +45,7 @@ struct ScheduleView: View {
     }
 
     private var picker: some View {
-        Menu { EmptyView()
+        Menu {
             Picker("Тип расписания", selection: $scheduleType) {
                 Text("Расписание").tag(ScheduleType.continuous)
                 Text("По дням").tag(ScheduleType.compact)
@@ -61,11 +62,11 @@ struct ScheduleView: View {
         ContentStateView(content: screen.schedule) { value in
             switch scheduleType {
             case .continuous:
-                ContinuousScheduleView(schedule: value.continuous)
+                ContinuousScheduleView(schedule: value.continuous, showLecturers: showLecturers)
             case .compact:
-                SomeState(days: value.compact)
+                SomeState(days: value.compact, showLecturers: showLecturers)
             case .exams:
-                SomeState(days: value.exams)
+                SomeState(days: value.exams, showLecturers: showLecturers)
             }
         }
     }
@@ -74,6 +75,7 @@ struct ScheduleView: View {
 struct ContinuousScheduleView: View {
     @ObservedObject var schedule: ContinuousSchedule
     @Environment(\.reviewRequestService) var reviewRequestService
+    let showLecturers: Bool
 
     var body: some View {
         SomeState(
@@ -81,7 +83,8 @@ struct ContinuousScheduleView: View {
             loadMore: {
                 reviewRequestService?.madeMeaningfulEvent(.moreScheduleRequested)
                 schedule.loadMore()
-            }
+            },
+            showLecturers: showLecturers
         )
     }
 }
@@ -90,6 +93,7 @@ struct SomeState: View {
 
     let days: [DayViewModel]
     var loadMore: (() -> Void)?
+    let showLecturers: Bool
 
     @ViewBuilder var body: some View {
         if days.isEmpty {
@@ -104,7 +108,13 @@ struct SomeState: View {
                         isMostRelevant: day.isMostRelevant,
                         isToday: day.isToday,
                         pairs: day.pairs,
-                        makePairView: { PairCell<EmptyView>(pair: $0.pair) }
+                        makePairView: {
+                            if showLecturers {
+                                PairCell(pair: $0.pair, showDetails: { _ in })
+                            } else {
+                                PairCell(pair: $0.pair)
+                            }
+                        }
                     )
                 },
                 loadMore: loadMore
