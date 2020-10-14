@@ -4,7 +4,7 @@ import URLImage
 public struct Avatar: View {
     public let url: URL?
     public init(url: URL?) { self.url = url }
-    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 50
+    @ScaledMetric(relativeTo: .footnote) private var size: CGFloat = 50
 
     public var body: some View {
         Group {
@@ -16,6 +16,7 @@ public struct Avatar: View {
         }
         .frame(width: targetSize.width, height: targetSize.height)
         .clipShape(AvatarShape())
+        .overlay(AvatarShape().stroke(lineWidth: 1).foregroundColor(Color(.systemBackground).opacity(0.3)))
     }
 
     private var targetSize: CGSize { CGSize(width: size, height: size) }

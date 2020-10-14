@@ -103,13 +103,22 @@ public struct PairView<Details: View>: View {
 
             switch (distribution, sizeCategory.isAccessibilityCategory) {
             case (.vertical, _), (.horizontal, true):
-                PairFormIndicator(form: form, progress: progress.value, differentiateWithoutColor: differentiateWithoutColor)
-
                 VStack(alignment: .leading) {
-                    Text("\(from)-\(to)").font(.system(.footnote, design: .monospaced))
-                    title
-                    subtitle
+                    HStack(spacing: 8) {
+                        PairFormIndicator(form: form, progress: progress.value, differentiateWithoutColor: differentiateWithoutColor)
+
+                        VStack(alignment: .leading) {
+                            Text("\(from)-\(to)").font(.system(.footnote, design: .monospaced))
+                            title
+                            subtitle
+                        }
+
+                        Spacer(minLength: 0).layoutPriority(-1)
+                    }
+
+                    if !isCompact { details }
                 }
+
             case (.horizontal, false):
                 VStack(alignment: .trailing) {
                     Text(from).font(.system(isCompact ? .footnote : .callout, design: .monospaced))
@@ -122,11 +131,11 @@ public struct PairView<Details: View>: View {
                     title
                     subtitle
                 }
+
+                Spacer(minLength: 0).layoutPriority(-1)
+
+                details
             }
-
-            Spacer(minLength: 0).layoutPriority(-1)
-
-            details
         }
         .fixedSize(horizontal: false, vertical: true)
         .accessibilityElement(children: .ignore)
@@ -463,7 +472,10 @@ struct PairView_Previews: PreviewProvider {
         note: "Пара проходит в подвале",
         form: .lab,
         progress: PairProgress(constant: 0),
-        details: EmptyView()
+        details: LecturerAvatars(lecturers: [
+            LecturerViewModel(name: "", avatar: nil),
+            LecturerViewModel(name: "", avatar: nil)
+        ])
     )
 }
 #endif

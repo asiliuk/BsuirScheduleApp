@@ -4,6 +4,11 @@ import BsuirApi
 public struct LecturerViewModel: Equatable {
     public let name: String
     public let avatar: URL?
+
+    public init(name: String, avatar: URL?) {
+        self.name = name
+        self.avatar = avatar
+    }
 }
 
 public struct PairViewModel: Equatable {
