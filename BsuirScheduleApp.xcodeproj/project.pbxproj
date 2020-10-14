@@ -26,6 +26,7 @@
 		E6429E2A2525EEAA00009E16 /* AppIconNational@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E282525EEAA00009E16 /* AppIconNational@3x.png */; };
 		E6429E2B2525EEAA00009E16 /* AppIconNational_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E292525EEAA00009E16 /* AppIconNational_83.5@2x.png */; };
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
+		E65E5E5825379083009D57C1 /* WhatsNewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E5E5725379083009D57C1 /* WhatsNewScreen.swift */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
 		E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41252414365700A88BFD /* ScheduleScreen.swift */; };
@@ -74,6 +75,8 @@
 		E6AA8D2D2516301500788A02 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D2C2516301500788A02 /* IntentHandler.swift */; };
 		E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E6AA8D382516302700788A02 /* ScheduleWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D1725162F1A00788A02 /* ScheduleWidget.intentdefinition */; };
+		E6D117522537810E00A6875D /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D117512537810E00A6875D /* WhatsNewView.swift */; };
+		E6D11759253783CC00A6875D /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D11758253783CC00A6875D /* AppVersion.swift */; };
 		E6D1F78825137C7A00CA6E20 /* BsuirApi.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D1F78625137C7A00CA6E20 /* BsuirApi.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6D1F78B25137C7A00CA6E20 /* BsuirApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; };
 		E6D1F78C25137C7A00CA6E20 /* BsuirApi.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -233,6 +236,7 @@
 		E6429E282525EEAA00009E16 /* AppIconNational@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNational@3x.png"; sourceTree = "<group>"; };
 		E6429E292525EEAA00009E16 /* AppIconNational_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNational_83.5@2x.png"; sourceTree = "<group>"; };
 		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
+		E65E5E5725379083009D57C1 /* WhatsNewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewScreen.swift; sourceTree = "<group>"; };
 		E66B4121241431F800A88BFD /* LecturerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturerScreen.swift; sourceTree = "<group>"; };
 		E66B41232414344900A88BFD /* AllLecturersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLecturersScreen.swift; sourceTree = "<group>"; };
 		E66B41252414365700A88BFD /* ScheduleScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleScreen.swift; sourceTree = "<group>"; };
@@ -284,6 +288,8 @@
 		E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetIntentHandler.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D2C2516301500788A02 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		E6AA8D2E2516301500788A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6D117512537810E00A6875D /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
+		E6D11758253783CC00A6875D /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BsuirApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6D1F78625137C7A00CA6E20 /* BsuirApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BsuirApi.h; sourceTree = "<group>"; };
 		E6D1F78725137C7A00CA6E20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -404,6 +410,14 @@
 			path = Root;
 			sourceTree = "<group>";
 		};
+		E65E5E562537907A009D57C1 /* WhatsNew */ = {
+			isa = PBXGroup;
+			children = (
+				E65E5E5725379083009D57C1 /* WhatsNewScreen.swift */,
+			);
+			path = WhatsNew;
+			sourceTree = "<group>";
+		};
 		E67491112523BC26006CE90E /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,6 +431,7 @@
 			children = (
 				E6A6A87E24142BAB0024D738 /* LoadableContent.swift */,
 				E67503A724F427020030D0EC /* FavoritesContainer.swift */,
+				E6D11758253783CC00A6875D /* AppVersion.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -497,6 +512,7 @@
 				E69AE85E25192CAA0060D761 /* Lecturers */,
 				E69AE85A25192CA30060D761 /* Groups */,
 				E69AE85625192C9B0060D761 /* Schedule */,
+				E65E5E562537907A009D57C1 /* WhatsNew */,
 				E696481F233F7BD3007EF2CB /* AppState.swift */,
 				E67503A424F424840030D0EC /* AppState+Bsuir.swift */,
 				E67503AC24F4355B0030D0EC /* AllFavoritesScreen.swift */,
@@ -534,6 +550,7 @@
 		E6A6A88424142F490024D738 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E6D11750253780FD00A6875D /* WhatsNew */,
 				E6373F04250A386600729EC8 /* Root */,
 				E68610C62471C52A001BF527 /* Content */,
 				E68610C32471C2B0001BF527 /* Common */,
@@ -574,6 +591,14 @@
 				E6AA8D2E2516301500788A02 /* Info.plist */,
 			);
 			path = ScheduleWidgetIntentHandler;
+			sourceTree = "<group>";
+		};
+		E6D11750253780FD00A6875D /* WhatsNew */ = {
+			isa = PBXGroup;
+			children = (
+				E6D117512537810E00A6875D /* WhatsNewView.swift */,
+			);
+			path = WhatsNew;
 			sourceTree = "<group>";
 		};
 		E6D1F78525137C7A00CA6E20 /* BsuirApi */ = {
@@ -1061,11 +1086,14 @@
 				E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */,
 				E6964822233F7C45007EF2CB /* AllGroupsView.swift in Sources */,
 				E6A6A88324142F2C0024D738 /* CombineHelpers.swift in Sources */,
+				E65E5E5825379083009D57C1 /* WhatsNewScreen.swift in Sources */,
 				04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */,
+				E6D11759253783CC00A6875D /* AppVersion.swift in Sources */,
 				E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */,
 				E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */,
 				E67503AB24F430BD0030D0EC /* AllFavoritesView.swift in Sources */,
 				E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */,
+				E6D117522537810E00A6875D /* WhatsNewView.swift in Sources */,
 				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
 				E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */,
 				E67503A524F424840030D0EC /* AppState+Bsuir.swift in Sources */,

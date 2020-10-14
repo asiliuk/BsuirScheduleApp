@@ -76,7 +76,7 @@ extension ReviewRequestService {
 private struct ReviewRequestTracking: Equatable, Codable {
     var meaningfulEventsScore: Int
     let date: Date
-    let version: String
+    let version: ShortAppVersion
 }
 
 private struct PersistedValue<Value> {

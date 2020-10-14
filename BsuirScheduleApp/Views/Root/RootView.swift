@@ -21,6 +21,7 @@ struct RootView: View {
     @StateObject var state: AppState
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var currentTab: CurrentTab?
+    @State private var showWhatsNew: Bool = false
 
     var body: some View {
         content
@@ -32,6 +33,16 @@ struct RootView: View {
                 } else {
                     currentTab = .groups
                 }
+
+                if !state.whatsNew.items.isEmpty {
+                    showWhatsNew = true
+                }
+            }
+            .sheet(isPresented: $showWhatsNew) {
+                WhatsNewView(
+                    items: state.whatsNew.items,
+                    onAppear: state.whatsNew.didShow
+                )
             }
     }
 

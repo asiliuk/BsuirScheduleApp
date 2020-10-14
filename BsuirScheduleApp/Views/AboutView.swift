@@ -34,7 +34,7 @@ struct AboutView: View {
             AppIconPicker(bundle: bundle, application: application)
 
             Section(header: Text("О приложении")) {
-                Text("Версия \(bundle.version)")
+                Text("Версия \(bundle.fullVersion.description)")
                 GithubButton(application: application)
             }
         }
@@ -65,16 +65,16 @@ private struct GithubButton: View {
 }
 
 extension Bundle {
-    var version: String {
-        "\(shortVersion)(\(buildNumber))"
+    var fullVersion: FullAppVersion {
+        FullAppVersion(short: shortVersion, build: buildNumber)
     }
 
-    var shortVersion: String {
-        infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+    var shortVersion: ShortAppVersion {
+        ShortAppVersion(infoDictionary?["CFBundleShortVersionString"] as? String ?? "")
     }
 
-    var buildNumber: String {
-        infoDictionary?["CFBundleVersion"] as? String ?? ""
+    var buildNumber: Int {
+        Int(infoDictionary?["CFBundleVersion"] as? String ?? "") ?? 0
     }
 }
 
