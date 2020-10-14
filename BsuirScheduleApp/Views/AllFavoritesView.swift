@@ -35,7 +35,6 @@ struct AllFavoritesView: View {
                     ForEach(screen.groups) { group in
                         NavigationLink(
                             destination: ScheduleView(
-                                showLecturers: true,
                                 screen: screen.screen(for: group)
                             ),
                             tag: .group(id: group.id),
@@ -52,7 +51,6 @@ struct AllFavoritesView: View {
                     ForEach(screen.lecturers) { lecturer in
                         NavigationLink(
                             destination: ScheduleView(
-                                showLecturers: false,
                                 screen: screen.screen(for: lecturer)
                             ),
                             tag: .lecturer(id: lecturer.id),

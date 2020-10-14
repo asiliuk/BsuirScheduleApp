@@ -23,7 +23,8 @@ extension ScheduleScreen {
                 .request(BsuirTargets.Schedule(agent: .groupID(group.id)))
                 .map { ($0.schedules, $0.examSchedules) }
                 .log(.appState, identifier: "Days")
-                .eraseToAnyPublisher()
+                .eraseToAnyPublisher(),
+            employeeSchedule: { .lecturer($0, favorites: favorites, requestManager: requestManager) }
         )
     }
 }

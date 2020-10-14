@@ -23,7 +23,8 @@ extension ScheduleScreen {
             request: requestManager
                 .request(BsuirTargets.EmployeeSchedule(id: employee.id))
                 .map { ($0.schedules ?? [], $0.examSchedules ?? []) }
-                .eraseToAnyPublisher()
+                .eraseToAnyPublisher(),
+            employeeSchedule: nil
         )
     }
 }

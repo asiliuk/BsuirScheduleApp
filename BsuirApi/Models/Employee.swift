@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Employee: Codable, Equatable {
+public struct Employee: Codable, Equatable, Identifiable {
 
     public let id: Int
     public let calendarID: String?

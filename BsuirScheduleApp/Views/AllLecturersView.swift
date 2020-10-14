@@ -15,7 +15,6 @@ struct AllLecturersView: View {
                 ForEach(section.lecturers, id: \.id) { lecturer in
                     NavigationLink(
                         destination: ScheduleView(
-                            showLecturers: false,
                             screen: self.screen.screen(for: lecturer)
                         )
                     ) {
@@ -24,7 +23,7 @@ struct AllLecturersView: View {
                 }
             }
         }
-        .navigationBarTitle("Все преподаватели")
+        .navigationTitle("Все преподаватели")
     }
 }
 

@@ -196,28 +196,30 @@ public struct PairView<Details: View>: View {
     }
 }
 
-extension PairCell where Details == LecturerAvatars {
-    public init(pair: PairViewModel, showDetails: @escaping (LecturerViewModel) -> Void) {
-        self.pair = PairView(
-            pair: pair,
-            details: LecturerAvatars(
-                lecturers: pair.lecturers,
-                showDetails: showDetails
-            )
-        )
+extension PairCell {
+    public init(pair: PairViewModel, details: Details) {
+        self.pair = PairView(pair: pair, details: details)
     }
 }
 
-extension PairCell where Details == EmptyView {
-    public init(pair: PairViewModel) {
-        self.pair = PairView(pair: pair)
-    }
-}
-
-public struct LecturerAvatars: View {
-    let lecturers: [LecturerViewModel]
-    var showDetails: (LecturerViewModel) -> Void = { _ in }
+public struct LecturerAvatars<Model>: View {
+    let lecturers: [Model]
+    let name: (Model) -> String
+    let avatar: (Model) -> URL?
+    let showDetails: (Model) -> Void
     @ScaledMetric(relativeTo: .body) private var overlap: CGFloat = 24
+
+    public init(
+        lecturers: [Model],
+        name: @escaping (Model) -> String,
+        avatar: @escaping (Model) -> URL?,
+        showDetails: @escaping (Model) -> Void
+    ) {
+        self.lecturers = lecturers
+        self.name = name
+        self.avatar = avatar
+        self.showDetails = showDetails
+    }
 
     public var body: some View {
         if lecturers.isEmpty {
@@ -226,12 +228,12 @@ public struct LecturerAvatars: View {
             Menu {
                 ForEach(lecturers.indices, id: \.self) {
                     let lecturer = lecturers[$0]
-                    Button { showDetails(lecturer) } label: { Text(lecturer.name) }
+                    Button { showDetails(lecturer) } label: { Text(name(lecturer)) }
                 }
             } label: {
                 HStack(spacing: -overlap) {
                     ForEach(lecturers.indices, id: \.self) {
-                        Avatar(url: lecturers[$0].avatar)
+                        Avatar(url: avatar(lecturers[$0]))
                     }
                 }
             }
@@ -472,10 +474,7 @@ struct PairView_Previews: PreviewProvider {
         note: "Пара проходит в подвале",
         form: .lab,
         progress: PairProgress(constant: 0),
-        details: LecturerAvatars(lecturers: [
-            LecturerViewModel(name: "", avatar: nil),
-            LecturerViewModel(name: "", avatar: nil)
-        ])
+        details: LecturerAvatars(lecturers: ["", ""], name: { $0 }, avatar: { _ in nil }, showDetails: { _ in })
     )
 }
 #endif

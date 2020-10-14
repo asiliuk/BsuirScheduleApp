@@ -23,7 +23,6 @@ struct AllGroupsView: View {
                 ForEach(section.groups, id: \.id) { group in
                     NavigationLink(
                         destination: ScheduleView(
-                            showLecturers: true,
                             screen: self.screen.screen(for: group)
                         )
                     ) {
@@ -32,6 +31,6 @@ struct AllGroupsView: View {
                 }
             }
         }
-        .navigationBarTitle("Все группы")
+        .navigationTitle("Все группы")
     }
 }

@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirUI
 import BsuirCore
+import BsuirApi
 
 struct ScheduleView: View {
 
@@ -10,9 +11,9 @@ struct ScheduleView: View {
         case exams
     }
 
-    let showLecturers: Bool
     @ObservedObject var screen: ScheduleScreen
     @State var scheduleType: ScheduleType = .continuous
+    @State var employeeSchedule: Employee?
     @Environment(\.reviewRequestService) var reviewRequestService
 
     var body: some View {
@@ -24,8 +25,21 @@ struct ScheduleView: View {
             .onChange(of: scheduleType) { _ in
                 reviewRequestService?.madeMeaningfulEvent(.scheduleModeSwitched)
             }
-            .navigationBarTitle(Text(screen.name), displayMode: .inline)
-            .navigationBarItems(trailing: HStack { favorite; picker })
+            .navigationTitle(Text(screen.name))
+            .navigationBarTitleDisplayMode(.inline)
+            // Uses deprecated API here to use .yellow as accent color for favorites
+            // .toolbar API makes all buttons blue
+            .navigationBarItems(trailing: HStack {
+                favorite
+                picker
+            })
+            .sheet(item: $employeeSchedule) { item in
+                screen.employeeSchedule.map { makeScreen in
+                    ModalNavigationView {
+                        ScheduleView(screen: makeScreen(item))
+                    }
+                }
+            }
     }
 
     private var favorite: some View {
@@ -34,7 +48,6 @@ struct ScheduleView: View {
             screen.toggleFavorite()
         } }) {
             Image(systemName: screen.isFavorite ? "star.fill" : "star")
-                .accentColor(.yellow)
                 .padding(.horizontal, 4)
         }
         .accessibility(
@@ -42,6 +55,7 @@ struct ScheduleView: View {
                 ? Text("Убрать из избранного")
                 : Text("Добавить в избранное")
         )
+        .accentColor(.yellow)
     }
 
     private var picker: some View {
@@ -62,12 +76,41 @@ struct ScheduleView: View {
         ContentStateView(content: screen.schedule) { value in
             switch scheduleType {
             case .continuous:
-                ContinuousScheduleView(schedule: value.continuous, showLecturers: showLecturers)
+                ContinuousScheduleView(schedule: value.continuous, showDetails: showDetails)
             case .compact:
-                SomeState(days: value.compact, showLecturers: showLecturers)
+                SomeState(days: value.compact, showDetails: showDetails)
             case .exams:
-                SomeState(days: value.exams, showLecturers: showLecturers)
+                SomeState(days: value.exams, showDetails: showDetails)
             }
+        }
+    }
+
+    var showDetails: ((Employee) -> Void)? {
+        guard screen.employeeSchedule != nil else { return nil }
+        return { self.employeeSchedule = $0 }
+    }
+}
+
+struct ModalNavigationView<Content: View>: View {
+    @Environment(\.presentationMode) var presentationMode
+
+    let content: () -> Content
+
+    init(@ViewBuilder _ content: @escaping () -> Content) {
+        self.content = content
+    }
+
+    var body: some View {
+        NavigationView {
+            content()
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(
+                            action: { presentationMode.wrappedValue.dismiss() },
+                            label: { Image(systemName: "xmark") }
+                        )
+                    }
+                }
         }
     }
 }
@@ -75,7 +118,7 @@ struct ScheduleView: View {
 struct ContinuousScheduleView: View {
     @ObservedObject var schedule: ContinuousSchedule
     @Environment(\.reviewRequestService) var reviewRequestService
-    let showLecturers: Bool
+    let showDetails: ((Employee) -> Void)?
 
     var body: some View {
         SomeState(
@@ -84,7 +127,7 @@ struct ContinuousScheduleView: View {
                 reviewRequestService?.madeMeaningfulEvent(.moreScheduleRequested)
                 schedule.loadMore()
             },
-            showLecturers: showLecturers
+            showDetails: showDetails
         )
     }
 }
@@ -93,7 +136,7 @@ struct SomeState: View {
 
     let days: [DayViewModel]
     var loadMore: (() -> Void)?
-    let showLecturers: Bool
+    let showDetails: ((Employee) -> Void)?
 
     @ViewBuilder var body: some View {
         if days.isEmpty {
@@ -109,10 +152,18 @@ struct SomeState: View {
                         isToday: day.isToday,
                         pairs: day.pairs,
                         makePairView: {
-                            if showLecturers {
-                                PairCell(pair: $0.pair, showDetails: { _ in })
+                            if let showDetails = showDetails {
+                                PairCell(
+                                    pair: $0.pair,
+                                    details: LecturerAvatars(
+                                        lecturers: $0.pair.lecturers,
+                                        name: \.fio,
+                                        avatar: \.photoLink,
+                                        showDetails: showDetails
+                                    )
+                                )
                             } else {
-                                PairCell(pair: $0.pair)
+                                PairCell(pair: $0.pair, details: EmptyView())
                             }
                         }
                     )

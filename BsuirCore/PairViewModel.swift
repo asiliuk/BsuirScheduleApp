@@ -1,16 +1,6 @@
 import Foundation
 import BsuirApi
 
-public struct LecturerViewModel: Equatable {
-    public let name: String
-    public let avatar: URL?
-
-    public init(name: String, avatar: URL?) {
-        self.name = name
-        self.avatar = avatar
-    }
-}
-
 public struct PairViewModel: Equatable {
     public enum Form: Equatable {
         case lecture
@@ -29,7 +19,7 @@ public struct PairViewModel: Equatable {
     public var weeks: String?
     public var subgroup: String?
     public var progress: PairProgress
-    public var lecturers: [LecturerViewModel]
+    public var lecturers: [Employee]
 
     public init(
         from: String,
@@ -41,7 +31,7 @@ public struct PairViewModel: Equatable {
         weeks: String? = nil,
         subgroup: String? = nil,
         progress: PairProgress = .init(constant: 0),
-        lecturers: [LecturerViewModel] = []
+        lecturers: [Employee] = []
     ) {
         self.from = from
         self.to = to
@@ -80,7 +70,7 @@ extension PairViewModel {
             weeks: showWeeks ? pair.weekNumber.prettyName.capitalized : nil,
             subgroup: pair.numSubgroup == 0 ? nil : "\(pair.numSubgroup)",
             progress: progress,
-            lecturers: pair.employee.map { .init(name: $0.fio, avatar: $0.photoLink) }
+            lecturers: pair.employee
         )
     }
 }

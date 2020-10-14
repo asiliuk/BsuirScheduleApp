@@ -39,7 +39,7 @@ struct AboutView: View {
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .navigationBarTitle("Информация")
+        .navigationTitle("Информация")
     }
 
     private let application = UIApplication.shared
