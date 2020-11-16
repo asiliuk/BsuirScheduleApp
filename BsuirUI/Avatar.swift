@@ -1,5 +1,6 @@
 import SwiftUI
 import URLImage
+import KingfisherSwiftUI
 
 public struct Avatar: View {
     public let url: URL?
@@ -7,38 +8,18 @@ public struct Avatar: View {
     @ScaledMetric(relativeTo: .footnote) private var size: CGFloat = 50
 
     public var body: some View {
-        Group {
-            if let url = url {
-                RemoteAvatar(url: url, targetSize: targetSize)
-            } else {
-                UserPlaceholder()
-            }
-        }
-        .frame(width: targetSize.width, height: targetSize.height)
-        .clipShape(AvatarShape())
-        .overlay(AvatarShape().stroke(lineWidth: 1).foregroundColor(Color(.systemBackground).opacity(0.3)))
-    }
-
-    private var targetSize: CGSize { CGSize(width: size, height: size) }
-}
-
-private struct RemoteAvatar: View {
-
-    let url: URL
-    let targetSize: CGSize
-
-    var body: some View {
-        URLImage(
-            url,
-            processors: [Resize(size: targetSize, scale: UIScreen.main.scale)],
-            placeholder: { _ in UserPlaceholder() },
-            content: {
-               $0.image
-                   .resizable()
-                   .aspectRatio(contentMode: .fill)
-                   .clipped()
-            }
-        )
+        KFImage(url)
+            .placeholder { UserPlaceholder() }
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: size, height: size)
+            .clipShape(AvatarShape())
+            .overlay(
+                AvatarShape()
+                    .stroke(lineWidth: 1)
+                    .foregroundColor(Color(.systemBackground))
+                    .opacity(0.3)
+            )
     }
 }
 
@@ -46,7 +27,7 @@ private struct UserPlaceholder: View {
 
     var body: some View {
         ZStack {
-            AvatarShape().foregroundColor(.gray)
+            Color.gray
             Image(systemName: "photo").foregroundColor(.black)
         }
     }
