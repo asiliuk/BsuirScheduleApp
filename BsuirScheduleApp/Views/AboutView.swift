@@ -36,6 +36,7 @@ struct AboutView: View {
             Section(header: Text("О приложении")) {
                 Text("Версия \(bundle.fullVersion.description)")
                 GithubButton(application: application)
+                TelegramButton(application: application)
             }
         }
         .listStyle(InsetGroupedListStyle())
@@ -49,17 +50,46 @@ struct AboutView: View {
 
 private struct GithubButton: View {
     let application: UIApplication
+
+    var body: some View {
+        LinkButton(
+            application: application,
+            title: "GitHub",
+            url: URL(string: "https://github.com/asiliuk/BsuirScheduleApp"),
+            event: .githubOpened
+        )
+    }
+}
+
+private struct TelegramButton: View {
+    let application: UIApplication
+
+    var body: some View {
+        LinkButton(
+            application: application,
+            title: "Telegram",
+            url: URL(string: "https://t.me/bsuirschedule"),
+            event: .telegramOpened
+        )
+    }
+}
+
+private struct LinkButton: View {
+    let application: UIApplication
+    let title: LocalizedStringKey
+    let url: URL?
+    let event: ReviewRequestService.MeaningfulEvent
     @Environment(\.reviewRequestService) var reviewRequestService
 
     var body: some View {
         Button(action: openURL) {
-            Text("GitHub").underline()
+            Text(title).underline()
         }
     }
 
     func openURL() {
-        guard let url = URL(string: "https://github.com/asiliuk/BsuirScheduleApp") else { return }
-        reviewRequestService?.madeMeaningfulEvent(.githubOpened)
+        guard let url = url else { return }
+        reviewRequestService?.madeMeaningfulEvent(event)
         application.open(url)
     }
 }

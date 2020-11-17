@@ -66,6 +66,7 @@ extension ReviewRequestService {
         static let scheduleRequested = Self(score: 2)
         static let moreScheduleRequested = Self(score: 1)
         static let githubOpened = Self(score: 1)
+        static let telegramOpened = Self(score: 1)
     }
 
     func madeMeaningfulEvent(_ event: MeaningfulEvent) {
