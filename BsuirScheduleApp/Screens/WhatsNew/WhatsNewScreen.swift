@@ -20,6 +20,17 @@ final class WhatsNewScreen {
     }
 
     static let log: [ShortAppVersion: [Item]] = [
+        "2.2.2": [
+            Item(
+                imageName: "paperplane.fill",
+                title: "Группа поддержки в Telegram",
+                description: """
+                    На экране "О приложении" появилась кнопка которая ведет в чат Telegram.
+                    Заходите, но не забудьте согласовать это с администрацией своего района!
+                    "Массовое онлайн мероприятие организованное по средствам https"
+                    """
+            )
+        ],
         "2.2.0": [
             Item(
                 imageName: "person.crop.circle",
