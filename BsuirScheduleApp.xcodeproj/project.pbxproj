@@ -19,7 +19,6 @@
 		E6373F06250A387900729EC8 /* TabRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* TabRootView.swift */; };
 		E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* SidebarRootView.swift */; };
 		E637DBBE252C9E4A00388537 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E637DBBD252C9E4A00388537 /* Avatar.swift */; };
-		E637DBC5252C9E5800388537 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = E637DBC4252C9E5800388537 /* URLImage */; };
 		E6429E192525EE8300009E16 /* AppIconPride_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */; };
 		E6429E1A2525EE8300009E16 /* AppIconPride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E172525EE8300009E16 /* AppIconPride@2x.png */; };
 		E6429E1B2525EE8300009E16 /* AppIconPride@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E182525EE8300009E16 /* AppIconPride@3x.png */; };
@@ -331,7 +330,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E60AEB7B2562C2BE003DE552 /* KingfisherSwiftUI in Frameworks */,
-				E637DBC5252C9E5800388537 /* URLImage in Frameworks */,
 				E6EDC2AD251FCC8200C8A73C /* BsuirCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -767,7 +765,6 @@
 			);
 			name = BsuirUI;
 			packageProductDependencies = (
-				E637DBC4252C9E5800388537 /* URLImage */,
 				E60AEB7A2562C2BE003DE552 /* KingfisherSwiftUI */,
 			);
 			productName = BsuirUI;
@@ -918,7 +915,6 @@
 			);
 			mainGroup = E6F931A922F8B1C10038FC43;
 			packageReferences = (
-				04C0743224520BBC00362531 /* XCRemoteSwiftPackageReference "url-image" */,
 				E60AEB792562C2BE003DE552 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = E6F931B322F8B1C10038FC43 /* Products */;
@@ -1659,14 +1655,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		04C0743224520BBC00362531 /* XCRemoteSwiftPackageReference "url-image" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
 		E60AEB792562C2BE003DE552 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -1682,11 +1670,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E60AEB792562C2BE003DE552 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = KingfisherSwiftUI;
-		};
-		E637DBC4252C9E5800388537 /* URLImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 04C0743224520BBC00362531 /* XCRemoteSwiftPackageReference "url-image" */;
-			productName = URLImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 

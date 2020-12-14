@@ -1,5 +1,4 @@
 import SwiftUI
-import URLImage
 import KingfisherSwiftUI
 
 public struct Avatar: View {
