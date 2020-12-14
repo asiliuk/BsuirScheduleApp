@@ -208,6 +208,7 @@ public struct LecturerAvatars<Model>: View {
     let avatar: (Model) -> URL?
     let showDetails: (Model) -> Void
     @ScaledMetric(relativeTo: .body) private var overlap: CGFloat = 24
+    @State private var isActionSheetShown = false
 
     public init(
         lecturers: [Model],
@@ -225,17 +226,23 @@ public struct LecturerAvatars<Model>: View {
         if lecturers.isEmpty {
             EmptyView()
         } else {
-            Menu {
-                ForEach(lecturers.indices, id: \.self) {
-                    let lecturer = lecturers[$0]
-                    Button { showDetails(lecturer) } label: { Text(name(lecturer)) }
-                }
-            } label: {
+            Button(action: { isActionSheetShown = true }) {
                 HStack(spacing: -overlap) {
                     ForEach(lecturers.indices, id: \.self) {
                         Avatar(url: avatar(lecturers[$0]))
                     }
                 }
+            }
+            .actionSheet(isPresented: $isActionSheetShown) {
+                ActionSheet(
+                    title: Text("Выберите преподавателя"),
+                    buttons: lecturers.map { lecturer in
+                        .default(
+                            Text(name(lecturer)),
+                            action: { showDetails(lecturer) }
+                        )
+                    } + [.cancel()]
+                )
             }
         }
     }

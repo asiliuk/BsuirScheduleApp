@@ -1,5 +1,7 @@
 import SwiftUI
 import KingfisherSwiftUI
+import struct Kingfisher.DownsamplingImageProcessor
+import typealias Kingfisher.KingfisherOptionsInfo
 
 public struct Avatar: View {
     public let url: URL?
@@ -7,7 +9,7 @@ public struct Avatar: View {
     @ScaledMetric(relativeTo: .footnote) private var size: CGFloat = 50
 
     public var body: some View {
-        KFImage(url)
+        KFImage(url, options: options)
             .placeholder { UserPlaceholder() }
             .resizable()
             .aspectRatio(contentMode: .fill)
@@ -19,6 +21,16 @@ public struct Avatar: View {
                     .foregroundColor(Color(.systemBackground))
                     .opacity(0.3)
             )
+    }
+
+    private var options: KingfisherOptionsInfo {
+        [
+            .processor(DownsamplingImageProcessor(
+                size: CGSize(width: size, height: size)
+            )),
+            .scaleFactor(UIScreen.main.scale),
+            .cacheOriginalImage,
+        ]
     }
 }
 
