@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             let storage = UserDefaults.standard
-            let rootView = RootView(state: .bsuir(storage: storage))
+            let rootView = RootView(state: AppState(storage: storage))
                 .environment(\.reviewRequestService, ReviewRequestService(windowScene: windowScene, storage: storage))
             window.rootViewController = UIHostingController(rootView: rootView)
             self.window = window

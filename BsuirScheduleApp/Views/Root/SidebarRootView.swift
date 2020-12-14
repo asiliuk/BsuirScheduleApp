@@ -15,7 +15,7 @@ struct SidebarRootView: View {
             case .lecturers:
                 AllLecturersView(screen: state.allLecturers)
             case .about:
-                AboutView()
+                AboutView(screen: state.about)
             case let .favorites(selection):
                 AllFavoritesView(screen: state.allFavorites, selection: selection)
             }
@@ -25,7 +25,7 @@ struct SidebarRootView: View {
         .sheet(item: $currentOverlay) {
             switch $0 {
             case .about:
-                NavigationView { AboutView() }
+                NavigationView { AboutView(screen: state.about) }
             }
         }
     }

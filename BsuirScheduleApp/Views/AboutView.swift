@@ -4,6 +4,7 @@ import BsuirUI
 import BsuirCore
 
 struct AboutView: View {
+    @ObservedObject var screen: AboutScreen
 
     var body: some View {
         List {
@@ -37,6 +38,18 @@ struct AboutView: View {
                 Text("Версия \(bundle.fullVersion.description)")
                 GithubButton(application: application)
                 TelegramButton(application: application)
+            }
+
+            Section(header: Text("Данные")) {
+                Button("Очистить кэш") {
+                    screen.clearCache()
+                }
+                .alert(isPresented: $screen.isCacheCleared) {
+                    Alert(
+                        title: Text("Кэш успешно очищен"),
+                        message: Text("Был удален кэш скачанного расписания и фотографий преподавателей")
+                    )
+                }
             }
         }
         .listStyle(InsetGroupedListStyle())
@@ -127,12 +140,5 @@ struct PairTypeView: View {
 
             Text(name)
         }
-    }
-}
-
-struct AboutView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView { AboutView() }
-        NavigationView { AboutView().colorScheme(.dark) }
     }
 }

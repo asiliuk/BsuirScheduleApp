@@ -10,6 +10,7 @@ import Foundation
 import BsuirApi
 import Combine
 import UIKit
+import Kingfisher
 
 import os.log
 
@@ -23,16 +24,21 @@ extension OSLog {
 }
 
 final class AppState: ObservableObject {
-    let requestManager: RequestsManager
-    init(requestManager: RequestsManager, storage: UserDefaults) {
-        self.requestManager = requestManager
+    init(storage: UserDefaults) {
+        self.requestManager = .bsuir(logger: .osLog)
         self.storage = storage
     }
 
     private let storage: UserDefaults
+    private let requestManager: RequestsManager
+
     private(set) lazy var whatsNew = WhatsNewScreen(storage: storage)
     private(set) lazy var favorites = FavoritesContainer(storage: storage)
     private(set) lazy var allFavorites = AllFavoritesScreen(requestManager: requestManager, favorites: favorites)
     private(set) lazy var allGroups = AllGroupsScreen(requestManager: requestManager, favorites: favorites)
     private(set) lazy var allLecturers = AllLecturersScreen(requestManager: requestManager, favorites: favorites)
+    private(set) lazy var about = AboutScreen(
+        urlCache: requestManager.session.configuration.urlCache,
+        imageCache: .default
+    )
 }

@@ -9,7 +9,7 @@ struct TabRootView: View {
             NavigationView { AllFavoritesView(screen: state.allFavorites, selection: currentTab?.favoriteSelection) }.tab(.favorites())
             NavigationView { AllGroupsView(screen: state.allGroups) }.tab(.groups)
             NavigationView { AllLecturersView(screen: state.allLecturers) }.tab(.lecturers)
-            NavigationView { AboutView() }.tab(.about)
+            NavigationView { AboutView(screen: state.about) }.tab(.about)
         }
     }
 }

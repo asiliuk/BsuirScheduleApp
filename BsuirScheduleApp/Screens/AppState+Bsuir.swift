@@ -2,13 +2,7 @@ import Foundation
 import os.log
 import BsuirApi
 
-extension AppState {
-    static func bsuir(storage: UserDefaults) -> Self {
-        Self(requestManager: .bsuir(logger: .osLog), storage: storage)
-    }
-}
-
-private extension RequestsManager.Logger {
+extension RequestsManager.Logger {
 
     static let osLog = Self(constructRequest: { request in
         os_log(.debug, log: .targetRequest, "%@", request.curlDescription)
