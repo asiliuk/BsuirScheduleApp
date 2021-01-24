@@ -1,15 +1,20 @@
 import SwiftUI
-import KingfisherSwiftUI
+import Kingfisher
 import struct Kingfisher.DownsamplingImageProcessor
 import typealias Kingfisher.KingfisherOptionsInfo
 
 public struct Avatar: View {
     public let url: URL?
     public init(url: URL?) { self.url = url }
-    @ScaledMetric(relativeTo: .footnote) private var size: CGFloat = 50
+    private var size: CGFloat = 50
 
     public var body: some View {
-        KFImage(url, options: options)
+        KFImage(url)
+            .setProcessor(DownsamplingImageProcessor(
+                size: CGSize(width: size, height: size)
+            ))
+            .loadDiskFileSynchronously()
+            .cacheMemoryOnly()
             .placeholder { UserPlaceholder() }
             .resizable()
             .aspectRatio(contentMode: .fill)
@@ -49,3 +54,41 @@ private struct AvatarShape: Shape {
         Circle().path(in: rect)
     }
 }
+
+//private struct RemoteImage<Placeholder: View>: View {
+//    @StateObject var binder: KFImage.ImageBinder
+//    let cancelOnDisappear: Bool
+//    let placeholder: Placeholder
+//
+//    init(_ url: URL?, cancelOnDisappear: Bool = false, @ViewBuilder placeholder: () -> Placeholder) {
+//        self._loader = StateObject(wrappedValue: KFImage.ImageBinder(url))
+//        self.cancelOnDisappear = cancelOnDisappear
+//        self.placeholder = placeholder()
+//    }
+//
+//    var body: some View {
+//        if let image = binder.image {
+//            Image(uiImage: image)
+//        } else {
+//            placeholder
+//                .onAppear { binder.start() }
+//                .onDisappear { if cancelOnDisappear { binder.cancel() } }
+//        }
+//    }
+//}
+//
+//private final class RemoteImageLoader: ObservableObject {
+//    @Published private(set) var image: UIImage?
+//
+//    init(_ url: URL?) {
+//
+//    }
+//
+//    func loadIfNeeded() {
+//
+//    }
+//
+//    func cancel() {
+//
+//    }
+//}

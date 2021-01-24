@@ -143,32 +143,9 @@ struct SomeState: View {
             ScheduleEmptyState()
         } else {
             ScheduleGridView(
-                days: days.map(IdentifiableDay.init),
-                makeDayView: { day in
-                    ScheduleDay(
-                        title: day.title,
-                        subtitle: day.subtitle,
-                        isMostRelevant: day.isMostRelevant,
-                        isToday: day.isToday,
-                        pairs: day.pairs,
-                        makePairView: {
-                            if let showDetails = showDetails {
-                                PairCell(
-                                    pair: $0.pair,
-                                    details: LecturerAvatars(
-                                        lecturers: $0.pair.lecturers,
-                                        name: \.fio,
-                                        avatar: \.photoLink,
-                                        showDetails: showDetails
-                                    )
-                                )
-                            } else {
-                                PairCell(pair: $0.pair, details: EmptyView())
-                            }
-                        }
-                    )
-                },
-                loadMore: loadMore
+                days: days,
+                loadMore: loadMore,
+                showDetails: showDetails
             )
         }
     }

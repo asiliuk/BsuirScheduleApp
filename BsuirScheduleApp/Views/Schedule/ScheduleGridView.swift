@@ -1,68 +1,72 @@
 import SwiftUI
 import BsuirUI
 import BsuirCore
+import BsuirApi
 
-struct ScheduleGridView<DayModel: Identifiable, DayView: View>: View {
-    let days: [DayModel]
-    let makeDayView: (DayModel) -> DayView
-    var loadMore: (() -> Void)?
+struct ScheduleGridView: View {
+    let days: [DayViewModel]
+    var loadMore: (() -> Void)? = nil
+    var showDetails: ((Employee) -> Void)? = nil
 
     var body: some View {
-        ScrollView {
-            ScrollViewReader { proxy in
-                LazyVGrid(columns: gridColumns) {
-                    ForEach(days, content: makeDayView)
+        ScrollViewReader { proxy in
+            List {
+                ForEach(days.indices, id: \.self) { dayIndex in
+                    let day = days[dayIndex]
+                    ScheduleDay(
+                        title: day.title,
+                        subtitle: day.subtitle,
+                        isMostRelevant: day.isMostRelevant,
+                        isToday: day.isToday,
+                        pairs: day.pairs,
+                        showDetails: showDetails
+                    )
+                }
 
-                    if let load = loadMore {
-                        ProgressView()
-                            .onAppear(perform: load)
-                    }
+                if let load = loadMore {
+                    ProgressView()
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .onAppear(perform: load)
                 }
-                .onAppear {
-                    DispatchQueue.main.async {
-                        proxy.scrollTo(MostRelevantDayViewID(), anchor: .top)
-                    }
+            }
+            // To disable cell celection
+            .buttonStyle(PlainButtonStyle())
+            .onAppear {
+                DispatchQueue.main.async {
+                    proxy.scrollTo(MostRelevantDayViewID(), anchor: .top)
                 }
-                .padding()
             }
         }
     }
-
-    private var gridColumns: [GridItem] {
-        [GridItem(.adaptive(minimum: 300, maximum: 500), spacing: 24, alignment: .top)]
-    }
 }
 
-struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
+struct ScheduleDay: View {
     let title: String
     let subtitle: String?
     var isMostRelevant: Bool
     let isToday: Bool
-    let pairs: [PairModel]
-    let makePairView: (PairModel) -> PairView
-
-    init(
-        title: String,
-        subtitle: String?,
-        isMostRelevant: Bool,
-        isToday: Bool,
-        pairs: [PairModel],
-        @ViewBuilder makePairView: @escaping (PairModel) -> PairView
-    ) {
-        self.title = title
-        self.subtitle = subtitle
-        self.isMostRelevant = isMostRelevant
-        self.isToday = isToday
-        self.pairs = pairs
-        self.makePairView = makePairView
-    }
+    let pairs: [PairViewModel]
+    let showDetails: ((Employee) -> Void)?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
 
-            ForEach(pairs) {
-                makePairView($0)
+            ForEach(pairs.indices, id: \.self) { pairIndex in
+                let pair = pairs[pairIndex]
+                if let showDetails = showDetails {
+                    PairCell(
+                        pair: pair,
+                        details: LecturerAvatars(
+                            lecturers: pair.lecturers,
+                            name: \.fio,
+                            avatar: \.photoLink,
+                            showDetails: showDetails
+                        )
+                    )
+                } else {
+                    PairCell(pair: pair, details: EmptyView())
+                }
             }
         }
         .apply(when: isMostRelevant) { $0.id(MostRelevantDayViewID()) }
@@ -81,22 +85,40 @@ struct ScheduleDay<PairModel: Identifiable, PairView: View>: View {
 private struct MostRelevantDayViewID: Hashable {}
 
 #if DEBUG
-struct MockPair: Identifiable {
-    let id = UUID()
-    let name: String
+extension PairViewModel {
+    static func mock(
+        from: String = "11:00",
+        to: String = "13:30",
+        form: Form = .lecture,
+        subject: String = "Subject",
+        auditory: String = "101-4"
+    ) -> Self {
+        Self(
+            from: from,
+            to: to,
+            form: form,
+            subject: subject,
+            auditory: auditory
+        )
+    }
 }
 
-struct MockDay: Identifiable {
-    let id = UUID()
-    var title: String = "01.02.0003"
-    var subtitle: String?
-    var pairs: [MockPair] = [
-        MockPair(name: "Pair 1"),
-        MockPair(name: "Pair 10"),
-        MockPair(name: "Pair 11"),
-        MockPair(name: "Pair 100"),
-        MockPair(name: "Pair 101")
-    ]
+extension DayViewModel {
+    static func mock(
+        title: String = "01.02.0003",
+        pairs: [PairViewModel] = [
+            .mock(subject: "Pair 1"),
+            .mock(subject: "Pair 10"),
+            .mock(subject: "Pair 11"),
+            .mock(subject: "Pair 100"),
+            .mock(subject: "Pair 101"),
+        ]
+    ) -> Self {
+        Self(
+            title: title,
+            pairs: pairs
+        )
+    }
 }
 
 struct ScheduleGridView_Previews: PreviewProvider {
@@ -105,9 +127,7 @@ struct ScheduleGridView_Previews: PreviewProvider {
             schedule()
 
             ScheduleGridView(
-                days: [MockDay(title: "06.02.0003"),],
-                makeDayView: daySchedule,
-                loadMore: {}
+                days: [.mock(title: "06.02.0003")]
             )
 
             schedule()
@@ -122,11 +142,11 @@ struct ScheduleGridView_Previews: PreviewProvider {
             schedule()
                 .previewDevice("iPad Pro (12.9-inch) (4th generation)")
 
-            daySchedule(.init())
+            daySchedule(.mock())
                 .padding()
                 .previewLayout(.sizeThatFits)
 
-            daySchedule(.init())
+            daySchedule(.mock())
                 .padding()
                 .previewLayout(.sizeThatFits)
                 .colorScheme(.dark)
@@ -137,47 +157,31 @@ struct ScheduleGridView_Previews: PreviewProvider {
     private static func schedule() -> some View {
         ScheduleGridView(
             days: [
-                MockDay(title: "01.02.0003", pairs: [
-                    MockPair(name: "Pair 1"),
-                    MockPair(name: "Pair 10"),
-                    MockPair(name: "Pair 11"),
+                .mock(title: "01.02.0003", pairs: [
+                    .mock(subject: "Pair 1"),
+                    .mock(subject: "Pair 10"),
+                    .mock(subject: "Pair 11"),
                 ]),
-                MockDay(title: "02.02.0003"),
-                MockDay(title: "03.02.0003", pairs: [
-                    MockPair(name: "Pair 1"),
-                    MockPair(name: "Pair 10"),
-
+                .mock(title: "02.02.0003"),
+                .mock(title: "03.02.0003", pairs: [
+                    .mock(subject: "Pair 1"),
+                    .mock(subject: "Pair 10"),
                 ]),
-                MockDay(title: "04.02.0003"),
-                MockDay(title: "05.02.0003"),
-                MockDay(title: "06.02.0003"),
-            ],
-            makeDayView: daySchedule
+                .mock(title: "04.02.0003"),
+                .mock(title: "05.02.0003"),
+                .mock(title: "06.02.0003"),
+            ]
         )
     }
 
-    private static func daySchedule(_ day: MockDay) -> some View {
+    private static func daySchedule(_ day: DayViewModel) -> some View {
         ScheduleDay(
             title: day.title,
             subtitle: day.subtitle,
             isMostRelevant: false,
             isToday: false,
             pairs: day.pairs,
-            makePairView: pairCell
-        )
-    }
-
-    private static func pairCell(_ pair: MockPair) -> some View {
-        PairCell(
-            from: "9:00",
-            to: "11:30",
-            subject: pair.name,
-            weeks: "1,2",
-            auditory: "101-1",
-            note: "Пара проходит в подвале.",
-            form: .lab,
-            progress: PairProgress(constant: 0),
-            details: EmptyView()
+            showDetails: nil
         )
     }
 }
