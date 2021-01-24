@@ -67,7 +67,7 @@ extension PairViewModel {
             subject: pair.subject,
             auditory: pair.auditory.joined(separator: ", "),
             note: pair.note,
-            weeks: showWeeks ? pair.weekNumber.prettyName.capitalized : nil,
+            weeks: showWeeks ? pair.weekNumber.prettyName?.capitalized : nil,
             subgroup: pair.numSubgroup == 0 ? nil : "\(pair.numSubgroup)",
             progress: progress,
             lecturers: pair.employee
@@ -96,9 +96,9 @@ private extension BsuirApi.Pair.Time {
 
 private extension BsuirApi.WeekNum {
 
-    var prettyName: String {
+    var prettyName: String? {
         switch self {
-        case []: return "-"
+        case []: return nil
         case .always: return "♾"
         case let numbers: return numbers.name
         }
