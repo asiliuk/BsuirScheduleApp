@@ -31,11 +31,7 @@ struct ScheduleGridView: View {
             }
             // To disable cell celection
             .buttonStyle(PlainButtonStyle())
-            .onAppear {
-                DispatchQueue.main.async {
-                    proxy.scrollTo(MostRelevantDayViewID(), anchor: .top)
-                }
-            }
+            .onAppear { proxy.scrollTo(MostRelevantDayViewID(), anchor: .top) }
         }
     }
 }
