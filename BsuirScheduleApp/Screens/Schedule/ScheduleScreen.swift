@@ -88,8 +88,8 @@ private extension DaySchedule.Day {
 
     static let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .none
+        formatter.locale = .by
+        formatter.setLocalizedDateFormatFromTemplate("EEEEdMMMM")
         return formatter
     }()
 }
