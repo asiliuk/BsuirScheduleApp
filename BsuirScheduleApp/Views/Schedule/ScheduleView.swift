@@ -151,28 +151,6 @@ struct SomeState: View {
     }
 }
 
-struct IdentifiableDay: Identifiable {
-    var id: String { title }
-    let title: String
-    let subtitle: String?
-    let pairs: [IdentifiablePair]
-    let isToday: Bool
-    let isMostRelevant: Bool
-
-    init(day: DayViewModel) {
-        self.title = day.title
-        self.subtitle = day.subtitle
-        self.pairs = day.pairs.enumerated().map(IdentifiablePair.init)
-        self.isToday = day.isToday
-        self.isMostRelevant = day.isMostRelevant
-    }
-}
-
-struct IdentifiablePair: Identifiable {
-    let id: Int
-    let pair: PairViewModel
-}
-
 struct EmptyState: View {
     let image: Image
     let title: LocalizedStringKey
