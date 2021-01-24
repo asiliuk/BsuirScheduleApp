@@ -226,23 +226,21 @@ public struct LecturerAvatars<Model>: View {
         if lecturers.isEmpty {
             EmptyView()
         } else {
-            Button(action: { isActionSheetShown = true }) {
+            Menu {
+                ForEach(lecturers.indices, id: \.self) {
+                    let lecturer = lecturers[$0]
+                    Button {
+                        showDetails(lecturer)
+                    } label: {
+                        Text(name(lecturer))
+                    }
+                }
+            } label: {
                 HStack(spacing: -overlap) {
                     ForEach(lecturers.indices, id: \.self) {
                         Avatar(url: avatar(lecturers[$0]))
                     }
                 }
-            }
-            .actionSheet(isPresented: $isActionSheetShown) {
-                ActionSheet(
-                    title: Text("Выберите преподавателя"),
-                    buttons: lecturers.map { lecturer in
-                        .default(
-                            Text(name(lecturer)),
-                            action: { showDetails(lecturer) }
-                        )
-                    } + [.cancel()]
-                )
             }
         }
     }
