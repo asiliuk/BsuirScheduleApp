@@ -116,69 +116,6 @@ private extension Employee {
     }
 }
 
-struct ScheduleEntry: TimelineEntry {
-    enum Content {
-        case pairs(passed: [PairViewModel] = [], upcoming: [PairViewModel] = [])
-        case needsConfiguration
-    }
-
-    var date = Date()
-    var relevance: TimelineEntryRelevance? = nil
-    var title: String
-    var content: Content
-
-    static let placeholder = Self(title: "---", content: .pairs())
-    static let needsConfiguration = Self(title: "---", content: .needsConfiguration)
-
-    static let preview = Self(
-        title: "000000",
-        content: .pairs(
-            passed: [
-                PairViewModel(
-                    from: "10:00",
-                    to: "11:00",
-                    form: .lab,
-                    subject: "Лаба",
-                    auditory: "101-1",
-                    progress: .init(constant: 1)
-                ),
-            ],
-            upcoming: [
-                PairViewModel(
-                    from: "11:00",
-                    to: "12:00",
-                    form: .lecture,
-                    subject: "Лекция",
-                    auditory: "102-2"
-                ),
-                PairViewModel(
-                    from: "12:00",
-                    to: "13:00",
-                    form: .practice,
-                    subject: "ПЗ",
-                    auditory: "103-3"
-                ),
-                PairViewModel(
-                    from: "13:00",
-                    to: "14:00",
-                    form: .lab,
-                    subject: "Другая Лаба",
-                    auditory: "104-4",
-                    subgroup: "2"
-                ),
-                PairViewModel(
-                    from: "13:00",
-                    to: "14:00",
-                    form: .practice,
-                    subject: "Другое ПЗ",
-                    auditory: "105-5",
-                    subgroup: "1"
-                )
-            ]
-        )
-    )
-}
-
 private extension ScheduleEntry {
     init?(_ response: Provider.MostRelevantScheduleResponse, at date: Date) {
         guard let index = response.schedule.pairs.firstIndex(where: { $0.end > date }) else { return nil }

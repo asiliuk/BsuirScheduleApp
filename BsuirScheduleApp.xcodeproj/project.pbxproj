@@ -15,6 +15,7 @@
 		E601A0AB252323910056979A /* BsuirUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */; };
 		E601A0B6252332000056979A /* ConditionalApply.swift in Sources */ = {isa = PBXBuildFile; fileRef = E601A0B5252332000056979A /* ConditionalApply.swift */; };
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
+		E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */; };
 		E6373F06250A387900729EC8 /* TabRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* TabRootView.swift */; };
 		E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* SidebarRootView.swift */; };
 		E637DBBE252C9E4A00388537 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E637DBBD252C9E4A00388537 /* Avatar.swift */; };
@@ -236,6 +237,7 @@
 		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		E601A0B5252332000056979A /* ConditionalApply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalApply.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
+		E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntry.swift; sourceTree = "<group>"; };
 		E6373F05250A387900729EC8 /* TabRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRootView.swift; sourceTree = "<group>"; };
 		E6373F07250A38C400729EC8 /* SidebarRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarRootView.swift; sourceTree = "<group>"; };
 		E637DBBD252C9E4A00388537 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
@@ -608,6 +610,7 @@
 			isa = PBXGroup;
 			children = (
 				E6EDC2DC25220F9800C8A73C /* Provider.swift */,
+				E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */,
 				E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */,
 				E6AA8D1725162F1A00788A02 /* ScheduleWidget.intentdefinition */,
 				E6AA8D1825162F1B00788A02 /* Assets.xcassets */,
@@ -1090,6 +1093,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6AA8D1625162F1A00788A02 /* ScheduleWidget.swift in Sources */,
+				E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */,
 				E6EDC2E42522101900C8A73C /* Provider.swift in Sources */,
 				E6AA8D1B25162F1B00788A02 /* ScheduleWidget.intentdefinition in Sources */,
 			);
