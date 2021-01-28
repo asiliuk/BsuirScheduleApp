@@ -13,6 +13,10 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Entry) -> ()) {
+        if context.isPreview {
+            return completion(.preview)
+        }
+
         guard let identifier = ScheduleIdentifier(configuration: configuration) else {
             return completion(.placeholder)
         }
@@ -25,6 +29,10 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     }
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        if context.isPreview {
+            return completion(.init(entries: [.preview], policy: .never))
+        }
+
         guard let identifier = ScheduleIdentifier(configuration: configuration) else {
             return completion(.init(entries: [.needsConfiguration], policy: .never))
         }
@@ -121,6 +129,54 @@ struct ScheduleEntry: TimelineEntry {
 
     static let placeholder = Self(title: "---", content: .pairs())
     static let needsConfiguration = Self(title: "---", content: .needsConfiguration)
+
+    static let preview = Self(
+        title: "000000",
+        content: .pairs(
+            passed: [
+                PairViewModel(
+                    from: "10:00",
+                    to: "11:00",
+                    form: .lab,
+                    subject: "Лаба",
+                    auditory: "101-1",
+                    progress: .init(constant: 1)
+                ),
+            ],
+            upcoming: [
+                PairViewModel(
+                    from: "11:00",
+                    to: "12:00",
+                    form: .lecture,
+                    subject: "Лекция",
+                    auditory: "102-2"
+                ),
+                PairViewModel(
+                    from: "12:00",
+                    to: "13:00",
+                    form: .practice,
+                    subject: "ПЗ",
+                    auditory: "103-3"
+                ),
+                PairViewModel(
+                    from: "13:00",
+                    to: "14:00",
+                    form: .lab,
+                    subject: "Другая Лаба",
+                    auditory: "104-4",
+                    subgroup: "2"
+                ),
+                PairViewModel(
+                    from: "13:00",
+                    to: "14:00",
+                    form: .practice,
+                    subject: "Другое ПЗ",
+                    auditory: "105-5",
+                    subgroup: "1"
+                )
+            ]
+        )
+    )
 }
 
 private extension ScheduleEntry {
