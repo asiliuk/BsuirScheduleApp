@@ -249,19 +249,29 @@ struct NeedsConfigurationView: View {
     }
 }
 
+private final class WidgetRelativeDateTimeFormatter: RelativeDateTimeFormatter {
+    override func string(for obj: Any?) -> String? {
+        guard let date = obj as? Date else { return nil }
+        return relativeName(for: date, now: Date())
+    }
+}
+
 struct WidgetDateTitle: View {
     let date: Date
-    @Environment(\.calendar) var calendar
     var isSmall: Bool = false
 
     var body: some View {
-        ScheduleDateTitle(
-            date: (isSmall ? smallDateFormatter : normalDateFormatter).string(from: date),
-            relativeDate: relativeFormatter.relativeName(for: date, now: Date()),
-            isToday: calendar.isDateInToday(date)
-        )
+        Text("\(relativeTitle) \(dateTitle)")
         .lineLimit(1)
         .allowsTightening(true)
+    }
+
+    var relativeTitle: Text {
+        Text("\(date, formatter: WidgetRelativeDateTimeFormatter().relativeNameOnly())")
+    }
+
+    var dateTitle: Text {
+        Text("\(date, formatter: isSmall ? smallDateFormatter : normalDateFormatter)")
     }
 }
 
@@ -307,24 +317,27 @@ struct RemainingPairs: View {
 
 struct ScheduleWidget_Previews: PreviewProvider {
     static var previews: some View {
-        ScheduleWidgetEntryView(entry: entry)
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        Group {
+            ScheduleWidgetEntryView(entry: entry)
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
 
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+            ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
 
-        ScheduleWidgetEntryView(entry: entry)
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
+            ScheduleWidgetEntryView(entry: entry)
+                .previewContext(WidgetPreviewContext(family: .systemMedium))
 
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
+            ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
+                .previewContext(WidgetPreviewContext(family: .systemMedium))
 
 
-        ScheduleWidgetEntryView(entry: entry)
-            .previewContext(WidgetPreviewContext(family: .systemLarge))
+            ScheduleWidgetEntryView(entry: entry)
+                .previewContext(WidgetPreviewContext(family: .systemLarge))
 
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-            .previewContext(WidgetPreviewContext(family: .systemLarge))
+            ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
+                .previewContext(WidgetPreviewContext(family: .systemLarge))
+        }
+        .environment(\.locale, .by)
     }
 
     static let entry = ScheduleEntry(

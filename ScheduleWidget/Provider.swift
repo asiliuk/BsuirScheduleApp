@@ -111,7 +111,10 @@ final class Provider: IntentTimelineProvider, ObservableObject {
 
 private extension Employee {
     var abbreviatedName: String {
-        let abbreviation = [firstName, middleName].compactMap { $0.first }.map { String($0).capitalized }.joined()
+        let abbreviation = [firstName, middleName]
+            .compactMap { $0.first }
+            .map { String($0).capitalized }
+            .joined()
         return [lastName, abbreviation].filter { !$0.isEmpty }.joined(separator: " ")
     }
 }

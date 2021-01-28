@@ -2,7 +2,11 @@ import Foundation
 
 extension RelativeDateTimeFormatter {
     public static func relativeNameOnly() -> RelativeDateTimeFormatter {
-        mutating(RelativeDateTimeFormatter()) {
+        RelativeDateTimeFormatter().relativeNameOnly()
+    }
+
+    public func relativeNameOnly() -> Self {
+        mutating(self) {
             $0.locale = .by
             $0.dateTimeStyle = .named
             $0.formattingContext = .beginningOfSentence
