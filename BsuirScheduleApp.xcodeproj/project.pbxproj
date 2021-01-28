@@ -77,6 +77,7 @@
 		E6AA8D2D2516301500788A02 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D2C2516301500788A02 /* IntentHandler.swift */; };
 		E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E6AA8D382516302700788A02 /* ScheduleWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D1725162F1A00788A02 /* ScheduleWidget.intentdefinition */; };
+		E6C5619025C31066008C0DE4 /* WeekNumber+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C5618F25C31066008C0DE4 /* WeekNumber+Tests.swift */; };
 		E6D117522537810E00A6875D /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D117512537810E00A6875D /* WhatsNewView.swift */; };
 		E6D11759253783CC00A6875D /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D11758253783CC00A6875D /* AppVersion.swift */; };
 		E6D1F78825137C7A00CA6E20 /* BsuirApi.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D1F78625137C7A00CA6E20 /* BsuirApi.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -157,6 +158,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = E6AA8D292516301500788A02;
 			remoteInfo = ScheduleWidgetIntentHandler;
+		};
+		E6C5619225C31066008C0DE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6F931B122F8B1C10038FC43;
+			remoteInfo = BsuirScheduleApp;
 		};
 		E6D1F78925137C7A00CA6E20 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -292,6 +300,9 @@
 		E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetIntentHandler.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D2C2516301500788A02 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		E6AA8D2E2516301500788A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6C5618D25C31065008C0DE4 /* BsuirScheduleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BsuirScheduleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6C5618F25C31066008C0DE4 /* WeekNumber+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeekNumber+Tests.swift"; sourceTree = "<group>"; };
+		E6C5619125C31066008C0DE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6D117512537810E00A6875D /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
 		E6D11758253783CC00A6875D /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BsuirApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -355,6 +366,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E601A09C2523238A0056979A /* BsuirApi.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6C5618A25C31065008C0DE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +625,15 @@
 			path = ScheduleWidgetIntentHandler;
 			sourceTree = "<group>";
 		};
+		E6C5618E25C31066008C0DE4 /* BsuirScheduleAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				E6C5618F25C31066008C0DE4 /* WeekNumber+Tests.swift */,
+				E6C5619125C31066008C0DE4 /* Info.plist */,
+			);
+			path = BsuirScheduleAppTests;
+			sourceTree = "<group>";
+		};
 		E6D11750253780FD00A6875D /* WhatsNew */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,6 +720,7 @@
 				E6AA8D2B2516301500788A02 /* ScheduleWidgetIntentHandler */,
 				E690674A251CCB0200CF2DF2 /* BsuirUI */,
 				E6EDC289251FCC2700C8A73C /* BsuirCore */,
+				E6C5618E25C31066008C0DE4 /* BsuirScheduleAppTests */,
 				E6F931B322F8B1C10038FC43 /* Products */,
 				E633E7F822F8B75F00E109E2 /* Frameworks */,
 			);
@@ -707,6 +735,7 @@
 				E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */,
 				E6906749251CCB0200CF2DF2 /* BsuirUI.framework */,
 				E6EDC288251FCC2700C8A73C /* BsuirCore.framework */,
+				E6C5618D25C31065008C0DE4 /* BsuirScheduleAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -823,6 +852,24 @@
 			productReference = E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		E6C5618C25C31065008C0DE4 /* BsuirScheduleAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6C5619625C31066008C0DE4 /* Build configuration list for PBXNativeTarget "BsuirScheduleAppTests" */;
+			buildPhases = (
+				E6C5618925C31065008C0DE4 /* Sources */,
+				E6C5618A25C31065008C0DE4 /* Frameworks */,
+				E6C5618B25C31065008C0DE4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E6C5619325C31066008C0DE4 /* PBXTargetDependency */,
+			);
+			name = BsuirScheduleAppTests;
+			productName = BsuirScheduleAppTests;
+			productReference = E6C5618D25C31065008C0DE4 /* BsuirScheduleAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		E6D1F78325137C7A00CA6E20 /* BsuirApi */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E6D1F79025137C7A00CA6E20 /* Build configuration list for PBXNativeTarget "BsuirApi" */;
@@ -892,7 +939,7 @@
 		E6F931AA22F8B1C10038FC43 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = Saute;
 				TargetAttributes = {
@@ -905,6 +952,10 @@
 					};
 					E6AA8D292516301500788A02 = {
 						CreatedOnToolsVersion = 12.0;
+					};
+					E6C5618C25C31065008C0DE4 = {
+						CreatedOnToolsVersion = 12.3;
+						TestTargetID = E6F931B122F8B1C10038FC43;
 					};
 					E6D1F78325137C7A00CA6E20 = {
 						CreatedOnToolsVersion = 12.0;
@@ -941,6 +992,7 @@
 				E6EDC287251FCC2700C8A73C /* BsuirCore */,
 				E6AA8D0E25162F1A00788A02 /* ScheduleWidgetExtension */,
 				E6AA8D292516301500788A02 /* ScheduleWidgetIntentHandler */,
+				E6C5618C25C31065008C0DE4 /* BsuirScheduleAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -962,6 +1014,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E6AA8D282516301500788A02 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6C5618B25C31065008C0DE4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1042,6 +1101,14 @@
 			files = (
 				E6AA8D2D2516301500788A02 /* IntentHandler.swift in Sources */,
 				E6AA8D382516302700788A02 /* ScheduleWidget.intentdefinition in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6C5618925C31065008C0DE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6C5619025C31066008C0DE4 /* WeekNumber+Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1151,6 +1218,11 @@
 			isa = PBXTargetDependency;
 			target = E6AA8D292516301500788A02 /* ScheduleWidgetIntentHandler */;
 			targetProxy = E6AA8D2F2516301500788A02 /* PBXContainerItemProxy */;
+		};
+		E6C5619325C31066008C0DE4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6F931B122F8B1C10038FC43 /* BsuirScheduleApp */;
+			targetProxy = E6C5619225C31066008C0DE4 /* PBXContainerItemProxy */;
 		};
 		E6D1F78A25137C7A00CA6E20 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1324,6 +1396,46 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saute.Bsuir-Schedule.ScheduleWidgetIntentHandler";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		E6C5619425C31066008C0DE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BsuirScheduleAppTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.saute.BsuirScheduleAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BsuirScheduleApp.app/BsuirScheduleApp";
+			};
+			name = Debug;
+		};
+		E6C5619525C31066008C0DE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BsuirScheduleAppTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.saute.BsuirScheduleAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BsuirScheduleApp.app/BsuirScheduleApp";
 			};
 			name = Release;
 		};
@@ -1633,6 +1745,15 @@
 			buildConfigurations = (
 				E6AA8D332516301500788A02 /* Debug */,
 				E6AA8D342516301500788A02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6C5619625C31066008C0DE4 /* Build configuration list for PBXNativeTarget "BsuirScheduleAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6C5619425C31066008C0DE4 /* Debug */,
+				E6C5619525C31066008C0DE4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

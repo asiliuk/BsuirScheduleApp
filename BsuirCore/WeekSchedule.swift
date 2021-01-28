@@ -92,7 +92,7 @@ extension Calendar {
     }
 }
 
-private extension Calendar {
+extension Calendar {
     func weekNumber(for date: Date, now: Date) -> Int? {
         let components = dateComponents([.day, .month, .year, .weekday], from: date)
         let firstDayComponents = mutating(components) { $0.day = 1; $0.month = 9 }
@@ -114,10 +114,21 @@ private extension Calendar {
             firstDay = newFirstDay
         }
 
-        let dateWeekOfYear = component(.weekOfYear, from: date)
-        let firstDateWeekOfYear = component(.weekOfYear, from: firstDay)
+        guard
+            let distanceStart = startOfWeek(for: firstDay),
+            let distanceEnd = startOfWeek(for: date),
+            let weekOfYearDistance = dateComponents([.weekOfYear], from: distanceStart, to: distanceEnd).weekOfYear
+        else {
+            assertionFailure()
+            return nil
+        }
 
-        return (abs(dateWeekOfYear - firstDateWeekOfYear) % 4) + 1
+        return (abs(weekOfYearDistance) % 4) + 1
+    }
+
+    private func startOfWeek(for date: Date) -> Date? {
+        let components = dateComponents([.calendar, .yearForWeekOfYear, .weekOfYear], from: date)
+        return self.date(from: components)
     }
 }
 
