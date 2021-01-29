@@ -39,8 +39,7 @@ struct ScheduleWidgetEntryView: View {
     }
 }
 
-// MARK: - Widget UI
-
+// MARK: - Small Widget UI
 struct ScheduleWidgetEntrySmallView : View {
     var entry: Provider.Entry
 
@@ -80,6 +79,7 @@ struct ScheduleWidgetEntrySmallView : View {
     }
 }
 
+// MARK: - Medium Widget UI
 struct ScheduleWidgetEntryMediumView : View {
     var entry: Provider.Entry
 
@@ -120,6 +120,7 @@ struct ScheduleWidgetEntryMediumView : View {
     }
 }
 
+// MARK: - Large Widget UI
 struct ScheduleWidgetEntryLargeView : View {
     var entry: Provider.Entry
 
@@ -169,6 +170,7 @@ struct ScheduleWidgetEntryLargeView : View {
     }
 }
 
+// MARK: - Fetch pairs
 private func pairsToDisplay(
     passed: [PairViewModel],
     upcoming: [PairViewModel],
@@ -209,7 +211,7 @@ private let normalDateFormatter = mutating(DateFormatter()) {
     $0.setLocalizedDateFormatFromTemplate("dEMM")
 }
 
-private let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
+private let relativeFormatter = WidgetRelativeDateTimeFormatter().relativeNameOnly()
 
 private extension ListFormatter {
     func string<C: Collection>(from values: C, visibleCount: Int) -> String? {
@@ -264,14 +266,15 @@ struct WidgetDateTitle: View {
         Text("\(relativeTitle) \(dateTitle)")
         .lineLimit(1)
         .allowsTightening(true)
+        .environment(\.locale, .current)
     }
 
     var relativeTitle: Text {
-        Text("\(date, formatter: WidgetRelativeDateTimeFormatter().relativeNameOnly())")
+        Text("\(date, formatter: relativeFormatter)")
     }
 
     var dateTitle: Text {
-        Text("\(date, formatter: isSmall ? smallDateFormatter : normalDateFormatter)")
+        Text((isSmall ? smallDateFormatter : normalDateFormatter).string(from: date))
     }
 }
 
@@ -317,27 +320,24 @@ struct RemainingPairs: View {
 
 struct ScheduleWidget_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            ScheduleWidgetEntryView(entry: entry)
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
+        ScheduleWidgetEntryView(entry: entry)
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
 
-            ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
 
-            ScheduleWidgetEntryView(entry: entry)
-                .previewContext(WidgetPreviewContext(family: .systemMedium))
+        ScheduleWidgetEntryView(entry: entry)
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
 
-            ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-                .previewContext(WidgetPreviewContext(family: .systemMedium))
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
 
 
-            ScheduleWidgetEntryView(entry: entry)
-                .previewContext(WidgetPreviewContext(family: .systemLarge))
+        ScheduleWidgetEntryView(entry: entry)
+            .previewContext(WidgetPreviewContext(family: .systemLarge))
 
-            ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-                .previewContext(WidgetPreviewContext(family: .systemLarge))
-        }
-        .environment(\.locale, .by)
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
+            .previewContext(WidgetPreviewContext(family: .systemLarge))
     }
 
     static let entry = ScheduleEntry(

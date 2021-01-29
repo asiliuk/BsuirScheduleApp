@@ -974,7 +974,7 @@
 			};
 			buildConfigurationList = E6F931AD22F8B1C10038FC43 /* Build configuration list for PBXProject "BsuirScheduleApp" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
