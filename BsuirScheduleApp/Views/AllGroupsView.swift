@@ -10,7 +10,6 @@ import SwiftUI
 import Foundation
 
 struct AllGroupsView: View {
-
     @ObservedObject var screen: AllGroupsScreen
 
     var body: some View {

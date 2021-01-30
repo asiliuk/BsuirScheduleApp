@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 enum CurrentTab: Hashable {
     case groups
     case lecturers
@@ -16,9 +15,8 @@ enum CurrentTab: Hashable {
     case favorites(selection: AllFavoritesView.Selection? = nil)
 }
 
-
 struct RootView: View {
-    @StateObject var state: AppState
+    @ObservedObject var state: AppState
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var currentTab: CurrentTab?
     @State private var showWhatsNew: Bool = false

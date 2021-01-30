@@ -61,6 +61,7 @@
 		E6964824233F7D72007EF2CB /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6964823233F7D72007EF2CB /* RootView.swift */; };
 		E6964826233F8936007EF2CB /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6964825233F8936007EF2CB /* ScheduleView.swift */; };
 		E69648282340CA53007EF2CB /* AllLecturersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69648272340CA53007EF2CB /* AllLecturersView.swift */; };
+		E69A300525C5AB86009324B6 /* BsuirScheduleApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69A300425C5AB86009324B6 /* BsuirScheduleApplication.swift */; };
 		E69A965B2512000C0057FCD6 /* AppIconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69A965A2512000C0057FCD6 /* AppIconPicker.swift */; };
 		E69A965D25121DE30057FCD6 /* AppIconDark_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A965C25121DE30057FCD6 /* AppIconDark_83.5@2x.png */; };
 		E69A965F25121E850057FCD6 /* AppIconDad_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A965E25121E850057FCD6 /* AppIconDad_83.5@2x.png */; };
@@ -109,9 +110,6 @@
 		E6EDC2D12521EE2E00C8A73C /* RelativeDateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2D02521EE2E00C8A73C /* RelativeDateTimeFormatter.swift */; };
 		E6EDC2D72521F0DF00C8A73C /* ScheduleDateTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2D62521F0DF00C8A73C /* ScheduleDateTitle.swift */; };
 		E6EDC2E42522101900C8A73C /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2DC25220F9800C8A73C /* Provider.swift */; };
-		E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B522F8B1C10038FC43 /* AppDelegate.swift */; };
-		E6F931B822F8B1C10038FC43 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */; };
-		E6F931BB22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6F931B922F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld */; };
 		E6F931BF22F8B1C20038FC43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931BE22F8B1C20038FC43 /* Assets.xcassets */; };
 		E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C122F8B1C20038FC43 /* Preview Assets.xcassets */; };
 		E6F931C522F8B1C20038FC43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */; };
@@ -283,6 +281,7 @@
 		E6964823233F7D72007EF2CB /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		E6964825233F8936007EF2CB /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		E69648272340CA53007EF2CB /* AllLecturersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLecturersView.swift; sourceTree = "<group>"; };
+		E69A300425C5AB86009324B6 /* BsuirScheduleApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsuirScheduleApplication.swift; sourceTree = "<group>"; };
 		E69A965A2512000C0057FCD6 /* AppIconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconPicker.swift; sourceTree = "<group>"; };
 		E69A965C25121DE30057FCD6 /* AppIconDark_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark_83.5@2x.png"; sourceTree = "<group>"; };
 		E69A965E25121E850057FCD6 /* AppIconDad_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDad_83.5@2x.png"; sourceTree = "<group>"; };
@@ -332,9 +331,6 @@
 		E6EDC2D62521F0DF00C8A73C /* ScheduleDateTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDateTitle.swift; sourceTree = "<group>"; };
 		E6EDC2DC25220F9800C8A73C /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BsuirScheduleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E6F931B522F8B1C10038FC43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E6F931BA22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BsuirScheduleApp.xcdatamodel; sourceTree = "<group>"; };
 		E6F931BE22F8B1C20038FC43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E6F931C122F8B1C20038FC43 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E6F931C422F8B1C20038FC43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -532,7 +528,6 @@
 				E6F931BE22F8B1C20038FC43 /* Assets.xcassets */,
 				E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */,
 				E6F931C622F8B1C20038FC43 /* Info.plist */,
-				E6F931B922F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld */,
 				E6F931C022F8B1C20038FC43 /* Preview Content */,
 			);
 			path = Resources;
@@ -751,8 +746,7 @@
 				E696481E233F7BBE007EF2CB /* Screens */,
 				E6A6A88424142F490024D738 /* Views */,
 				E695524A22F9D0E000EEFA72 /* Resources */,
-				E6F931B522F8B1C10038FC43 /* AppDelegate.swift */,
-				E6F931B722F8B1C10038FC43 /* SceneDelegate.swift */,
+				E69A300425C5AB86009324B6 /* BsuirScheduleApplication.swift */,
 			);
 			path = BsuirScheduleApp;
 			sourceTree = "<group>";
@@ -1155,6 +1149,7 @@
 				E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */,
 				E69648282340CA53007EF2CB /* AllLecturersView.swift in Sources */,
 				E69A965B2512000C0057FCD6 /* AppIconPicker.swift in Sources */,
+				E69A300525C5AB86009324B6 /* BsuirScheduleApplication.swift in Sources */,
 				E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */,
 				E6373F06250A387900729EC8 /* TabRootView.swift in Sources */,
 				E6A6A87F24142BAB0024D738 /* LoadableContent.swift in Sources */,
@@ -1167,7 +1162,6 @@
 				E66B41282414381D00A88BFD /* GroupScreen.swift in Sources */,
 				E67503A824F427020030D0EC /* FavoritesContainer.swift in Sources */,
 				E6964826233F8936007EF2CB /* ScheduleView.swift in Sources */,
-				E6F931BB22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld in Sources */,
 				E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */,
 				E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */,
 				E6964822233F7C45007EF2CB /* AllGroupsView.swift in Sources */,
@@ -1176,7 +1170,6 @@
 				04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */,
 				E6D11759253783CC00A6875D /* AppVersion.swift in Sources */,
 				E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */,
-				E6F931B622F8B1C10038FC43 /* AppDelegate.swift in Sources */,
 				E67503AB24F430BD0030D0EC /* AllFavoritesView.swift in Sources */,
 				E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */,
 				E6D117522537810E00A6875D /* WhatsNewView.swift in Sources */,
@@ -1186,7 +1179,6 @@
 				04187F0C2438A4A20099855E /* SearchBar.swift in Sources */,
 				E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */,
 				E675BFC02587D51F00DE570A /* AboutScreen.swift in Sources */,
-				E6F931B822F8B1C10038FC43 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1818,19 +1810,6 @@
 			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		E6F931B922F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				E6F931BA22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodel */,
-			);
-			currentVersion = E6F931BA22F8B1C10038FC43 /* BsuirScheduleApp.xcdatamodel */;
-			path = BsuirScheduleApp.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = E6F931AA22F8B1C10038FC43 /* Project object */;
 }

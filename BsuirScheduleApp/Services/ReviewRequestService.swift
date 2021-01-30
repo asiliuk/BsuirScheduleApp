@@ -16,8 +16,7 @@ extension EnvironmentValues {
 }
 
 final class ReviewRequestService {
-    init(windowScene: UIWindowScene, storage: UserDefaults) {
-        self.windowScene = windowScene
+    init(storage: UserDefaults) {
         self.storage = storage
 
         reviewScore.publisher
@@ -33,11 +32,15 @@ final class ReviewRequestService {
     }
 
     private func requestReview(track: ReviewRequestTracking) {
+        guard let windowScene = UIApplication.shared.activeWindowScene else {
+            assertionFailure()
+            return
+        }
+
         SKStoreReviewController.requestReview(in: windowScene)
         reviewTrack.persisted.value = track
     }
 
-    private let windowScene: UIWindowScene
     private let storage: UserDefaults
     private var cancellables: Set<AnyCancellable> = []
 
@@ -48,6 +51,14 @@ final class ReviewRequestService {
     private lazy var reviewTrack = storage
         .persistedCodable(ReviewRequestTracking.self, key: "app-review-request.track")
         .publisher()
+}
+
+private extension UIApplication {
+    var activeWindowScene: UIWindowScene? {
+        connectedScenes.lazy
+            .compactMap { $0 as? UIWindowScene }
+            .first { $0.activationState == .foregroundActive }
+    }
 }
 
 private func shouldRequestReview(new: ReviewRequestTracking, old: ReviewRequestTracking?) -> Bool {
