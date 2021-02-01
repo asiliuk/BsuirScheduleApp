@@ -15,7 +15,7 @@ public struct Avatar: View {
                 size: CGSize(width: size, height: size)
             ))
             .loadDiskFileSynchronously()
-            .cacheMemoryOnly()
+            .cacheOriginalImage()
             .placeholder { UserPlaceholder() }
             .resizable()
             .aspectRatio(contentMode: .fill)
