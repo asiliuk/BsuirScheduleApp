@@ -6,7 +6,7 @@ import typealias Kingfisher.KingfisherOptionsInfo
 public struct Avatar: View {
     public let url: URL?
     public init(url: URL?) { self.url = url }
-    private var size: CGFloat = 50
+    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 50
 
     public var body: some View {
         KFImage(url)
