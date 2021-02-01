@@ -44,6 +44,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     }
 
     fileprivate struct MostRelevantScheduleResponse {
+        let id: Entry.Identifier
         let title: String
         let schedule: WeekSchedule.ScheduleElement
     }
@@ -59,6 +60,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
                 else { return nil }
 
                 return MostRelevantScheduleResponse(
+                    id: response.id,
                     title: response.title,
                     schedule: mostRelevantElement
                 )
@@ -67,6 +69,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     }
 
     private struct ScheduleResponse {
+        let id: Entry.Identifier
         let title: String
         let schedules: [DaySchedule]
     }
@@ -93,12 +96,20 @@ final class Provider: IntentTimelineProvider, ObservableObject {
         case let .group(groupId):
             return requestManager
                 .request(BsuirTargets.Schedule(agent: .groupID(groupId)))
-                .map { ScheduleResponse(title: $0.studentGroup.name, schedules: $0.schedules) }
+                .map { ScheduleResponse(
+                    id: .group($0.studentGroup.id),
+                    title: $0.studentGroup.name,
+                    schedules: $0.schedules
+                ) }
                 .eraseToAnyPublisher()
         case let .lecturer(lecturerId):
             return requestManager
                 .request(BsuirTargets.EmployeeSchedule(id: lecturerId))
-                .map { ScheduleResponse(title: $0.employee.abbreviatedName, schedules: $0.schedules ?? []) }
+                .map { ScheduleResponse(
+                    id: .lecturer($0.employee.id),
+                    title: $0.employee.abbreviatedName,
+                    schedules: $0.schedules ?? []
+                ) }
                 .eraseToAnyPublisher()
         }
     }
@@ -143,6 +154,7 @@ private extension ScheduleEntry {
         self.init(
             date: date,
             relevance: relevance,
+            id: response.id,
             title: response.title,
             content: .pairs(
                 passed: passedPairs.map { PairViewModel(pair: $0, date: date) },

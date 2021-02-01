@@ -26,16 +26,19 @@ struct ScheduleWidgetEntryView: View {
     @Environment(\.widgetFamily) var size
 
     var body: some View {
-        switch size {
-        case .systemSmall:
-            ScheduleWidgetEntrySmallView(entry: entry)
-        case .systemMedium:
-            ScheduleWidgetEntryMediumView(entry: entry)
-        case .systemLarge:
-            ScheduleWidgetEntryLargeView(entry: entry)
-        @unknown default:
-            EmptyView()
+        Group {
+            switch size {
+            case .systemSmall:
+                ScheduleWidgetEntrySmallView(entry: entry)
+            case .systemMedium:
+                ScheduleWidgetEntryMediumView(entry: entry)
+            case .systemLarge:
+                ScheduleWidgetEntryLargeView(entry: entry)
+            @unknown default:
+                EmptyView()
+            }
         }
+        .widgetURL(entry.id.flatMap(\.widgetURL))
     }
 }
 
@@ -312,6 +315,19 @@ struct RemainingPairs: View {
             return pairs.last?.from
         case .hide:
             return nil
+        }
+    }
+}
+
+// MARK: - Helpers
+
+extension ScheduleEntry.Identifier {
+    var widgetURL: URL? {
+        switch self {
+        case let .group(id):
+            return URL(string: "https://bsuirschedule.app/groups?id=\(id)")
+        case let .lecturer(id):
+            return URL(string: "https://bsuirschedule.app/lecturers?id=\(id)")
         }
     }
 }

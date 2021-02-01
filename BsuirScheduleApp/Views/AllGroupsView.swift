@@ -11,6 +11,7 @@ import Foundation
 
 struct AllGroupsView: View {
     @ObservedObject var screen: AllGroupsScreen
+    @Binding var selectedGroup: Int?
 
     var body: some View {
         ContentStateWithSearchView(
@@ -20,16 +21,45 @@ struct AllGroupsView: View {
         ) { section in
             Section(header: Text(section.title)) {
                 ForEach(section.groups, id: \.id) { group in
-                    NavigationLink(
-                        destination: ScheduleView(
-                            screen: self.screen.screen(for: group)
-                        )
-                    ) {
+                    NavigationLinkButton {
+                        selectedGroup = group.id
+                    } label: {
                         Text(group.name)
                     }
                 }
             }
+        } backgroundView: { sections in
+            ForEach(sections) { section in
+                ForEach(section.groups, id: \.id) { group in
+                    NavigationLink(
+                        destination: ScheduleView(screen: screen.screen(for: group)),
+                        tag: group.id,
+                        selection: $selectedGroup
+                    ) { EmptyView() }
+                }
+            }
         }
         .navigationTitle("Все группы")
+    }
+}
+
+struct NavigationLinkButton<Label: View>: View {
+    let action: () -> Void
+    let label: Label
+
+    init(action: @escaping () -> Void, @ViewBuilder label: () -> Label) {
+        self.action = action
+        self.label = label()
+    }
+
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            NavigationLink(destination: EmptyView()) {
+                label
+            }
+        }
+        .accentColor(.primary)
     }
 }

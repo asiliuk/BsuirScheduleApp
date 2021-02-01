@@ -2,18 +2,18 @@ import SwiftUI
 
 struct SidebarRootView: View {
     let state: AppState
-    @Binding var currentTab: CurrentTab?
+    @Binding var currentSelection: CurrentSelection?
     @Binding var currentOverlay: CurrentOverlay?
 
     var body: some View {
         NavigationView {
-            Sidebar(state: state, currentTab: $currentTab, currentOverlay: $currentOverlay)
+            Sidebar(state: state, currentSelection: $currentSelection, currentOverlay: $currentOverlay)
 
-            switch currentTab {
+            switch currentSelection {
             case nil, .groups:
-                AllGroupsView(screen: state.allGroups)
+                AllGroupsView(screen: state.allGroups, selectedGroup: $currentSelection.selectedGroup)
             case .lecturers:
-                AllLecturersView(screen: state.allLecturers)
+                AllLecturersView(screen: state.allLecturers, selectedLecturer: $currentSelection.selectedLecturer)
             case .about:
                 AboutView(screen: state.about)
             case let .favorites(selection):
@@ -27,32 +27,32 @@ struct SidebarRootView: View {
 
 private struct Sidebar: View {
     let state: AppState
-    @Binding var currentTab: CurrentTab?
+    @Binding var currentSelection: CurrentSelection?
     @Binding var currentOverlay: CurrentOverlay?
 
     var body: some View {
         List {
             NavigationLink(
-                destination: AllGroupsView(screen: state.allGroups),
-                tag: .groups,
-                selection: $currentTab
+                destination: AllGroupsView(screen: state.allGroups, selectedGroup: $currentSelection.selectedGroup),
+                tag: .groups(),
+                selection: $currentSelection
             ) {
-                CurrentTab.groups.label
+                CurrentSelection.groups().label
             }
 
             NavigationLink(
-                destination: AllLecturersView(screen: state.allLecturers),
-                tag: .lecturers,
-                selection: $currentTab
+                destination: AllLecturersView(screen: state.allLecturers, selectedLecturer: $currentSelection.selectedLecturer),
+                tag: .lecturers(),
+                selection: $currentSelection
             ) {
-                CurrentTab.lecturers.label
+                CurrentSelection.lecturers().label
             }
 
             Button(action: { currentOverlay = .about }) {
-                CurrentTab.about.label
+                CurrentSelection.about.label
             }
 
-            FavoritesDisclosureGroup(allFavorites: state.allFavorites, currentTab: $currentTab)
+            FavoritesDisclosureGroup(allFavorites: state.allFavorites, currentSelection: $currentSelection)
         }
         .listStyle(SidebarListStyle())
         .navigationTitle("Расписание")
@@ -61,7 +61,7 @@ private struct Sidebar: View {
 
 private struct FavoritesDisclosureGroup: View {
     @ObservedObject var allFavorites: AllFavoritesScreen
-    @Binding var currentTab: CurrentTab?
+    @Binding var currentSelection: CurrentSelection?
     @State private var isExpanded: Bool = true
 
     @ViewBuilder var body: some View {
@@ -73,7 +73,7 @@ private struct FavoritesDisclosureGroup: View {
                         NavigationLink(
                             destination: AllFavoritesView(screen: allFavorites, selection: .group(id: group.id)),
                             tag: .favorites(selection: .group(id: group.id)),
-                            selection: $currentTab
+                            selection: $currentSelection
                         ) {
                             Text(group.name)
                         }
@@ -83,7 +83,7 @@ private struct FavoritesDisclosureGroup: View {
                         NavigationLink(
                             destination: AllFavoritesView(screen: allFavorites, selection: .lecturer(id: lecturer.id)),
                             tag: .favorites(selection: .lecturer(id: lecturer.id)),
-                            selection: $currentTab
+                            selection: $currentSelection
                         ) {
                             Text(lecturer.fullName)
                         }
@@ -93,9 +93,9 @@ private struct FavoritesDisclosureGroup: View {
                     NavigationLink(
                         destination: AllFavoritesView(screen: allFavorites, selection: nil),
                         tag: .favorites(),
-                        selection: $currentTab
+                        selection: $currentSelection
                     ) {
-                        CurrentTab.favorites().label
+                        CurrentSelection.favorites().label
                     }
                 }
             )

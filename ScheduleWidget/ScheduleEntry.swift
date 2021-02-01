@@ -8,16 +8,22 @@ struct ScheduleEntry: TimelineEntry {
         case needsConfiguration
     }
 
+    enum Identifier {
+        case group(Int)
+        case lecturer(Int)
+    }
+
     var date = Date()
     var relevance: TimelineEntryRelevance? = nil
+    var id: Identifier?
     var title: String
     var content: Content
 }
 
 extension ScheduleEntry {
-    static let placeholder = Self(title: "---", content: .pairs())
-    static let needsConfiguration = Self(title: "---", content: .needsConfiguration)
-    static let preview = Self(title: "000001", content: .previewPairs)
+    static let placeholder = Self(id: nil, title: "---", content: .pairs())
+    static let needsConfiguration = Self(id: nil, title: "---", content: .needsConfiguration)
+    static let preview = Self(id: nil, title: "000001", content: .previewPairs)
 }
 
 private extension ScheduleEntry.Content {
