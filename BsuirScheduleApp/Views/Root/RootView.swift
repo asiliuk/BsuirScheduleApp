@@ -19,23 +19,16 @@ struct RootView: View {
     @ObservedObject var state: AppState
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var currentTab: CurrentTab?
-    @State private var showWhatsNew: Bool = false
+    @State private var showWhatsNew: Bool
+
+    init(state: AppState) {
+        _state = ObservedObject(initialValue: state)
+        _currentTab = State(initialValue: state.allFavorites.initialTab)
+        _showWhatsNew = State(initialValue: !state.whatsNew.items.isEmpty)
+    }
 
     var body: some View {
         content
-            .onAppear {
-                if let group = state.allFavorites.groups.first {
-                    currentTab = .favorites(selection: .group(id: group.id))
-                } else if let lecturer = state.allFavorites.lecturers.first {
-                    currentTab = .favorites(selection: .lecturer(id: lecturer.id))
-                } else {
-                    currentTab = .groups
-                }
-
-                if !state.whatsNew.items.isEmpty {
-                    showWhatsNew = true
-                }
-            }
             .sheet(isPresented: $showWhatsNew) {
                 WhatsNewView(
                     items: state.whatsNew.items,
@@ -47,7 +40,13 @@ struct RootView: View {
     @ViewBuilder private var content: some View {
         switch horizontalSizeClass {
         case nil, .compact?:
-            TabRootView(state: state, currentTab: $currentTab)
+            TabRootView(
+                state: state,
+                currentTab: .init(
+                    get: { currentTab ?? .groups },
+                    set: { currentTab = $0 }
+                )
+            )
         case .regular?:
             SidebarRootView(state: state, currentTab: $currentTab)
         case .some:
@@ -56,6 +55,17 @@ struct RootView: View {
     }
 }
 
+private extension AllFavoritesScreen {
+    var initialTab: CurrentTab {
+        if let group = groups.first {
+            return .favorites(selection: .group(id: group.id))
+        } else if let lecturer = lecturers.first {
+            return .favorites(selection: .lecturer(id: lecturer.id))
+        } else {
+            return .groups
+        }
+    }
+}
 
 extension CurrentTab {
     @ViewBuilder var label: some View {

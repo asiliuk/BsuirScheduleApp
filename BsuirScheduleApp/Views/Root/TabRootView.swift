@@ -2,11 +2,11 @@ import SwiftUI
 
 struct TabRootView: View {
     let state: AppState
-    @Binding var currentTab: CurrentTab?
+    @Binding var currentTab: CurrentTab
 
     var body: some View {
         TabView(selection: $currentTab) {
-            NavigationView { AllFavoritesView(screen: state.allFavorites, selection: currentTab?.favoriteSelection) }.tab(.favorites())
+            NavigationView { AllFavoritesView(screen: state.allFavorites, selection: currentTab.favoriteSelection) }.tab(.favorites())
             NavigationView { AllGroupsView(screen: state.allGroups) }.tab(.groups)
             NavigationView { AllLecturersView(screen: state.allLecturers) }.tab(.lecturers)
             NavigationView { AboutView(screen: state.about) }.tab(.about)
@@ -15,9 +15,9 @@ struct TabRootView: View {
 }
 
 private extension View {
-    func tab(_ tab: CurrentTab?) -> some View {
+    func tab(_ tab: CurrentTab) -> some View {
         self
-            .tabItem { tab?.label }
+            .tabItem { tab.label }
             .tag(tab)
     }
 }
