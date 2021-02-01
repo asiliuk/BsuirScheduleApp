@@ -15,25 +15,36 @@ enum CurrentTab: Hashable {
     case favorites(selection: AllFavoritesView.Selection? = nil)
 }
 
+enum CurrentOverlay: Identifiable {
+    var id: Self { self }
+    case about
+    case whatsNew
+}
+
 struct RootView: View {
     @ObservedObject var state: AppState
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var currentTab: CurrentTab?
-    @State private var showWhatsNew: Bool
+    @State private var currentOverlay: CurrentOverlay?
 
     init(state: AppState) {
         _state = ObservedObject(initialValue: state)
         _currentTab = State(initialValue: state.allFavorites.initialTab)
-        _showWhatsNew = State(initialValue: !state.whatsNew.items.isEmpty)
+        _currentOverlay = State(initialValue: state.whatsNew.items.isEmpty ? nil : .whatsNew)
     }
 
     var body: some View {
         content
-            .sheet(isPresented: $showWhatsNew) {
-                WhatsNewView(
-                    items: state.whatsNew.items,
-                    onAppear: state.whatsNew.didShow
-                )
+            .sheet(item: $currentOverlay) { overlay in
+                switch overlay {
+                case .about:
+                    NavigationView { AboutView(screen: state.about) }
+                case .whatsNew:
+                    WhatsNewView(
+                        items: state.whatsNew.items,
+                        onAppear: state.whatsNew.didShow
+                    )
+                }
             }
     }
 
@@ -48,7 +59,7 @@ struct RootView: View {
                 )
             )
         case .regular?:
-            SidebarRootView(state: state, currentTab: $currentTab)
+            SidebarRootView(state: state, currentTab: $currentTab, currentOverlay: $currentOverlay)
         case .some:
             EmptyView().onAppear { assertionFailure("Unexpected horizontalSizeClass") }
         }

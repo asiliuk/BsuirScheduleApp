@@ -3,7 +3,7 @@ import SwiftUI
 struct SidebarRootView: View {
     let state: AppState
     @Binding var currentTab: CurrentTab?
-    @State private var currentOverlay: Overlay? = nil
+    @Binding var currentOverlay: CurrentOverlay?
 
     var body: some View {
         NavigationView {
@@ -22,19 +22,13 @@ struct SidebarRootView: View {
 
             SchedulePlaceholder()
         }
-        .sheet(item: $currentOverlay) {
-            switch $0 {
-            case .about:
-                NavigationView { AboutView(screen: state.about) }
-            }
-        }
     }
 }
 
 private struct Sidebar: View {
     let state: AppState
     @Binding var currentTab: CurrentTab?
-    @Binding var currentOverlay: Overlay?
+    @Binding var currentOverlay: CurrentOverlay?
 
     var body: some View {
         List {
@@ -107,11 +101,6 @@ private struct FavoritesDisclosureGroup: View {
             )
         }
     }
-}
-
-fileprivate enum Overlay: Identifiable {
-    var id: Self { self }
-    case about
 }
 
 private struct SchedulePlaceholder: View {
