@@ -69,6 +69,7 @@
 		E69A966325121EB70057FCD6 /* AppIconResist_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A966225121EB70057FCD6 /* AppIconResist_83.5@2x.png */; };
 		E6A6A87F24142BAB0024D738 /* LoadableContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A6A87E24142BAB0024D738 /* LoadableContent.swift */; };
 		E6A6A88324142F2C0024D738 /* CombineHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A6A88224142F2C0024D738 /* CombineHelpers.swift */; };
+		E6A6D1AA25D5B8D500204A79 /* ExpiringCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A6D1A925D5B8D500204A79 /* ExpiringCache.swift */; };
 		E6AA8D1125162F1A00788A02 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA8D1025162F1A00788A02 /* WidgetKit.framework */; };
 		E6AA8D1325162F1A00788A02 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA8D1225162F1A00788A02 /* SwiftUI.framework */; };
 		E6AA8D1625162F1A00788A02 /* ScheduleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */; };
@@ -291,6 +292,7 @@
 		E69AE8672519316F0060D761 /* Mutating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutating.swift; sourceTree = "<group>"; };
 		E6A6A87E24142BAB0024D738 /* LoadableContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableContent.swift; sourceTree = "<group>"; };
 		E6A6A88224142F2C0024D738 /* CombineHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineHelpers.swift; sourceTree = "<group>"; };
+		E6A6D1A925D5B8D500204A79 /* ExpiringCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiringCache.swift; sourceTree = "<group>"; };
 		E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D1025162F1A00788A02 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E6AA8D1225162F1A00788A02 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -645,6 +647,7 @@
 			children = (
 				E6D1F79225137CAB00CA6E20 /* BsuirApi.swift */,
 				E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */,
+				E6A6D1A925D5B8D500204A79 /* ExpiringCache.swift */,
 				E6D1F79625137CAB00CA6E20 /* Codable */,
 				E6D1F79925137CAB00CA6E20 /* Models */,
 				E6D1F79325137CAB00CA6E20 /* Request */,
@@ -1121,6 +1124,7 @@
 				E6D1F7A025137CAB00CA6E20 /* BsuirApi.swift in Sources */,
 				E6D1F7AA25137CAB00CA6E20 /* WeekNum.swift in Sources */,
 				E6D1F7A425137CAB00CA6E20 /* NonEmpty.swift in Sources */,
+				E6A6D1AA25D5B8D500204A79 /* ExpiringCache.swift in Sources */,
 				E6D1F7A125137CAB00CA6E20 /* RequestManager.swift in Sources */,
 				E679A75825137DB200CBE8C7 /* BsuirApi+Combine.swift in Sources */,
 				E6D1F7A625137CAB00CA6E20 /* DaySchedule.swift in Sources */,
