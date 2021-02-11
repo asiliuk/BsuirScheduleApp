@@ -1,0 +1,32 @@
+"0vef4E" = "Группа";
+
+"EfdVI7" = "Schedule Type";
+
+"KfefCA" = "Тип расписания";
+
+"NylLaI" = "Не удалось получить список преподавателей";
+
+"S1v3BN" = "Преподаватель";
+
+"Sgwawl" = "Не удалось получить список групп";
+
+"TXUTw5" = "Выберите номер группы";
+
+"bh4smd" = "Schedule Identifier";
+
+"dQL4TO-0vef4E" = "There are ${count} options matching ‘Группа’.";
+
+"dQL4TO-jf0Ql6" = "There are ${count} options matching ‘Преподаватель’.";
+
+"gpCwrM" = "Configuration";
+
+"jf0Ql6" = "Преподаватель";
+
+"khURc9" = "Выберите преподавателя";
+
+"u2Mjta" = "Номер группы";
+
+"zGWdtZ-0vef4E" = "Just to confirm, you wanted ‘Группа’?";
+
+"zGWdtZ-jf0Ql6" = "Just to confirm, you wanted ‘Преподаватель’?";
+
