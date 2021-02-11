@@ -7,6 +7,7 @@ struct ScheduleGridView: View {
     let days: [DayViewModel]
     var loadMore: (() -> Void)? = nil
     var showDetails: ((Employee) -> Void)? = nil
+    @Binding var isOnTop: Bool
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -31,7 +32,21 @@ struct ScheduleGridView: View {
             }
             // To disable cell celection
             .buttonStyle(PlainButtonStyle())
-            .onAppear { proxy.scrollTo(MostRelevantDayViewID(), anchor: .top) }
+            .onAppear {
+                if isOnTop {
+                    proxy.scrollTo(MostRelevantDayViewID(), anchor: .top)
+                }
+            }
+            .onChange(of: isOnTop) { isOnTop in
+                if isOnTop {
+                    withAnimation {
+                        proxy.scrollTo(MostRelevantDayViewID(), anchor: .top)
+                    }
+                }
+            }
+            .gesture(DragGesture().onChanged { _ in
+                isOnTop = false
+            })
         }
     }
 }
@@ -123,7 +138,8 @@ struct ScheduleGridView_Previews: PreviewProvider {
             schedule()
 
             ScheduleGridView(
-                days: [.mock(title: "06.02.0003")]
+                days: [.mock(title: "06.02.0003")],
+                isOnTop: .constant(true)
             )
 
             schedule()
@@ -166,7 +182,8 @@ struct ScheduleGridView_Previews: PreviewProvider {
                 .mock(title: "04.02.0003"),
                 .mock(title: "05.02.0003"),
                 .mock(title: "06.02.0003"),
-            ]
+            ],
+            isOnTop: .constant(true)
         )
     }
 

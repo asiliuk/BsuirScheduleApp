@@ -15,6 +15,7 @@ struct ScheduleView: View {
     @State var scheduleType: ScheduleType = .continuous
     @State var employeeSchedule: Employee?
     @Environment(\.reviewRequestService) var reviewRequestService
+    @State var isOnTop: Bool = true
 
     var body: some View {
         schedule
@@ -25,7 +26,6 @@ struct ScheduleView: View {
             .onChange(of: scheduleType) { _ in
                 reviewRequestService?.madeMeaningfulEvent(.scheduleModeSwitched)
             }
-            .navigationTitle(Text(screen.name))
             .navigationBarTitleDisplayMode(.inline)
             // Uses deprecated API here to use .yellow as accent color for favorites
             // .toolbar API makes all buttons blue
@@ -33,6 +33,12 @@ struct ScheduleView: View {
                 favorite
                 picker
             })
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(screen.name).bold()
+                        .onTapGesture { isOnTop = true }
+                }
+            }
             .sheet(item: $employeeSchedule) { item in
                 screen.employeeSchedule.map { makeScreen in
                     ModalNavigationView {
@@ -76,11 +82,11 @@ struct ScheduleView: View {
         ContentStateView(content: screen.schedule) { value in
             switch scheduleType {
             case .continuous:
-                ContinuousScheduleView(schedule: value.continuous, showDetails: showDetails)
+                ContinuousScheduleView(schedule: value.continuous, showDetails: showDetails, isOnTop: $isOnTop)
             case .compact:
-                SomeState(days: value.compact, showDetails: showDetails)
+                SomeState(days: value.compact, showDetails: showDetails, isOnTop: $isOnTop)
             case .exams:
-                SomeState(days: value.exams, showDetails: showDetails)
+                SomeState(days: value.exams, showDetails: showDetails, isOnTop: $isOnTop)
             }
         }
     }
@@ -119,6 +125,7 @@ struct ContinuousScheduleView: View {
     @ObservedObject var schedule: ContinuousSchedule
     @Environment(\.reviewRequestService) var reviewRequestService
     let showDetails: ((Employee) -> Void)?
+    @Binding var isOnTop: Bool
 
     var body: some View {
         SomeState(
@@ -127,7 +134,8 @@ struct ContinuousScheduleView: View {
                 reviewRequestService?.madeMeaningfulEvent(.moreScheduleRequested)
                 schedule.loadMore()
             },
-            showDetails: showDetails
+            showDetails: showDetails,
+            isOnTop: $isOnTop
         )
     }
 }
@@ -137,6 +145,7 @@ struct SomeState: View {
     let days: [DayViewModel]
     var loadMore: (() -> Void)?
     let showDetails: ((Employee) -> Void)?
+    @Binding var isOnTop: Bool
 
     @ViewBuilder var body: some View {
         if days.isEmpty {
@@ -145,7 +154,8 @@ struct SomeState: View {
             ScheduleGridView(
                 days: days,
                 loadMore: loadMore,
-                showDetails: showDetails
+                showDetails: showDetails,
+                isOnTop: $isOnTop
             )
         }
     }
