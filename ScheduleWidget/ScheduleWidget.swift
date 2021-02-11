@@ -214,8 +214,6 @@ private let normalDateFormatter = mutating(DateFormatter()) {
     $0.setLocalizedDateFormatFromTemplate("dEMM")
 }
 
-private let relativeFormatter = WidgetRelativeDateTimeFormatter().relativeNameOnly()
-
 private extension ListFormatter {
     func string<C: Collection>(from values: C, visibleCount: Int) -> String? {
         let visible = values.prefix(visibleCount).map { $0 as Any }
@@ -254,26 +252,15 @@ struct NeedsConfigurationView: View {
     }
 }
 
-private final class WidgetRelativeDateTimeFormatter: RelativeDateTimeFormatter {
-    override func string(for obj: Any?) -> String? {
-        guard let date = obj as? Date else { return nil }
-        return relativeName(for: date, now: Date())
-    }
-}
-
 struct WidgetDateTitle: View {
     let date: Date
     var isSmall: Bool = false
 
     var body: some View {
-        Text("\(relativeTitle) \(dateTitle)")
-        .lineLimit(1)
-        .allowsTightening(true)
-        .environment(\.locale, .current)
-    }
-
-    var relativeTitle: Text {
-        Text("\(date, formatter: relativeFormatter)")
+        dateTitle
+            .lineLimit(1)
+            .allowsTightening(true)
+            .environment(\.locale, .current)
     }
 
     var dateTitle: Text {
