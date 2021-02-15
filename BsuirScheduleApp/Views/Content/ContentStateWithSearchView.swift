@@ -35,8 +35,8 @@ struct ContentStateWithSearchView<Model: Identifiable, ItemView: View, Backgroun
             }
             .listStyle(InsetGroupedListStyle())
             .dismissingKeyboardOnSwipe()
-            .background(backgroundView(value))
         }
+        .background(content.state.some.map(backgroundView))
         .onAppear(perform: content.load)
     }
 }

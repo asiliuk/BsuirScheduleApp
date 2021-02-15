@@ -66,3 +66,10 @@ extension ContentState {
         }
     }
 }
+
+extension ContentState {
+    var some: Value? {
+        guard case let .some(value) = self else { return nil }
+        return value
+    }
+}
