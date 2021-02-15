@@ -17,7 +17,7 @@ struct SidebarRootView: View {
             case .about:
                 AboutView(screen: state.about)
             case let .favorites(selection):
-                AllFavoritesView(screen: state.allFavorites, selection: selection)
+                AllFavoritesView(screen: state.allFavorites, selection: selection, openGroups: { currentSelection = .groups() })
             }
 
             SchedulePlaceholder()
@@ -71,7 +71,11 @@ private struct FavoritesDisclosureGroup: View {
                 content: {
                     ForEach(allFavorites.groups) { group in
                         NavigationLink(
-                            destination: AllFavoritesView(screen: allFavorites, selection: .group(id: group.id)),
+                            destination: AllFavoritesView(
+                                screen: allFavorites,
+                                selection: .group(id: group.id),
+                                openGroups: { currentSelection = .groups() }
+                            ),
                             tag: .favorites(selection: .group(id: group.id)),
                             selection: $currentSelection
                         ) {
@@ -81,7 +85,11 @@ private struct FavoritesDisclosureGroup: View {
 
                     ForEach(allFavorites.lecturers) { lecturer in
                         NavigationLink(
-                            destination: AllFavoritesView(screen: allFavorites, selection: .lecturer(id: lecturer.id)),
+                            destination: AllFavoritesView(
+                                screen: allFavorites,
+                                selection: .lecturer(id: lecturer.id),
+                                openGroups: { currentSelection = .groups() }
+                            ),
                             tag: .favorites(selection: .lecturer(id: lecturer.id)),
                             selection: $currentSelection
                         ) {
@@ -91,7 +99,11 @@ private struct FavoritesDisclosureGroup: View {
                 },
                 label: {
                     NavigationLink(
-                        destination: AllFavoritesView(screen: allFavorites, selection: nil),
+                        destination: AllFavoritesView(
+                            screen: allFavorites,
+                            selection: nil,
+                            openGroups: { currentSelection = .groups() }
+                        ),
                         tag: .favorites(),
                         selection: $currentSelection
                     ) {

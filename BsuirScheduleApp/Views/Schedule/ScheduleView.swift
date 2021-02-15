@@ -162,9 +162,14 @@ struct SomeState: View {
 }
 
 struct EmptyState: View {
+    struct Action {
+        let title: LocalizedStringKey
+        let action: () -> Void
+    }
     let image: Image
     let title: LocalizedStringKey
     let subtitle: LocalizedStringKey
+    var action: Action?
 
     var body: some View {
         VStack {
@@ -172,6 +177,12 @@ struct EmptyState: View {
             image.font(.largeTitle)
             Text(title).font(.title)
             Text(subtitle).font(.subheadline)
+            if let action = action {
+                Button(action.title, action: action.action)
+                    .buttonStyle(FillButtonStyle(backgroundColor: Color.blue))
+                    .padding()
+
+            }
             Spacer()
         }
         .accessibilityElement(children: .ignore)
@@ -203,6 +214,12 @@ struct ScheduleView_Preview: PreviewProvider {
     static var previews: some View {
         Group {
             ScheduleEmptyState()
+            EmptyState(
+                image: .init(systemName: "rectangle"),
+                title: "Title",
+                subtitle: "Subtitle",
+                action: .init(title: "Test", action: {})
+            )
         }
     }
 }

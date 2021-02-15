@@ -8,6 +8,7 @@ struct AllFavoritesView: View {
 
     @ObservedObject var screen: AllFavoritesScreen
     @State var selection: Selection?
+    let openGroups: () -> Void
 
     var body: some View {
         Group {
@@ -24,7 +25,11 @@ struct AllFavoritesView: View {
         EmptyState(
             image: Image(systemName: "hand.raised.fill"),
             title: "Ты не избранный, Нео",
-            subtitle: "Выбери кого-нибудь другого"
+            subtitle: "Выбери кого-нибудь другого",
+            action: .init(
+                title: "Веди меня!",
+                action: openGroups
+            )
         )
     }
 

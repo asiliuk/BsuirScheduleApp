@@ -7,7 +7,7 @@ struct TabRootView: View {
     var body: some View {
         TabView(selection: $currentSelection.tab) {
             NavigationView {
-                AllFavoritesView(screen: state.allFavorites, selection: currentSelection?.favoriteSelection)
+                AllFavoritesView(screen: state.allFavorites, selection: currentSelection?.favoriteSelection, openGroups: { currentSelection = .groups() })
             }
             .tab(.favorites())
 
