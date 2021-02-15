@@ -29,15 +29,18 @@ final class LoadableContent<Value>: ObservableObject {
     }
 
     func load() {
-        guard case .initial = state else {
-            return
+        switch state {
+        case .initial, .error:
+            loading = loadPublisher
+                .map(ContentState.some)
+                .receive(on: RunLoop.main)
+                .replaceError(with: .error)
+                .prepend(.loading)
+                .weekAssign(to: \.state, on: self)
+        case .loading, .some:
+            // Nothing to do
+            break
         }
-
-        loading = loadPublisher
-            .map(ContentState.some)
-            .receive(on: RunLoop.main)
-            .replaceError(with: .error)
-            .weekAssign(to: \.state, on: self)
     }
 
     func stop() {

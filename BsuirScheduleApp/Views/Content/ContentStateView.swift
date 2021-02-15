@@ -24,7 +24,7 @@ struct ContentStateView<Value, SubView: View>: View {
         case .initial, .loading:
             LoadingState()
         case .error:
-            ErrorState(retry: nil)
+            ErrorState(retry: { content.load() })
         case let .some(value):
             makeContent(value)
         }
@@ -56,5 +56,12 @@ struct ErrorState: View {
             } }
             Spacer()
         }
+    }
+}
+
+struct ErrorState_Previews: PreviewProvider {
+    static var previews: some View {
+        ErrorState(retry: nil)
+        ErrorState(retry: {})
     }
 }
