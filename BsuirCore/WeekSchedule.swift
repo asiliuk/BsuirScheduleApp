@@ -37,7 +37,11 @@ extension WeekSchedule {
     }
 
     public func schedule(starting start: Date, now: Date) -> AnySequence<ScheduleElement> {
-        AnySequence { () -> AnyIterator<ScheduleElement> in
+        guard !groupedSchedule.isEmpty else {
+            return AnySequence([])
+        }
+
+        return AnySequence { () -> AnyIterator<ScheduleElement> in
             var offset = 0
             return AnyIterator {
                 var element: ScheduleElement?
