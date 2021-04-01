@@ -4,15 +4,7 @@ import BsuirCore
 import BsuirApi
 
 struct ScheduleView: View {
-
-    enum ScheduleType: Hashable {
-        case continuous
-        case compact
-        case exams
-    }
-
     @ObservedObject var screen: ScheduleScreen
-    @State var scheduleType: ScheduleType = .continuous
     @State var employeeSchedule: Employee?
     @Environment(\.reviewRequestService) var reviewRequestService
     @State var isOnTop: Bool = true
@@ -23,7 +15,7 @@ struct ScheduleView: View {
                 reviewRequestService?.madeMeaningfulEvent(.scheduleRequested)
                 screen.schedule.load()
             }
-            .onChange(of: scheduleType) { _ in
+            .onChange(of: screen.scheduleType) { _ in
                 reviewRequestService?.madeMeaningfulEvent(.scheduleModeSwitched)
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -66,10 +58,10 @@ struct ScheduleView: View {
 
     private var picker: some View {
         Menu {
-            Picker("Тип расписания", selection: $scheduleType) {
-                Text("Расписание").tag(ScheduleType.continuous)
-                Text("По дням").tag(ScheduleType.compact)
-                Text("Экзамены").tag(ScheduleType.exams)
+            Picker("Тип расписания", selection: $screen.scheduleType) {
+                Text("Расписание").tag(ScheduleScreen.ScheduleType.continuous)
+                Text("По дням").tag(ScheduleScreen.ScheduleType.compact)
+                Text("Экзамены").tag(ScheduleScreen.ScheduleType.exams)
             }
         } label: {
             Image(systemName: "calendar")
@@ -80,7 +72,7 @@ struct ScheduleView: View {
 
     private var schedule: some View {
         ContentStateView(content: screen.schedule) { value in
-            switch scheduleType {
+            switch screen.scheduleType {
             case .continuous:
                 ContinuousScheduleView(schedule: value.continuous, showDetails: showDetails, isOnTop: $isOnTop)
             case .compact:

@@ -6,10 +6,16 @@ import BsuirUI
 import BsuirCore
 
 final class ScheduleScreen: ObservableObject {
+    enum ScheduleType: Hashable {
+        case continuous
+        case compact
+        case exams
+    }
 
     let name: String
     let schedule: LoadableContent<Schedule>
     @Published private(set) var isFavorite: Bool = false
+    @Published var scheduleType: ScheduleType = .continuous
     let toggleFavorite: () -> Void
     let employeeSchedule: ((Employee) -> ScheduleScreen)?
 
@@ -30,6 +36,15 @@ final class ScheduleScreen: ObservableObject {
 
         self.toggleFavorite = toggleFavorite
         isFavorite.assign(to: &self.$isFavorite)
+
+        self.schedule.$state
+            .compactMap { $0.some }
+            .first()
+            .filter { schedule in
+                schedule.continuous.days.isEmpty && !schedule.exams.isEmpty
+            }
+            .map { _ in .exams }
+            .assign(to: &self.$scheduleType)
     }
 }
 
