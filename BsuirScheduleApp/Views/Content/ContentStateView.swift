@@ -51,9 +51,12 @@ struct ErrorState: View {
         VStack {
             Spacer()
             Text("Что-то пошло не так...").font(.title)
-            retry.map { Button(action: $0) {
-                Text("Повторить попытку")
-            } }
+            retry.map {
+                Button(action: $0) {
+                    Text("Повторить попытку")
+                }
+                .buttonStyle(.bordered)
+            }
             Spacer()
         }
     }

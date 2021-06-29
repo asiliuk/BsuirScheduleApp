@@ -19,13 +19,12 @@ struct ScheduleView: View {
                 reviewRequestService?.madeMeaningfulEvent(.scheduleModeSwitched)
             }
             .navigationBarTitleDisplayMode(.inline)
-            // Uses deprecated API here to use .yellow as accent color for favorites
-            // .toolbar API makes all buttons blue
-            .navigationBarItems(trailing: HStack {
-                favorite
-                picker
-            })
             .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    favorite
+                    picker
+                }
+
                 ToolbarItem(placement: .principal) {
                     Text(screen.name).bold()
                         .onTapGesture { isOnTop = true }
@@ -46,7 +45,6 @@ struct ScheduleView: View {
             screen.toggleFavorite()
         } }) {
             Image(systemName: screen.isFavorite ? "star.fill" : "star")
-                .padding(.horizontal, 4)
         }
         .accessibility(
             label: screen.isFavorite
@@ -65,7 +63,6 @@ struct ScheduleView: View {
             }
         } label: {
             Image(systemName: "calendar")
-                .padding(.horizontal, 4)
         }
         .accessibility(label: Text("Тип расписания"))
     }
@@ -90,7 +87,7 @@ struct ScheduleView: View {
 }
 
 struct ModalNavigationView<Content: View>: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     let content: () -> Content
 
@@ -104,7 +101,7 @@ struct ModalNavigationView<Content: View>: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(
-                            action: { presentationMode.wrappedValue.dismiss() },
+                            action: { dismiss() },
                             label: { Image(systemName: "xmark") }
                         )
                     }
@@ -171,9 +168,7 @@ struct EmptyState: View {
             Text(subtitle).font(.subheadline)
             if let action = action {
                 Button(action.title, action: action.action)
-                    .buttonStyle(FillButtonStyle(backgroundColor: Color.blue))
-                    .padding()
-
+                    .buttonStyle(.bordered)
             }
             Spacer()
         }
@@ -201,6 +196,7 @@ struct ScheduleEmptyState: View {
 }
 
 #if DEBUG
+import Combine
 struct ScheduleView_Preview: PreviewProvider {
 
     static var previews: some View {
@@ -212,6 +208,16 @@ struct ScheduleView_Preview: PreviewProvider {
                 subtitle: "Subtitle",
                 action: .init(title: "Test", action: {})
             )
+
+            NavigationView {
+                ScheduleView(screen: ScheduleScreen(
+                    name: "1010101",
+                    isFavorite: Just(true).eraseToAnyPublisher(),
+                    toggleFavorite: {},
+                    request: Empty().eraseToAnyPublisher(),
+                    employeeSchedule: nil
+                ))
+            }
         }
     }
 }

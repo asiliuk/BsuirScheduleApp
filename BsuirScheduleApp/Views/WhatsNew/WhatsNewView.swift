@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct WhatsNewView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     let items: [WhatsNewScreen.Item]
     var onAppear: () -> Void = {}
 
@@ -33,30 +33,19 @@ struct WhatsNewView: View {
 
                 Spacer()
 
-                Button("Отстань") {
-                    presentationMode.wrappedValue.dismiss()
+                Button(action: { dismiss() }) {
+                    Text("Отстань")
+                        .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(FillButtonStyle(backgroundColor: .red))
+                .buttonStyle(.bordered)
+                .controlSize(.large)
+                .controlProminence(.increased)
                 .padding()
             }
+            .tint(.red)
             .onAppear(perform: onAppear)
             .navigationTitle("Что нового")
         }
-    }
-}
-
-struct FillButtonStyle: ButtonStyle {
-    let backgroundColor: Color
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.headline)
-            .foregroundColor(Color(.systemBackground))
-            .padding()
-            .frame(minWidth: 0, maxWidth: 400)
-            .background(backgroundColor)
-            .opacity(configuration.isPressed ? 0.5 : 1)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
 
