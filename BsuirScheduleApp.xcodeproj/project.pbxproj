@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04187F0C2438A4A20099855E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04187F0B2438A4A20099855E /* SearchBar.swift */; };
 		04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0F8B924D7354B00A1C74F /* AboutView.swift */; };
 		E601A09C2523238A0056979A /* BsuirApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; };
 		E601A0A32523238E0056979A /* BsuirApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; };
@@ -232,7 +231,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		04187F0B2438A4A20099855E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		E601A0B5252332000056979A /* ConditionalApply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalApply.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
@@ -471,7 +469,6 @@
 		E68610C32471C2B0001BF527 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				04187F0B2438A4A20099855E /* SearchBar.swift */,
 				E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */,
 			);
 			path = Common;
@@ -1182,7 +1179,6 @@
 				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
 				E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */,
 				E67503A524F424840030D0EC /* AppState+Bsuir.swift in Sources */,
-				04187F0C2438A4A20099855E /* SearchBar.swift in Sources */,
 				E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */,
 				E675BFC02587D51F00DE570A /* AboutScreen.swift in Sources */,
 			);

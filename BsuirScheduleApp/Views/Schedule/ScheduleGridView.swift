@@ -23,6 +23,7 @@ struct ScheduleGridView: View {
                         showDetails: showDetails
                     )
                 }
+                .listRowSeparator(.hidden)
 
                 if let load = loadMore {
                     ProgressView()
@@ -30,6 +31,7 @@ struct ScheduleGridView: View {
                         .onAppear(perform: load)
                 }
             }
+            .listStyle(.plain)
             // To disable cell celection
             .buttonStyle(PlainButtonStyle())
             .onAppear {
