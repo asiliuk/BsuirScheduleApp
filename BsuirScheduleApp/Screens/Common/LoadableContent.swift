@@ -31,10 +31,7 @@ final class LoadableContent<Value>: ObservableObject {
     func load() {
         switch state {
         case .initial, .error:
-            loading = loadPublisher
-                .map(ContentState.some)
-                .receive(on: RunLoop.main)
-                .replaceError(with: .error)
+            loading = fetch()
                 .prepend(.loading)
                 .weekAssign(to: \.state, on: self)
         case .loading, .some:
@@ -45,6 +42,28 @@ final class LoadableContent<Value>: ObservableObject {
 
     func stop() {
         loading = nil
+    }
+
+    func refresh() async {
+        switch state {
+        case .error, .some:
+            state = await withCheckedContinuation { continuation in
+                loading = fetch()
+                    .first()
+                    .map(Result.success)
+                    .sink(receiveValue: continuation.resume(with:))
+            }
+        case .loading, .initial:
+            break
+        }
+    }
+
+    private func fetch() -> AnyPublisher<ContentState<Value>, Never> {
+        loadPublisher
+            .map(ContentState.some)
+            .receive(on: RunLoop.main)
+            .replaceError(with: .error)
+            .eraseToAnyPublisher()
     }
 
     private let loadPublisher: Deferred<AnyPublisher<Value, Error>>

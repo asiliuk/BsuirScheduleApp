@@ -37,9 +37,8 @@ struct WhatsNewView: View {
                     Text("Отстань")
                         .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(.borderedProminent)
                 .controlSize(.large)
-                .controlProminence(.increased)
                 .padding()
             }
             .tint(.red)

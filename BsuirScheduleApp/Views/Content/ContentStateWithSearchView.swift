@@ -17,6 +17,7 @@ struct ContentStateWithSearchView<Model: Identifiable, ItemView: View, Backgroun
             .dismissingKeyboardOnSwipe()
             .listStyle(.insetGrouped)
             .searchable(text: $searchQuery, prompt: Text(searchPlaceholder))
+            .refreshable { await content.refresh() }
         }
         .background(content.state.some.map(backgroundView))
         .onAppear(perform: content.load)

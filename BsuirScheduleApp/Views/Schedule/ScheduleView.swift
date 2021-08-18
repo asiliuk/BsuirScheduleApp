@@ -15,6 +15,7 @@ struct ScheduleView: View {
                 reviewRequestService?.madeMeaningfulEvent(.scheduleRequested)
                 screen.schedule.load()
             }
+            .refreshable { await screen.schedule.refresh() }
             .onChange(of: screen.scheduleType) { _ in
                 reviewRequestService?.madeMeaningfulEvent(.scheduleModeSwitched)
             }

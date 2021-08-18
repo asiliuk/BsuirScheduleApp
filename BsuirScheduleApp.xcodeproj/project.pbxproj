@@ -28,6 +28,7 @@
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
 		E656B6CD25BDB16E006BDF79 /* PairFormIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E656B6CC25BDB16E006BDF79 /* PairFormIndicator.swift */; };
 		E65E5E5825379083009D57C1 /* WhatsNewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E5E5725379083009D57C1 /* WhatsNewScreen.swift */; };
+		E660A744268B93A000851358 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = E660A743268B93A000851358 /* Cache */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
 		E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41252414365700A88BFD /* ScheduleScreen.swift */; };
@@ -35,12 +36,10 @@
 		E66B412A2414394600A88BFD /* AllGroupsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41292414394600A88BFD /* AllGroupsScreen.swift */; };
 		E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66C1D8E24C2704D008391B6 /* ContinuousSchedule.swift */; };
 		E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67491122523BC40006CE90E /* ReviewRequestService.swift */; };
-		E67503A524F424840030D0EC /* AppState+Bsuir.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503A424F424840030D0EC /* AppState+Bsuir.swift */; };
 		E67503A824F427020030D0EC /* FavoritesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503A724F427020030D0EC /* FavoritesContainer.swift */; };
 		E67503AB24F430BD0030D0EC /* AllFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */; };
 		E67503AD24F4355B0030D0EC /* AllFavoritesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503AC24F4355B0030D0EC /* AllFavoritesScreen.swift */; };
 		E675BFC02587D51F00DE570A /* AboutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E675BFBF2587D51F00DE570A /* AboutScreen.swift */; };
-		E679A75825137DB200CBE8C7 /* BsuirApi+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */; };
 		E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */; };
 		E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */; };
 		E690674D251CCB0200CF2DF2 /* BsuirUI.h in Headers */ = {isa = PBXBuildFile; fileRef = E690674B251CCB0200CF2DF2 /* BsuirUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -247,6 +246,7 @@
 		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
 		E656B6CC25BDB16E006BDF79 /* PairFormIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairFormIndicator.swift; sourceTree = "<group>"; };
 		E65E5E5725379083009D57C1 /* WhatsNewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewScreen.swift; sourceTree = "<group>"; };
+		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
 		E66B4121241431F800A88BFD /* LecturerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturerScreen.swift; sourceTree = "<group>"; };
 		E66B41232414344900A88BFD /* AllLecturersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLecturersScreen.swift; sourceTree = "<group>"; };
 		E66B41252414365700A88BFD /* ScheduleScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleScreen.swift; sourceTree = "<group>"; };
@@ -254,7 +254,6 @@
 		E66B41292414394600A88BFD /* AllGroupsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsScreen.swift; sourceTree = "<group>"; };
 		E66C1D8E24C2704D008391B6 /* ContinuousSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinuousSchedule.swift; sourceTree = "<group>"; };
 		E67491122523BC40006CE90E /* ReviewRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRequestService.swift; sourceTree = "<group>"; };
-		E67503A424F424840030D0EC /* AppState+Bsuir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState+Bsuir.swift"; sourceTree = "<group>"; };
 		E67503A724F427020030D0EC /* FavoritesContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesContainer.swift; sourceTree = "<group>"; };
 		E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFavoritesView.swift; sourceTree = "<group>"; };
 		E67503AC24F4355B0030D0EC /* AllFavoritesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFavoritesScreen.swift; sourceTree = "<group>"; };
@@ -274,7 +273,6 @@
 		E691E969250D2D6100116878 /* AppIconDark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@2x.png"; sourceTree = "<group>"; };
 		E691E96A250D2D6100116878 /* AppIconDark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@3x.png"; sourceTree = "<group>"; };
 		E691E970250D2D6D00116878 /* AppIconNostalgia@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNostalgia@3x.png"; sourceTree = "<group>"; };
-		E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BsuirApi+Combine.swift"; sourceTree = "<group>"; };
 		E696481F233F7BD3007EF2CB /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E6964821233F7C45007EF2CB /* AllGroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsView.swift; sourceTree = "<group>"; };
 		E6964823233F7D72007EF2CB /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -380,6 +378,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E660A744268B93A000851358 /* Cache in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,7 +543,6 @@
 				E65E5E562537907A009D57C1 /* WhatsNew */,
 				E675BFBE2587D50E00DE570A /* About */,
 				E696481F233F7BD3007EF2CB /* AppState.swift */,
-				E67503A424F424840030D0EC /* AppState+Bsuir.swift */,
 				E67503AC24F4355B0030D0EC /* AllFavoritesScreen.swift */,
 			);
 			path = Screens;
@@ -645,7 +643,6 @@
 			isa = PBXGroup;
 			children = (
 				E6D1F79225137CAB00CA6E20 /* BsuirApi.swift */,
-				E695524C22F9D11100EEFA72 /* BsuirApi+Combine.swift */,
 				E6A6D1A925D5B8D500204A79 /* ExpiringCache.swift */,
 				E6D1F79625137CAB00CA6E20 /* Codable */,
 				E6D1F79925137CAB00CA6E20 /* Models */,
@@ -743,6 +740,7 @@
 		E6F931B422F8B1C10038FC43 /* BsuirScheduleApp */ = {
 			isa = PBXGroup;
 			children = (
+				E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */,
 				E6A6A88524142F560024D738 /* Helpers */,
 				E67491112523BC26006CE90E /* Services */,
 				E696481E233F7BBE007EF2CB /* Screens */,
@@ -883,6 +881,9 @@
 			dependencies = (
 			);
 			name = BsuirApi;
+			packageProductDependencies = (
+				E660A743268B93A000851358 /* Cache */,
+			);
 			productName = BsuirApi;
 			productReference = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */;
 			productType = "com.apple.product-type.framework";
@@ -980,6 +981,7 @@
 			mainGroup = E6F931A922F8B1C10038FC43;
 			packageReferences = (
 				E60AEB792562C2BE003DE552 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				E660A742268B93A000851358 /* XCRemoteSwiftPackageReference "Cache" */,
 			);
 			productRefGroup = E6F931B322F8B1C10038FC43 /* Products */;
 			projectDirPath = "";
@@ -1125,7 +1127,6 @@
 				E6D1F7A425137CAB00CA6E20 /* NonEmpty.swift in Sources */,
 				E6A6D1AA25D5B8D500204A79 /* ExpiringCache.swift in Sources */,
 				E6D1F7A125137CAB00CA6E20 /* RequestManager.swift in Sources */,
-				E679A75825137DB200CBE8C7 /* BsuirApi+Combine.swift in Sources */,
 				E6D1F7A625137CAB00CA6E20 /* DaySchedule.swift in Sources */,
 				E6D1F7A525137CAB00CA6E20 /* Pair.swift in Sources */,
 				E6D1F7A725137CAB00CA6E20 /* Department.swift in Sources */,
@@ -1178,7 +1179,6 @@
 				E6D117522537810E00A6875D /* WhatsNewView.swift in Sources */,
 				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
 				E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */,
-				E67503A524F424840030D0EC /* AppState+Bsuir.swift in Sources */,
 				E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */,
 				E675BFC02587D51F00DE570A /* AboutScreen.swift in Sources */,
 			);
@@ -1693,6 +1693,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BsuirScheduleApp/BsuirScheduleApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "BsuirScheduleApp/Resources/Preview\\ Content";
 				DEVELOPMENT_TEAM = 636FUHDF2R;
@@ -1712,6 +1713,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BsuirScheduleApp/BsuirScheduleApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "BsuirScheduleApp/Resources/Preview\\ Content";
 				DEVELOPMENT_TEAM = 636FUHDF2R;
@@ -1813,6 +1815,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		E660A742268B93A000851358 /* XCRemoteSwiftPackageReference "Cache" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hyperoslo/Cache.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1820,6 +1830,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E60AEB792562C2BE003DE552 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		E660A743268B93A000851358 /* Cache */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E660A742268B93A000851358 /* XCRemoteSwiftPackageReference "Cache" */;
+			productName = Cache;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

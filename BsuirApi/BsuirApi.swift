@@ -1,22 +1,27 @@
 import Foundation
 
 extension RequestsManager {
-    public static func bsuir(session: URLSession = .cached(), logger: Logger? = nil) -> RequestsManager {
-        return RequestsManager(base: "https://journal.bsuir.by/api/v1", session: session, decoder: decoder, logger: logger)
+    public static func bsuir(
+        session: URLSession = .shared,
+        cacheDirectory: URL? = FileManager.default.sharedContainerURL
+    ) -> RequestsManager {
+        return RequestsManager(
+            base: "https://journal.bsuir.by/api/v1",
+            session: session,
+            decoder: decoder,
+            cache: ExpiringCache(
+                expiration: 3600 * 24 * 7,
+                memoryCapacity: Int(1e7),
+                diskCapacity: Int(1e7),
+                diskPath: cacheDirectory?.path
+            )
+        )
     }
 }
 
-extension URLSession {
-    public static func cached(expiration: TimeInterval = 3600 * 24 * 3) -> URLSession {
-        let configuration = URLSessionConfiguration.default
-        configuration.urlCache = ExpiringCache(
-            expiration: expiration,
-            memoryCapacity: Int(1e7),
-            diskCapacity: Int(1e7),
-            diskPath: nil
-        )
-        configuration.requestCachePolicy = .returnCacheDataElseLoad
-        return URLSession(configuration: configuration)
+extension FileManager {
+    public var sharedContainerURL: URL? {
+        containerURL(forSecurityApplicationGroupIdentifier: "group.asiliuk.shared.schedule")
     }
 }
 

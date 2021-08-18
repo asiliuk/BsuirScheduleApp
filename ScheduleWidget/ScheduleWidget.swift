@@ -34,6 +34,8 @@ struct ScheduleWidgetEntryView: View {
                 ScheduleWidgetEntryMediumView(entry: entry)
             case .systemLarge:
                 ScheduleWidgetEntryLargeView(entry: entry)
+            case .systemExtraLarge:
+                EmptyView()
             @unknown default:
                 EmptyView()
             }

@@ -7,39 +7,31 @@
 //
 
 import Foundation
+import os.log
+import Combine
 
 public struct RequestsManager {
+    public let cache: URLCache
 
-    public struct Logger {
-        public let constructRequest: (URLRequest) -> Void
-        public let dataRequest: (Data?, URLResponse?, Error?) -> Void
-        public let request: (Any) -> Void
+    private let base: String
+    private let session: URLSession
+    private let encoder: JSONEncoder
+    private let decoder: JSONDecoder
+    private let logger: Logger
 
-        public init(
-            constructRequest: @escaping (URLRequest) -> Void = { _ in },
-            dataRequest: @escaping (Data?, URLResponse?, Error?) -> Void = { _, _, _ in },
-            request: @escaping (Any) -> Void = { _ in }
-        ) {
-            self.constructRequest = constructRequest
-            self.dataRequest = dataRequest
-            self.request = request
-        }
-
-        public static let dumper = Logger(constructRequest: { dump($0) }, dataRequest: { dump(($0, $1, $2)) }, request: { dump($0) })
-    }
-
-    public let base: String
-    public let session: URLSession
-    public let encoder: JSONEncoder
-    public let decoder: JSONDecoder
-    public let logger: Logger?
-
-    public init(base: String, session: URLSession, encoder: JSONEncoder = JSONEncoder(), decoder: JSONDecoder = JSONDecoder(), logger: Logger? = nil) {
+    public init(
+        base: String,
+        session: URLSession,
+        encoder: JSONEncoder = JSONEncoder(),
+        decoder: JSONDecoder = JSONDecoder(),
+        cache: URLCache
+    ) {
         self.base = base
         self.session = session
         self.encoder = encoder
         self.decoder = decoder
-        self.logger = logger
+        self.cache = cache
+        self.logger = Logger(subsystem: "com.saute.Bsuir-Schedule", category: "RequestsManager")
     }
 
     public enum ConstructError: Error {
@@ -72,29 +64,52 @@ public struct RequestsManager {
         request.httpMethod = target.method.rawValue
         request.httpBody = body
 
-        defer { logger?.constructRequest(request) }
+        defer { logger.debug("\(request.curlDescription)") }
 
         return .success(request)
     }
 
     public enum DataRequestError: Error {
         case invalidRequest(ConstructError)
-        case responseError(Error)
-        case unexpectedResponse
+        case responseError(URLError)
     }
 
-    public func dataRequest<T: Target>(for target: T, completion: @escaping (Result<(Data, URLResponse), DataRequestError>) -> Void) {
-        switch constructRequest(for: target) {
-        case let .success(request):
-            session.dataTask(with: request) { [logger] (data, response, error) in
-                logger?.dataRequest(data, response, error)
-                if let error = error { return completion(.failure(.responseError(error))) }
-                if let data = data, let response = response { return completion(.success((data, response))) }
-                completion(.failure(.unexpectedResponse))
-            }.resume()
-        case let .failure(error):
-            completion(.failure(.invalidRequest(error)))
+    public func dataRequest<T: Target>(for target: T, checkCache: Bool = true) -> AnyPublisher<(data: Data, response: URLResponse), DataRequestError> {
+        return Deferred {
+            return constructRequest(for: target)
+                .publisher
+                .mapError(DataRequestError.invalidRequest)
+                .flatMap { request -> AnyPublisher<(data: Data, response: URLResponse), DataRequestError> in
+                    let remoteData = cachingDataTaskPublisher(for: request)
+                        .mapError(DataRequestError.responseError)
+
+                    guard
+                        checkCache,
+                        let cached = cache.cachedResponse(for: request)
+                    else {
+                        return remoteData.eraseToAnyPublisher()
+                    }
+
+                    return Just((data: cached.data, response: cached.response))
+                        .setFailureType(to: DataRequestError.self)
+                        .append(remoteData)
+                        .eraseToAnyPublisher()
+                }
         }
+        .removeDuplicates(by: ==)
+        .receive(on: RunLoop.main)
+        .eraseToAnyPublisher()
+    }
+
+    private func cachingDataTaskPublisher(for request: URLRequest) -> Publishers.HandleEvents<URLSession.DataTaskPublisher> {
+        return session
+            .dataTaskPublisher(for: request)
+            .handleEvents(receiveOutput: { output in
+                cache.storeCachedResponse(
+                    CachedURLResponse(response: output.response, data: output.data),
+                    for: request
+                )
+            })
     }
 
     public enum RequestError: Error {
@@ -102,20 +117,34 @@ public struct RequestsManager {
         case decodeError(Error)
     }
 
-    public func request<T: Target>(_ target: T, completion: @escaping (Result<T.Value, RequestError>) -> Void) {
-        dataRequest(for: target) { [logger, decoder] result in
-            switch result {
-            case let .success((data, _)):
-                do {
-                    let value = try decoder.decode(T.Value.self, from: data)
-                    logger?.request(value)
-                    completion(.success(value))
-                } catch {
-                    completion(.failure(.decodeError(error)))
+    public func request<T: Target>(_ target: T, checkCache: Bool = true) -> AnyPublisher<T.Value, RequestError> {
+        return Deferred {
+            dataRequest(for: target, checkCache: checkCache)
+                .mapError(RequestError.dataRequestError)
+                .flatMap { value in
+                    Result { try decoder.decode(T.Value.self, from: value.data) }
+                        .publisher
+                        .mapError(RequestError.decodeError)
                 }
-            case let .failure(error):
-                completion(.failure(.dataRequestError(error)))
-            }
         }
+        .receive(on: RunLoop.main)
+        .eraseToAnyPublisher()
+    }
+}
+
+private extension URLRequest {
+    var curlDescription: String {
+        guard let url = url else { return "[Unknown]" }
+
+        let body = httpBody
+            .flatMap { String(data: $0, encoding: .utf8) }
+            .map { "-d '\($0)'" }
+
+        let headers = allHTTPHeaderFields?
+            .map { "-H '\($0.0): \($0.1)'" }
+
+        let components = ["curl", url.absoluteString] + ([body].compactMap { $0 }) + (headers ?? [])
+
+        return components.joined(separator: " ")
     }
 }

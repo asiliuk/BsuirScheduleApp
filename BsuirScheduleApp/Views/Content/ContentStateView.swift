@@ -12,12 +12,7 @@ import Foundation
 struct ContentStateView<Value, SubView: View>: View {
 
     @ObservedObject var content: LoadableContent<Value>
-    let makeContent: (Value) -> SubView
-
-    init(content: LoadableContent<Value>, @ViewBuilder makeContent: @escaping (Value) -> SubView) {
-        self.content = content
-        self.makeContent = makeContent
-    }
+    @ViewBuilder let makeContent: (Value) -> SubView
 
     @ViewBuilder var body: some View {
         switch content.state {

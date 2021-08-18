@@ -25,7 +25,7 @@ extension OSLog {
 
 final class AppState: ObservableObject {
     init(storage: UserDefaults) {
-        self.requestManager = .bsuir(logger: .osLog)
+        self.requestManager = .bsuir()
         self.storage = storage
     }
 
@@ -38,7 +38,7 @@ final class AppState: ObservableObject {
     private(set) lazy var allGroups = AllGroupsScreen(requestManager: requestManager, favorites: favorites)
     private(set) lazy var allLecturers = AllLecturersScreen(requestManager: requestManager, favorites: favorites)
     private(set) lazy var about = AboutScreen(
-        urlCache: requestManager.session.configuration.urlCache,
+        urlCache: requestManager.cache,
         imageCache: .default
     )
 }
