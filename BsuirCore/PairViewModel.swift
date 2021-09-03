@@ -13,7 +13,7 @@ public struct PairViewModel: Equatable {
     public var from: String
     public var to: String
     public var form: Form
-    public var subject: String
+    public var subject: String?
     public var auditory: String
     public var note: String?
     public var weeks: String?
@@ -25,7 +25,7 @@ public struct PairViewModel: Equatable {
         from: String,
         to: String,
         form: PairViewModel.Form,
-        subject: String,
+        subject: String?,
         auditory: String,
         note: String? = nil,
         weeks: String? = nil,
@@ -83,7 +83,7 @@ private extension PairViewModel.Form {
         case .practice: self = .practice
         case .lab: self = .lab
         case .exam: self = .exam
-        case nil: self = .unknown
+        case .unknown, nil: self = .unknown
         }
     }
 }

@@ -57,7 +57,7 @@ public struct PairView<Details: View>: View {
 
     public var from: String
     public var to: String
-    public var subject: String
+    public var subject: String?
     public var weeks: String?
     public var subgroup: String?
     public var auditory: String
@@ -73,7 +73,7 @@ public struct PairView<Details: View>: View {
     public init(
         from: String,
         to: String,
-        subject: String,
+        subject: String?,
         weeks: String? = nil,
         subgroup: String? = nil,
         auditory: String,
@@ -140,7 +140,7 @@ public struct PairView<Details: View>: View {
         .fixedSize(horizontal: false, vertical: true)
         .accessibilityElement(children: .ignore)
         .accessibility(label: accessibilityDescription(
-            "\(subject) \(Text(form.name))",
+            subject.map { "\($0) \(Text(form.name))" },
             progress.isNow ? "Идет сейчас" : nil,
             "с \(from) по \(to)",
             weeks.map { "Недели: \($0)" },
@@ -175,8 +175,8 @@ public struct PairView<Details: View>: View {
         .font(isCompact ? .footnote : .callout)
     }
 
-    private var subjectText: Text {
-        Text(subject).bold()
+    private var subjectText: Text? {
+        subject.map { Text($0).bold() }
     }
 
     private var periodityText: Text? {

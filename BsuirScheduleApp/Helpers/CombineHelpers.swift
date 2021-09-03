@@ -41,9 +41,14 @@ extension Publisher {
                 guard events.contains(.output) else { return }
                 os_log(.error, log: log, "%{public}@: received Output", identifier)
             },
-            receiveCompletion: { _ in
+            receiveCompletion: { completion in
                 guard events.contains(.completion) else { return }
-                os_log(.error, log: log, "%{public}@: received Completion", identifier)
+                switch completion {
+                case .finished:
+                    os_log(.error, log: log, "%{public}@: received Completion", identifier)
+                case let .failure(error):
+                    os_log(.error, log: log, "%{public}@: received Failure. %{public}@", identifier, String(describing: error))
+                }
             },
             receiveCancel: {
                 guard events.contains(.cancel) else { return }
