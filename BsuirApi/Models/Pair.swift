@@ -9,11 +9,12 @@ import Foundation
 
 public struct Pair : Codable, Equatable {
 
-    public enum Form : String, Equatable {
-        case lecture  = "ЛК"
-        case practice = "ПЗ"
-        case lab      = "ЛР"
-        case exam     = "Экзамен"
+    public enum Form : Equatable {
+        case lecture
+        case practice
+        case lab
+        case exam
+        case unknown(String)
     }
 
     public struct Time : Equatable {
@@ -22,14 +23,14 @@ public struct Pair : Codable, Equatable {
         public let timeZone: TimeZone?
     }
 
-    public let subject: String
+    public let subject: String?
     @NonEmpty public var auditory: [String]
 
     public let startLessonTime: Time
     public let endLessonTime: Time
 
     public let numSubgroup: Int
-    @Unknownable public var lessonType: Form?
+    public let lessonType: Form?
     public let weekNumber: WeekNum
     public let note: String?
 
@@ -66,4 +67,41 @@ extension Pair.Time : Codable {
 
 extension TimeZone {
     static let minsk = TimeZone(identifier: "Europe/Minsk")
+}
+
+extension Pair.Form: Codable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self).lowercased()
+
+        switch value {
+        case "лк", "улк":
+            self = .lecture
+        case "пз", "упз":
+            self = .practice
+        case "лр", "улр":
+            self = .lab
+        case "экзамен":
+            self = .exam
+        case let unknown:
+            self = .unknown(unknown)
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+
+        switch self {
+        case .lecture:
+            try container.encode("лк")
+        case .practice:
+            try container.encode("пз")
+        case .lab:
+            try container.encode("лр")
+        case .exam:
+            try container.encode("экзамен")
+        case let .unknown(value):
+            try container.encode(value)
+        }
+    }
 }

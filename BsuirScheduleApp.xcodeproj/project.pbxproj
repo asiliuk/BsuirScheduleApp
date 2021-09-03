@@ -89,7 +89,6 @@
 		E6D1F7A025137CAB00CA6E20 /* BsuirApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D1F79225137CAB00CA6E20 /* BsuirApi.swift */; };
 		E6D1F7A125137CAB00CA6E20 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D1F79425137CAB00CA6E20 /* RequestManager.swift */; };
 		E6D1F7A225137CAB00CA6E20 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D1F79525137CAB00CA6E20 /* Target.swift */; };
-		E6D1F7A325137CAB00CA6E20 /* Unknownable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D1F79725137CAB00CA6E20 /* Unknownable.swift */; };
 		E6D1F7A425137CAB00CA6E20 /* NonEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D1F79825137CAB00CA6E20 /* NonEmpty.swift */; };
 		E6D1F7A525137CAB00CA6E20 /* Pair.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D1F79A25137CAB00CA6E20 /* Pair.swift */; };
 		E6D1F7A625137CAB00CA6E20 /* DaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D1F79B25137CAB00CA6E20 /* DaySchedule.swift */; };
@@ -316,7 +315,6 @@
 		E6D1F79225137CAB00CA6E20 /* BsuirApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BsuirApi.swift; sourceTree = "<group>"; };
 		E6D1F79425137CAB00CA6E20 /* RequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		E6D1F79525137CAB00CA6E20 /* Target.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
-		E6D1F79725137CAB00CA6E20 /* Unknownable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unknownable.swift; sourceTree = "<group>"; };
 		E6D1F79825137CAB00CA6E20 /* NonEmpty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonEmpty.swift; sourceTree = "<group>"; };
 		E6D1F79A25137CAB00CA6E20 /* Pair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pair.swift; sourceTree = "<group>"; };
 		E6D1F79B25137CAB00CA6E20 /* DaySchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DaySchedule.swift; sourceTree = "<group>"; };
@@ -671,7 +669,6 @@
 		E6D1F79625137CAB00CA6E20 /* Codable */ = {
 			isa = PBXGroup;
 			children = (
-				E6D1F79725137CAB00CA6E20 /* Unknownable.swift */,
 				E6D1F79825137CAB00CA6E20 /* NonEmpty.swift */,
 			);
 			path = Codable;
@@ -1120,7 +1117,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6D1F7A825137CAB00CA6E20 /* Group.swift in Sources */,
-				E6D1F7A325137CAB00CA6E20 /* Unknownable.swift in Sources */,
 				E6D1F7A225137CAB00CA6E20 /* Target.swift in Sources */,
 				E6D1F7A925137CAB00CA6E20 /* Employee.swift in Sources */,
 				E6D1F7A025137CAB00CA6E20 /* BsuirApi.swift in Sources */,
