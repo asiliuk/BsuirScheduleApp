@@ -100,7 +100,7 @@ extension CurrentSelection {
         case .groups:
             Label("Группы", systemImage: "person.2")
         case .lecturers:
-            Label("Преподаватели", systemImage: "person.crop.rectangle")
+            Label("Преподаватели", systemImage: "person.text.rectangle")
         case .about:
             Label("О приложении", systemImage: "info.circle")
         case .favorites:

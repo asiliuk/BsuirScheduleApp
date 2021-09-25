@@ -21,9 +21,11 @@ struct ScheduleView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    favorite
-                    picker
+                ToolbarItem {
+                    HStack {
+                        favorite
+                        picker
+                    }
                 }
 
                 ToolbarItem(placement: .principal) {
@@ -58,14 +60,13 @@ struct ScheduleView: View {
     private var picker: some View {
         Menu {
             Picker("Тип расписания", selection: $screen.scheduleType) {
-                Text("Расписание").tag(ScheduleScreen.ScheduleType.continuous)
-                Text("По дням").tag(ScheduleScreen.ScheduleType.compact)
-                Text("Экзамены").tag(ScheduleScreen.ScheduleType.exams)
+                ForEach(ScheduleScreen.ScheduleType.allCases, id: \.self) { scheduleType in
+                    Label(scheduleType.title, systemImage: scheduleType.imageName)
+                }
             }
         } label: {
-            Image(systemName: "calendar")
+            Label("Тип расписания", systemImage: screen.scheduleType.imageName)
         }
-        .accessibility(label: Text("Тип расписания"))
     }
 
     private var schedule: some View {
@@ -84,6 +85,30 @@ struct ScheduleView: View {
     var showDetails: ((Employee) -> Void)? {
         guard screen.employeeSchedule != nil else { return nil }
         return { self.employeeSchedule = $0 }
+    }
+}
+
+private extension ScheduleScreen.ScheduleType {
+    var title: String {
+        switch self {
+        case .continuous:
+            return "Расписание"
+        case .compact:
+            return "По дням"
+        case .exams:
+            return "Экзамены"
+        }
+    }
+
+    var imageName: String {
+        switch self {
+        case .continuous:
+            return "calendar.day.timeline.leading"
+        case .compact:
+            return "calendar"
+        case .exams:
+            return "graduationcap"
+        }
     }
 }
 

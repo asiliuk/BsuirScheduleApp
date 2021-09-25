@@ -6,7 +6,7 @@ import BsuirUI
 import BsuirCore
 
 final class ScheduleScreen: ObservableObject {
-    enum ScheduleType: Hashable {
+    enum ScheduleType: Hashable, CaseIterable {
         case continuous
         case compact
         case exams
