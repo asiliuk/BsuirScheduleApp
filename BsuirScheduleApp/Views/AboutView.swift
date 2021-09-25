@@ -32,12 +32,12 @@ struct AboutView: View {
                 .accessibility(label: Text("Визуальное отображение пары с подписанными элементами"))
             }
 
-            AppIconPicker(bundle: bundle, application: application)
+            AppIconPicker(bundle: bundle)
 
             Section(header: Text("О приложении")) {
                 Text("Версия \(bundle.fullVersion.description)")
-                GithubButton(application: application)
-                TelegramButton(application: application)
+                GithubButton()
+                TelegramButton()
             }
 
             Section(header: Text("Данные")) {
@@ -56,17 +56,13 @@ struct AboutView: View {
         .navigationTitle("Информация")
     }
 
-    private let application = UIApplication.shared
     private let bundle = Bundle.main
 
 }
 
 private struct GithubButton: View {
-    let application: UIApplication
-
     var body: some View {
         LinkButton(
-            application: application,
             title: "GitHub",
             url: URL(string: "https://github.com/asiliuk/BsuirScheduleApp"),
             event: .githubOpened
@@ -75,11 +71,8 @@ private struct GithubButton: View {
 }
 
 private struct TelegramButton: View {
-    let application: UIApplication
-
     var body: some View {
         LinkButton(
-            application: application,
             title: "Telegram",
             url: URL(string: "https://t.me/bsuirschedule"),
             event: .telegramOpened
@@ -88,22 +81,20 @@ private struct TelegramButton: View {
 }
 
 private struct LinkButton: View {
-    let application: UIApplication
     let title: LocalizedStringKey
     let url: URL?
     let event: ReviewRequestService.MeaningfulEvent
+    @Environment(\.openURL) var openURL
     @Environment(\.reviewRequestService) var reviewRequestService
 
     var body: some View {
-        Button(action: openURL) {
+        Button {
+            guard let url = url else { return }
+            reviewRequestService?.madeMeaningfulEvent(event)
+            openURL(url)
+        } label: {
             Text(title).underline()
         }
-    }
-
-    func openURL() {
-        guard let url = url else { return }
-        reviewRequestService?.madeMeaningfulEvent(event)
-        application.open(url)
     }
 }
 

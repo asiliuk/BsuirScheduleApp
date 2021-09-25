@@ -3,12 +3,11 @@ import SwiftUI
 
 struct AppIconPicker: View {
     let bundle: Bundle
-    let application: UIApplication
+    let application: UIApplication = .shared
     @Environment(\.reviewRequestService) var reviewRequestService
 
-    init(bundle: Bundle, application: UIApplication) {
+    init(bundle: Bundle) {
         self.bundle = bundle
-        self.application = application
         self._icon = State(initialValue: application.alternateIconName.flatMap(AppIcon.init(name:)) ?? .standard)
     }
 
