@@ -1,7 +1,7 @@
 import Foundation
 import BsuirApi
 
-public struct PairViewModel: Equatable {
+public struct PairViewModel: Equatable, Identifiable {
     public enum Form: Equatable {
         case lecture
         case practice
@@ -10,6 +10,7 @@ public struct PairViewModel: Equatable {
         case unknown
     }
 
+    public let id = UUID()
     public var from: String
     public var to: String
     public var form: Form

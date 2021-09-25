@@ -75,7 +75,8 @@ extension PairProgress {
     }
 }
 
-struct DayViewModel {
+struct DayViewModel: Identifiable {
+    let id = UUID()
     var title: String
     var subtitle: String?
     var pairs: [PairViewModel]

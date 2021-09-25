@@ -1,5 +1,6 @@
 import SwiftUI
 import BsuirCore
+import BsuirApi
 
 public struct PairCell<Details: View>: View {
     var pair: PairView<Details>
@@ -202,23 +203,16 @@ extension PairCell {
     }
 }
 
-public struct LecturerAvatars<Model>: View {
-    let lecturers: [Model]
-    let name: (Model) -> String
-    let avatar: (Model) -> URL?
-    let showDetails: (Model) -> Void
+public struct LecturerAvatars: View {
+    let lecturers: [Employee]
+    let showDetails: (Employee) -> Void
     @ScaledMetric(relativeTo: .body) private var overlap: CGFloat = 24
-    @State private var isActionSheetShown = false
 
     public init(
-        lecturers: [Model],
-        name: @escaping (Model) -> String,
-        avatar: @escaping (Model) -> URL?,
-        showDetails: @escaping (Model) -> Void
+        lecturers: [Employee],
+        showDetails: @escaping (Employee) -> Void
     ) {
         self.lecturers = lecturers
-        self.name = name
-        self.avatar = avatar
         self.showDetails = showDetails
     }
 
@@ -227,18 +221,17 @@ public struct LecturerAvatars<Model>: View {
             EmptyView()
         } else {
             Menu {
-                ForEach(lecturers.indices, id: \.self) {
-                    let lecturer = lecturers[$0]
+                ForEach(lecturers, id: \.id) { lecturer in
                     Button {
                         showDetails(lecturer)
                     } label: {
-                        Text(name(lecturer))
+                        Text(lecturer.fio)
                     }
                 }
             } label: {
                 HStack(spacing: -overlap) {
-                    ForEach(lecturers.indices, id: \.self) {
-                        Avatar(url: avatar(lecturers[$0]))
+                    ForEach(lecturers, id: \.id) { lecturer in
+                        Avatar(url: lecturer.photoLink)
                     }
                 }
             }
@@ -361,7 +354,7 @@ struct PairView_Previews: PreviewProvider {
         note: "Пара проходит в подвале",
         form: .lab,
         progress: PairProgress(constant: 0),
-        details: LecturerAvatars(lecturers: ["", ""], name: { $0 }, avatar: { _ in nil }, showDetails: { _ in })
+        details: EmptyView()
     )
 }
 #endif

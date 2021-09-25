@@ -9,8 +9,7 @@ struct WhatsNewView: View {
         NavigationView {
             VStack {
                 ScrollView {
-                    ForEach(items.indices, id: \.self) {
-                        let item = items[$0]
+                    ForEach(items, id: \.title) { item in
                         HStack {
                             Image(systemName: item.imageName)
                                 .resizable()

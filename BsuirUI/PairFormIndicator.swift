@@ -66,9 +66,9 @@ private struct ShapePairFormIndicator: View {
         VStack(spacing: 0) {
             ForEach(0..<numberOfViews, id: \.self) { index in
                 form.shape
-                    .apply(when: index < passedIndex) { $0.opacity(passedOpacity) }
                     .aspectRatio(contentMode: .fit)
                     .frame(minHeight: 0, maxHeight: .infinity)
+                    .opacity(index < passedIndex ? passedOpacity : 1)
             }
         }
     }

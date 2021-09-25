@@ -12,8 +12,7 @@ struct ScheduleGridView: View {
     var body: some View {
         ScrollViewReader { proxy in
             List {
-                ForEach(days.indices, id: \.self) { dayIndex in
-                    let day = days[dayIndex]
+                ForEach(days) { day in
                     ScheduleDay(
                         title: day.title,
                         subtitle: day.subtitle,
@@ -36,13 +35,13 @@ struct ScheduleGridView: View {
             .buttonStyle(PlainButtonStyle())
             .onAppear {
                 if isOnTop {
-                    proxy.scrollTo(MostRelevantDayViewID(), anchor: .top)
+                    proxy.scrollTo(RelevantDayViewID.mostRelevant, anchor: .top)
                 }
             }
             .onChange(of: isOnTop) { isOnTop in
                 if isOnTop {
                     withAnimation {
-                        proxy.scrollTo(MostRelevantDayViewID(), anchor: .top)
+                        proxy.scrollTo(RelevantDayViewID.mostRelevant, anchor: .top)
                     }
                 }
             }
@@ -65,24 +64,19 @@ struct ScheduleDay: View {
         VStack(alignment: .leading, spacing: 10) {
             ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
 
-            ForEach(pairs.indices, id: \.self) { pairIndex in
-                let pair = pairs[pairIndex]
-                if let showDetails = showDetails {
-                    PairCell(
-                        pair: pair,
-                        details: LecturerAvatars(
+            ForEach(pairs) { pair in
+                PairCell(
+                    pair: pair,
+                    details: showDetails.map { showDetails in
+                        LecturerAvatars(
                             lecturers: pair.lecturers,
-                            name: \.fio,
-                            avatar: \.photoLink,
                             showDetails: showDetails
                         )
-                    )
-                } else {
-                    PairCell(pair: pair, details: EmptyView())
-                }
+                    }
+                )
             }
         }
-        .apply(when: isMostRelevant) { $0.id(MostRelevantDayViewID()) }
+        .id(isMostRelevant ? RelevantDayViewID.mostRelevant : .other())
         .padding(.vertical, 10)
     }
 
@@ -95,7 +89,11 @@ struct ScheduleDay: View {
     }
 }
 
-private struct MostRelevantDayViewID: Hashable {}
+private struct RelevantDayViewID: Hashable {
+    private let id = UUID()
+    static let mostRelevant = Self()
+    static func other() -> Self { Self() }
+}
 
 #if DEBUG
 extension PairViewModel {
