@@ -29,7 +29,9 @@ struct ScheduleView: View {
                 }
 
                 ToolbarItem(placement: .principal) {
-                    Text(screen.name).bold()
+                    Text(screen.name)
+                        .bold()
+                        .minimumScaleFactor(0.5)
                         .onTapGesture { isOnTop = true }
                 }
             }
