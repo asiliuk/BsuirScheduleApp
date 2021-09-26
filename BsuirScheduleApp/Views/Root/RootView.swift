@@ -59,9 +59,9 @@ struct RootView: View {
     @ViewBuilder private var content: some View {
         switch horizontalSizeClass {
         case nil, .compact?:
-            TabRootView(state: state, currentSelection: $currentSelection)
+            CompactRootView(state: state, currentSelection: $currentSelection)
         case .regular?:
-            SidebarRootView(state: state, currentSelection: $currentSelection, currentOverlay: $currentOverlay)
+            RegularRootView(state: state, currentSelection: $currentSelection, currentOverlay: $currentOverlay)
         case .some:
             EmptyView().onAppear { assertionFailure("Unexpected horizontalSizeClass") }
         }

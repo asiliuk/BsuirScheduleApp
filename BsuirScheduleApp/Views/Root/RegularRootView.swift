@@ -1,23 +1,32 @@
 import SwiftUI
 
-struct SidebarRootView: View {
+struct RegularRootView: View {
     let state: AppState
     @Binding var currentSelection: CurrentSelection?
     @Binding var currentOverlay: CurrentOverlay?
 
     var body: some View {
         NavigationView {
-            Sidebar(state: state, currentSelection: $currentSelection, currentOverlay: $currentOverlay)
+            TabView(selection: $currentSelection) {
+                // Placeholder
+                // When in NavigationView first tab is not visible on iPad
+                Text("Oops").opacity(0)
 
-            switch currentSelection {
-            case nil, .groups:
-                AllGroupsView(screen: state.allGroups)
-            case .lecturers:
-                AllLecturersView(screen: state.allLecturers)
-            case .about:
-                AboutView(screen: state.about)
-            case .favorites:
                 AllFavoritesView(screen: state.allFavorites, openGroups: { currentSelection = .groups })
+                    .tab(.favorites)
+
+                AllGroupsView(screen: state.allGroups)
+                    .tab(.groups)
+
+                AllLecturersView(screen: state.allLecturers)
+                    .tab(.lecturers)
+            }
+            .toolbar {
+                Button {
+                    currentOverlay = .about
+                } label: {
+                    CurrentSelection.about.label
+                }
             }
 
             SchedulePlaceholder()
@@ -25,48 +34,48 @@ struct SidebarRootView: View {
     }
 }
 
-private struct Sidebar: View {
-    let state: AppState
-    @Binding var currentSelection: CurrentSelection?
-    @Binding var currentOverlay: CurrentOverlay?
-
-    var body: some View {
-        List {
-            NavigationLink(
-                destination: AllGroupsView(screen: state.allGroups),
-                tag: .groups,
-                selection: $currentSelection
-            ) {
-                CurrentSelection.groups.label
-            }
-
-            NavigationLink(
-                destination: AllLecturersView(screen: state.allLecturers),
-                tag: .lecturers,
-                selection: $currentSelection
-            ) {
-                CurrentSelection.lecturers.label
-            }
-
-            Button(action: { currentOverlay = .about }) {
-                CurrentSelection.about.label
-            }
-
-            NavigationLink(
-                destination: AllFavoritesView(
-                    screen: state.allFavorites,
-                    openGroups: { currentSelection = .groups }
-                ),
-                tag: .favorites,
-                selection: $currentSelection
-            ) {
-                CurrentSelection.favorites.label
-            }
-        }
-        .listStyle(SidebarListStyle())
-        .navigationTitle("Расписание")
-    }
-}
+//private struct Sidebar: View {
+//    let state: AppState
+//    @Binding var currentSelection: CurrentSelection?
+//    @Binding var currentOverlay: CurrentOverlay?
+//
+//    var body: some View {
+//        List {
+//            NavigationLink(
+//                destination: AllGroupsView(screen: state.allGroups),
+//                tag: .groups,
+//                selection: $currentSelection
+//            ) {
+//                CurrentSelection.groups.label
+//            }
+//
+//            NavigationLink(
+//                destination: AllLecturersView(screen: state.allLecturers),
+//                tag: .lecturers,
+//                selection: $currentSelection
+//            ) {
+//                CurrentSelection.lecturers.label
+//            }
+//
+//            Button(action: { currentOverlay = .about }) {
+//                CurrentSelection.about.label
+//            }
+//
+//            NavigationLink(
+//                destination: AllFavoritesView(
+//                    screen: state.allFavorites,
+//                    openGroups: { currentSelection = .groups }
+//                ),
+//                tag: .favorites,
+//                selection: $currentSelection
+//            ) {
+//                CurrentSelection.favorites.label
+//            }
+//        }
+//        .listStyle(SidebarListStyle())
+//        .navigationTitle("Расписание")
+//    }
+//}
 
 //private struct FavoritesDisclosureGroup: View {
 //    @ObservedObject var allFavorites: AllFavoritesScreen

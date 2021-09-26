@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct TabRootView: View {
+struct CompactRootView: View {
     let state: AppState
     @Binding var currentSelection: CurrentSelection?
 
@@ -29,7 +29,7 @@ struct TabRootView: View {
     }
 }
 
-private extension View {
+extension View {
     func tab(_ selection: CurrentSelection) -> some View {
         self
             .tabItem { selection.label }

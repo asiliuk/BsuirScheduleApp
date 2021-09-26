@@ -14,8 +14,8 @@
 		E601A0AB252323910056979A /* BsuirUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6906749251CCB0200CF2DF2 /* BsuirUI.framework */; };
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
 		E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */; };
-		E6373F06250A387900729EC8 /* TabRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* TabRootView.swift */; };
-		E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* SidebarRootView.swift */; };
+		E6373F06250A387900729EC8 /* CompactRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* CompactRootView.swift */; };
+		E6373F08250A38C400729EC8 /* RegularRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* RegularRootView.swift */; };
 		E637DBBE252C9E4A00388537 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E637DBBD252C9E4A00388537 /* Avatar.swift */; };
 		E6429E192525EE8300009E16 /* AppIconPride_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */; };
 		E6429E1A2525EE8300009E16 /* AppIconPride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E172525EE8300009E16 /* AppIconPride@2x.png */; };
@@ -26,7 +26,6 @@
 		E645E43825BDEA9E00DB1BE2 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E645E43725BDEA9E00DB1BE2 /* Kingfisher */; };
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
 		E656B6CD25BDB16E006BDF79 /* PairFormIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E656B6CC25BDB16E006BDF79 /* PairFormIndicator.swift */; };
-		E65E5E5825379083009D57C1 /* WhatsNewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E5E5725379083009D57C1 /* WhatsNewScreen.swift */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
 		E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41252414365700A88BFD /* ScheduleScreen.swift */; };
@@ -230,8 +229,8 @@
 		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
 		E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntry.swift; sourceTree = "<group>"; };
-		E6373F05250A387900729EC8 /* TabRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRootView.swift; sourceTree = "<group>"; };
-		E6373F07250A38C400729EC8 /* SidebarRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarRootView.swift; sourceTree = "<group>"; };
+		E6373F05250A387900729EC8 /* CompactRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactRootView.swift; sourceTree = "<group>"; };
+		E6373F07250A38C400729EC8 /* RegularRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularRootView.swift; sourceTree = "<group>"; };
 		E637DBBD252C9E4A00388537 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconPride_83.5@2x.png"; sourceTree = "<group>"; };
 		E6429E172525EE8300009E16 /* AppIconPride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconPride@2x.png"; sourceTree = "<group>"; };
@@ -418,8 +417,8 @@
 			isa = PBXGroup;
 			children = (
 				E6964823233F7D72007EF2CB /* RootView.swift */,
-				E6373F05250A387900729EC8 /* TabRootView.swift */,
-				E6373F07250A38C400729EC8 /* SidebarRootView.swift */,
+				E6373F05250A387900729EC8 /* CompactRootView.swift */,
+				E6373F07250A38C400729EC8 /* RegularRootView.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -1142,7 +1141,7 @@
 				E69A965B2512000C0057FCD6 /* AppIconPicker.swift in Sources */,
 				E69A300525C5AB86009324B6 /* BsuirScheduleApplication.swift in Sources */,
 				E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */,
-				E6373F06250A387900729EC8 /* TabRootView.swift in Sources */,
+				E6373F06250A387900729EC8 /* CompactRootView.swift in Sources */,
 				E6A6A87F24142BAB0024D738 /* LoadableContent.swift in Sources */,
 				E66B412A2414394600A88BFD /* AllGroupsScreen.swift in Sources */,
 				E6964824233F7D72007EF2CB /* RootView.swift in Sources */,
@@ -1161,7 +1160,7 @@
 				E6D11759253783CC00A6875D /* AppVersion.swift in Sources */,
 				E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */,
 				E67503AB24F430BD0030D0EC /* AllFavoritesView.swift in Sources */,
-				E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */,
+				E6373F08250A38C400729EC8 /* RegularRootView.swift in Sources */,
 				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
 				E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */,
 				E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */,
