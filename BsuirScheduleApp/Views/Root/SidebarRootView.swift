@@ -16,8 +16,8 @@ struct SidebarRootView: View {
                 AllLecturersView(screen: state.allLecturers)
             case .about:
                 AboutView(screen: state.about)
-            case let .favorites(selection):
-                AllFavoritesView(screen: state.allFavorites, selection: selection, openGroups: { currentSelection = .groups })
+            case .favorites:
+                AllFavoritesView(screen: state.allFavorites, openGroups: { currentSelection = .groups })
             }
 
             SchedulePlaceholder()
@@ -52,68 +52,77 @@ private struct Sidebar: View {
                 CurrentSelection.about.label
             }
 
-            FavoritesDisclosureGroup(allFavorites: state.allFavorites, currentSelection: $currentSelection)
+            NavigationLink(
+                destination: AllFavoritesView(
+                    screen: state.allFavorites,
+                    openGroups: { currentSelection = .groups }
+                ),
+                tag: .favorites,
+                selection: $currentSelection
+            ) {
+                CurrentSelection.favorites.label
+            }
         }
         .listStyle(SidebarListStyle())
         .navigationTitle("Расписание")
     }
 }
 
-private struct FavoritesDisclosureGroup: View {
-    @ObservedObject var allFavorites: AllFavoritesScreen
-    @Binding var currentSelection: CurrentSelection?
-    @State private var isExpanded: Bool = true
-
-    @ViewBuilder var body: some View {
-        if !allFavorites.isEmpty {
-            DisclosureGroup(
-                isExpanded: $isExpanded,
-                content: {
-                    ForEach(allFavorites.groups) { group in
-                        NavigationLink(
-                            destination: AllFavoritesView(
-                                screen: allFavorites,
-                                selection: .group(id: group.id),
-                                openGroups: { currentSelection = .groups }
-                            ),
-                            tag: .favorites(selection: .group(id: group.id)),
-                            selection: $currentSelection
-                        ) {
-                            Text(group.name)
-                        }
-                    }
-
-                    ForEach(allFavorites.lecturers) { lecturer in
-                        NavigationLink(
-                            destination: AllFavoritesView(
-                                screen: allFavorites,
-                                selection: .lecturer(id: lecturer.id),
-                                openGroups: { currentSelection = .groups }
-                            ),
-                            tag: .favorites(selection: .lecturer(id: lecturer.id)),
-                            selection: $currentSelection
-                        ) {
-                            Text(lecturer.fullName)
-                        }
-                    }
-                },
-                label: {
-                    NavigationLink(
-                        destination: AllFavoritesView(
-                            screen: allFavorites,
-                            selection: nil,
-                            openGroups: { currentSelection = .groups }
-                        ),
-                        tag: .favorites(),
-                        selection: $currentSelection
-                    ) {
-                        CurrentSelection.favorites().label
-                    }
-                }
-            )
-        }
-    }
-}
+//private struct FavoritesDisclosureGroup: View {
+//    @ObservedObject var allFavorites: AllFavoritesScreen
+//    @Binding var currentSelection: CurrentSelection?
+//    @State private var isExpanded: Bool = true
+//
+//    @ViewBuilder var body: some View {
+//        if !allFavorites.isEmpty {
+//            DisclosureGroup(
+//                isExpanded: $isExpanded,
+//                content: {
+//                    ForEach(allFavorites.groups) { group in
+//                        NavigationLink(
+//                            destination: AllFavoritesView(
+//                                screen: allFavorites,
+//                                selection: .group(id: group.id),
+//                                openGroups: { currentSelection = .groups }
+//                            ),
+//                            tag: .favorites(selection: .group(id: group.id)),
+//                            selection: $currentSelection
+//                        ) {
+//                            Text(group.name)
+//                        }
+//                    }
+//
+//                    ForEach(allFavorites.lecturers) { lecturer in
+//                        NavigationLink(
+//                            destination: AllFavoritesView(
+//                                screen: allFavorites,
+//                                selection: .lecturer(id: lecturer.id),
+//                                openGroups: { currentSelection = .groups }
+//                            ),
+//                            tag: .favorites(selection: .lecturer(id: lecturer.id)),
+//                            selection: $currentSelection
+//                        ) {
+//                            Text(lecturer.fullName)
+//                        }
+//                    }
+//                },
+//                label: {
+//                    NavigationLink(
+//                        destination: AllFavoritesView(
+//                            screen: allFavorites,
+//                            selection: nil,
+//                            openGroups: { currentSelection = .groups }
+//                        ),
+//                        tag: .favorites(),
+//                        selection: $currentSelection
+//                    ) {
+//                        CurrentSelection.favorites().label
+//                    }
+//                }
+//            )
+//        }
+//    }
+//}
 
 private struct SchedulePlaceholder: View {
     var body: some View {

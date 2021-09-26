@@ -1,13 +1,7 @@
 import SwiftUI
 
 struct AllFavoritesView: View {
-    enum Selection: Hashable {
-        case group(id: Int)
-        case lecturer(id: Int)
-    }
-
     @ObservedObject var screen: AllFavoritesScreen
-    @State var selection: Selection?
     let openGroups: () -> Void
 
     var body: some View {
@@ -38,13 +32,9 @@ struct AllFavoritesView: View {
             if !screen.groups.isEmpty {
                 Section(header: Text("Группы")) {
                     ForEach(screen.groups) { group in
-                        NavigationLink(
-                            destination: ScheduleView(
-                                screen: screen.screen(for: group)
-                            ),
-                            tag: .group(id: group.id),
-                            selection: $selection
-                        ) {
+                        NavigationLinkButton {
+                            screen.selection = .group(group)
+                        } label: {
                             Text(group.name)
                         }
                     }
@@ -54,18 +44,17 @@ struct AllFavoritesView: View {
             if !screen.lecturers.isEmpty {
                 Section(header: Text("Преподаватели")) {
                     ForEach(screen.lecturers) { lecturer in
-                        NavigationLink(
-                            destination: ScheduleView(
-                                screen: screen.screen(for: lecturer)
-                            ),
-                            tag: .lecturer(id: lecturer.id),
-                            selection: $selection
-                        ) {
+                        NavigationLinkButton {
+                            screen.selection = .lecturer(lecturer)
+                        } label: {
                             LecturerCell(lecturer: lecturer)
                         }
                     }
                 }
             }
+        }
+        .navigation(item: $screen.selection) { selection in
+            ScheduleView(screen: screen.screen(for: selection))
         }
         .listStyle(InsetGroupedListStyle())
     }

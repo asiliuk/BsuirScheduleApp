@@ -11,7 +11,7 @@ import SwiftUI
 enum CurrentSelection: Hashable {
     case groups
     case lecturers
-    case favorites(selection: AllFavoritesView.Selection? = nil)
+    case favorites
     case about
 }
 
@@ -29,7 +29,7 @@ struct RootView: View {
 
     init(state: AppState) {
         _state = ObservedObject(initialValue: state)
-        _currentSelection = State(initialValue: state.allFavorites.initialSelection)
+        _currentSelection = State(initialValue: initialSelection)
         _currentOverlay = State(initialValue: state.whatsNew.items.isEmpty ? nil : .whatsNew)
     }
 
@@ -73,16 +73,12 @@ struct RootView: View {
             EmptyView().onAppear { assertionFailure("Unexpected horizontalSizeClass") }
         }
     }
-}
 
-private extension AllFavoritesScreen {
-    var initialSelection: CurrentSelection {
-        if let group = groups.first {
-            return .favorites(selection: .group(id: group.id))
-        } else if let lecturer = lecturers.first {
-            return .favorites(selection: .lecturer(id: lecturer.id))
-        } else {
+    private var initialSelection: CurrentSelection {
+        if state.allFavorites.isEmpty {
             return .groups
+        } else {
+            return .favorites
         }
     }
 }
