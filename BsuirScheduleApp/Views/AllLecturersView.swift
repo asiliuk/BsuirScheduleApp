@@ -3,7 +3,6 @@ import BsuirUI
 
 struct AllLecturersView: View {
     @ObservedObject var screen: AllLecturersScreen
-    @Binding var selectedLecturer: Int?
 
     var body: some View {
         ContentStateWithSearchView(
@@ -12,24 +11,17 @@ struct AllLecturersView: View {
             searchPlaceholder: "Найти преподавателя"
         ) { section in
             Section(header: section.header) {
-                ForEach(section.lecturers, id: \.id) { lecturer in
+                ForEach(section.lecturers) { lecturer in
                     NavigationLinkButton {
-                        selectedLecturer = lecturer.id
+                        screen.selectedLecturer = lecturer
                     } label: {
                         LecturerCell(lecturer: lecturer)
                     }
                 }
             }
-        } backgroundView: { sections in
-            ForEach(sections) { section in
-                ForEach(section.lecturers, id: \.id) { lecturer in
-                    NavigationLink(
-                        destination: ScheduleView(screen: screen.screen(for: lecturer)),
-                        tag: lecturer.id,
-                        selection: $selectedLecturer
-                    ) { EmptyView() }
-                }
-            }
+        }
+        .navigation(item: $screen.selectedLecturer) { lecturer in
+            ScheduleView(screen: screen.screen(for: lecturer))
         }
         .navigationTitle("Все преподаватели")
     }

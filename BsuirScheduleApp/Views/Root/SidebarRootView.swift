@@ -11,13 +11,13 @@ struct SidebarRootView: View {
 
             switch currentSelection {
             case nil, .groups:
-                AllGroupsView(screen: state.allGroups, selectedGroup: $currentSelection.selectedGroup)
+                AllGroupsView(screen: state.allGroups)
             case .lecturers:
-                AllLecturersView(screen: state.allLecturers, selectedLecturer: $currentSelection.selectedLecturer)
+                AllLecturersView(screen: state.allLecturers)
             case .about:
                 AboutView(screen: state.about)
             case let .favorites(selection):
-                AllFavoritesView(screen: state.allFavorites, selection: selection, openGroups: { currentSelection = .groups() })
+                AllFavoritesView(screen: state.allFavorites, selection: selection, openGroups: { currentSelection = .groups })
             }
 
             SchedulePlaceholder()
@@ -33,19 +33,19 @@ private struct Sidebar: View {
     var body: some View {
         List {
             NavigationLink(
-                destination: AllGroupsView(screen: state.allGroups, selectedGroup: $currentSelection.selectedGroup),
-                tag: .groups(),
+                destination: AllGroupsView(screen: state.allGroups),
+                tag: .groups,
                 selection: $currentSelection
             ) {
-                CurrentSelection.groups().label
+                CurrentSelection.groups.label
             }
 
             NavigationLink(
-                destination: AllLecturersView(screen: state.allLecturers, selectedLecturer: $currentSelection.selectedLecturer),
-                tag: .lecturers(),
+                destination: AllLecturersView(screen: state.allLecturers),
+                tag: .lecturers,
                 selection: $currentSelection
             ) {
-                CurrentSelection.lecturers().label
+                CurrentSelection.lecturers.label
             }
 
             Button(action: { currentOverlay = .about }) {
@@ -74,7 +74,7 @@ private struct FavoritesDisclosureGroup: View {
                             destination: AllFavoritesView(
                                 screen: allFavorites,
                                 selection: .group(id: group.id),
-                                openGroups: { currentSelection = .groups() }
+                                openGroups: { currentSelection = .groups }
                             ),
                             tag: .favorites(selection: .group(id: group.id)),
                             selection: $currentSelection
@@ -88,7 +88,7 @@ private struct FavoritesDisclosureGroup: View {
                             destination: AllFavoritesView(
                                 screen: allFavorites,
                                 selection: .lecturer(id: lecturer.id),
-                                openGroups: { currentSelection = .groups() }
+                                openGroups: { currentSelection = .groups }
                             ),
                             tag: .favorites(selection: .lecturer(id: lecturer.id)),
                             selection: $currentSelection
@@ -102,7 +102,7 @@ private struct FavoritesDisclosureGroup: View {
                         destination: AllFavoritesView(
                             screen: allFavorites,
                             selection: nil,
-                            openGroups: { currentSelection = .groups() }
+                            openGroups: { currentSelection = .groups }
                         ),
                         tag: .favorites(),
                         selection: $currentSelection

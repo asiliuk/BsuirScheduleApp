@@ -7,19 +7,19 @@ struct TabRootView: View {
     var body: some View {
         TabView(selection: $currentSelection.tab) {
             NavigationView {
-                AllFavoritesView(screen: state.allFavorites, selection: currentSelection?.favoriteSelection, openGroups: { currentSelection = .groups() })
+                AllFavoritesView(screen: state.allFavorites, selection: currentSelection?.favoriteSelection, openGroups: { currentSelection = .groups })
             }
             .tab(.favorites())
 
             NavigationView {
-                AllGroupsView(screen: state.allGroups, selectedGroup: $currentSelection.selectedGroup)
+                AllGroupsView(screen: state.allGroups)
             }
-            .tab(.groups())
+            .tab(.groups)
 
             NavigationView {
-                AllLecturersView(screen: state.allLecturers, selectedLecturer: $currentSelection.selectedLecturer)
+                AllLecturersView(screen: state.allLecturers)
             }
-            .tab(.lecturers())
+            .tab(.lecturers)
 
             NavigationView {
                 AboutView(screen: state.about)
@@ -43,16 +43,6 @@ extension Optional where Wrapped == CurrentSelection {
         get { self?.tab ?? .groups }
         set { self?.tab = newValue }
     }
-
-    var selectedGroup: Int? {
-        get { self?.selectedGroup }
-        set { self?.selectedGroup = newValue }
-    }
-
-    var selectedLecturer: Int? {
-        get { self?.selectedLecturer }
-        set { self?.selectedLecturer = newValue }
-    }
 }
 
 private extension CurrentSelection {
@@ -67,8 +57,8 @@ private extension CurrentSelection {
         }
         set {
             switch newValue {
-            case .groups: self = .groups()
-            case .lecturers: self = .lecturers()
+            case .groups: self = .groups
+            case .lecturers: self = .lecturers
             case .favorites: self = .favorites()
             case .about: self = .about
             }
@@ -91,36 +81,6 @@ private extension CurrentSelection {
             return selection
         case .about, .groups, .lecturers:
             return nil
-        }
-    }
-}
-
-extension CurrentSelection {
-    var selectedGroup: Int? {
-        get {
-            switch self {
-            case let .groups(id):
-                return id
-            case .about, .favorites, .lecturers:
-                return nil
-            }
-        }
-        set {
-            self = .groups(id: newValue)
-        }
-    }
-
-    var selectedLecturer: Int? {
-        get {
-            switch self {
-            case let .lecturers(id):
-                return id
-            case .about, .favorites, .groups:
-                return nil
-            }
-        }
-        set {
-            self = .lecturers(id: newValue)
         }
     }
 }

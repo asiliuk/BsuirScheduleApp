@@ -9,8 +9,8 @@
 import SwiftUI
 
 enum CurrentSelection: Hashable {
-    case groups(id: Int? = nil)
-    case lecturers(id: Int? = nil)
+    case groups
+    case lecturers
     case favorites(selection: AllFavoritesView.Selection? = nil)
     case about
 }
@@ -41,18 +41,11 @@ struct RootView: View {
                     components.host == "bsuirschedule.app"
                 else { return }
 
-                var id: Int? {
-                    components.queryItems?
-                        .first { $0.name == "id" }
-                        .flatMap(\.value)
-                        .flatMap(Int.init)
-                }
-
                 switch components.path {
                 case "/groups":
-                    currentSelection = .groups(id: id)
+                    currentSelection = .groups
                 case "/lecturers":
-                    currentSelection = .lecturers(id: id)
+                    currentSelection = .lecturers
                 default:
                     assertionFailure("Unexpected incoming URL \(url)")
                 }
@@ -89,7 +82,7 @@ private extension AllFavoritesScreen {
         } else if let lecturer = lecturers.first {
             return .favorites(selection: .lecturer(id: lecturer.id))
         } else {
-            return .groups()
+            return .groups
         }
     }
 }

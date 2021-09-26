@@ -13,6 +13,7 @@ import Foundation
 final class AllGroupsScreen: ObservableObject {
 
     @Published var searchQuery: String = ""
+    @Published var selectedGroup: AllGroupsScreenGroup?
     let groups: LoadableContent<[AllGroupsScreenGroupSection]>
 
     let requestManager: RequestsManager

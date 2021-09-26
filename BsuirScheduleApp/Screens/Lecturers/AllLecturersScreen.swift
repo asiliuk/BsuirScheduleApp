@@ -23,6 +23,7 @@ struct AllLecturersScreenLecturer: Identifiable {
 final class AllLecturersScreen: ObservableObject {
 
     @Published var searchQuery: String = ""
+    @Published var selectedLecturer: AllLecturersScreenLecturer?
     let lecturers: LoadableContent<[AllLecturersScreenGroupSection]>
 
     init(requestManager: RequestsManager, favorites: FavoritesContainer) {
