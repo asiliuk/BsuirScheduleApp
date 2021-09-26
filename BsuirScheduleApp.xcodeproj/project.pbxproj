@@ -77,7 +77,6 @@
 		E6AA8D2D2516301500788A02 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D2C2516301500788A02 /* IntentHandler.swift */; };
 		E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E6C5619025C31066008C0DE4 /* WeekNumber+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C5618F25C31066008C0DE4 /* WeekNumber+Tests.swift */; };
-		E6D117522537810E00A6875D /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D117512537810E00A6875D /* WhatsNewView.swift */; };
 		E6D11759253783CC00A6875D /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D11758253783CC00A6875D /* AppVersion.swift */; };
 		E6D1F78825137C7A00CA6E20 /* BsuirApi.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D1F78625137C7A00CA6E20 /* BsuirApi.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6D1F78B25137C7A00CA6E20 /* BsuirApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */; };
@@ -242,7 +241,6 @@
 		E6429E292525EEAA00009E16 /* AppIconNational_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNational_83.5@2x.png"; sourceTree = "<group>"; };
 		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
 		E656B6CC25BDB16E006BDF79 /* PairFormIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairFormIndicator.swift; sourceTree = "<group>"; };
-		E65E5E5725379083009D57C1 /* WhatsNewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewScreen.swift; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
 		E66B4121241431F800A88BFD /* LecturerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturerScreen.swift; sourceTree = "<group>"; };
 		E66B41232414344900A88BFD /* AllLecturersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLecturersScreen.swift; sourceTree = "<group>"; };
@@ -301,7 +299,6 @@
 		E6C5618D25C31065008C0DE4 /* BsuirScheduleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BsuirScheduleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6C5618F25C31066008C0DE4 /* WeekNumber+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeekNumber+Tests.swift"; sourceTree = "<group>"; };
 		E6C5619125C31066008C0DE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E6D117512537810E00A6875D /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
 		E6D11758253783CC00A6875D /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BsuirApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6D1F78625137C7A00CA6E20 /* BsuirApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BsuirApi.h; sourceTree = "<group>"; };
@@ -430,7 +427,6 @@
 		E65E5E562537907A009D57C1 /* WhatsNew */ = {
 			isa = PBXGroup;
 			children = (
-				E65E5E5725379083009D57C1 /* WhatsNewScreen.swift */,
 			);
 			path = WhatsNew;
 			sourceTree = "<group>";
@@ -630,7 +626,6 @@
 		E6D11750253780FD00A6875D /* WhatsNew */ = {
 			isa = PBXGroup;
 			children = (
-				E6D117512537810E00A6875D /* WhatsNewView.swift */,
 			);
 			path = WhatsNew;
 			sourceTree = "<group>";
@@ -1162,13 +1157,11 @@
 				E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */,
 				E6964822233F7C45007EF2CB /* AllGroupsView.swift in Sources */,
 				E6A6A88324142F2C0024D738 /* CombineHelpers.swift in Sources */,
-				E65E5E5825379083009D57C1 /* WhatsNewScreen.swift in Sources */,
 				04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */,
 				E6D11759253783CC00A6875D /* AppVersion.swift in Sources */,
 				E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */,
 				E67503AB24F430BD0030D0EC /* AllFavoritesView.swift in Sources */,
 				E6373F08250A38C400729EC8 /* SidebarRootView.swift in Sources */,
-				E6D117522537810E00A6875D /* WhatsNewView.swift in Sources */,
 				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
 				E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */,
 				E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */,

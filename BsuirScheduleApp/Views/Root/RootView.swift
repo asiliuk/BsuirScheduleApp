@@ -18,7 +18,6 @@ enum CurrentSelection: Hashable {
 enum CurrentOverlay: Identifiable {
     var id: Self { self }
     case about
-    case whatsNew
 }
 
 struct RootView: View {
@@ -30,7 +29,6 @@ struct RootView: View {
     init(state: AppState) {
         _state = ObservedObject(initialValue: state)
         _currentSelection = State(initialValue: initialSelection)
-        _currentOverlay = State(initialValue: state.whatsNew.items.isEmpty ? nil : .whatsNew)
     }
 
     var body: some View {
@@ -54,11 +52,6 @@ struct RootView: View {
                 switch overlay {
                 case .about:
                     NavigationView { AboutView(screen: state.about) }
-                case .whatsNew:
-                    WhatsNewView(
-                        items: state.whatsNew.items,
-                        onAppear: state.whatsNew.didShow
-                    )
                 }
             }
     }

@@ -32,7 +32,6 @@ final class AppState: ObservableObject {
     private let storage: UserDefaults
     private let requestManager: RequestsManager
 
-    private(set) lazy var whatsNew = WhatsNewScreen(storage: storage)
     private(set) lazy var favorites = FavoritesContainer(storage: storage)
     private(set) lazy var allFavorites = AllFavoritesScreen(requestManager: requestManager, favorites: favorites)
     private(set) lazy var allGroups = AllGroupsScreen(requestManager: requestManager, favorites: favorites)
