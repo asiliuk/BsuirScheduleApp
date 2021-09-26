@@ -10,35 +10,65 @@ import Foundation
 import SwiftUI
 
 extension View {
-    public func navigation<V: Identifiable, Destination: View>(
-        item: Binding<V?>,
-        destination: @escaping (V) -> Destination
+    public func navigation<Item: Identifiable, Destination: View>(
+        item: Binding<Item?>,
+        @ViewBuilder destination: @escaping (Item) -> Destination
     ) -> some View {
-        background(NavigationLink(item: item, destination: destination))
+        background(DynamicNavigationLink(item: item, destination: destination))
     }
 }
 
-extension NavigationLink where Label == EmptyView {
-    public init?<V: Identifiable>(
-        item: Binding<V?>,
-        destination: @escaping (V) -> Destination
-    ) {
-        guard let value = item.wrappedValue else {
-            return nil
-        }
+struct DynamicNavigationLink<Item: Identifiable, Destination: View>: View {
+    @Binding var item: Item?
+    @ViewBuilder var destination: (Item) -> Destination
 
-        self.init(
-            destination: destination(value),
-            isActive: .init(
-                get: { item.wrappedValue != nil },
+    var body: some View {
+        NavigationLink(
+            destination: item.map(destination),
+            isActive: Binding(
+                get: { item != nil },
                 set: { value in
-                    // There's shouldn't be a way for SwiftUI to set `true` here.
                     if !value {
-                        item.wrappedValue = nil
+                        item = nil
                     }
                 }
             ),
-            label: { EmptyView() }
+            label: EmptyView.init
         )
+    }
+}
+
+
+struct Navigation_Previews: PreviewProvider {
+    struct TestView: View {
+        enum Content: Hashable, Identifiable {
+            var id: Self { self }
+
+            case first
+            case second
+        }
+
+        @State var content: Content?
+
+        var body: some View {
+            VStack {
+                Button { content = .first } label: { Text("first") }
+                Button { content = .second } label: { Text("second") }
+            }
+            .navigation(item: $content) { content in
+                switch content {
+                case .first:
+                    Text("First content")
+                case .second:
+                    Text("Second content")
+                }
+            }
+        }
+    }
+
+    static var previews: some View {
+        NavigationView {
+            TestView()
+        }
     }
 }
