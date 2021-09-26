@@ -27,7 +27,6 @@
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
 		E656B6CD25BDB16E006BDF79 /* PairFormIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E656B6CC25BDB16E006BDF79 /* PairFormIndicator.swift */; };
 		E65E5E5825379083009D57C1 /* WhatsNewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65E5E5725379083009D57C1 /* WhatsNewScreen.swift */; };
-		E660A744268B93A000851358 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = E660A743268B93A000851358 /* Cache */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
 		E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41252414365700A88BFD /* ScheduleScreen.swift */; };
@@ -374,7 +373,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E660A744268B93A000851358 /* Cache in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -876,7 +874,6 @@
 			);
 			name = BsuirApi;
 			packageProductDependencies = (
-				E660A743268B93A000851358 /* Cache */,
 			);
 			productName = BsuirApi;
 			productReference = E6D1F78425137C7A00CA6E20 /* BsuirApi.framework */;
@@ -975,7 +972,6 @@
 			mainGroup = E6F931A922F8B1C10038FC43;
 			packageReferences = (
 				E60AEB792562C2BE003DE552 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				E660A742268B93A000851358 /* XCRemoteSwiftPackageReference "Cache" */,
 			);
 			productRefGroup = E6F931B322F8B1C10038FC43 /* Products */;
 			projectDirPath = "";
@@ -1805,14 +1801,6 @@
 				minimumVersion = 7.0.0;
 			};
 		};
-		E660A742268B93A000851358 /* XCRemoteSwiftPackageReference "Cache" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/hyperoslo/Cache.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1820,11 +1808,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E60AEB792562C2BE003DE552 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
-		};
-		E660A743268B93A000851358 /* Cache */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E660A742268B93A000851358 /* XCRemoteSwiftPackageReference "Cache" */;
-			productName = Cache;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

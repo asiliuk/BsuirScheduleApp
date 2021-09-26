@@ -72,6 +72,9 @@ public struct RequestsManager {
     public enum DataRequestError: Error {
         case invalidRequest(ConstructError)
         case responseError(URLError)
+        case invalidResponse
+        case badRequest
+        case serverError
     }
 
     public func dataRequest<T: Target>(for target: T, checkCache: Bool = true) -> AnyPublisher<(data: Data, response: URLResponse), DataRequestError> {
@@ -81,7 +84,6 @@ public struct RequestsManager {
                 .mapError(DataRequestError.invalidRequest)
                 .flatMap { request -> AnyPublisher<(data: Data, response: URLResponse), DataRequestError> in
                     let remoteData = cachingDataTaskPublisher(for: request)
-                        .mapError(DataRequestError.responseError)
 
                     guard
                         checkCache,
@@ -92,7 +94,7 @@ public struct RequestsManager {
 
                     return Just((data: cached.data, response: cached.response))
                         .setFailureType(to: DataRequestError.self)
-                        .append(remoteData)
+                        .append(remoteData.catch { _ in Empty() })
                         .eraseToAnyPublisher()
                 }
         }
@@ -101,15 +103,19 @@ public struct RequestsManager {
         .eraseToAnyPublisher()
     }
 
-    private func cachingDataTaskPublisher(for request: URLRequest) -> Publishers.HandleEvents<URLSession.DataTaskPublisher> {
+    private func cachingDataTaskPublisher(
+        for request: URLRequest
+    ) -> AnyPublisher<(data: Data, response: URLResponse), DataRequestError> {
         return session
             .dataTaskPublisher(for: request)
+            .validateResponseCode()
             .handleEvents(receiveOutput: { output in
                 cache.storeCachedResponse(
                     CachedURLResponse(response: output.response, data: output.data),
                     for: request
                 )
             })
+            .eraseToAnyPublisher()
     }
 
     public enum RequestError: Error {
@@ -146,5 +152,33 @@ private extension URLRequest {
         let components = ["curl", url.absoluteString] + ([body].compactMap { $0 }) + (headers ?? [])
 
         return components.joined(separator: " ")
+    }
+}
+
+private extension Publisher where Output == (data: Data, response: URLResponse), Failure == URLError {
+    func validateResponseCode() -> AnyPublisher<Output, RequestsManager.DataRequestError> {
+        typealias NewFailure = RequestsManager.DataRequestError
+        return self
+            .mapError(NewFailure.responseError)
+            .flatMap { value -> AnyPublisher<Output, NewFailure> in
+                guard let response = value.response as? HTTPURLResponse else {
+                    return Fail(error: NewFailure.invalidResponse)
+                        .eraseToAnyPublisher()
+                }
+
+                switch response.statusCode {
+                case 200..<300:
+                    return Just(value)
+                        .setFailureType(to: NewFailure.self)
+                        .eraseToAnyPublisher()
+                case 400..<500:
+                    return Fail(error: .badRequest)
+                        .eraseToAnyPublisher()
+                default:
+                    return Fail(error: .serverError)
+                        .eraseToAnyPublisher()
+                }
+            }
+            .eraseToAnyPublisher()
     }
 }
