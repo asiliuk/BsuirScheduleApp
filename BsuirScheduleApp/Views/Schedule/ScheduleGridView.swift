@@ -76,7 +76,7 @@ struct ScheduleDay: View {
                 )
             }
         }
-        .id(isMostRelevant ? RelevantDayViewID.mostRelevant : .other())
+        .id(isMostRelevant ? RelevantDayViewID.mostRelevant : .other)
         .padding(.vertical, 10)
     }
 
@@ -89,10 +89,9 @@ struct ScheduleDay: View {
     }
 }
 
-private struct RelevantDayViewID: Hashable {
-    private let id = UUID()
-    static let mostRelevant = Self()
-    static func other() -> Self { Self() }
+private enum RelevantDayViewID: Hashable {
+    case mostRelevant
+    case other
 }
 
 #if DEBUG
