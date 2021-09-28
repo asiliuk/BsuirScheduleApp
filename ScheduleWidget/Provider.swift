@@ -44,7 +44,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     }
 
     fileprivate struct MostRelevantScheduleResponse {
-        let id: Entry.Identifier
+        let deeplink: Deeplink
         let title: String
         let schedule: WeekSchedule.ScheduleElement
     }
@@ -60,7 +60,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
                 else { return nil }
 
                 return MostRelevantScheduleResponse(
-                    id: response.id,
+                    deeplink: response.deeplink,
                     title: response.title,
                     schedule: mostRelevantElement
                 )
@@ -69,7 +69,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     }
 
     private struct ScheduleResponse {
-        let id: Entry.Identifier
+        let deeplink: Deeplink
         let title: String
         let schedules: [DaySchedule]
     }
@@ -97,7 +97,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
             return requestManager
                 .request(BsuirTargets.Schedule(agent: .groupID(groupId)))
                 .map { ScheduleResponse(
-                    id: .group($0.studentGroup.id),
+                    deeplink: .groups(id: $0.studentGroup.id),
                     title: $0.studentGroup.name,
                     schedules: $0.schedules
                 ) }
@@ -106,7 +106,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
             return requestManager
                 .request(BsuirTargets.EmployeeSchedule(id: lecturerId))
                 .map { ScheduleResponse(
-                    id: .lecturer($0.employee.id),
+                    deeplink: .lecturers(id: $0.employee.id),
                     title: $0.employee.abbreviatedName,
                     schedules: $0.schedules ?? []
                 ) }
@@ -154,7 +154,7 @@ private extension ScheduleEntry {
         self.init(
             date: date,
             relevance: relevance,
-            id: response.id,
+            deeplink: response.deeplink,
             title: response.title,
             content: .pairs(
                 passed: passedPairs.map { PairViewModel(pair: $0, date: date) },

@@ -23,31 +23,11 @@ enum CurrentOverlay: Identifiable {
 struct RootView: View {
     @ObservedObject var state: AppState
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @State private var currentSelection: CurrentSelection?
     @State private var currentOverlay: CurrentOverlay?
-
-    init(state: AppState) {
-        _state = ObservedObject(initialValue: state)
-        _currentSelection = State(initialValue: initialSelection)
-    }
 
     var body: some View {
         content
-            .onOpenURL { url in
-                guard
-                    let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
-                    components.host == "bsuirschedule.app"
-                else { return }
-
-                switch components.path {
-                case "/groups":
-                    currentSelection = .groups
-                case "/lecturers":
-                    currentSelection = .lecturers
-                default:
-                    assertionFailure("Unexpected incoming URL \(url)")
-                }
-            }
+            .onOpenURL(perform: state.deeplinkHandler.handle(url:))
             .sheet(item: $currentOverlay) { overlay in
                 switch overlay {
                 case .about:
@@ -59,19 +39,11 @@ struct RootView: View {
     @ViewBuilder private var content: some View {
         switch horizontalSizeClass {
         case nil, .compact?:
-            CompactRootView(state: state, currentSelection: $currentSelection)
+            CompactRootView(state: state, currentSelection: $state.currentSelection)
         case .regular?:
-            RegularRootView(state: state, currentSelection: $currentSelection, currentOverlay: $currentOverlay)
+            RegularRootView(state: state, currentSelection: $state.currentSelection, currentOverlay: $currentOverlay)
         case .some:
             EmptyView().onAppear { assertionFailure("Unexpected horizontalSizeClass") }
-        }
-    }
-
-    private var initialSelection: CurrentSelection {
-        if state.allFavorites.isEmpty {
-            return .groups
-        } else {
-            return .favorites
         }
     }
 }

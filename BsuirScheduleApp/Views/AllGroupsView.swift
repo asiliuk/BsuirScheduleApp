@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Foundation
+import BsuirCore
 
 struct AllGroupsView: View {
     @ObservedObject var screen: AllGroupsScreen

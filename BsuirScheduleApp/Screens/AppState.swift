@@ -24,18 +24,48 @@ extension OSLog {
 }
 
 final class AppState: ObservableObject {
+    @Published var currentSelection: CurrentSelection?
+
     init(storage: UserDefaults) {
         self.requestManager = .bsuir()
         self.storage = storage
+        self.currentSelection = favorites.isEmpty ? .groups : .favorites
+        deeplinkHandler.deeplink()
+            .map { deeplink in
+                switch deeplink {
+                case .groups:
+                    return .groups
+                case .lecturers:
+                    return .lecturers
+                }
+            }
+            .assign(to: &$currentSelection)
     }
 
     private let storage: UserDefaults
     private let requestManager: RequestsManager
+    private lazy var favorites = FavoritesContainer(storage: storage)
+    private(set) lazy var deeplinkHandler = DeeplinkHandler()
 
-    private(set) lazy var favorites = FavoritesContainer(storage: storage)
-    private(set) lazy var allFavorites = AllFavoritesScreen(requestManager: requestManager, favorites: favorites)
-    private(set) lazy var allGroups = AllGroupsScreen(requestManager: requestManager, favorites: favorites)
-    private(set) lazy var allLecturers = AllLecturersScreen(requestManager: requestManager, favorites: favorites)
+    // MARK: - Screens
+
+    private(set) lazy var allFavorites = AllFavoritesScreen(
+        requestManager: requestManager,
+        favorites: favorites
+    )
+
+    private(set) lazy var allGroups = AllGroupsScreen(
+        requestManager: requestManager,
+        favorites: favorites,
+        deeplinkHandler: deeplinkHandler
+    )
+
+    private(set) lazy var allLecturers = AllLecturersScreen(
+        requestManager: requestManager,
+        favorites: favorites,
+        deeplinkHandler: deeplinkHandler
+    )
+
     private(set) lazy var about = AboutScreen(
         urlCache: requestManager.cache,
         imageCache: .default

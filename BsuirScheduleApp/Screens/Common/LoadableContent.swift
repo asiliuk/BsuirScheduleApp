@@ -94,4 +94,13 @@ extension ContentState {
         guard case let .some(value) = self else { return nil }
         return value
     }
+
+    var inProgress: Bool {
+        switch self {
+        case .loading, .initial:
+            return true
+        case .error, .some:
+            return false
+        }
+    }
 }

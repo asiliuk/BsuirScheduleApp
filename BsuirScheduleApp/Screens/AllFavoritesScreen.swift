@@ -7,7 +7,6 @@ final class AllFavoritesScreen: ObservableObject {
         case lecturer(AllLecturersScreenLecturer)
     }
 
-    var isEmpty: Bool { groups.isEmpty && lecturers.isEmpty }
     @Published private(set) var groups: [AllGroupsScreenGroup] = []
     @Published private(set) var lecturers: [AllLecturersScreenLecturer] = []
     @Published var selection: Selection?

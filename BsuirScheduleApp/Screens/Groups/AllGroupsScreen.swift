@@ -17,7 +17,11 @@ final class AllGroupsScreen: ObservableObject {
     let groups: LoadableContent<[AllGroupsScreenGroupSection]>
 
     let requestManager: RequestsManager
-    init(requestManager: RequestsManager, favorites: FavoritesContainer) {
+    init(
+        requestManager: RequestsManager,
+        favorites: FavoritesContainer,
+        deeplinkHandler: DeeplinkHandler
+    ) {
         self.requestManager = requestManager
         self.favorites = favorites
         self.groups = LoadableContent(
@@ -36,6 +40,22 @@ final class AllGroupsScreen: ObservableObject {
                 .map { .init(favorites: $1, groups: $0) }
                 .eraseToLoading()
         )
+
+        deeplinkHandler.deeplink(autoresolve: true)
+            .compactMap { deeplink -> Int? in
+                guard case let .groups(id?) = deeplink else {
+                    return nil
+                }
+
+                return id
+            }
+            .flatMap { [groups] id in
+                groups.$state
+                    .filter { !$0.inProgress }
+                    .first()
+                    .map { $0.some?.flatMap(\.groups).first(where: { $0.id == id }) }
+            }
+            .assign(to: &$selectedGroup)
     }
 
     func screen(for group: AllGroupsScreenGroup) -> ScheduleScreen {

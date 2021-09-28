@@ -75,6 +75,8 @@
 		E6AA8D1F25162F1B00788A02 /* ScheduleWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E6AA8D2D2516301500788A02 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D2C2516301500788A02 /* IntentHandler.swift */; };
 		E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E6B2897D27030E66008469F3 /* Deeplink.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B2897C27030E66008469F3 /* Deeplink.swift */; };
+		E6B289A027038759008469F3 /* DeeplinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B2899F27038759008469F3 /* DeeplinkHandler.swift */; };
 		E6C5619025C31066008C0DE4 /* WeekNumber+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C5618F25C31066008C0DE4 /* WeekNumber+Tests.swift */; };
 		E6D11759253783CC00A6875D /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D11758253783CC00A6875D /* AppVersion.swift */; };
 		E6D1F78825137C7A00CA6E20 /* BsuirApi.h in Headers */ = {isa = PBXBuildFile; fileRef = E6D1F78625137C7A00CA6E20 /* BsuirApi.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -295,6 +297,8 @@
 		E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetIntentHandler.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D2C2516301500788A02 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		E6AA8D2E2516301500788A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6B2897C27030E66008469F3 /* Deeplink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deeplink.swift; sourceTree = "<group>"; };
+		E6B2899F27038759008469F3 /* DeeplinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkHandler.swift; sourceTree = "<group>"; };
 		E6C5618D25C31065008C0DE4 /* BsuirScheduleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BsuirScheduleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6C5618F25C31066008C0DE4 /* WeekNumber+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeekNumber+Tests.swift"; sourceTree = "<group>"; };
 		E6C5619125C31066008C0DE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -433,7 +437,9 @@
 		E67491112523BC26006CE90E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E67503A724F427020030D0EC /* FavoritesContainer.swift */,
 				E67491122523BC40006CE90E /* ReviewRequestService.swift */,
+				E6B2899F27038759008469F3 /* DeeplinkHandler.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -442,7 +448,6 @@
 			isa = PBXGroup;
 			children = (
 				E6A6A87E24142BAB0024D738 /* LoadableContent.swift */,
-				E67503A724F427020030D0EC /* FavoritesContainer.swift */,
 				E6D11758253783CC00A6875D /* AppVersion.swift */,
 			);
 			path = Common;
@@ -685,6 +690,7 @@
 		E6EDC289251FCC2700C8A73C /* BsuirCore */ = {
 			isa = PBXGroup;
 			children = (
+				E6B2897C27030E66008469F3 /* Deeplink.swift */,
 				E69AE8672519316F0060D761 /* Mutating.swift */,
 				E69AE86225192F490060D761 /* WeekSchedule.swift */,
 				E6EDC2BA251FD91100C8A73C /* PairViewModel.swift */,
@@ -1125,6 +1131,7 @@
 			files = (
 				E6EDC2CB2521ED6B00C8A73C /* Locale.swift in Sources */,
 				E6EDC2A9251FCC7600C8A73C /* Mutating.swift in Sources */,
+				E6B2897D27030E66008469F3 /* Deeplink.swift in Sources */,
 				E6EDC2A5251FCC5400C8A73C /* WeekSchedule.swift in Sources */,
 				E6EDC2D12521EE2E00C8A73C /* RelativeDateTimeFormatter.swift in Sources */,
 				E6EDC2BE251FD95700C8A73C /* PairProgress.swift in Sources */,
@@ -1152,6 +1159,7 @@
 				E66B41282414381D00A88BFD /* GroupScreen.swift in Sources */,
 				E67503A824F427020030D0EC /* FavoritesContainer.swift in Sources */,
 				E6964826233F8936007EF2CB /* ScheduleView.swift in Sources */,
+				E6B289A027038759008469F3 /* DeeplinkHandler.swift in Sources */,
 				E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */,
 				E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */,
 				E6964822233F7C45007EF2CB /* AllGroupsView.swift in Sources */,

@@ -26,7 +26,11 @@ final class AllLecturersScreen: ObservableObject {
     @Published var selectedLecturer: AllLecturersScreenLecturer?
     let lecturers: LoadableContent<[AllLecturersScreenGroupSection]>
 
-    init(requestManager: RequestsManager, favorites: FavoritesContainer) {
+    init(
+        requestManager: RequestsManager,
+        favorites: FavoritesContainer,
+        deeplinkHandler: DeeplinkHandler
+    ) {
         self.requestManager = requestManager
         self.favorites = favorites
         self.lecturers = LoadableContent(
@@ -44,6 +48,23 @@ final class AllLecturersScreen: ObservableObject {
                 .map { .init(lecturers: $0, favorites: $1) }
                 .eraseToLoading()
         )
+
+        deeplinkHandler.deeplink(autoresolve: true)
+            .compactMap { deeplink -> Int? in
+                guard case let .lecturers(id?) = deeplink else {
+                    return nil
+                }
+
+                return id
+            }
+            .flatMap { [lecturers] id in
+                lecturers.$state
+                    .filter { !$0.inProgress }
+                    .first()
+                    .map { $0.some?.flatMap(\.lecturers).first(where: { $0.id == id }) }
+            }
+            .assign(to: &$selectedLecturer)
+
     }
 
     func screen(for lecturer: AllLecturersScreenLecturer) -> ScheduleScreen {

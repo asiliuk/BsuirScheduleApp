@@ -5,6 +5,8 @@ final class FavoritesContainer {
     @Published var groups: FavoritesValue<Group>
     @Published var lecturers: FavoritesValue<Employee>
 
+    var isEmpty: Bool { groups.value.isEmpty && lecturers.value.isEmpty }
+
     init(storage: UserDefaults) {
         self.groups = FavoritesValue(storage: storage, key: "favorite-groups")
         self.lecturers = FavoritesValue(storage: storage, key: "favorite-lecturers")

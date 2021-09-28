@@ -40,7 +40,7 @@ struct ScheduleWidgetEntryView: View {
                 EmptyView()
             }
         }
-        .widgetURL(entry.id.flatMap(\.widgetURL))
+        .widgetURL(entry.deeplink?.rawValue)
     }
 }
 
@@ -304,19 +304,6 @@ struct RemainingPairs: View {
             return pairs.last?.from
         case .hide:
             return nil
-        }
-    }
-}
-
-// MARK: - Helpers
-
-extension ScheduleEntry.Identifier {
-    var widgetURL: URL? {
-        switch self {
-        case let .group(id):
-            return URL(string: "https://bsuirschedule.app/groups?id=\(id)")
-        case let .lecturer(id):
-            return URL(string: "https://bsuirschedule.app/lecturers?id=\(id)")
         }
     }
 }
