@@ -14,8 +14,17 @@ final class AllFavoritesScreen: ObservableObject {
     init(requestManager: RequestsManager, favorites: FavoritesContainer) {
         self.favorites = favorites
         self.requestManager = requestManager
-        favorites.$groups.map { $0.value.map(AllGroupsScreenGroup.init) }.assign(to: &$groups)
-        favorites.$lecturers.map { $0.value.map(AllLecturersScreenLecturer.init) }.assign(to: &$lecturers)
+
+        favorites.$groups
+            .map { $0.value.map(AllGroupsScreenGroup.init) }
+            .removeDuplicates()
+            .assign(to: &$groups)
+
+        favorites.$lecturers
+            .map { $0.value.map(AllLecturersScreenLecturer.init) }
+            .removeDuplicates()
+            .assign(to: &$lecturers)
+
         selection = groups.first.map(Selection.group) ?? lecturers.first.map(Selection.lecturer)
     }
 

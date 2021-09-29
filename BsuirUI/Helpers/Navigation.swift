@@ -14,11 +14,11 @@ extension View {
         item: Binding<Item?>,
         @ViewBuilder destination: @escaping (Item) -> Destination
     ) -> some View {
-        background(DynamicNavigationLink(item: item, destination: destination))
+        background(DynamicNavigationLink(item: item, destination: destination).equatable())
     }
 }
 
-struct DynamicNavigationLink<Item: Identifiable, Destination: View>: View {
+struct DynamicNavigationLink<Item: Identifiable, Destination: View>: View, Equatable {
     @Binding var item: Item?
     @ViewBuilder var destination: (Item) -> Destination
 
@@ -35,6 +35,10 @@ struct DynamicNavigationLink<Item: Identifiable, Destination: View>: View {
             ),
             label: EmptyView.init
         )
+    }
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.item?.id == rhs.item?.id
     }
 }
 

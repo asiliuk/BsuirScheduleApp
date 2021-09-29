@@ -99,7 +99,7 @@ struct AllGroupsScreenGroupSection: Identifiable {
     let groups: [AllGroupsScreenGroup]
 }
 
-struct AllGroupsScreenGroup: Identifiable {
+struct AllGroupsScreenGroup: Identifiable, Equatable {
     var id: Int { group.id }
     var name: String { group.name }
 

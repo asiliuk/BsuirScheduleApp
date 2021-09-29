@@ -11,7 +11,7 @@ import Combine
 import Foundation
 import SwiftUI
 
-struct AllLecturersScreenLecturer: Identifiable {
+struct AllLecturersScreenLecturer: Identifiable, Equatable {
     var id: Int { employee.id }
     var fullName: String { employee.fio }
     var imageURL: URL? { employee.photoLink }
