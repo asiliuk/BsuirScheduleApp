@@ -37,6 +37,7 @@ public struct Pair : Codable, Equatable {
     public let zaoch: Bool
 
     @NonEmpty public var employee: [Employee]
+    @NonEmpty public var studentGroup: [String]
 }
 
 extension Pair.Time : Codable {

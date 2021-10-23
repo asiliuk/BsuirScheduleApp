@@ -21,6 +21,7 @@ public struct PairViewModel: Equatable, Identifiable {
     public var subgroup: String?
     public var progress: PairProgress
     public var lecturers: [Employee]
+    public var groups: [String]
 
     public init(
         from: String,
@@ -32,7 +33,8 @@ public struct PairViewModel: Equatable, Identifiable {
         weeks: String? = nil,
         subgroup: String? = nil,
         progress: PairProgress = .init(constant: 0),
-        lecturers: [Employee] = []
+        lecturers: [Employee] = [],
+        groups: [String] = []
     ) {
         self.from = from
         self.to = to
@@ -44,6 +46,7 @@ public struct PairViewModel: Equatable, Identifiable {
         self.subgroup = subgroup
         self.progress = progress
         self.lecturers = lecturers
+        self.groups = groups
     }
 
     private static let timeFormatter: DateComponentsFormatter = {
@@ -71,7 +74,8 @@ extension PairViewModel {
             weeks: showWeeks ? pair.weekNumber.prettyName?.capitalized : nil,
             subgroup: pair.numSubgroup == 0 ? nil : "\(pair.numSubgroup)",
             progress: progress,
-            lecturers: pair.employee
+            lecturers: pair.employee,
+            groups: pair.studentGroup
         )
     }
 }

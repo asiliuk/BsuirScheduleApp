@@ -16,17 +16,20 @@ final class ScheduleScreen: ObservableObject {
     let schedule: LoadableContent<Schedule>
     @Published private(set) var isFavorite: Bool = false
     @Published var scheduleType: ScheduleType = .continuous
-    let toggleFavorite: () -> Void
+    let toggleFavorite: (() -> Void)?
     let employeeSchedule: ((Employee) -> ScheduleScreen)?
+    let groupSchedule: ((String) -> ScheduleScreen)?
 
     init(
         name: String,
         isFavorite: AnyPublisher<Bool, Never>,
-        toggleFavorite: @escaping () -> Void,
+        toggleFavorite: (() -> Void)?,
         request: AnyPublisher<(schedule: [DaySchedule], exams: [DaySchedule]), RequestsManager.RequestError>,
-        employeeSchedule: ((Employee) -> ScheduleScreen)?
+        employeeSchedule: ((Employee) -> ScheduleScreen)?,
+        groupSchedule: ((String) -> ScheduleScreen)?
     ) {
         self.employeeSchedule = employeeSchedule
+        self.groupSchedule = groupSchedule
         self.name = name
         self.schedule = LoadableContent(
             request

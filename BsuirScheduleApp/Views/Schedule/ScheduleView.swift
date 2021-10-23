@@ -4,8 +4,14 @@ import BsuirCore
 import BsuirApi
 
 struct ScheduleView: View {
+    enum ScheduleOverlay: Identifiable, Hashable {
+        var id: Self { self }
+        case lecturer(Employee)
+        case group(String)
+    }
+
     @ObservedObject var screen: ScheduleScreen
-    @State var employeeSchedule: Employee?
+    @State var scheduleOverlay: ScheduleOverlay?
     @Environment(\.reviewRequestService) var reviewRequestService
     @State var isOnTop: Bool = true
 
@@ -35,28 +41,30 @@ struct ScheduleView: View {
                         .onTapGesture { isOnTop = true }
                 }
             }
-            .sheet(item: $employeeSchedule) { item in
-                screen.employeeSchedule.map { makeScreen in
+            .sheet(item: $scheduleOverlay) { overlay in
+                if let screen = scheduleScreen(for: overlay) {
                     ModalNavigationView {
-                        ScheduleView(screen: makeScreen(item))
+                        ScheduleView(screen: screen)
                     }
                 }
             }
     }
 
-    private var favorite: some View {
-        Button(action: { withAnimation {
-            if !screen.isFavorite { reviewRequestService?.madeMeaningfulEvent(.addToFavorites) }
-            screen.toggleFavorite()
-        } }) {
-            Image(systemName: screen.isFavorite ? "star.fill" : "star")
+    @ViewBuilder private var favorite: some View {
+        if let toggleFavorite = screen.toggleFavorite {
+            Button(action: { withAnimation {
+                if !screen.isFavorite { reviewRequestService?.madeMeaningfulEvent(.addToFavorites) }
+                toggleFavorite()
+            } }) {
+                Image(systemName: screen.isFavorite ? "star.fill" : "star")
+            }
+            .accessibility(
+                label: screen.isFavorite
+                    ? Text("Убрать из избранного")
+                    : Text("Добавить в избранное")
+            )
+            .accentColor(.yellow)
         }
-        .accessibility(
-            label: screen.isFavorite
-                ? Text("Убрать из избранного")
-                : Text("Добавить в избранное")
-        )
-        .accentColor(.yellow)
     }
 
     private var picker: some View {
@@ -75,18 +83,34 @@ struct ScheduleView: View {
         ContentStateView(content: screen.schedule) { value in
             switch screen.scheduleType {
             case .continuous:
-                ContinuousScheduleView(schedule: value.continuous, showDetails: showDetails, isOnTop: $isOnTop)
+                ContinuousScheduleView(schedule: value.continuous, pairDetails: pairDetails, isOnTop: $isOnTop)
             case .compact:
-                SomeState(days: value.compact, showDetails: showDetails, isOnTop: $isOnTop)
+                SomeState(days: value.compact, pairDetails: pairDetails, isOnTop: $isOnTop)
             case .exams:
-                SomeState(days: value.exams, showDetails: showDetails, isOnTop: $isOnTop)
+                SomeState(days: value.exams, pairDetails: pairDetails, isOnTop: $isOnTop)
             }
         }
     }
 
-    var showDetails: ((Employee) -> Void)? {
-        guard screen.employeeSchedule != nil else { return nil }
-        return { self.employeeSchedule = $0 }
+    func scheduleScreen(for overlay: ScheduleOverlay) -> ScheduleScreen? {
+        switch overlay {
+        case let .lecturer(lecturer):
+            return screen.employeeSchedule?(lecturer)
+        case let .group(group):
+            return screen.groupSchedule?(group)
+        }
+    }
+
+    var pairDetails: ScheduleGridView.PairDetails {
+        if screen.employeeSchedule != nil {
+            return .lecturers { self.scheduleOverlay = .lecturer($0) }
+        }
+
+        if screen.groupSchedule != nil {
+            return .groups { self.scheduleOverlay = .group($0) }
+        }
+
+        return .nothing
     }
 }
 
@@ -141,7 +165,7 @@ struct ModalNavigationView<Content: View>: View {
 struct ContinuousScheduleView: View {
     @ObservedObject var schedule: ContinuousSchedule
     @Environment(\.reviewRequestService) var reviewRequestService
-    let showDetails: ((Employee) -> Void)?
+    let pairDetails: ScheduleGridView.PairDetails
     @Binding var isOnTop: Bool
 
     var body: some View {
@@ -151,7 +175,7 @@ struct ContinuousScheduleView: View {
                 reviewRequestService?.madeMeaningfulEvent(.moreScheduleRequested)
                 schedule.loadMore()
             },
-            showDetails: showDetails,
+            pairDetails: pairDetails,
             isOnTop: $isOnTop
         )
     }
@@ -161,7 +185,7 @@ struct SomeState: View {
 
     let days: [DayViewModel]
     var loadMore: (() -> Void)?
-    let showDetails: ((Employee) -> Void)?
+    let pairDetails: ScheduleGridView.PairDetails
     @Binding var isOnTop: Bool
 
     @ViewBuilder var body: some View {
@@ -171,7 +195,7 @@ struct SomeState: View {
             ScheduleGridView(
                 days: days,
                 loadMore: loadMore,
-                showDetails: showDetails,
+                pairDetails: pairDetails,
                 isOnTop: $isOnTop
             )
         }
@@ -230,6 +254,7 @@ struct ScheduleView_Preview: PreviewProvider {
     static var previews: some View {
         Group {
             ScheduleEmptyState()
+
             EmptyState(
                 image: .init(systemName: "rectangle"),
                 title: "Title",
@@ -238,13 +263,16 @@ struct ScheduleView_Preview: PreviewProvider {
             )
 
             NavigationView {
-                ScheduleView(screen: ScheduleScreen(
-                    name: "1010101",
-                    isFavorite: Just(true).eraseToAnyPublisher(),
-                    toggleFavorite: {},
-                    request: Empty().eraseToAnyPublisher(),
-                    employeeSchedule: nil
-                ))
+                ScheduleView(
+                    screen: ScheduleScreen(
+                        name: "1010101",
+                        isFavorite: Just(true).eraseToAnyPublisher(),
+                        toggleFavorite: {},
+                        request: Empty().eraseToAnyPublisher(),
+                        employeeSchedule: nil,
+                        groupSchedule: nil
+                    )
+                )
             }
         }
     }

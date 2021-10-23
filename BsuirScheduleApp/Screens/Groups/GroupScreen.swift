@@ -24,7 +24,23 @@ extension ScheduleScreen {
                 .map { ($0.schedules, $0.examSchedules) }
                 .log(.appState, identifier: "Days")
                 .eraseToAnyPublisher(),
-            employeeSchedule: { .lecturer($0, favorites: favorites, requestManager: requestManager) }
+            employeeSchedule: { .lecturer($0, favorites: favorites, requestManager: requestManager) },
+            groupSchedule: nil
+        )
+    }
+
+    static func group(name: String, favorites: FavoritesContainer, requestManager: RequestsManager) -> Self {
+        Self(
+            name: name,
+            isFavorite: Just(false).eraseToAnyPublisher(),
+            toggleFavorite: nil,
+            request: requestManager
+                .request(BsuirTargets.Schedule(agent: .groupName(name)))
+                .map { ($0.schedules, $0.examSchedules) }
+                .log(.appState, identifier: "Days")
+                .eraseToAnyPublisher(),
+            employeeSchedule: { .lecturer($0, favorites: favorites, requestManager: requestManager) },
+            groupSchedule: nil
         )
     }
 }

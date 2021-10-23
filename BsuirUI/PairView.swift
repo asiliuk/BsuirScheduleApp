@@ -203,42 +203,6 @@ extension PairCell {
     }
 }
 
-public struct LecturerAvatars: View {
-    let lecturers: [Employee]
-    let showDetails: (Employee) -> Void
-    @ScaledMetric(relativeTo: .body) private var overlap: CGFloat = 24
-
-    public init(
-        lecturers: [Employee],
-        showDetails: @escaping (Employee) -> Void
-    ) {
-        self.lecturers = lecturers
-        self.showDetails = showDetails
-    }
-
-    public var body: some View {
-        if lecturers.isEmpty {
-            EmptyView()
-        } else {
-            Menu {
-                ForEach(lecturers, id: \.id) { lecturer in
-                    Button {
-                        showDetails(lecturer)
-                    } label: {
-                        Text(lecturer.fio)
-                    }
-                }
-            } label: {
-                HStack(spacing: -overlap) {
-                    ForEach(lecturers, id: \.id) { lecturer in
-                        Avatar(url: lecturer.photoLink)
-                    }
-                }
-            }
-        }
-    }
-}
-
 extension PairView {
     public init(
         pair: PairViewModel,

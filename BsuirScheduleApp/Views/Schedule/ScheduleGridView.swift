@@ -4,9 +4,15 @@ import BsuirCore
 import BsuirApi
 
 struct ScheduleGridView: View {
+    enum PairDetails {
+        case lecturers(show: (Employee) -> Void)
+        case groups(show: (String) -> Void)
+        case nothing
+    }
+
     let days: [DayViewModel]
     var loadMore: (() -> Void)? = nil
-    var showDetails: ((Employee) -> Void)? = nil
+    var pairDetails: PairDetails = .nothing
     @Binding var isOnTop: Bool
 
     var body: some View {
@@ -19,7 +25,7 @@ struct ScheduleGridView: View {
                         isMostRelevant: day.isMostRelevant,
                         isToday: day.isToday,
                         pairs: day.pairs,
-                        showDetails: showDetails
+                        details: pairDetails
                     )
                 }
                 .listRowSeparator(.hidden)
@@ -58,7 +64,7 @@ struct ScheduleDay: View {
     var isMostRelevant: Bool
     let isToday: Bool
     let pairs: [PairViewModel]
-    let showDetails: ((Employee) -> Void)?
+    let details: ScheduleGridView.PairDetails
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -67,17 +73,23 @@ struct ScheduleDay: View {
             ForEach(pairs) { pair in
                 PairCell(
                     pair: pair,
-                    details: showDetails.map { showDetails in
-                        LecturerAvatars(
-                            lecturers: pair.lecturers,
-                            showDetails: showDetails
-                        )
-                    }
+                    details: detailsView(pair: pair)
                 )
             }
         }
         .id(isMostRelevant ? RelevantDayViewID.mostRelevant : .other)
         .padding(.vertical, 10)
+    }
+
+    @ViewBuilder private func detailsView(pair: PairViewModel) -> some View {
+        switch details {
+        case .lecturers(let show):
+            LecturerAvatarsDetails(lecturers: pair.lecturers, showDetails: show)
+        case .groups(let show):
+            GroupPairDetails(groups: pair.groups, showDetails: show)
+        case .nothing:
+            EmptyView()
+        }
     }
 
     @ViewBuilder private var titleText: some View {
@@ -193,7 +205,7 @@ struct ScheduleGridView_Previews: PreviewProvider {
             isMostRelevant: false,
             isToday: false,
             pairs: day.pairs,
-            showDetails: nil
+            details: .nothing
         )
     }
 }
