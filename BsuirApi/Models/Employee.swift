@@ -13,7 +13,7 @@ public struct Employee: Codable, Equatable, Identifiable, Hashable {
     public let calendarID: String?
 
     public let firstName: String
-    public let middleName: String
+    public let middleName: String?
     public let lastName: String
     
     public let photoLink: URL?
@@ -30,6 +30,10 @@ public struct Employee: Codable, Equatable, Identifiable, Hashable {
 extension Employee {
     public var fio: String {
         return [lastName, firstName, middleName]
+            .compactMap { name in
+                guard let name = name, !name.isEmpty else { return nil }
+                return name
+            }
             .filter { !$0.isEmpty }
             .joined(separator: " ")
     }
