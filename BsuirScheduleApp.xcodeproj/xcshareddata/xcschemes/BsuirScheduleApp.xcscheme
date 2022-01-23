@@ -32,10 +32,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E6C5618C25C31065008C0DE4"
-               BuildableName = "BsuirScheduleAppTests.xctest"
-               BlueprintName = "BsuirScheduleAppTests"
-               ReferencedContainer = "container:BsuirScheduleApp.xcodeproj">
+               BlueprintIdentifier = "BsuirCoreTests"
+               BuildableName = "BsuirCoreTests"
+               BlueprintName = "BsuirCoreTests"
+               ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
       </Testables>
