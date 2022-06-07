@@ -65,9 +65,9 @@
 		E6AA8D1325162F1A00788A02 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA8D1225162F1A00788A02 /* SwiftUI.framework */; };
 		E6AA8D1625162F1A00788A02 /* ScheduleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */; };
 		E6AA8D1925162F1B00788A02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6AA8D1825162F1B00788A02 /* Assets.xcassets */; };
-		E6AA8D1F25162F1B00788A02 /* ScheduleWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E6AA8D1F25162F1B00788A02 /* ScheduleWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E6AA8D2D2516301500788A02 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D2C2516301500788A02 /* IntentHandler.swift */; };
-		E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E6B289A027038759008469F3 /* DeeplinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B2899F27038759008469F3 /* DeeplinkHandler.swift */; };
 		E6D11759253783CC00A6875D /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D11758253783CC00A6875D /* AppVersion.swift */; };
 		E6EDC2E42522101900C8A73C /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2DC25220F9800C8A73C /* Provider.swift */; };
@@ -94,16 +94,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E6AA8D2025162F1B00788A02 /* Embed App Extensions */ = {
+		E6AA8D2025162F1B00788A02 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed App Extensions */,
-				E6AA8D1F25162F1B00788A02 /* ScheduleWidgetExtension.appex in Embed App Extensions */,
+				E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed Foundation Extensions */,
+				E6AA8D1F25162F1B00788A02 /* ScheduleWidgetExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E6D1F78D25137C7A00CA6E20 /* Embed Frameworks */ = {
@@ -143,7 +143,7 @@
 		E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFavoritesView.swift; sourceTree = "<group>"; };
 		E67503AC24F4355B0030D0EC /* AllFavoritesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFavoritesScreen.swift; sourceTree = "<group>"; };
 		E675BFBF2587D51F00DE570A /* AboutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScreen.swift; sourceTree = "<group>"; };
-		E68198A3279DE5ED0055D588 /* BsuirScheduleApp */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BsuirScheduleApp; sourceTree = "<group>"; };
+		E68198A3279DE5ED0055D588 /* BsuirScheduleApp */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BsuirScheduleApp; sourceTree = "<group>"; };
 		E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissingKeyboardOnSwipe.swift; sourceTree = "<group>"; };
 		E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateWithSearchView.swift; sourceTree = "<group>"; };
 		E691E961250BD7E300116878 /* AppIconDad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDad@2x.png"; sourceTree = "<group>"; };
@@ -530,7 +530,7 @@
 				E6F931AF22F8B1C10038FC43 /* Frameworks */,
 				E6F931B022F8B1C10038FC43 /* Resources */,
 				E6D1F78D25137C7A00CA6E20 /* Embed Frameworks */,
-				E6AA8D2025162F1B00788A02 /* Embed App Extensions */,
+				E6AA8D2025162F1B00788A02 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -554,7 +554,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = Saute;
 				TargetAttributes = {
 					E6AA8D0E25162F1A00788A02 = {
