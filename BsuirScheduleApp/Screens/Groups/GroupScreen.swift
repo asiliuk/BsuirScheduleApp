@@ -21,7 +21,7 @@ extension ScheduleScreen {
             toggleFavorite: { favorites.groups.toggle(group) },
             request: requestManager
                 .request(BsuirIISTargets.GroupSchedule(groupNumber: group.name))
-                .map { ($0.schedules.daySchedules, $0.examSchedules) }
+                .map { ($0.schedules, $0.examSchedules) }
                 .log(.appState, identifier: "Days")
                 .eraseToAnyPublisher(),
             employeeSchedule: { .lecturer($0, favorites: favorites, requestManager: requestManager) },
@@ -36,7 +36,7 @@ extension ScheduleScreen {
             toggleFavorite: nil,
             request: requestManager
                 .request(BsuirIISTargets.GroupSchedule(groupNumber: name))
-                .map { ($0.schedules.daySchedules, $0.examSchedules) }
+                .map { ($0.schedules, $0.examSchedules) }
                 .log(.appState, identifier: "Days")
                 .eraseToAnyPublisher(),
             employeeSchedule: { .lecturer($0, favorites: favorites, requestManager: requestManager) },

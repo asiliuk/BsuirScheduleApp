@@ -85,7 +85,7 @@ struct ScheduleView: View {
             case .continuous:
                 ContinuousScheduleView(schedule: value.continuous, pairDetails: pairDetails, isOnTop: $isOnTop)
             case .compact:
-                SomeState(days: value.compact, pairDetails: pairDetails, isOnTop: $isOnTop)
+                SomeDayScheduleState(viewModel: value.compact, pairDetails: pairDetails, isOnTop: $isOnTop)
             case .exams:
                 SomeState(days: value.exams, pairDetails: pairDetails, isOnTop: $isOnTop)
             }
@@ -181,6 +181,22 @@ struct ContinuousScheduleView: View {
     }
 }
 
+struct SomeDayScheduleState: View {
+    @ObservedObject var viewModel: DayScheduleViewModel
+    var loadMore: (() -> Void)?
+    let pairDetails: ScheduleGridView.PairDetails
+    @Binding var isOnTop: Bool
+    
+    var body: some View {
+        SomeState(
+            days: viewModel.days,
+            loadMore: loadMore,
+            pairDetails: pairDetails,
+            isOnTop: $isOnTop
+        )
+    }
+}
+
 struct SomeState: View {
 
     let days: [DayViewModel]
@@ -188,7 +204,7 @@ struct SomeState: View {
     let pairDetails: ScheduleGridView.PairDetails
     @Binding var isOnTop: Bool
 
-    @ViewBuilder var body: some View {
+    var body: some View {
         if days.isEmpty {
             ScheduleEmptyState()
         } else {

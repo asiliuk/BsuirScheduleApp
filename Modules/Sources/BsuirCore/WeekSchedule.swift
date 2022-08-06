@@ -2,8 +2,8 @@ import Foundation
 import BsuirApi
 
 public struct WeekSchedule {
-    public init(schedule: [DaySchedule], calendar: Calendar) {
-        self.groupedSchedule = schedule.groupByRelativeWeekday()
+    public init(schedule: DaySchedule, calendar: Calendar) {
+        self.schedule = schedule
         self.calendar = calendar
     }
 
@@ -11,7 +11,7 @@ public struct WeekSchedule {
         let components = calendar.dateComponents([.weekday], from: date)
         guard
             let weekday = components.weekday.flatMap(DaySchedule.WeekDay.init(weekday:)),
-            let pairs = groupedSchedule[weekday]
+            let pairs = schedule[weekday]
         else {
             return []
         }
@@ -20,7 +20,7 @@ public struct WeekSchedule {
     }
 
     private let calendar: Calendar
-    private let groupedSchedule: [DaySchedule.WeekDay: [BsuirApi.Pair]]
+    private let schedule: DaySchedule
 }
 
 extension WeekSchedule {
@@ -37,7 +37,7 @@ extension WeekSchedule {
     }
 
     public func schedule(starting start: Date, now: Date) -> AnySequence<ScheduleElement> {
-        guard !groupedSchedule.isEmpty else {
+        guard !schedule.isEmpty else {
             return AnySequence([])
         }
 
@@ -148,22 +148,5 @@ private extension DaySchedule.WeekDay {
         case 7: self = .saturday
         default: return nil
         }
-    }
-}
-
-private extension Array where Element == DaySchedule {
-    func groupByRelativeWeekday() -> [DaySchedule.WeekDay: [BsuirApi.Pair]] {
-        Dictionary(
-            self
-                .compactMap { day -> (DaySchedule.WeekDay, [BsuirApi.Pair])? in
-                    switch day.weekDay {
-                    case let .relative(weekDay):
-                        return (weekDay, day.schedule)
-                    case .date:
-                        return nil
-                    }
-                },
-            uniquingKeysWith: { _, rhs in assertionFailure(); return rhs }
-        )
     }
 }

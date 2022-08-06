@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Pair : Codable, Equatable {
+public struct Pair: Codable, Equatable {
 
     public enum Form : Equatable {
         case lecture
@@ -33,7 +33,8 @@ public struct Pair : Codable, Equatable {
 
     public let startLessonTime: Time
     public let endLessonTime: Time
-
+    public let dateLesson: Date?
+    
     public let subgroup: Int
     public let lessonType: Form?
     public let weekNumber: WeekNum
@@ -48,6 +49,7 @@ public struct Pair : Codable, Equatable {
         case auditory
         case startLessonTime
         case endLessonTime
+        case dateLesson
         case subgroup = "numSubgroup"
         case lessonType = "lessonTypeAbbrev"
         case weekNumber

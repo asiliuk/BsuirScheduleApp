@@ -12,7 +12,7 @@ final class ContinuousSchedule: ObservableObject {
         self.loadMoreSubject.send()
     }
 
-    init(schedule: [DaySchedule]) {
+    init(schedule: DaySchedule) {
         self.weekSchedule = WeekSchedule(schedule: schedule, calendar: calendar)
         self.loadDays(12)
 

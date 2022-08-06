@@ -16,8 +16,8 @@ public struct Group: Codable, Equatable {
 extension Group {
     public struct Schedule: Codable, Equatable {
         public let studentGroup: Group
-        public let schedules: WeekScheduleDto
-        @NonEmpty public var examSchedules: [DaySchedule]
+        public let schedules: DaySchedule
+        public let examSchedules: [Pair]
         
         private enum CodingKeys: String, CodingKey {
             case studentGroup = "studentGroupDto"

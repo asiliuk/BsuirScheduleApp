@@ -24,7 +24,7 @@ final class ScheduleScreen: ObservableObject {
         name: String,
         isFavorite: AnyPublisher<Bool, Never>,
         toggleFavorite: (() -> Void)?,
-        request: AnyPublisher<(schedule: [DaySchedule], exams: [DaySchedule]), RequestsManager.RequestError>,
+        request: AnyPublisher<(schedule: DaySchedule, exams: [BsuirApi.Pair]), RequestsManager.RequestError>,
         employeeSchedule: ((Employee) -> ScheduleScreen)?,
         groupSchedule: ((String) -> ScheduleScreen)?
     ) {
@@ -54,13 +54,31 @@ final class ScheduleScreen: ObservableObject {
 extension ScheduleScreen {
     final class Schedule {
         let continuous: ContinuousSchedule
-        let compact: [DayViewModel]
+        let compact: DayScheduleViewModel
         let exams: [DayViewModel]
 
-        init(schedule: [DaySchedule], exams: [DaySchedule]) {
+        init(schedule: DaySchedule, exams: [Pair]) {
             self.continuous = ContinuousSchedule(schedule: schedule)
-            self.compact = schedule.map(DayViewModel.init)
-            self.exams = exams.map(DayViewModel.init)
+            self.compact = DayScheduleViewModel(schedule: schedule)
+            // TODO: Support exams once again
+            self.exams = [
+                DayViewModel(
+                    title: "Приношу глубочайгшие извинения",
+                    pairs: [
+                        PairViewModel(
+                            from: "🚧", to: " ",
+                            form: .unknown,
+                            subject: "В данный момент расписание экзаменов не поддерживается",
+                            auditory: "Пришлось временно убрать эту фичу потому что нет времени переехать на новый API"
+                        ),
+                        PairViewModel(
+                            from: "🤲", to: " ",
+                            form: .unknown,
+                            subject: "Но вы можете мне помочь", auditory: "https://github.com/asiliuk/BsuirScheduleApp"
+                        ),
+                    ]
+                )
+            ]
         }
     }
 }
@@ -78,37 +96,20 @@ extension PairProgress {
     }
 }
 
-struct DayViewModel: Identifiable {
-    let id = UUID()
-    var title: String
-    var subtitle: String?
-    var pairs: [PairViewModel]
-    var isToday: Bool = false
-    var isMostRelevant: Bool = false
-}
-
-extension DayViewModel {
-    init(day: DaySchedule) {
-        self.init(
-            title: day.weekDay.title,
-            pairs: day.schedule.map { PairViewModel($0) }
-        )
-    }
-}
-
-private extension DaySchedule.Day {
-
-    var title: String {
-        switch self {
-        case let .date(date): return Self.formatter.string(from: date)
-        case let .relative(weekDay): return weekDay.rawValue
-        }
-    }
-
-    static let formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = .by
-        formatter.setLocalizedDateFormatFromTemplate("EEEEdMMMM")
-        return formatter
-    }()
-}
+// TODO: Support exams once again
+//private extension DaySchedule.Day {
+//
+//    var title: String {
+//        switch self {
+//        case let .date(date): return Self.formatter.string(from: date)
+//        case let .relative(weekDay): return weekDay.rawValue
+//        }
+//    }
+//
+//    static let formatter: DateFormatter = {
+//        let formatter = DateFormatter()
+//        formatter.locale = .by
+//        formatter.setLocalizedDateFormatFromTemplate("EEEEdMMMM")
+//        return formatter
+//    }()
+//}

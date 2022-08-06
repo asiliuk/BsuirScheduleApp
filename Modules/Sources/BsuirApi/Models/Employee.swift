@@ -21,8 +21,8 @@ public struct Employee: Codable, Equatable, Identifiable, Hashable {
 extension Employee {
     public struct Schedule: Codable, Equatable {
         public let employee: Employee
-        public let schedules: WeekScheduleDto?
-        public let examSchedules: [DaySchedule]?
+        public let schedules: DaySchedule?
+        public let examSchedules: [Pair]?
         
         private enum CodingKeys: String, CodingKey {
             case employee = "employeeDto"

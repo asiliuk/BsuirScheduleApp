@@ -54,9 +54,9 @@ final class Provider: IntentTimelineProvider, ObservableObject {
             .compactMap { [calendar] response in
                 let now = Date()
 
-                guard let mostRelevantElement = WeekSchedule(schedule: response.schedules, calendar: calendar)
-                        .schedule(starting: now, now: now)
-                        .first(where: { $0.hasUnfinishedPairs(calendar: calendar, now: now) })
+                guard let mostRelevantElement = WeekSchedule(schedule: response.schedule, calendar: calendar)
+                    .schedule(starting: now, now: now)
+                    .first(where: { $0.hasUnfinishedPairs(calendar: calendar, now: now) })
                 else { return nil }
 
                 return MostRelevantScheduleResponse(
@@ -71,7 +71,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     private struct ScheduleResponse {
         let deeplink: Deeplink
         let title: String
-        let schedules: [DaySchedule]
+        let schedule: DaySchedule
     }
 
     private enum ScheduleIdentifier {
@@ -98,7 +98,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
                 .map { ScheduleResponse(
                     deeplink: .groups(id: $0.studentGroup.id),
                     title: $0.studentGroup.name,
-                    schedules: $0.schedules.daySchedules
+                    schedule: $0.schedules
                 ) }
                 .eraseToAnyPublisher()
         case let .lecturer(urlId):
@@ -107,7 +107,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
                 .map { ScheduleResponse(
                     deeplink: .lecturers(id: $0.employee.id),
                     title: $0.employee.abbreviatedName,
-                    schedules: $0.schedules?.daySchedules ?? []
+                    schedule: $0.schedules ?? DaySchedule()
                 ) }
                 .eraseToAnyPublisher()
         }
