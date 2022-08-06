@@ -12,6 +12,7 @@ public struct GroupPairDetails: View {
     let groups: [String]
     let showDetails: (String) -> Void
     @ScaledMetric(relativeTo: .body) private var overlap: CGFloat = 10
+    private let maxGroupsToShow = 2
 
     public init(groups: [String], showDetails: @escaping (String) -> Void) {
         self.groups = groups
@@ -32,8 +33,16 @@ public struct GroupPairDetails: View {
                 }
             } label: {
                 HStack(spacing: -overlap) {
-                    ForEach(groups, id: \.self) { group in
+                    ForEach(groups.prefix(maxGroupsToShow), id: \.self) { group in
                         GroupAvatar(group: group)
+                    }
+                    
+                    if groups.count > maxGroupsToShow {
+                        Text("+")
+                            .foregroundColor(.primary)
+                            .font(.headline.monospacedDigit())
+                            .padding(2)
+                            .modifier(GroupBackgroud())
                     }
                 }
                 .padding(.horizontal, 4)
@@ -52,6 +61,13 @@ private struct GroupAvatar: View {
             .lineSpacing(-1)
             .padding(.vertical, -2)
             .padding(6)
+            .modifier(GroupBackgroud())
+    }
+}
+
+private struct GroupBackgroud: ViewModifier {
+    func body(content: Content) -> some View {
+        content
             .background {
                 Circle()
                     .stroke()
@@ -85,11 +101,21 @@ struct GroupPairDetails_Previews: PreviewProvider {
                 groups: ["101001", "101002"],
                 showDetails: { _ in }
             )
-
-
+            
+            GroupPairDetails(
+                groups: ["020605", "020604", "020603", "020602", "020601"],
+                showDetails: { _ in }
+            )
 
             GroupPairDetails(
                 groups: ["101001", "101002"],
+                showDetails: { _ in }
+            )
+            .environment(\.sizeCategory, .extraExtraLarge)
+            .environment(\.colorScheme, .dark)
+            
+            GroupPairDetails(
+                groups: ["020605", "020604", "020603", "020602", "020601"],
                 showDetails: { _ in }
             )
             .environment(\.sizeCategory, .extraExtraLarge)
