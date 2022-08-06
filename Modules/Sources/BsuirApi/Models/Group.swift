@@ -8,17 +8,21 @@
 import Foundation
 
 public struct Group: Codable, Equatable {
-
     public let id: Int
     public let name: String
-    public let calendarId: String?
     public let course: Int?
-    public let facultyId: Int
-    public let specialityDepartmentEducationFormId: Int
+}
 
+extension Group {
     public struct Schedule: Codable, Equatable {
         public let studentGroup: Group
-        @NonEmpty public var schedules: [DaySchedule]
+        public let schedules: WeekScheduleDto
         @NonEmpty public var examSchedules: [DaySchedule]
+        
+        private enum CodingKeys: String, CodingKey {
+            case studentGroup = "studentGroupDto"
+            case schedules
+            case examSchedules = "exams"
+        }
     }
 }

@@ -34,7 +34,7 @@ final class AllLecturersScreen: ObservableObject {
         self.requestManager = requestManager
         self.favorites = favorites
         self.lecturers = LoadableContent(
-            requestManager.request(BsuirTargets.Employees())
+            requestManager.request(BsuirIISTargets.Employees())
                 .map { $0.map(AllLecturersScreenLecturer.init) }
                 .query(by: _searchQuery.projectedValue) { lecturers, query in
                     guard !query.isEmpty else { return lecturers }

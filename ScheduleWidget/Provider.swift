@@ -75,40 +75,39 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     }
 
     private enum ScheduleIdentifier {
-        case group(id: Int)
-        case lecturer(id: Int)
+        case group(name: String)
+        case lecturer(urlId: String)
 
         init?(configuration: ConfigurationIntent) {
-            func makeId(_ identifier: String?) -> Int? { identifier.flatMap(Int.init) }
             switch configuration.type {
             case .unknown, .group:
-                guard let groupId = makeId(configuration.groupNumber?.identifier) else { return nil }
-                self = .group(id: groupId)
+                guard let groupName = configuration.groupName?.identifier else { return nil }
+                self = .group(name: groupName)
             case .lecturer:
-                guard let lecturerId = makeId(configuration.lecturer?.identifier) else { return nil }
-                self = .lecturer(id: lecturerId)
+                guard let lecturerUrlId = configuration.lecturerUrlId?.identifier else { return nil }
+                self = .lecturer(urlId: lecturerUrlId)
             }
         }
     }
 
     private func requestSchedule(for identifier: ScheduleIdentifier) -> AnyPublisher<ScheduleResponse, RequestsManager.RequestError> {
         switch identifier {
-        case let .group(groupId):
+        case let .group(name):
             return requestManager
-                .request(BsuirTargets.Schedule(agent: .groupID(groupId)))
+                .request(BsuirIISTargets.GroupSchedule(groupNumber: name))
                 .map { ScheduleResponse(
                     deeplink: .groups(id: $0.studentGroup.id),
                     title: $0.studentGroup.name,
-                    schedules: $0.schedules
+                    schedules: $0.schedules.daySchedules
                 ) }
                 .eraseToAnyPublisher()
-        case let .lecturer(lecturerId):
+        case let .lecturer(urlId):
             return requestManager
-                .request(BsuirTargets.EmployeeSchedule(id: lecturerId))
+                .request(BsuirIISTargets.EmployeeSchedule(urlId: urlId))
                 .map { ScheduleResponse(
                     deeplink: .lecturers(id: $0.employee.id),
                     title: $0.employee.abbreviatedName,
-                    schedules: $0.schedules ?? []
+                    schedules: $0.schedules?.daySchedules ?? []
                 ) }
                 .eraseToAnyPublisher()
         }
@@ -117,7 +116,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     private let calendar = Calendar.current
     private var requestSnapshotCancellable: AnyCancellable?
     private var requestTimelineCancellable: AnyCancellable?
-    private let requestManager = RequestsManager.bsuir()
+    private let requestManager = RequestsManager.iisBsuir()
 }
 
 private extension Employee {

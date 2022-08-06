@@ -27,7 +27,7 @@ final class AppState: ObservableObject {
     @Published var currentSelection: CurrentSelection?
 
     init(storage: UserDefaults) {
-        self.requestManager = .bsuir()
+        self.requestManager = .iisBsuir()
         self.storage = storage
         self.currentSelection = favorites.isEmpty ? .groups : .favorites
         deeplinkHandler.deeplink()

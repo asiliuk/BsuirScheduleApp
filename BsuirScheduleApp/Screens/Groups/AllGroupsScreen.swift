@@ -26,7 +26,7 @@ final class AllGroupsScreen: ObservableObject {
         self.favorites = favorites
         self.groups = LoadableContent(
             requestManager
-                .request(BsuirTargets.Groups())
+                .request(BsuirIISTargets.Groups())
                 .log(.appState, identifier: "All groups")
                 .query(by: _searchQuery.projectedValue) { groups, query in
                     guard !query.isEmpty else { return groups }

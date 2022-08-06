@@ -10,7 +10,7 @@ public struct WeekSchedule {
     public func pairs(for date: Date) -> [BsuirApi.Pair] {
         let components = calendar.dateComponents([.weekday], from: date)
         guard
-            let weekday = components.weekday.flatMap(DaySchedule.WeekDay.init),
+            let weekday = components.weekday.flatMap(DaySchedule.WeekDay.init(weekday:)),
             let pairs = groupedSchedule[weekday]
         else {
             return []

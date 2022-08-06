@@ -21,8 +21,8 @@ extension ScheduleScreen {
                 .eraseToAnyPublisher(),
             toggleFavorite: { favorites.lecturers.toggle(employee) },
             request: requestManager
-                .request(BsuirTargets.EmployeeSchedule(id: employee.id))
-                .map { ($0.schedules ?? [], $0.examSchedules ?? []) }
+                .request(BsuirIISTargets.EmployeeSchedule(urlId: employee.urlId))
+                .map { ($0.schedules?.daySchedules ?? [], $0.examSchedules ?? []) }
                 .eraseToAnyPublisher(),
             employeeSchedule: nil,
             groupSchedule: { .group(name: $0, favorites: favorites, requestManager: requestManager) }

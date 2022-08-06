@@ -72,10 +72,10 @@ extension PairViewModel {
             auditory: pair.auditory.joined(separator: ", "),
             note: pair.note,
             weeks: showWeeks ? pair.weekNumber.prettyName?.capitalized : nil,
-            subgroup: pair.numSubgroup == 0 ? nil : "\(pair.numSubgroup)",
+            subgroup: pair.subgroup == 0 ? nil : "\(pair.subgroup)",
             progress: progress,
-            lecturers: pair.employee,
-            groups: pair.studentGroup
+            lecturers: pair.employees,
+            groups: pair.studentGroups.map(\.name)
         )
     }
 }

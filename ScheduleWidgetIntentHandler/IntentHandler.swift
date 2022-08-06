@@ -3,32 +3,32 @@ import BsuirApi
 import Combine
 
 class IntentHandler: INExtension, ConfigurationIntentHandling {
-    func resolveGroupNumber(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationGroupNumberResolutionResult) -> Void) {
+    func resolveGroupName(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationGroupNameResolutionResult) -> Void) {
         groupsRequestCancellable = requestManager
-            .request(BsuirTargets.Groups())
+            .request(BsuirIISTargets.Groups())
             .map { groups in
-                intent.groupNumber.map { number in
-                    groups.filter { $0.name.starts(with: number.displayString) }
+                intent.groupName.map { name in
+                    groups.filter { $0.name.starts(with: name.displayString) }
                 } ?? groups
             }
             .map { $0.sorted { $0.name < $1.name } }
-            .map { $0.map { ScheduleIdentifier(identifier: String($0.id), display: $0.name) } }
+            .map { $0.map { ScheduleIdentifier(identifier: $0.name, display: $0.name) } }
             .sink(
                 receiveFailure: { _ in completion(.unsupported(forReason: .failed)) },
                 receiveValue: { completion(.disambiguation(with: $0)) }
             )
     }
 
-    func resolveLecturer(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationLecturerResolutionResult) -> Void) {
+    func resolveLecturerUrlId(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationLecturerUrlIdResolutionResult) -> Void) {
         lecturersRequestCancellable = requestManager
-            .request(BsuirTargets.Employees())
+            .request(BsuirIISTargets.Employees())
             .map { lecturers in
-                intent.lecturer.map { name in
-                    lecturers.filter { $0.fio.contains(name.displayString) }
+                intent.lecturerUrlId.map { urlId in
+                    lecturers.filter { $0.fio.contains(urlId.displayString) }
                 } ?? lecturers
             }
             .map { $0.sorted { $0.fio < $1.fio } }
-            .map { $0.map { ScheduleIdentifier(identifier: String($0.id), display: $0.fio) } }
+            .map { $0.map { ScheduleIdentifier(identifier: $0.urlId, display: $0.fio) } }
             .sink(
                 receiveFailure: { _ in completion(.unsupported(forReason: .failed)) },
                 receiveValue: { completion(.disambiguation(with: $0)) }
@@ -44,7 +44,7 @@ class IntentHandler: INExtension, ConfigurationIntentHandling {
 
     private var groupsRequestCancellable: AnyCancellable?
     private var lecturersRequestCancellable: AnyCancellable?
-    private let requestManager = RequestsManager.bsuir()
+    private let requestManager = RequestsManager.iisBsuir()
 }
 
 private extension Publisher {

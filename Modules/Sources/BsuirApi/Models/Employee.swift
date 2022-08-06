@@ -8,23 +8,28 @@
 import Foundation
 
 public struct Employee: Codable, Equatable, Identifiable, Hashable {
-
     public let id: Int
-    public let calendarID: String?
-
+    public let urlId: String
+    
     public let firstName: String
     public let middleName: String?
     public let lastName: String
     
     public let photoLink: URL?
+}
 
-    public struct Schedule : Codable, Equatable {
+extension Employee {
+    public struct Schedule: Codable, Equatable {
         public let employee: Employee
-        public let schedules: [DaySchedule]?
+        public let schedules: WeekScheduleDto?
         public let examSchedules: [DaySchedule]?
+        
+        private enum CodingKeys: String, CodingKey {
+            case employee = "employeeDto"
+            case schedules
+            case examSchedules = "exams"
+        }
     }
-
-    @NonEmpty public var academicDepartment: [String]
 }
 
 extension Employee {

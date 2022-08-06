@@ -22,22 +22,39 @@ public struct Pair : Codable, Equatable {
         public let minute: Int
         public let timeZone: TimeZone?
     }
+    
+    public struct StudentGroup: Codable, Equatable {
+        public let name: String
+    }
 
     public let subject: String?
+    public let subjectFullName: String?
     @NonEmpty public var auditory: [String]
 
     public let startLessonTime: Time
     public let endLessonTime: Time
 
-    public let numSubgroup: Int
+    public let subgroup: Int
     public let lessonType: Form?
     public let weekNumber: WeekNum
     public let note: String?
 
-    public let zaoch: Bool
-
-    @NonEmpty public var employee: [Employee]
-    @NonEmpty public var studentGroup: [String]
+    @NonEmpty public var employees: [Employee]
+    @NonEmpty public var studentGroups: [StudentGroup]
+    
+    private enum CodingKeys: String, CodingKey {
+        case subject
+        case subjectFullName
+        case auditory
+        case startLessonTime
+        case endLessonTime
+        case subgroup = "numSubgroup"
+        case lessonType = "lessonTypeAbbrev"
+        case weekNumber
+        case note
+        case employees
+        case studentGroups
+    }
 }
 
 extension Pair.Time : Codable {

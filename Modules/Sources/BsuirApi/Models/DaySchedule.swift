@@ -9,14 +9,14 @@ import Foundation
 
 public struct DaySchedule : Codable, Equatable {
 
-    public enum WeekDay: String, Codable, Equatable {
-        case monday = "понедельник"
-        case tuesday = "вторник"
-        case wednesday = "среда"
-        case thursday = "четверг"
-        case friday = "пятница"
-        case saturday = "суббота"
-        case sunday = "воскресенье"
+    public enum WeekDay: String, Codable, Equatable, CodingKey, CaseIterable {
+        case monday = "Понедельник"
+        case tuesday = "Вторник"
+        case wednesday = "Среда"
+        case thursday = "Четверг"
+        case friday = "Пятница"
+        case saturday = "Суббота"
+        case sunday = "Воскресенье"
     }
 
     public enum Day: Equatable {
@@ -36,7 +36,7 @@ extension DaySchedule.Day : Codable {
             self = .date(date)
         } else {
             let value = try container.decode(String.self)
-            guard let weekDay = DaySchedule.WeekDay(rawValue: value.lowercased()) else {
+            guard let weekDay = DaySchedule.WeekDay(rawValue: value.capitalized) else {
                 throw DecodingError.dataCorruptedError(in: container, debugDescription: "Unexpected value for relative day")
             }
             self = .relative(weekDay)
