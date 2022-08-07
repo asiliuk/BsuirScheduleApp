@@ -29,7 +29,7 @@ public struct Pair: Codable, Equatable {
 
     public let subject: String?
     public let subjectFullName: String?
-    @NonEmpty public var auditory: [String]
+    @NonEmpty public var auditories: [String]
 
     public let startLessonTime: Time
     public let endLessonTime: Time
@@ -46,7 +46,7 @@ public struct Pair: Codable, Equatable {
     private enum CodingKeys: String, CodingKey {
         case subject
         case subjectFullName
-        case auditory
+        case auditories
         case startLessonTime
         case endLessonTime
         case dateLesson

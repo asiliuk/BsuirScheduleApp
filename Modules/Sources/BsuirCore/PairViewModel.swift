@@ -69,7 +69,9 @@ extension PairViewModel {
             to: Self.timeFormatter.string(from: pair.endLessonTime.components) ?? "N/A",
             form: Form(pair.lessonType),
             subject: pair.subject,
-            auditory: pair.auditory.joined(separator: ", "),
+            auditory: pair.auditories
+                .map { $0.trimmingCharacters(in: .punctuationCharacters) }
+                .joined(separator: ", "),
             note: pair.note,
             weeks: showWeeks ? pair.weekNumber.prettyName?.capitalized : nil,
             subgroup: pair.subgroup == 0 ? nil : "\(pair.subgroup)",
