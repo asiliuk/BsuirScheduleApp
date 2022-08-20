@@ -12,7 +12,9 @@ final class ContinuousSchedule: ObservableObject {
         self.loadMoreSubject.send()
     }
 
-    init(schedule: DaySchedule) {
+    init(schedule: DaySchedule, calendar: Calendar, now: Date) {
+        self.calendar = calendar
+        self.now = now
         self.weekSchedule = WeekSchedule(schedule: schedule, calendar: calendar)
         self.loadDays(12)
 
@@ -41,21 +43,17 @@ final class ContinuousSchedule: ObservableObject {
         return DayViewModel(
             title: "\(Self.formatter.string(from: element.date)), Неделя \(element.weekNumber)",
             subtitle: Self.relativeFormatter.relativeName(for: element.date, now: now),
-            pairs: element.pairs.map { PairViewModel(
-                $0.base,
-                showWeeks: false,
-                progress: PairProgress(from: $0.start, to: $0.end)
-            ) },
+            pairs: element.pairs.map(PairViewModel.init(pair:)),
             isToday: calendar.isDateInToday(element.date),
             isMostRelevant: mostRelevant == element.date
         )
     }
 
-    private let now = Date()
+    private let now: Date
     private lazy var offset = calendar.date(byAdding: .day, value: -4, to: now)
     private var mostRelevant: Date?
     private let weekSchedule: WeekSchedule
-    private let calendar = Calendar.current
+    private let calendar: Calendar
     private let loadMoreSubject = PassthroughSubject<Void, Never>()
     private var cancellables: Set<AnyCancellable> = []
 

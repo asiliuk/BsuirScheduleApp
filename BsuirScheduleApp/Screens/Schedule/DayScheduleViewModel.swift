@@ -13,7 +13,7 @@ import BsuirCore
 final class DayScheduleViewModel: ObservableObject {
     private(set) var days: [DayViewModel]
     
-    init(schedule: DaySchedule) {
+    init(schedule: DaySchedule, calendar: Calendar, now: Date) {
         self.days = DaySchedule.WeekDay.allCases
             .compactMap { weekDay in
                 guard
@@ -25,7 +25,13 @@ final class DayScheduleViewModel: ObservableObject {
                 
                 return DayViewModel(
                     title: weekDay.rawValue,
-                    pairs: pairs.map { PairViewModel($0) }
+                    pairs: pairs.map {
+                        PairViewModel(
+                            start: calendar.date(bySetting: $0.startLessonTime, of: now),
+                            end: calendar.date(bySetting: $0.endLessonTime, of: now),
+                            pair: $0
+                        )
+                    }
                 )
             }
     }
