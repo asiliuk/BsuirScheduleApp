@@ -1,6 +1,6 @@
 "0vef4E" = "Група";
 
-"EfdVI7" = "Schedule Type";
+"EfdVI7" = "Тып раскладу";
 
 "KfefCA" = "Тып раскладу";
 
@@ -12,13 +12,13 @@
 
 "TXUTw5" = "Абярыце нумар групы";
 
-"bh4smd" = "Schedule Identifier";
+"bh4smd" = "Ідэнтыфікатар раскладу";
 
-"dQL4TO-0vef4E" = "There are ${count} options matching ‘Группа’.";
+"dQL4TO-0vef4E" = "Існуе ${count} варыянтаў, якія адпавядаюць ‘Група’.";
 
-"dQL4TO-jf0Ql6" = "There are ${count} options matching ‘Преподаватель’.";
+"dQL4TO-jf0Ql6" = "Існуе ${count} варыянтаў, якія адпавядаюць ‘Выкладчык’.";
 
-"gpCwrM" = "Configuration";
+"gpCwrM" = "Канфігурацыя";
 
 "jf0Ql6" = "Выкладчык";
 
@@ -26,7 +26,6 @@
 
 "u2Mjta" = "Нумар групы";
 
-"zGWdtZ-0vef4E" = "Just to confirm, you wanted ‘Група’?";
+"zGWdtZ-0vef4E" = "Проста каб пацвердзіць, вы жадалі ‘Група’?";
 
-"zGWdtZ-jf0Ql6" = "Just to confirm, you wanted ‘Выкладчык’?";
-
+"zGWdtZ-jf0Ql6" = "Проста каб пацвердзіць, вы жадалі ‘Выкладчык’?";

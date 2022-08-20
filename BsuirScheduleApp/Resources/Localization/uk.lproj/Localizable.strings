@@ -1,0 +1,79 @@
+/* 
+  Localizable.strings
+  BsuirScheduleApp
+
+  Created by Nikita Prokhorchuk on 19.08.22.
+  Copyright © 2022 Saute. All rights reserved.
+*/
+
+// MARK: - Application
+"Find the group" = "Знайти групу";
+"All groups" = "Всі групи";
+"Find a lecturer" = "Знайти викладача";
+"All lecturers" = "Всі викладачі";
+"⭐️ Favorites" = "⭐️ Вибрані";
+"Colors" = "Кольори";
+"What the lesson looks like" = "Як виглядає пара";
+"start" = "початок";
+"end" = "кінець";
+"Subject" = "Предмет";
+"week" = "тиж.";
+"subgroup" = "підгр.";
+"Study - building" = "Кабінет - корпус";
+"Comment" = "Коментар";
+"Visual display of the lesson with signed items" = "Візуальне відображення пари з підписаними елементами";
+"About the app" = "Про програму";
+"Version %@" = "Версія %@";
+"Data" = "Дані";
+"Clear cache" = "Очистити кеш";
+"Cache successfully cleared" = "Кеш успішно очищений";
+"Завантажити файли та літератури photos has been deleted" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";
+"Information" = "Інформація";
+"Favorites" = "Вибрані";
+"You are not the chosen one, Neo" = "Ти не вибраний, Нео";
+"Pick someone else" = "Вибери когось іншого";
+"Lead the way!" = "Веди мене!";
+"Groups" = "Групи";
+"Lecturers" = "Викладачі";
+"Appearance" = "Зовнішній вигляд";
+"Icon" = "Іконка";
+"Excellent choice!" = "Чудовий вибір!";
+"Long live Belarus!" = "Живе Білорусь!";
+// TODO: Remove
+//"Oh come on" = "Ну привіт";
+//"We're going to have a very serious conversation about your choices" = "Нас чекає дуже серйозна розмова з приводу вашого вибору";
+"Default" = "Стандартна";
+"Dark" = "Темна";
+"Nostalgia" = "Ностальгія";
+"❤️✊✌️" = "❤️✊✌️";
+"Pride" = "Pride";
+"БЧБ" = "БЧБ";
+"Remove from favorites" = "Прибрати з вибраного";
+"Add to favorites" = "Додати до вибраного";
+"Schedule type" = "Тип розкладу";
+"Schedule" = "Розклад";
+"By day" = "Днями";
+"Exams" = "Іспити";
+"There doesn't seem to be a class" = "Схоже, занять немає";
+"Everybody's free!" = "Всі вільні!";
+"Loading..." = "Завантаження...";
+"Something went wrong..." = "Щось пішло не так...";
+"Retry" = "Повторити спробу";
+"Oops" = "Ой";
+"Please select a schedule to display..." = "Будь ласка, виберіть розклад, щоб відобразити...";
+"Lecture" = "Лекція";
+"Laboratory lesson" = "Лабораторна робота";
+"Practical lesson" = "Практична робота";
+"Exam" = "Іспит";
+"Unknown" = "Невідомо";
+
+// MARK: - Widget
+"Для поточного schedule для групи або лікаря." = "Найактуальніший розклад для групи або викладача.";
+"Select a schedule" = "Виберіть розклад";
+"No lessons" = "Немає занять";
+
+// TODO: - Remove when exams are supported
+"My deepest apologies" = "Приношу глибокі вибачення";
+"The exam schedule is not currently supported" = "На даний момент розклад іспитів не підтримується";
+"Я хотів би тимчасово скористатися цією особливістю тому, що це не час, щоб перейти до нового API" = "Довелося тимчасово прибрати цю фічу тому що немає часу переїхати на новий API";
+"But you can help me" = "Але ви можете мені допомогти";

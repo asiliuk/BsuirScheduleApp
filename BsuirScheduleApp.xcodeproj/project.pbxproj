@@ -126,6 +126,9 @@
 		6992A5DF28AFEFD2007FFF0F /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
 		6992A5E728B0025D007FFF0F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6992A5E928B0026A007FFF0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		699CEC0A28B13EA100508D10 /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
+		699CEC0B28B1403200508D10 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
+		699CEC0C28B1403200508D10 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E610F3E2289EE5A200239F24 /* DayScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayScheduleViewModel.swift; sourceTree = "<group>"; };
 		E610F3E4289EE5F600239F24 /* DayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewModel.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
@@ -595,6 +598,7 @@
 				Base,
 				ru,
 				be,
+				uk,
 			);
 			mainGroup = E6F931A922F8B1C10038FC43;
 			packageReferences = (
@@ -738,6 +742,8 @@
 			children = (
 				6992A5E728B0025D007FFF0F /* ru */,
 				6992A5E928B0026A007FFF0F /* en */,
+				699CEC0A28B13EA100508D10 /* be */,
+				699CEC0C28B1403200508D10 /* uk */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -749,6 +755,7 @@
 				E6A6D1E525D5C1DC00204A79 /* ru */,
 				E6A6D1F225D5C1E200204A79 /* en */,
 				6992A5DF28AFEFD2007FFF0F /* be */,
+				699CEC0B28B1403200508D10 /* uk */,
 			);
 			name = ScheduleWidget.intentdefinition;
 			sourceTree = "<group>";
