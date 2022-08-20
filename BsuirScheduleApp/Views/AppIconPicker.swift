@@ -34,9 +34,6 @@ struct AppIconPicker: View {
                 switch alert {
                 case .belarusIconChoice:
                     return Alert(title: Text("Excellent choice!"), message: Text("Long live Belarus!"))
-                case .badIconChoice:
-                    // TODO: remove
-                    return Alert(title: Text("Oh come on"), message: Text("We're going to have a very serious conversation about your choices."))
                 }
             }
         }
@@ -45,12 +42,10 @@ struct AppIconPicker: View {
     private enum AlertIdentifier: Identifiable {
         var id: Self { self }
         case belarusIconChoice
-        case badIconChoice
 
         init?(appIcon: AppIcon) {
             switch appIcon {
             case .resist, .national: self = .belarusIconChoice
-            case .dad: self = .badIconChoice
             default: return nil
             }
         }
@@ -81,7 +76,6 @@ private enum AppIcon: CaseIterable, Identifiable {
     case resist
     case national
     case pride
-    case dad
 
     init?(name: String) {
         switch name {
@@ -90,7 +84,6 @@ private enum AppIcon: CaseIterable, Identifiable {
         case "AppIconResist": self = .resist
         case "AppIconNational": self = .national
         case "AppIconPride": self = .pride
-        case "AppIconDad": self = .dad
         default: return nil
         }
     }
@@ -103,7 +96,6 @@ private enum AppIcon: CaseIterable, Identifiable {
         case .resist: return "❤️✊✌️"
         case .national: return "БЧБ"
         case .pride: return "Pride"
-        case .dad: return "Я твой баця" // TODO: remove
         }
     }
 
@@ -115,7 +107,6 @@ private enum AppIcon: CaseIterable, Identifiable {
         case .resist: return "AppIconResist"
         case .national: return "AppIconNational"
         case .pride: return "AppIconPride"
-        case .dad: return "AppIconDad" // TODO: remove
         }
     }
 
