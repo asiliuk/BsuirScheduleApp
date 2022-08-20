@@ -21,7 +21,7 @@ struct AboutView: View {
                     subject: "Subject",
                     weeks: "week",
                     subgroup: "subgroup",
-                    auditory: "study - building",
+                    auditory: "Study - building",
                     note: "Comment",
                     form: .practice,
                     progress: PairProgress(constant: 0.5),

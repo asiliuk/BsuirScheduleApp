@@ -5,25 +5,25 @@ import BsuirApi
 public struct PairCell<Details: View>: View {
     var pair: PairView<Details>
     public init(
-        from: String,
-        to: String,
-        subject: String,
-        weeks: String? = nil,
-        subgroup: String? = nil,
-        auditory: String,
-        note: String? = nil,
+        from: String.LocalizationValue,
+        to: String.LocalizationValue,
+        subject: String.LocalizationValue,
+        weeks: String.LocalizationValue? = nil,
+        subgroup: String.LocalizationValue? = nil,
+        auditory: String.LocalizationValue,
+        note: String.LocalizationValue? = nil,
         form: PairViewForm,
         progress: PairProgress,
         details: Details
     ) {
         self.pair = PairView(
-            from: from,
-            to: to,
-            subject: subject,
-            weeks: weeks,
-            subgroup: subgroup,
-            auditory: auditory,
-            note: note,
+            from: String(localized: from),
+            to: String(localized: to),
+            subject: String(localized: subject),
+            weeks: weeks == nil ? nil : String(localized: weeks!),
+            subgroup: subgroup == nil ? nil : String(localized: subgroup!),
+            auditory: String(localized: auditory),
+            note: note == nil ? nil : String(localized: note!),
             form: form,
             progress: progress,
             details: details
