@@ -13,8 +13,8 @@ struct AppIconPicker: View {
 
     var body: some View {
         if application.supportsAlternateIcons {
-            Section(header: Text("Внешний вид")) {
-                Picker(selection: $icon, label: Text("Иконка")) {
+            Section(header: Text("Appearance")) {
+                Picker(selection: $icon, label: Text("Icon")) {
                     ForEach(AppIcon.allCases) { icon in
                         HStack {
                             AppIconView(icon: icon, bundle: bundle)
@@ -33,9 +33,10 @@ struct AppIconPicker: View {
             .alert(item: $alert) { alert in
                 switch alert {
                 case .belarusIconChoice:
-                    return Alert(title: Text("Отличный выбор!"), message: Text("Жыве Беларусь!"))
+                    return Alert(title: Text("Excellent choice!"), message: Text("Long live Belarus!"))
                 case .badIconChoice:
-                    return Alert(title: Text("Ну здравствуйте"), message: Text("Нас ждет очень серьезный разговор по поводу вашего выбора"))
+                    // TODO: remove
+                    return Alert(title: Text("Oh come on"), message: Text("We're going to have a very serious conversation about your choices."))
                 }
             }
         }
@@ -96,13 +97,13 @@ private enum AppIcon: CaseIterable, Identifiable {
 
     var title: LocalizedStringKey {
         switch self {
-        case .standard: return "Стандартная"
-        case .dark: return "Темная"
-        case .nostalgia: return "Ностальгия"
+        case .standard: return "Default"
+        case .dark: return "Dark"
+        case .nostalgia: return "Nostalgia"
         case .resist: return "❤️✊✌️"
         case .national: return "БЧБ"
         case .pride: return "Pride"
-        case .dad: return "Я твой баця"
+        case .dad: return "Я твой баця" // TODO: remove
         }
     }
 
@@ -114,7 +115,7 @@ private enum AppIcon: CaseIterable, Identifiable {
         case .resist: return "AppIconResist"
         case .national: return "AppIconNational"
         case .pride: return "AppIconPride"
-        case .dad: return "AppIconDad"
+        case .dad: return "AppIconDad" // TODO: remove
         }
     }
 

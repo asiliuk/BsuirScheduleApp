@@ -135,6 +135,6 @@ struct RegularRootView: View {
 
 private struct SchedulePlaceholder: View {
     var body: some View {
-        Text("Пожалуйста, выберите расписание чтобы отобразить...")
+        Text("Please select a schedule to display...")
     }
 }

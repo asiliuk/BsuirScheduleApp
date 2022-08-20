@@ -1,0 +1,73 @@
+/* 
+  Localizable.strings
+  BsuirScheduleApp
+
+  Created by Nikita Prokhorchuk on 19.08.22.
+  Copyright © 2022 Saute. All rights reserved.
+*/
+
+"Find the group" = "Find the group";
+"All groups" = "All groups";
+"Find a lecturer" = "Find a lecturer";
+"All lecturers" = "All lecturers";
+"⭐️ Favorites" = "⭐️ Favorites";
+"Colors" = "Colors";
+"What the lesson looks like" = "What the lesson looks like";
+"start" = "start";
+"end" = "end";
+"Subject" = "Subject";
+"week" = "week";
+"subgroup" = "subgroup";
+"study - building" = "study - building";
+"Comment" = "Comment";
+"Visual display of the lesson with signed items" = "Visual display of the lesson with signed items";
+"About the app" = "About the app";
+"Version %@" = "Version %@";
+"Data" = "Data";
+"Clear cache" = "Clear cache";
+"Cache successfully cleared" = "Cache successfully cleared";
+"The cache of the downloaded schedule and lecturers photos has been deleted" = "The cache of the downloaded schedule and lecturers photos has been deleted";
+"Information" = "Information";
+"Favorites" = "Favorites";
+"You are not the chosen one, Neo" = "You are not the chosen one, Neo";
+"Pick someone else" = "Pick someone else";
+"Lead the way!" = "Lead the way!";
+"Groups" = "Groups";
+"Lecturers" = "Lecturers";
+"Appearance" = "Appearance";
+"Icon" = "Icon";
+"Excellent choice!" = "Excellent choice!";
+"Long live Belarus!" = "Жыве Беларусь!";
+// TODO: Remove
+//"Oh come on" = "Oh come on";
+//"We're going to have a very serious conversation about your choices" = "We're going to have a very serious conversation about your choices";
+"Default" = "Default";
+"Dark" = "Dark";
+"Nostalgia" = "Nostalgia";
+"❤️✊✌️" = "❤️✊✌️";
+"Pride" = "Pride";
+"БЧБ" = "БЧБ";
+"Remove from favorites" = "Remove from favorites";
+"Add to favorites" = "Add to favorites";
+"Schedule type" = "Schedule type";
+"Schedule" = "Schedule";
+"By day" = "By day";
+"Exams" = "Exams";
+"There doesn't seem to be a class" = "There doesn't seem to be a class";
+"Everybody's free!" = "Everybody's free!";
+"Loading..." = "Loading...";
+"Something went wrong..." = "Something went wrong...";
+"Retry" = "Retry";
+"Oops" = "Oops";
+"Please select a schedule to display..." = "Please select a schedule to display...";
+"Lecture" = "Lecture";
+"Laboratory lesson" = "Laboratory lesson";
+"Practical lesson" = "Practical lesson";
+"Exam" = "Exam";
+"Unknown" = "Unknown";
+
+// TODO: Remove when exams are supported
+"My deepest apologies" = "My deepest apologies";
+"The exam schedule is not currently supported" = "The exam schedule is not currently supported";
+"I had to temporarily remove this feature because there is no time to move to a new API" = "I had to temporarily remove this feature because there is no time to move to a new API";
+"But you can help me" = "Но вы можете мне помочь";

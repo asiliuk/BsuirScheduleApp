@@ -60,8 +60,8 @@ struct ScheduleView: View {
             }
             .accessibility(
                 label: screen.isFavorite
-                    ? Text("Убрать из избранного")
-                    : Text("Добавить в избранное")
+                    ? Text("Remove from favorites")
+                    : Text("Add to favorites")
             )
             .accentColor(.yellow)
         }
@@ -69,13 +69,13 @@ struct ScheduleView: View {
 
     private var picker: some View {
         Menu {
-            Picker("Тип расписания", selection: $screen.scheduleType) {
+            Picker("Schedule type", selection: $screen.scheduleType) {
                 ForEach(ScheduleScreen.ScheduleType.allCases, id: \.self) { scheduleType in
                     Label(scheduleType.title, systemImage: scheduleType.imageName)
                 }
             }
         } label: {
-            Label("Тип расписания", systemImage: screen.scheduleType.imageName)
+            Label("Schedule type", systemImage: screen.scheduleType.imageName)
         }
     }
 
@@ -118,11 +118,11 @@ private extension ScheduleScreen.ScheduleType {
     var title: String {
         switch self {
         case .continuous:
-            return "Расписание"
+            return "Schedule"
         case .compact:
-            return "По дням"
+            return "By day"
         case .exams:
-            return "Экзамены"
+            return "Exams"
         }
     }
 
@@ -249,8 +249,8 @@ struct ScheduleEmptyState: View {
     var body: some View {
         EmptyState(
             image: Image(systemName: imageNames.randomElement()!),
-            title: "Похоже, занятий нет",
-            subtitle: "Все свободны!"
+            title: "There doesn't seem to be a class",
+            subtitle: "Everybody's free!"
         )
     }
 

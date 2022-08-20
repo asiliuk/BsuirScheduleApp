@@ -8,52 +8,52 @@ struct AboutView: View {
 
     var body: some View {
         List {
-            Section(header: Text("Цвета")) {
+            Section(header: Text("Colors")) {
                 ForEach(PairViewForm.allCases, id: \.self) { form in
                     PairTypeView(name: form.name, form: form)
                 }
             }
 
-            Section(header: Text("Как выглядит пара")) {
+            Section(header: Text("What the lesson looks like")) {
                 PairCell(
-                    from: "начало",
-                    to: "конец",
-                    subject: "Предмет",
-                    weeks: "нед.",
-                    subgroup: "подгр.",
-                    auditory: "Кабинет - корпус",
-                    note: "Комментарий",
+                    from: "start",
+                    to: "end",
+                    subject: "Subject",
+                    weeks: "week",
+                    subgroup: "subgroup",
+                    auditory: "study - building",
+                    note: "Comment",
                     form: .practice,
                     progress: PairProgress(constant: 0.5),
                     details: EmptyView()
                 )
                 .fixedSize(horizontal: false, vertical: true)
                 .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
-                .accessibility(label: Text("Визуальное отображение пары с подписанными элементами"))
+                .accessibility(label: Text("Visual display of the lesson with signed items"))
             }
 
             AppIconPicker(bundle: bundle)
 
-            Section(header: Text("О приложении")) {
-                Text("Версия \(bundle.fullVersion.description)")
+            Section(header: Text("About the app")) {
+                Text("Version \(bundle.fullVersion.description)")
                 GithubButton()
                 TelegramButton()
             }
 
-            Section(header: Text("Данные")) {
-                Button("Очистить кэш") {
+            Section(header: Text("Data")) {
+                Button("Clear cache") {
                     screen.clearCache()
                 }
                 .alert(isPresented: $screen.isCacheCleared) {
                     Alert(
-                        title: Text("Кэш успешно очищен"),
-                        message: Text("Был удален кэш скачанного расписания и фотографий преподавателей")
+                        title: Text("Cache successfully cleared"),
+                        message: Text("The cache of the downloaded schedule and lecturers photos has been deleted")
                     )
                 }
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .navigationTitle("Информация")
+        .navigationTitle("Information")
     }
 
     private let bundle = Bundle.main

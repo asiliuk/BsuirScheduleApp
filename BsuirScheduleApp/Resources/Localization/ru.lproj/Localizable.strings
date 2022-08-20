@@ -1,0 +1,73 @@
+/* 
+  Localizable.strings
+  BsuirScheduleApp
+
+  Created by Nikita Prokhorchuk on 19.08.22.
+  Copyright © 2022 Saute. All rights reserved.
+*/
+
+"Find the group" = "Найти группу";
+"All groups" = "Все группы";
+"Find a lecturer" = "Найти преподавателя";
+"All lecturers" = "Все преподаватели";
+"⭐️ Favorites" = "⭐️ Избранные";
+"Colors" = "Цвета";
+"What the lesson looks like" = "Как выглядит пара";
+"start" = "начало";
+"end" = "конец";
+"Subject" = "Предмет";
+"week" = "нед.";
+"subgroup" = "подгр.";
+"study - building" = "Кабинет - корпус";
+"Comment" = "Комментарий";
+"Visual display of the lesson with signed items" = "Визуальное отображение пары с подписанными элементами";
+"About the app" = "О приложении";
+"Version %@" = "Версия %@";
+"Data" = "Данные";
+"Clear cache" = "Очистить кэш";
+"Cache successfully cleared" = "Кэш успешно очищен";
+"The cache of the downloaded schedule and lecturers photos has been deleted" = "Был удален кэш скачанного расписания и фотографий преподавателей";
+"Information" = "Информация";
+"Favorites" = "Избранные";
+"You are not the chosen one, Neo" = "Ты не избранный, Нео";
+"Pick someone else" = "Выбери кого-нибудь другого";
+"Lead the way!" = "Веди меня!";
+"Groups" = "Группы";
+"Lecturers" = "Преподаватели";
+"Appearance" = "Внешний вид";
+"Icon" = "Иконка";
+"Excellent choice!" = "Отличный выбор!";
+"Long live Belarus!" = "Жыве Беларусь!";
+// TODO: Remove
+//"Oh come on" = "Ну здравствуйте";
+//"We're going to have a very serious conversation about your choices" = "Нас ждет очень серьезный разговор по поводу вашего выбора";
+"Default" = "Стандартная";
+"Dark" = "Темная";
+"Nostalgia" = "Ностальгия";
+"❤️✊✌️" = "❤️✊✌️";
+"Pride" = "Pride";
+"БЧБ" = "БЧБ";
+"Remove from favorites" = "Убрать из избранного";
+"Add to favorites" = "Добавить в избранное";
+"Schedule type" = "Тип расписания";
+"Schedule" = "Расписание";
+"By day" = "По дням";
+"Exams" = "Экзамены";
+"There doesn't seem to be a class" = "Похоже, занятий нет";
+"Everybody's free!" = "Все свободны!";
+"Loading..." = "Загрузка...";
+"Something went wrong..." = "Что-то пошло не так...";
+"Retry" = "Повторить попытку";
+"Oops" = "Ой";
+"Please select a schedule to display..." = "Пожалуйста, выберите расписание чтобы отобразить...";
+"Lecture" = "Лекция";
+"Laboratory lesson" = "Лабораторная работа";
+"Practical lesson" = "Практическая работа";
+"Exam" = "Экзамен";
+"Unknown" = "Неизвестно";
+
+// TODO: Remove when exams are supported
+"My deepest apologies" = "Приношу глубочайгшие извинения";
+"The exam schedule is not currently supported" = "В данный момент расписание экзаменов не поддерживается";
+"I had to temporarily remove this feature because there is no time to move to a new API" = "Пришлось временно убрать эту фичу потому что нет времени переехать на новый API";
+"But you can help me" = "Но вы можете мне помочь";

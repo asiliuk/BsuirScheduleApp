@@ -17,7 +17,7 @@ struct AllGroupsView: View {
         ContentStateWithSearchView(
             content: screen.groups,
             searchQuery: $screen.searchQuery,
-            searchPlaceholder: "Найти группу"
+            searchPlaceholder: "Find the group"
         ) { section in
             Section(header: Text(section.title)) {
                 ForEach(section.groups) { group in
@@ -32,7 +32,7 @@ struct AllGroupsView: View {
         .navigation(item: $screen.selectedGroup) { group in
             ScheduleView(screen: screen.screen(for: group))
         }
-        .navigationTitle("Все группы")
+        .navigationTitle("All groups")
     }
 }
 

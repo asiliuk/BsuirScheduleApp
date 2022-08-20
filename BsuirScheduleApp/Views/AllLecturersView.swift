@@ -8,7 +8,7 @@ struct AllLecturersView: View {
         ContentStateWithSearchView(
             content: screen.lecturers,
             searchQuery: $screen.searchQuery,
-            searchPlaceholder: "Найти преподавателя"
+            searchPlaceholder: "Find a lecturer"
         ) { section in
             Section(header: section.header) {
                 ForEach(section.lecturers) { lecturer in
@@ -23,7 +23,7 @@ struct AllLecturersView: View {
         .navigation(item: $screen.selectedLecturer) { lecturer in
             ScheduleView(screen: screen.screen(for: lecturer))
         }
-        .navigationTitle("Все преподаватели")
+        .navigationTitle("All lecturers")
     }
 }
 
@@ -50,7 +50,7 @@ private extension AllLecturersScreenGroupSection {
     @ViewBuilder var header: some View {
         switch section {
         case .favorites:
-            Text("⭐️ Избранные")
+            Text("⭐️ Favorites")
         case .other:
             EmptyView()
         }

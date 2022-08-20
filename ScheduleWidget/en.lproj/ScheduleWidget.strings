@@ -1,32 +1,32 @@
-"0vef4E" = "Группа";
+"0vef4E" = "Group";
 
 "EfdVI7" = "Schedule Type";
 
-"KfefCA" = "Тип расписания";
+"KfefCA" = "Schedule Type";
 
-"NylLaI" = "Не удалось получить список преподавателей";
+"NylLaI" = "Failed to get a list of lecturers";
 
-"S1v3BN" = "Преподаватель";
+"S1v3BN" = "Lecturer";
 
-"Sgwawl" = "Не удалось получить список групп";
+"Sgwawl" = "Failed to get list of groups";
 
-"TXUTw5" = "Выберите номер группы";
+"TXUTw5" = "Select a group number";
 
 "bh4smd" = "Schedule Identifier";
 
-"dQL4TO-0vef4E" = "There are ${count} options matching ‘Группа’.";
+"dQL4TO-0vef4E" = "There are ${count} options matching ‘Group’.";
 
-"dQL4TO-jf0Ql6" = "There are ${count} options matching ‘Преподаватель’.";
+"dQL4TO-jf0Ql6" = "There are ${count} options matching ‘Lecturer’.";
 
 "gpCwrM" = "Configuration";
 
-"jf0Ql6" = "Преподаватель";
+"jf0Ql6" = "Lecturer";
 
-"khURc9" = "Выберите преподавателя";
+"khURc9" = "Choose a lecturer";
 
-"u2Mjta" = "Номер группы";
+"u2Mjta" = "Group number";
 
-"zGWdtZ-0vef4E" = "Just to confirm, you wanted ‘Группа’?";
+"zGWdtZ-0vef4E" = "Just to confirm, you wanted ‘Group’?";
 
-"zGWdtZ-jf0Ql6" = "Just to confirm, you wanted ‘Преподаватель’?";
+"zGWdtZ-jf0Ql6" = "Just to confirm, you wanted ‘Lecturer’?";
 

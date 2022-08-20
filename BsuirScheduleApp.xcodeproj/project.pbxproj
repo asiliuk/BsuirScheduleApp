@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0F8B924D7354B00A1C74F /* AboutView.swift */; };
+		6992A5E628B0025D007FFF0F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6992A5E828B0025D007FFF0F /* Localizable.strings */; };
 		E610F3E3289EE5A200239F24 /* DayScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E610F3E2289EE5A200239F24 /* DayScheduleViewModel.swift */; };
 		E610F3E5289EE5F600239F24 /* DayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E610F3E4289EE5F600239F24 /* DayViewModel.swift */; };
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
@@ -122,6 +123,9 @@
 
 /* Begin PBXFileReference section */
 		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		6992A5DF28AFEFD2007FFF0F /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
+		6992A5E728B0025D007FFF0F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6992A5E928B0026A007FFF0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E610F3E2289EE5A200239F24 /* DayScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayScheduleViewModel.swift; sourceTree = "<group>"; };
 		E610F3E4289EE5F600239F24 /* DayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewModel.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
@@ -226,6 +230,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6992A5E328AFFFAE007FFF0F /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				6992A5E828B0025D007FFF0F /* Localizable.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 		E616B43E24AE12BE00A46E67 /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +345,7 @@
 		E695524A22F9D0E000EEFA72 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6992A5E328AFFFAE007FFF0F /* Localization */,
 				E691E965250D2CA500116878 /* Icons */,
 				E6F931BE22F8B1C20038FC43 /* Assets.xcassets */,
 				E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */,
@@ -582,6 +595,7 @@
 				en,
 				Base,
 				ru,
+				be,
 			);
 			mainGroup = E6F931A922F8B1C10038FC43;
 			packageReferences = (
@@ -630,6 +644,7 @@
 				E691E971250D2D6D00116878 /* AppIconNostalgia@3x.png in Resources */,
 				E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */,
 				E691E96B250D2D6100116878 /* AppIconNostalgia@2x.png in Resources */,
+				6992A5E628B0025D007FFF0F /* Localizable.strings in Resources */,
 				E6429E2B2525EEAA00009E16 /* AppIconNational_83.5@2x.png in Resources */,
 				E691E96E250D2D6100116878 /* AppIconDark@2x.png in Resources */,
 				E691E96D250D2D6100116878 /* AppIconResist@3x.png in Resources */,
@@ -719,12 +734,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6992A5E828B0025D007FFF0F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6992A5E728B0025D007FFF0F /* ru */,
+				6992A5E928B0026A007FFF0F /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E6A6D1C625D5C1CC00204A79 /* Base */,
 				E6A6D1E525D5C1DC00204A79 /* ru */,
 				E6A6D1F225D5C1E200204A79 /* en */,
+				6992A5DF28AFEFD2007FFF0F /* be */,
 			);
 			name = ScheduleWidget.intentdefinition;
 			sourceTree = "<group>";
@@ -748,7 +773,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 636FUHDF2R;
+				DEVELOPMENT_TEAM = KZY2C4A2P7;
 				INFOPLIST_FILE = ScheduleWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -768,7 +793,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 636FUHDF2R;
+				DEVELOPMENT_TEAM = KZY2C4A2P7;
 				INFOPLIST_FILE = ScheduleWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -786,7 +811,7 @@
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 636FUHDF2R;
+				DEVELOPMENT_TEAM = KZY2C4A2P7;
 				INFOPLIST_FILE = ScheduleWidgetIntentHandler/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -804,7 +829,7 @@
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 636FUHDF2R;
+				DEVELOPMENT_TEAM = KZY2C4A2P7;
 				INFOPLIST_FILE = ScheduleWidgetIntentHandler/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -951,7 +976,7 @@
 				CODE_SIGN_ENTITLEMENTS = BsuirScheduleApp/BsuirScheduleApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "BsuirScheduleApp/Resources/Preview\\ Content";
-				DEVELOPMENT_TEAM = 636FUHDF2R;
+				DEVELOPMENT_TEAM = KZY2C4A2P7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BsuirScheduleApp/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -971,7 +996,7 @@
 				CODE_SIGN_ENTITLEMENTS = BsuirScheduleApp/BsuirScheduleApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "BsuirScheduleApp/Resources/Preview\\ Content";
-				DEVELOPMENT_TEAM = 636FUHDF2R;
+				DEVELOPMENT_TEAM = KZY2C4A2P7;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BsuirScheduleApp/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
