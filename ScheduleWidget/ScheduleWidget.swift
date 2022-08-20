@@ -16,8 +16,8 @@ struct ScheduleWidget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: provider) { entry in
             ScheduleWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Расписание")
-        .description("Наиболее актуальное расписание для группы или преподавателя.")
+        .configurationDisplayName("Schedule")
+        .description("The most up-to-date schedule for the group or lecturer.")
     }
 }
 
@@ -240,7 +240,7 @@ struct ScheduleIdentifierTitle: View {
 
 struct NoPairsView: View {
     var body: some View {
-        Text("Нет занятий")
+        Text("No lessons")
             .foregroundColor(.secondary)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
     }
@@ -248,7 +248,7 @@ struct NoPairsView: View {
 
 struct NeedsConfigurationView: View {
     var body: some View {
-        Text("Выберите расписание")
+        Text("Select a schedule")
             .foregroundColor(.secondary)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
     }
