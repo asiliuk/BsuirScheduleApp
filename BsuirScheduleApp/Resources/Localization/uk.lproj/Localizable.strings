@@ -27,7 +27,7 @@
 "Data" = "Дані";
 "Clear cache" = "Очистити кеш";
 "Cache successfully cleared" = "Кеш успішно очищений";
-"Завантажити файли та літератури photos has been deleted" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";
+"The cache of the downloaded schedule and lecturers photos has been deleted" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";
 "Information" = "Інформація";
 "Favorites" = "Вибрані";
 "You are not the chosen one, Neo" = "Ти не вибраний, Нео";
@@ -65,12 +65,12 @@
 "Unknown" = "Невідомо";
 
 // MARK: - Widget
-"Для поточного schedule для групи або лікаря." = "Найактуальніший розклад для групи або викладача.";
+"The most up-to-date schedule for the group or lecturer." = "Найактуальніший розклад для групи або викладача.";
 "Select a schedule" = "Виберіть розклад";
 "No lessons" = "Немає занять";
 
 // TODO: - Remove when exams are supported
 "My deepest apologies" = "Приношу глибокі вибачення";
 "The exam schedule is not currently supported" = "На даний момент розклад іспитів не підтримується";
-"Я хотів би тимчасово скористатися цією особливістю тому, що це не час, щоб перейти до нового API" = "Довелося тимчасово прибрати цю фічу тому що немає часу переїхати на новий API";
+"I had to temporarily remove this feature because there is no time to move to a new API" = "Довелося тимчасово прибрати цю фічу тому що немає часу переїхати на новий API";
 "But you can help me" = "Але ви можете мені допомогти";

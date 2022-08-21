@@ -30,7 +30,7 @@
 "Пасля загрузкі schedule and lecturers photos been deleted" = "Быў выдалены кэш запампаванага раскладу і фатаграфій выкладчыкаў";
 "Information" = "Інфармацыя";
 "Favorites" = "Выбраныя";
-"Вы не знаходзіце адзін, Neo" = "Ты не абраны, Неа";
+"You are not the chosen one, Neo" = "Ты не абраны, Неа";
 "Pick someone else" = "Абяры каго-небудзь іншага";
 "Lead the way!" = "Вядзі мяне!";
 "Groups" = "Групы";
@@ -59,18 +59,18 @@
 "Oops" = "Ой";
 "Please select a schedule to display..." = "Калі ласка, абярыце расклад, каб адлюстраваць...";
 "Lecture" = "Лекцыя";
-"Laboratory lesson" = "Лабараторная праца";
-"Practical lesson" = "Практычная праца";
+"Laboratory lesson" = "Лабараторная работа";
+"Practical lesson" = "Практычная работа";
 "Exam" = "Іспыт";
 "Unknown" = "Невядома";
 
 // MARK: - Widget
-"Мастаць бягучага тэрміна для групы або лектара." = "Найбольш актуальны расклад для групы або выкладчыка.";
+"The most up-to-date schedule for the group or lecturer." = "Найбольш актуальны расклад для групы або выкладчыка.";
 "Select a schedule" = "Абярыце расклад";
 "No lessons" = "Няма заняткаў";
 
 // TODO: - Remove when exams are supported
 "My deepest apologies" = "Прынаю найглыбокія прабачэнні";
 "The exam schedule is not currently supported" = "У дадзены момант расклад іспытаў не падтрымліваецца";
-"Я мушу temporarily remove this feature because there no time to move to a new API" = "Давялося часова прыбраць гэтую фічу таму што няма часу пераехаць на новы API";
+"I had to temporarily remove this feature because there is no time to move to a new API" = "Давялося часова прыбраць гэтую фічу таму што няма часу пераехаць на новы API";
 "But you can help me" = "Але вы можаце мне дапамагчы";
