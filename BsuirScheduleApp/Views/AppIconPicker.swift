@@ -75,6 +75,7 @@ private enum AppIcon: CaseIterable, Identifiable {
     case nostalgia
     case resist
     case national
+    case ukrainian
     case pride
 
     init?(name: String) {
@@ -83,6 +84,7 @@ private enum AppIcon: CaseIterable, Identifiable {
         case "AppIconNostalgia": self = .nostalgia
         case "AppIconResist": self = .resist
         case "AppIconNational": self = .national
+        case "AppIconUkrainian": self = .ukrainian
         case "AppIconPride": self = .pride
         default: return nil
         }
@@ -95,6 +97,7 @@ private enum AppIcon: CaseIterable, Identifiable {
         case .nostalgia: return "Ностальгия"
         case .resist: return "❤️✊✌️"
         case .national: return "БЧБ"
+        case .ukrainian: return "Ukrainian"
         case .pride: return "Pride"
         }
     }
@@ -106,6 +109,7 @@ private enum AppIcon: CaseIterable, Identifiable {
         case .nostalgia: return "AppIconNostalgia"
         case .resist: return "AppIconResist"
         case .national: return "AppIconNational"
+        case .ukrainian: return "AppIconUkrainian"
         case .pride: return "AppIconPride"
         }
     }
