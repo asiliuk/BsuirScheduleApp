@@ -56,10 +56,12 @@ extension ScheduleScreen {
         let continuous: ContinuousSchedule
         let compact: DayScheduleViewModel
         let exams: [DayViewModel]
+        private let calendar = Calendar.current
+        private let now = Date()
 
         init(schedule: DaySchedule, exams: [Pair]) {
-            self.continuous = ContinuousSchedule(schedule: schedule)
-            self.compact = DayScheduleViewModel(schedule: schedule)
+            self.continuous = ContinuousSchedule(schedule: schedule, calendar: calendar, now: now)
+            self.compact = DayScheduleViewModel(schedule: schedule, calendar: calendar, now: now)
             // TODO: Support exams once again
             self.exams = [
                 DayViewModel(
@@ -81,19 +83,6 @@ extension ScheduleScreen {
                 )
             ]
         }
-    }
-}
-
-extension PairProgress {
-    convenience init(from: Date, to: Date) {
-        self.init(
-            Timer
-                .publish(every: 60, on: .main, in: .default)
-                .autoconnect()
-                .prepend(Date())
-                .map { Self.progress(at: $0, from: from, to: to) }
-                .eraseToAnyPublisher()
-        )
     }
 }
 

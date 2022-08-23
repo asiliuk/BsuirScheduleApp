@@ -48,25 +48,19 @@ public struct PairViewModel: Equatable, Identifiable {
         self.lecturers = lecturers
         self.groups = groups
     }
-
-    private static let timeFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute]
-        formatter.unitsStyle = .positional
-        formatter.zeroFormattingBehavior = .pad
-        return formatter
-    }()
 }
 
 extension PairViewModel {
     public init(
-        _ pair: BsuirApi.Pair,
+        start: Date?,
+        end: Date?,
+        pair: BsuirApi.Pair,
         showWeeks: Bool = true,
         progress: PairProgress = .init(constant: 0)
     ) {
         self.init(
-            from: Self.timeFormatter.string(from: pair.startLessonTime.components) ?? "N/A",
-            to: Self.timeFormatter.string(from: pair.endLessonTime.components) ?? "N/A",
+            from: start?.formatted(.pairTime) ?? "N/A",
+            to: end?.formatted(.pairTime) ?? "N/A",
             form: Form(pair.lessonType),
             subject: pair.subject,
             auditory: pair.auditories
@@ -78,6 +72,41 @@ extension PairViewModel {
             progress: progress,
             lecturers: pair.employees,
             groups: pair.studentGroups.map(\.name)
+        )
+    }
+}
+
+extension PairViewModel {
+    public init(pair: WeekSchedule.ScheduleElement.Pair, progress: PairProgress) {
+        self.init(
+            start: pair.start,
+            end: pair.end,
+            pair: pair.base,
+            showWeeks: false,
+            progress: progress
+        )
+    }
+    
+    public init(pair: WeekSchedule.ScheduleElement.Pair) {
+        self.init(
+            start: pair.start,
+            end: pair.end,
+            pair: pair.base,
+            showWeeks: false,
+            progress: PairProgress(from: pair.start, to: pair.end)
+        )
+    }
+}
+
+private extension PairProgress {
+    convenience init(from: Date, to: Date) {
+        self.init(
+            Timer
+                .publish(every: 60, on: .main, in: .default)
+                .autoconnect()
+                .prepend(Date())
+                .map { Self.progress(at: $0, from: from, to: to) }
+                .eraseToAnyPublisher()
         )
     }
 }
