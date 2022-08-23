@@ -166,8 +166,7 @@ private extension ScheduleEntry {
 private extension PairViewModel {
     init(pair: WeekSchedule.ScheduleElement.Pair, date: Date) {
         self.init(
-            pair.base,
-            showWeeks: false,
+            pair: pair,
             progress: PairProgress(at: date, pair: pair)
         )
     }
