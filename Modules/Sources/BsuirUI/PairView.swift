@@ -266,7 +266,7 @@ extension PairViewForm {
         switch self {
         case .lecture: return "Lecture"
         case .lab: return "Laboratory lesson"
-        case .practice: return "Laboratory lesson"
+        case .practice: return "Practical lesson"
         case .exam: return "Exam"
         case .unknown: return "Unknown"
         }
