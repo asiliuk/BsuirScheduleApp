@@ -142,11 +142,11 @@ public struct PairView<Details: View>: View {
         .accessibilityElement(children: .ignore)
         .accessibility(label: accessibilityDescription(
             subject.map { "\($0) \(Text(form.name))" },
-            progress.isNow ? "Идет сейчас" : nil,
-            "с \(from) по \(to)",
-            weeks.map { "Недели: \($0)" },
-            subgroup.map { "Подгруппа: \($0)" },
-            "аудитория: \(auditory)",
+            progress.isNow ? "Going on now" : nil,
+            "from \(from) to \(to)",
+            weeks.map { "Weeks: \($0)" },
+            subgroup.map { "Subgroup: \($0)" },
+            "audithory: \(auditory)",
             note.map { "\($0)" }
         ))
     }

@@ -63,6 +63,11 @@
 "Practical lesson" = "Practical lesson";
 "Exam" = "Exam";
 "Unknown" = "Unknown";
+"Going on now" = "Going on now";
+"from %@ to %@" = "from %@ to %@";
+"Weeks: %@" = "Weeks: %@";
+"Subgroup: %@" = "Subgroup: %@";
+"audithory: %@" = "audithory: %@";
 
 // MARK: - Widget
 "The most up-to-date schedule for the group or lecturer." = "The most up-to-date schedule for the group or lecturer.";

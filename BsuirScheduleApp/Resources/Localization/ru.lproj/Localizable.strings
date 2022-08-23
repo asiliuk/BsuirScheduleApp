@@ -63,6 +63,11 @@
 "Practical lesson" = "Практическая работа";
 "Exam" = "Экзамен";
 "Unknown" = "Неизвестно";
+"Going on now" = "Идет сейчас";
+"from %@ to %@" = "с %@ по %@";
+"Weeks: %@" = "Недели: %@";
+"Subgroup: %@" = "Подгруппа: %@";
+"audithory: %@" = "аудитория: %@";
 
 // MARK: - Widget
 "The most up-to-date schedule for the group or lecturer." = "Наиболее актуальное расписание для группы или преподавателя.";
