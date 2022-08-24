@@ -70,11 +70,6 @@
 "Subgroup: %@" = "Subgroup: %@";
 "audithory: %@" = "audithory: %@";
 
-// MARK: - Widget
-"The most up-to-date schedule for the group or lecturer." = "The most up-to-date schedule for the group or lecturer.";
-"Select a schedule" = "Select a schedule";
-"No lessons" = "No lessons";
-
 // TODO: - Remove when exams are supported
 "My deepest apologies" = "My deepest apologies";
 "The exam schedule is not currently supported" = "The exam schedule is not currently supported";

@@ -70,11 +70,6 @@
 "Subgroup: %@" = "Подгруппа: %@";
 "audithory: %@" = "аудитория: %@";
 
-// MARK: - Widget
-"The most up-to-date schedule for the group or lecturer." = "Наиболее актуальное расписание для группы или преподавателя.";
-"Select a schedule" = "Выберите расписание";
-"No lessons" = "Нет занятий";
-
 // TODO: - Remove when exams are supported
 "My deepest apologies" = "Приношу глубочайгшие извинения";
 "The exam schedule is not currently supported" = "В данный момент расписание экзаменов не поддерживается";

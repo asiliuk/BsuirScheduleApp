@@ -16,8 +16,8 @@ struct ScheduleWidget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: provider) { entry in
             ScheduleWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Schedule")
-        .description("The most up-to-date schedule for the group or lecturer.")
+        .configurationDisplayName("widget.displayName")
+        .description("widget.description")
     }
 }
 
@@ -202,17 +202,14 @@ private extension Array {
 
 // MARK: - Formatters
 
-private let listFormatter = mutating(ListFormatter()) {
-    $0.locale = .by
+private let listFormatter = mutating(ListFormatter())
 }
 
 private let smallDateFormatter = mutating(DateFormatter()) {
-    $0.locale = .by
     $0.setLocalizedDateFormatFromTemplate("dE")
 }
 
 private let normalDateFormatter = mutating(DateFormatter()) {
-    $0.locale = .by
     $0.setLocalizedDateFormatFromTemplate("dEMM")
 }
 
@@ -221,7 +218,7 @@ private extension ListFormatter {
         let visible = values.prefix(visibleCount).map { $0 as Any }
         let remaining = values.count - visibleCount
         guard remaining > 0 else { return string(from: visible) }
-        return string(from: visible + ["еще \(remaining)"])
+        return string(from: visible + [String(localized: "widget.schedule.more.\(remaining)")])
     }
 }
 
@@ -240,7 +237,7 @@ struct ScheduleIdentifierTitle: View {
 
 struct NoPairsView: View {
     var body: some View {
-        Text("No lessons")
+        Text("widget.schedule.empty")
             .foregroundColor(.secondary)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
     }
@@ -248,7 +245,7 @@ struct NoPairsView: View {
 
 struct NeedsConfigurationView: View {
     var body: some View {
-        Text("Select a schedule")
+        Text("widget.needsConfiguration.selectSchedule")
             .foregroundColor(.secondary)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
     }

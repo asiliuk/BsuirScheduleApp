@@ -1,0 +1,6 @@
+"widget.displayName" = "Расписание";
+"widget.description" = "Наиболее актуальное расписание для группы или преподавателя.";
+
+"widget.schedule.empty" = "Нет занятий";
+"widget.schedule.more.%lld" = "еще %lld";
+"widget.needsConfiguration.selectSchedule" = "Выберите расписание";

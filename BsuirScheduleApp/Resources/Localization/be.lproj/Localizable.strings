@@ -70,11 +70,6 @@
 "Subgroup: %@" = "Падгрупа: %@";
 "audithory: %@" = "аўдыторыя: %@";
 
-// MARK: - Widget
-"The most up-to-date schedule for the group or lecturer." = "Найбольш актуальны расклад для групы або выкладчыка.";
-"Select a schedule" = "Абярыце расклад";
-"No lessons" = "Няма заняткаў";
-
 // TODO: - Remove when exams are supported
 "My deepest apologies" = "Прынаю найглыбокія прабачэнні";
 "The exam schedule is not currently supported" = "У дадзены момант расклад іспытаў не падтрымліваецца";
