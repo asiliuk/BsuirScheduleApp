@@ -308,9 +308,9 @@
 		E691E965250D2CA500116878 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				69CA216428B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png */,
 				69CA216628B4C6D800B6DED3 /* AppIconUkrainian@2x.png */,
 				69CA216528B4C6D800B6DED3 /* AppIconUkrainian@3x.png */,
+				69CA216428B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png */,
 				E691E969250D2D6100116878 /* AppIconDark@2x.png */,
 				E691E96A250D2D6100116878 /* AppIconDark@3x.png */,
 				E69A965C25121DE30057FCD6 /* AppIconDark_83.5@2x.png */,
