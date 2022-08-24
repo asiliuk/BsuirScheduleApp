@@ -34,6 +34,8 @@ struct AppIconPicker: View {
                 switch alert {
                 case .belarusIconChoice:
                     return Alert(title: Text("Excellent choice!"), message: Text("Long live Belarus!"))
+                case .badIconChoice:
+                    return Alert(title: Text("Ну здравствуйте"), message: Text("Нас ждет очень серьезный разговор по поводу вашего выбора"))
                 }
             }
         }
@@ -42,10 +44,12 @@ struct AppIconPicker: View {
     private enum AlertIdentifier: Identifiable {
         var id: Self { self }
         case belarusIconChoice
+        case badIconChoice
 
         init?(appIcon: AppIcon) {
             switch appIcon {
             case .resist, .national: self = .belarusIconChoice
+            case .dad: self = .badIconChoice
             default: return nil
             }
         }
@@ -75,8 +79,8 @@ private enum AppIcon: CaseIterable, Identifiable {
     case nostalgia
     case resist
     case national
-    case ukrainian
     case pride
+    case dad
 
     init?(name: String) {
         switch name {
@@ -84,21 +88,21 @@ private enum AppIcon: CaseIterable, Identifiable {
         case "AppIconNostalgia": self = .nostalgia
         case "AppIconResist": self = .resist
         case "AppIconNational": self = .national
-        case "AppIconUkrainian": self = .ukrainian
         case "AppIconPride": self = .pride
+        case "AppIconDad": self = .dad
         default: return nil
         }
     }
 
     var title: LocalizedStringKey {
         switch self {
-        case .standard: return "Default"
-        case .dark: return "Dark"
-        case .nostalgia: return "Nostalgia"
+        case .standard: return "Стандартная"
+        case .dark: return "Темная"
+        case .nostalgia: return "Ностальгия"
         case .resist: return "❤️✊✌️"
         case .national: return "БЧБ"
-        case .ukrainian: return "Ukrainian"
         case .pride: return "Pride"
+        case .dad: return "Я твой баця"
         }
     }
 
@@ -109,8 +113,8 @@ private enum AppIcon: CaseIterable, Identifiable {
         case .nostalgia: return "AppIconNostalgia"
         case .resist: return "AppIconResist"
         case .national: return "AppIconNational"
-        case .ukrainian: return "AppIconUkrainian"
         case .pride: return "AppIconPride"
+        case .dad: return "AppIconDad"
         }
     }
 
