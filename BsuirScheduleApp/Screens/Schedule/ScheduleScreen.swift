@@ -65,18 +65,18 @@ extension ScheduleScreen {
             // TODO: Support exams once again
             self.exams = [
                 DayViewModel(
-                    title: String(localized: "My deepest apologies"),
+                    title: String(localized: "screen.schedule.unsupportedExams.title"),
                     pairs: [
                         PairViewModel(
                             from: "🚧", to: " ",
                             form: .unknown,
-                            subject: String(localized: "The exam schedule is not currently supported"),
-                            auditory: String(localized: "I had to temporarily remove this feature because there is no time to move to a new API")
+                            subject: String(localized: "screen.schedule.unsupportedExams.subject"),
+                            auditory: String(localized: "screen.schedule.unsupportedExams.auditory")
                         ),
                         PairViewModel(
                             from: "🤲", to: " ",
                             form: .unknown,
-                            subject: String(localized: "But you can help me"),
+                            subject: String(localized: "screen.schedule.unsupportedExams.subject2"),
                             auditory: "https://github.com/asiliuk/BsuirScheduleApp"
                         ),
                     ]

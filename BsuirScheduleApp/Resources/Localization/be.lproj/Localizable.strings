@@ -7,34 +7,39 @@
 */
 
 // MARK: - Application
-"Find the group" = "Знайсці групу";
-"All groups" = "Усе гурты";
-"Find a lecturer" = "Знайсці выкладчыка";
-"All lecturers" = "Усе выкладчыкі";
-"⭐️ Favorites" = "⭐️ Выбраныя";
-"Colors" = "Колеры";
-"What the lesson looks like" = "Як выглядае пара";
-"start" = "пачатак";
-"end" = "канец";
-"Subject" = "Прадмет";
-"week" = "нед.";
-"subgroup" = "падгр.";
-"Study - building" = "Кабінет - корпус";
-"Comment" = "Каментар";
-"Visual display of the lesson with signed items" = "Візуальнае адлюстраванне пары з падпісанымі элементамі";
-"About the app" = "Аб дадатку";
-"Version %@" = "Версія %@";
-"Data" = "Звесткі";
-"Clear cache" = "Ачысціць кэш";
-"Cache successfully cleared" = "Кэш паспяхова вычышчаны";
-"Пасля загрузкі schedule and lecturers photos been deleted" = "Быў выдалены кэш запампаванага раскладу і фатаграфій выкладчыкаў";
-"Information" = "Інфармацыя";
-"Favorites" = "Выбраныя";
-"You are not the chosen one, Neo" = "Ты не абраны, Неа";
-"Pick someone else" = "Абяры каго-небудзь іншага";
-"Lead the way!" = "Вядзі мяне!";
-"Groups" = "Групы";
-"Lecturers" = "Выкладчыкі";
+"screen.groups.search.placeholder" = "Знайсці групу";
+"screen.groups.navigation.title" = "Усе гурты";
+"screen.groups.favoriteGroup.section" = "⭐️ Выбраныя";
+
+"screen.lecturers.search.placeholder" = "Знайсці выкладчыка";
+"screen.lecturers.navigation.title" = "Усе выкладчыкі";
+"screen.lecturers.group.section" = "⭐️ Выбраныя";
+
+"screen.about.colors.section.header" = "Колеры";
+"screen.about.pairCell.section.header" = "Як выглядае пара";
+"screen.about.pairCell.from" = "пачатак";
+"screen.about.pairCell.to" = "канец";
+"screen.about.pairCell.subject" = "Прадмет";
+"screen.about.pairCell.weeks" = "нед.";
+"screen.about.pairCell.subgroup" = "падгр.";
+"screen.about.pairCell.auditory" = "Кабінет - корпус";
+"screen.about.pairCell.note" = "Каментар";
+"screen.about.pairCell.accessibility.label" = "Візуальнае адлюстраванне пары з падпісанымі элементамі";
+"screen.about.about.section.header" = "Аб дадатку";
+"screen.about.about.section.version.%@" = "Версія %@";
+"screen.about.data.section.header" = "Звесткі";
+"screen.about.data.section.clear.cache.button" = "Ачысціць кэш";
+"screen.about.clearCache.alert.title" = "Кэш паспяхова вычышчаны";
+"screen.about.clearCache.alert.message" = "Быў выдалены кэш запампаванага раскладу і фатаграфій выкладчыкаў";
+"screen.about.navigation.title" = "Інфармацыя";
+
+"screen.favorites.navigation.title" = "Выбраныя";
+"screen.favorites.emptyState.title" = "Ты не абраны, Неа";
+"screen.favorites.emptyState.subtitle" = "Абяры каго-небудзь іншага";
+"screen.favorites.emptyState.action.title" = "Вядзі мяне!";
+"screen.favorites.groups.section.header" = "Групы";
+"screen.favorites.lecturers.section.header" = "Выкладчыкі";
+
 "Appearance" = "Вонкавы выгляд";
 "Icon" = "Іконка";
 "Excellent choice!" = "Выдатны выбар!";
@@ -46,32 +51,43 @@
 "Pride" = "Pride";
 "БЧБ" = "БЧБ";
 "Ukrainian" = "Украінская";
-"Remove from favorites" = "Прыбраць з абранага";
-"Add to favorites" = "Дадаць у абранае";
-"Schedule type" = "Тып раскладу";
-"Schedule" = "Расклад";
-"By day" = "Па днях";
-"Exams" = "Іспыты";
-"There doesn't be to class" = "Падобна, заняткаў няма";
-"Everybody's free!" = "Усе вольныя!";
-"Loading..." = "Загрузка...";
-"Something went wrong..." = "Нешта пайшло не так...";
-"Retry" = "Паўтарыць спробу";
-"Oops" = "Ой";
-"Please select a schedule to display..." = "Калі ласка, абярыце расклад, каб адлюстраваць...";
-"Lecture" = "Лекцыя";
-"Laboratory lesson" = "Лабараторная работа";
-"Practical lesson" = "Практычная работа";
-"Exam" = "Іспыт";
-"Unknown" = "Невядома";
-"Going on now" = "Ідзе зараз";
-"from %@ to %@" = "з %@ па %@";
-"Weeks: %@" = "Тыдні: %@";
-"Subgroup: %@" = "Падгрупа: %@";
-"audithory: %@" = "аўдыторыя: %@";
+
+"screen.schedule.favorite.accessibility.remove" = "Прыбраць з абранага";
+"screen.schedule.favorite.accessibility.add" = "Дадаць у абранае";
+"screen.schedule.scheduleTypePicker.title" = "Тып раскладу";
+"screen.schedule.scheduleType.schedule" = "Расклад";
+"screen.schedule.scheduleType.byDay" = "Па днях";
+"screen.schedule.scheduleType.exams" = "Іспыты";
+"screen.schedule.emptyState.title" = "Падобна, заняткаў няма";
+"screen.schedule.emptyState.subtitle" = "Усе вольныя!";
+
+"view.root.tabBar.selection.groups" = "Групы";
+"view.root.tabBar.selection.lecturers" = "Выкладчыкі";
+"view.root.tabBar.selection.about" = "Аб дадатку";
+"view.root.tabBar.selection.favorites" = "Выбраныя";
+
+"view.loadingState.title" = "Загрузка...";
+
+"view.errorState.title" = "Нешта пайшло не так...";
+"view.errorState.button.label" = "Паўтарыць спробу";
+
+"view.regularRoot.tabView.placeholder" = "Ой";
+"view.schedulePlaceholder.title" = "Калі ласка, абярыце расклад, каб адлюстраваць...";
+
+"view.pairViewForm.name.lecture" = "Лекцыя";
+"view.pairViewForm.name.lab" = "Лабараторная работа";
+"view.pairViewForm.name.practice" = "Практычная работа";
+"view.pairViewForm.name.exam" = "Іспыт";
+"view.pairViewForm.name.unknown" = "Невядома";
+
+"view.pairView.accessibility.label" = "Ідзе зараз";
+"view.pairView.accessibility.from.%@.to.%@" = "з %@ па %@";
+"view.pairView.accessibility.weeks.%@" = "Тыдні: %@";
+"view.pairView.accessibility.subgroup.%@" = "Падгрупа: %@";
+"view.pairView.accessibility.auditory.%@" = "аўдыторыя: %@";
 
 // TODO: - Remove when exams are supported
-"My deepest apologies" = "Прынаю найглыбокія прабачэнні";
-"The exam schedule is not currently supported" = "У дадзены момант расклад іспытаў не падтрымліваецца";
-"I had to temporarily remove this feature because there is no time to move to a new API" = "Давялося часова прыбраць гэтую фічу таму што няма часу пераехаць на новы API";
-"But you can help me" = "Але вы можаце мне дапамагчы";
+"screen.schedule.unsupportedExams.title" = "Прынаю найглыбокія прабачэнні";
+"screen.schedule.unsupportedExams.subject" = "У дадзены момант расклад іспытаў не падтрымліваецца";
+"screen.schedule.unsupportedExams.auditory" = "Давялося часова прыбраць гэтую фічу таму што няма часу пераехаць на новы API";
+"screen.schedule.unsupportedExams.subject2" = "Але вы можаце мне дапамагчы";

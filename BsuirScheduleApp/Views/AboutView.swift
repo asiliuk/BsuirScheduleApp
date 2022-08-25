@@ -8,52 +8,52 @@ struct AboutView: View {
 
     var body: some View {
         List {
-            Section(header: Text("Colors")) {
+            Section(header: Text("screen.about.colors.section.header")) {
                 ForEach(PairViewForm.allCases, id: \.self) { form in
                     PairTypeView(name: form.name, form: form)
                 }
             }
 
-            Section(header: Text("What the lesson looks like")) {
+            Section(header: Text("screen.about.pair.section.header")) {
                 PairCell(
-                    from: "start",
-                    to: "end",
-                    subject: "Subject",
-                    weeks: "week",
-                    subgroup: "subgroup",
-                    auditory: "Study - building",
-                    note: "Comment",
+                    from: "screen.about.pairCell.from",
+                    to: "screen.about.pairCell.to",
+                    subject: "screen.about.pairCell.subject",
+                    weeks: "screen.about.pairCell.weeks",
+                    subgroup: "screen.about.pairCell.subgroup",
+                    auditory: "screen.about.pairCell.auditory",
+                    note: "screen.about.pairCell.note",
                     form: .practice,
                     progress: PairProgress(constant: 0.5),
                     details: EmptyView()
                 )
                 .fixedSize(horizontal: false, vertical: true)
                 .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
-                .accessibility(label: Text("Visual display of the lesson with signed items"))
+                .accessibility(label: Text("screen.about.pair.accessibility.label"))
             }
 
             AppIconPicker(bundle: bundle)
 
-            Section(header: Text("About the app")) {
-                Text("Version \(bundle.fullVersion.description)")
+            Section(header: Text("screen.about.about.section.header")) {
+                Text("screen.about.about.section.version.\(bundle.fullVersion.description)")
                 GithubButton()
                 TelegramButton()
             }
 
-            Section(header: Text("Data")) {
-                Button("Clear cache") {
+            Section(header: Text("screen.about.data.section.header")) {
+                Button("screen.about.data.section.clearCache.button") {
                     screen.clearCache()
                 }
                 .alert(isPresented: $screen.isCacheCleared) {
                     Alert(
-                        title: Text("Cache successfully cleared"),
-                        message: Text("The cache of the downloaded schedule and lecturers photos has been deleted")
+                        title: Text("screen.about.clearCache.alert.title"),
+                        message: Text("screen.about.clearCache.alert.message")
                     )
                 }
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .navigationTitle("Information")
+        .navigationTitle("screen.about.navigation.title")
     }
 
     private let bundle = Bundle.main

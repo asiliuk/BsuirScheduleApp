@@ -142,11 +142,11 @@ public struct PairView<Details: View>: View {
         .accessibilityElement(children: .ignore)
         .accessibility(label: accessibilityDescription(
             subject.map { "\($0) \(Text(form.name))" },
-            progress.isNow ? "Going on now" : nil,
-            "from \(from) to \(to)",
-            weeks.map { "Weeks: \($0)" },
-            subgroup.map { "Subgroup: \($0)" },
-            "audithory: \(auditory)",
+            progress.isNow ? "view.pairView.accessibility.label" : nil,
+            "view.pairView.accessibility.from.\(from).to.\(to)",
+            weeks.map { "view.pairView.accessibility.weeks.\($0)" },
+            subgroup.map { "view.pairView.accessibility.subgroup.\($0)" },
+            "view.pairView.accessibility.auditory.\(auditory)",
             note.map { "\($0)" }
         ))
     }
@@ -264,11 +264,11 @@ private extension PairProgress {
 extension PairViewForm {
     public var name: LocalizedStringKey {
         switch self {
-        case .lecture: return "Lecture"
-        case .lab: return "Laboratory lesson"
-        case .practice: return "Practical lesson"
-        case .exam: return "Exam"
-        case .unknown: return "Unknown"
+        case .lecture: return "view.pairViewForm.name.lecture"
+        case .lab: return "view.pairViewForm.name.lab"
+        case .practice: return "view.pairViewForm.name.practice"
+        case .exam: return "view.pairViewForm.name.exam"
+        case .unknown: return "view.pairViewForm.name.unknown"
         }
     }
 

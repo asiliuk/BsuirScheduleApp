@@ -60,8 +60,8 @@ struct ScheduleView: View {
             }
             .accessibility(
                 label: screen.isFavorite
-                    ? Text("Remove from favorites")
-                    : Text("Add to favorites")
+                    ? Text("screen.schedule.favorite.accessibility.remove")
+                    : Text("screen.schedule.favorite.accessibility.add")
             )
             .accentColor(.yellow)
         }
@@ -69,13 +69,13 @@ struct ScheduleView: View {
 
     private var picker: some View {
         Menu {
-            Picker("Schedule type", selection: $screen.scheduleType) {
+            Picker("screen.schedule.scheduleTypePicker.title", selection: $screen.scheduleType) {
                 ForEach(ScheduleScreen.ScheduleType.allCases, id: \.self) { scheduleType in
                     Label(scheduleType.title, systemImage: scheduleType.imageName)
                 }
             }
         } label: {
-            Label("Schedule type", systemImage: screen.scheduleType.imageName)
+            Label("screen.schedule.scheduleTypePicker.title", systemImage: screen.scheduleType.imageName)
         }
     }
 
@@ -118,11 +118,11 @@ private extension ScheduleScreen.ScheduleType {
     var title: String {
         switch self {
         case .continuous:
-            return "Schedule"
+            return "screen.schedule.scheduleType.schedule"
         case .compact:
-            return "By day"
+            return "screen.schedule.scheduleType.byDay"
         case .exams:
-            return "Exams"
+            return "screen.schedule.scheduleType.exams"
         }
     }
 
@@ -249,8 +249,8 @@ struct ScheduleEmptyState: View {
     var body: some View {
         EmptyState(
             image: Image(systemName: imageNames.randomElement()!),
-            title: "There doesn't seem to be a class",
-            subtitle: "Everybody's free!"
+            title: "screen.schedule.emptyState.title",
+            subtitle: "screen.schedule.emptyState.subtitle"
         )
     }
 

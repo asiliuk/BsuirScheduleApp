@@ -7,34 +7,39 @@
 */
 
 // MARK: - Application
-"Find the group" = "Find the group";
-"All groups" = "All groups";
-"Find a lecturer" = "Find a lecturer";
-"All lecturers" = "All lecturers";
-"⭐️ Favorites" = "⭐️ Favorites";
-"Colors" = "Colors";
-"What the lesson looks like" = "What the lesson looks like";
-"start" = "start";
-"end" = "end";
-"Subject" = "Subject";
-"week" = "week";
-"subgroup" = "subgroup";
-"Study - building" = "Study - building";
-"Comment" = "Comment";
-"Visual display of the lesson with signed items" = "Visual display of the lesson with signed items";
-"About the app" = "About the app";
-"Version %@" = "Version %@";
-"Data" = "Data";
-"Clear cache" = "Clear cache";
-"Cache successfully cleared" = "Cache successfully cleared";
-"The cache of the downloaded schedule and lecturers photos has been deleted" = "The cache of the downloaded schedule and lecturers photos has been deleted";
-"Information" = "Information";
-"Favorites" = "Favorites";
-"You are not the chosen one, Neo" = "You are not the chosen one, Neo";
-"Pick someone else" = "Pick someone else";
-"Lead the way!" = "Lead the way!";
-"Groups" = "Groups";
-"Lecturers" = "Lecturers";
+"screen.groups.search.placeholder" = "Find the group";
+"screen.groups.navigation.title" = "All groups";
+"screen.groups.favoriteGroup.section" = "⭐️ Favorites";
+
+"screen.lecturers.search.placeholder" = "Find a lecturer";
+"screen.lecturers.navigation.title" = "All lecturers";
+"screen.lecturers.group.section" = "⭐️ Favorites";
+
+"screen.about.colors.section.header" = "Colors";
+"screen.about.pair.section.header" = "What the lesson looks like";
+"screen.about.pairCell.from" = "start";
+"screen.about.pairCell.to" = "end";
+"screen.about.pairCell.subject" = "Subject";
+"screen.about.pairCell.weeks" = "week";
+"screen.about.pairCell.subgroup" = "subgroup";
+"screen.about.pairCell.auditory" = "Study - building";
+"screen.about.pairCell.note" = "Comment";
+"screen.about.pairCell.accessibility.label" = "Visual display of the lesson with signed items";
+"screen.about.about.section.header" = "About the app";
+"screen.about.about.section.version.%@" = "Version %@";
+"screen.about.data.section.header" = "Data";
+"screen.about.data.section.clear.cache.button" = "Clear cache";
+"screen.about.clearCache.alert.title" = "Cache successfully cleared";
+"screen.about.clearCache.alert.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";
+"screen.about.navigation.title" = "Information";
+
+"screen.favorites.navigation.title" = "Favorites";
+"screen.favorites.emptyState.title" = "You are not the chosen one, Neo";
+"screen.favorites.emptyState.subtitle" = "Pick someone else";
+"screen.favorites.emptyState.action.title" = "Lead the way!";
+"screen.favorites.groups.section.header" = "Groups";
+"screen.favorites.lecturers.section.header" = "Lecturers";
+
 "Appearance" = "Appearance";
 "Icon" = "Icon";
 "Excellent choice!" = "Excellent choice!";
@@ -46,32 +51,43 @@
 "Pride" = "Pride";
 "БЧБ" = "БЧБ";
 "Ukrainian" = "Ukrainian";
-"Remove from favorites" = "Remove from favorites";
-"Add to favorites" = "Add to favorites";
-"Schedule type" = "Schedule type";
-"Schedule" = "Schedule";
-"By day" = "By day";
-"Exams" = "Exams";
-"There doesn't seem to be a class" = "There doesn't seem to be a class";
-"Everybody's free!" = "Everybody's free!";
-"Loading..." = "Loading...";
-"Something went wrong..." = "Something went wrong...";
-"Retry" = "Retry";
-"Oops" = "Oops";
-"Please select a schedule to display..." = "Please select a schedule to display...";
-"Lecture" = "Lecture";
-"Laboratory lesson" = "Laboratory lesson";
-"Practical lesson" = "Practical lesson";
-"Exam" = "Exam";
-"Unknown" = "Unknown";
-"Going on now" = "Going on now";
-"from %@ to %@" = "from %@ to %@";
-"Weeks: %@" = "Weeks: %@";
-"Subgroup: %@" = "Subgroup: %@";
-"audithory: %@" = "audithory: %@";
+
+"screen.schedule.favorite.accessibility.remove" = "Remove from favorites";
+"screen.schedule.favorite.accessibility.add" = "Add to favorites";
+"screen.schedule.scheduleTypePicker.title" = "Schedule type";
+"screen.schedule.scheduleType.schedule" = "Schedule";
+"screen.schedule.scheduleType.byDay" = "By day";
+"screen.schedule.scheduleType.exams" = "Exams";
+"screen.schedule.emptyState.title" = "There doesn't seem to be a class";
+"screen.schedule.emptyState.subtitle" = "Everybody's free!";
+
+"view.root.tabBar.selection.groups" = "Groups";
+"view.root.tabBar.selection.lecturers" = "Lecturers";
+"view.root.tabBar.selection.about" = "About the app";
+"view.root.tabBar.selection.favorites" = "Favorites";
+
+"view.loadingState.title" = "Loading...";
+
+"view.errorState.title" = "Something went wrong...";
+"view.errorState.button.label" = "Retry";
+
+"view.regularRoot.tabView.placeholder" = "Oops";
+"view.schedulePlaceholder.title" = "Please select a schedule to display...";
+
+"view.pairViewForm.name.lecture" = "Lecture";
+"view.pairViewForm.name.lab" = "Laboratory lesson";
+"view.pairViewForm.name.practice" = "Practical lesson";
+"view.pairViewForm.name.exam" = "Exam";
+"view.pairViewForm.name.unknown" = "Unknown";
+
+"view.pairView.accessibility.label" = "Going on now";
+"view.pairView.accessibility.from.%@.to.%@" = "from %@ to %@";
+"view.pairView.accessibility.weeks.%@" = "Weeks: %@";
+"view.pairView.accessibility.subgroup.%@" = "Subgroup: %@";
+"view.pairView.accessibility.auditory.%@" = "audithory: %@";
 
 // TODO: - Remove when exams are supported
-"My deepest apologies" = "My deepest apologies";
-"The exam schedule is not currently supported" = "The exam schedule is not currently supported";
-"I had to temporarily remove this feature because there is no time to move to a new API" = "I had to temporarily remove this feature because there is no time to move to a new API";
-"But you can help me" = "Но вы можете мне помочь";
+"screen.schedule.unsupportedExams.title" = "My deepest apologies";
+"screen.schedule.unsupportedExams.subject" = "The exam schedule is not currently supported";
+"screen.schedule.unsupportedExams.auditory" = "I had to temporarily remove this feature because there is no time to move to a new API";
+"screen.schedule.unsupportedExams.subject2" = "Но вы можете мне помочь";

@@ -32,7 +32,7 @@ struct LoadingState: View {
         VStack(spacing: 8) {
             Spacer()
             ProgressView()
-            Text("Loading...")
+            Text("view.loadingState.title")
             Spacer()
         }
     }
@@ -45,10 +45,10 @@ struct ErrorState: View {
     var body: some View {
         VStack {
             Spacer()
-            Text("Something went wrong...").font(.title)
+            Text("view.errorState.title").font(.title)
             retry.map {
                 Button(action: $0) {
-                    Text("Retry")
+                    Text("view.errorState.button.label")
                 }
                 .buttonStyle(.bordered)
             }
