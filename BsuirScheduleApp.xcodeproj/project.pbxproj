@@ -13,6 +13,7 @@
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
 		E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */; };
 		E627876F28B6B36E00F61D9B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E627876D28B6B36E00F61D9B /* Localizable.strings */; };
+		E627877628B93AD500F61D9B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6992A5E828B0025D007FFF0F /* Localizable.strings */; };
 		E6373F06250A387900729EC8 /* CompactRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* CompactRootView.swift */; };
 		E6373F08250A38C400729EC8 /* RegularRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* RegularRootView.swift */; };
 		E6429E192525EE8300009E16 /* AppIconPride_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */; };
@@ -653,6 +654,7 @@
 				E691E971250D2D6D00116878 /* AppIconNostalgia@3x.png in Resources */,
 				E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */,
 				E691E96B250D2D6100116878 /* AppIconNostalgia@2x.png in Resources */,
+				E627877628B93AD500F61D9B /* Localizable.strings in Resources */,
 				E6429E2B2525EEAA00009E16 /* AppIconNational_83.5@2x.png in Resources */,
 				E691E96E250D2D6100116878 /* AppIconDark@2x.png in Resources */,
 				E691E96D250D2D6100116878 /* AppIconResist@3x.png in Resources */,
