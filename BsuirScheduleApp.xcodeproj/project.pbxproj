@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0F8B924D7354B00A1C74F /* AboutView.swift */; };
+		69CA216728B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CA216428B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png */; };
+		69CA216828B4C6D800B6DED3 /* AppIconUkrainian@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CA216528B4C6D800B6DED3 /* AppIconUkrainian@3x.png */; };
+		69CA216928B4C6D800B6DED3 /* AppIconUkrainian@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CA216628B4C6D800B6DED3 /* AppIconUkrainian@2x.png */; };
 		E610F3E3289EE5A200239F24 /* DayScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E610F3E2289EE5A200239F24 /* DayScheduleViewModel.swift */; };
 		E610F3E5289EE5F600239F24 /* DayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E610F3E4289EE5F600239F24 /* DayViewModel.swift */; };
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
@@ -34,8 +37,6 @@
 		E675BFC02587D51F00DE570A /* AboutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E675BFBF2587D51F00DE570A /* AboutScreen.swift */; };
 		E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */; };
 		E68610C82471C53F001BF527 /* ContentStateWithSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */; };
-		E691E962250BD7E300116878 /* AppIconDad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E961250BD7E300116878 /* AppIconDad@2x.png */; };
-		E691E964250BD7EA00116878 /* AppIconDad@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E963250BD7EA00116878 /* AppIconDad@3x.png */; };
 		E691E96B250D2D6100116878 /* AppIconNostalgia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E966250D2D6100116878 /* AppIconNostalgia@2x.png */; };
 		E691E96C250D2D6100116878 /* AppIconResist@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E967250D2D6100116878 /* AppIconResist@2x.png */; };
 		E691E96D250D2D6100116878 /* AppIconResist@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E968250D2D6100116878 /* AppIconResist@3x.png */; };
@@ -55,7 +56,6 @@
 		E69A300525C5AB86009324B6 /* BsuirScheduleApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69A300425C5AB86009324B6 /* BsuirScheduleApplication.swift */; };
 		E69A965B2512000C0057FCD6 /* AppIconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69A965A2512000C0057FCD6 /* AppIconPicker.swift */; };
 		E69A965D25121DE30057FCD6 /* AppIconDark_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A965C25121DE30057FCD6 /* AppIconDark_83.5@2x.png */; };
-		E69A965F25121E850057FCD6 /* AppIconDad_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A965E25121E850057FCD6 /* AppIconDad_83.5@2x.png */; };
 		E69A966125121EAD0057FCD6 /* AppIconNostalgia_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A966025121EAD0057FCD6 /* AppIconNostalgia_83.5@2x.png */; };
 		E69A966325121EB70057FCD6 /* AppIconResist_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A966225121EB70057FCD6 /* AppIconResist_83.5@2x.png */; };
 		E6A6A87F24142BAB0024D738 /* LoadableContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A6A87E24142BAB0024D738 /* LoadableContent.swift */; };
@@ -122,6 +122,9 @@
 
 /* Begin PBXFileReference section */
 		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		69CA216428B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconUkrainian_83.5@2x.png"; sourceTree = "<group>"; };
+		69CA216528B4C6D800B6DED3 /* AppIconUkrainian@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconUkrainian@3x.png"; sourceTree = "<group>"; };
+		69CA216628B4C6D800B6DED3 /* AppIconUkrainian@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconUkrainian@2x.png"; sourceTree = "<group>"; };
 		E610F3E2289EE5A200239F24 /* DayScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayScheduleViewModel.swift; sourceTree = "<group>"; };
 		E610F3E4289EE5F600239F24 /* DayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewModel.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
@@ -149,8 +152,6 @@
 		E675BFBF2587D51F00DE570A /* AboutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScreen.swift; sourceTree = "<group>"; };
 		E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissingKeyboardOnSwipe.swift; sourceTree = "<group>"; };
 		E68610C72471C53F001BF527 /* ContentStateWithSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateWithSearchView.swift; sourceTree = "<group>"; };
-		E691E961250BD7E300116878 /* AppIconDad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDad@2x.png"; sourceTree = "<group>"; };
-		E691E963250BD7EA00116878 /* AppIconDad@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDad@3x.png"; sourceTree = "<group>"; };
 		E691E966250D2D6100116878 /* AppIconNostalgia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNostalgia@2x.png"; sourceTree = "<group>"; };
 		E691E967250D2D6100116878 /* AppIconResist@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconResist@2x.png"; sourceTree = "<group>"; };
 		E691E968250D2D6100116878 /* AppIconResist@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconResist@3x.png"; sourceTree = "<group>"; };
@@ -165,7 +166,6 @@
 		E69A300425C5AB86009324B6 /* BsuirScheduleApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsuirScheduleApplication.swift; sourceTree = "<group>"; };
 		E69A965A2512000C0057FCD6 /* AppIconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconPicker.swift; sourceTree = "<group>"; };
 		E69A965C25121DE30057FCD6 /* AppIconDark_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark_83.5@2x.png"; sourceTree = "<group>"; };
-		E69A965E25121E850057FCD6 /* AppIconDad_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDad_83.5@2x.png"; sourceTree = "<group>"; };
 		E69A966025121EAD0057FCD6 /* AppIconNostalgia_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNostalgia_83.5@2x.png"; sourceTree = "<group>"; };
 		E69A966225121EB70057FCD6 /* AppIconResist_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconResist_83.5@2x.png"; sourceTree = "<group>"; };
 		E6A6A87E24142BAB0024D738 /* LoadableContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableContent.swift; sourceTree = "<group>"; };
@@ -308,6 +308,9 @@
 		E691E965250D2CA500116878 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				69CA216628B4C6D800B6DED3 /* AppIconUkrainian@2x.png */,
+				69CA216528B4C6D800B6DED3 /* AppIconUkrainian@3x.png */,
+				69CA216428B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png */,
 				E691E969250D2D6100116878 /* AppIconDark@2x.png */,
 				E691E96A250D2D6100116878 /* AppIconDark@3x.png */,
 				E69A965C25121DE30057FCD6 /* AppIconDark_83.5@2x.png */,
@@ -317,9 +320,6 @@
 				E691E967250D2D6100116878 /* AppIconResist@2x.png */,
 				E691E968250D2D6100116878 /* AppIconResist@3x.png */,
 				E69A966225121EB70057FCD6 /* AppIconResist_83.5@2x.png */,
-				E691E963250BD7EA00116878 /* AppIconDad@3x.png */,
-				E691E961250BD7E300116878 /* AppIconDad@2x.png */,
-				E69A965E25121E850057FCD6 /* AppIconDad_83.5@2x.png */,
 				E6429E172525EE8300009E16 /* AppIconPride@2x.png */,
 				E6429E182525EE8300009E16 /* AppIconPride@3x.png */,
 				E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */,
@@ -618,26 +618,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6F931C522F8B1C20038FC43 /* LaunchScreen.storyboard in Resources */,
-				E691E964250BD7EA00116878 /* AppIconDad@3x.png in Resources */,
 				E69A966125121EAD0057FCD6 /* AppIconNostalgia_83.5@2x.png in Resources */,
 				E6429E1A2525EE8300009E16 /* AppIconPride@2x.png in Resources */,
 				E6429E192525EE8300009E16 /* AppIconPride_83.5@2x.png in Resources */,
-				E691E962250BD7E300116878 /* AppIconDad@2x.png in Resources */,
 				E691E96C250D2D6100116878 /* AppIconResist@2x.png in Resources */,
 				E69A966325121EB70057FCD6 /* AppIconResist_83.5@2x.png in Resources */,
 				E6429E1B2525EE8300009E16 /* AppIconPride@3x.png in Resources */,
 				E6429E222525EEA300009E16 /* AppIconNational@2x.png in Resources */,
 				E691E971250D2D6D00116878 /* AppIconNostalgia@3x.png in Resources */,
 				E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */,
+				69CA216928B4C6D800B6DED3 /* AppIconUkrainian@2x.png in Resources */,
+				69CA216728B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png in Resources */,
 				E691E96B250D2D6100116878 /* AppIconNostalgia@2x.png in Resources */,
 				E6429E2B2525EEAA00009E16 /* AppIconNational_83.5@2x.png in Resources */,
 				E691E96E250D2D6100116878 /* AppIconDark@2x.png in Resources */,
 				E691E96D250D2D6100116878 /* AppIconResist@3x.png in Resources */,
 				E69A965D25121DE30057FCD6 /* AppIconDark_83.5@2x.png in Resources */,
 				E6429E2A2525EEAA00009E16 /* AppIconNational@3x.png in Resources */,
+				69CA216828B4C6D800B6DED3 /* AppIconUkrainian@3x.png in Resources */,
 				E691E96F250D2D6100116878 /* AppIconDark@3x.png in Resources */,
 				E6F931BF22F8B1C20038FC43 /* Assets.xcassets in Resources */,
-				E69A965F25121E850057FCD6 /* AppIconDad_83.5@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

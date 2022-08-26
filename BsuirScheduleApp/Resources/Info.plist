@@ -14,15 +14,6 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>AppIconDad</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>AppIconDad</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
 			<key>AppIconDark</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -64,6 +55,15 @@
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>AppIconResist</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconUkrainian</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconUkrainian</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
