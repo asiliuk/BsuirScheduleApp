@@ -50,7 +50,7 @@ private extension AllLecturersScreenGroupSection {
     @ViewBuilder var header: some View {
         switch section {
         case .favorites:
-            Text("screen.lecturers.group.section")
+            Text("screen.lecturers.favorites.section.header")
         case .other:
             EmptyView()
         }

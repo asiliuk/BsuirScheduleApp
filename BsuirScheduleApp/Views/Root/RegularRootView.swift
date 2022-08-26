@@ -10,7 +10,7 @@ struct RegularRootView: View {
             TabView(selection: $currentSelection) {
                 // Placeholder
                 // When in NavigationView first tab is not visible on iPad
-                Text("view.regularRoot.tabView.placeholder").opacity(0)
+                Text("Oops").opacity(0)
 
                 AllFavoritesView(screen: state.allFavorites, openGroups: { currentSelection = .groups })
                     .tab(.favorites)
@@ -135,6 +135,6 @@ struct RegularRootView: View {
 
 private struct SchedulePlaceholder: View {
     var body: some View {
-        Text("view.schedulePlaceholder.title")
+        Text("screen.schedule.placeholder.title")
     }
 }

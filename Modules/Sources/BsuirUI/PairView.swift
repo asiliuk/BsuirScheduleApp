@@ -264,11 +264,11 @@ private extension PairProgress {
 extension PairViewForm {
     public var name: LocalizedStringKey {
         switch self {
-        case .lecture: return "view.pairViewForm.name.lecture"
-        case .lab: return "view.pairViewForm.name.lab"
-        case .practice: return "view.pairViewForm.name.practice"
-        case .exam: return "view.pairViewForm.name.exam"
-        case .unknown: return "view.pairViewForm.name.unknown"
+        case .lecture: return "view.pairView.form.name.lecture"
+        case .lab: return "view.pairView.form.name.lab"
+        case .practice: return "view.pairView.form.name.practice"
+        case .exam: return "view.pairView.form.name.exam"
+        case .unknown: return "view.pairView.form.name.unknown"
         }
     }
 

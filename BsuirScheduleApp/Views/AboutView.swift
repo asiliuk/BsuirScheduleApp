@@ -14,28 +14,28 @@ struct AboutView: View {
                 }
             }
 
-            Section(header: Text("screen.about.pair.section.header")) {
+            Section(header: Text("screen.about.pairPreview.section.header")) {
                 PairCell(
-                    from: "screen.about.pairCell.from",
-                    to: "screen.about.pairCell.to",
-                    subject: "screen.about.pairCell.subject",
-                    weeks: "screen.about.pairCell.weeks",
-                    subgroup: "screen.about.pairCell.subgroup",
-                    auditory: "screen.about.pairCell.auditory",
-                    note: "screen.about.pairCell.note",
+                    from: "screen.about.pairPreview.from",
+                    to: "screen.about.pairPreview.to",
+                    subject: "screen.about.pairPreview.subject",
+                    weeks: "screen.about.pairPreview.weeks",
+                    subgroup: "screen.about.pairPreview.subgroup",
+                    auditory: "screen.about.pairPreview.auditory",
+                    note: "screen.about.pairPreview.note",
                     form: .practice,
                     progress: PairProgress(constant: 0.5),
                     details: EmptyView()
                 )
                 .fixedSize(horizontal: false, vertical: true)
                 .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
-                .accessibility(label: Text("screen.about.pairCell.accessibility.label"))
+                .accessibility(label: Text("screen.about.pairPreview.accessibility.label"))
             }
 
             AppIconPicker(bundle: bundle)
 
-            Section(header: Text("screen.about.about.section.header")) {
-                Text("screen.about.about.section.version.\(bundle.fullVersion.description)")
+            Section(header: Text("screen.about.aboutTheApp.section.header")) {
+                Text("screen.about.aboutTheApp.version.\(bundle.fullVersion.description)")
                 GithubButton()
                 TelegramButton()
             }
@@ -46,8 +46,8 @@ struct AboutView: View {
                 }
                 .alert(isPresented: $screen.isCacheCleared) {
                     Alert(
-                        title: Text("screen.about.clearCache.alert.title"),
-                        message: Text("screen.about.clearCache.alert.message")
+                        title: Text("alert.clearCache.title"),
+                        message: Text("alert.clearCache.message")
                     )
                 }
             }

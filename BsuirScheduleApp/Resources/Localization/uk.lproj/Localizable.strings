@@ -6,32 +6,55 @@
   Copyright © 2022 Saute. All rights reserved.
 */
 
-// MARK: - Application
+// MARK: - Tabbar
+
+"view.tabBar.groups.title" = "Групи";
+"view.tabBar.lecturers.title" = "Викладачі";
+"view.tabBar.about.title" = "Про програму";
+"view.tabBar.favorites.title" = "Вибрані";
+
+// MARK: - Favorites
+
+"screen.favorites.navigation.title" = "Вибрані";
+"screen.favorites.emptyState.title" = "Ти не вибраний, Нео";
+"screen.favorites.emptyState.subtitle" = "Вибери когось іншого";
+"screen.favorites.emptyState.action.title" = "Веди мене!";
+"screen.favorites.groups.section.header" = "Групи";
+"screen.favorites.lecturers.section.header" = "Викладачі";
+
+// MARK: - Groups
+
 "screen.groups.search.placeholder" = "Знайти групу";
 "screen.groups.navigation.title" = "Всі групи";
-"screen.groups.favoriteGroup.section" = "⭐️ Вибрані";
+"screen.groups.favorites.section.header" = "⭐️ Вибрані";
+
+// MARK: - Lecturers
 
 "screen.lecturers.search.placeholder" = "Знайти викладача";
 "screen.lecturers.navigation.title" = "Всі викладачі";
-"screen.lecturers.group.section" = "⭐️ Вибрані";
+"screen.lecturers.favorites.section.header" = "⭐️ Вибрані";
+
+// MARK: - About
+
+"screen.about.navigation.title" = "Інформація";
+
+// MARK: - About, Colors
 
 "screen.about.colors.section.header" = "Кольори";
-"screen.about.pairCell.section.header" = "Як виглядає пара";
-"screen.about.pairCell.from" = "початок";
-"screen.about.pairCell.to" = "кінець";
-"screen.about.pairCell.subject" = "Предмет";
-"screen.about.pairCell.weeks" = "тиж.";
-"screen.about.pairCell.subgroup" = "підгр.";
-"screen.about.pairCell.auditory" = "Кабінет - корпус";
-"screen.about.pairCell.note" = "Коментар";
-"screen.about.pairCell.accessibility.label" = "Візуальне відображення пари з підписаними елементами";
-"screen.about.about.section.header" = "Про програму";
-"screen.about.about.section.version.%@" = "Версія %@";
-"screen.about.data.section.header" = "Дані";
-"screen.about.data.section.clearCache.button" = "Очистити кеш";
-"screen.about.clearCache.alert.title" = "Кеш успішно очищений";
-"screen.about.clearCache.alert.message" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";
-"screen.about.navigation.title" = "Інформація";
+
+// MARK: - About, Pair preview
+
+"screen.about.pairPreview.section.header" = "Як виглядає пара";
+"screen.about.pairPreview.from" = "початок";
+"screen.about.pairPreview.to" = "кінець";
+"screen.about.pairPreview.subject" = "Предмет";
+"screen.about.pairPreview.weeks" = "тиж.";
+"screen.about.pairPreview.subgroup" = "підгр.";
+"screen.about.pairPreview.auditory" = "Кабінет - корпус";
+"screen.about.pairPreview.note" = "Коментар";
+"screen.about.pairPreview.accessibility.label" = "Візуальне відображення пари з підписаними елементами";
+
+// MARK: - About, Appearance
 
 "screen.about.appearance.section.header" = "Зовнішній вигляд";
 "screen.about.appearance.iconPicker.title" = "Іконка";
@@ -43,12 +66,19 @@
 "screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
 "screen.about.appearance.icon.ukrainianFlag.title" = "Українська";
 
-"screen.favorites.navigation.title" = "Вибрані";
-"screen.favorites.emptyState.title" = "Ти не вибраний, Нео";
-"screen.favorites.emptyState.subtitle" = "Вибери когось іншого";
-"screen.favorites.emptyState.action.title" = "Веди мене!";
-"screen.favorites.groups.section.header" = "Групи";
-"screen.favorites.lecturers.section.header" = "Викладачі";
+// MARK: - About, About App
+
+"screen.about.aboutTheApp.section.header" = "Про програму";
+"screen.about.aboutTheApp.version.%@" = "Версія %@";
+
+// MARK: - About, Data
+
+"screen.about.data.section.header" = "Дані";
+"screen.about.data.section.clearCache.button" = "Очистити кеш";
+
+// MARK: - Schedule
+
+"screen.schedule.placeholder.title" = "Будь ласка, виберіть розклад, щоб відобразити...";
 
 "screen.schedule.favorite.accessibility.remove" = "Прибрати з вибраного";
 "screen.schedule.favorite.accessibility.add" = "Додати до вибраного";
@@ -59,24 +89,28 @@
 "screen.schedule.emptyState.title" = "Схоже, занять немає";
 "screen.schedule.emptyState.subtitle" = "Всі вільні!";
 
-"view.root.tabBar.selection.groups" = "Групи";
-"view.root.tabBar.selection.lecturers" = "Викладачі";
-"view.root.tabBar.selection.about" = "Про програму";
-"view.root.tabBar.selection.favorites" = "Вибрані";
+// TODO: - Remove when exams are supported
+"screen.schedule.unsupportedExams.title" = "Приношу глибокі вибачення";
+"screen.schedule.unsupportedExams.subject" = "На даний момент розклад іспитів не підтримується";
+"screen.schedule.unsupportedExams.auditory" = "Довелося тимчасово прибрати цю фічу тому що немає часу переїхати на новий API";
+"screen.schedule.unsupportedExams.subject2" = "Але ви можете мені допомогти";
+
+// MARK: - Loading
 
 "view.loadingState.title" = "Завантаження...";
+
+// MARK: - Error
 
 "view.errorState.title" = "Щось пішло не так...";
 "view.errorState.button.label" = "Повторити спробу";
 
-"view.regularRoot.tabView.placeholder" = "Ой";
-"view.schedulePlaceholder.title" = "Будь ласка, виберіть розклад, щоб відобразити...";
+// MARK: - PairView
 
-"view.pairViewForm.name.lecture" = "Лекція";
-"view.pairViewForm.name.lab" = "Лабораторна робота";
-"view.pairViewForm.name.practice" = "Практична робота";
-"view.pairViewForm.name.exam" = "Іспит";
-"view.pairViewForm.name.unknown" = "Невідомо";
+"view.pairView.form.name.lecture" = "Лекція";
+"view.pairView.form.name.lab" = "Лабораторна робота";
+"view.pairView.form.name.practice" = "Практична робота";
+"view.pairView.form.name.exam" = "Іспит";
+"view.pairView.form.name.unknown" = "Невідомо";
 
 "view.pairView.accessibility.label" = "Йде зараз";
 "view.pairView.accessibility.from.%@.to.%@" = "з %@ до %@";
@@ -84,11 +118,10 @@
 "view.pairView.accessibility.subgroup.%@" = "Підгрупа: %@";
 "view.pairView.accessibility.auditory.%@" = "аудиторія: %@";
 
+// MARK: - Alert
+
 "alert.goodIconChoice.title" = "Чудовий вибір!";
 "alert.goodIconChoice.message" = "Живе Білорусь!";
 
-// TODO: - Remove when exams are supported
-"screen.schedule.unsupportedExams.title" = "Приношу глибокі вибачення";
-"screen.schedule.unsupportedExams.subject" = "На даний момент розклад іспитів не підтримується";
-"screen.schedule.unsupportedExams.auditory" = "Довелося тимчасово прибрати цю фічу тому що немає часу переїхати на новий API";
-"screen.schedule.unsupportedExams.subject2" = "Але ви можете мені допомогти";
+"alert.clearCache.title" = "Кеш успішно очищений";
+"alert.clearCache.message" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";

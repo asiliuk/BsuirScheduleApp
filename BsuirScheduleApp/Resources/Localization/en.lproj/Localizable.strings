@@ -6,32 +6,55 @@
   Copyright © 2022 Saute. All rights reserved.
 */
 
-// MARK: - Application
+// MARK: - Tabbar
+
+"view.tabBar.groups.title" = "Groups";
+"view.tabBar.lecturers.title" = "Lecturers";
+"view.tabBar.about.title" = "About";
+"view.tabBar.favorites.title" = "Favorites";
+
+// MARK: - Favorites
+
+"screen.favorites.navigation.title" = "Favorites";
+"screen.favorites.emptyState.title" = "You are not the chosen one, Neo";
+"screen.favorites.emptyState.subtitle" = "Pick someone else";
+"screen.favorites.emptyState.action.title" = "Lead the way!";
+"screen.favorites.groups.section.header" = "Groups";
+"screen.favorites.lecturers.section.header" = "Lecturers";
+
+// MARK: - Groups
+
 "screen.groups.search.placeholder" = "Find the group";
 "screen.groups.navigation.title" = "All groups";
-"screen.groups.favoriteGroup.section" = "⭐️ Favorites";
+"screen.groups.favorites.section.header" = "⭐️ Favorites";
+
+// MARK: - Lecturers
 
 "screen.lecturers.search.placeholder" = "Find a lecturer";
 "screen.lecturers.navigation.title" = "All lecturers";
-"screen.lecturers.group.section" = "⭐️ Favorites";
+"screen.lecturers.favorites.section.header" = "⭐️ Favorites";
+
+// MARK: - About
+
+"screen.about.navigation.title" = "Information";
+
+// MARK: - About, Colors
 
 "screen.about.colors.section.header" = "Colors";
-"screen.about.pair.section.header" = "What the lesson looks like";
-"screen.about.pairCell.from" = "start";
-"screen.about.pairCell.to" = "end";
-"screen.about.pairCell.subject" = "Subject";
-"screen.about.pairCell.weeks" = "week";
-"screen.about.pairCell.subgroup" = "subgroup";
-"screen.about.pairCell.auditory" = "Auditorium - building";
-"screen.about.pairCell.note" = "Comment";
-"screen.about.pairCell.accessibility.label" = "Visual display of the lesson with signed items";
-"screen.about.about.section.header" = "About the app";
-"screen.about.about.section.version.%@" = "Version %@";
-"screen.about.data.section.header" = "Data";
-"screen.about.data.section.clearCache.button" = "Clear cache";
-"screen.about.clearCache.alert.title" = "Cache successfully cleared";
-"screen.about.clearCache.alert.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";
-"screen.about.navigation.title" = "Information";
+
+// MARK: - About, Pair preview
+
+"screen.about.pairPreview.section.header" = "What a lesson looks like";
+"screen.about.pairPreview.from" = "start";
+"screen.about.pairPreview.to" = "end";
+"screen.about.pairPreview.subject" = "Subject";
+"screen.about.pairPreview.weeks" = "week";
+"screen.about.pairPreview.subgroup" = "subgroup";
+"screen.about.pairPreview.auditory" = "Auditorium - building";
+"screen.about.pairPreview.note" = "Comment";
+"screen.about.pairPreview.accessibility.label" = "Visual display of the lesson with signed items";
+
+// MARK: - About, Appearance
 
 "screen.about.appearance.section.header" = "Appearance";
 "screen.about.appearance.iconPicker.title" = "Icon";
@@ -43,12 +66,19 @@
 "screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
 "screen.about.appearance.icon.ukrainianFlag.title" = "Ukrainian";
 
-"screen.favorites.navigation.title" = "Favorites";
-"screen.favorites.emptyState.title" = "You are not the chosen one, Neo";
-"screen.favorites.emptyState.subtitle" = "Pick someone else";
-"screen.favorites.emptyState.action.title" = "Lead the way!";
-"screen.favorites.groups.section.header" = "Groups";
-"screen.favorites.lecturers.section.header" = "Lecturers";
+// MARK: - About, About App
+
+"screen.about.aboutTheApp.section.header" = "About the app";
+"screen.about.aboutTheApp.version.%@" = "Version %@";
+
+// MARK: - About, Data
+
+"screen.about.data.section.header" = "Data";
+"screen.about.data.section.clearCache.button" = "Clear cache";
+
+// MARK: - Schedule
+
+"screen.schedule.placeholder.title" = "Please select a schedule to display...";
 
 "screen.schedule.favorite.accessibility.remove" = "Remove from favorites";
 "screen.schedule.favorite.accessibility.add" = "Add to favorites";
@@ -59,24 +89,28 @@
 "screen.schedule.emptyState.title" = "There doesn't seem to be a class";
 "screen.schedule.emptyState.subtitle" = "Everybody's free!";
 
-"view.root.tabBar.selection.groups" = "Groups";
-"view.root.tabBar.selection.lecturers" = "Lecturers";
-"view.root.tabBar.selection.about" = "About";
-"view.root.tabBar.selection.favorites" = "Favorites";
+// TODO: - Remove when exams are supported
+"screen.schedule.unsupportedExams.title" = "My deepest apologies";
+"screen.schedule.unsupportedExams.subject" = "The exam schedule is not currently supported";
+"screen.schedule.unsupportedExams.auditory" = "I had to temporarily remove this feature because there is no time to move to a new API";
+"screen.schedule.unsupportedExams.subject2" = "Но вы можете мне помочь";
+
+// MARK: - Loading
 
 "view.loadingState.title" = "Loading...";
+
+// MARK: - Error
 
 "view.errorState.title" = "Something went wrong...";
 "view.errorState.button.label" = "Retry";
 
-"view.regularRoot.tabView.placeholder" = "Oops";
-"view.schedulePlaceholder.title" = "Please select a schedule to display...";
+// MARK: - PairView
 
-"view.pairViewForm.name.lecture" = "Lecture";
-"view.pairViewForm.name.lab" = "Laboratory lesson";
-"view.pairViewForm.name.practice" = "Practical lesson";
-"view.pairViewForm.name.exam" = "Exam";
-"view.pairViewForm.name.unknown" = "Unknown";
+"view.pairView.form.name.lecture" = "Lecture";
+"view.pairView.form.name.lab" = "Laboratory lesson";
+"view.pairView.form.name.practice" = "Practical lesson";
+"view.pairView.form.name.exam" = "Exam";
+"view.pairView.form.name.unknown" = "Unknown";
 
 "view.pairView.accessibility.label" = "Going on now";
 "view.pairView.accessibility.from.%@.to.%@" = "from %@ to %@";
@@ -84,11 +118,10 @@
 "view.pairView.accessibility.subgroup.%@" = "Subgroup: %@";
 "view.pairView.accessibility.auditory.%@" = "audithory: %@";
 
+// MARK: - Alert
+
 "alert.goodIconChoice.title" = "Excellent choice!";
 "alert.goodIconChoice.message" = "Long live Belarus!";
 
-// TODO: - Remove when exams are supported
-"screen.schedule.unsupportedExams.title" = "My deepest apologies";
-"screen.schedule.unsupportedExams.subject" = "The exam schedule is not currently supported";
-"screen.schedule.unsupportedExams.auditory" = "I had to temporarily remove this feature because there is no time to move to a new API";
-"screen.schedule.unsupportedExams.subject2" = "Но вы можете мне помочь";
+"alert.clearCache.title" = "Cache successfully cleared";
+"alert.clearCache.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";
