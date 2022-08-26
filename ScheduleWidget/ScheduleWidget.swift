@@ -202,8 +202,7 @@ private extension Array {
 
 // MARK: - Formatters
 
-private let listFormatter = mutating(ListFormatter())
-}
+private let listFormatter = ListFormatter()
 
 private let smallDateFormatter = mutating(DateFormatter()) {
     $0.setLocalizedDateFormatFromTemplate("dE")
