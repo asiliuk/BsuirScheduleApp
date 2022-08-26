@@ -115,7 +115,7 @@ struct ScheduleView: View {
 }
 
 private extension ScheduleScreen.ScheduleType {
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .continuous:
             return "screen.schedule.scheduleType.schedule"

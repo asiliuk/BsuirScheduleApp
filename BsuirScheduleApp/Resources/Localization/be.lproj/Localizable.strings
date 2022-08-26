@@ -28,7 +28,7 @@
 "screen.about.about.section.header" = "Аб дадатку";
 "screen.about.about.section.version.%@" = "Версія %@";
 "screen.about.data.section.header" = "Звесткі";
-"screen.about.data.section.clear.cache.button" = "Ачысціць кэш";
+"screen.about.data.section.clearCache.button" = "Ачысціць кэш";
 "screen.about.clearCache.alert.title" = "Кэш паспяхова вычышчаны";
 "screen.about.clearCache.alert.message" = "Быў выдалены кэш запампаванага раскладу і фатаграфій выкладчыкаў";
 "screen.about.navigation.title" = "Інфармацыя";

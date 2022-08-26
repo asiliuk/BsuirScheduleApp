@@ -28,7 +28,7 @@
 "screen.about.about.section.header" = "О приложении";
 "screen.about.about.section.version.%@" = "Версия %@";
 "screen.about.data.section.header" = "Данные";
-"screen.about.data.section.clear.cache.button" = "Очистить кэш";
+"screen.about.data.section.clearCache.button" = "Очистить кэш";
 "screen.about.clearCache.alert.title" = "Кэш успешно очищен";
 "screen.about.clearCache.alert.message" = "Был удален кэш скачанного расписания и фотографий преподавателей";
 "screen.about.navigation.title" = "Информация";

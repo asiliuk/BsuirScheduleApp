@@ -22,13 +22,13 @@
 "screen.about.pairCell.subject" = "Subject";
 "screen.about.pairCell.weeks" = "week";
 "screen.about.pairCell.subgroup" = "subgroup";
-"screen.about.pairCell.auditory" = "Study - building";
+"screen.about.pairCell.auditory" = "Auditorium - building";
 "screen.about.pairCell.note" = "Comment";
 "screen.about.pairCell.accessibility.label" = "Visual display of the lesson with signed items";
 "screen.about.about.section.header" = "About the app";
 "screen.about.about.section.version.%@" = "Version %@";
 "screen.about.data.section.header" = "Data";
-"screen.about.data.section.clear.cache.button" = "Clear cache";
+"screen.about.data.section.clearCache.button" = "Clear cache";
 "screen.about.clearCache.alert.title" = "Cache successfully cleared";
 "screen.about.clearCache.alert.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";
 "screen.about.navigation.title" = "Information";
@@ -63,7 +63,7 @@
 
 "view.root.tabBar.selection.groups" = "Groups";
 "view.root.tabBar.selection.lecturers" = "Lecturers";
-"view.root.tabBar.selection.about" = "About the app";
+"view.root.tabBar.selection.about" = "About";
 "view.root.tabBar.selection.favorites" = "Favorites";
 
 "view.loadingState.title" = "Loading...";

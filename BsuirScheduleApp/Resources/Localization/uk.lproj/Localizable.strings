@@ -28,7 +28,7 @@
 "screen.about.about.section.header" = "Про програму";
 "screen.about.about.section.version.%@" = "Версія %@";
 "screen.about.data.section.header" = "Дані";
-"screen.about.data.section.clear.cache.button" = "Очистити кеш";
+"screen.about.data.section.clearCache.button" = "Очистити кеш";
 "screen.about.clearCache.alert.title" = "Кеш успішно очищений";
 "screen.about.clearCache.alert.message" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";
 "screen.about.navigation.title" = "Інформація";
