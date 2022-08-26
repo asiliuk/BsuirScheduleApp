@@ -33,24 +33,22 @@
 "screen.about.clearCache.alert.message" = "Быў выдалены кэш запампаванага раскладу і фатаграфій выкладчыкаў";
 "screen.about.navigation.title" = "Інфармацыя";
 
+"screen.about.appearance.section.header" = "Вонкавы выгляд";
+"screen.about.appearance.iconPicker.title" = "Іконка";
+"screen.about.appearance.icon.default.title" = "Стандартная";
+"screen.about.appearance.icon.dark.title" = "Цёмная";
+"screen.about.appearance.icon.nostalgia.title" = "Настальгія";
+"screen.about.appearance.icon.resist.title" = "❤️✊✌️";
+"screen.about.appearance.icon.pride.title" = "Pride";
+"screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
+"screen.about.appearance.icon.ukrainianFlag.title" = "Украінская";
+
 "screen.favorites.navigation.title" = "Выбраныя";
 "screen.favorites.emptyState.title" = "Ты не абраны, Неа";
 "screen.favorites.emptyState.subtitle" = "Абяры каго-небудзь іншага";
 "screen.favorites.emptyState.action.title" = "Вядзі мяне!";
 "screen.favorites.groups.section.header" = "Групы";
 "screen.favorites.lecturers.section.header" = "Выкладчыкі";
-
-"Appearance" = "Вонкавы выгляд";
-"Icon" = "Іконка";
-"Excellent choice!" = "Выдатны выбар!";
-"Long live Belarus!" = "Жыве Беларусь!";
-"Default" = "Стандартная";
-"Dark" = "Цёмная";
-"Nostalgia" = "Настальгія";
-"❤️✊✌️" = "❤️✊✌️";
-"Pride" = "Pride";
-"БЧБ" = "БЧБ";
-"Ukrainian" = "Украінская";
 
 "screen.schedule.favorite.accessibility.remove" = "Прыбраць з абранага";
 "screen.schedule.favorite.accessibility.add" = "Дадаць у абранае";
@@ -85,6 +83,9 @@
 "view.pairView.accessibility.weeks.%@" = "Тыдні: %@";
 "view.pairView.accessibility.subgroup.%@" = "Падгрупа: %@";
 "view.pairView.accessibility.auditory.%@" = "аўдыторыя: %@";
+
+"alert.goodIconChoice.title" = "Выдатны выбар!";
+"alert.goodIconChoice.message" = "Жыве Беларусь!";
 
 // TODO: - Remove when exams are supported
 "screen.schedule.unsupportedExams.title" = "Прынаю найглыбокія прабачэнні";

@@ -13,8 +13,8 @@ struct AppIconPicker: View {
 
     var body: some View {
         if application.supportsAlternateIcons {
-            Section(header: Text("Appearance")) {
-                Picker(selection: $icon, label: Text("Icon")) {
+            Section(header: Text("screen.about.appearance.section.header")) {
+                Picker(selection: $icon, label: Text("screen.about.appearance.iconPicker.title")) {
                     ForEach(AppIcon.allCases) { icon in
                         HStack {
                             AppIconView(icon: icon, bundle: bundle)
@@ -95,13 +95,13 @@ private enum AppIcon: CaseIterable, Identifiable {
 
     var title: LocalizedStringKey {
         switch self {
-        case .standard: return "Стандартная"
-        case .dark: return "Темная"
-        case .nostalgia: return "Ностальгия"
-        case .resist: return "❤️✊✌️"
-        case .national: return "БЧБ"
-        case .pride: return "Pride"
-        case .dad: return "Я твой баця"
+        case .standard: return "screen.about.appearance.icon.default.title"
+        case .dark: return "screen.about.appearance.icon.dark.title"
+        case .nostalgia: return "screen.about.appearance.icon.nostalgia.title"
+        case .resist: return "screen.about.appearance.icon.resist.title"
+        case .pride: return "screen.about.appearance.icon.pride.title"
+        case .national: return "screen.about.appearance.icon.belarusFlag.title"
+        case .ukrainian: return "screen.about.appearance.icon.ukrainianFlag.title"
         }
     }
 

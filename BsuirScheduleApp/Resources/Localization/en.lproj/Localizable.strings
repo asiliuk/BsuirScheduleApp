@@ -33,24 +33,22 @@
 "screen.about.clearCache.alert.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";
 "screen.about.navigation.title" = "Information";
 
+"screen.about.appearance.section.header" = "Appearance";
+"screen.about.appearance.iconPicker.title" = "Icon";
+"screen.about.appearance.icon.default.title" = "Default";
+"screen.about.appearance.icon.dark.title" = "Dark";
+"screen.about.appearance.icon.nostalgia.title" = "Nostalgia";
+"screen.about.appearance.icon.resist.title" = "❤️✊✌️";
+"screen.about.appearance.icon.pride.title" = "Pride";
+"screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
+"screen.about.appearance.icon.ukrainianFlag.title" = "Ukrainian";
+
 "screen.favorites.navigation.title" = "Favorites";
 "screen.favorites.emptyState.title" = "You are not the chosen one, Neo";
 "screen.favorites.emptyState.subtitle" = "Pick someone else";
 "screen.favorites.emptyState.action.title" = "Lead the way!";
 "screen.favorites.groups.section.header" = "Groups";
 "screen.favorites.lecturers.section.header" = "Lecturers";
-
-"Appearance" = "Appearance";
-"Icon" = "Icon";
-"Excellent choice!" = "Excellent choice!";
-"Long live Belarus!" = "Жыве Беларусь!";
-"Default" = "Default";
-"Dark" = "Dark";
-"Nostalgia" = "Nostalgia";
-"❤️✊✌️" = "❤️✊✌️";
-"Pride" = "Pride";
-"БЧБ" = "БЧБ";
-"Ukrainian" = "Ukrainian";
 
 "screen.schedule.favorite.accessibility.remove" = "Remove from favorites";
 "screen.schedule.favorite.accessibility.add" = "Add to favorites";
@@ -85,6 +83,9 @@
 "view.pairView.accessibility.weeks.%@" = "Weeks: %@";
 "view.pairView.accessibility.subgroup.%@" = "Subgroup: %@";
 "view.pairView.accessibility.auditory.%@" = "audithory: %@";
+
+"alert.goodIconChoice.title" = "Excellent choice!";
+"alert.goodIconChoice.message" = "Long live Belarus!";
 
 // TODO: - Remove when exams are supported
 "screen.schedule.unsupportedExams.title" = "My deepest apologies";
