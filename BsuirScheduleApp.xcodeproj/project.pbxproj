@@ -15,6 +15,8 @@
 		E610F3E5289EE5F600239F24 /* DayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E610F3E4289EE5F600239F24 /* DayViewModel.swift */; };
 		E616B44224AE158400A46E67 /* ScheduleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E616B44124AE158400A46E67 /* ScheduleGridView.swift */; };
 		E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */; };
+		E627876F28B6B36E00F61D9B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E627876D28B6B36E00F61D9B /* Localizable.strings */; };
+		E627877628B93AD500F61D9B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6992A5E828B0025D007FFF0F /* Localizable.strings */; };
 		E6373F06250A387900729EC8 /* CompactRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* CompactRootView.swift */; };
 		E6373F08250A38C400729EC8 /* RegularRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* RegularRootView.swift */; };
 		E6429E192525EE8300009E16 /* AppIconPride_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */; };
@@ -122,13 +124,25 @@
 
 /* Begin PBXFileReference section */
 		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		6992A5E728B0025D007FFF0F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6992A5E928B0026A007FFF0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		699CEC0A28B13EA100508D10 /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
+		699CEC0C28B1403200508D10 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		69CA216428B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconUkrainian_83.5@2x.png"; sourceTree = "<group>"; };
 		69CA216528B4C6D800B6DED3 /* AppIconUkrainian@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconUkrainian@3x.png"; sourceTree = "<group>"; };
 		69CA216628B4C6D800B6DED3 /* AppIconUkrainian@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconUkrainian@2x.png"; sourceTree = "<group>"; };
 		E610F3E2289EE5A200239F24 /* DayScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayScheduleViewModel.swift; sourceTree = "<group>"; };
 		E610F3E4289EE5F600239F24 /* DayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewModel.swift; sourceTree = "<group>"; };
 		E616B44124AE158400A46E67 /* ScheduleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleGridView.swift; sourceTree = "<group>"; };
+		E619BF7E28B6AC35006ADB39 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
+		E619BF8028B6AC35006ADB39 /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
+		E619BF8228B6AC38006ADB39 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
+		E619BF8428B6AC39006ADB39 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
 		E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntry.swift; sourceTree = "<group>"; };
+		E627877028B6B37400F61D9B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E627877328B6B50A00F61D9B /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E627877428B6B50C00F61D9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E627877528B6B50F00F61D9B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E6373F05250A387900729EC8 /* CompactRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactRootView.swift; sourceTree = "<group>"; };
 		E6373F07250A38C400729EC8 /* RegularRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularRootView.swift; sourceTree = "<group>"; };
 		E6429E162525EE8300009E16 /* AppIconPride_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconPride_83.5@2x.png"; sourceTree = "<group>"; };
@@ -171,8 +185,6 @@
 		E6A6A87E24142BAB0024D738 /* LoadableContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableContent.swift; sourceTree = "<group>"; };
 		E6A6A88224142F2C0024D738 /* CombineHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineHelpers.swift; sourceTree = "<group>"; };
 		E6A6D1C625D5C1CC00204A79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/ScheduleWidget.intentdefinition; sourceTree = "<group>"; };
-		E6A6D1E525D5C1DC00204A79 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
-		E6A6D1F225D5C1E200204A79 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
 		E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D1025162F1A00788A02 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E6AA8D1225162F1A00788A02 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -184,7 +196,6 @@
 		E6AA8D2E2516301500788A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6B2899F27038759008469F3 /* DeeplinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkHandler.swift; sourceTree = "<group>"; };
 		E6D11758253783CC00A6875D /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
-		E6DB88E6250A45FE00E2AAE7 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		E6EDC2DC25220F9800C8A73C /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		E6F4A836287B4A24001AB915 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 		E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BsuirScheduleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -226,6 +237,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6992A5E328AFFFAE007FFF0F /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				6992A5E828B0025D007FFF0F /* Localizable.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 		E616B43E24AE12BE00A46E67 /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +352,7 @@
 		E695524A22F9D0E000EEFA72 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6992A5E328AFFFAE007FFF0F /* Localization */,
 				E691E965250D2CA500116878 /* Icons */,
 				E6F931BE22F8B1C20038FC43 /* Assets.xcassets */,
 				E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */,
@@ -420,6 +440,7 @@
 				E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */,
 				E6AA8D1825162F1B00788A02 /* Assets.xcassets */,
 				E6AA8D1A25162F1B00788A02 /* Info.plist */,
+				E627876D28B6B36E00F61D9B /* Localizable.strings */,
 			);
 			path = ScheduleWidget;
 			sourceTree = "<group>";
@@ -582,6 +603,8 @@
 				en,
 				Base,
 				ru,
+				be,
+				uk,
 			);
 			mainGroup = E6F931A922F8B1C10038FC43;
 			packageReferences = (
@@ -603,6 +626,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6AA8D1925162F1B00788A02 /* Assets.xcassets in Resources */,
+				E627876F28B6B36E00F61D9B /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,6 +654,7 @@
 				69CA216928B4C6D800B6DED3 /* AppIconUkrainian@2x.png in Resources */,
 				69CA216728B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png in Resources */,
 				E691E96B250D2D6100116878 /* AppIconNostalgia@2x.png in Resources */,
+				E627877628B93AD500F61D9B /* Localizable.strings in Resources */,
 				E6429E2B2525EEAA00009E16 /* AppIconNational_83.5@2x.png in Resources */,
 				E691E96E250D2D6100116878 /* AppIconDark@2x.png in Resources */,
 				E691E96D250D2D6100116878 /* AppIconResist@3x.png in Resources */,
@@ -719,12 +744,36 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6992A5E828B0025D007FFF0F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6992A5E728B0025D007FFF0F /* ru */,
+				6992A5E928B0026A007FFF0F /* en */,
+				699CEC0A28B13EA100508D10 /* be */,
+				699CEC0C28B1403200508D10 /* uk */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		E627876D28B6B36E00F61D9B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E627877028B6B37400F61D9B /* ru */,
+				E627877328B6B50A00F61D9B /* be */,
+				E627877428B6B50C00F61D9B /* en */,
+				E627877528B6B50F00F61D9B /* uk */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E6A6D1C625D5C1CC00204A79 /* Base */,
-				E6A6D1E525D5C1DC00204A79 /* ru */,
-				E6A6D1F225D5C1E200204A79 /* en */,
+				E619BF7E28B6AC35006ADB39 /* ru */,
+				E619BF8028B6AC35006ADB39 /* be */,
+				E619BF8228B6AC38006ADB39 /* en */,
+				E619BF8428B6AC39006ADB39 /* uk */,
 			);
 			name = ScheduleWidget.intentdefinition;
 			sourceTree = "<group>";
@@ -733,7 +782,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				E6F931C422F8B1C20038FC43 /* Base */,
-				E6DB88E6250A45FE00E2AAE7 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -877,6 +925,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -936,6 +985,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

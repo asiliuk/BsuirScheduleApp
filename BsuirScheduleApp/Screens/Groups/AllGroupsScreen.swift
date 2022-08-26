@@ -69,7 +69,7 @@ final class AllGroupsScreen: ObservableObject {
 extension Array where Element == AllGroupsScreenGroupSection {
     init(favorites: [Group], groups: [Group]) {
         let favoritesGroup = AllGroupsScreenGroupSection(
-            title: "⭐️ Избранные",
+            title: String(localized: "screen.groups.favorites.section.header"),
             groups: favorites.map(AllGroupsScreenGroup.init)
         )
 

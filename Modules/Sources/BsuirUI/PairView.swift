@@ -5,25 +5,25 @@ import BsuirApi
 public struct PairCell<Details: View>: View {
     var pair: PairView<Details>
     public init(
-        from: String,
-        to: String,
-        subject: String,
-        weeks: String? = nil,
-        subgroup: String? = nil,
-        auditory: String,
-        note: String? = nil,
+        from: String.LocalizationValue,
+        to: String.LocalizationValue,
+        subject: String.LocalizationValue,
+        weeks: String.LocalizationValue? = nil,
+        subgroup: String.LocalizationValue? = nil,
+        auditory: String.LocalizationValue,
+        note: String.LocalizationValue? = nil,
         form: PairViewForm,
         progress: PairProgress,
         details: Details
     ) {
         self.pair = PairView(
-            from: from,
-            to: to,
-            subject: subject,
-            weeks: weeks,
-            subgroup: subgroup,
-            auditory: auditory,
-            note: note,
+            from: String(localized: from),
+            to: String(localized: to),
+            subject: String(localized: subject),
+            weeks: weeks == nil ? nil : String(localized: weeks!),
+            subgroup: subgroup == nil ? nil : String(localized: subgroup!),
+            auditory: String(localized: auditory),
+            note: note == nil ? nil : String(localized: note!),
             form: form,
             progress: progress,
             details: details
@@ -142,11 +142,11 @@ public struct PairView<Details: View>: View {
         .accessibilityElement(children: .ignore)
         .accessibility(label: accessibilityDescription(
             subject.map { "\($0) \(Text(form.name))" },
-            progress.isNow ? "Идет сейчас" : nil,
-            "с \(from) по \(to)",
-            weeks.map { "Недели: \($0)" },
-            subgroup.map { "Подгруппа: \($0)" },
-            "аудитория: \(auditory)",
+            progress.isNow ? "view.pairView.accessibility.label" : nil,
+            "view.pairView.accessibility.from.\(from).to.\(to)",
+            weeks.map { "view.pairView.accessibility.weeks.\($0)" },
+            subgroup.map { "view.pairView.accessibility.subgroup.\($0)" },
+            "view.pairView.accessibility.auditory.\(auditory)",
             note.map { "\($0)" }
         ))
     }
@@ -264,11 +264,11 @@ private extension PairProgress {
 extension PairViewForm {
     public var name: LocalizedStringKey {
         switch self {
-        case .lecture: return "Лекция"
-        case .lab: return "Лабораторная работа"
-        case .practice: return "Практическая работа"
-        case .exam: return "Экзамен"
-        case .unknown: return "Неизвестно"
+        case .lecture: return "view.pairView.form.name.lecture"
+        case .lab: return "view.pairView.form.name.lab"
+        case .practice: return "view.pairView.form.name.practice"
+        case .exam: return "view.pairView.form.name.exam"
+        case .unknown: return "view.pairView.form.name.unknown"
         }
     }
 

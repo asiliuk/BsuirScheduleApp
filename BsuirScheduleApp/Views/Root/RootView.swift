@@ -52,13 +52,13 @@ extension CurrentSelection {
     @ViewBuilder var label: some View {
         switch self {
         case .groups:
-            Label("Группы", systemImage: "person.2")
+            Label("view.tabBar.groups.title", systemImage: "person.2")
         case .lecturers:
-            Label("Преподаватели", systemImage: "person.text.rectangle")
+            Label("view.tabBar.lecturers.title", systemImage: "person.text.rectangle")
         case .about:
-            Label("О приложении", systemImage: "info.circle")
+            Label("view.tabBar.about.title", systemImage: "info.circle")
         case .favorites:
-            Label("Избранные", systemImage: "star")
+            Label("view.tabBar.favorites.title", systemImage: "star")
         }
     }
 }

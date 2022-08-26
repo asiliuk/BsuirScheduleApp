@@ -12,16 +12,16 @@ struct AllFavoritesView: View {
                 list
             }
         }
-        .navigationTitle("Избранные")
+        .navigationTitle("screen.favorites.navigation.title")
     }
 
     private var placeholder: some View {
         EmptyState(
             image: Image(systemName: "hand.raised.fill"),
-            title: "Ты не избранный, Нео",
-            subtitle: "Выбери кого-нибудь другого",
+            title: "screen.favorites.emptyState.title",
+            subtitle: "screen.favorites.emptyState.subtitle",
             action: .init(
-                title: "Веди меня!",
+                title: "screen.favorites.emptyState.action.title",
                 action: openGroups
             )
         )
@@ -30,7 +30,7 @@ struct AllFavoritesView: View {
     private var list: some View {
         List {
             if !screen.groups.isEmpty {
-                Section(header: Text("Группы")) {
+                Section(header: Text("screen.favorites.groups.section.header")) {
                     ForEach(screen.groups) { group in
                         NavigationLinkButton {
                             screen.selection = .group(group)
@@ -42,7 +42,7 @@ struct AllFavoritesView: View {
             }
 
             if !screen.lecturers.isEmpty {
-                Section(header: Text("Преподаватели")) {
+                Section(header: Text("screen.favorites.lecturers.section.header")) {
                     ForEach(screen.lecturers) { lecturer in
                         NavigationLinkButton {
                             screen.selection = .lecturer(lecturer)

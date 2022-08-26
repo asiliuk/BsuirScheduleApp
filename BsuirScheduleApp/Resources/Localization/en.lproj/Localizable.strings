@@ -1,0 +1,127 @@
+/* 
+  Localizable.strings
+  BsuirScheduleApp
+
+  Created by Nikita Prokhorchuk on 19.08.22.
+  Copyright © 2022 Saute. All rights reserved.
+*/
+
+// MARK: - Tabbar
+
+"view.tabBar.groups.title" = "Groups";
+"view.tabBar.lecturers.title" = "Lecturers";
+"view.tabBar.about.title" = "About";
+"view.tabBar.favorites.title" = "Favorites";
+
+// MARK: - Favorites
+
+"screen.favorites.navigation.title" = "Favorites";
+"screen.favorites.emptyState.title" = "You are not the chosen one, Neo";
+"screen.favorites.emptyState.subtitle" = "Pick someone else";
+"screen.favorites.emptyState.action.title" = "Lead the way!";
+"screen.favorites.groups.section.header" = "Groups";
+"screen.favorites.lecturers.section.header" = "Lecturers";
+
+// MARK: - Groups
+
+"screen.groups.search.placeholder" = "Find the group";
+"screen.groups.navigation.title" = "All groups";
+"screen.groups.favorites.section.header" = "⭐️ Favorites";
+
+// MARK: - Lecturers
+
+"screen.lecturers.search.placeholder" = "Find a lecturer";
+"screen.lecturers.navigation.title" = "All lecturers";
+"screen.lecturers.favorites.section.header" = "⭐️ Favorites";
+
+// MARK: - About
+
+"screen.about.navigation.title" = "Information";
+
+// MARK: - About, Colors
+
+"screen.about.colors.section.header" = "Colors";
+
+// MARK: - About, Pair preview
+
+"screen.about.pairPreview.section.header" = "What a lesson looks like";
+"screen.about.pairPreview.from" = "start";
+"screen.about.pairPreview.to" = "end";
+"screen.about.pairPreview.subject" = "Subject";
+"screen.about.pairPreview.weeks" = "week";
+"screen.about.pairPreview.subgroup" = "subgroup";
+"screen.about.pairPreview.auditory" = "Auditorium - building";
+"screen.about.pairPreview.note" = "Comment";
+"screen.about.pairPreview.accessibility.label" = "Visual display of the lesson with signed items";
+
+// MARK: - About, Appearance
+
+"screen.about.appearance.section.header" = "Appearance";
+"screen.about.appearance.iconPicker.title" = "Icon";
+"screen.about.appearance.icon.default.title" = "Default";
+"screen.about.appearance.icon.dark.title" = "Dark";
+"screen.about.appearance.icon.nostalgia.title" = "Nostalgia";
+"screen.about.appearance.icon.resist.title" = "❤️✊✌️";
+"screen.about.appearance.icon.pride.title" = "Pride";
+"screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
+"screen.about.appearance.icon.ukrainianFlag.title" = "Ukrainian";
+
+// MARK: - About, About App
+
+"screen.about.aboutTheApp.section.header" = "About the app";
+"screen.about.aboutTheApp.version.%@" = "Version %@";
+
+// MARK: - About, Data
+
+"screen.about.data.section.header" = "Data";
+"screen.about.data.section.clearCache.button" = "Clear cache";
+
+// MARK: - Schedule
+
+"screen.schedule.placeholder.title" = "Please select a schedule to display...";
+
+"screen.schedule.favorite.accessibility.remove" = "Remove from favorites";
+"screen.schedule.favorite.accessibility.add" = "Add to favorites";
+"screen.schedule.scheduleTypePicker.title" = "Schedule type";
+"screen.schedule.scheduleType.schedule" = "Schedule";
+"screen.schedule.scheduleType.byDay" = "By day";
+"screen.schedule.scheduleType.exams" = "Exams";
+"screen.schedule.emptyState.title" = "There doesn't seem to be a class";
+"screen.schedule.emptyState.subtitle" = "Everybody's free!";
+
+// TODO: - Remove when exams are supported
+"screen.schedule.unsupportedExams.title" = "My deepest apologies";
+"screen.schedule.unsupportedExams.subject" = "The exam schedule is not currently supported";
+"screen.schedule.unsupportedExams.auditory" = "I had to temporarily remove this feature because there is no time to move to a new API";
+"screen.schedule.unsupportedExams.subject2" = "Но вы можете мне помочь";
+
+// MARK: - Loading
+
+"view.loadingState.title" = "Loading...";
+
+// MARK: - Error
+
+"view.errorState.title" = "Something went wrong...";
+"view.errorState.button.label" = "Retry";
+
+// MARK: - PairView
+
+"view.pairView.form.name.lecture" = "Lecture";
+"view.pairView.form.name.lab" = "Laboratory lesson";
+"view.pairView.form.name.practice" = "Practical lesson";
+"view.pairView.form.name.exam" = "Exam";
+"view.pairView.form.name.unknown" = "Unknown";
+
+"view.pairView.accessibility.label" = "Going on now";
+"view.pairView.accessibility.from.%@.to.%@" = "from %@ to %@";
+"view.pairView.accessibility.weeks.%@" = "Weeks: %@";
+"view.pairView.accessibility.subgroup.%@" = "Subgroup: %@";
+"view.pairView.accessibility.auditory.%@" = "audithory: %@";
+
+// MARK: - Alert
+
+"alert.goodIconChoice.title" = "Excellent choice!";
+"alert.goodIconChoice.message" = "Long live Belarus!";
+
+"alert.clearCache.title" = "Cache successfully cleared";
+"alert.clearCache.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";

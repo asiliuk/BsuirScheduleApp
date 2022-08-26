@@ -60,8 +60,8 @@ struct ScheduleView: View {
             }
             .accessibility(
                 label: screen.isFavorite
-                    ? Text("Убрать из избранного")
-                    : Text("Добавить в избранное")
+                    ? Text("screen.schedule.favorite.accessibility.remove")
+                    : Text("screen.schedule.favorite.accessibility.add")
             )
             .accentColor(.yellow)
         }
@@ -69,13 +69,13 @@ struct ScheduleView: View {
 
     private var picker: some View {
         Menu {
-            Picker("Тип расписания", selection: $screen.scheduleType) {
+            Picker("screen.schedule.scheduleTypePicker.title", selection: $screen.scheduleType) {
                 ForEach(ScheduleScreen.ScheduleType.allCases, id: \.self) { scheduleType in
                     Label(scheduleType.title, systemImage: scheduleType.imageName)
                 }
             }
         } label: {
-            Label("Тип расписания", systemImage: screen.scheduleType.imageName)
+            Label("screen.schedule.scheduleTypePicker.title", systemImage: screen.scheduleType.imageName)
         }
     }
 
@@ -115,14 +115,14 @@ struct ScheduleView: View {
 }
 
 private extension ScheduleScreen.ScheduleType {
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .continuous:
-            return "Расписание"
+            return "screen.schedule.scheduleType.schedule"
         case .compact:
-            return "По дням"
+            return "screen.schedule.scheduleType.byDay"
         case .exams:
-            return "Экзамены"
+            return "screen.schedule.scheduleType.exams"
         }
     }
 
@@ -249,8 +249,8 @@ struct ScheduleEmptyState: View {
     var body: some View {
         EmptyState(
             image: Image(systemName: imageNames.randomElement()!),
-            title: "Похоже, занятий нет",
-            subtitle: "Все свободны!"
+            title: "screen.schedule.emptyState.title",
+            subtitle: "screen.schedule.emptyState.subtitle"
         )
     }
 

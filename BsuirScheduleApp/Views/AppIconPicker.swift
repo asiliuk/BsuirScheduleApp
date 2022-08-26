@@ -13,8 +13,8 @@ struct AppIconPicker: View {
 
     var body: some View {
         if application.supportsAlternateIcons {
-            Section(header: Text("Внешний вид")) {
-                Picker(selection: $icon, label: Text("Иконка")) {
+            Section(header: Text("screen.about.appearance.section.header")) {
+                Picker(selection: $icon, label: Text("screen.about.appearance.iconPicker.title")) {
                     ForEach(AppIcon.allCases) { icon in
                         HStack {
                             AppIconView(icon: icon, bundle: bundle)
@@ -33,7 +33,10 @@ struct AppIconPicker: View {
             .alert(item: $alert) { alert in
                 switch alert {
                 case .belarusIconChoice:
-                    return Alert(title: Text("Отличный выбор!"), message: Text("Жыве Беларусь!"))
+                    return Alert(
+                        title: Text("alert.goodIconChoice.title"),
+                        message: Text("alert.goodIconChoice.message")
+                    )
                 }
             }
         }
@@ -92,13 +95,13 @@ private enum AppIcon: CaseIterable, Identifiable {
 
     var title: LocalizedStringKey {
         switch self {
-        case .standard: return "Стандартная"
-        case .dark: return "Темная"
-        case .nostalgia: return "Ностальгия"
-        case .resist: return "❤️✊✌️"
-        case .national: return "БЧБ"
-        case .ukrainian: return "Ukrainian"
-        case .pride: return "Pride"
+        case .standard: return "screen.about.appearance.icon.default.title"
+        case .dark: return "screen.about.appearance.icon.dark.title"
+        case .nostalgia: return "screen.about.appearance.icon.nostalgia.title"
+        case .resist: return "screen.about.appearance.icon.resist.title"
+        case .pride: return "screen.about.appearance.icon.pride.title"
+        case .national: return "screen.about.appearance.icon.belarusFlag.title"
+        case .ukrainian: return "screen.about.appearance.icon.ukrainianFlag.title"
         }
     }
 

@@ -8,52 +8,52 @@ struct AboutView: View {
 
     var body: some View {
         List {
-            Section(header: Text("Цвета")) {
+            Section(header: Text("screen.about.colors.section.header")) {
                 ForEach(PairViewForm.allCases, id: \.self) { form in
                     PairTypeView(name: form.name, form: form)
                 }
             }
 
-            Section(header: Text("Как выглядит пара")) {
+            Section(header: Text("screen.about.pairPreview.section.header")) {
                 PairCell(
-                    from: "начало",
-                    to: "конец",
-                    subject: "Предмет",
-                    weeks: "нед.",
-                    subgroup: "подгр.",
-                    auditory: "Кабинет - корпус",
-                    note: "Комментарий",
+                    from: "screen.about.pairPreview.from",
+                    to: "screen.about.pairPreview.to",
+                    subject: "screen.about.pairPreview.subject",
+                    weeks: "screen.about.pairPreview.weeks",
+                    subgroup: "screen.about.pairPreview.subgroup",
+                    auditory: "screen.about.pairPreview.auditory",
+                    note: "screen.about.pairPreview.note",
                     form: .practice,
                     progress: PairProgress(constant: 0.5),
                     details: EmptyView()
                 )
                 .fixedSize(horizontal: false, vertical: true)
                 .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
-                .accessibility(label: Text("Визуальное отображение пары с подписанными элементами"))
+                .accessibility(label: Text("screen.about.pairPreview.accessibility.label"))
             }
 
             AppIconPicker(bundle: bundle)
 
-            Section(header: Text("О приложении")) {
-                Text("Версия \(bundle.fullVersion.description)")
+            Section(header: Text("screen.about.aboutTheApp.section.header")) {
+                Text("screen.about.aboutTheApp.version.\(bundle.fullVersion.description)")
                 GithubButton()
                 TelegramButton()
             }
 
-            Section(header: Text("Данные")) {
-                Button("Очистить кэш") {
+            Section(header: Text("screen.about.data.section.header")) {
+                Button("screen.about.data.section.clearCache.button") {
                     screen.clearCache()
                 }
                 .alert(isPresented: $screen.isCacheCleared) {
                     Alert(
-                        title: Text("Кэш успешно очищен"),
-                        message: Text("Был удален кэш скачанного расписания и фотографий преподавателей")
+                        title: Text("alert.clearCache.title"),
+                        message: Text("alert.clearCache.message")
                     )
                 }
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .navigationTitle("Информация")
+        .navigationTitle("screen.about.navigation.title")
     }
 
     private let bundle = Bundle.main

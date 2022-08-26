@@ -1,0 +1,127 @@
+/* 
+  Localizable.strings
+  BsuirScheduleApp
+
+  Created by Nikita Prokhorchuk on 19.08.22.
+  Copyright © 2022 Saute. All rights reserved.
+*/
+
+// MARK: - Tabbar
+
+"view.tabBar.groups.title" = "Группы";
+"view.tabBar.lecturers.title" = "Преподаватели";
+"view.tabBar.about.title" = "О приложении";
+"view.tabBar.favorites.title" = "Избранные";
+
+// MARK: - Favorites
+
+"screen.favorites.navigation.title" = "Избранные";
+"screen.favorites.emptyState.title" = "Ты не избранный, Нео";
+"screen.favorites.emptyState.subtitle" = "Выбери кого-нибудь другого";
+"screen.favorites.emptyState.action.title" = "Веди меня!";
+"screen.favorites.groups.section.header" = "Группы";
+"screen.favorites.lecturers.section.header" = "Преподаватели";
+
+// MARK: - Groups
+
+"screen.groups.search.placeholder" = "Найти группу";
+"screen.groups.navigation.title" = "Все группы";
+"screen.groups.favorites.section.header" = "⭐️ Избранные";
+
+// MARK: - Lecturers
+
+"screen.lecturers.search.placeholder" = "Найти преподавателя";
+"screen.lecturers.navigation.title" = "Все преподаватели";
+"screen.lecturers.favorites.section.header" = "⭐️ Избранные";
+
+// MARK: - About
+
+"screen.about.navigation.title" = "Информация";
+
+// MARK: - About, Colors
+
+"screen.about.colors.section.header" = "Цвета";
+
+// MARK: - About, Pair preview
+
+"screen.about.pairPreview.section.header" = "Как выглядит пара";
+"screen.about.pairPreview.from" = "начало";
+"screen.about.pairPreview.to" = "конец";
+"screen.about.pairPreview.subject" = "Предмет";
+"screen.about.pairPreview.weeks" = "нед.";
+"screen.about.pairPreview.subgroup" = "подгр.";
+"screen.about.pairPreview.auditory" = "Кабинет - корпус";
+"screen.about.pairPreview.note" = "Комментарий";
+"screen.about.pairPreview.accessibility.label" = "Визуальное отображение пары с подписанными элементами";
+
+// MARK: - About, Appearance
+
+"screen.about.appearance.section.header" = "Внешний вид";
+"screen.about.appearance.iconPicker.title" = "Иконка";
+"screen.about.appearance.icon.default.title" = "Стандартная";
+"screen.about.appearance.icon.dark.title" = "Темная";
+"screen.about.appearance.icon.nostalgia.title" = "Ностальгия";
+"screen.about.appearance.icon.resist.title" = "❤️✊✌️";
+"screen.about.appearance.icon.pride.title" = "Pride";
+"screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
+"screen.about.appearance.icon.ukrainianFlag.title" = "Украинская";
+
+// MARK: - About, About App
+
+"screen.about.aboutTheApp.section.header" = "О приложении";
+"screen.about.aboutTheApp.version.%@" = "Версия %@";
+
+// MARK: - About, Data
+
+"screen.about.data.section.header" = "Данные";
+"screen.about.data.section.clearCache.button" = "Очистить кэш";
+
+// MARK: - Schedule
+
+"screen.schedule.placeholder.title" = "Пожалуйста, выберите расписание чтобы отобразить...";
+
+"screen.schedule.favorite.accessibility.remove" = "Убрать из избранного";
+"screen.schedule.favorite.accessibility.add" = "Добавить в избранное";
+"screen.schedule.scheduleTypePicker.title" = "Тип расписания";
+"screen.schedule.scheduleType.schedule" = "Расписание";
+"screen.schedule.scheduleType.byDay" = "По дням";
+"screen.schedule.scheduleType.exams" = "Экзамены";
+"screen.schedule.emptyState.title" = "Похоже, занятий нет";
+"screen.schedule.emptyState.subtitle" = "Все свободны!";
+
+// TODO: - Remove when exams are supported
+"screen.schedule.unsupportedExams.title" = "Приношу глубочайгшие извинения";
+"screen.schedule.unsupportedExams.subject" = "В данный момент расписание экзаменов не поддерживается";
+"screen.schedule.unsupportedExams.auditory" = "Пришлось временно убрать эту фичу потому что нет времени переехать на новый API";
+"screen.schedule.unsupportedExams.subject2" = "Но вы можете мне помочь";
+
+// MARK: - Loading
+
+"view.loadingState.title" = "Загрузка...";
+
+// MARK: - Error
+
+"view.errorState.title" = "Что-то пошло не так...";
+"view.errorState.button.label" = "Повторить попытку";
+
+// MARK: - PairView
+
+"view.pairView.form.name.lecture" = "Лекция";
+"view.pairView.form.name.lab" = "Лабораторная работа";
+"view.pairView.form.name.practice" = "Практическая работа";
+"view.pairView.form.name.exam" = "Экзамен";
+"view.pairView.form.name.unknown" = "Неизвестно";
+
+"view.pairView.accessibility.label" = "Идет сейчас";
+"view.pairView.accessibility.from.%@.to.%@" = "с %@ по %@";
+"view.pairView.accessibility.weeks.%@" = "Недели: %@";
+"view.pairView.accessibility.subgroup.%@" = "Подгруппа: %@";
+"view.pairView.accessibility.auditory.%@" = "аудитория: %@";
+
+// MARK: - Alert
+
+"alert.goodIconChoice.title" = "Отличный выбор!";
+"alert.goodIconChoice.message" = "Жыве Беларусь!";
+
+"alert.clearCache.title" = "Кэш успешно очищен";
+"alert.clearCache.message" = "Был удален кэш скачанного расписания и фотографий преподавателей";

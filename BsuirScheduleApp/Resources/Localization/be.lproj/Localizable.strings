@@ -1,0 +1,127 @@
+/* 
+  Localizable.strings
+  BsuirScheduleApp
+
+  Created by Nikita Prokhorchuk on 19.08.22.
+  Copyright © 2022 Saute. All rights reserved.
+*/
+
+// MARK: - Tabbar
+
+"view.tabBar.groups.title" = "Групы";
+"view.tabBar.lecturers.title" = "Выкладчыкі";
+"view.tabBar.about.title" = "Аб дадатку";
+"view.tabBar.favorites.title" = "Выбраныя";
+
+// MARK: - Favorites
+
+"screen.favorites.navigation.title" = "Выбраныя";
+"screen.favorites.emptyState.title" = "Ты не абраны, Неа";
+"screen.favorites.emptyState.subtitle" = "Абяры каго-небудзь іншага";
+"screen.favorites.emptyState.action.title" = "Вядзі мяне!";
+"screen.favorites.groups.section.header" = "Групы";
+"screen.favorites.lecturers.section.header" = "Выкладчыкі";
+
+// MARK: - Groups
+
+"screen.groups.search.placeholder" = "Знайсці групу";
+"screen.groups.navigation.title" = "Усе гурты";
+"screen.groups.favorites.section.header" = "⭐️ Выбраныя";
+
+// MARK: - Lecturers
+
+"screen.lecturers.search.placeholder" = "Знайсці выкладчыка";
+"screen.lecturers.navigation.title" = "Усе выкладчыкі";
+"screen.lecturers.favorites.section.header" = "⭐️ Выбраныя";
+
+// MARK: - About
+
+"screen.about.navigation.title" = "Інфармацыя";
+
+// MARK: - About, Colors
+
+"screen.about.colors.section.header" = "Колеры";
+
+// MARK: - About, Pair preview
+
+"screen.about.pairPreview.section.header" = "Як выглядае пара";
+"screen.about.pairPreview.from" = "пачатак";
+"screen.about.pairPreview.to" = "канец";
+"screen.about.pairPreview.subject" = "Прадмет";
+"screen.about.pairPreview.weeks" = "нед.";
+"screen.about.pairPreview.subgroup" = "падгр.";
+"screen.about.pairPreview.auditory" = "Кабінет - корпус";
+"screen.about.pairPreview.note" = "Каментар";
+"screen.about.pairPreview.accessibility.label" = "Візуальнае адлюстраванне пары з падпісанымі элементамі";
+
+// MARK: - About, Appearance
+
+"screen.about.appearance.section.header" = "Вонкавы выгляд";
+"screen.about.appearance.iconPicker.title" = "Іконка";
+"screen.about.appearance.icon.default.title" = "Стандартная";
+"screen.about.appearance.icon.dark.title" = "Цёмная";
+"screen.about.appearance.icon.nostalgia.title" = "Настальгія";
+"screen.about.appearance.icon.resist.title" = "❤️✊✌️";
+"screen.about.appearance.icon.pride.title" = "Pride";
+"screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
+"screen.about.appearance.icon.ukrainianFlag.title" = "Украінская";
+
+// MARK: - About, About App
+
+"screen.about.aboutTheApp.section.header" = "Аб дадатку";
+"screen.about.aboutTheApp.version.%@" = "Версія %@";
+
+// MARK: - About, Data
+
+"screen.about.data.section.header" = "Звесткі";
+"screen.about.data.section.clearCache.button" = "Ачысціць кэш";
+
+// MARK: - Schedule
+
+"screen.schedule.placeholder.title" = "Калі ласка, абярыце расклад, каб адлюстраваць...";
+
+"screen.schedule.favorite.accessibility.remove" = "Прыбраць з абранага";
+"screen.schedule.favorite.accessibility.add" = "Дадаць у абранае";
+"screen.schedule.scheduleTypePicker.title" = "Тып раскладу";
+"screen.schedule.scheduleType.schedule" = "Расклад";
+"screen.schedule.scheduleType.byDay" = "Па днях";
+"screen.schedule.scheduleType.exams" = "Іспыты";
+"screen.schedule.emptyState.title" = "Падобна, заняткаў няма";
+"screen.schedule.emptyState.subtitle" = "Усе вольныя!";
+
+// TODO: - Remove when exams are supported
+"screen.schedule.unsupportedExams.title" = "Прынаю найглыбокія прабачэнні";
+"screen.schedule.unsupportedExams.subject" = "У дадзены момант расклад іспытаў не падтрымліваецца";
+"screen.schedule.unsupportedExams.auditory" = "Давялося часова прыбраць гэтую фічу таму што няма часу пераехаць на новы API";
+"screen.schedule.unsupportedExams.subject2" = "Але вы можаце мне дапамагчы";
+
+// MARK: - Loading
+
+"view.loadingState.title" = "Загрузка...";
+
+// MARK: - Error
+
+"view.errorState.title" = "Нешта пайшло не так...";
+"view.errorState.button.label" = "Паўтарыць спробу";
+
+// MARK: - PairView
+
+"view.pairView.form.name.lecture" = "Лекцыя";
+"view.pairView.form.name.lab" = "Лабараторная работа";
+"view.pairView.form.name.practice" = "Практычная работа";
+"view.pairView.form.name.exam" = "Іспыт";
+"view.pairView.form.name.unknown" = "Невядома";
+
+"view.pairView.accessibility.label" = "Ідзе зараз";
+"view.pairView.accessibility.from.%@.to.%@" = "з %@ па %@";
+"view.pairView.accessibility.weeks.%@" = "Тыдні: %@";
+"view.pairView.accessibility.subgroup.%@" = "Падгрупа: %@";
+"view.pairView.accessibility.auditory.%@" = "аўдыторыя: %@";
+
+// MARK: - Alert
+
+"alert.goodIconChoice.title" = "Выдатны выбар!";
+"alert.goodIconChoice.message" = "Жыве Беларусь!";
+
+"alert.clearCache.title" = "Кэш паспяхова вычышчаны";
+"alert.clearCache.message" = "Быў выдалены кэш запампаванага раскладу і фатаграфій выкладчыкаў";
