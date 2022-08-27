@@ -6,7 +6,7 @@ class WeekNumberTests: XCTestCase {
 
     override func setUpWithError() throws {
         calendar = Calendar(identifier: .gregorian)
-        calendar.locale = .by
+        calendar.locale = Locale(identifier: "ru_BY")
     }
 
     override func tearDownWithError() throws {

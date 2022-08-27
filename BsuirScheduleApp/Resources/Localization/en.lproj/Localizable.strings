@@ -82,12 +82,16 @@
 
 "screen.schedule.favorite.accessibility.remove" = "Remove from favorites";
 "screen.schedule.favorite.accessibility.add" = "Add to favorites";
+
 "screen.schedule.scheduleTypePicker.title" = "Schedule type";
 "screen.schedule.scheduleType.schedule" = "Schedule";
 "screen.schedule.scheduleType.byDay" = "By day";
 "screen.schedule.scheduleType.exams" = "Exams";
+
 "screen.schedule.emptyState.title" = "There doesn't seem to be a class";
 "screen.schedule.emptyState.subtitle" = "Everybody's free!";
+
+"screen.schedule.day.title.%@.%lld" = "%@, Week %lld";
 
 // TODO: - Remove when exams are supported
 "screen.schedule.unsupportedExams.title" = "My deepest apologies";

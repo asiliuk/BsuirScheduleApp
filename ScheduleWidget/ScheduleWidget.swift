@@ -200,27 +200,6 @@ private extension Array {
     }
 }
 
-// MARK: - Formatters
-
-private let listFormatter = ListFormatter()
-
-private let smallDateFormatter = mutating(DateFormatter()) {
-    $0.setLocalizedDateFormatFromTemplate("dE")
-}
-
-private let normalDateFormatter = mutating(DateFormatter()) {
-    $0.setLocalizedDateFormatFromTemplate("dEMM")
-}
-
-private extension ListFormatter {
-    func string<C: Collection>(from values: C, visibleCount: Int) -> String? {
-        let visible = values.prefix(visibleCount).map { $0 as Any }
-        let remaining = values.count - visibleCount
-        guard remaining > 0 else { return string(from: visible) }
-        return string(from: visible + [String(localized: "widget.schedule.more.\(remaining)")])
-    }
-}
-
 // MARK: - Helper UI
 
 struct ScheduleIdentifierTitle: View {
@@ -255,14 +234,10 @@ struct WidgetDateTitle: View {
     var isSmall: Bool = false
 
     var body: some View {
-        dateTitle
+        Text(date.formatted(isSmall ? .widgetSmall : .widgetNormal))
             .lineLimit(1)
             .allowsTightening(true)
             .environment(\.locale, .current)
-    }
-
-    var dateTitle: Text {
-        Text((isSmall ? smallDateFormatter : normalDateFormatter).string(from: date))
     }
 }
 
@@ -285,11 +260,20 @@ struct RemainingPairs: View {
 
                 Circle().frame(width: 8, height: 8)
 
-                Text(listFormatter.string(from: pairs.map { $0.subject }, visibleCount: visibleCount) ?? "")
+                Text(morePairs)
                     .font(.footnote)
             }
             .foregroundColor(.secondary)
         }
+    }
+    
+    private var morePairs: String {
+        pairs
+            .compactMap(\.subject)
+            .formatted(
+                visibleCount: visibleCount,
+                placeholder: { String(localized: "widget.schedule.more.\($0)") }
+            )
     }
 
     private var time: String? {

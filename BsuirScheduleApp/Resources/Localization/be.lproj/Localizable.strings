@@ -82,12 +82,16 @@
 
 "screen.schedule.favorite.accessibility.remove" = "Прыбраць з абранага";
 "screen.schedule.favorite.accessibility.add" = "Дадаць у абранае";
+
 "screen.schedule.scheduleTypePicker.title" = "Тып раскладу";
 "screen.schedule.scheduleType.schedule" = "Расклад";
 "screen.schedule.scheduleType.byDay" = "Па днях";
 "screen.schedule.scheduleType.exams" = "Іспыты";
+
 "screen.schedule.emptyState.title" = "Падобна, заняткаў няма";
 "screen.schedule.emptyState.subtitle" = "Усе вольныя!";
+
+"screen.schedule.day.title.%@.%lld" = "%@, Тыдзень %lld";
 
 // TODO: - Remove when exams are supported
 "screen.schedule.unsupportedExams.title" = "Прынаю найглыбокія прабачэнні";
