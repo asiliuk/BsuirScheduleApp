@@ -32,7 +32,9 @@ public struct Pair: Codable, Equatable {
     @NonEmpty public var auditories: [String]
 
     public let startLessonTime: Time
+    public let startLessonDate: Date
     public let endLessonTime: Time
+    public let endLessonDate: Date
     public let dateLesson: Date?
     
     public let subgroup: Int
@@ -43,12 +45,18 @@ public struct Pair: Codable, Equatable {
     @NonEmpty public var employees: [Employee]
     @NonEmpty public var studentGroups: [StudentGroup]
     
+    public let announcementStart: String?
+    public let announcementEnd: String?
+    public let announcement: Bool
+    
     private enum CodingKeys: String, CodingKey {
         case subject
         case subjectFullName
         case auditories
         case startLessonTime
+        case startLessonDate
         case endLessonTime
+        case endLessonDate
         case dateLesson
         case subgroup = "numSubgroup"
         case lessonType = "lessonTypeAbbrev"
@@ -56,6 +64,10 @@ public struct Pair: Codable, Equatable {
         case note
         case employees
         case studentGroups
+        
+        case announcementStart
+        case announcementEnd
+        case announcement
     }
 }
 
@@ -86,7 +98,7 @@ extension Pair.Time : Codable {
 }
 
 extension TimeZone {
-    static let minsk = TimeZone(identifier: "Europe/Minsk")
+    public static let minsk = TimeZone(identifier: "Europe/Minsk")
 }
 
 extension Pair.Form: Codable {

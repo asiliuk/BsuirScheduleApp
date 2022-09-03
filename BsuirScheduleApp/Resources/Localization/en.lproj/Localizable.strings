@@ -44,6 +44,8 @@
 
 // MARK: - About, Pair preview
 
+"view.pairView.announcement.title" = "📣 Announcement";
+
 "screen.about.pairPreview.section.header" = "What a lesson looks like";
 "screen.about.pairPreview.from" = "start";
 "screen.about.pairPreview.to" = "end";

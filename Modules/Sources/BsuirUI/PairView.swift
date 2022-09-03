@@ -61,7 +61,7 @@ public struct PairView<Details: View>: View {
     public var subject: String?
     public var weeks: String?
     public var subgroup: String?
-    public var auditory: String
+    public var auditory: String?
     public var note: String?
     public var form: PairViewForm
     @ObservedObject public var progress: PairProgress
@@ -77,7 +77,7 @@ public struct PairView<Details: View>: View {
         subject: String?,
         weeks: String? = nil,
         subgroup: String? = nil,
-        auditory: String,
+        auditory: String?,
         note: String? = nil,
         form: PairViewForm,
         progress: PairProgress,
@@ -146,7 +146,7 @@ public struct PairView<Details: View>: View {
             "view.pairView.accessibility.from.\(from).to.\(to)",
             weeks.map { "view.pairView.accessibility.weeks.\($0)" },
             subgroup.map { "view.pairView.accessibility.subgroup.\($0)" },
-            "view.pairView.accessibility.auditory.\(auditory)",
+            auditory.map { "view.pairView.accessibility.auditory.\($0)" },
             note.map { "\($0)" }
         ))
     }
@@ -188,8 +188,8 @@ public struct PairView<Details: View>: View {
         )?.foregroundColor(Color.primary.opacity(0.8))
     }
 
-    private var auditoryText: Text {
-        Text(auditory)
+    private var auditoryText: Text? {
+        auditory.map { Text($0) }
     }
 
     private var noteText: Text? {

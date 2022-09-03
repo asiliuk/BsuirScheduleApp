@@ -53,8 +53,15 @@ extension WeekSchedule {
                     else { return nil }
 
                     let pairs = self.pairs(for: date)
-                        .filter { $0.weekNumber.contains(weekNumber) }
                         .compactMap { pair -> ScheduleElement.Pair? in
+                            guard
+                                pair.weekNumber.contains(weekNumber),
+                                let dateStart = calendar.startOfDay(for: date, in: .minsk),
+                                (pair.startLessonDate...pair.endLessonDate).contains(dateStart)
+                            else {
+                                return nil
+                            }
+                            
                             guard
                                 let start = calendar.date(bySetting: pair.startLessonTime, of: date),
                                 let end = calendar.date(bySetting: pair.endLessonTime, of: date)
@@ -97,6 +104,12 @@ extension Calendar {
 }
 
 extension Calendar {
+    func startOfDay(for date: Date, in timeZone: TimeZone?) -> Date? {
+        var components = dateComponents([.day, .month, .year], from: date)
+        components.timeZone = timeZone
+        return self.date(from: components)
+    }
+    
     func weekNumber(for date: Date, now: Date) -> Int? {
         let components = dateComponents([.day, .month, .year, .weekday], from: date)
         let firstDayComponents = mutating(components) { $0.day = 1; $0.month = 9 }

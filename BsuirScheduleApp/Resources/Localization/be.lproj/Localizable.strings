@@ -110,6 +110,8 @@
 
 // MARK: - PairView
 
+"view.pairView.announcement.title" = "📣 Аб'ява";
+
 "view.pairView.form.name.lecture" = "Лекцыя";
 "view.pairView.form.name.lab" = "Лабараторная работа";
 "view.pairView.form.name.practice" = "Практычная работа";
