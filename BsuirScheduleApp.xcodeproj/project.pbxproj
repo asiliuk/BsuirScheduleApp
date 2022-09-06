@@ -26,6 +26,15 @@
 		E6429E2A2525EEAA00009E16 /* AppIconNational@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E282525EEAA00009E16 /* AppIconNational@3x.png */; };
 		E6429E2B2525EEAA00009E16 /* AppIconNational_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6429E292525EEAA00009E16 /* AppIconNational_83.5@2x.png */; };
 		E64D431A23758CFE00FA117C /* ContentStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64D431923758CFE00FA117C /* ContentStateView.swift */; };
+		E64FE06028C7D0A90045D790 /* NoPairsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE05C28C7D08F0045D790 /* NoPairsView.swift */; };
+		E64FE06128C7D0A90045D790 /* NeedsConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE05E28C7D0A50045D790 /* NeedsConfigurationView.swift */; };
+		E64FE06328C7D0C90045D790 /* WidgetDateTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE06228C7D0C90045D790 /* WidgetDateTitle.swift */; };
+		E64FE06528C7D0F80045D790 /* ScheduleIdentifierTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE06428C7D0F80045D790 /* ScheduleIdentifierTitle.swift */; };
+		E64FE06828C7D1230045D790 /* ScheduleWidgetEntryMediumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE06728C7D1230045D790 /* ScheduleWidgetEntryMediumView.swift */; };
+		E64FE06A28C7D1420045D790 /* ScheduleWidgetEntrySmallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE06928C7D1420045D790 /* ScheduleWidgetEntrySmallView.swift */; };
+		E64FE06C28C7D1950045D790 /* RemainingPairsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE06B28C7D1950045D790 /* RemainingPairsView.swift */; };
+		E64FE06E28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE06D28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift */; };
+		E651C88E28C7D02400CAFBEC /* ScheduleWidgetEntryLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E651C88C28C7D01900CAFBEC /* ScheduleWidgetEntryLargeView.swift */; };
 		E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B4121241431F800A88BFD /* LecturerScreen.swift */; };
 		E66B41242414344900A88BFD /* AllLecturersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41232414344900A88BFD /* AllLecturersScreen.swift */; };
 		E66B41262414365700A88BFD /* ScheduleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41252414365700A88BFD /* ScheduleScreen.swift */; };
@@ -152,6 +161,15 @@
 		E6429E282525EEAA00009E16 /* AppIconNational@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNational@3x.png"; sourceTree = "<group>"; };
 		E6429E292525EEAA00009E16 /* AppIconNational_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNational_83.5@2x.png"; sourceTree = "<group>"; };
 		E64D431923758CFE00FA117C /* ContentStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStateView.swift; sourceTree = "<group>"; };
+		E64FE05C28C7D08F0045D790 /* NoPairsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPairsView.swift; sourceTree = "<group>"; };
+		E64FE05E28C7D0A50045D790 /* NeedsConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedsConfigurationView.swift; sourceTree = "<group>"; };
+		E64FE06228C7D0C90045D790 /* WidgetDateTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDateTitle.swift; sourceTree = "<group>"; };
+		E64FE06428C7D0F80045D790 /* ScheduleIdentifierTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleIdentifierTitle.swift; sourceTree = "<group>"; };
+		E64FE06728C7D1230045D790 /* ScheduleWidgetEntryMediumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryMediumView.swift; sourceTree = "<group>"; };
+		E64FE06928C7D1420045D790 /* ScheduleWidgetEntrySmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntrySmallView.swift; sourceTree = "<group>"; };
+		E64FE06B28C7D1950045D790 /* RemainingPairsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingPairsView.swift; sourceTree = "<group>"; };
+		E64FE06D28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryAccessoryCircularView.swift; sourceTree = "<group>"; };
+		E651C88C28C7D01900CAFBEC /* ScheduleWidgetEntryLargeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryLargeView.swift; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
 		E66B4121241431F800A88BFD /* LecturerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturerScreen.swift; sourceTree = "<group>"; };
 		E66B41232414344900A88BFD /* AllLecturersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLecturersScreen.swift; sourceTree = "<group>"; };
@@ -271,6 +289,30 @@
 				E6373F07250A38C400729EC8 /* RegularRootView.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		E64FE05B28C7D0850045D790 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E64FE06628C7D1120045D790 /* Widgets */,
+				E64FE05E28C7D0A50045D790 /* NeedsConfigurationView.swift */,
+				E64FE05C28C7D08F0045D790 /* NoPairsView.swift */,
+				E64FE06B28C7D1950045D790 /* RemainingPairsView.swift */,
+				E64FE06428C7D0F80045D790 /* ScheduleIdentifierTitle.swift */,
+				E64FE06228C7D0C90045D790 /* WidgetDateTitle.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E64FE06628C7D1120045D790 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				E64FE06928C7D1420045D790 /* ScheduleWidgetEntrySmallView.swift */,
+				E64FE06728C7D1230045D790 /* ScheduleWidgetEntryMediumView.swift */,
+				E651C88C28C7D01900CAFBEC /* ScheduleWidgetEntryLargeView.swift */,
+				E64FE06D28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift */,
+			);
+			path = Widgets;
 			sourceTree = "<group>";
 		};
 		E65E5E562537907A009D57C1 /* WhatsNew */ = {
@@ -434,6 +476,7 @@
 		E6AA8D1425162F1A00788A02 /* ScheduleWidget */ = {
 			isa = PBXGroup;
 			children = (
+				E64FE05B28C7D0850045D790 /* Views */,
 				E6EDC2DC25220F9800C8A73C /* Provider.swift */,
 				E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */,
 				E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */,
@@ -673,10 +716,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E64FE06528C7D0F80045D790 /* ScheduleIdentifierTitle.swift in Sources */,
+				E64FE06828C7D1230045D790 /* ScheduleWidgetEntryMediumView.swift in Sources */,
 				E6AA8D1625162F1A00788A02 /* ScheduleWidget.swift in Sources */,
+				E64FE06128C7D0A90045D790 /* NeedsConfigurationView.swift in Sources */,
+				E64FE06028C7D0A90045D790 /* NoPairsView.swift in Sources */,
 				E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */,
+				E64FE06328C7D0C90045D790 /* WidgetDateTitle.swift in Sources */,
+				E64FE06E28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift in Sources */,
+				E64FE06C28C7D1950045D790 /* RemainingPairsView.swift in Sources */,
+				E64FE06A28C7D1420045D790 /* ScheduleWidgetEntrySmallView.swift in Sources */,
 				E6EDC2E42522101900C8A73C /* Provider.swift in Sources */,
 				E6A6D1C425D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */,
+				E651C88E28C7D02400CAFBEC /* ScheduleWidgetEntryLargeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

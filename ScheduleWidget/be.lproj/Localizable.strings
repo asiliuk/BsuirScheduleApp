@@ -1,6 +1,6 @@
 "widget.displayName" = "Расклад";
 "widget.description" = "Найбольш актуальны расклад для групы або выкладчыка.";
 
-"widget.schedule.empty" = "Няма заняткаў";
+"widget.schedule.empty" = "🤩 Няма заняткаў";
 "widget.schedule.more.%lld" = "яшчэ %lld";
 "widget.needsConfiguration.selectSchedule" = "Абярыце расклад";

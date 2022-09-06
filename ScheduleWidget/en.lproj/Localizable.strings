@@ -1,6 +1,6 @@
 "widget.displayName" = "Schedule";
 "widget.description" = "The most up-to-date schedule for the group or lecturer.";
 
-"widget.schedule.empty" = "No lessons";
+"widget.schedule.empty" = "🤩 No lessons";
 "widget.schedule.more.%lld" = "%lld more";
 "widget.needsConfiguration.selectSchedule" = "Select a schedule";

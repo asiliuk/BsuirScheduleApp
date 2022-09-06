@@ -17,7 +17,26 @@ struct ScheduleWidget: Widget {
             ScheduleWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("widget.displayName")
+        .supportedFamilies(supportedFamilies)
         .description("widget.description")
+    }
+    
+    private var supportedFamilies: [WidgetFamily] {
+        var families: [WidgetFamily] = [
+            .systemSmall,
+            .systemMedium,
+            .systemLarge
+        ]
+
+        if #available(iOS 16.0, *) {
+            families += [
+                .accessoryCircular,
+                .accessoryRectangular,
+                .accessoryInline
+            ]
+        }
+        
+        return families
     }
 }
 
@@ -36,6 +55,14 @@ struct ScheduleWidgetEntryView: View {
                 ScheduleWidgetEntryLargeView(entry: entry)
             case .systemExtraLarge:
                 EmptyView()
+            case .accessoryCircular:
+                if #available(iOS 16.0, *) {
+                    ScheduleWidgetEntryAccessoryCircularView(entry: entry)
+                }
+            case .accessoryRectangular:
+                Image(systemName: "hand.raised.fill")
+            case .accessoryInline:
+                Text("Hello Inline \(Image(systemName: "hand.raised.fill"))")
             @unknown default:
                 EmptyView()
             }
@@ -44,272 +71,29 @@ struct ScheduleWidgetEntryView: View {
     }
 }
 
-// MARK: - Small Widget UI
-struct ScheduleWidgetEntrySmallView : View {
-    var entry: Provider.Entry
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            HStack {
-                ScheduleIdentifierTitle(title: entry.title)
-                Spacer(minLength: 0)
-            }
-
-            WidgetDateTitle(date: entry.date, isSmall: true)
-
-            switch entry.content {
-            case .needsConfiguration:
-                NeedsConfigurationView()
-            case .pairs(_, []):
-                NoPairsView()
-            case let .pairs(passed, upcoming):
-                let pairs = pairsToDisplay(
-                    passed: passed,
-                    upcoming: upcoming,
-                    maxVisibleCount: 1
-                )
-
-                Spacer(minLength: 0)
-                ForEach(pairs.visible) { pair in
-                    PairView(pair: pair, distribution: .vertical, isCompact: true)
-                }
-                Spacer(minLength: 0)
-
-                RemainingPairs(pairs: pairs.upcomingInvisible, visibleCount: 1, showTime: .hide)
-            }
-        }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 12)
-        .background(Color(.systemBackground))
-    }
-}
-
-// MARK: - Medium Widget UI
-struct ScheduleWidgetEntryMediumView : View {
-    var entry: Provider.Entry
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            HStack {
-                WidgetDateTitle(date: entry.date)
-                Spacer()
-                ScheduleIdentifierTitle(title: entry.title)
-            }
-
-            switch entry.content {
-            case .needsConfiguration:
-                NeedsConfigurationView()
-            case .pairs(_, []):
-                NoPairsView()
-            case let .pairs(passed, upcoming):
-                let pairs = pairsToDisplay(
-                    passed: passed,
-                    upcoming: upcoming,
-                    maxVisibleCount: 2
-                )
-
-                VStack(alignment: .leading, spacing: 4) {
-                    ForEach(pairs.visible) { pair in
-                        PairView<EmptyView>(pair: pair, isCompact: true)
-                    }
-                }
-                .padding(.top, 6)
-
-                Spacer(minLength: 0)
-
-                RemainingPairs(pairs: pairs.upcomingInvisible, visibleCount: 3, showTime: .first)
-            }
-        }
-        .padding()
-        .background(Color(.systemBackground))
-    }
-}
-
-// MARK: - Large Widget UI
-struct ScheduleWidgetEntryLargeView : View {
-    var entry: Provider.Entry
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                WidgetDateTitle(date: entry.date)
-                Spacer()
-                ScheduleIdentifierTitle(title: entry.title)
-            }
-
-            switch entry.content {
-            case .needsConfiguration:
-                NeedsConfigurationView()
-            case .pairs(_, []):
-                NoPairsView()
-            case let .pairs(passed, upcoming):
-                let pairs = pairsToDisplay(
-                    passed: passed,
-                    upcoming: upcoming,
-                    maxVisibleCount: 6
-                )
-
-                VStack(alignment: .leading, spacing: 4) {
-                    RemainingPairs(pairs: pairs.passedInvisible, visibleCount: 3, showTime: .last)
-                        .padding(.leading, 10)
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        ForEach(pairs.visible) { pair in
-                            PairView<EmptyView>(pair: pair, isCompact: true)
-                                .padding(.leading, 10)
-                                .padding(.vertical, 2)
-                                .background(ContainerRelativeShape().foregroundColor(Color(.secondarySystemBackground)))
-                        }
-                    }
-
-                    Spacer(minLength: 0)
-
-                    RemainingPairs(pairs: pairs.upcomingInvisible, visibleCount: 3, showTime: .first)
-                        .padding(.leading, 10)
-                }
-                .padding(.top, 8)
-            }
-        }
-        .padding()
-        .background(Color(.systemBackground))
-    }
-}
-
-// MARK: - Fetch pairs
-private func pairsToDisplay(
-    passed: [PairViewModel],
-    upcoming: [PairViewModel],
-    maxVisibleCount: Int
-) -> (
-    passedInvisible: ArraySlice<PairViewModel>,
-    visible: ArraySlice<PairViewModel>,
-    upcomingInvisible: ArraySlice<PairViewModel>
-) {
-    let passedVisibleCount = maxVisibleCount - upcoming.count
-    guard passedVisibleCount > 0 else {
-        let splitIndex = upcoming.index(upcoming.startIndex, offsetBy: maxVisibleCount, boundedBy: upcoming.endIndex)
-        return (passed[...], upcoming[..<splitIndex], upcoming[splitIndex...])
-    }
-    let splitIndex = passed.index(passed.endIndex, offsetBy: -passedVisibleCount, boundedBy: passed.startIndex)
-    return (passed[..<splitIndex], passed[splitIndex...] + upcoming, [])
-}
-
-private extension Array {
-    func index(_ index: Index, offsetBy offset: Int, boundedBy bound: Index) -> Index {
-        self.index(index, offsetBy: offset, limitedBy: bound) ?? bound
-    }
-}
-
-// MARK: - Helper UI
-
-struct ScheduleIdentifierTitle: View {
-    let title: String
-
-    var body: some View {
-        HStack {
-            Image("BsuirSymbol").resizable().scaledToFit().frame(width: 20, height: 20)
-            Text(title).font(.subheadline).lineLimit(1)
-        }
-    }
-}
-
-struct NoPairsView: View {
-    var body: some View {
-        Text("widget.schedule.empty")
-            .foregroundColor(.secondary)
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-    }
-}
-
-struct NeedsConfigurationView: View {
-    var body: some View {
-        Text("widget.needsConfiguration.selectSchedule")
-            .foregroundColor(.secondary)
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-    }
-}
-
-struct WidgetDateTitle: View {
-    let date: Date
-    var isSmall: Bool = false
-
-    var body: some View {
-        Text(date.formatted(isSmall ? .widgetSmall : .widgetNormal))
-            .lineLimit(1)
-            .allowsTightening(true)
-            .environment(\.locale, .current)
-    }
-}
-
-struct RemainingPairs: View {
-    enum ShowTime {
-        case first
-        case last
-        case hide
-    }
-
-    let pairs: ArraySlice<PairViewModel>
-    let visibleCount: Int
-    let showTime: ShowTime
-
-    var body: some View {
-        if !pairs.isEmpty {
-            HStack {
-
-                time.map(Text.init).font(.system(.footnote, design: .monospaced))
-
-                Circle().frame(width: 8, height: 8)
-
-                Text(morePairs)
-                    .font(.footnote)
-            }
-            .foregroundColor(.secondary)
-        }
-    }
-    
-    private var morePairs: String {
-        pairs
-            .compactMap(\.subject)
-            .formatted(
-                visibleCount: visibleCount,
-                placeholder: { String(localized: "widget.schedule.more.\($0)") }
-            )
-    }
-
-    private var time: String? {
-        switch showTime {
-        case .first:
-            return pairs.first?.from
-        case .last:
-            return pairs.last?.from
-        case .hide:
-            return nil
-        }
-    }
-}
-
 // MARK: - Previews
 
 struct ScheduleWidget_Previews: PreviewProvider {
     static var previews: some View {
         ScheduleWidgetEntryView(entry: entry)
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-
+            .previewDisplayName("Schedule")
+            .previewContext(WidgetPreviewContext(family: family))
+        
         ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-
-        ScheduleWidgetEntryView(entry: entry)
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
-
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
-
-
-        ScheduleWidgetEntryView(entry: entry)
-            .previewContext(WidgetPreviewContext(family: .systemLarge))
-
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-            .previewContext(WidgetPreviewContext(family: .systemLarge))
+            .previewContext(WidgetPreviewContext(family: family))
+            .previewDisplayName("No Pairs")
+        
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .needsConfiguration })
+            .previewContext(WidgetPreviewContext(family: family))
+            .previewDisplayName("No Configuration")
+    }
+    
+    static var family: WidgetFamily {
+        if #available(iOS 16.0, *) {
+            return .accessoryCircular
+        } else {
+            return .systemSmall
+        }
     }
 
     static let entry = ScheduleEntry(
@@ -322,7 +106,7 @@ struct ScheduleWidget_Previews: PreviewProvider {
                 .init(from: "10:10", to: "11:45", form: .practice, subject: "Миапр1", auditory: "101-2"),
             ],
             upcoming: [
-                .init(from: "10:15", to: "11:45", form: .lecture, subject: "Философ", auditory: "101-2"),
+                .init(from: "10:15", to: "11:45", form: .lecture, subject: "Философ", auditory: "101-2", progress: .init(constant: 0.35)),
                 .init(from: "10:20", to: "11:45", form: .lecture, subject: "Миапр", auditory: "101-2"),
                 .init(from: "10:25", to: "11:45", form: .lecture, subject: "Физра", auditory: "101-2"),
                 .init(from: "10:30", to: "11:45", form: .lecture, subject: "ПОИТ", auditory: "101-2"),
