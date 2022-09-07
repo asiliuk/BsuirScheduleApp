@@ -104,9 +104,10 @@ private extension PairViewModel {
     }
     
     static func note(from pair: BsuirApi.Pair) -> String? {
-        [pair.note?.trimmingCharacters(in: .whitespacesAndNewlines), announcement(pair: pair)]
+        return [pair.note?.trimmingCharacters(in: .whitespacesAndNewlines), announcement(pair: pair)]
             .compactMap { $0 }
             .joined(separator: "\n")
+            .nilOnEmpty()
     }
     
     static func auditory(from auditories: [String]) -> String? {
@@ -117,6 +118,7 @@ private extension PairViewModel {
         return auditories
             .map { $0.trimmingCharacters(in: .punctuationCharacters) }
             .joined(separator: ", ")
+            .nilOnEmpty()
     }
     
     static func announcement(pair: BsuirApi.Pair) -> String? {
@@ -124,7 +126,10 @@ private extension PairViewModel {
             return nil
         }
         
-        return [pair.announcementStart, pair.announcementEnd].compactMap { $0 }.joined(separator: " - ")
+        return [pair.announcementStart, pair.announcementEnd]
+            .compactMap { $0 }
+            .joined(separator: " - ")
+            .nilOnEmpty()
     }
     
     static func weeks(from weekNumber: WeekNum) -> String? {

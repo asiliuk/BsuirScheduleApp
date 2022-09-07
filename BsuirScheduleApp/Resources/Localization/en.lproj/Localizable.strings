@@ -118,6 +118,12 @@
 "view.pairView.form.name.exam" = "Exam";
 "view.pairView.form.name.unknown" = "Unknown";
 
+"view.pairView.form.name.short.lecture" = "LE";
+"view.pairView.form.name.short.lab" = "LL";
+"view.pairView.form.name.short.practice" = "PL";
+"view.pairView.form.name.short.exam" = "EX";
+"view.pairView.form.name.short.unknown" = "UK";
+
 "view.pairView.accessibility.label" = "Going on now";
 "view.pairView.accessibility.from.%@.to.%@" = "from %@ to %@";
 "view.pairView.accessibility.weeks.%@" = "Weeks: %@";
