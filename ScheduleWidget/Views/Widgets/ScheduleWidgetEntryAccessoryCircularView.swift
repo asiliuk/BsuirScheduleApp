@@ -9,6 +9,7 @@
 import SwiftUI
 import BsuirCore
 
+#if swift(>=5.7)
 @available(iOS 16.0, *)
 struct ScheduleWidgetEntryAccessoryCircularView: View {
     var entry: Provider.Entry
@@ -52,3 +53,4 @@ private struct PairDetailsView<Content: View, Label: View>: View {
         .gaugeStyle(.accessoryCircular)
     }
 }
+#endif

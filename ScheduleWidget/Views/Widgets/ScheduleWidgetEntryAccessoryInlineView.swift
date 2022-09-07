@@ -10,9 +10,11 @@ import SwiftUI
 import BsuirUI
 import BsuirCore
 
-@available(iOS 16.0, *)
+#if swift(>=5.7)
 /// Not yet supported
-/// Needs predefined configuration to work
+///
+/// Needs predefined configuration to work. No way to configure as other widgets
+@available(iOS 16.0, *)
 struct ScheduleWidgetEntryAccessoryInlineView: View {
     var entry: Provider.Entry
     
@@ -46,3 +48,4 @@ struct ScheduleWidgetEntryAccessoryInlineView: View {
         }
     }
 }
+#endif
