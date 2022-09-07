@@ -13,6 +13,7 @@ public struct PairViewModel: Equatable, Identifiable {
     public let id = UUID()
     public var from: String
     public var to: String
+    public var interval: String
     public var form: Form
     public var subject: String?
     public var auditory: String?
@@ -26,6 +27,7 @@ public struct PairViewModel: Equatable, Identifiable {
     public init(
         from: String,
         to: String,
+        interval: String,
         form: PairViewModel.Form,
         subject: String?,
         auditory: String?,
@@ -38,6 +40,7 @@ public struct PairViewModel: Equatable, Identifiable {
     ) {
         self.from = from
         self.to = to
+        self.interval = interval
         self.form = form
         self.subject = subject
         self.auditory = auditory
@@ -61,6 +64,7 @@ extension PairViewModel {
         self.init(
             from: Self.time(from: start),
             to: Self.time(from: end),
+            interval: Self.interval(from: start, to: end),
             form: Self.form(from: pair.lessonType),
             subject: Self.title(from: pair),
             auditory: Self.details(from: pair),
@@ -75,6 +79,18 @@ extension PairViewModel {
 }
 
 private extension PairViewModel {
+    
+    static func interval(from fromDate: Date?, to toDate: Date?) -> String {
+        guard let fromDate = fromDate else {
+            return time(from: toDate)
+        }
+        
+        guard let toDate = toDate else {
+            return time(from: fromDate)
+        }
+        
+        return (fromDate..<toDate).formatted(.pairTime)
+    }
     
     static func time(from date: Date?) -> String {
         date?.formatted(.pairTime) ?? "N/A"

@@ -118,6 +118,7 @@ extension PairViewModel {
         Self(
             from: from,
             to: to,
+            interval: "\(from)-\(to)",
             form: form,
             subject: subject,
             auditory: auditory

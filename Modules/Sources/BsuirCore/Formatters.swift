@@ -9,26 +9,34 @@ import Foundation
 
 extension FormatStyle where Self == Date.FormatStyle {
     public static var pairTime: Self {
-        Date.FormatStyle()
-            .hour(.twoDigits(amPM: .abbreviated))
+        return .dateTime
+            .hour(.twoDigits(amPM: .narrow))
             .minute(.twoDigits)
     }
     
     public static var scheduleDay: Self {
-        Date.FormatStyle()
+        return .dateTime
             .weekday()
             .day()
             .month(.wide)
     }
     
     public static var widgetSmall: Self {
-        Date.FormatStyle()
+        return .dateTime
             .day()
             .weekday()
     }
     
     public static var widgetNormal: Self {
-        widgetSmall.month()
+        return widgetSmall.month()
+    }
+}
+
+extension FormatStyle where Self == Date.IntervalFormatStyle {
+    public static var pairTime: Self {
+        return .interval
+            .hour(.defaultDigits(amPM: .narrow))
+            .minute()
     }
 }
 

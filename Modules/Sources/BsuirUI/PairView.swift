@@ -7,6 +7,7 @@ public struct PairCell<Details: View>: View {
     public init(
         from: String.LocalizationValue,
         to: String.LocalizationValue,
+        interval: String.LocalizationValue,
         subject: String.LocalizationValue,
         weeks: String.LocalizationValue? = nil,
         subgroup: String.LocalizationValue? = nil,
@@ -19,6 +20,7 @@ public struct PairCell<Details: View>: View {
         self.pair = PairView(
             from: String(localized: from),
             to: String(localized: to),
+            interval: String(localized: interval),
             subject: String(localized: subject),
             weeks: weeks == nil ? nil : String(localized: weeks!),
             subgroup: subgroup == nil ? nil : String(localized: subgroup!),
@@ -58,6 +60,7 @@ public struct PairView<Details: View>: View {
 
     public var from: String
     public var to: String
+    public var interval: String
     public var subject: String?
     public var weeks: String?
     public var subgroup: String?
@@ -75,6 +78,7 @@ public struct PairView<Details: View>: View {
     public init(
         from: String,
         to: String,
+        interval: String,
         subject: String?,
         weeks: String? = nil,
         subgroup: String? = nil,
@@ -89,6 +93,7 @@ public struct PairView<Details: View>: View {
     ) {
         self.from = from
         self.to = to
+        self.interval = interval
         self.subject = subject
         self.weeks = weeks
         self.subgroup = subgroup
@@ -112,7 +117,7 @@ public struct PairView<Details: View>: View {
                         PairFormIndicator(form: form, progress: progress.value, differentiateWithoutColor: differentiateWithoutColor)
 
                         VStack(alignment: .leading) {
-                            Text("\(from)-\(to)").font(.system(.footnote, design: .monospaced))
+                            Text(interval).font(.system(.footnote, design: .monospaced))
                             title
                             subtitle
                         }
@@ -227,6 +232,7 @@ extension PairView {
         self.init(
             from: pair.from,
             to: pair.to,
+            interval: pair.interval,
             subject: pair.subject,
             weeks: pair.weeks,
             subgroup: pair.subgroup,
@@ -349,6 +355,7 @@ struct PairView_Previews: PreviewProvider {
     static let pair = PairCell(
         from: "10:00",
         to: "11:30",
+        interval: "10:00-11:30",
         subject: "ОСиСП",
         weeks: "1,2",
         subgroup: "1",
