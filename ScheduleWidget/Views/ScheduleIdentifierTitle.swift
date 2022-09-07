@@ -13,7 +13,7 @@ struct ScheduleIdentifierTitle: View {
 
     var body: some View {
         HStack {
-            Image("BsuirSymbol").resizable().scaledToFit().frame(width: 20, height: 20)
+            BsuirImage()
             Text(title).font(.subheadline).lineLimit(1)
         }
     }

@@ -31,8 +31,7 @@ struct ScheduleWidget: Widget {
         if #available(iOS 16.0, *) {
             families += [
                 .accessoryCircular,
-                .accessoryRectangular,
-                .accessoryInline
+                .accessoryRectangular
             ]
         }
         
@@ -64,7 +63,8 @@ struct ScheduleWidgetEntryView: View {
                     ScheduleWidgetEntryAccessoryRectangularView(entry: entry)
                 }
             case .accessoryInline:
-                Text("Hello Inline \(Image(systemName: "hand.raised.fill"))")
+                /// Not yet supported
+                EmptyView()
             @unknown default:
                 EmptyView()
             }
@@ -92,7 +92,7 @@ struct ScheduleWidget_Previews: PreviewProvider {
     
     static var family: WidgetFamily {
         if #available(iOS 16.0, *) {
-            return .accessoryCircular
+            return .accessoryRectangular
         } else {
             return .systemSmall
         }

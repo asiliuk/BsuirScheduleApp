@@ -259,7 +259,7 @@ extension PairView where Details == EmptyView {
     }
 }
 
-private extension PairViewForm {
+public extension PairViewForm {
     init(_ form: PairViewModel.Form) {
         switch form {
         case .exam: self = .exam
