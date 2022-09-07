@@ -67,6 +67,7 @@ public struct PairView<Details: View>: View {
     @ObservedObject public var progress: PairProgress
     public var distribution: Distribution
     public var isCompact: Bool
+    public var spellForm: Bool
     public let details: Details
     @Environment(\.sizeCategory) var sizeCategory
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
@@ -83,6 +84,7 @@ public struct PairView<Details: View>: View {
         progress: PairProgress,
         distribution: Distribution = .horizontal,
         isCompact: Bool = false,
+        spellForm: Bool = false,
         details: Details
     ) {
         self.from = from
@@ -96,6 +98,7 @@ public struct PairView<Details: View>: View {
         self.progress = progress
         self.distribution = distribution
         self.isCompact = isCompact
+        self.spellForm = spellForm
         self.details = details
     }
 
@@ -153,6 +156,7 @@ public struct PairView<Details: View>: View {
 
     private var title: some View {
         combineTexts(
+            formText?.fontWeight(.light),
             subjectText,
             periodityText?.fontWeight(.light),
             separator: " "
@@ -160,7 +164,7 @@ public struct PairView<Details: View>: View {
         .font(isCompact ? .subheadline : .headline)
         .lineLimit(2)
     }
-
+    
     private var subtitle: some View {
         Group {
             if isCompact {
@@ -175,6 +179,15 @@ public struct PairView<Details: View>: View {
         .opacity(0.8)
         .font(isCompact ? .footnote : .callout)
     }
+    
+    private var formText: Text? {
+        if spellForm || differentiateWithoutColor {
+            return Text(form.shortName)
+        } else {
+            return nil
+        }
+    }
+
 
     private var subjectText: Text? {
         subject.map { Text($0).bold() }
@@ -208,6 +221,7 @@ extension PairView {
         pair: PairViewModel,
         distribution: Distribution = .horizontal,
         isCompact: Bool = false,
+        spellForm: Bool = false,
         details: Details
     ) {
         self.init(
@@ -222,6 +236,7 @@ extension PairView {
             progress: pair.progress,
             distribution: distribution,
             isCompact: isCompact,
+            spellForm: spellForm,
             details: details
         )
     }
@@ -231,12 +246,14 @@ extension PairView where Details == EmptyView {
     public init(
         pair: PairViewModel,
         distribution: Distribution = .horizontal,
-        isCompact: Bool = false
+        isCompact: Bool = false,
+        spellForm: Bool = false
     ) {
         self.init(
             pair: pair,
             distribution: distribution,
             isCompact: isCompact,
+            spellForm: spellForm,
             details: Details()
         )
     }
@@ -271,6 +288,16 @@ extension PairViewForm {
         case .unknown: return "view.pairView.form.name.unknown"
         }
     }
+    
+    public var shortName: LocalizedStringKey {
+        switch self {
+        case .lecture: return "view.pairView.form.name.short.lecture"
+        case .lab: return "view.pairView.form.name.short.lab"
+        case .practice: return "view.pairView.form.name.short.practice"
+        case .exam: return "view.pairView.form.name.short.exam"
+        case .unknown: return "view.pairView.form.name.short.unknown"
+        }
+    }
 
     public var color: Color {
         switch self {
@@ -298,11 +325,22 @@ struct PairView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             pair
-            mutating(pair) { $0.pair.distribution = .vertical; $0.pair.isCompact = true }
+                .previewDisplayName("Pair")
+            
             mutating(pair) { $0.pair.isCompact = true }
+                .previewDisplayName("Compact")
+            
+            mutating(pair) { $0.pair.distribution = .vertical; $0.pair.isCompact = true }
+                .previewDisplayName("Vertical Compact")
+            
+            mutating(pair) { $0.pair.spellForm = true }
+                .previewDisplayName("Spell Form")
+            
+            mutating(pair) { $0.pair.distribution = .vertical; $0.pair.isCompact = true; $0.pair.spellForm = true }
+                .previewDisplayName("Vertical Compact Spell Form")
+            
             mutating(pair) { $0.pair.weeks = nil; $0.pair.subgroup = nil }
-            pair.colorScheme(.dark)
-            pair.environment(\.sizeCategory, .accessibilityMedium)
+                .previewDisplayName("No week No subgroup")
         }
         .previewLayout(.sizeThatFits)
         .background(Color.gray)

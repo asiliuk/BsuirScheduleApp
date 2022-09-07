@@ -60,7 +60,9 @@ struct ScheduleWidgetEntryView: View {
                     ScheduleWidgetEntryAccessoryCircularView(entry: entry)
                 }
             case .accessoryRectangular:
-                Image(systemName: "hand.raised.fill")
+                if #available(iOS 16.0, *) {
+                    ScheduleWidgetEntryAccessoryRectangularView(entry: entry)
+                }
             case .accessoryInline:
                 Text("Hello Inline \(Image(systemName: "hand.raised.fill"))")
             @unknown default:

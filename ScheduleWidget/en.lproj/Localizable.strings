@@ -4,3 +4,9 @@
 "widget.schedule.empty" = "🤩 No lessons";
 "widget.schedule.more.%lld" = "%lld more";
 "widget.needsConfiguration.selectSchedule" = "Select a schedule";
+
+"view.pairView.form.name.short.lecture" = "LE";
+"view.pairView.form.name.short.lab" = "LL";
+"view.pairView.form.name.short.practice" = "PL";
+"view.pairView.form.name.short.exam" = "EX";
+"view.pairView.form.name.short.unknown" = "UK";
