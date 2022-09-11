@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0F8B924D7354B00A1C74F /* AboutView.swift */; };
+		696F797D28CBB3E20005B319 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696F797C28CBB3E20005B319 /* ColorPickerView.swift */; };
 		69CA216728B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CA216428B4C6D800B6DED3 /* AppIconUkrainian_83.5@2x.png */; };
 		69CA216828B4C6D800B6DED3 /* AppIconUkrainian@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CA216528B4C6D800B6DED3 /* AppIconUkrainian@3x.png */; };
 		69CA216928B4C6D800B6DED3 /* AppIconUkrainian@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CA216628B4C6D800B6DED3 /* AppIconUkrainian@2x.png */; };
@@ -124,6 +125,7 @@
 
 /* Begin PBXFileReference section */
 		04F0F8B924D7354B00A1C74F /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		696F797C28CBB3E20005B319 /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		6992A5E728B0025D007FFF0F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6992A5E928B0026A007FFF0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		699CEC0A28B13EA100508D10 /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				04F0F8B924D7354B00A1C74F /* AboutView.swift */,
 				E69A965A2512000C0057FCD6 /* AppIconPicker.swift */,
 				E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */,
+				696F797C28CBB3E20005B319 /* ColorPickerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -713,6 +716,7 @@
 				E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */,
 				E68610C52471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift in Sources */,
 				E6964822233F7C45007EF2CB /* AllGroupsView.swift in Sources */,
+				696F797D28CBB3E20005B319 /* ColorPickerView.swift in Sources */,
 				E6A6A88324142F2C0024D738 /* CombineHelpers.swift in Sources */,
 				E610F3E3289EE5A200239F24 /* DayScheduleViewModel.swift in Sources */,
 				04F0F8BA24D7354B00A1C74F /* AboutView.swift in Sources */,

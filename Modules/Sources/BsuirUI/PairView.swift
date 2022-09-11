@@ -273,12 +273,25 @@ extension PairViewForm {
     }
 
     public var color: Color {
+        let userDefaults = UserDefaults.standard
+        let coder = ColorCoder()
+        
         switch self {
-        case .lecture: return .green
-        case .practice: return .red
-        case .lab: return .yellow
-        case .exam: return .purple
-        case .unknown: return .gray
+        case .lecture:
+            guard let data = userDefaults.data(forKey: "lectureColor") else { return .green }
+            return try! coder.decodeColor(from: data)
+        case .practice:
+            guard let data = userDefaults.data(forKey: "practiceColor") else { return .red }
+            return try! coder.decodeColor(from: data)
+        case .lab:
+            guard let data = userDefaults.data(forKey: "labColor") else { return .yellow }
+            return try! coder.decodeColor(from: data)
+        case .exam:
+            guard let data = userDefaults.data(forKey: "examColor") else { return .purple }
+            return try! coder.decodeColor(from: data)
+        case .unknown:
+            guard let data = userDefaults.data(forKey: "unknownColor") else { return .gray }
+            return try! coder.decodeColor(from: data)
         }
     }
 
