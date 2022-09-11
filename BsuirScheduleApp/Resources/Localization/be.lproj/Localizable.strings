@@ -82,12 +82,16 @@
 
 "screen.schedule.favorite.accessibility.remove" = "Прыбраць з абранага";
 "screen.schedule.favorite.accessibility.add" = "Дадаць у абранае";
+
 "screen.schedule.scheduleTypePicker.title" = "Тып раскладу";
 "screen.schedule.scheduleType.schedule" = "Расклад";
 "screen.schedule.scheduleType.byDay" = "Па днях";
 "screen.schedule.scheduleType.exams" = "Іспыты";
+
 "screen.schedule.emptyState.title" = "Падобна, заняткаў няма";
 "screen.schedule.emptyState.subtitle" = "Усе вольныя!";
+
+"screen.schedule.day.title.%@.%lld" = "%@, Тыдзень %lld";
 
 // TODO: - Remove when exams are supported
 "screen.schedule.unsupportedExams.title" = "Прынаю найглыбокія прабачэнні";
@@ -106,11 +110,19 @@
 
 // MARK: - PairView
 
+"view.pairView.announcement.title" = "📣 Аб'ява";
+
 "view.pairView.form.name.lecture" = "Лекцыя";
 "view.pairView.form.name.lab" = "Лабараторная работа";
 "view.pairView.form.name.practice" = "Практычная работа";
 "view.pairView.form.name.exam" = "Іспыт";
 "view.pairView.form.name.unknown" = "Невядома";
+
+"view.pairView.form.name.short.lecture" = "ЛК";
+"view.pairView.form.name.short.lab" = "ЛР";
+"view.pairView.form.name.short.practice" = "ПЗ";
+"view.pairView.form.name.short.exam" = "ІС";
+"view.pairView.form.name.short.unknown" = "ХВ";
 
 "view.pairView.accessibility.label" = "Ідзе зараз";
 "view.pairView.accessibility.from.%@.to.%@" = "з %@ па %@";

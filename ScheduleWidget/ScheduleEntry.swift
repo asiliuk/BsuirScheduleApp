@@ -27,6 +27,7 @@ private extension ScheduleEntry.Content {
             PairViewModel(
                 from: "10:00",
                 to: "11:00",
+                interval: "10:00-11:00",
                 form: .lab,
                 subject: "Лаба",
                 auditory: "101-1",
@@ -37,6 +38,7 @@ private extension ScheduleEntry.Content {
             PairViewModel(
                 from: "11:00",
                 to: "12:00",
+                interval: "11:00-12:00",
                 form: .lecture,
                 subject: "Лекция",
                 auditory: "102-2"
@@ -44,6 +46,7 @@ private extension ScheduleEntry.Content {
             PairViewModel(
                 from: "12:00",
                 to: "13:00",
+                interval: "12:00-13:00",
                 form: .practice,
                 subject: "ПЗ",
                 auditory: "103-3"
@@ -51,6 +54,7 @@ private extension ScheduleEntry.Content {
             PairViewModel(
                 from: "13:00",
                 to: "14:00",
+                interval: "13:00-14:00",
                 form: .lab,
                 subject: "Другая Лаба",
                 auditory: "104-4",
@@ -59,6 +63,7 @@ private extension ScheduleEntry.Content {
             PairViewModel(
                 from: "13:00",
                 to: "14:00",
+                interval: "13:00-14:00",
                 form: .practice,
                 subject: "Другое ПЗ",
                 auditory: "105-5",

@@ -68,13 +68,13 @@ extension ScheduleScreen {
                     title: String(localized: "screen.schedule.unsupportedExams.title"),
                     pairs: [
                         PairViewModel(
-                            from: "🚧", to: " ",
+                            from: "🚧", to: " ", interval: "",
                             form: .unknown,
                             subject: String(localized: "screen.schedule.unsupportedExams.subject"),
                             auditory: String(localized: "screen.schedule.unsupportedExams.auditory")
                         ),
                         PairViewModel(
-                            from: "🤲", to: " ",
+                            from: "🤲", to: " ", interval: "",
                             form: .unknown,
                             subject: String(localized: "screen.schedule.unsupportedExams.subject2"),
                             auditory: "https://github.com/asiliuk/BsuirScheduleApp"

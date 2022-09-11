@@ -14,6 +14,7 @@ struct AboutView: View {
                 PairCell(
                     from: "screen.about.pairPreview.from",
                     to: "screen.about.pairPreview.to",
+                    interval: "\(String(localized: "screen.about.pairPreview.from"))-\(String(localized: "screen.about.pairPreview.to"))",
                     subject: "screen.about.pairPreview.subject",
                     weeks: "screen.about.pairPreview.weeks",
                     subgroup: "screen.about.pairPreview.subgroup",

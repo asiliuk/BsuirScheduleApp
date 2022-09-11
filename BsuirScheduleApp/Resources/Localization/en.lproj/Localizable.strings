@@ -44,6 +44,8 @@
 
 // MARK: - About, Pair preview
 
+"view.pairView.announcement.title" = "📣 Announcement";
+
 "screen.about.pairPreview.section.header" = "What a lesson looks like";
 "screen.about.pairPreview.from" = "start";
 "screen.about.pairPreview.to" = "end";
@@ -82,12 +84,16 @@
 
 "screen.schedule.favorite.accessibility.remove" = "Remove from favorites";
 "screen.schedule.favorite.accessibility.add" = "Add to favorites";
+
 "screen.schedule.scheduleTypePicker.title" = "Schedule type";
 "screen.schedule.scheduleType.schedule" = "Schedule";
 "screen.schedule.scheduleType.byDay" = "By day";
 "screen.schedule.scheduleType.exams" = "Exams";
+
 "screen.schedule.emptyState.title" = "There doesn't seem to be a class";
 "screen.schedule.emptyState.subtitle" = "Everybody's free!";
+
+"screen.schedule.day.title.%@.%lld" = "%@, Week %lld";
 
 // TODO: - Remove when exams are supported
 "screen.schedule.unsupportedExams.title" = "My deepest apologies";
@@ -111,6 +117,12 @@
 "view.pairView.form.name.practice" = "Practical lesson";
 "view.pairView.form.name.exam" = "Exam";
 "view.pairView.form.name.unknown" = "Unknown";
+
+"view.pairView.form.name.short.lecture" = "LE";
+"view.pairView.form.name.short.lab" = "LL";
+"view.pairView.form.name.short.practice" = "PL";
+"view.pairView.form.name.short.exam" = "EX";
+"view.pairView.form.name.short.unknown" = "UK";
 
 "view.pairView.accessibility.label" = "Going on now";
 "view.pairView.accessibility.from.%@.to.%@" = "from %@ to %@";
