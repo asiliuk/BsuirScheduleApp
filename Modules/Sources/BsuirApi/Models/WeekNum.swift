@@ -51,7 +51,10 @@ extension WeekNum : Codable {
     }
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let values = try? container.decode([Int].self) {
+        
+        if container.decodeNil() {
+            self = .always
+        } else if let values = try? container.decode([Int].self) {
             self = WeekNum(weekNums: values)
         } else {
             let number = try container.decode(Int.self)

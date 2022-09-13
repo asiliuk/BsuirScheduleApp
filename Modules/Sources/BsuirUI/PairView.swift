@@ -7,6 +7,7 @@ public struct PairCell<Details: View>: View {
     public init(
         from: String.LocalizationValue,
         to: String.LocalizationValue,
+        interval: String.LocalizationValue,
         subject: String.LocalizationValue,
         weeks: String.LocalizationValue? = nil,
         subgroup: String.LocalizationValue? = nil,
@@ -19,6 +20,7 @@ public struct PairCell<Details: View>: View {
         self.pair = PairView(
             from: String(localized: from),
             to: String(localized: to),
+            interval: String(localized: interval),
             subject: String(localized: subject),
             weeks: weeks == nil ? nil : String(localized: weeks!),
             subgroup: subgroup == nil ? nil : String(localized: subgroup!),
@@ -58,15 +60,17 @@ public struct PairView<Details: View>: View {
 
     public var from: String
     public var to: String
+    public var interval: String
     public var subject: String?
     public var weeks: String?
     public var subgroup: String?
-    public var auditory: String
+    public var auditory: String?
     public var note: String?
     public var form: PairViewForm
     @ObservedObject public var progress: PairProgress
     public var distribution: Distribution
     public var isCompact: Bool
+    public var spellForm: Bool
     public let details: Details
     @Environment(\.sizeCategory) var sizeCategory
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
@@ -74,19 +78,22 @@ public struct PairView<Details: View>: View {
     public init(
         from: String,
         to: String,
+        interval: String,
         subject: String?,
         weeks: String? = nil,
         subgroup: String? = nil,
-        auditory: String,
+        auditory: String?,
         note: String? = nil,
         form: PairViewForm,
         progress: PairProgress,
         distribution: Distribution = .horizontal,
         isCompact: Bool = false,
+        spellForm: Bool = false,
         details: Details
     ) {
         self.from = from
         self.to = to
+        self.interval = interval
         self.subject = subject
         self.weeks = weeks
         self.subgroup = subgroup
@@ -96,6 +103,7 @@ public struct PairView<Details: View>: View {
         self.progress = progress
         self.distribution = distribution
         self.isCompact = isCompact
+        self.spellForm = spellForm
         self.details = details
     }
 
@@ -109,7 +117,7 @@ public struct PairView<Details: View>: View {
                         PairFormIndicator(form: form, progress: progress.value, differentiateWithoutColor: differentiateWithoutColor)
 
                         VStack(alignment: .leading) {
-                            Text("\(from)-\(to)").font(.system(.footnote, design: .monospaced))
+                            Text(interval).font(.system(.footnote, design: .monospaced))
                             title
                             subtitle
                         }
@@ -146,13 +154,14 @@ public struct PairView<Details: View>: View {
             "view.pairView.accessibility.from.\(from).to.\(to)",
             weeks.map { "view.pairView.accessibility.weeks.\($0)" },
             subgroup.map { "view.pairView.accessibility.subgroup.\($0)" },
-            "view.pairView.accessibility.auditory.\(auditory)",
+            auditory.map { "view.pairView.accessibility.auditory.\($0)" },
             note.map { "\($0)" }
         ))
     }
 
     private var title: some View {
         combineTexts(
+            formText?.fontWeight(.light),
             subjectText,
             periodityText?.fontWeight(.light),
             separator: " "
@@ -160,7 +169,7 @@ public struct PairView<Details: View>: View {
         .font(isCompact ? .subheadline : .headline)
         .lineLimit(2)
     }
-
+    
     private var subtitle: some View {
         Group {
             if isCompact {
@@ -175,6 +184,15 @@ public struct PairView<Details: View>: View {
         .opacity(0.8)
         .font(isCompact ? .footnote : .callout)
     }
+    
+    private var formText: Text? {
+        if spellForm || differentiateWithoutColor {
+            return Text(form.shortName)
+        } else {
+            return nil
+        }
+    }
+
 
     private var subjectText: Text? {
         subject.map { Text($0).bold() }
@@ -188,8 +206,8 @@ public struct PairView<Details: View>: View {
         )?.foregroundColor(Color.primary.opacity(0.8))
     }
 
-    private var auditoryText: Text {
-        Text(auditory)
+    private var auditoryText: Text? {
+        auditory.map { Text($0) }
     }
 
     private var noteText: Text? {
@@ -208,11 +226,13 @@ extension PairView {
         pair: PairViewModel,
         distribution: Distribution = .horizontal,
         isCompact: Bool = false,
+        spellForm: Bool = false,
         details: Details
     ) {
         self.init(
             from: pair.from,
             to: pair.to,
+            interval: pair.interval,
             subject: pair.subject,
             weeks: pair.weeks,
             subgroup: pair.subgroup,
@@ -222,6 +242,7 @@ extension PairView {
             progress: pair.progress,
             distribution: distribution,
             isCompact: isCompact,
+            spellForm: spellForm,
             details: details
         )
     }
@@ -231,18 +252,20 @@ extension PairView where Details == EmptyView {
     public init(
         pair: PairViewModel,
         distribution: Distribution = .horizontal,
-        isCompact: Bool = false
+        isCompact: Bool = false,
+        spellForm: Bool = false
     ) {
         self.init(
             pair: pair,
             distribution: distribution,
             isCompact: isCompact,
+            spellForm: spellForm,
             details: Details()
         )
     }
 }
 
-private extension PairViewForm {
+public extension PairViewForm {
     init(_ form: PairViewModel.Form) {
         switch form {
         case .exam: self = .exam
@@ -269,6 +292,16 @@ extension PairViewForm {
         case .practice: return "view.pairView.form.name.practice"
         case .exam: return "view.pairView.form.name.exam"
         case .unknown: return "view.pairView.form.name.unknown"
+        }
+    }
+    
+    public var shortName: LocalizedStringKey {
+        switch self {
+        case .lecture: return "view.pairView.form.name.short.lecture"
+        case .lab: return "view.pairView.form.name.short.lab"
+        case .practice: return "view.pairView.form.name.short.practice"
+        case .exam: return "view.pairView.form.name.short.exam"
+        case .unknown: return "view.pairView.form.name.short.unknown"
         }
     }
 
@@ -311,11 +344,22 @@ struct PairView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             pair
-            mutating(pair) { $0.pair.distribution = .vertical; $0.pair.isCompact = true }
+                .previewDisplayName("Pair")
+            
             mutating(pair) { $0.pair.isCompact = true }
+                .previewDisplayName("Compact")
+            
+            mutating(pair) { $0.pair.distribution = .vertical; $0.pair.isCompact = true }
+                .previewDisplayName("Vertical Compact")
+            
+            mutating(pair) { $0.pair.spellForm = true }
+                .previewDisplayName("Spell Form")
+            
+            mutating(pair) { $0.pair.distribution = .vertical; $0.pair.isCompact = true; $0.pair.spellForm = true }
+                .previewDisplayName("Vertical Compact Spell Form")
+            
             mutating(pair) { $0.pair.weeks = nil; $0.pair.subgroup = nil }
-            pair.colorScheme(.dark)
-            pair.environment(\.sizeCategory, .accessibilityMedium)
+                .previewDisplayName("No week No subgroup")
         }
         .previewLayout(.sizeThatFits)
         .background(Color.gray)
@@ -324,6 +368,7 @@ struct PairView_Previews: PreviewProvider {
     static let pair = PairCell(
         from: "10:00",
         to: "11:30",
+        interval: "10:00-11:30",
         subject: "ОСиСП",
         weeks: "1,2",
         subgroup: "1",

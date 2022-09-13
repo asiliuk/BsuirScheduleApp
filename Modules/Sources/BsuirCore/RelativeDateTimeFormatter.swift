@@ -7,7 +7,6 @@ extension RelativeDateTimeFormatter {
 
     public func relativeNameOnly() -> Self {
         mutating(self) {
-            $0.locale = .by
             $0.dateTimeStyle = .named
             $0.formattingContext = .beginningOfSentence
         }

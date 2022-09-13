@@ -41,7 +41,7 @@ final class ContinuousSchedule: ObservableObject {
 
     private func day(for element: WeekSchedule.ScheduleElement) -> DayViewModel {
         return DayViewModel(
-            title: "\(Self.formatter.string(from: element.date)), Неделя \(element.weekNumber)",
+            title: String(localized: "screen.schedule.day.title.\(element.date.formatted(.scheduleDay)).\(element.weekNumber)"),
             subtitle: Self.relativeFormatter.relativeName(for: element.date, now: now),
             pairs: element.pairs.map(PairViewModel.init(pair:)),
             isToday: calendar.isDateInToday(element.date),
@@ -56,13 +56,6 @@ final class ContinuousSchedule: ObservableObject {
     private let calendar: Calendar
     private let loadMoreSubject = PassthroughSubject<Void, Never>()
     private var cancellables: Set<AnyCancellable> = []
-
-    private static let formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = .by
-        formatter.setLocalizedDateFormatFromTemplate("EEEdMMMM")
-        return formatter
-    }()
 
     private static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 }

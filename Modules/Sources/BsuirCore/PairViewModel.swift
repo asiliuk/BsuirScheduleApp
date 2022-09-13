@@ -13,9 +13,10 @@ public struct PairViewModel: Equatable, Identifiable {
     public let id = UUID()
     public var from: String
     public var to: String
+    public var interval: String
     public var form: Form
     public var subject: String?
-    public var auditory: String
+    public var auditory: String?
     public var note: String?
     public var weeks: String?
     public var subgroup: String?
@@ -26,9 +27,10 @@ public struct PairViewModel: Equatable, Identifiable {
     public init(
         from: String,
         to: String,
+        interval: String,
         form: PairViewModel.Form,
         subject: String?,
-        auditory: String,
+        auditory: String?,
         note: String? = nil,
         weeks: String? = nil,
         subgroup: String? = nil,
@@ -38,6 +40,7 @@ public struct PairViewModel: Equatable, Identifiable {
     ) {
         self.from = from
         self.to = to
+        self.interval = interval
         self.form = form
         self.subject = subject
         self.auditory = auditory
@@ -59,20 +62,98 @@ extension PairViewModel {
         progress: PairProgress = .init(constant: 0)
     ) {
         self.init(
-            from: start?.formatted(.pairTime) ?? "N/A",
-            to: end?.formatted(.pairTime) ?? "N/A",
-            form: Form(pair.lessonType),
-            subject: pair.subject,
-            auditory: pair.auditories
-                .map { $0.trimmingCharacters(in: .punctuationCharacters) }
-                .joined(separator: ", "),
-            note: pair.note,
-            weeks: showWeeks ? pair.weekNumber.prettyName?.capitalized : nil,
-            subgroup: pair.subgroup == 0 ? nil : "\(pair.subgroup)",
+            from: Self.time(from: start),
+            to: Self.time(from: end),
+            interval: Self.interval(from: start, to: end),
+            form: Self.form(from: pair.lessonType),
+            subject: Self.title(from: pair),
+            auditory: Self.details(from: pair),
+            note: Self.note(from: pair),
+            weeks: showWeeks ? Self.weeks(from: pair.weekNumber) : nil,
+            subgroup: Self.subgroup(from: pair.subgroup),
             progress: progress,
             lecturers: pair.employees,
             groups: pair.studentGroups.map(\.name)
         )
+    }
+}
+
+private extension PairViewModel {
+    
+    static func interval(from fromDate: Date?, to toDate: Date?) -> String {
+        guard let fromDate = fromDate else {
+            return time(from: toDate)
+        }
+        
+        guard let toDate = toDate else {
+            return time(from: fromDate)
+        }
+        
+        return (fromDate..<toDate).formatted(.pairTime)
+    }
+    
+    static func time(from date: Date?) -> String {
+        date?.formatted(.pairTime) ?? "N/A"
+    }
+    
+    static func form(from form: BsuirApi.Pair.Form?) -> Form {
+        switch form {
+        case .lecture:
+            return .lecture
+        case .practice:
+            return .practice
+        case .lab:
+            return .lab
+        case .exam:
+            return .exam
+        case .unknown, nil:
+            return .unknown
+        }
+    }
+    
+    static func title(from pair: BsuirApi.Pair) -> String? {
+        pair.subject ?? (pair.announcement ? String(localized: "view.pairView.announcement.title") : nil)
+    }
+    
+    static func details(from pair: BsuirApi.Pair) -> String? {
+        Self.auditory(from: pair.auditories)
+    }
+    
+    static func note(from pair: BsuirApi.Pair) -> String? {
+        return [pair.note?.trimmingCharacters(in: .whitespacesAndNewlines), announcement(pair: pair)]
+            .compactMap { $0 }
+            .joined(separator: "\n")
+            .nilOnEmpty()
+    }
+    
+    static func auditory(from auditories: [String]) -> String? {
+        guard !auditories.isEmpty else {
+            return nil
+        }
+        
+        return auditories
+            .map { $0.trimmingCharacters(in: .punctuationCharacters) }
+            .joined(separator: ", ")
+            .nilOnEmpty()
+    }
+    
+    static func announcement(pair: BsuirApi.Pair) -> String? {
+        guard pair.announcement else {
+            return nil
+        }
+        
+        return [pair.announcementStart, pair.announcementEnd]
+            .compactMap { $0 }
+            .joined(separator: " - ")
+            .nilOnEmpty()
+    }
+    
+    static func weeks(from weekNumber: WeekNum) -> String? {
+        weekNumber.prettyName?.capitalized
+    }
+    
+    static func subgroup(from subgroup: Int) -> String? {
+        subgroup == 0 ? nil : "\(subgroup)"
     }
 }
 
@@ -108,25 +189,6 @@ private extension PairProgress {
                 .map { Self.progress(at: $0, from: from, to: to) }
                 .eraseToAnyPublisher()
         )
-    }
-}
-
-private extension PairViewModel.Form {
-
-    init(_ form: BsuirApi.Pair.Form?) {
-        switch form {
-        case .lecture: self = .lecture
-        case .practice: self = .practice
-        case .lab: self = .lab
-        case .exam: self = .exam
-        case .unknown, nil: self = .unknown
-        }
-    }
-}
-
-private extension BsuirApi.Pair.Time {
-    var components: DateComponents {
-        DateComponents(timeZone: timeZone, hour: hour, minute: minute)
     }
 }
 
