@@ -1,17 +1,19 @@
 import Foundation
 
-struct ShortAppVersion: Hashable {
-    let major: Int
-    let minor: Int
-    let patch: Int
+public struct ShortAppVersion: Hashable {
+    public let major: Int
+    public let minor: Int
+    public let patch: Int
 
-    var description: String {
+    public var description: String {
         "\(major).\(minor).\(patch)"
     }
 }
 
+// MARK: - String
+
 extension ShortAppVersion: CustomStringConvertible, ExpressibleByStringLiteral {
-    init(_ version: String) {
+    public init(_ version: String) {
         var components = Array(version.components(separatedBy: ".").reversed())
         assert(components.count == 3, "Expects version in format \"x.x.x\"")
         self.major = components.popLast().flatMap(Int.init) ?? 0
@@ -19,26 +21,19 @@ extension ShortAppVersion: CustomStringConvertible, ExpressibleByStringLiteral {
         self.patch = components.popLast().flatMap(Int.init) ?? 0
     }
 
-    init(stringLiteral version: String) {
+    public init(stringLiteral version: String) {
         self.init(version)
     }
 }
 
+// MARK: - Codable
+
 extension ShortAppVersion: Codable {
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         try self.init(stringLiteral: String(from: decoder))
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         try description.encode(to: encoder)
-    }
-}
-
-struct FullAppVersion: Hashable, CustomStringConvertible {
-    let short: ShortAppVersion
-    let build: Int
-
-    var description: String {
-        "\(short)(\(build))"
     }
 }

@@ -1,4 +1,6 @@
 import SwiftUI
+import BsuirCore
+import AboutFeature
 
 struct CompactRootView: View {
     let state: AppState
@@ -22,7 +24,7 @@ struct CompactRootView: View {
             .tab(.lecturers)
 
             NavigationView {
-                AboutView(screen: state.about)
+                AboutView(store: state.aboutStore)
             }
             .tab(.about)
         }

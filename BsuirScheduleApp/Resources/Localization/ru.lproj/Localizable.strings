@@ -135,5 +135,8 @@
 "alert.goodIconChoice.title" = "Отличный выбор!";
 "alert.goodIconChoice.message" = "Жыве Беларусь!";
 
+"alert.iconUpdateFailed.title" = "Что-то пошло не так...";
+"alert.iconUpdateFailed.message" = "Не удалось обновить иконку приложения";
+
 "alert.clearCache.title" = "Кэш успешно очищен";
 "alert.clearCache.message" = "Был удален кэш скачанного расписания и фотографий преподавателей";

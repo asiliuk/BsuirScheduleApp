@@ -11,6 +11,8 @@ import BsuirApi
 import Combine
 import UIKit
 import Kingfisher
+import AboutFeature
+import ComposableArchitecture
 
 import os.log
 
@@ -46,6 +48,7 @@ final class AppState: ObservableObject {
     private let requestManager: RequestsManager
     private lazy var favorites = FavoritesContainer(storage: storage)
     private(set) lazy var deeplinkHandler = DeeplinkHandler()
+    private(set) lazy var reviewRequestService = ReviewRequestService(storage: storage)
 
     // MARK: - Screens
 
@@ -66,8 +69,11 @@ final class AppState: ObservableObject {
         deeplinkHandler: deeplinkHandler
     )
 
-    private(set) lazy var about = AboutScreen(
-        urlCache: requestManager.cache,
-        imageCache: .default
+    private(set) lazy var aboutStore = Store(
+        initialState: .init(),
+        reducer: AboutFeature()
+            .dependency(\.urlCache, requestManager.cache)
+            .dependency(\.imageCache, .default)
+            .dependency(\.reviewRequestService, reviewRequestService)
     )
 }

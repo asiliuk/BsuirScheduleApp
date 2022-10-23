@@ -3,6 +3,7 @@ import UIKit
 import StoreKit
 import Combine
 import SwiftUI
+import BsuirCore
 
 enum ReviewRequestServiceEnvironmentKey: EnvironmentKey {
     static let defaultValue: ReviewRequestService? = nil
@@ -68,18 +69,7 @@ private func shouldRequestReview(new: ReviewRequestTracking, old: ReviewRequestT
     return new.date.timeIntervalSince(oldDate) > 3600 * 24 * 30
 }
 
-extension ReviewRequestService {
-    struct MeaningfulEvent {
-        fileprivate let score: Int
-        static let addToFavorites = Self(score: 5)
-        static let appIconChanged = Self(score: 5)
-        static let scheduleModeSwitched = Self(score: 3)
-        static let scheduleRequested = Self(score: 2)
-        static let moreScheduleRequested = Self(score: 1)
-        static let githubOpened = Self(score: 1)
-        static let telegramOpened = Self(score: 1)
-    }
-
+extension ReviewRequestService: ReviewRequestServiceProtocol {
     func madeMeaningfulEvent(_ event: MeaningfulEvent) {
         reviewScore.persisted.value += event.score
     }
@@ -125,4 +115,13 @@ extension PersistedValue {
             publisher: subject.eraseToAnyPublisher()
         )
     }
+}
+
+// MARK: - Events
+
+extension MeaningfulEvent {
+    static let addToFavorites = Self(score: 5)
+    static let scheduleModeSwitched = Self(score: 3)
+    static let scheduleRequested = Self(score: 2)
+    static let moreScheduleRequested = Self(score: 1)
 }

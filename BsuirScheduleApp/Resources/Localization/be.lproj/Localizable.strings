@@ -135,5 +135,8 @@
 "alert.goodIconChoice.title" = "Выдатны выбар!";
 "alert.goodIconChoice.message" = "Жыве Беларусь!";
 
+"alert.iconUpdateFailed.title" = "Нешта пайшло не так...";
+"alert.iconUpdateFailed.message" = "Не ўдалося абнавіць значок праграмы";
+
 "alert.clearCache.title" = "Кэш паспяхова вычышчаны";
 "alert.clearCache.message" = "Быў выдалены кэш запампаванага раскладу і фатаграфій выкладчыкаў";

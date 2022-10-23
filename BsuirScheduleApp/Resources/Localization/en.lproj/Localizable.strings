@@ -135,5 +135,8 @@
 "alert.goodIconChoice.title" = "Excellent choice!";
 "alert.goodIconChoice.message" = "Long live Belarus!";
 
+"alert.iconUpdateFailed.title" = "Something went wrong...";
+"alert.iconUpdateFailed.message" = "Failed to update app icon";
+
 "alert.clearCache.title" = "Cache successfully cleared";
 "alert.clearCache.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";

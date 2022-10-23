@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import AboutFeature
 
 enum CurrentSelection: Hashable {
     case groups
@@ -31,7 +32,7 @@ struct RootView: View {
             .sheet(item: $currentOverlay) { overlay in
                 switch overlay {
                 case .about:
-                    NavigationView { AboutView(screen: state.about) }
+                    NavigationView { AboutView(store: state.aboutStore) }
                 }
             }
     }

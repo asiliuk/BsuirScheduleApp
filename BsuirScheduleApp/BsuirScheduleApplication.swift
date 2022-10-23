@@ -7,7 +7,7 @@ struct BsuirScheduleApplication: App {
     var body: some Scene {
         WindowGroup {
             RootView(state: state)
-                .environment(\.reviewRequestService, ReviewRequestService(storage: .standard))
+                .environment(\.reviewRequestService, state.reviewRequestService)
         }
     }
 }
