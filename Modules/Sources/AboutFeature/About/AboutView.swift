@@ -2,6 +2,7 @@ import SwiftUI
 import BsuirCore
 import BsuirUI
 import ComposableArchitecture
+import ComposableArchitectureUtils
 
 public struct AboutView: View {
     public let store: StoreOf<AboutFeature>
@@ -11,7 +12,7 @@ public struct AboutView: View {
     }
     
     public var body: some View {
-        WithViewStore(self.store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             List {
                 Section(header: Text("screen.about.colors.section.header")) {
                     PairFormsSectionView()
@@ -21,7 +22,12 @@ public struct AboutView: View {
                     PairPreviewSectionView()
                 }
                 
-                AppIconPickerView(store: store.scope(state: \.appIcon, action: { .appIcon($0) }))
+                AppIconPickerView(
+                    store: store.scope(
+                        state: \.appIcon,
+                        action: { .appIcon($0) }
+                    )
+                )
                 
                 Section(header: Text("screen.about.aboutTheApp.section.header")) {
                     AboutSectionView(viewStore: viewStore)
@@ -105,7 +111,7 @@ private struct ClearCacheSectionView: View {
         Button("screen.about.data.section.clearCache.button") {
             viewStore.send(.clearCacheTapped)
         }
-        .alert(store.scope(state: \.cacheClearedAlert), dismiss: .cacheClearedAlertDismissed)
+        .alert(store.scope(state: \.cacheClearedAlert), dismiss: .view(.cacheClearedAlertDismissed))
     }
 }
 

@@ -2,6 +2,7 @@ import Foundation
 import BsuirCore
 import BsuirUI
 import ComposableArchitecture
+import ComposableArchitectureUtils
 import Dependencies
 
 public struct AboutFeature: ReducerProtocol {
@@ -13,15 +14,25 @@ public struct AboutFeature: ReducerProtocol {
         public init() {}
     }
     
-    public enum Action: Equatable {
-        case task
-        case clearCacheTapped
-        case cacheClearedAlertDismissed
+    public enum Action: Equatable, FeatureAction {
+        public enum ViewAction: Equatable {
+            case task
+            case clearCacheTapped
+            case cacheClearedAlertDismissed
+            
+            case githubButtonTapped
+            case telegramButtonTapped
+        }
         
-        case githubButtonTapped
-        case telegramButtonTapped
+        public enum ReducerAction: Equatable {
+            case appIcon(AppIconPickerReducer.Action)
+        }
         
-        case appIcon(AppIconPickerReducer.Action)
+        public typealias DelegateAction = Never
+
+        case view(ViewAction)
+        case reducer(ReducerAction)
+        case delegate(DelegateAction)
     }
     
     @Dependency(\.urlCache) var urlCache
@@ -35,11 +46,11 @@ public struct AboutFeature: ReducerProtocol {
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .task:
+            case .view(.task):
                 state.appVersion = TextState("screen.about.aboutTheApp.version.\(appVersion)")
                 return .none
                 
-            case .clearCacheTapped:
+            case .view(.clearCacheTapped):
                 state.cacheClearedAlert = AlertState(
                     title: TextState("alert.clearCache.title"),
                     message: TextState("alert.clearCache.message")
@@ -49,28 +60,28 @@ public struct AboutFeature: ReducerProtocol {
                     imageCache.clearCache()
                 }
                 
-            case .cacheClearedAlertDismissed:
+            case .view(.cacheClearedAlertDismissed):
                 state.cacheClearedAlert = nil
                 return .none
                 
-            case .githubButtonTapped:
+            case .view(.githubButtonTapped):
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.githubOpened)
                     _ = await openUrl(.github, [:])
                 }
                 
-            case .telegramButtonTapped:
+            case .view(.telegramButtonTapped):
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.telegramOpened)
                     _ = await openUrl(.telegram, [:])
                 }
                 
-            case .appIcon:
+            case .reducer:
                 return .none
             }
         }
         
-        Scope(state: \.appIcon, action: /Action.appIcon) {
+        Scope(state: \.appIcon, action: /Action.ReducerAction.appIcon) {
             AppIconPickerReducer()
         }
     }

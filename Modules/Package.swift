@@ -27,14 +27,17 @@ let package = Package(
     targets: [
         .target(
             name: "AboutFeature",
-            dependencies: ["BsuirCore", "BsuirUI", .tca, .dependencies]
+            dependencies: ["BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]
         ),
         .target(
+            name: "ComposableArchitectureUtils",
+            dependencies: [.tca]),
+        .target(
             name: "BsuirUI",
-            dependencies: ["BsuirApi", "BsuirCore", "Kingfisher", .dependencies]),
+            dependencies: ["BsuirApi", "BsuirCore", "Kingfisher", .tcaDependencies]),
         .target(
             name: "BsuirCore",
-            dependencies: ["BsuirApi", .dependencies]),
+            dependencies: ["BsuirApi", .tcaDependencies]),
         .target(
             name: "BsuirApi",
             dependencies: []),
@@ -46,5 +49,5 @@ let package = Package(
 
 private extension Target.Dependency {
     static let tca: Self = .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-    static let dependencies: Self = .product(name: "Dependencies", package: "swift-composable-architecture")
+    static let tcaDependencies: Self = .product(name: "Dependencies", package: "swift-composable-architecture")
 }

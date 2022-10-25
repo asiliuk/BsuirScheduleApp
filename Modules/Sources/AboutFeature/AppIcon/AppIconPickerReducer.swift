@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import BsuirCore
 import ComposableArchitecture
+import ComposableArchitectureUtils
 
 // TODO: Find a way to make internal
 public struct AppIconPickerReducer: ReducerProtocol {
@@ -12,138 +13,115 @@ public struct AppIconPickerReducer: ReducerProtocol {
         var currentIcon: AppIcon = .standard
     }
     
-    public enum Action: Equatable {
-        case task
-        case alertDismissed
-        case iconPicked(AppIcon)
-        case setSupportsIconPicking(Bool)
-        case setCurrentIcon(AppIcon?)
-        case iconChanged(AppIcon)
-        case iconChangeFailed
+    public enum Action: Equatable, FeatureAction {
+        public enum ViewAction: Equatable {
+            case task
+            case alertDismissed
+            case iconPicked(AppIcon)
+        }
+        
+        public enum ReducerAction: Equatable {
+            case setSupportsIconPicking(Bool)
+            case setCurrentIcon(AppIcon?)
+            case iconChanged(AppIcon)
+            case iconChangeFailed
+        }
+        
+        public typealias DelegateAction = Never
+        
+        case view(ViewAction)
+        case delegate(DelegateAction)
+        case reducer(ReducerAction)
     }
 
-
-    public var body: some ReducerProtocol<State, Action> {
-        CurrentAppIconReducer()
-        ChangeAppIconReducer()
-        ChangeAppIconReportReducer()
-    }
-}
-
-private struct ChangeAppIconReducer: ReducerProtocol {
-    typealias State = AppIconPickerReducer.State
-    typealias Action = AppIconPickerReducer.Action
-    
+    @Dependency(\.appInfo.iconName) var appIconName
+    @Dependency(\.application.supportsAlternateIcons) var supportsAlternateIcons
+    @Dependency(\.application.alternateIconName) var alternateIconName
     @Dependency(\.application.setAlternateIconName) var setAlternateIconName
-    
-    var body: some ReducerProtocol<State, Action> {
-        Reduce { state, action in
-            switch action {
-            case let .iconPicked(icon):
-                state.currentIcon = icon
-                return .task {
-                    do {
-                        try await setAlternateIconName(icon.name)
-                        return .iconChanged(icon)
-                    } catch {
-                        return .iconChangeFailed
-                    }
-                }
-                
-            case .iconChanged(.resist),
-                 .iconChanged(.national):
+    @Dependency(\.reviewRequestService) var reviewRequestService
+
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+        switch action {
+        case .view(.task):
+            state.defaultIcon = appIconName.flatMap(UIImage.init(named:))
+            return .merge(
+                .task { await checkIfIconPickingSupported() },
+                .task { await updateInitialAppIcon() }
+            )
+            
+        case .view(.alertDismissed):
+            state.alert = nil
+            return .none
+            
+        case let .view(.iconPicked(icon)):
+            guard icon != state.currentIcon else {
+                return .none
+            }
+            
+            state.currentIcon = icon
+            return .merge(
+                .fireAndForget { reviewRequestService.madeMeaningfulEvent(.appIconChanged) },
+                .task { await updateAppIcon(icon) }
+            )
+            
+        case let .reducer(.setSupportsIconPicking(value)):
+            state.supportsIconPicking = value
+            return .none
+            
+        case let .reducer(.setCurrentIcon(appIcon?)):
+            state.currentIcon = appIcon
+            return .none
+            
+        case .reducer(.setCurrentIcon(nil)):
+            return .none
+            
+        case let .reducer(.iconChanged(newIcon)):
+            if newIcon.showNiceChoiceAlert {
                 state.alert =  AlertState(
                     title: TextState("alert.goodIconChoice.title"),
                     message: TextState("alert.goodIconChoice.message")
                 )
-                return .none
-                
-            case .iconChanged:
-                return .none
-                
-            case .iconChangeFailed:
-                state.alert =  AlertState(
-                    title: TextState("alert.iconUpdateFailed.title"),
-                    message: TextState("alert.iconUpdateFailed.message")
-                )
-                return .none
-                
-            case .alertDismissed:
-                state.alert = nil
-                return .none
+            }
+            return .none
             
-            case .task,
-                 .setSupportsIconPicking,
-                 .setCurrentIcon:
-                return .none
-            }
+        case .reducer(.iconChangeFailed):
+            state.alert =  AlertState(
+                title: TextState("alert.iconUpdateFailed.title"),
+                message: TextState("alert.iconUpdateFailed.message")
+            )
+            return .none
+        }
+    }
+    
+    private func checkIfIconPickingSupported() async -> Action {
+        await .reducer(.setSupportsIconPicking(supportsAlternateIcons()))
+    }
+    
+    private func updateInitialAppIcon() async -> Action {
+        let alternateIconName = await alternateIconName()
+        let appIcon = alternateIconName.flatMap(AppIcon.init(name:))
+        return .reducer(.setCurrentIcon(appIcon))
+    }
+    
+    private func updateAppIcon(_ icon: AppIcon) async -> Action {
+        do {
+            try await setAlternateIconName(icon.name)
+            return .reducer(.iconChanged(icon))
+        } catch {
+            return .reducer(.iconChangeFailed)
         }
     }
 }
 
-private struct ChangeAppIconReportReducer: ReducerProtocol {
-    typealias State = AppIconPickerReducer.State
-    typealias Action = AppIconPickerReducer.Action
-    
-    @Dependency(\.reviewRequestService) var reviewRequestService
+// MARK: - AppIcon
 
-    var body: some ReducerProtocol<State, Action> {
-        Reduce { state, action in
-            switch action {
-            case .iconChanged:
-                return .fireAndForget { reviewRequestService.madeMeaningfulEvent(.appIconChanged) }
-                
-            case .task,
-                 .alertDismissed,
-                 .setSupportsIconPicking,
-                 .setCurrentIcon,
-                 .iconPicked,
-                 .iconChangeFailed:
-                return .none
-            }
-        }
-    }
-}
-
-private struct CurrentAppIconReducer: ReducerProtocol {
-    typealias State = AppIconPickerReducer.State
-    typealias Action = AppIconPickerReducer.Action
-    
-    @Dependency(\.appInfo.iconName) var appIconName
-    @Dependency(\.application.supportsAlternateIcons) var supportsAlternateIcons
-    @Dependency(\.application.alternateIconName) var alternateIconName
-
-    var body: some ReducerProtocol<State, Action> {
-        Reduce { state, action in
-            switch action {
-            case .task:
-                state.defaultIcon = appIconName.flatMap(UIImage.init(named:))
-                return .merge(
-                    .task { await .setSupportsIconPicking(supportsAlternateIcons()) },
-                    .task {
-                        let alternateIconName = await alternateIconName()
-                        let appIcon = alternateIconName.flatMap(AppIcon.init(name:))
-                        return .setCurrentIcon(appIcon)
-                    }
-                )
-                
-            case let .setCurrentIcon(appIcon?):
-                state.currentIcon = appIcon
-                return .none
-                
-            case .setCurrentIcon(nil):
-                return .none
-                
-            case let .setSupportsIconPicking(value):
-                state.supportsIconPicking = value
-                return .none
-                
-            case .alertDismissed,
-                 .iconPicked,
-                 .iconChanged,
-                 .iconChangeFailed:
-                return .none
-            }
+private extension AppIcon {
+    var showNiceChoiceAlert: Bool {
+        switch self {
+        case .resist, .national:
+            return true
+        default:
+            return false
         }
     }
 }
