@@ -16,7 +16,7 @@ struct AppIconPickerView: View {
                         ForEach(AppIcon.allCases) { icon in
                             HStack {
                                 AppIconView(icon: icon, defaultIcon: viewStore.defaultIcon)
-                                Text(icon.title)
+                                Text("  ") + Text(icon.title)
                             }
                         }
                     }
