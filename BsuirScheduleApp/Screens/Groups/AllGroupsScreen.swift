@@ -9,6 +9,7 @@
 import BsuirApi
 import Combine
 import Foundation
+import Favorites
 
 final class AllGroupsScreen: ObservableObject {
 
@@ -33,8 +34,7 @@ final class AllGroupsScreen: ObservableObject {
                     return groups.filter { $0.name.starts(with: query) }
                 }
                 .combineLatest(
-                    favorites.$groups
-                        .map { $0.value }
+                    favorites.groups
                         .setFailureType(to: RequestsManager.RequestError.self)
                 )
                 .map { .init(favorites: $1, groups: $0) }

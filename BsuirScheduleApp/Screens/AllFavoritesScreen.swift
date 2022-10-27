@@ -1,5 +1,6 @@
 import Foundation
 import BsuirApi
+import Favorites
 
 final class AllFavoritesScreen: ObservableObject {
     enum Selection {
@@ -15,13 +16,13 @@ final class AllFavoritesScreen: ObservableObject {
         self.favorites = favorites
         self.requestManager = requestManager
 
-        favorites.$groups
-            .map { $0.value.map(AllGroupsScreenGroup.init) }
+        favorites.groups
+            .map { $0.map(AllGroupsScreenGroup.init) }
             .removeDuplicates()
             .assign(to: &$groups)
 
-        favorites.$lecturers
-            .map { $0.value.map(AllLecturersScreenLecturer.init) }
+        favorites.lecturers
+            .map { $0.map(AllLecturersScreenLecturer.init) }
             .removeDuplicates()
             .assign(to: &$lecturers)
 

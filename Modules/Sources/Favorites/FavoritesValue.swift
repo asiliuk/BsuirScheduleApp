@@ -1,28 +1,8 @@
 import Foundation
-import BsuirApi
-
-final class FavoritesContainer {
-    @Published var groups: FavoritesValue<Group>
-    @Published var lecturers: FavoritesValue<Employee>
-
-    var isEmpty: Bool { groups.value.isEmpty && lecturers.value.isEmpty }
-
-    init(storage: UserDefaults) {
-        self.groups = FavoritesValue(storage: storage, key: "favorite-groups")
-        self.lecturers = FavoritesValue(storage: storage, key: "favorite-lecturers")
-    }
-}
 
 struct FavoritesValue<F: Codable & Equatable> {
     private(set) var value: [F] {
         didSet { save(value) }
-    }
-
-    init(storage: UserDefaults, key: String) {
-        self.storage = storage
-        self.key = key
-        self.value = []
-        self.value = self.fetch()
     }
 
     mutating func toggle(_ favorite: F) {
@@ -32,6 +12,15 @@ struct FavoritesValue<F: Codable & Equatable> {
             value.append(favorite)
         }
     }
+    
+    init(storage: UserDefaults, key: String) {
+        self.storage = storage
+        self.key = key
+        self.value = []
+        self.value = self.fetch()
+    }
+
+
 
     private func save(_ favorites: [F]) {
         storage.set(try? encoder.encode(favorites), forKey: key)

@@ -41,7 +41,6 @@
 		E66B412A2414394600A88BFD /* AllGroupsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66B41292414394600A88BFD /* AllGroupsScreen.swift */; };
 		E66C1D8F24C2704D008391B6 /* ContinuousSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66C1D8E24C2704D008391B6 /* ContinuousSchedule.swift */; };
 		E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67491122523BC40006CE90E /* ReviewRequestService.swift */; };
-		E67503A824F427020030D0EC /* FavoritesContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503A724F427020030D0EC /* FavoritesContainer.swift */; };
 		E67503AB24F430BD0030D0EC /* AllFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */; };
 		E67503AD24F4355B0030D0EC /* AllFavoritesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67503AC24F4355B0030D0EC /* AllFavoritesScreen.swift */; };
 		E67F7B2F2905674000F79712 /* Features in Frameworks */ = {isa = PBXBuildFile; productRef = E67F7B2E2905674000F79712 /* Features */; };
@@ -176,7 +175,6 @@
 		E66B41292414394600A88BFD /* AllGroupsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsScreen.swift; sourceTree = "<group>"; };
 		E66C1D8E24C2704D008391B6 /* ContinuousSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinuousSchedule.swift; sourceTree = "<group>"; };
 		E67491122523BC40006CE90E /* ReviewRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRequestService.swift; sourceTree = "<group>"; };
-		E67503A724F427020030D0EC /* FavoritesContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesContainer.swift; sourceTree = "<group>"; };
 		E67503AA24F430BD0030D0EC /* AllFavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFavoritesView.swift; sourceTree = "<group>"; };
 		E67503AC24F4355B0030D0EC /* AllFavoritesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFavoritesScreen.swift; sourceTree = "<group>"; };
 		E68610C42471C2BC001BF527 /* DismissingKeyboardOnSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissingKeyboardOnSwipe.swift; sourceTree = "<group>"; };
@@ -319,7 +317,6 @@
 		E67491112523BC26006CE90E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				E67503A724F427020030D0EC /* FavoritesContainer.swift */,
 				E67491122523BC40006CE90E /* ReviewRequestService.swift */,
 				E6B2899F27038759008469F3 /* DeeplinkHandler.swift */,
 			);
@@ -726,7 +723,6 @@
 				E6A6D1C325D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */,
 				E66B4122241431F800A88BFD /* LecturerScreen.swift in Sources */,
 				E66B41282414381D00A88BFD /* GroupScreen.swift in Sources */,
-				E67503A824F427020030D0EC /* FavoritesContainer.swift in Sources */,
 				E6964826233F8936007EF2CB /* ScheduleView.swift in Sources */,
 				E6B289A027038759008469F3 /* DeeplinkHandler.swift in Sources */,
 				E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */,

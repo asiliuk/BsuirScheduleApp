@@ -9,17 +9,18 @@
 import BsuirApi
 import Combine
 import Foundation
+import Favorites
 
 extension ScheduleScreen {
 
     static func lecturer(_ employee: Employee, favorites: FavoritesContainer, requestManager: RequestsManager) -> Self {
         Self(
             name: employee.fio,
-            isFavorite: favorites.$lecturers
-                .map { $0.value.contains(employee) }
+            isFavorite: favorites.lecturers
+                .map { $0.contains(employee) }
                 .removeDuplicates()
                 .eraseToAnyPublisher(),
-            toggleFavorite: { favorites.lecturers.toggle(employee) },
+            toggleFavorite: { favorites.toggle(lecturer: employee) },
             request: requestManager
                 .request(BsuirIISTargets.EmployeeSchedule(urlId: employee.urlId))
                 .map { ($0.schedules ?? DaySchedule(), $0.examSchedules ?? []) }

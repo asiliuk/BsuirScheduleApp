@@ -37,6 +37,10 @@ let package = Package(
             dependencies: ["ComposableArchitectureUtils", .tca]
         ),
         .target(
+            name: "Favorites",
+            dependencies: ["BsuirApi", .tcaDependencies]
+        ),
+        .target(
             name: "ComposableArchitectureUtils",
             dependencies: [.tca]),
         .target(

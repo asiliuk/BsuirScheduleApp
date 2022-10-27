@@ -8,17 +8,18 @@
 import BsuirApi
 import Combine
 import Foundation
+import Favorites
 
 extension ScheduleScreen {
 
     static func group(_ group: StudentGroup, favorites: FavoritesContainer, requestManager: RequestsManager) -> Self {
         Self(
             name: group.name,
-            isFavorite: favorites.$groups
-                .map { $0.value.contains(group) }
+            isFavorite: favorites.groups
+                .map { $0.contains(group) }
                 .removeDuplicates()
                 .eraseToAnyPublisher(),
-            toggleFavorite: { favorites.groups.toggle(group) },
+            toggleFavorite: { favorites.toggle(group: group) },
             request: requestManager
                 .request(BsuirIISTargets.GroupSchedule(groupNumber: group.name))
                 .map { ($0.schedules, $0.examSchedules) }

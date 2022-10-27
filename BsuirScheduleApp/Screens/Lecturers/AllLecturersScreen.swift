@@ -10,6 +10,7 @@ import BsuirApi
 import Combine
 import Foundation
 import SwiftUI
+import Favorites
 
 struct AllLecturersScreenLecturer: Identifiable, Equatable {
     var id: Int { employee.id }
@@ -41,8 +42,7 @@ final class AllLecturersScreen: ObservableObject {
                     return lecturers.filter { $0.fullName.lowercased().contains(query.lowercased()) }
                 }
                 .combineLatest(
-                    favorites.$lecturers
-                        .map { $0.value }
+                    favorites.lecturers
                         .setFailureType(to: RequestsManager.RequestError.self)
                 )
                 .map { .init(lecturers: $0, favorites: $1) }

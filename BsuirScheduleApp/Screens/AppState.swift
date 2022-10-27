@@ -12,6 +12,7 @@ import Combine
 import UIKit
 import Kingfisher
 import AboutFeature
+import Favorites
 import ComposableArchitecture
 
 import os.log
