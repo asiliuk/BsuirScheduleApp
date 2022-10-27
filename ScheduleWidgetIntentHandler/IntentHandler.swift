@@ -5,7 +5,7 @@ import Combine
 class IntentHandler: INExtension, ConfigurationIntentHandling {
     func resolveGroupName(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationGroupNameResolutionResult) -> Void) {
         groupsRequestCancellable = requestManager
-            .request(BsuirIISTargets.Groups())
+            .request(BsuirIISTargets.StudentGroups())
             .map { groups in
                 intent.groupName.map { name in
                     groups.filter { $0.name.starts(with: name.displayString) }

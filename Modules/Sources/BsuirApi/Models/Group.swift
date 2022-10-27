@@ -7,15 +7,15 @@
 
 import Foundation
 
-public struct Group: Codable, Equatable {
+public struct StudentGroup: Codable, Equatable, Identifiable {
     public let id: Int
     public let name: String
     public let course: Int?
 }
 
-extension Group {
+extension StudentGroup {
     public struct Schedule: Codable, Equatable {
-        public let studentGroup: Group
+        public let studentGroup: StudentGroup
         public let schedules: DaySchedule
         public let examSchedules: [Pair]
         

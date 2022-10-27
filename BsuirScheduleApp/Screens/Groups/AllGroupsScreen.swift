@@ -26,7 +26,7 @@ final class AllGroupsScreen: ObservableObject {
         self.favorites = favorites
         self.groups = LoadableContent(
             requestManager
-                .request(BsuirIISTargets.Groups())
+                .request(BsuirIISTargets.StudentGroups())
                 .log(.appState, identifier: "All groups")
                 .query(by: _searchQuery.projectedValue) { groups, query in
                     guard !query.isEmpty else { return groups }
@@ -67,7 +67,7 @@ final class AllGroupsScreen: ObservableObject {
 }
 
 extension Array where Element == AllGroupsScreenGroupSection {
-    init(favorites: [Group], groups: [Group]) {
+    init(favorites: [StudentGroup], groups: [StudentGroup]) {
         let favoritesGroup = AllGroupsScreenGroupSection(
             title: String(localized: "screen.groups.favorites.section.header"),
             groups: favorites.map(AllGroupsScreenGroup.init)
@@ -103,6 +103,6 @@ struct AllGroupsScreenGroup: Identifiable, Equatable {
     var id: Int { group.id }
     var name: String { group.name }
 
-    init(group: Group) { self.group = group }
-    let group: Group
+    init(group: StudentGroup) { self.group = group }
+    let group: StudentGroup
 }

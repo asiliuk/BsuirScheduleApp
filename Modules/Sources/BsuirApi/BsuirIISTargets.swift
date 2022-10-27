@@ -7,7 +7,7 @@ public enum BsuirIISTargets {
     
     /// Get schedule of the group
     public struct GroupSchedule: Target {
-        public typealias Value = Group.Schedule
+        public typealias Value = StudentGroup.Schedule
         public let path = "/v1/schedule"
         public let parameters: [String: String]
 
@@ -27,8 +27,8 @@ public enum BsuirIISTargets {
     }
 
     /// Get list of all groups
-    public struct Groups: Target {
-        public typealias Value = [Group]
+    public struct StudentGroups: Target {
+        public typealias Value = [StudentGroup]
         public let path = "/v1/student-groups"
         public init() {}
     }

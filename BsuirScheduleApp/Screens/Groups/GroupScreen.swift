@@ -11,7 +11,7 @@ import Foundation
 
 extension ScheduleScreen {
 
-    static func group(_ group: Group, favorites: FavoritesContainer, requestManager: RequestsManager) -> Self {
+    static func group(_ group: StudentGroup, favorites: FavoritesContainer, requestManager: RequestsManager) -> Self {
         Self(
             name: group.name,
             isFavorite: favorites.$groups
