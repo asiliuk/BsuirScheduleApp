@@ -10,15 +10,9 @@ import Combine
 import Foundation
 import UIKit
 import BsuirApi
+import LoadableFeature
 
-enum ContentState<Value> {
-    case initial
-    case loading
-    case error
-    case some(Value)
-}
-
-extension ContentState: Equatable where Value: Equatable {}
+typealias ContentState<Value> = LodableContentState<Value>
 
 final class LoadableContent<Value>: ObservableObject {
 
@@ -74,33 +68,5 @@ extension Publisher {
 
     func eraseToLoading() -> AnyPublisher<Output, Error> {
         self.mapError { $0 }.eraseToAnyPublisher()
-    }
-}
-
-extension ContentState {
-
-    func map<U>(_ transform: (Value) -> U) -> ContentState<U> {
-        switch self {
-        case .initial: return .initial
-        case .loading: return .loading
-        case .error: return .error
-        case let .some(value): return .some(transform(value))
-        }
-    }
-}
-
-extension ContentState {
-    var some: Value? {
-        guard case let .some(value) = self else { return nil }
-        return value
-    }
-
-    var inProgress: Bool {
-        switch self {
-        case .loading, .initial:
-            return true
-        case .error, .some:
-            return false
-        }
     }
 }

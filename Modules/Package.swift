@@ -9,6 +9,9 @@ let package = Package(
     products: [
         .library(
             name: "Features",
+            targets: ["AboutFeature", "GroupsFeature", "LoadableFeature"]),
+        .library(
+            name: "AboutFeature",
             targets: ["AboutFeature"]),
         .library(
             name: "BsuirUI",
@@ -28,6 +31,10 @@ let package = Package(
         .target(
             name: "AboutFeature",
             dependencies: ["BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]
+        ),
+        .target(
+            name: "LoadableFeature",
+            dependencies: ["ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "ComposableArchitectureUtils",
