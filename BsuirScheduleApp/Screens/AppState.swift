@@ -12,6 +12,7 @@ import Combine
 import UIKit
 import Kingfisher
 import AboutFeature
+import GroupsFeature
 import Favorites
 import ComposableArchitecture
 
@@ -72,9 +73,20 @@ final class AppState: ObservableObject {
 
     private(set) lazy var aboutStore = Store(
         initialState: .init(),
-        reducer: AboutFeature()
+        reducer: commonDependencies(AboutFeature())
+    )
+    
+    private(set) lazy var groupsStore = Store(
+        initialState: .init(),
+        reducer: commonDependencies(GroupsFeature())
+            
+    )
+    
+    private func commonDependencies<R: ReducerProtocol>(_ reducer: R) -> some ReducerProtocol<R.State, R.Action> {
+        reducer
+            .dependency(\.favorites, favorites)
             .dependency(\.urlCache, requestManager.cache)
             .dependency(\.imageCache, .default)
             .dependency(\.reviewRequestService, reviewRequestService)
-    )
+    }
 }

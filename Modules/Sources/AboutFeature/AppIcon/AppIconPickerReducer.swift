@@ -59,10 +59,13 @@ public struct AppIconPickerReducer: ReducerProtocol {
             }
             
             state.currentIcon = icon
-            return .merge(
-                .fireAndForget { reviewRequestService.madeMeaningfulEvent(.appIconChanged) },
-                .task { await updateAppIcon(icon) }
-            )
+            return .task {
+                try await setAlternateIconName(icon.name)
+                reviewRequestService.madeMeaningfulEvent(.appIconChanged)
+                return .reducer(.iconChanged(icon))
+            } catch: { _ in
+                .reducer(.iconChangeFailed)
+            }
             
         case let .reducer(.setSupportsIconPicking(value)):
             state.supportsIconPicking = value
@@ -101,15 +104,6 @@ public struct AppIconPickerReducer: ReducerProtocol {
         let alternateIconName = await alternateIconName()
         let appIcon = alternateIconName.flatMap(AppIcon.init(name:))
         return .reducer(.setCurrentIcon(appIcon))
-    }
-    
-    private func updateAppIcon(_ icon: AppIcon) async -> Action {
-        do {
-            try await setAlternateIconName(icon.name)
-            return .reducer(.iconChanged(icon))
-        } catch {
-            return .reducer(.iconChangeFailed)
-        }
     }
 }
 

@@ -10,6 +10,7 @@ import SwiftUI
 import AboutFeature
 
 enum CurrentSelection: Hashable {
+    case legacyGroups
     case groups
     case lecturers
     case favorites
@@ -52,8 +53,10 @@ struct RootView: View {
 extension CurrentSelection {
     @ViewBuilder var label: some View {
         switch self {
-        case .groups:
+        case .legacyGroups:
             Label("view.tabBar.groups.title", systemImage: "person.2")
+        case .groups:
+            Label("view.tabBar.groups.title", systemImage: "person.2.badge.gearshape")
         case .lecturers:
             Label("view.tabBar.lecturers.title", systemImage: "person.text.rectangle")
         case .about:

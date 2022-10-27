@@ -14,6 +14,9 @@ let package = Package(
             name: "AboutFeature",
             targets: ["AboutFeature"]),
         .library(
+            name: "GroupsFeature",
+            targets: ["GroupsFeature"]),
+        .library(
             name: "BsuirUI",
             targets: ["BsuirUI"]),
         .library(
@@ -28,9 +31,14 @@ let package = Package(
          .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.43.0")
     ],
     targets: [
+        // MARK: - Features
         .target(
             name: "AboutFeature",
             dependencies: ["BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]
+        ),
+        .target(
+            name: "GroupsFeature",
+            dependencies: ["LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "LoadableFeature",
@@ -40,6 +48,7 @@ let package = Package(
             name: "Favorites",
             dependencies: ["BsuirApi", .tcaDependencies]
         ),
+        // MARK: - Core
         .target(
             name: "ComposableArchitectureUtils",
             dependencies: [.tca]),
@@ -51,7 +60,7 @@ let package = Package(
             dependencies: ["BsuirApi", .tcaDependencies]),
         .target(
             name: "BsuirApi",
-            dependencies: []),
+            dependencies: [.tcaDependencies]),
         .testTarget(
             name: "BsuirCoreTests",
             dependencies: ["BsuirCore"]),

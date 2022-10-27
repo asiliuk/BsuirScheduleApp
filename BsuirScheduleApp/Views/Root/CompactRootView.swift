@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirCore
 import AboutFeature
+import GroupsFeature
 
 struct CompactRootView: View {
     let state: AppState
@@ -15,6 +16,11 @@ struct CompactRootView: View {
 
             NavigationView {
                 AllGroupsView(screen: state.allGroups)
+            }
+            .tab(.legacyGroups)
+            
+            NavigationView {
+                GroupsView(store: state.groupsStore)
             }
             .tab(.groups)
 
