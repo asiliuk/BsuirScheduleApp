@@ -12,6 +12,7 @@ import AboutFeature
 enum CurrentSelection: Hashable {
     case legacyGroups
     case groups
+    case legacyLecturers
     case lecturers
     case favorites
     case about
@@ -57,8 +58,10 @@ extension CurrentSelection {
             Label("view.tabBar.groups.title", systemImage: "person.2")
         case .groups:
             Label("view.tabBar.groups.title", systemImage: "person.2.badge.gearshape")
-        case .lecturers:
+        case .legacyLecturers:
             Label("view.tabBar.lecturers.title", systemImage: "person.text.rectangle")
+        case .lecturers:
+            Label("view.tabBar.lecturers.title", systemImage: "person.crop.square.filled.and.at.rectangle")
         case .about:
             Label("view.tabBar.about.title", systemImage: "info.circle")
         case .favorites:

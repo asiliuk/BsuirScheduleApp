@@ -13,6 +13,7 @@ import UIKit
 import Kingfisher
 import AboutFeature
 import GroupsFeature
+import LecturersFeature
 import Favorites
 import ComposableArchitecture
 
@@ -80,6 +81,11 @@ final class AppState: ObservableObject {
         initialState: .init(),
         reducer: commonDependencies(GroupsFeature())
             
+    )
+    
+    private(set) lazy var lecturersStore = Store(
+        initialState: .init(),
+        reducer: commonDependencies(LecturersFeature())
     )
     
     private func commonDependencies<R: ReducerProtocol>(_ reducer: R) -> some ReducerProtocol<R.State, R.Action> {

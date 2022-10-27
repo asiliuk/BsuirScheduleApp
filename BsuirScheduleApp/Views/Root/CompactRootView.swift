@@ -2,6 +2,7 @@ import SwiftUI
 import BsuirCore
 import AboutFeature
 import GroupsFeature
+import LecturersFeature
 
 struct CompactRootView: View {
     let state: AppState
@@ -9,11 +10,6 @@ struct CompactRootView: View {
 
     var body: some View {
         TabView(selection: $currentSelection) {
-            NavigationView {
-                AllFavoritesView(screen: state.allFavorites, openGroups: { currentSelection = .groups })
-            }
-            .tab(.favorites)
-
             NavigationView {
                 AllGroupsView(screen: state.allGroups)
             }
@@ -27,7 +23,17 @@ struct CompactRootView: View {
             NavigationView {
                 AllLecturersView(screen: state.allLecturers)
             }
+            .tab(.legacyLecturers)
+            
+            NavigationView {
+                LecturersView(store: state.lecturersStore)
+            }
             .tab(.lecturers)
+            
+            NavigationView {
+                AllFavoritesView(screen: state.allFavorites, openGroups: { currentSelection = .groups })
+            }
+            .tab(.favorites)
 
             NavigationView {
                 AboutView(store: state.aboutStore)

@@ -9,13 +9,16 @@ let package = Package(
     products: [
         .library(
             name: "Features",
-            targets: ["AboutFeature", "GroupsFeature", "LoadableFeature"]),
+            targets: ["AboutFeature", "GroupsFeature", "LecturersFeature", "LoadableFeature"]),
         .library(
             name: "AboutFeature",
             targets: ["AboutFeature"]),
         .library(
             name: "GroupsFeature",
             targets: ["GroupsFeature"]),
+        .library(
+            name: "LecturersFeature",
+            targets: ["LecturersFeature"]),
         .library(
             name: "BsuirUI",
             targets: ["BsuirUI"]),
@@ -38,6 +41,10 @@ let package = Package(
         ),
         .target(
             name: "GroupsFeature",
+            dependencies: ["LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+        ),
+        .target(
+            name: "LecturersFeature",
             dependencies: ["LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
