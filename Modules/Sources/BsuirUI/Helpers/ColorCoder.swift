@@ -35,15 +35,15 @@ private enum EncodingError: Error {
 extension Color {
     public init(codableColor: CodableColor) {
         switch codableColor {
-        case .blue: self = .blue
-        case .cyan: self = .cyan
-        case .indigo: self = .indigo
-        case .purple: self = .purple
-        case .green: self = .green
         case .red: self = .red
         case .pink: self = .pink
         case .orange: self = .orange
         case .yellow: self = .yellow
+        case .green: self = .green
+        case .cyan: self = .cyan
+        case .blue: self = .blue
+        case .indigo: self = .indigo
+        case .purple: self = .purple
         case .gray: self = .gray
         case .brown: self = .brown
         }
@@ -51,29 +51,29 @@ extension Color {
 }
 
 public enum CodableColor: Codable, CaseIterable, Equatable {
-    case blue
-    case cyan
-    case indigo
-    case purple
-    case green
     case red
     case pink
     case orange
     case yellow
+    case green
+    case cyan
+    case blue
+    case indigo
+    case purple
     case gray
     case brown
     
     public init?(color: Color) {
         switch color {
-        case .blue: self = .blue
-        case .cyan: self = .cyan
-        case .indigo: self = .indigo
-        case .purple: self = .purple
-        case .green: self = .green
         case .red: self = .red
         case .pink: self = .pink
         case .orange: self = .orange
         case .yellow: self = .yellow
+        case .green: self = .green
+        case .cyan: self = .cyan
+        case .blue: self = .blue
+        case .indigo: self = .indigo
+        case .purple: self = .purple
         case .gray: self = .gray
         case .brown: self = .brown
         default: return nil
