@@ -137,3 +137,17 @@
 
 "alert.clearCache.title" = "Cache successfully cleared";
 "alert.clearCache.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";
+
+// MARK: - Color Names
+
+"color.red" = "Red";
+"color.pink" = "Pink";
+"color.orange" = "Orange";
+"color.yellow" = "Yellow";
+"color.green" = "Green";
+"color.cyan" = "Cyan";
+"color.blue" = "Blue";
+"color.indigo" = "Indigo";
+"color.purple" = "Purple";
+"color.gray" = "Gray";
+"color.brown" = "Brown";
