@@ -66,7 +66,7 @@ struct ColorView: View {
             Image(uiImage: iconImage)
                 .resizable()
                 .frame(width: size, height: size)
-            if isOpen { Text(color.descriptionLocalizedKey ?? "") }
+            if isOpen { Text(LocalizedStringKey(stringLiteral: "color.\(color.description)")) }
         }.onAppear {
             isOpen = true
         }
