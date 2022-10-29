@@ -26,7 +26,7 @@ private struct PickerView: View {
     
     init(form: PairViewForm) {
         self.form = form
-        self.color = CodableColor(color: form.color)!
+        self.color = CodableColor(color: form.color) ?? .gray
     }
     
     var body: some View {
