@@ -21,6 +21,7 @@ struct ColorPickerView: View {
 
 private struct PickerView: View {
     let form: PairViewForm
+    
     @State private var color: CodableColor
     
     init(form: PairViewForm) {
@@ -33,10 +34,11 @@ private struct PickerView: View {
             ForEach(CodableColor.allCases, id: \.self) { color in
                 ColorView(color: Color(codableColor: color))
             }
-        }.onChange(of: color) { selectedColor in
+        }
+        .onChange(of: color) { selectedColor in
             let userDefaults = UserDefaults.standard
             let coder = ColorCoder()
-            let encodedColor = try! coder.encodeColor(Color(codableColor: color))
+            let encodedColor = try? coder.encodeColor(Color(codableColor: color))
             
             switch form {
             case .lecture:
@@ -54,14 +56,30 @@ private struct PickerView: View {
     }
 }
 
-private struct ColorView: View {
+struct ColorView: View {
     let color: Color
+    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 34
+    @State private var isOpen = false
     
     var body: some View {
-        Group {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
+        HStack {
+            Image(uiImage: iconImage)
+                .resizable()
+                .frame(width: size, height: size)
+            if isOpen { Text(color.description) }
+        }.onAppear {
+            isOpen = true
         }
-        .frame(width: 30, height: 30)
-        .foregroundColor(color)
+    }
+    
+    private var iconImage: UIImage {
+        UIGraphicsImageRenderer(size: CGSize(width: size, height: size)).image { context in
+            UIBezierPath(roundedRect: context.format.bounds, cornerRadius: (8 / 34) * size).addClip()
+            image?.draw(in: context.format.bounds)
+        }
+    }
+    
+    private var image: UIImage? {
+        UIImage(color: UIColor(color))
     }
 }
