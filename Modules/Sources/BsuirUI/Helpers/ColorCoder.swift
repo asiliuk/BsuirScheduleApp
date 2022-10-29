@@ -6,6 +6,8 @@
 //  Copyright © 2022 Saute. All rights reserved.
 //
 
+// See https://nilcoalescing.com/blog/EncodeAndDecodeSwiftUIColor/
+
 import SwiftUI
 
 public struct ColorCoder {
