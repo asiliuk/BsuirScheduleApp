@@ -26,7 +26,9 @@ private struct PickerView: View {
     
     init(form: PairViewForm) {
         self.form = form
-        self.color = CodableColor(color: form.color) ?? .gray
+        
+        let color = PairColorService.shared.getColor(for: form)
+        self.color = CodableColor(color: color) ?? .gray
     }
     
     var body: some View {
@@ -36,22 +38,7 @@ private struct PickerView: View {
             }
         }
         .onChange(of: color) { selectedColor in
-            let userDefaults = UserDefaults.standard
-            let coder = ColorCoder()
-            let encodedColor = try? coder.encodeColor(Color(codableColor: color))
-            
-            switch form {
-            case .lecture:
-                userDefaults.set(encodedColor, forKey: "lectureColor")
-            case .practice:
-                userDefaults.set(encodedColor, forKey: "practiceColor")
-            case .lab:
-                userDefaults.set(encodedColor, forKey: "labColor")
-            case .exam:
-                userDefaults.set(encodedColor, forKey: "examColor")
-            case .unknown:
-                userDefaults.set(encodedColor, forKey: "unknownColor")
-            }
+            PairColorService.shared.saveColor(color: selectedColor, for: form)
         }
     }
 }

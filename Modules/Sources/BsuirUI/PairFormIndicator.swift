@@ -24,7 +24,7 @@ struct PairFormIndicator: View {
                 )
             }
         }
-        .foregroundColor(form.color)
+        .foregroundColor(PairColorService.shared.getColor(for: form))
         .frame(width: formIndicatorWidth)
     }
 
