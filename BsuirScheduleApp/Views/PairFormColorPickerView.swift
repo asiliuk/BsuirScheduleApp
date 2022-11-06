@@ -9,7 +9,7 @@
 import SwiftUI
 import BsuirUI
 
-struct ColorPickerView: View {
+struct PairFormColorPickerView: View {
     var body: some View {
         Section(header: Text("screen.about.colors.section.header")) {
             ForEach(PairViewForm.allCases, id: \.self) { form in
@@ -41,21 +41,18 @@ private struct PickerView: View {
     }
 }
 
-struct ColorView: View {
+private struct ColorView: View {
     let color: Color
     let name: LocalizedStringKey
     @ScaledMetric(relativeTo: .body) private var size: CGFloat = 24
-    @State private var isOpen = false
     
     var body: some View {
-        HStack {
+        Label {
+            Text(name)
+        } icon: {
             Image(uiImage: iconImage)
-                .resizable()
-                .frame(width: size, height: size)
-            if isOpen { Text(name) }
-        }.onAppear {
-            isOpen = true
         }
+        .labelStyle(.iconOnly)
     }
     
     private var iconImage: UIImage {

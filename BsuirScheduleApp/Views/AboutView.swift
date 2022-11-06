@@ -8,7 +8,7 @@ struct AboutView: View {
 
     var body: some View {
         List {
-            ColorPickerView()
+            PairFormColorPickerView()
 
             Section(header: Text("screen.about.pairPreview.section.header")) {
                 PairCell(
