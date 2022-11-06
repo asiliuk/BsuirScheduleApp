@@ -11,6 +11,7 @@ import BsuirApi
 import Combine
 import UIKit
 import Kingfisher
+import BsuirUI
 
 import os.log
 
@@ -46,6 +47,8 @@ final class AppState: ObservableObject {
     private let requestManager: RequestsManager
     private lazy var favorites = FavoritesContainer(storage: storage)
     private(set) lazy var deeplinkHandler = DeeplinkHandler()
+    private(set) lazy var reviewRequestService = ReviewRequestService(storage: storage)
+    private(set) lazy var pairFormColorService = PairFormColorService(storage: storage)
 
     // MARK: - Screens
 

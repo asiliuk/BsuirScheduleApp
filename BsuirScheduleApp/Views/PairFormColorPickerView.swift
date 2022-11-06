@@ -10,10 +10,12 @@ import SwiftUI
 import BsuirUI
 
 struct PairFormColorPickerView: View {
+    @EnvironmentObject private var pairFormColorService: PairFormColorService
+
     var body: some View {
         Section(header: Text("screen.about.colors.section.header")) {
             ForEach(PairViewForm.allCases, id: \.self) { form in
-                PickerView(form: form)
+                PickerView(form: form, formColor: pairFormColorService.color(for: form))
             }
         }
     }
@@ -21,22 +23,13 @@ struct PairFormColorPickerView: View {
 
 private struct PickerView: View {
     let form: PairViewForm
-    
-    @State private var color: PairFormColor
-    
-    init(form: PairViewForm) {
-        self.form = form
-        self.color = PairColorService.shared.getColor(for: form)
-    }
+    @Binding var formColor: PairFormColor
     
     var body: some View {
-        Picker(form.name, selection: $color) {
+        Picker(form.name, selection: $formColor) {
             ForEach(PairFormColor.allCases, id: \.self) { color in
                 ColorView(color: color.color, name: color.name)
             }
-        }
-        .onChange(of: color) { selectedColor in
-            PairColorService.shared.saveColor(selectedColor, for: form)
         }
     }
 }

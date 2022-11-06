@@ -15,6 +15,7 @@ struct ScheduleWidget: Widget {
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: provider) { entry in
             ScheduleWidgetEntryView(entry: entry)
+                .environmentObject(PairFormColorService(storage: .standard))
         }
         .configurationDisplayName("widget.displayName")
         .supportedFamilies(supportedFamilies)
