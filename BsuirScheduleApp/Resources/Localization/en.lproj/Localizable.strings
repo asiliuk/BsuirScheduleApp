@@ -41,6 +41,7 @@
 // MARK: - About, Colors
 
 "screen.about.colors.section.header" = "Colors";
+"screen.about.colors.reset.title" = "Reset";
 
 // MARK: - About, Pair preview
 
@@ -99,7 +100,7 @@
 "screen.schedule.unsupportedExams.title" = "My deepest apologies";
 "screen.schedule.unsupportedExams.subject" = "The exam schedule is not currently supported";
 "screen.schedule.unsupportedExams.auditory" = "I had to temporarily remove this feature because there is no time to move to a new API";
-"screen.schedule.unsupportedExams.subject2" = "Но вы можете мне помочь";
+"screen.schedule.unsupportedExams.subject2" = "But you can help me";
 
 // MARK: - Loading
 
@@ -137,3 +138,17 @@
 
 "alert.clearCache.title" = "Cache successfully cleared";
 "alert.clearCache.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";
+
+// MARK: - Color Names
+
+"color.red" = "Red";
+"color.pink" = "Pink";
+"color.orange" = "Orange";
+"color.yellow" = "Yellow";
+"color.green" = "Green";
+"color.cyan" = "Cyan";
+"color.blue" = "Blue";
+"color.indigo" = "Indigo";
+"color.purple" = "Purple";
+"color.gray" = "Gray";
+"color.brown" = "Brown";
