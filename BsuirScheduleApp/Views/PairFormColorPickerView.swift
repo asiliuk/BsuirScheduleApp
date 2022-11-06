@@ -17,6 +17,12 @@ struct PairFormColorPickerView: View {
             ForEach(PairViewForm.allCases, id: \.self) { form in
                 PickerView(form: form, formColor: pairFormColorService.color(for: form))
             }
+            
+            if !pairFormColorService.areDefaultColors {
+                Button("screen.about.colors.reset.title") {
+                    pairFormColorService.reset()
+                }
+            }
         }
     }
 }

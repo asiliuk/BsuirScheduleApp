@@ -41,6 +41,7 @@
 // MARK: - About, Colors
 
 "screen.about.colors.section.header" = "Колеры";
+"screen.about.colors.reset.title" = "Скінуць";
 
 // MARK: - About, Pair preview
 

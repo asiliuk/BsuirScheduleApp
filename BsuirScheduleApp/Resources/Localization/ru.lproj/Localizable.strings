@@ -41,6 +41,7 @@
 // MARK: - About, Colors
 
 "screen.about.colors.section.header" = "Цвета";
+"screen.about.colors.reset.title" = "Сбросить";
 
 // MARK: - About, Pair preview
 
