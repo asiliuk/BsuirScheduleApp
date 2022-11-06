@@ -462,7 +462,6 @@
 		E6A6A88424142F490024D738 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E6D11750253780FD00A6875D /* WhatsNew */,
 				E6373F04250A386600729EC8 /* Root */,
 				E68610C62471C52A001BF527 /* Content */,
 				E68610C32471C2B0001BF527 /* Common */,
@@ -507,13 +506,6 @@
 				E6AA8D2E2516301500788A02 /* Info.plist */,
 			);
 			path = ScheduleWidgetIntentHandler;
-			sourceTree = "<group>";
-		};
-		E6D11750253780FD00A6875D /* WhatsNew */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = WhatsNew;
 			sourceTree = "<group>";
 		};
 		E6F931A922F8B1C10038FC43 = {

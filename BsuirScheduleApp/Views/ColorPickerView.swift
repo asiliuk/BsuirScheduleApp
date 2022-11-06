@@ -22,29 +22,28 @@ struct ColorPickerView: View {
 private struct PickerView: View {
     let form: PairViewForm
     
-    @State private var color: CodableColor
+    @State private var color: PairFormColor
     
     init(form: PairViewForm) {
         self.form = form
-        
-        let color = PairColorService.shared.getColor(for: form)
-        self.color = CodableColor(color: color) ?? .gray
+        self.color = PairColorService.shared.getColor(for: form)
     }
     
     var body: some View {
         Picker(form.name, selection: $color) {
-            ForEach(CodableColor.allCases, id: \.self) { color in
-                ColorView(color: Color(codableColor: color))
+            ForEach(PairFormColor.allCases, id: \.self) { color in
+                ColorView(color: color.color, name: color.name)
             }
         }
         .onChange(of: color) { selectedColor in
-            PairColorService.shared.saveColor(color: selectedColor, for: form)
+            PairColorService.shared.saveColor(selectedColor, for: form)
         }
     }
 }
 
 struct ColorView: View {
     let color: Color
+    let name: LocalizedStringKey
     @ScaledMetric(relativeTo: .body) private var size: CGFloat = 24
     @State private var isOpen = false
     
@@ -53,7 +52,7 @@ struct ColorView: View {
             Image(uiImage: iconImage)
                 .resizable()
                 .frame(width: size, height: size)
-            if isOpen { Text(LocalizedStringKey(stringLiteral: "color.\(color.description)")) }
+            if isOpen { Text(name) }
         }.onAppear {
             isOpen = true
         }
