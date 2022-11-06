@@ -221,6 +221,8 @@
 		E6AA8D2C2516301500788A02 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		E6AA8D2E2516301500788A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6B2899F27038759008469F3 /* DeeplinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkHandler.swift; sourceTree = "<group>"; };
+		E6CCA27A2917EF900079D815 /* ScheduleWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScheduleWidgetExtension.entitlements; sourceTree = "<group>"; };
+		E6CCA27B2917EF9B0079D815 /* ScheduleWidgetIntentHandler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScheduleWidgetIntentHandler.entitlements; sourceTree = "<group>"; };
 		E6D11758253783CC00A6875D /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		E6EDC2DC25220F9800C8A73C /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		E6F4A836287B4A24001AB915 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
@@ -502,6 +504,7 @@
 		E6AA8D2B2516301500788A02 /* ScheduleWidgetIntentHandler */ = {
 			isa = PBXGroup;
 			children = (
+				E6CCA27B2917EF9B0079D815 /* ScheduleWidgetIntentHandler.entitlements */,
 				E6AA8D2C2516301500788A02 /* IntentHandler.swift */,
 				E6AA8D2E2516301500788A02 /* Info.plist */,
 			);
@@ -511,6 +514,7 @@
 		E6F931A922F8B1C10038FC43 = {
 			isa = PBXGroup;
 			children = (
+				E6CCA27A2917EF900079D815 /* ScheduleWidgetExtension.entitlements */,
 				E6F931B422F8B1C10038FC43 /* BsuirScheduleApp */,
 				E6AA8D1425162F1A00788A02 /* ScheduleWidget */,
 				E6AA8D2B2516301500788A02 /* ScheduleWidgetIntentHandler */,
@@ -855,6 +859,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = ScheduleWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 636FUHDF2R;
 				INFOPLIST_FILE = ScheduleWidget/Info.plist;
@@ -875,6 +880,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = ScheduleWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 636FUHDF2R;
 				INFOPLIST_FILE = ScheduleWidget/Info.plist;
@@ -893,6 +899,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = ScheduleWidgetIntentHandler/ScheduleWidgetIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 636FUHDF2R;
 				INFOPLIST_FILE = ScheduleWidgetIntentHandler/Info.plist;
@@ -911,6 +918,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = ScheduleWidgetIntentHandler/ScheduleWidgetIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 636FUHDF2R;
 				INFOPLIST_FILE = ScheduleWidgetIntentHandler/Info.plist;

@@ -1,8 +1,10 @@
 import SwiftUI
+import WidgetKit
 
 public class PairFormColorService: ObservableObject {
-    public init(storage: UserDefaults) {
+    public init(storage: UserDefaults, widgetCenter: WidgetCenter = .shared) {
         self.storage = storage
+        self.widgetCenter = widgetCenter
         storage.register(defaults: PairViewForm.colorDefaults)
     }
     
@@ -21,14 +23,17 @@ public class PairFormColorService: ObservableObject {
                 
                 return formColor
             },
-            set: { [storage, objectWillChange] color in
+            set: { [storage, widgetCenter, objectWillChange] color in
                 objectWillChange.send()
                 storage.set(color.rawValue, forKey: form.defaultsKey)
+                // Make sure widget UI is also updated
+                widgetCenter.reloadTimelines(ofKind: "ScheduleWidget")
             }
         )
     }
         
     private let storage: UserDefaults
+    private let widgetCenter: WidgetCenter
 }
 
 private extension PairViewForm {
