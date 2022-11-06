@@ -45,7 +45,7 @@ private struct PickerView: View {
 
 struct ColorView: View {
     let color: Color
-    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 34
+    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 24
     @State private var isOpen = false
     
     var body: some View {
@@ -61,12 +61,8 @@ struct ColorView: View {
     
     private var iconImage: UIImage {
         UIGraphicsImageRenderer(size: CGSize(width: size, height: size)).image { context in
-            UIBezierPath(roundedRect: context.format.bounds, cornerRadius: (8 / 34) * size).addClip()
-            image?.draw(in: context.format.bounds)
+            UIColor(color).setFill()
+            UIBezierPath(roundedRect: context.format.bounds, cornerRadius: (8 / 34) * size).fill()
         }
-    }
-    
-    private var image: UIImage? {
-        UIImage(color: UIColor(color))
     }
 }
