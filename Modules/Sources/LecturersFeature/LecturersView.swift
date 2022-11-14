@@ -13,28 +13,10 @@ public struct LecturersView: View {
     
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            WithViewStore(
-                store.scope(state: \.lecturers, action: { .loadableLecturers($0) }),
-                observe: { $0 }
-            ) { loadingViewStore in
-                ZStack {
-                    switch loadingViewStore.state {
-                    case .initial, .loading:
-                        LoadingStateView()
-                    case .error:
-                        ErrorStateView(retry: { loadingViewStore.send(.reload) })
-                    case let .some(value):
-                        LecturersContentView(
-                            searchQuery: viewStore.binding(\.$searchQuery),
-                            favorites: viewStore.favorites,
-                            lecturers: value,
-                            select: { viewStore.send(.lecturerTapped($0)) },
-                            refresh: { await loadingViewStore.send(.refresh).finish() }
-                        )
-                    }
-                }
-                .task { await loadingViewStore.send(.task).finish() }
-            }
+            LoadingLecturersView(
+                viewStore: viewStore,
+                store: store
+            )
             .navigation(item: viewStore.binding(\.$selectedLector)) { lecturer in
                 // TODO: Handle navigation to shcedule screen
                 Text("Selected \(lecturer.fio), id: \(lecturer.id)")
@@ -47,6 +29,36 @@ public struct LecturersView: View {
                     try await Task.sleep(nanoseconds: 200_000_000)
                     await viewStore.send(.filterLecturers, animation: .default).finish()
                 } catch {}
+            }
+        }
+    }
+}
+
+private struct LoadingLecturersView: View {
+    let viewStore: ViewStoreOf<LecturersFeature>
+    let store: StoreOf<LecturersFeature>
+    
+    var body: some View {
+        LoadingStore(
+            store,
+            state: \.$lecturers,
+            loading: \.$loadedLecturers,
+            action: LecturersFeature.Action.view
+        ) { store in
+            WithViewStore(store) { lecturersViewStore in
+                LecturersContentView(
+                    searchQuery: viewStore.binding(\.$searchQuery),
+                    favorites: viewStore.favorites,
+                    lecturers: lecturersViewStore.state,
+                    select: { lecturersViewStore.send(.value(.lecturerTapped($0))) },
+                    refresh: { await lecturersViewStore.send(.refresh).finish() }
+                )
+            }
+        } loading: {
+            LoadingStateView()
+        } error: { store in
+            WithViewStore(store) { viewStore in
+                ErrorStateView(retry: { viewStore.send(.reload) })
             }
         }
     }

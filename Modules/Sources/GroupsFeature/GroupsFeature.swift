@@ -74,18 +74,18 @@ public struct GroupsFeature: ReducerProtocol {
                 return .none
             }
         }
-        .load(\.$loadedGroups, fetch: loadGroups)
+        .load(\.$loadedGroups, fetch: fetchGroups)
         
         BindingReducer()
     }
     
     private func filteredGroups(state: inout State) {
         guard !state.searchQuery.isEmpty else {
-            state.sections = state.loadedGroups.map(makeSections(groups:))
+            state.$sections = state.$loadedGroups.map(makeSections(groups:))
             return
         }
         
-        state.sections = state.loadedGroups
+        state.$sections = state.$loadedGroups
             .map { $0.filter { $0.name.localizedCaseInsensitiveContains(state.searchQuery) } }
             .map(makeSections(groups:))
     }
@@ -109,7 +109,7 @@ public struct GroupsFeature: ReducerProtocol {
         }
     }
     
-    private func loadGroups(_ state: State) -> EffectTask<TaskResult<[StudentGroup]>> {
+    private func fetchGroups(_ state: State) -> EffectTask<TaskResult<[StudentGroup]>> {
         return .run { send in
             let request = requestsManager
                 .request(BsuirIISTargets.StudentGroups())

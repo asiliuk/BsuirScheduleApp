@@ -13,20 +13,23 @@ public struct GroupsView: View {
     
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            LoadingGroupsView(viewStore: viewStore, store: store)
-                .navigationTitle("screen.groups.navigation.title")
-                .task { await viewStore.send(.task).finish() }
-                .task(id: viewStore.searchQuery) {
-                    do {
-                        try await Task.sleep(nanoseconds: 200_000_000)
-                        await viewStore.send(.filterGroups, animation: .default).finish()
-                    } catch {}
-                }
-                .navigation(item: viewStore.binding(\.$selectedGroup)) { group in
-                    // TODO: Handle navigation to shcedule screen
-                    Text("Selected \(group.name), id: \(group.id)")
-                        .navigationTitle(group.name)
-                }
+            LoadingGroupsView(
+                viewStore: viewStore,
+                store: store
+            )
+            .navigationTitle("screen.groups.navigation.title")
+            .task { await viewStore.send(.task).finish() }
+            .task(id: viewStore.searchQuery) {
+                do {
+                    try await Task.sleep(nanoseconds: 200_000_000)
+                    await viewStore.send(.filterGroups, animation: .default).finish()
+                } catch {}
+            }
+            .navigation(item: viewStore.binding(\.$selectedGroup)) { group in
+                // TODO: Handle navigation to shcedule screen
+                Text("Selected \(group.name), id: \(group.id)")
+                    .navigationTitle(group.name)
+            }
         }
     }
 }

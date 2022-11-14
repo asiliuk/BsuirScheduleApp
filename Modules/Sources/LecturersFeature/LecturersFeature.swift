@@ -11,13 +11,13 @@ public struct LecturersFeature: ReducerProtocol {
         @BindableState var searchQuery: String = ""
         @BindableState var selectedLector: Employee?
         var favorites: [Employee] = []
-        var lecturers: LodableContentState<[Employee]> = .initial
-        fileprivate var loadedLecturers = LoadableFeature<[Employee]>.State()
+        @LoadableState var lecturers: [Employee]?
+        @LoadableState var loadedLecturers: [Employee]?
         
         public init() {}
     }
     
-    public enum Action: Equatable, FeatureAction, BindableAction {
+    public enum Action: FeatureAction, BindableAction, LoadableAction {
         public enum ViewAction: Equatable {
             case task
             case lecturerTapped(Employee)
@@ -25,13 +25,13 @@ public struct LecturersFeature: ReducerProtocol {
         }
         
         public enum ReducerAction: Equatable {
-            case loadableLecturers(LoadableFeature<[Employee]>.Action)
             case favoritesUpdate([Employee])
         }
         
         public typealias DelegateAction = Never
         
         case binding(BindingAction<State>)
+        case loading(LoadingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
@@ -43,10 +43,6 @@ public struct LecturersFeature: ReducerProtocol {
     public init() {}
     
     public var body: some ReducerProtocol<State, Action> {
-        Scope(state: \.loadedLecturers, action: /Action.ReducerAction.loadableLecturers) {
-            LoadableFeature.loadLecturers(requestsManager)
-        }
-        
         Reduce { state, action in
             switch action {
             case .view(.task):
@@ -60,7 +56,7 @@ public struct LecturersFeature: ReducerProtocol {
                 filteredLecturers(state: &state)
                 return .none
                 
-            case .reducer(.loadableLecturers):
+            case .loading(.finished(\.$loadedLecturers)):
                 filteredLecturers(state: &state)
                 return .none
                 
@@ -68,21 +64,22 @@ public struct LecturersFeature: ReducerProtocol {
                 state.favorites = value
                 return .none
                 
-            case .reducer, .binding:
+            case .reducer, .binding, .loading:
                 return .none
             }
         }
+        .load(\.$loadedLecturers, fetch: fetchLecturers)
         
         BindingReducer()
     }
     
     private func filteredLecturers(state: inout State) {
         guard !state.searchQuery.isEmpty else {
-            state.lecturers = state.loadedLecturers
+            state.$lecturers = state.$loadedLecturers
             return
         }
 
-        state.lecturers = state.loadedLecturers
+        state.$lecturers = state.$loadedLecturers
             .map { $0.filter { $0.fio.localizedCaseInsensitiveContains(state.searchQuery) } }
     }
     
@@ -93,24 +90,20 @@ public struct LecturersFeature: ReducerProtocol {
             }
         }
     }
-}
+    
+    private func fetchLecturers(_ state: State) -> EffectTask<TaskResult<[Employee]>> {
+        return .run { send in
+            let request = requestsManager
+                .request(BsuirIISTargets.Employees())
+                .removeDuplicates()
+                .log(.appState, identifier: "All lecturers")
 
-private extension LoadableFeature where Value == [Employee] {
-    static func loadLecturers(_ requestsManager: RequestsManager) -> Self {
-        return LoadableFeature {
-            return .run { send in
-                let request = requestsManager
-                    .request(BsuirIISTargets.Employees())
-                    .removeDuplicates()
-                    .log(.appState, identifier: "All lecturers")
-
-                do {
-                    for try await value in request.values {
-                        await send(.success(value))
-                    }
-                } catch {
-                    await send(.failure(error))
+            do {
+                for try await value in request.values {
+                    await send(.success(value))
                 }
+            } catch {
+                await send(.failure(error))
             }
         }
     }

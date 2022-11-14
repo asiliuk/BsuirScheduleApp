@@ -38,3 +38,14 @@ public enum LoadableState<Value> {
 
 extension LoadableState: Equatable where Value: Equatable {}
 extension LoadableState: Hashable where Value: Hashable {}
+
+extension LoadableState {
+    public func map<U>(_ transform: (Value) -> U) -> LoadableState<U> {
+        switch self {
+        case .initial: return .initial
+        case .loading: return .loading
+        case .error: return .error
+        case let .some(value): return .some(transform(value))
+        }
+    }
+}
