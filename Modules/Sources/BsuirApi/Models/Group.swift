@@ -11,6 +11,12 @@ public struct StudentGroup: Codable, Equatable, Identifiable {
     public let id: Int
     public let name: String
     public let course: Int?
+    
+    public init(id: Int, name: String, course: Int? = nil) {
+        self.id = id
+        self.name = name
+        self.course = course
+    }
 }
 
 extension StudentGroup {

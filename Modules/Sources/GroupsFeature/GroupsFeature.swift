@@ -15,7 +15,7 @@ public struct GroupsFeature: ReducerProtocol {
         }
         
         @BindableState var searchQuery: String = ""
-        @BindableState var selectedGroup: StudentGroup?
+        @BindableState var groupSchedule: GroupScheduleFeature.State?
         var favorites: [StudentGroup] = []
         @LoadableState var sections: [Section]?
         @LoadableState var loadedGroups: [StudentGroup]?
@@ -32,6 +32,7 @@ public struct GroupsFeature: ReducerProtocol {
         
         public enum ReducerAction: Equatable {
             case favoritesUpdate([StudentGroup])
+            case groupSchedule(GroupScheduleFeature.Action)
         }
         
         public typealias DelegateAction = Never
@@ -55,7 +56,7 @@ public struct GroupsFeature: ReducerProtocol {
                 return listenToFavoriteUpdates()
                 
             case let .view(.groupTapped(group)):
-                state.selectedGroup = group
+                state.groupSchedule = .init(group: group)
                 return .none
                 
             case .view(.filterGroups):
@@ -75,6 +76,9 @@ public struct GroupsFeature: ReducerProtocol {
             }
         }
         .load(\.$loadedGroups, fetch: fetchGroups)
+        .ifLet(\.groupSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.groupSchedule)) {
+            GroupScheduleFeature()
+        }
         
         BindingReducer()
     }

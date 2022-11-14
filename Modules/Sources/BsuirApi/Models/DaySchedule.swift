@@ -19,8 +19,8 @@ public struct DaySchedule: Equatable {
         days.isEmpty
     }
     
-    public init() {
-        self.days = [:]
+    public init(days: [WeekDay: [Pair]] = [:]) {
+        self.days = days
     }
     
     private let days: [WeekDay: [Pair]]

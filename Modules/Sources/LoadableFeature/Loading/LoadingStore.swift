@@ -149,9 +149,18 @@ extension LoadingStore {
 
 // MARK: - Store + Helpers
 
+public typealias LoadedStoreOf<Reducer: ReducerProtocol> = Store<Reducer.State, LoadingStoreViewAction<Reducer.Action>.LoadedAction>
+
 extension Store {
     public func loaded<ValueAction>() -> Store<State, ValueAction> where Action == LoadingStoreViewAction<ValueAction>.LoadedAction {
-        scope(state: { $0 }, action: { .value($0) })
+        loaded(state: { $0 })
+    }
+    
+    public func loaded<ChildState, ValueAction>(
+        state: @escaping (State) -> ChildState
+    ) -> Store<ChildState, ValueAction>
+    where Action == LoadingStoreViewAction<ValueAction>.LoadedAction {
+        scope(state: state, action: { .value($0) })
     }
 }
 

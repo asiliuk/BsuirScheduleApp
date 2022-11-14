@@ -2,6 +2,7 @@ import SwiftUI
 import BsuirUI
 import BsuirApi
 import LoadableFeature
+import ScheduleFeature
 import ComposableArchitecture
 
 public struct GroupsView: View {
@@ -25,13 +26,19 @@ public struct GroupsView: View {
                     await viewStore.send(.filterGroups, animation: .default).finish()
                 } catch {}
             }
-            .navigation(item: viewStore.binding(\.$selectedGroup)) { group in
-                // TODO: Handle navigation to shcedule screen
-                Text("Selected \(group.name), id: \(group.id)")
-                    .navigationTitle(group.name)
+            .navigation(item: viewStore.binding(\.$selectedGroup)) { _ in
+                IfLetStore(
+                    store.scope(state: \.selectedGroup, action: { .reducer(.groupSchedule($0)) })
+                ) { store in
+                    ScheduleFeatureView(store: store)
+                }
             }
         }
     }
+}
+
+extension GroupScheduleFeature.State: Identifiable {
+    public var id: String { value }
 }
 
 private struct LoadingGroupsView: View {

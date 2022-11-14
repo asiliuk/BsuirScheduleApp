@@ -9,7 +9,13 @@ let package = Package(
     products: [
         .library(
             name: "Features",
-            targets: ["AboutFeature", "GroupsFeature", "LecturersFeature", "LoadableFeature"]),
+            targets: [
+                "AboutFeature",
+                "GroupsFeature",
+                "LecturersFeature",
+                "ScheduleFeature",
+                "LoadableFeature"
+            ]),
         .library(
             name: "AboutFeature",
             targets: ["AboutFeature"]),
@@ -19,6 +25,12 @@ let package = Package(
         .library(
             name: "LecturersFeature",
             targets: ["LecturersFeature"]),
+        .library(
+            name: "ScheduleFeature",
+            targets: ["ScheduleFeature"]),
+        .library(
+            name: "LoadableFeature",
+            targets: ["LoadableFeature"]),
         .library(
             name: "BsuirUI",
             targets: ["BsuirUI"]),
@@ -41,10 +53,14 @@ let package = Package(
         ),
         .target(
             name: "GroupsFeature",
-            dependencies: ["LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "LecturersFeature",
+            dependencies: ["LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+        ),
+        .target(
+            name: "ScheduleFeature",
             dependencies: ["LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(

@@ -13,7 +13,7 @@ public enum HTTPMethod : String {
     case post = "POST"
 }
 
-public protocol Target {
+public protocol Target<Value> {
 
     associatedtype Value: Decodable
 
