@@ -42,15 +42,14 @@ private struct LoadingLecturersView: View {
         LoadingStore(
             store,
             state: \.$lecturers,
-            loading: \.$loadedLecturers,
-            action: LecturersFeature.Action.view
+            loading: \.$loadedLecturers
         ) { store in
             WithViewStore(store) { lecturersViewStore in
                 LecturersContentView(
                     searchQuery: viewStore.binding(\.$searchQuery),
                     favorites: viewStore.favorites,
                     lecturers: lecturersViewStore.state,
-                    select: { lecturersViewStore.send(.value(.lecturerTapped($0))) },
+                    select: { viewStore.send(.lecturerTapped($0)) },
                     refresh: { await lecturersViewStore.send(.refresh).finish() }
                 )
             }

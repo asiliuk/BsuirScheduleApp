@@ -42,15 +42,14 @@ private struct LoadingGroupsView: View {
         LoadingStore(
             store,
             state: \.$sections,
-            loading: \.$loadedGroups,
-            action: GroupsFeature.Action.view
+            loading: \.$loadedGroups
         ) { store in
             WithViewStore(store) { sectionsViewStore in
                 GroupsContentView(
                     searchQuery: viewStore.binding(\.$searchQuery),
                     favorites: viewStore.favorites,
                     sections: sectionsViewStore.state,
-                    select: { sectionsViewStore.send(.value(.groupTapped($0))) },
+                    select: { viewStore.send(.groupTapped($0)) },
                     refresh: { await sectionsViewStore.send(.refresh).finish() }
                 )
             }
