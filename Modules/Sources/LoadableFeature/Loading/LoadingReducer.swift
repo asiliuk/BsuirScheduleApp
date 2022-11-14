@@ -3,7 +3,7 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 
 extension ReducerProtocol where Action: LoadableAction, Action.State == State {
-    public func load<Value>(
+    public func load<Value: Equatable>(
         _ keyPath: WritableKeyPath<State, LoadableState<Value>>,
         fetch: @escaping (State) -> EffectTask<TaskResult<Value>>
     ) -> some ReducerProtocol<State, Action> {
@@ -13,7 +13,7 @@ extension ReducerProtocol where Action: LoadableAction, Action.State == State {
         }
     }
     
-    public func load<ValueState, ValueAction>(
+    public func load<ValueState: Equatable, ValueAction>(
         _ keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
         action: CasePath<Action, ValueAction>,
         @ReducerBuilder<ValueState, ValueAction> _ valueReducer: () -> some ReducerProtocol<ValueState, ValueAction>,
@@ -30,7 +30,7 @@ extension ReducerProtocol where Action: LoadableAction, Action.State == State {
 
 // MARK: - LoadingReducer
 
-struct LoadingReducer<State, Action, Value>: ReducerProtocol
+struct LoadingReducer<State, Action, Value: Equatable>: ReducerProtocol
 where Action: LoadableAction, State == Action.State {
 
     let keyPath: WritableKeyPath<State, LoadableState<Value>>
@@ -65,8 +65,8 @@ where Action: LoadableAction, State == Action.State {
                 return .none
             }
 
-        case let .reducer(.loaded(set)):
-            set(&state)
+        case let .reducer(.loaded(value, _)):
+            valueState = .some(value as! Value)
             return loadingFinished()
 
         case .reducer(.loadingFailed):
@@ -90,7 +90,7 @@ where Action: LoadableAction, State == Action.State {
             .map { result in
                 switch result {
                 case let .success(value):
-                    return .reducer(.loaded(set: { $0[keyPath: keyPath] = .some(value) }))
+                    return .reducer(.loaded(value, isEqualTo: { $0 as? Value == value }))
                 case .failure:
                     return .reducer(.loadingFailed)
                 }

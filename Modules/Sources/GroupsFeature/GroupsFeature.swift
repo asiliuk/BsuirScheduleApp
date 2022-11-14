@@ -23,7 +23,7 @@ public struct GroupsFeature: ReducerProtocol {
         public init() {}
     }
     
-    public enum Action: FeatureAction, BindableAction, LoadableAction {
+    public enum Action: Equatable, FeatureAction, BindableAction, LoadableAction {
         public enum ViewAction: Equatable {
             case task
             case groupTapped(StudentGroup)

@@ -5,16 +5,16 @@ public protocol LoadableAction {
     static func loading(_ action: LoadingAction<State>) -> Self
 }
 
-public struct LoadingAction<Root> {
-    public enum Action {
-        public enum ViewAction {
+public struct LoadingAction<Root>: Equatable {
+    public enum Action: Equatable {
+        public enum ViewAction: Equatable {
             case task
             case reload
             case refresh
         }
         
         public enum ReducerAction {
-            case loaded(set: (inout Root) -> Void)
+            case loaded(Any, isEqualTo: (Any) -> Bool)
             case loadingFailed
         }
         
@@ -31,37 +31,29 @@ public struct LoadingAction<Root> {
     let action: Action
 }
 
+// MARK: - Equatable
+
+extension LoadingAction.Action.ReducerAction: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case let (.loaded(_, lhsIsEqualTo), .loaded(rhs, _)):
+            return lhsIsEqualTo(rhs)
+        case (.loadingFailed, .loadingFailed):
+            return true
+        case (.loadingFailed, .loaded), (.loaded, .loadingFailed):
+            return false
+        }
+    }
+}
+
 // MARK: - Refresh
 
 extension LoadingAction {
     public static func refresh<Value>(_ keyPath: WritableKeyPath<Root, LoadableState<Value>>) -> Self {
         self.init(keyPath: keyPath, action: .view(.refresh))
     }
-}
-
-// MARK: - Pattern Matching
-
-extension LoadingAction {
-    public struct PatternMatcher<Value> {
-        fileprivate let keyPath: WritableKeyPath<Root, LoadableState<Value>>
-        fileprivate let action: Action.DelegateAction
-
-        public static func finished(_ keyPath: WritableKeyPath<Root, LoadableState<Value>>) -> Self {
-            Self(keyPath: keyPath, action: .loadingFinished)
-        }
-    }
-
-    public static func ~= <Value>(
-      matcher: PatternMatcher<Value>,
-      bindingAction: Self
-    ) -> Bool {
-        guard
-            matcher.keyPath == bindingAction.keyPath,
-            case .delegate(matcher.action) = bindingAction.action
-        else {
-            return false
-        }
-
-        return true
+    
+    public static func finished<Value>(_ keyPath: WritableKeyPath<Root, LoadableState<Value>>) -> Self {
+        self.init(keyPath: keyPath, action: .delegate(.loadingFinished))
     }
 }
