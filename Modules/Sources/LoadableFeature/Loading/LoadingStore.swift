@@ -23,28 +23,10 @@ public struct LoadingStore<
     @ViewBuilder private var loading: LoadingView
     @ViewBuilder private var error: (Store<Void, ViewAction.ErrorAction>) -> ErrorView
     
-    public init<State, Action: LoadableAction>(
+    public init<State, Action: LoadableAction, LoadingValueState>(
         _ store: Store<State, Action>,
-        loading keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
-        @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
-        @ViewBuilder loading: () -> LoadingView,
-        @ViewBuilder error: @escaping (Store<Void, ViewAction.ErrorAction>) -> ErrorView
-    ) where Action.State == State, ValueAction == Never {
-        func impossible<T>(_: Never) -> T {}
-        
-        self.init(
-            store,
-            loading: keyPath,
-            action: impossible,
-            value: value,
-            loading: loading,
-            error: error
-        )
-    }
-    
-    public init<State, Action: LoadableAction>(
-        _ store: Store<State, Action>,
-        loading keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
+        state keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
+        loading loadingKeyPath: WritableKeyPath<State, LoadableState<LoadingValueState>>,
         action fromValueAction: @escaping (ValueAction) -> Action,
         @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
         @ViewBuilder loading: () -> LoadingView,
@@ -62,7 +44,7 @@ public struct LoadingStore<
         }
         
         func fromViewAction(_ viewAction: ViewAction) -> Action {
-            let wrapping = { Action.loading(.init(keyPath: keyPath, action: .view($0))) }
+            let wrapping = { Action.loading(.init(keyPath: loadingKeyPath, action: .view($0))) }
             switch viewAction {
             case .loading(.task):
                 return wrapping(.task)
@@ -98,6 +80,70 @@ public struct LoadingStore<
                 value(store)
             }
         }
+    }
+}
+
+// MARK: - Inits
+
+// To make compiler happy
+// if loading key path is optional with default nil then
+// compiler can't digure out trailing closure syntax
+extension LoadingStore {
+    public init<State, Action: LoadableAction>(
+        _ store: Store<State, Action>,
+        state keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
+        @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
+        @ViewBuilder loading: () -> LoadingView,
+        @ViewBuilder error: @escaping (Store<Void, ViewAction.ErrorAction>) -> ErrorView
+    ) where Action.State == State, ValueAction == Never {
+        self.init(
+            store,
+            state: keyPath,
+            loading: keyPath,
+            value: value,
+            loading: loading,
+            error: error
+        )
+    }
+    
+    public init<State, Action: LoadableAction>(
+        _ store: Store<State, Action>,
+        state keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
+        action fromValueAction: @escaping (ValueAction) -> Action,
+        @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
+        @ViewBuilder loading: () -> LoadingView,
+        @ViewBuilder error: @escaping (Store<Void, ViewAction.ErrorAction>) -> ErrorView
+    ) where Action.State == State {
+        self.init(
+            store,
+            state: keyPath,
+            loading: keyPath,
+            action: fromValueAction,
+            value: value,
+            loading: loading,
+            error: error
+        )
+    }
+    
+    public init<State, Action: LoadableAction, LoadingValueState>(
+        _ store: Store<State, Action>,
+        state keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
+        loading loadingKeyPath: WritableKeyPath<State, LoadableState<LoadingValueState>>,
+        @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
+        @ViewBuilder loading: () -> LoadingView,
+        @ViewBuilder error: @escaping (Store<Void, ViewAction.ErrorAction>) -> ErrorView
+    ) where Action.State == State, ValueAction == Never {
+        func impossible<T>(_: Never) -> T {}
+        
+        self.init(
+            store,
+            state: keyPath,
+            loading: loadingKeyPath,
+            action: impossible,
+            value: value,
+            loading: loading,
+            error: error
+        )
     }
 }
 

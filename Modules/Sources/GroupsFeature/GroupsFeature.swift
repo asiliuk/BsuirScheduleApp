@@ -17,13 +17,13 @@ public struct GroupsFeature: ReducerProtocol {
         @BindableState var searchQuery: String = ""
         @BindableState var selectedGroup: StudentGroup?
         var favorites: [StudentGroup] = []
-        var sections: LodableContentState<[Section]> = .initial
-        fileprivate var loadedGroups = LoadableFeature<[StudentGroup]>.State()
+        @LoadableState var sections: [Section]?
+        @LoadableState var loadedGroups: [StudentGroup]?
         
         public init() {}
     }
     
-    public enum Action: Equatable, FeatureAction, BindableAction {
+    public enum Action: FeatureAction, BindableAction, LoadableAction {
         public enum ViewAction: Equatable {
             case task
             case groupTapped(StudentGroup)
@@ -31,13 +31,13 @@ public struct GroupsFeature: ReducerProtocol {
         }
         
         public enum ReducerAction: Equatable {
-            case loadableGroups(LoadableFeature<[StudentGroup]>.Action)
             case favoritesUpdate([StudentGroup])
         }
         
         public typealias DelegateAction = Never
         
         case binding(BindingAction<State>)
+        case loading(LoadingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
@@ -49,10 +49,6 @@ public struct GroupsFeature: ReducerProtocol {
     public init() {}
     
     public var body: some ReducerProtocol<State, Action> {
-        Scope(state: \.loadedGroups, action: /Action.ReducerAction.loadableGroups) {
-            LoadableFeature.loadGroups(requestsManager)
-        }
-        
         Reduce { state, action in
             switch action {
             case .view(.task):
@@ -66,7 +62,7 @@ public struct GroupsFeature: ReducerProtocol {
                 filteredGroups(state: &state)
                 return .none
                 
-            case .reducer(.loadableGroups):
+            case .loading(.finished(\.$loadedGroups)):
                 filteredGroups(state: &state)
                 return .none
                 
@@ -74,10 +70,11 @@ public struct GroupsFeature: ReducerProtocol {
                 state.favorites = value
                 return .none
                 
-            case .reducer, .binding:
+            case .reducer, .binding, .loading:
                 return .none
             }
         }
+        .load(\.$loadedGroups, fetch: loadGroups)
         
         BindingReducer()
     }
@@ -111,24 +108,20 @@ public struct GroupsFeature: ReducerProtocol {
             }
         }
     }
-}
+    
+    private func loadGroups(_ state: State) -> EffectTask<TaskResult<[StudentGroup]>> {
+        return .run { send in
+            let request = requestsManager
+                .request(BsuirIISTargets.StudentGroups())
+                .removeDuplicates()
+                .log(.appState, identifier: "All groups")
 
-private extension LoadableFeature where Value == [StudentGroup] {
-    static func loadGroups(_ requestsManager: RequestsManager) -> Self {
-        return LoadableFeature {
-            return .run { send in
-                let request = requestsManager
-                    .request(BsuirIISTargets.StudentGroups())
-                    .removeDuplicates()
-                    .log(.appState, identifier: "All groups")
-
-                do {
-                    for try await value in request.values {
-                        await send(.success(value))
-                    }
-                } catch {
-                    await send(.failure(error))
+            do {
+                for try await value in request.values {
+                    await send(.success(value))
                 }
+            } catch {
+                await send(.failure(error))
             }
         }
     }
