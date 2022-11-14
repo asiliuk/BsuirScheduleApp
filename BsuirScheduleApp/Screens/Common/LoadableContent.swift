@@ -12,7 +12,20 @@ import UIKit
 import BsuirApi
 import LoadableFeature
 
-typealias ContentState<Value> = LodableContentState<Value>
+typealias ContentState<Value> = LoadableState<Value>
+
+extension ContentState {
+    var some: Value? { wrappedValue }
+    
+    var inProgress: Bool {
+        switch self {
+        case .loading, .initial:
+            return true
+        default:
+            return false
+        }
+    }
+}
 
 final class LoadableContent<Value>: ObservableObject {
 
