@@ -11,7 +11,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
     }
 
     public var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: \.title) { viewStore in
             LoadingStore(
                 store,
                 state: \.$schedule,
@@ -25,7 +25,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                     ErrorStateView(retry: { viewStore.send(.reload) })
                 }
             }
-            .navigationTitle(viewStore.title)
+            .navigationTitle(viewStore.state)
             .task { await viewStore.send(.task).finish() }
         }
     }

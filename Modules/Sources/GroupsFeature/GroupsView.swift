@@ -26,9 +26,9 @@ public struct GroupsView: View {
                     await viewStore.send(.filterGroups, animation: .default).finish()
                 } catch {}
             }
-            .navigation(item: viewStore.binding(\.$selectedGroup)) { _ in
+            .navigation(item: viewStore.binding(\.$groupSchedule)) { _ in
                 IfLetStore(
-                    store.scope(state: \.selectedGroup, action: { .reducer(.groupSchedule($0)) })
+                    store.scope(state: \.groupSchedule, action: { .reducer(.groupSchedule($0)) })
                 ) { store in
                     ScheduleFeatureView(store: store)
                 }

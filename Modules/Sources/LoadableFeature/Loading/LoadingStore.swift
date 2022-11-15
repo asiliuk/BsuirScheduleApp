@@ -66,10 +66,8 @@ public struct LoadingStore<
     public var body: some View {
         SwitchStore(store) {
             CaseLet(state: /ViewState.loading, action: ViewAction.loading) { store in
-                WithViewStore(store) { viewStore in
-                    loading
-                        .task { await viewStore.send(.task).finish() }
-                }
+                loading
+                    .task { await ViewStore(store).send(.task).finish() }
             }
             
             CaseLet(state: /ViewState.error, action: ViewAction.error) { store in

@@ -13,7 +13,7 @@ struct DayScheduleView: View {
                 days: viewStore.days,
                 isOnTop: viewStore.binding(\.$isOnTop)
             )
-            .onAppear { viewStore.send(.onAppear) }
+            .task { await viewStore.send(.task).finish() }
         }
     }
 }
