@@ -39,6 +39,8 @@ struct ScheduleGridView: View {
             .listStyle(.plain)
             // To disable cell celection
             .buttonStyle(PlainButtonStyle())
+            .task { isOnTop = true }
+            .onDisappear { isOnTop = nil }
             .onChange(of: isOnTop) { [isOnTop] newIsOnTop in
                 if newIsOnTop == true {
                     // Do not animate initial value set
