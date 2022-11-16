@@ -9,12 +9,16 @@ struct DayScheduleView: View {
 
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            ScheduleGridView(
-                days: viewStore.days,
-                pairDetails: .nothing,
-                isOnTop: .constant(nil)
-            )
-            .task { await viewStore.send(.task).finish() }
+            if viewStore.days.isEmpty {
+                ScheduleEmptyView()
+            } else {
+                ScheduleGridView(
+                    days: viewStore.days,
+                    pairDetails: .nothing,
+                    isOnTop: .constant(nil)
+                )
+                .task { await viewStore.send(.task).finish() }
+            }
         }
     }
 }

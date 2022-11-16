@@ -8,13 +8,17 @@ struct ContiniousScheduleView: View {
 
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            ScheduleGridView(
-                days: viewStore.days,
-                loadMore: { viewStore.send(.loadMoreIndicatorAppear) },
-                pairDetails: pairDetails,
-                isOnTop: viewStore.binding(\.$isOnTop)
-            )
-            .task { await viewStore.send(.task).finish() }
+            if viewStore.days.isEmpty {
+                ScheduleEmptyView()
+            } else {
+                ScheduleGridView(
+                    days: viewStore.days,
+                    loadMore: { viewStore.send(.loadMoreIndicatorAppear) },
+                    pairDetails: pairDetails,
+                    isOnTop: viewStore.binding(\.$isOnTop)
+                )
+                .task { await viewStore.send(.task).finish() }
+            }
         }
     }
 }

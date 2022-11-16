@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import LoadableFeature
 
-struct ScheduleEmptyState: View {
+struct ScheduleEmptyView: View {
     var body: some View {
         VStack {
             Spacer()
