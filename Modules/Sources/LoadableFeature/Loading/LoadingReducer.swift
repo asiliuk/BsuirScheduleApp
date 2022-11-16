@@ -48,7 +48,7 @@ where Action: LoadableAction, State == Action.State {
         }
         
         switch loadingAction.action {
-        case .view(.task), .view(.reload):
+        case .view(.onAppear), .view(.reload):
             switch valueState {
             case .initial, .error:
                 valueState = .loading

@@ -8,7 +8,7 @@ import Dependencies
 public struct ContiniousScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
         var days: [ScheduleDayViewModel] = []
-        @BindableState var isOnTop: Bool?
+        @BindableState var isOnTop: Bool = true
         fileprivate var schedule: DaySchedule
         fileprivate var offset: Date?
         fileprivate let weekSchedule: WeekSchedule
@@ -22,7 +22,7 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
     
     public enum Action: Equatable, FeatureAction, BindableAction {
         public enum ViewAction: Equatable {
-            case task
+            case onAppear
             case loadMoreIndicatorAppear
         }
         
@@ -48,8 +48,7 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .view(.task):
-                state.isOnTop = true
+            case .view(.onAppear):
                 state.offset = calendar.date(byAdding: .day, value: -4, to: now)
                 loadDays(&state, count: 12)
                 return .none

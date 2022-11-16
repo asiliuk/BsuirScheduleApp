@@ -17,7 +17,7 @@ public struct DayScheduleFeature: ReducerProtocol {
 
     public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
-            case task
+            case onAppear
         }
 
         public typealias ReducerAction = Never
@@ -37,7 +37,7 @@ public struct DayScheduleFeature: ReducerProtocol {
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .view(.task) where state.days.isEmpty:
+            case .view(.onAppear) where state.days.isEmpty:
                 loadDays(&state)
                 return .none
                 

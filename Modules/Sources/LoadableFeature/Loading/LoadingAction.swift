@@ -8,7 +8,7 @@ public protocol LoadableAction {
 public struct LoadingAction<Root>: Equatable {
     public enum Action: Equatable {
         public enum ViewAction: Equatable {
-            case task
+            case onAppear
             case reload
             case refresh
         }

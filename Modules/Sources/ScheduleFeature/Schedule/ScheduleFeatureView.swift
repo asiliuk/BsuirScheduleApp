@@ -63,7 +63,6 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                         .onTapGesture { viewStore.send(.scrollToMostRelevantTapped) }
                 }
             }
-            .task { await viewStore.send(.task).finish() }
         }
     }
 }
