@@ -39,16 +39,9 @@ struct ScheduleGridView: View {
             .listStyle(.plain)
             // To disable cell celection
             .buttonStyle(PlainButtonStyle())
-            .onAppear {
-                if isOnTop {
-                    proxy.scrollTo(RelevantDayViewID.mostRelevant, anchor: .top)
-                }
-            }
             .onChange(of: isOnTop) { isOnTop in
                 if isOnTop {
-                    withAnimation {
-                        proxy.scrollTo(RelevantDayViewID.mostRelevant, anchor: .top)
-                    }
+                    proxy.scrollTo(RelevantDayViewID.mostRelevant, anchor: .top)
                 }
             }
             .gesture(DragGesture().onChanged { _ in

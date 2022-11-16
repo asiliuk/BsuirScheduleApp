@@ -11,7 +11,7 @@ struct DayScheduleView: View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             ScheduleGridView(
                 days: viewStore.days,
-                isOnTop: viewStore.binding(\.$isOnTop)
+                isOnTop: .constant(true)
             )
             .task { await viewStore.send(.task).finish() }
         }

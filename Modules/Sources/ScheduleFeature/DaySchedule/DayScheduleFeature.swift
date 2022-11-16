@@ -8,7 +8,6 @@ import Dependencies
 public struct DayScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
         var days: [ScheduleDayViewModel] = []
-        @BindableState var isOnTop = false
         fileprivate var schedule: DaySchedule
         
         init(schedule: DaySchedule) {
@@ -16,7 +15,7 @@ public struct DayScheduleFeature: ReducerProtocol {
         }
     }
 
-    public enum Action: Equatable, FeatureAction, BindableAction {
+    public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
             case task
         }
@@ -24,7 +23,6 @@ public struct DayScheduleFeature: ReducerProtocol {
         public typealias ReducerAction = Never
         public typealias DelegateAction = Never
 
-        case binding(BindingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
@@ -43,12 +41,10 @@ public struct DayScheduleFeature: ReducerProtocol {
                 loadDays(&state)
                 return .none
                 
-            case .view, .binding:
+            case .view:
                 return .none
             }
         }
-        
-        BindingReducer()
     }
     
     private func loadDays(_ state: inout State) {
