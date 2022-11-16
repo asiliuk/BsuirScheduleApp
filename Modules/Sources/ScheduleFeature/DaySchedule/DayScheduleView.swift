@@ -5,7 +5,7 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 
 struct DayScheduleView: View {
-    let store: StoreOf<DayScheduleReducer>
+    let store: StoreOf<DayScheduleFeature>
 
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
@@ -32,7 +32,7 @@ struct DayScheduleView_Previews: PreviewProvider {
                         Pair(subject: "OSiSP", weekNumber: .oddWeeks)
                     ]
                 ])),
-                reducer: DayScheduleReducer()
+                reducer: DayScheduleFeature()
             )
         )
     }

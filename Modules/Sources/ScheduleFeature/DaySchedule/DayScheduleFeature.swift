@@ -5,7 +5,7 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 import Dependencies
 
-public struct DayScheduleReducer: ReducerProtocol {
+public struct DayScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
         var days: [ScheduleDayViewModel] = []
         @BindableState var isOnTop = false

@@ -54,9 +54,9 @@ final class Provider: IntentTimelineProvider, ObservableObject {
             .compactMap { [calendar] response in
                 let now = Date()
 
-                guard let mostRelevantElement = WeekSchedule(schedule: response.schedule, calendar: calendar)
-                    .schedule(starting: now, now: now)
-                    .first(where: { $0.hasUnfinishedPairs(calendar: calendar, now: now) })
+                guard let mostRelevantElement = WeekSchedule(schedule: response.schedule)
+                    .schedule(starting: now, now: now, calendar: calendar)
+                    .first(where: { $0.hasUnfinishedPairs(now: now) })
                 else { return nil }
 
                 return MostRelevantScheduleResponse(

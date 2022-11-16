@@ -1,13 +1,12 @@
 import Foundation
 import BsuirApi
 
-public struct WeekSchedule {
-    public init(schedule: DaySchedule, calendar: Calendar) {
+public struct WeekSchedule: Equatable {
+    public init(schedule: DaySchedule) {
         self.schedule = schedule
-        self.calendar = calendar
     }
 
-    public func pairs(for date: Date) -> [BsuirApi.Pair] {
+    public func pairs(for date: Date, calendar: Calendar) -> [BsuirApi.Pair] {
         let components = calendar.dateComponents([.weekday], from: date)
         guard
             let weekday = components.weekday.flatMap(DaySchedule.WeekDay.init(weekday:)),
@@ -19,7 +18,6 @@ public struct WeekSchedule {
         return pairs
     }
 
-    private let calendar: Calendar
     private let schedule: DaySchedule
 }
 
@@ -36,7 +34,11 @@ extension WeekSchedule {
         public let pairs: [Pair]
     }
 
-    public func schedule(starting start: Date, now: Date) -> AnySequence<ScheduleElement> {
+    public func schedule(
+        starting start: Date,
+        now: Date,
+        calendar: Calendar
+    ) -> AnySequence<ScheduleElement> {
         guard !schedule.isEmpty else {
             return AnySequence([])
         }
@@ -52,7 +54,7 @@ extension WeekSchedule {
                         let weekNumber = WeekNum(weekNum: rawWeekNumber)
                     else { return nil }
 
-                    let pairs = self.pairs(for: date)
+                    let pairs = self.pairs(for: date, calendar: calendar)
                         .compactMap { pair -> ScheduleElement.Pair? in
                             guard
                                 pair.weekNumber.contains(weekNumber),
@@ -87,7 +89,7 @@ extension WeekSchedule {
 }
 
 extension WeekSchedule.ScheduleElement {
-    public func hasUnfinishedPairs(calendar: Calendar, now: Date) -> Bool {
+    public func hasUnfinishedPairs(now: Date) -> Bool {
         pairs.contains { $0.end > now }
     }
 }

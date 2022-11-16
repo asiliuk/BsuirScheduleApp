@@ -15,7 +15,7 @@ final class ContinuousSchedule: ObservableObject {
     init(schedule: DaySchedule, calendar: Calendar, now: Date) {
         self.calendar = calendar
         self.now = now
-        self.weekSchedule = WeekSchedule(schedule: schedule, calendar: calendar)
+        self.weekSchedule = WeekSchedule(schedule: schedule)
         self.loadDays(12)
 
         self.loadMoreSubject
@@ -29,10 +29,10 @@ final class ContinuousSchedule: ObservableObject {
 
     private func loadDays(_ count: Int) {
         guard let offset = offset, let start = calendar.date(byAdding: .day, value: 1, to: offset) else { return }
-        let days = Array(weekSchedule.schedule(starting: start, now: now).prefix(count))
+        let days = Array(weekSchedule.schedule(starting: start, now: now, calendar: calendar).prefix(count))
 
         if mostRelevant == nil {
-            mostRelevant = days.first { $0.hasUnfinishedPairs(calendar: calendar, now: now) }?.date
+            mostRelevant = days.first { $0.hasUnfinishedPairs(now: now) }?.date
         }
 
         self.offset = days.last?.date

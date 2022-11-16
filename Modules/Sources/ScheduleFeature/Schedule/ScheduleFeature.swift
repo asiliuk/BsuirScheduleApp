@@ -9,17 +9,20 @@ import Dependencies
 
 public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
     public struct State: Equatable {
-        public struct Schedule: Equatable {
-            var compact: DayScheduleReducer.State
+        struct Schedule: Equatable {
+            var compact: DayScheduleFeature.State
+            var continious: ContiniousScheduleFeature.State
 
             init(schedule: DaySchedule, exams: [BsuirApi.Pair]) {
-                compact = DayScheduleReducer.State(schedule: schedule)
+                compact = DayScheduleFeature.State(schedule: schedule)
+                continious = ContiniousScheduleFeature.State(schedule: schedule)
             }
         }
 
         public var title: String
         public var value: Value
         @LoadableState var schedule: Schedule?
+        @BindableState var scheduleType: ScheduleDisplayType = .continuous
         
         public init(title: String, value: Value) {
             self.title = title
@@ -27,17 +30,23 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         }
     }
 
-    public enum Action: Equatable, FeatureAction, LoadableAction {
+    public enum Action: Equatable, FeatureAction, BindableAction, LoadableAction {
         public enum ViewAction {
             case task
         }
 
         public enum ReducerAction: Equatable {
-            case daySchedule(DayScheduleReducer.Action)
+            public enum ScheduleAction: Equatable {
+                case day(DayScheduleFeature.Action)
+                case continious(ContiniousScheduleFeature.Action)
+            }
+            
+            case schedule(ScheduleAction)
         }
 
         public typealias DelegateAction = Never
 
+        case binding(BindingAction<State>)
         case loading(LoadingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
@@ -77,17 +86,30 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
                 }
-            case .reducer, .delegate, .loading:
+            case .binding(\.$scheduleType):
+                return .fireAndForget {
+                    reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
+                }
+            case .reducer, .delegate, .loading, .binding:
                 return .none
             }
         }
-        .load(\.$schedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.daySchedule)) {
-            Scope(state: \.compact, action: .self) {
-                DayScheduleReducer()
+        .load(
+            \.$schedule,
+             action: (/Action.reducer).appending(path: /Action.ReducerAction.schedule)
+        ) {
+            Scope(state: \.compact, action: /Action.ReducerAction.ScheduleAction.day) {
+                DayScheduleFeature()
+            }
+            
+            Scope(state: \.continious, action: /Action.ReducerAction.ScheduleAction.continious) {
+                ContiniousScheduleFeature()
             }
         } fetch: { state in
             fetch(state.value)
         }
+        
+        BindingReducer()
     }
 }
 

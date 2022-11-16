@@ -11,13 +11,20 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
     }
 
     public var body: some View {
-        WithViewStore(store, observe: \.title) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             LoadingStore(
                 store,
                 state: \.$schedule,
-                action: { .reducer(.daySchedule($0)) }
+                action: { .reducer(.schedule($0)) }
             ) { store in
-                DayScheduleView(store: store.loaded(state: \.compact))
+                switch viewStore.scheduleType {
+                case .compact:
+                    DayScheduleView(store: store.loaded().scope(state: \.compact, action: { .day($0) }))
+                case .continuous:
+                    ContiniousScheduleView(store: store.loaded().scope(state: \.continious, action: { .continious($0) }))
+                case .exams:
+                    EmptyView()
+                }
             } loading: {
                 LoadingStateView()
             } error: { store in
@@ -25,7 +32,15 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                     ErrorStateView(retry: { viewStore.send(.reload) })
                 }
             }
-            .navigationTitle(viewStore.state)
+            .navigationTitle(viewStore.title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem {
+                    ScheduleDisplayTypePickerMenu(
+                        scheduleType: viewStore.binding(\.$scheduleType)
+                    )
+                }
+            }
             .task { await viewStore.send(.task).finish() }
         }
     }
