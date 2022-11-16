@@ -11,6 +11,22 @@ public struct GroupScheduleView: View {
     }
     
     public var body: some View {
-        ScheduleFeatureView(store: store)
+        WithViewStore(store) { viewStore in
+            ScheduleFeatureView(
+                store: store.scope(state: \.schedule, action: { .schedule($0) }),
+                continiousSchedulePairDetails: .lecturers {
+                    viewStore.send(.lectorTapped($0))
+                }
+            )
+            .sheet(item: viewStore.binding(\.$lectorSchedule)) { _ in
+                ModalNavigationView {
+                    IfLetStore(
+                        store.scope(state: \.lectorSchedule?.value, action: { .lectorSchedule($0) })
+                    ) { store in
+                        LectorScheduleView(store: store)
+                    }
+                }
+            }
+        }
     }
 }

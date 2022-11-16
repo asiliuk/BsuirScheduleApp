@@ -92,6 +92,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                 return .none
                 
             case .binding(\.$scheduleType):
+                state.schedule?.continious.isOnTop = nil
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
                 }

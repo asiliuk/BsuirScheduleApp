@@ -3,16 +3,16 @@ import BsuirUI
 import BsuirApi
 import BsuirCore
 
-struct ScheduleGridView: View {
-    enum PairDetails {
-        case lecturers(show: (Employee) -> Void)
-        case groups(show: (String) -> Void)
-        case nothing
-    }
+public enum ScheduleGridViewPairDetails {
+    case lecturers(show: (Employee) -> Void)
+    case groups(show: (String) -> Void)
+    case nothing
+}
 
+struct ScheduleGridView: View {
     let days: [ScheduleDayViewModel]
     var loadMore: (() -> Void)? = nil
-    var pairDetails: PairDetails = .nothing
+    var pairDetails: ScheduleGridViewPairDetails
     @Binding var isOnTop: Bool?
 
     var body: some View {
@@ -39,8 +39,6 @@ struct ScheduleGridView: View {
             .listStyle(.plain)
             // To disable cell celection
             .buttonStyle(PlainButtonStyle())
-            .task { isOnTop = true }
-            .onDisappear { isOnTop = nil }
             .onChange(of: isOnTop) { [isOnTop] newIsOnTop in
                 if newIsOnTop == true {
                     // Do not animate initial value set
@@ -62,7 +60,7 @@ struct ScheduleDay: View {
     var isMostRelevant: Bool
     let isToday: Bool
     let pairs: [PairViewModel]
-    let details: ScheduleGridView.PairDetails
+    let details: ScheduleGridViewPairDetails
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {

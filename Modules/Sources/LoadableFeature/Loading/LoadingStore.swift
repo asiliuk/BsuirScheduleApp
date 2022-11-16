@@ -67,7 +67,7 @@ public struct LoadingStore<
         SwitchStore(store) {
             CaseLet(state: /ViewState.loading, action: ViewAction.loading) { store in
                 loading
-                    .task { await ViewStore(store).send(.task).finish() }
+                    .task { await store.tempViewStore().send(.task).finish() }
             }
             
             CaseLet(state: /ViewState.error, action: ViewAction.error) { store in

@@ -5,9 +5,11 @@ import ComposableArchitectureUtils
 
 public struct ScheduleFeatureView<Value: Equatable>: View {
     public let store: StoreOf<ScheduleFeature<Value>>
-
-    public init(store: StoreOf<ScheduleFeature<Value>>) {
+    public let continiousSchedulePairDetails: ScheduleGridViewPairDetails
+    
+    public init(store: StoreOf<ScheduleFeature<Value>>, continiousSchedulePairDetails: ScheduleGridViewPairDetails) {
         self.store = store
+        self.continiousSchedulePairDetails = continiousSchedulePairDetails
     }
 
     public var body: some View {
@@ -21,7 +23,12 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 case .compact:
                     DayScheduleView(store: store.loaded().scope(state: \.compact, action: { .day($0) }))
                 case .continuous:
-                    ContiniousScheduleView(store: store.loaded().scope(state: \.continious, action: { .continious($0) }))
+                    ContiniousScheduleView(
+                        store: store
+                            .loaded()
+                            .scope(state: \.continious, action: { .continious($0) }),
+                        pairDetails: continiousSchedulePairDetails
+                    )
                 case .exams:
                     EmptyView()
                 }

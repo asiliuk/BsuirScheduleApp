@@ -57,7 +57,7 @@ public struct GroupsFeature: ReducerProtocol {
                 return listenToFavoriteUpdates()
                 
             case let .view(.groupTapped(group)):
-                state.groupSchedule = .init(group: group)
+                state.groupSchedule = .init(groupName: group.name)
                 return .none
                 
             case .view(.filterGroups):

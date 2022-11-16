@@ -3,27 +3,60 @@ import BsuirCore
 import BsuirApi
 import ScheduleFeature
 import ComposableArchitecture
+import ComposableArchitectureUtils
 
 public struct LectorScheduleFeature: ReducerProtocol {
-    public struct LectorUrlId: Equatable, Identifiable {
-        public var id: String { urlId }
-        let urlId: String
+    public struct State: Equatable, Identifiable {
+        public var id: String { schedule.value }
+        public var schedule: ScheduleFeature<String>.State
+        @BindableState var groupSchedule: GroupScheduleFeature.State?
+
+        public init(lector: Employee) {
+            self.schedule = .init(title: lector.fio, value: lector.urlId)
+        }
     }
-    public typealias State = ScheduleFeature<LectorUrlId>.State
-    public typealias Action = ScheduleFeature<LectorUrlId>.Action
+    
+    public enum Action: Equatable, FeatureAction, BindableAction {
+        public enum ViewAction: Equatable {
+            case groupTapped(String)
+        }
+        
+        public enum ReducerAction: Equatable {
+            case schedule(ScheduleFeature<String>.Action)
+            indirect case groupSchedule(GroupScheduleFeature.Action)
+        }
+        
+        public typealias DelegateAction = Never
+
+        case binding(BindingAction<State>)
+        case view(ViewAction)
+        case reducer(ReducerAction)
+        case delegate(DelegateAction)
+    }
 
     public init() {}
 
     public var body: some ReducerProtocol<State, Action> {
-        ScheduleFeature(
-            target: { BsuirIISTargets.EmployeeSchedule(urlId: $0.urlId) },
-            schedule: { ($0.schedules ?? DaySchedule(), $0.examSchedules ?? []) }
-        )
-    }
-}
+        BindingReducer()
 
-extension LectorScheduleFeature.State {
-    public init(lector: Employee) {
-        self.init(title: lector.fio, value: .init(urlId: lector.urlId))
+        Reduce { state, action in
+            switch action {
+            case let .view(.groupTapped(groupName)):
+                state.groupSchedule = .init(groupName: groupName)
+                return .none
+            case .reducer, .binding:
+                return .none
+            }
+        }
+        .ifLet(\.groupSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.groupSchedule)) {
+            GroupScheduleFeature()
+        }
+        
+        Scope(state: \.schedule, action: /Action.ReducerAction.schedule) {
+            ScheduleFeature(
+                target: { BsuirIISTargets.EmployeeSchedule(urlId: $0) },
+                schedule: { ($0.schedules ?? DaySchedule(), $0.examSchedules ?? []) }
+            )
+        }        
     }
 }
