@@ -8,7 +8,7 @@ import Dependencies
 public struct ContiniousScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
         var days: [ScheduleDayViewModel] = []
-        @BindableState var isOnTop = false
+        @BindableState var isOnTop: Bool?
         fileprivate var schedule: DaySchedule
         fileprivate var offset: Date?
         fileprivate let weekSchedule: WeekSchedule
@@ -109,21 +109,4 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
 
 private extension MeaningfulEvent {
     static let moreScheduleRequested = Self(score: 1)
-}
-
-import SwiftUI
-
-struct ContiniousScheduleView: View {
-    let store: StoreOf<ContiniousScheduleFeature>
-
-    var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
-            ScheduleGridView(
-                days: viewStore.days,
-                loadMore: { viewStore.send(.loadMoreIndicatorAppear) },
-                isOnTop: viewStore.binding(\.$isOnTop)
-            )
-            .task { await viewStore.send(.task).finish() }
-        }
-    }
 }

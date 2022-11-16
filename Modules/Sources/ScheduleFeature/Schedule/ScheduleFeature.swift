@@ -33,6 +33,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
     public enum Action: Equatable, FeatureAction, BindableAction, LoadableAction {
         public enum ViewAction {
             case task
+            case scrollToMostRelevantTapped
         }
 
         public enum ReducerAction: Equatable {
@@ -86,6 +87,10 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
                 }
+            case .view(.scrollToMostRelevantTapped):
+                state.schedule?.continious.isOnTop = true
+                return .none
+                
             case .binding(\.$scheduleType):
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)

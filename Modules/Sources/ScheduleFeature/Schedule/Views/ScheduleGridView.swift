@@ -13,7 +13,7 @@ struct ScheduleGridView: View {
     let days: [ScheduleDayViewModel]
     var loadMore: (() -> Void)? = nil
     var pairDetails: PairDetails = .nothing
-    @Binding var isOnTop: Bool
+    @Binding var isOnTop: Bool?
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -39,9 +39,12 @@ struct ScheduleGridView: View {
             .listStyle(.plain)
             // To disable cell celection
             .buttonStyle(PlainButtonStyle())
-            .onChange(of: isOnTop) { isOnTop in
-                if isOnTop {
-                    proxy.scrollTo(RelevantDayViewID.mostRelevant, anchor: .top)
+            .onChange(of: isOnTop) { [isOnTop] newIsOnTop in
+                if newIsOnTop == true {
+                    // Do not animate initial value set
+                    withAnimation(isOnTop == nil ? nil : .default) {
+                        proxy.scrollTo(RelevantDayViewID.mostRelevant, anchor: .top)
+                    }
                 }
             }
             .gesture(DragGesture().onChanged { _ in

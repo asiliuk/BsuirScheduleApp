@@ -40,6 +40,13 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                         scheduleType: viewStore.binding(\.$scheduleType)
                     )
                 }
+                
+                ToolbarItem(placement: .principal) {
+                    Text(viewStore.title)
+                        .bold()
+                        .minimumScaleFactor(0.5)
+                        .onTapGesture { viewStore.send(.scrollToMostRelevantTapped) }
+                }
             }
             .task { await viewStore.send(.task).finish() }
         }
