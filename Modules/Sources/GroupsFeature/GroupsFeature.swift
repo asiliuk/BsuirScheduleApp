@@ -1,6 +1,7 @@
 import Foundation
 import BsuirApi
 import BsuirCore
+import EntityScheduleFeature
 import LoadableFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils

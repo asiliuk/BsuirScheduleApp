@@ -2,6 +2,7 @@ import Foundation
 import BsuirApi
 import BsuirCore
 import LoadableFeature
+import EntityScheduleFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import Favorites
@@ -9,7 +10,7 @@ import Favorites
 public struct LecturersFeature: ReducerProtocol {
     public struct State: Equatable {
         @BindableState var searchQuery: String = ""
-        @BindableState var selectedLector: Employee?
+        @BindableState var lectorSchedule: LectorScheduleFeature.State?
         var favorites: [Employee] = []
         @LoadableState var lecturers: [Employee]?
         @LoadableState var loadedLecturers: [Employee]?
@@ -26,6 +27,7 @@ public struct LecturersFeature: ReducerProtocol {
         
         public enum ReducerAction: Equatable {
             case favoritesUpdate([Employee])
+            case lectorSchedule(LectorScheduleFeature.Action)
         }
         
         public typealias DelegateAction = Never
@@ -49,7 +51,7 @@ public struct LecturersFeature: ReducerProtocol {
                 return listenToFavoriteUpdates()
                 
             case let .view(.lecturerTapped(lector)):
-                state.selectedLector = lector
+                state.lectorSchedule = .init(lector: lector)
                 return .none
                 
             case .view(.filterLecturers):
@@ -69,6 +71,9 @@ public struct LecturersFeature: ReducerProtocol {
             }
         }
         .load(\.$loadedLecturers, fetch: fetchLecturers)
+        .ifLet(\.lectorSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.lectorSchedule)) {
+            LectorScheduleFeature()
+        }
         
         BindingReducer()
     }

@@ -26,6 +26,9 @@ let package = Package(
             name: "LecturersFeature",
             targets: ["LecturersFeature"]),
         .library(
+            name: "EntityScheduleFeature",
+            targets: ["ScheduleFeature"]),
+        .library(
             name: "ScheduleFeature",
             targets: ["ScheduleFeature"]),
         .library(
@@ -53,11 +56,15 @@ let package = Package(
         ),
         .target(
             name: "GroupsFeature",
-            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "LecturersFeature",
-            dependencies: ["LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+        ),
+        .target(
+            name: "EntityScheduleFeature",
+            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "ScheduleFeature",

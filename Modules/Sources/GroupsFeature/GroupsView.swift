@@ -2,7 +2,7 @@ import SwiftUI
 import BsuirUI
 import BsuirApi
 import LoadableFeature
-import ScheduleFeature
+import EntityScheduleFeature
 import ComposableArchitecture
 
 public struct GroupsView: View {
@@ -30,15 +30,11 @@ public struct GroupsView: View {
                 IfLetStore(
                     store.scope(state: \.groupSchedule, action: { .reducer(.groupSchedule($0)) })
                 ) { store in
-                    ScheduleFeatureView(store: store)
+                    GroupScheduleView(store: store)
                 }
             }
         }
     }
-}
-
-extension GroupScheduleFeature.State: Identifiable {
-    public var id: String { value }
 }
 
 private struct LoadingGroupsView: View {

@@ -2,6 +2,7 @@ import SwiftUI
 import BsuirUI
 import BsuirApi
 import LoadableFeature
+import EntityScheduleFeature
 import ComposableArchitecture
 
 public struct LecturersView: View {
@@ -17,10 +18,12 @@ public struct LecturersView: View {
                 viewStore: viewStore,
                 store: store
             )
-            .navigation(item: viewStore.binding(\.$selectedLector)) { lecturer in
-                // TODO: Handle navigation to shcedule screen
-                Text("Selected \(lecturer.fio), id: \(lecturer.id)")
-                    .navigationTitle(lecturer.fio)
+            .navigation(item: viewStore.binding(\.$lectorSchedule)) { _ in
+                IfLetStore(
+                    store.scope(state: \.lectorSchedule, action: { .reducer(.lectorSchedule($0)) })
+                ) { store in
+                    LectorScheduleView(store: store)
+                }
             }
             .navigationTitle("screen.lecturers.navigation.title")
             .task { await viewStore.send(.task).finish() }
