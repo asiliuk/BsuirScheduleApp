@@ -21,7 +21,11 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             ) { store in
                 switch viewStore.scheduleType {
                 case .compact:
-                    DayScheduleView(store: store.loaded().scope(state: \.compact, action: { .day($0) }))
+                    DayScheduleView(
+                        store: store
+                            .loaded()
+                            .scope(state: \.compact, action: { .day($0) })
+                    )
                 case .continuous:
                     ContiniousScheduleView(
                         store: store
@@ -30,7 +34,11 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                         pairDetails: continiousSchedulePairDetails
                     )
                 case .exams:
-                    EmptyView()
+                    ExamsScheduleView(
+                        store: store
+                            .loaded()
+                            .scope(state: \.exams, action: { .exams($0) })
+                    )
                 }
             } loading: {
                 LoadingStateView()

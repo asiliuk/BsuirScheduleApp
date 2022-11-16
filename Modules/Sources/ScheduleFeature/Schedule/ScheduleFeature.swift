@@ -12,10 +12,12 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         struct Schedule: Equatable {
             var compact: DayScheduleFeature.State
             var continious: ContiniousScheduleFeature.State
+            var exams: ExamsScheduleFeature.State
 
             init(schedule: DaySchedule, exams: [BsuirApi.Pair]) {
-                compact = DayScheduleFeature.State(schedule: schedule)
-                continious = ContiniousScheduleFeature.State(schedule: schedule)
+                self.compact = DayScheduleFeature.State(schedule: schedule)
+                self.continious = ContiniousScheduleFeature.State(schedule: schedule)
+                self.exams = ExamsScheduleFeature.State(exams: exams)
             }
         }
 
@@ -40,6 +42,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
             public enum ScheduleAction: Equatable {
                 case day(DayScheduleFeature.Action)
                 case continious(ContiniousScheduleFeature.Action)
+                case exams(ExamsScheduleFeature.Action)
             }
             
             case schedule(ScheduleAction)
@@ -110,6 +113,9 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
             
             Scope(state: \.continious, action: /Action.ReducerAction.ScheduleAction.continious) {
                 ContiniousScheduleFeature()
+            }
+            Scope(state: \.exams, action: /Action.ReducerAction.ScheduleAction.exams) {
+                ExamsScheduleFeature()
             }
         } fetch: { state in
             fetch(state.value)
