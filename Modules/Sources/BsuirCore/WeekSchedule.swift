@@ -2,12 +2,11 @@ import Foundation
 import BsuirApi
 
 public struct WeekSchedule {
-    public init(schedule: DaySchedule, calendar: Calendar) {
+    public init(schedule: DaySchedule) {
         self.schedule = schedule
-        self.calendar = calendar
     }
 
-    public func pairs(for date: Date) -> [BsuirApi.Pair] {
+    public func pairs(for date: Date, calendar: Calendar) -> [BsuirApi.Pair] {
         let components = calendar.dateComponents([.weekday], from: date)
         guard
             let weekday = components.weekday.flatMap(DaySchedule.WeekDay.init(weekday:)),
@@ -19,13 +18,12 @@ public struct WeekSchedule {
         return pairs
     }
 
-    private let calendar: Calendar
     private let schedule: DaySchedule
 }
 
 extension WeekSchedule {
-    public struct ScheduleElement {
-        public struct Pair {
+    public struct ScheduleElement: Equatable {
+        public struct Pair: Equatable {
             public let start: Date
             public let end: Date
             public let base: BsuirApi.Pair
@@ -36,7 +34,11 @@ extension WeekSchedule {
         public let pairs: [Pair]
     }
 
-    public func schedule(starting start: Date, now: Date) -> AnySequence<ScheduleElement> {
+    public func schedule(
+        starting start: Date,
+        now: Date,
+        calendar: Calendar
+    ) -> AnySequence<ScheduleElement> {
         guard !schedule.isEmpty else {
             return AnySequence([])
         }
@@ -52,7 +54,7 @@ extension WeekSchedule {
                         let weekNumber = WeekNum(weekNum: rawWeekNumber)
                     else { return nil }
 
-                    let pairs = self.pairs(for: date)
+                    let pairs = self.pairs(for: date, calendar: calendar)
                         .compactMap { pair -> ScheduleElement.Pair? in
                             guard
                                 pair.weekNumber.contains(weekNumber),
@@ -70,8 +72,6 @@ extension WeekSchedule {
                                 }
                             } else if let dateLesson = pair.dateLesson {
                                 guard calendar.isDate(dateLesson, inSameDayAs: date) else { return nil }
-                            } else {
-                                return nil
                             }
                             
                             guard
