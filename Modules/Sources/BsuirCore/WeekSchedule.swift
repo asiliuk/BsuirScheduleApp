@@ -57,7 +57,9 @@ extension WeekSchedule {
                             guard
                                 pair.weekNumber.contains(weekNumber),
                                 let dateStart = calendar.startOfDay(for: date, in: .minsk),
-                                (pair.startLessonDate...pair.endLessonDate).contains(dateStart)
+                                let startLessonDate = pair.startLessonDate,
+                                let endLessonDate = pair.endLessonDate,
+                                (startLessonDate...endLessonDate).contains(dateStart)
                             else {
                                 return nil
                             }
