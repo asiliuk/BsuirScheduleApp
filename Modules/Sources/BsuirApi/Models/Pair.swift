@@ -32,9 +32,9 @@ public struct Pair: Codable, Equatable {
     @NonEmpty public var auditories: [String]
 
     public let startLessonTime: Time
-    public let startLessonDate: Date
+    public let startLessonDate: Date?
     public let endLessonTime: Time
-    public let endLessonDate: Date
+    public let endLessonDate: Date?
     public let dateLesson: Date?
     
     public let subgroup: Int

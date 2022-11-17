@@ -49,6 +49,7 @@ extension WeekNum : Codable {
     public enum Error : Swift.Error {
         case invalidValue(Int)
     }
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         

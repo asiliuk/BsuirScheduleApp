@@ -56,9 +56,21 @@ extension WeekSchedule {
                         .compactMap { pair -> ScheduleElement.Pair? in
                             guard
                                 pair.weekNumber.contains(weekNumber),
-                                let dateStart = calendar.startOfDay(for: date, in: .minsk),
-                                (pair.startLessonDate...pair.endLessonDate).contains(dateStart)
+                                let dateStart = calendar.startOfDay(for: date, in: .minsk)
                             else {
+                                return nil
+                            }
+                            
+                            if
+                                let endLessonDate = pair.endLessonDate,
+                                let startLessonDate = pair.startLessonDate
+                            {
+                                guard (startLessonDate...endLessonDate).contains(dateStart) else {
+                                    return nil
+                                }
+                            } else if let dateLesson = pair.dateLesson {
+                                guard calendar.isDate(dateLesson, inSameDayAs: date) else { return nil }
+                            } else {
                                 return nil
                             }
                             

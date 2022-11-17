@@ -18,9 +18,9 @@ public struct DaySchedule: Equatable {
     public var isEmpty: Bool {
         days.isEmpty
     }
-    
-    public init() {
-        self.days = [:]
+
+    public init(days: [WeekDay: [Pair]] = [:]) {
+        self.days = days
     }
     
     private let days: [WeekDay: [Pair]]
@@ -28,13 +28,18 @@ public struct DaySchedule: Equatable {
 
 extension DaySchedule: Decodable {
     public init(from decoder: Decoder) throws {
+        if let container = try? decoder.singleValueContainer(), container.decodeNil() {
+            self.init()
+            return
+        }
+        
         let container = try decoder.container(keyedBy: WeekDay.self)
-        self.days = try Dictionary(
+        self.init(days: try Dictionary(
             uniqueKeysWithValues: container.allKeys.map { key in
                 let pairs = try container.decode([Pair].self, forKey: key)
                 return (key, pairs)
             }
-        )
+        ))
     }
 }
 
