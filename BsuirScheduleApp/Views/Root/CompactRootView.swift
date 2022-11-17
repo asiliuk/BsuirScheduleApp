@@ -29,11 +29,6 @@ struct CompactRootView: View {
                 LecturersView(store: state.lecturersStore)
             }
             .tab(.lecturers)
-            
-            NavigationView {
-                AllFavoritesView(screen: state.allFavorites, openGroups: { currentSelection = .groups })
-            }
-            .tab(.favorites)
 
             NavigationView {
                 AboutView(store: state.aboutStore)
