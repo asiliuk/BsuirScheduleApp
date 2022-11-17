@@ -328,13 +328,6 @@
 			path = Widgets;
 			sourceTree = "<group>";
 		};
-		E65E5E562537907A009D57C1 /* WhatsNew */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = WhatsNew;
-			sourceTree = "<group>";
-		};
 		E67491112523BC26006CE90E /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -424,7 +417,6 @@
 				E69AE85E25192CAA0060D761 /* Lecturers */,
 				E69AE85A25192CA30060D761 /* Groups */,
 				E69AE85625192C9B0060D761 /* Schedule */,
-				E65E5E562537907A009D57C1 /* WhatsNew */,
 				E675BFBE2587D50E00DE570A /* About */,
 				E696481F233F7BD3007EF2CB /* AppState.swift */,
 				E67503AC24F4355B0030D0EC /* AllFavoritesScreen.swift */,

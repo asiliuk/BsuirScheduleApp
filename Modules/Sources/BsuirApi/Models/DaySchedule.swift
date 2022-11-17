@@ -53,7 +53,11 @@ extension DaySchedule: Encodable {
 }
 
 extension DaySchedule.WeekDay {
-    public var weekdayIndex: Int {
+    public func localizedName(in calendar: Calendar) -> String {
+        return calendar.weekdaySymbols[weekdayIndex]
+    }
+    
+    private var weekdayIndex: Int {
         switch self {
         case .sunday:
             return 0
