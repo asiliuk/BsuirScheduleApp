@@ -6,6 +6,8 @@ final class WeekScheduleTests: XCTestCase {
     let calendar = Calendar.current
     var daySchedule: DaySchedule!
     var schedule: WeekSchedule!
+    var startDate: Date!
+    var endDate: Date!
     
     let mondayPair1 = Pair(
         subject: "Monday Pair 1",
@@ -42,12 +44,21 @@ final class WeekScheduleTests: XCTestCase {
             .saturday: [saturdayPair1]
         ])
         
-        schedule = WeekSchedule(schedule: daySchedule)
+        startDate = date("17.11.2022")
+        endDate = date("31.12.2022")
+        
+        schedule = WeekSchedule(
+            schedule: daySchedule,
+            startDate: startDate,
+            endDate: endDate
+        )
     }
     
     override func tearDown() {
         schedule = nil
         daySchedule = nil
+        startDate = nil
+        endDate = nil
     }
     
     func testPairsForEmptyDayAreEmpty() {
@@ -118,6 +129,31 @@ final class WeekScheduleTests: XCTestCase {
             end: date("03.12.2022", time: "13:00"),
             base: saturdayPair1
         )])
+    }
+    
+    func testScheduleEndsOnEndDate() {
+        // Given
+        let from = date("01.01.2023")
+        let now = date("17.11.2022")
+        
+        // When
+        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar)
+        
+        // Then
+        XCTAssertEqual(Array(schedule.prefix(10)), [])
+    }
+    
+    func testScheduleStartsOnStartDate() throws {
+        // Given
+        let from = date("01.01.2022")
+        let now = date("17.11.2022")
+        
+        // When
+        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar)
+        
+        // Then
+        let element = try XCTUnwrap(Array(schedule.prefix(1)).first)
+        XCTAssertEqual(element.date, date("19.11.2022"))
     }
 }
 

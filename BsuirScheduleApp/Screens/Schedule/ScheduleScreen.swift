@@ -19,12 +19,23 @@ final class ScheduleScreen: ObservableObject {
     let toggleFavorite: (() -> Void)?
     let employeeSchedule: ((Employee) -> ScheduleScreen)?
     let groupSchedule: ((String) -> ScheduleScreen)?
+    
+    struct RequestResponse {
+        let startDate: Date?
+        let endDate: Date?
+
+        let startExamsDate: Date?
+        let endExamsDate: Date?
+        
+        let schedule: DaySchedule
+        let exams: [BsuirApi.Pair]
+    }
 
     init(
         name: String,
         isFavorite: AnyPublisher<Bool, Never>,
         toggleFavorite: (() -> Void)?,
-        request: AnyPublisher<(schedule: DaySchedule, exams: [BsuirApi.Pair]), RequestsManager.RequestError>,
+        request: AnyPublisher<RequestResponse, RequestsManager.RequestError>,
         employeeSchedule: ((Employee) -> ScheduleScreen)?,
         groupSchedule: ((String) -> ScheduleScreen)?
     ) {
@@ -59,9 +70,15 @@ extension ScheduleScreen {
         private let calendar = Calendar.current
         private let now = Date()
 
-        init(schedule: DaySchedule, exams: [Pair]) {
-            self.continuous = ContinuousSchedule(schedule: schedule, calendar: calendar, now: now)
-            self.compact = DayScheduleViewModel(schedule: schedule, calendar: calendar, now: now)
+        init(response: RequestResponse) {
+            self.continuous = ContinuousSchedule(
+                schedule: response.schedule,
+                startDate: response.startDate,
+                endDate: response.endDate,
+                calendar: calendar,
+                now: now
+            )
+            self.compact = DayScheduleViewModel(schedule: response.schedule, calendar: calendar, now: now)
             // TODO: Support exams once again
             self.exams = [
                 DayViewModel(

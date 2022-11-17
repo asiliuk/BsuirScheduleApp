@@ -2,8 +2,14 @@ import Foundation
 import BsuirApi
 
 public struct WeekSchedule {
-    public init(schedule: DaySchedule) {
+    public init(
+        schedule: DaySchedule,
+        startDate: Date,
+        endDate: Date
+    ) {
         self.schedule = schedule
+        self.startDate = startDate
+        self.endDate = endDate
     }
 
     public func pairs(for date: Date, calendar: Calendar) -> [BsuirApi.Pair] {
@@ -19,6 +25,8 @@ public struct WeekSchedule {
     }
 
     private let schedule: DaySchedule
+    private let startDate: Date
+    private let endDate: Date
 }
 
 extension WeekSchedule {
@@ -48,11 +56,21 @@ extension WeekSchedule {
             return AnyIterator {
                 var element: ScheduleElement?
                 repeat {
+                    defer { offset += 1 }
+
                     guard
                         let date = calendar.date(byAdding: .day, value: offset, to: start),
                         let rawWeekNumber = calendar.weekNumber(for: date, now: now),
-                        let weekNumber = WeekNum(weekNum: rawWeekNumber)
-                    else { return nil }
+                        let weekNumber = WeekNum(weekNum: rawWeekNumber),
+                        date <= endDate
+                    else {
+                        // Break the sequence
+                        return nil
+                    }
+                    
+                    guard date >= startDate else {
+                        continue
+                    }
 
                     let pairs = self.pairs(for: date, calendar: calendar)
                         .compactMap { pair -> ScheduleElement.Pair? in
@@ -89,8 +107,6 @@ extension WeekSchedule {
                             pairs: pairs
                         )
                     }
-
-                    offset += 1
                 } while element == nil
                 return element
             }

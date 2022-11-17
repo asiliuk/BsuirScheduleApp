@@ -22,10 +22,23 @@ extension ScheduleScreen {
             toggleFavorite: { favorites.lecturers.toggle(employee) },
             request: requestManager
                 .request(BsuirIISTargets.EmployeeSchedule(urlId: employee.urlId))
-                .map { ($0.schedules ?? DaySchedule(), $0.examSchedules ?? []) }
+                .map(ScheduleScreen.RequestResponse.init)
                 .eraseToAnyPublisher(),
             employeeSchedule: nil,
             groupSchedule: { .group(name: $0, favorites: favorites, requestManager: requestManager) }
+        )
+    }
+}
+
+private extension ScheduleScreen.RequestResponse {
+    init(response: BsuirIISTargets.EmployeeSchedule.Value) {
+        self.init(
+            startDate: response.startDate,
+            endDate: response.endDate,
+            startExamsDate: response.startExamsDate,
+            endExamsDate: response.endExamsDate,
+            schedule: response.schedules ?? DaySchedule(),
+            exams: response.examSchedules ?? []
         )
     }
 }

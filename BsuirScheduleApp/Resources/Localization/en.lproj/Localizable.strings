@@ -96,6 +96,8 @@
 
 "screen.schedule.day.title.%@.%lld" = "%@, Week %lld";
 
+"screen.schedule.noMorePairs.title" = "No more pairs 🎉";
+
 // TODO: - Remove when exams are supported
 "screen.schedule.unsupportedExams.title" = "My deepest apologies";
 "screen.schedule.unsupportedExams.subject" = "The exam schedule is not currently supported";
