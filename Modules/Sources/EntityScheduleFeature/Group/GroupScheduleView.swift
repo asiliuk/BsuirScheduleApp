@@ -27,6 +27,7 @@ public struct GroupScheduleView: View {
                     }
                 }
             }
+            .task { await viewStore.send(.task).finish() }
         }
     }
 }
