@@ -14,7 +14,9 @@ struct ContiniousScheduleView: View {
                 } else {
                     ScheduleGridView(
                         days: viewStore.days,
-                        loadMore: { viewStore.send(.loadMoreIndicatorAppear) },
+                        loading: viewStore.doneLoading
+                            ? .finished
+                            : .loadMore { viewStore.send(.loadMoreIndicatorAppear) },
                         pairDetails: pairDetails,
                         isOnTop: viewStore.binding(\.$isOnTop)
                     )

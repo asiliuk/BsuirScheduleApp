@@ -15,6 +15,7 @@ struct DayScheduleView: View {
                 } else {
                     ScheduleGridView(
                         days: viewStore.days,
+                        loading: .never,
                         pairDetails: .nothing,
                         isOnTop: .constant(false)
                     )

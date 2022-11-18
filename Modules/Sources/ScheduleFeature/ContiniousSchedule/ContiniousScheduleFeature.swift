@@ -8,16 +8,23 @@ import Dependencies
 public struct ContiniousScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
         var days: [ScheduleDayViewModel] = []
+        var doneLoading: Bool = false
         @BindableState var isOnTop: Bool = true
         fileprivate var schedule: DaySchedule
         fileprivate var offset: Date?
-        fileprivate let weekSchedule: WeekSchedule
+        fileprivate var weekSchedule: WeekSchedule?
         fileprivate var mostRelevant: Date?
         
-        init(schedule: DaySchedule) {
+        init(schedule: DaySchedule, startDate: Date?, endDate: Date?) {
             self.schedule = schedule
-            // TODO: Fix this with real dates
-            self.weekSchedule = WeekSchedule(schedule: schedule, startDate: .now, endDate: .now)
+
+            if let startDate, let endDate {
+                self.weekSchedule = WeekSchedule(
+                    schedule: schedule,
+                    startDate: startDate,
+                    endDate: endDate
+                )
+            }
         }
     }
     
@@ -76,11 +83,13 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
     
     private func loadDays(_ state: inout State, count: Int) {
         guard
+            let weekSchedule = state.weekSchedule,
             let offset = state.offset,
-                let start = calendar.date(byAdding: .day, value: 1, to: offset)
+            let start = calendar.date(byAdding: .day, value: 1, to: offset)
         else { return }
         
-        let days = Array(state.weekSchedule.schedule(starting: start, now: now, calendar: calendar).prefix(count))
+        let days = Array(weekSchedule.schedule(starting: start, now: now, calendar: calendar).prefix(count))
+        state.doneLoading = days.count < count
 
         if state.mostRelevant == nil {
             state.mostRelevant = days.first { $0.hasUnfinishedPairs(now: now) }?.date

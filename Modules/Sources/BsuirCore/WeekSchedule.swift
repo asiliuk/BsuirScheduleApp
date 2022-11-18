@@ -62,6 +62,7 @@ extension WeekSchedule {
                         let date = calendar.date(byAdding: .day, value: offset, to: start),
                         let rawWeekNumber = calendar.weekNumber(for: date, now: now),
                         let weekNumber = WeekNum(weekNum: rawWeekNumber),
+                        // TODO: Check if this is valid value
                         date <= endDate
                     else {
                         // Break the sequence
@@ -80,16 +81,15 @@ extension WeekSchedule {
                             else {
                                 return nil
                             }
-                            
-                            if
+
+                            if let dateLesson = pair.dateLesson, !calendar.isDate(dateLesson, inSameDayAs: date) {
+                                return nil
+                            } else if
                                 let endLessonDate = pair.endLessonDate,
-                                let startLessonDate = pair.startLessonDate
+                                let startLessonDate = pair.startLessonDate,
+                                !(startLessonDate...endLessonDate).contains(dateStart)
                             {
-                                guard (startLessonDate...endLessonDate).contains(dateStart) else {
-                                    return nil
-                                }
-                            } else if let dateLesson = pair.dateLesson {
-                                guard calendar.isDate(dateLesson, inSameDayAs: date) else { return nil }
+                                return nil
                             }
                             
                             guard

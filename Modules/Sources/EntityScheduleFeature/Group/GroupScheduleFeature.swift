@@ -58,10 +58,23 @@ public struct GroupScheduleFeature: ReducerProtocol {
         Scope(state: \.schedule, action: /Action.ReducerAction.schedule) {
             ScheduleFeature(
                 target: { BsuirIISTargets.GroupSchedule(groupNumber: $0) },
-                schedule: { ($0.schedules, $0.examSchedules) }
+                schedule: ScheduleRequestResponse.init(response:)
             )
         }
         
         BindingReducer()
+    }
+}
+
+private extension ScheduleRequestResponse {
+    init(response: BsuirIISTargets.GroupSchedule.Value) {
+        self.init(
+            startDate: response.startDate,
+            endDate: response.endDate,
+            startExamsDate: response.startExamsDate,
+            endExamsDate: response.endExamsDate,
+            schedule: response.schedules,
+            exams: response.examSchedules
+        )
     }
 }

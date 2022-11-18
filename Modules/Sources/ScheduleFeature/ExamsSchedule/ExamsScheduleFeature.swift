@@ -8,9 +8,13 @@ import Dependencies
 public struct ExamsScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
         fileprivate var exams: [Pair]
+        fileprivate let startDate: Date?
+        fileprivate let endDate: Date?
         
-        init(exams: [Pair]) {
+        init(exams: [Pair], startDate: Date?, endDate: Date?) {
             self.exams = exams
+            self.startDate = startDate
+            self.endDate = endDate
         }
     }
 

@@ -55,8 +55,21 @@ public struct LectorScheduleFeature: ReducerProtocol {
         Scope(state: \.schedule, action: /Action.ReducerAction.schedule) {
             ScheduleFeature(
                 target: { BsuirIISTargets.EmployeeSchedule(urlId: $0) },
-                schedule: { ($0.schedules ?? DaySchedule(), $0.examSchedules ?? []) }
+                schedule: ScheduleRequestResponse.init(response:)
             )
         }        
+    }
+}
+
+private extension ScheduleRequestResponse {
+    init(response: BsuirIISTargets.EmployeeSchedule.Value) {
+        self.init(
+            startDate: response.startDate,
+            endDate: response.endDate,
+            startExamsDate: response.startExamsDate,
+            endExamsDate: response.endExamsDate,
+            schedule: response.schedules ?? DaySchedule(),
+            exams: response.examSchedules ?? []
+        )
     }
 }

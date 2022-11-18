@@ -7,6 +7,33 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 import Dependencies
 
+public struct ScheduleRequestResponse {
+    public let startDate: Date?
+    public let endDate: Date?
+
+    public let startExamsDate: Date?
+    public let endExamsDate: Date?
+
+    public let schedule: DaySchedule
+    public let exams: [BsuirApi.Pair]
+
+    public init(
+        startDate: Date?,
+        endDate: Date?,
+        startExamsDate: Date?,
+        endExamsDate: Date?,
+        schedule: DaySchedule,
+        exams: [BsuirApi.Pair]
+    ) {
+        self.startDate = startDate
+        self.endDate = endDate
+        self.startExamsDate = startExamsDate
+        self.endExamsDate = endExamsDate
+        self.schedule = schedule
+        self.exams = exams
+    }
+}
+
 public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
     public struct State: Equatable {
         struct Schedule: Equatable {
@@ -14,10 +41,22 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
             var continious: ContiniousScheduleFeature.State
             var exams: ExamsScheduleFeature.State
 
-            init(schedule: DaySchedule, exams: [BsuirApi.Pair]) {
-                self.compact = DayScheduleFeature.State(schedule: schedule)
-                self.continious = ContiniousScheduleFeature.State(schedule: schedule)
-                self.exams = ExamsScheduleFeature.State(exams: exams)
+            init(response: ScheduleRequestResponse) {
+                self.compact = DayScheduleFeature.State(
+                    schedule: response.schedule
+                )
+
+                self.continious = ContiniousScheduleFeature.State(
+                    schedule: response.schedule,
+                    startDate: response.startDate,
+                    endDate: response.endDate
+                )
+
+                self.exams = ExamsScheduleFeature.State(
+                    exams: response.exams,
+                    startDate: response.startExamsDate,
+                    endDate: response.endExamsDate
+                )
             }
         }
 
@@ -62,7 +101,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
     
     public init<Response: Equatable>(
         target: @escaping (Value) -> some Target<Response>,
-        schedule toSchedule: @escaping (Response) -> (schedule: DaySchedule, exams: [BsuirApi.Pair])
+        schedule toSchedule: @escaping (Response) -> ScheduleRequestResponse
     ) {
         let requestsManager = _requestsManager.wrappedValue
         fetch = { state in
@@ -73,8 +112,8 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                     .map(toSchedule)
                     .log(.appState, identifier: "Schedule")
 
-                for try await (schedule, exams) in request.values {
-                    await send(.success(State.Schedule(schedule: schedule, exams: exams)))
+                for try await response in request.values {
+                    await send(.success(State.Schedule(response: response)))
                 }
             } catch: { error, send in
                 await send(.failure(error))
