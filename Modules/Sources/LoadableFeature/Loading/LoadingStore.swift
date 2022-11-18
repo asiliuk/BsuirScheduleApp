@@ -46,7 +46,7 @@ public struct LoadingStore<
         func fromViewAction(_ viewAction: ViewAction) -> Action {
             let wrapping = { Action.loading(.init(keyPath: loadingKeyPath, action: .view($0))) }
             switch viewAction {
-            case .loading(.onAppear):
+            case .view(.onAppear):
                 return wrapping(.onAppear)
             case .error(.reload):
                 return wrapping(.reload)
@@ -64,20 +64,22 @@ public struct LoadingStore<
     }
 
     public var body: some View {
-        SwitchStore(store) {
-            CaseLet(state: /ViewState.loading, action: ViewAction.loading) { store in
-                loading
-                    .onAppear { store.tempViewStore().send(.onAppear) }
-            }
-            
-            CaseLet(state: /ViewState.error, action: ViewAction.error) { store in
-                error(store)
-            }
+        ZStack {
+            SwitchStore(store) {
+                CaseLet(state: /ViewState.loading, action: ViewAction.loading) { store in
+                    loading
+                }
 
-            CaseLet(state: /ViewState.loaded, action: ViewAction.loaded) { store in
-                value(store)
+                CaseLet(state: /ViewState.error, action: ViewAction.error) { store in
+                    error(store)
+                }
+
+                CaseLet(state: /ViewState.loaded, action: ViewAction.loaded) { store in
+                    value(store)
+                }
             }
         }
+        .onAppear { store.tempViewStore().send(.view(.onAppear)) }
     }
 }
 
@@ -165,9 +167,11 @@ extension Store {
 // MARK: - Action
 
 public enum LoadingStoreViewAction<ValueAction> {
-    public enum LoadingAction {
+    public enum ViewAction {
         case onAppear
     }
+
+    public typealias LoadingAction = Never
     
     public enum ErrorAction {
         case reload
@@ -178,6 +182,7 @@ public enum LoadingStoreViewAction<ValueAction> {
         case value(ValueAction)
     }
 
+    case view(ViewAction)
     case loading(LoadingAction)
     case error(ErrorAction)
     case loaded(LoadedAction)

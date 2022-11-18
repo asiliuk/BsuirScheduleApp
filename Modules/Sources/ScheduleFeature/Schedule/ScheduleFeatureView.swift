@@ -47,8 +47,6 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                     ErrorStateView(retry: { viewStore.send(.reload) })
                 }
             }
-            .navigationTitle(viewStore.title)
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem {
                     HStack {
@@ -61,7 +59,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                         )
                     }
                 }
-                
+
                 ToolbarItem(placement: .principal) {
                     Text(viewStore.title)
                         .bold()
@@ -69,6 +67,8 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                         .onTapGesture { viewStore.send(.scrollToMostRelevantTapped) }
                 }
             }
+            .navigationTitle(viewStore.title)
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
