@@ -27,6 +27,7 @@ public struct LectorScheduleView: View {
                     }
                 }
             }
+            .task { await viewStore.send(.task).finish() }
         }
     }
 }

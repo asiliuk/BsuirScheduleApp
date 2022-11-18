@@ -62,6 +62,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
 
         public var title: String
         public var value: Value
+        public var isFavorite: Bool = false
         @LoadableState var schedule: Schedule?
         @BindableState var scheduleType: ScheduleDisplayType = .continuous
         
@@ -74,6 +75,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
     public enum Action: Equatable, FeatureAction, BindableAction, LoadableAction {
         public enum ViewAction {
             case scrollToMostRelevantTapped
+            case toggleFavoritesTapped
         }
 
         public enum ReducerAction: Equatable {
@@ -86,7 +88,9 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
             case schedule(ScheduleAction)
         }
 
-        public typealias DelegateAction = Never
+        public enum DelegateAction: Equatable {
+            case toggleFavorite
+        }
 
         case binding(BindingAction<State>)
         case loading(LoadingAction<State>)
@@ -138,6 +142,15 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
                 }
+            case .view(.toggleFavoritesTapped):
+                return .merge(
+                    .task { .delegate(.toggleFavorite) },
+                    .fireAndForget { [isFavorite = state.isFavorite] in
+                        guard !isFavorite else { return }
+                        reviewRequestService.madeMeaningfulEvent(.addToFavorites)
+                    }
+                )
+
             case .reducer, .delegate, .loading, .binding:
                 return .none
             }
@@ -167,4 +180,5 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
 private extension MeaningfulEvent {
     static let scheduleRequested = Self(score: 2)
     static let scheduleModeSwitched = Self(score: 3)
+    static let addToFavorites = Self(score: 5)
 }

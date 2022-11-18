@@ -51,9 +51,15 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem {
-                    ScheduleDisplayTypePickerMenu(
-                        scheduleType: viewStore.binding(\.$scheduleType)
-                    )
+                    HStack {
+                        ScheduleDisplayTypePickerMenu(
+                            scheduleType: viewStore.binding(\.$scheduleType)
+                        )
+                        ToggleFavoritesButton(
+                            isFavorite: viewStore.isFavorite,
+                            toggle: { viewStore.send(.toggleFavoritesTapped) }
+                        )
+                    }
                 }
                 
                 ToolbarItem(placement: .principal) {
@@ -64,5 +70,22 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 }
             }
         }
+    }
+}
+
+private struct ToggleFavoritesButton: View {
+    let isFavorite: Bool
+    let toggle: () -> Void
+
+    var body: some View {
+        Button(action: toggle) {
+            Image(systemName: isFavorite ? "star.fill" : "star")
+        }
+        .accessibility(
+            label: isFavorite
+                ? Text("screen.schedule.favorite.accessibility.remove")
+                : Text("screen.schedule.favorite.accessibility.add")
+        )
+        .accentColor(.yellow)
     }
 }
