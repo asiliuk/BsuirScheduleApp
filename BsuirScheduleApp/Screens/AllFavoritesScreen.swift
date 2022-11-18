@@ -16,8 +16,8 @@ final class AllFavoritesScreen: ObservableObject {
         self.favorites = favorites
         self.requestManager = requestManager
 
-        favorites.groups
-            .map { $0.map(AllGroupsScreenGroup.init) }
+        favorites.groupNames
+            .map { $0.map(AllGroupsScreenGroup.init(name:)) }
             .removeDuplicates()
             .assign(to: &$groups)
 
@@ -39,7 +39,7 @@ final class AllFavoritesScreen: ObservableObject {
     }
 
     private func screen(for group: AllGroupsScreenGroup) -> ScheduleScreen {
-        .group(group.group, favorites: favorites, requestManager: requestManager)
+        return .group(name: group.name, favorites: favorites, requestManager: requestManager)
     }
 
     private func screen(for lecturer: AllLecturersScreenLecturer) -> ScheduleScreen {

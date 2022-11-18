@@ -1,7 +1,7 @@
 import Foundation
 
 struct FavoritesValue<F: Codable & Equatable> {
-    private(set) var value: [F] {
+    var value: [F] {
         didSet { save(value) }
     }
 
@@ -20,10 +20,12 @@ struct FavoritesValue<F: Codable & Equatable> {
         self.value = self.fetch()
     }
 
-
-
     private func save(_ favorites: [F]) {
-        storage.set(try? encoder.encode(favorites), forKey: key)
+        if favorites.isEmpty {
+            storage.removeObject(forKey: key)
+        } else {
+            storage.set(try? encoder.encode(favorites), forKey: key)
+        }
     }
 
     private func fetch() -> [F] {

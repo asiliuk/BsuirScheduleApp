@@ -34,7 +34,7 @@ final class AllGroupsScreen: ObservableObject {
                     return groups.filter { $0.name.starts(with: query) }
                 }
                 .combineLatest(
-                    favorites.groups
+                    favorites.groupNames
                         .setFailureType(to: RequestsManager.RequestError.self)
                 )
                 .map { .init(favorites: $1, groups: $0) }
@@ -42,12 +42,12 @@ final class AllGroupsScreen: ObservableObject {
         )
 
         deeplinkHandler.deeplink(autoresolve: true)
-            .compactMap { deeplink -> Int? in
+            .compactMap { deeplink -> String? in
                 guard case let .groups(id?) = deeplink else {
                     return nil
                 }
 
-                return id
+                return String(id)
             }
             .flatMap { [groups] id in
                 groups.$state
@@ -59,7 +59,7 @@ final class AllGroupsScreen: ObservableObject {
     }
 
     func screen(for group: AllGroupsScreenGroup) -> ScheduleScreen {
-        .group(group.group, favorites: favorites, requestManager: requestManager)
+        .group(name: group.name, favorites: favorites, requestManager: requestManager)
     }
 
     private let favorites: FavoritesContainer
@@ -67,7 +67,7 @@ final class AllGroupsScreen: ObservableObject {
 }
 
 extension Array where Element == AllGroupsScreenGroupSection {
-    init(favorites: [StudentGroup], groups: [StudentGroup]) {
+    init(favorites: [String], groups: [StudentGroup]) {
         let favoritesGroup = AllGroupsScreenGroupSection(
             title: String(localized: "screen.groups.favorites.section.header"),
             groups: favorites.map(AllGroupsScreenGroup.init)
@@ -80,7 +80,8 @@ extension Array where Element == AllGroupsScreenGroupSection {
                 AllGroupsScreenGroupSection(
                     title: String(title),
                     groups: groups
-                        .sorted { $0.name < $1.name }
+                        .map(\.name)
+                        .sorted(by: <)
                         .map(AllGroupsScreenGroup.init)
                 )
             }
@@ -100,9 +101,8 @@ struct AllGroupsScreenGroupSection: Identifiable {
 }
 
 struct AllGroupsScreenGroup: Identifiable, Equatable {
-    var id: Int { group.id }
-    var name: String { group.name }
+    var id: String { name }
+    var name: String
 
-    init(group: StudentGroup) { self.group = group }
-    let group: StudentGroup
+    init(name: String) { self.name = name }
 }

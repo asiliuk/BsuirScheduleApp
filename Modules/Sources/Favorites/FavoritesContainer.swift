@@ -3,34 +3,44 @@ import BsuirApi
 import Combine
 
 public protocol FavoritesContainerProtocol {
-    var groups: AnyPublisher<[StudentGroup], Never> { get }
-    func toggle(group: StudentGroup)
+    var groupNames: AnyPublisher<[String], Never> { get }
+    func toggle(groupNamed: String)
     
     var lecturers: AnyPublisher<[Employee], Never> { get }
     func toggle(lecturer: Employee)
 }
 
 public final class FavoritesContainer {
-    @Published private var groupsStorage: FavoritesValue<StudentGroup>
+    @Published private var legacyGroupsStorage: FavoritesValue<StudentGroup>
+    @Published private var groupNamesStorage: FavoritesValue<String>
     @Published private var lecturersStorage: FavoritesValue<Employee>
     
     public var isEmpty: Bool {
-        groupsStorage.value.isEmpty && lecturersStorage.value.isEmpty
+        groupNamesStorage.value.isEmpty && lecturersStorage.value.isEmpty
     }
 
     public init(storage: UserDefaults) {
-        self.groupsStorage = FavoritesValue(storage: storage, key: "favorite-groups")
+        self.legacyGroupsStorage = FavoritesValue(storage: storage, key: "favorite-groups")
+        self.groupNamesStorage = FavoritesValue(storage: storage, key: "favorite-group-names")
         self.lecturersStorage = FavoritesValue(storage: storage, key: "favorite-lecturers")
+    }
+
+    public func migrateIfNeeded() {
+        let legacyGroups = legacyGroupsStorage.value
+
+        guard !legacyGroups.isEmpty else { return }
+        legacyGroupsStorage.value = []
+        groupNamesStorage.value = legacyGroups.map(\.name)
     }
 }
 
 extension FavoritesContainer: FavoritesContainerProtocol {
-    public var groups: AnyPublisher<[BsuirApi.StudentGroup], Never> {
-        $groupsStorage.map(\.value).eraseToAnyPublisher()
+    public var groupNames: AnyPublisher<[String], Never> {
+        $groupNamesStorage.map(\.value).eraseToAnyPublisher()
     }
     
-    public func toggle(group: StudentGroup) {
-        groupsStorage.toggle(group)
+    public func toggle(groupNamed groupName: String) {
+        groupNamesStorage.toggle(groupName)
     }
     
     public var lecturers: AnyPublisher<[Employee], Never> {

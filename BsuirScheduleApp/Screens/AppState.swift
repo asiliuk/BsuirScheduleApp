@@ -34,6 +34,7 @@ final class AppState: ObservableObject {
 
     init() {
         self.requestManager = .iisBsuir()
+        self.favorites.migrateIfNeeded()
         self.currentSelection = favorites.isEmpty ? .groups : .favorites
         deeplinkHandler.deeplink()
             .map { deeplink in

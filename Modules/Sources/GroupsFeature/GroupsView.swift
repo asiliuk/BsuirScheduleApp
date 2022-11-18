@@ -52,7 +52,7 @@ private struct LoadingGroupsView: View {
                     searchQuery: viewStore.binding(\.$searchQuery),
                     favorites: viewStore.favorites,
                     sections: sectionsViewStore.state,
-                    select: { viewStore.send(.groupTapped($0)) },
+                    select: { viewStore.send(.groupTapped(name: $0)) },
                     refresh: { await sectionsViewStore.send(.refresh).finish() }
                 )
             }

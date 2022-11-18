@@ -17,7 +17,7 @@ public struct GroupsFeature: ReducerProtocol {
         
         @BindableState var searchQuery: String = ""
         @BindableState var groupSchedule: GroupScheduleFeature.State?
-        var favorites: [StudentGroup] = []
+        var favorites: [String] = []
         @LoadableState var sections: [Section]?
         @LoadableState var loadedGroups: [StudentGroup]?
         
@@ -27,12 +27,12 @@ public struct GroupsFeature: ReducerProtocol {
     public enum Action: Equatable, FeatureAction, BindableAction, LoadableAction {
         public enum ViewAction: Equatable {
             case task
-            case groupTapped(StudentGroup)
+            case groupTapped(name: String)
             case filterGroups
         }
         
         public enum ReducerAction: Equatable {
-            case favoritesUpdate([StudentGroup])
+            case favoritesUpdate([String])
             case groupSchedule(GroupScheduleFeature.Action)
         }
         
@@ -56,8 +56,8 @@ public struct GroupsFeature: ReducerProtocol {
             case .view(.task):
                 return listenToFavoriteUpdates()
                 
-            case let .view(.groupTapped(group)):
-                state.groupSchedule = .init(groupName: group.name)
+            case let .view(.groupTapped(groupName)):
+                state.groupSchedule = .init(groupName: groupName)
                 return .none
                 
             case .view(.filterGroups):
@@ -108,7 +108,7 @@ public struct GroupsFeature: ReducerProtocol {
     
     private func listenToFavoriteUpdates() -> EffectTask<Action> {
         return .run { send in
-            for await value in favorites.groups.values {
+            for await value in favorites.groupNames.values {
                 await send(.reducer(.favoritesUpdate(value)), animation: .default)
             }
         }
