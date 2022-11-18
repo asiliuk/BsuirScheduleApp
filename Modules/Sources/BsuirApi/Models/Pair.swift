@@ -21,10 +21,20 @@ public struct Pair: Codable, Equatable {
         public let hour: Int
         public let minute: Int
         public let timeZone: TimeZone?
+        
+        public init(hour: Int = 0, minute: Int = 0, timeZone: TimeZone? = nil) {
+            self.hour = hour
+            self.minute = minute
+            self.timeZone = timeZone
+        }
     }
     
     public struct StudentGroup: Codable, Equatable {
         public let name: String
+        
+        public init(name: String) {
+            self.name = name
+        }
     }
 
     public let subject: String?
@@ -68,6 +78,44 @@ public struct Pair: Codable, Equatable {
         case announcementStart
         case announcementEnd
         case announcement
+    }
+    
+    public init(
+        subject: String? = nil,
+        subjectFullName: String? = nil,
+        auditories: [String] = [],
+        startLessonTime: Time = Time(),
+        startLessonDate: Date? = nil,
+        endLessonTime: Time = Time(),
+        endLessonDate: Date? = nil,
+        dateLesson: Date? = nil,
+        subgroup: Int = 0,
+        lessonType: Form? = .lecture,
+        weekNumber: WeekNum = .always,
+        note: String? = nil,
+        employees: [Employee] = [],
+        studentGroups: [StudentGroup] = [],
+        announcementStart: String? = nil,
+        announcementEnd: String? = nil,
+        announcement: Bool = false
+    ) {
+        self.subject = subject
+        self.subjectFullName = subjectFullName
+        self._auditories = NonEmpty(wrappedValue: auditories)
+        self.startLessonTime = startLessonTime
+        self.startLessonDate = startLessonDate
+        self.endLessonTime = endLessonTime
+        self.endLessonDate = endLessonDate
+        self.dateLesson = dateLesson
+        self.subgroup = subgroup
+        self.lessonType = lessonType
+        self.weekNumber = weekNumber
+        self.note = note
+        self._employees = NonEmpty(wrappedValue: employees)
+        self._studentGroups = NonEmpty(wrappedValue: studentGroups)
+        self.announcementStart = announcementStart
+        self.announcementEnd = announcementEnd
+        self.announcement = announcement
     }
 }
 

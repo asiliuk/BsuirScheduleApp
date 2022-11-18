@@ -24,7 +24,7 @@ final class DayScheduleViewModel: ObservableObject {
                 }
                 
                 return DayViewModel(
-                    title: calendar.localizedWeekdayName(weekDay).capitalized,
+                    title: weekDay.localizedName(in: calendar).capitalized,
                     pairs: pairs.map {
                         PairViewModel(
                             start: calendar.date(bySetting: $0.startLessonTime, of: now),
@@ -34,12 +34,5 @@ final class DayScheduleViewModel: ObservableObject {
                     }
                 )
             }
-    }
-}
-
-private extension Calendar {
-    func localizedWeekdayName(_ weekday: DaySchedule.WeekDay) -> String {
-        let index = (weekday.weekdayIndex + firstWeekday - 1) % 7
-        return weekdaySymbols[index]
     }
 }

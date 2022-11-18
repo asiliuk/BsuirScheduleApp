@@ -8,7 +8,7 @@ extension RequestsManager {
         return RequestsManager(
             base: "https://iis.bsuir.by/api",
             session: session,
-            decoder: decoder,
+            decoder: .bsuirDecoder,
             cache: ExpiringCache(
                 expiration: 3600 * 24 * 7,
                 memoryCapacity: Int(1e7),
@@ -27,14 +27,13 @@ extension FileManager {
 
 // MARK: - Decoding
 
-private extension RequestsManager {
-
-    private static let decoder: JSONDecoder = {
+extension JSONDecoder {
+    static let bsuirDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         return decoder
     }()
-
+    
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"

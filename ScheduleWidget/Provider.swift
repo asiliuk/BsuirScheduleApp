@@ -54,8 +54,15 @@ final class Provider: IntentTimelineProvider, ObservableObject {
             .compactMap { [calendar] response in
                 let now = Date()
 
-                guard let mostRelevantElement = WeekSchedule(schedule: response.schedule, calendar: calendar)
-                    .schedule(starting: now, now: now)
+                guard
+                    let startDate = response.startDate,
+                    let endDate = response.endDate,
+                    let mostRelevantElement = WeekSchedule(
+                        schedule: response.schedule,
+                        startDate: startDate,
+                        endDate: endDate
+                    )
+                    .schedule(starting: now, now: now, calendar: calendar)
                     .first(where: { $0.hasUnfinishedPairs(calendar: calendar, now: now) })
                 else { return nil }
 
@@ -71,6 +78,8 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     private struct ScheduleResponse {
         let deeplink: Deeplink
         let title: String
+        let startDate: Date?
+        let endDate: Date?
         let schedule: DaySchedule
     }
 
@@ -98,6 +107,8 @@ final class Provider: IntentTimelineProvider, ObservableObject {
                 .map { ScheduleResponse(
                     deeplink: .groups(id: $0.studentGroup.id),
                     title: $0.studentGroup.name,
+                    startDate: $0.startDate,
+                    endDate: $0.endDate,
                     schedule: $0.schedules
                 ) }
                 .eraseToAnyPublisher()
@@ -107,6 +118,8 @@ final class Provider: IntentTimelineProvider, ObservableObject {
                 .map { ScheduleResponse(
                     deeplink: .lecturers(id: $0.employee.id),
                     title: $0.employee.abbreviatedName,
+                    startDate: $0.startDate,
+                    endDate: $0.endDate,
                     schedule: $0.schedules ?? DaySchedule()
                 ) }
                 .eraseToAnyPublisher()

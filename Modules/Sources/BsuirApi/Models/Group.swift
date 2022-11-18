@@ -15,11 +15,21 @@ public struct Group: Codable, Equatable {
 
 extension Group {
     public struct Schedule: Codable, Equatable {
+        public let startDate: Date?
+        public let endDate: Date?
+
+        public let startExamsDate: Date?
+        public let endExamsDate: Date?
+        
         public let studentGroup: Group
         public let schedules: DaySchedule
         public let examSchedules: [Pair]
         
         private enum CodingKeys: String, CodingKey {
+            case startDate
+            case endDate
+            case startExamsDate
+            case endExamsDate
             case studentGroup = "studentGroupDto"
             case schedules
             case examSchedules = "exams"

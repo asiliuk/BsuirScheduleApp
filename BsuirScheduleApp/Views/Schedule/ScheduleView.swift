@@ -83,11 +83,24 @@ struct ScheduleView: View {
         ContentStateView(content: screen.schedule) { value in
             switch screen.scheduleType {
             case .continuous:
-                ContinuousScheduleView(schedule: value.continuous, pairDetails: pairDetails, isOnTop: $isOnTop)
+                ContinuousScheduleView(
+                    schedule: value.continuous,
+                    pairDetails: pairDetails,
+                    isOnTop: $isOnTop
+                )
             case .compact:
-                SomeDayScheduleState(viewModel: value.compact, pairDetails: pairDetails, isOnTop: $isOnTop)
+                SomeDayScheduleState(
+                    viewModel: value.compact,
+                    loading: .never, pairDetails: pairDetails,
+                    isOnTop: $isOnTop
+                )
             case .exams:
-                SomeState(days: value.exams, pairDetails: pairDetails, isOnTop: $isOnTop)
+                SomeState(
+                    days: value.exams,
+                    loading: .never,
+                    pairDetails: pairDetails,
+                    isOnTop: $isOnTop
+                )
             }
         }
     }
@@ -171,10 +184,12 @@ struct ContinuousScheduleView: View {
     var body: some View {
         SomeState(
             days: schedule.days,
-            loadMore: {
-                reviewRequestService?.madeMeaningfulEvent(.moreScheduleRequested)
-                schedule.loadMore()
-            },
+            loading: schedule.doneLoading
+                ? .finished
+                : .loadMore {
+                    reviewRequestService?.madeMeaningfulEvent(.moreScheduleRequested)
+                    schedule.loadMore()
+                },
             pairDetails: pairDetails,
             isOnTop: $isOnTop
         )
@@ -183,14 +198,14 @@ struct ContinuousScheduleView: View {
 
 struct SomeDayScheduleState: View {
     @ObservedObject var viewModel: DayScheduleViewModel
-    var loadMore: (() -> Void)?
+    var loading: ScheduleGridView.Loading
     let pairDetails: ScheduleGridView.PairDetails
     @Binding var isOnTop: Bool
     
     var body: some View {
         SomeState(
             days: viewModel.days,
-            loadMore: loadMore,
+            loading: loading,
             pairDetails: pairDetails,
             isOnTop: $isOnTop
         )
@@ -200,7 +215,7 @@ struct SomeDayScheduleState: View {
 struct SomeState: View {
 
     let days: [DayViewModel]
-    var loadMore: (() -> Void)?
+    var loading: ScheduleGridView.Loading
     let pairDetails: ScheduleGridView.PairDetails
     @Binding var isOnTop: Bool
 
@@ -210,7 +225,7 @@ struct SomeState: View {
         } else {
             ScheduleGridView(
                 days: days,
-                loadMore: loadMore,
+                loading: loading,
                 pairDetails: pairDetails,
                 isOnTop: $isOnTop
             )

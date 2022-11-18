@@ -94,6 +94,8 @@
 
 "screen.schedule.day.title.%@.%lld" = "%@, Неделя %lld";
 
+"screen.schedule.noMorePairs.title" = "Занятий больше нет 🎉";
+
 // TODO: - Remove when exams are supported
 "screen.schedule.unsupportedExams.title" = "Приношу глубочайгшие извинения";
 "screen.schedule.unsupportedExams.subject" = "В данный момент расписание экзаменов не поддерживается";

@@ -2,12 +2,17 @@ import Foundation
 import BsuirApi
 
 public struct WeekSchedule {
-    public init(schedule: DaySchedule, calendar: Calendar) {
+    public init(
+        schedule: DaySchedule,
+        startDate: Date,
+        endDate: Date
+    ) {
         self.schedule = schedule
-        self.calendar = calendar
+        self.startDate = startDate
+        self.endDate = endDate
     }
 
-    public func pairs(for date: Date) -> [BsuirApi.Pair] {
+    public func pairs(for date: Date, calendar: Calendar) -> [BsuirApi.Pair] {
         let components = calendar.dateComponents([.weekday], from: date)
         guard
             let weekday = components.weekday.flatMap(DaySchedule.WeekDay.init(weekday:)),
@@ -19,13 +24,14 @@ public struct WeekSchedule {
         return pairs
     }
 
-    private let calendar: Calendar
     private let schedule: DaySchedule
+    private let startDate: Date
+    private let endDate: Date
 }
 
 extension WeekSchedule {
-    public struct ScheduleElement {
-        public struct Pair {
+    public struct ScheduleElement: Equatable {
+        public struct Pair: Equatable {
             public let start: Date
             public let end: Date
             public let base: BsuirApi.Pair
@@ -36,7 +42,11 @@ extension WeekSchedule {
         public let pairs: [Pair]
     }
 
-    public func schedule(starting start: Date, now: Date) -> AnySequence<ScheduleElement> {
+    public func schedule(
+        starting start: Date,
+        now: Date,
+        calendar: Calendar
+    ) -> AnySequence<ScheduleElement> {
         guard !schedule.isEmpty else {
             return AnySequence([])
         }
@@ -46,22 +56,40 @@ extension WeekSchedule {
             return AnyIterator {
                 var element: ScheduleElement?
                 repeat {
+                    defer { offset += 1 }
+
                     guard
                         let date = calendar.date(byAdding: .day, value: offset, to: start),
                         let rawWeekNumber = calendar.weekNumber(for: date, now: now),
-                        let weekNumber = WeekNum(weekNum: rawWeekNumber)
-                    else { return nil }
+                        let weekNumber = WeekNum(weekNum: rawWeekNumber),
+                        date <= endDate
+                    else {
+                        // Break the sequence
+                        return nil
+                    }
+                    
+                    guard date >= startDate else {
+                        continue
+                    }
 
-                    let pairs = self.pairs(for: date)
+                    let pairs = self.pairs(for: date, calendar: calendar)
                         .compactMap { pair -> ScheduleElement.Pair? in
                             guard
                                 pair.weekNumber.contains(weekNumber),
-                                let dateStart = calendar.startOfDay(for: date, in: .minsk),
-                                let startLessonDate = pair.startLessonDate,
-                                let endLessonDate = pair.endLessonDate,
-                                (startLessonDate...endLessonDate).contains(dateStart)
+                                let dateStart = calendar.startOfDay(for: date, in: .minsk)
                             else {
                                 return nil
+                            }
+                            
+                            if
+                                let endLessonDate = pair.endLessonDate,
+                                let startLessonDate = pair.startLessonDate
+                            {
+                                guard (startLessonDate...endLessonDate).contains(dateStart) else {
+                                    return nil
+                                }
+                            } else if let dateLesson = pair.dateLesson {
+                                guard calendar.isDate(dateLesson, inSameDayAs: date) else { return nil }
                             }
                             
                             guard
@@ -79,8 +107,6 @@ extension WeekSchedule {
                             pairs: pairs
                         )
                     }
-
-                    offset += 1
                 } while element == nil
                 return element
             }

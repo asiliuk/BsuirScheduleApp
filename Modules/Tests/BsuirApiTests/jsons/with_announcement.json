@@ -1,0 +1,71 @@
+{
+  "startDate": "01.09.2022",
+  "endDate": "21.12.2022",
+  "startExamsDate": "23.12.2022",
+  "endExamsDate": "10.01.2023",
+  "employeeDto": null,
+  "studentGroupDto": {
+    "name": "010201",
+    "facultyId": 20017,
+    "facultyAbbrev": "ФКП",
+    "specialityDepartmentEducationFormId": 20139,
+    "specialityName": "Проектирование и производство программно-управляемых электронных средств",
+    "specialityAbbrev": "ПиППУЭС",
+    "course": 3,
+    "id": 23288,
+    "calendarId": "i66i333kqbneqr8lnpqu0ltti8@group.calendar.google.com",
+    "educationDegree": 1
+  },
+  "schedules": {
+    "Суббота": [
+      {
+        "auditories": [
+          "139-1 к.",
+          "31-1 к."
+        ],
+        "endLessonTime": "11:55",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 1,
+        "startLessonTime": "10:35",
+        "studentGroups": [
+          {
+            "specialityName": "Проектирование и производство программно-управляемых электронных средств",
+            "specialityCode": "1-39 02 02 03",
+            "numberOfStudents": 26,
+            "name": "010201",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ТДРЭС",
+        "subjectFullName": "Технология деталей радиоэлектронных средств",
+        "weekNumber": null,
+        "employees": [
+          {
+            "id": 529890,
+            "firstName": "Олег",
+            "middleName": "Игоревич",
+            "lastName": "Тихон",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/529890",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "o-tikhon",
+            "calendarId": "g340skv21k253urkgp8m4b94mk@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "03.09.2022",
+        "endLessonDate": "26.11.2022",
+        "announcementStart": "17.11.2022",
+        "announcementEnd": "18.11.2022",
+        "split": false,
+        "announcement": true
+      }
+    ]
+  },
+  "exams": []
+}
