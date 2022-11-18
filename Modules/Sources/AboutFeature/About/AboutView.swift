@@ -14,10 +14,13 @@ public struct AboutView: View {
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             List {
-                Section(header: Text("screen.about.colors.section.header")) {
-                    PairFormsSectionView()
-                }
-                
+                PairFormsColorPickerView(
+                    store: store.scope(
+                        state: \.pairFormsColorPicker,
+                        action: { .pairFormsColorPicker($0) }
+                    )
+                )
+
                 Section(header: Text("screen.about.pairPreview.section.header")) {
                     PairPreviewSectionView()
                 }
@@ -40,16 +43,6 @@ public struct AboutView: View {
             .task { await viewStore.send(.task).finish() }
             .listStyle(InsetGroupedListStyle())
             .navigationTitle("screen.about.navigation.title")
-        }
-    }
-}
-
-// MARK: - Form Section
-
-private struct PairFormsSectionView: View {
-    var body: some View {
-        ForEach(PairViewForm.allCases, id: \.self) { form in
-            PairTypeView(name: form.name, form: form)
         }
     }
 }

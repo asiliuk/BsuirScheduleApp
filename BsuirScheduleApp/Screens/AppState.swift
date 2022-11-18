@@ -96,5 +96,6 @@ final class AppState: ObservableObject {
             .dependency(\.urlCache, requestManager.cache)
             .dependency(\.imageCache, .default)
             .dependency(\.reviewRequestService, reviewRequestService)
+            .dependency(\.pairFormColorService, pairFormColorService)
     }
 }

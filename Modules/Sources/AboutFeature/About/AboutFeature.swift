@@ -10,7 +10,8 @@ public struct AboutFeature: ReducerProtocol {
         var cacheClearedAlert: AlertState<Action>?
         var appVersion: TextState?
         var appIcon = AppIconPickerReducer.State()
-        
+        var pairFormsColorPicker = PairFormsColorPicker.State()
+
         public init() {}
     }
     
@@ -26,6 +27,7 @@ public struct AboutFeature: ReducerProtocol {
         
         public enum ReducerAction: Equatable {
             case appIcon(AppIconPickerReducer.Action)
+            case pairFormsColorPicker(PairFormsColorPicker.Action)
         }
         
         public typealias DelegateAction = Never
@@ -83,6 +85,10 @@ public struct AboutFeature: ReducerProtocol {
         
         Scope(state: \.appIcon, action: /Action.ReducerAction.appIcon) {
             AppIconPickerReducer()
+        }
+
+        Scope(state: \.pairFormsColorPicker, action: /Action.ReducerAction.pairFormsColorPicker) {
+            PairFormsColorPicker()
         }
     }
 }
