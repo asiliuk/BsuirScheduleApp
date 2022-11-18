@@ -52,12 +52,12 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             .toolbar {
                 ToolbarItem {
                     HStack {
-                        ScheduleDisplayTypePickerMenu(
-                            scheduleType: viewStore.binding(\.$scheduleType)
-                        )
                         ToggleFavoritesButton(
                             isFavorite: viewStore.isFavorite,
                             toggle: { viewStore.send(.toggleFavoritesTapped) }
+                        )
+                        ScheduleDisplayTypePickerMenu(
+                            scheduleType: viewStore.binding(\.$scheduleType)
                         )
                     }
                 }
