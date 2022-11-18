@@ -9,21 +9,11 @@ struct CompactRootView: View {
     @Binding var currentSelection: CurrentSelection?
 
     var body: some View {
-        TabView(selection: $currentSelection) {
-            NavigationView {
-                AllGroupsView(screen: state.allGroups)
-            }
-            .tab(.legacyGroups)
-            
+        TabView(selection: $currentSelection) {            
             NavigationView {
                 GroupsView(store: state.groupsStore)
             }
             .tab(.groups)
-
-            NavigationView {
-                AllLecturersView(screen: state.allLecturers)
-            }
-            .tab(.legacyLecturers)
             
             NavigationView {
                 LecturersView(store: state.lecturersStore)

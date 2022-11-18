@@ -21,7 +21,6 @@ import ComposableArchitecture
 import os.log
 
 extension OSLog {
-
     static let appState = bsuirSchedule(category: "AppState")
 
     static func bsuirSchedule(category: String) -> OSLog {
@@ -35,7 +34,7 @@ final class AppState: ObservableObject {
     init() {
         self.requestManager = .iisBsuir()
         self.favorites.migrateIfNeeded()
-        self.currentSelection = favorites.isEmpty ? .groups : .favorites
+        self.currentSelection = .groups
         deeplinkHandler.deeplink()
             .map { deeplink in
                 switch deeplink {
@@ -57,23 +56,6 @@ final class AppState: ObservableObject {
     private(set) lazy var pairFormColorService = PairFormColorService(storage: sharedStorage)
 
     // MARK: - Screens
-
-    private(set) lazy var allFavorites = AllFavoritesScreen(
-        requestManager: requestManager,
-        favorites: favorites
-    )
-
-    private(set) lazy var allGroups = AllGroupsScreen(
-        requestManager: requestManager,
-        favorites: favorites,
-        deeplinkHandler: deeplinkHandler
-    )
-
-    private(set) lazy var allLecturers = AllLecturersScreen(
-        requestManager: requestManager,
-        favorites: favorites,
-        deeplinkHandler: deeplinkHandler
-    )
 
     private(set) lazy var aboutStore = Store(
         initialState: .init(),
