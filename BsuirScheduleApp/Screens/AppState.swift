@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import BsuirUI
 import BsuirApi
 import Combine
 import UIKit
@@ -31,9 +32,8 @@ extension OSLog {
 final class AppState: ObservableObject {
     @Published var currentSelection: CurrentSelection?
 
-    init(storage: UserDefaults) {
+    init() {
         self.requestManager = .iisBsuir()
-        self.storage = storage
         self.currentSelection = favorites.isEmpty ? .groups : .favorites
         deeplinkHandler.deeplink()
             .map { deeplink in
@@ -47,11 +47,13 @@ final class AppState: ObservableObject {
             .assign(to: &$currentSelection)
     }
 
-    private let storage: UserDefaults
+    private let storage: UserDefaults = .standard
+    private let sharedStorage: UserDefaults = .asiliukShared
     private let requestManager: RequestsManager
     private lazy var favorites = FavoritesContainer(storage: storage)
     private(set) lazy var deeplinkHandler = DeeplinkHandler()
     private(set) lazy var reviewRequestService = ReviewRequestService(storage: storage)
+    private(set) lazy var pairFormColorService = PairFormColorService(storage: sharedStorage)
 
     // MARK: - Screens
 

@@ -5,15 +5,15 @@ import Combine
 import SwiftUI
 import BsuirCore
 
-enum ReviewRequestServiceEnvironmentKey: EnvironmentKey {
-    static let defaultValue: ReviewRequestService? = nil
-}
-
 extension EnvironmentValues {
     var reviewRequestService: ReviewRequestService? {
         get { self[ReviewRequestServiceEnvironmentKey.self] }
         set { self[ReviewRequestServiceEnvironmentKey.self] = newValue }
     }
+}
+
+private enum ReviewRequestServiceEnvironmentKey: EnvironmentKey {
+    static let defaultValue: ReviewRequestService? = nil
 }
 
 final class ReviewRequestService {

@@ -7,15 +7,22 @@ import BsuirCore
 
 final class ContinuousSchedule: ObservableObject {
     @Published private(set) var days: [DayViewModel] = []
+    @Published private(set) var doneLoading: Bool = false
 
     func loadMore() {
         self.loadMoreSubject.send()
     }
 
-    init(schedule: DaySchedule, calendar: Calendar, now: Date) {
+    init(schedule: DaySchedule, startDate: Date?, endDate: Date?, calendar: Calendar, now: Date) {
         self.calendar = calendar
         self.now = now
-        self.weekSchedule = WeekSchedule(schedule: schedule)
+        
+        if let startDate, let endDate {
+            self.weekSchedule = WeekSchedule(schedule: schedule, startDate: startDate, endDate: endDate)
+        } else {
+            self.weekSchedule = nil
+        }
+
         self.loadDays(12)
 
         self.loadMoreSubject
@@ -28,8 +35,15 @@ final class ContinuousSchedule: ObservableObject {
     }
 
     private func loadDays(_ count: Int) {
-        guard let offset = offset, let start = calendar.date(byAdding: .day, value: 1, to: offset) else { return }
+        guard
+            let weekSchedule,
+            let offset = offset,
+            let start = calendar.date(byAdding: .day, value: 1, to: offset)
+        else { return }
+        
         let days = Array(weekSchedule.schedule(starting: start, now: now, calendar: calendar).prefix(count))
+        
+        self.doneLoading = days.count < count
 
         if mostRelevant == nil {
             mostRelevant = days.first { $0.hasUnfinishedPairs(now: now) }?.date
@@ -52,7 +66,7 @@ final class ContinuousSchedule: ObservableObject {
     private let now: Date
     private lazy var offset = calendar.date(byAdding: .day, value: -4, to: now)
     private var mostRelevant: Date?
-    private let weekSchedule: WeekSchedule
+    private let weekSchedule: WeekSchedule?
     private let calendar: Calendar
     private let loadMoreSubject = PassthroughSubject<Void, Never>()
     private var cancellables: Set<AnyCancellable> = []

@@ -1,0 +1,2174 @@
+{
+  "startDate": "01.09.2022",
+  "endDate": "21.12.2022",
+  "startExamsDate": "22.12.2022",
+  "endExamsDate": "10.01.2023",
+  "employeeDto": null,
+  "studentGroupDto": {
+    "name": "913801",
+    "facultyId": 20017,
+    "facultyAbbrev": "ФКП",
+    "specialityDepartmentEducationFormId": 20082,
+    "specialityName": "Программируемые мобильные системы",
+    "specialityAbbrev": "ПМС",
+    "course": 4,
+    "id": 22958,
+    "calendarId": "065s6qtpd89vcrnvup2r65cco8@group.calendar.google.com",
+    "educationDegree": 1
+  },
+  "schedules": {
+    "Четверг": [
+      {
+        "auditories": [
+          "404-1 к."
+        ],
+        "endLessonTime": "10:20",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 2,
+        "startLessonTime": "09:00",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "РПнJAVA",
+        "subjectFullName": "Разработка приложений на языке Java",
+        "weekNumber": [
+          3
+        ],
+        "employees": [
+          {
+            "id": 542004,
+            "firstName": "Антон",
+            "middleName": "Дмитриевич",
+            "lastName": "Ларькин",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/542004",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-larkin",
+            "calendarId": "23l9hfr84unkuj9n1hdn89840o@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "15.09.2022",
+        "endLessonDate": "08.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "404-1 к."
+        ],
+        "endLessonTime": "10:20",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 1,
+        "startLessonTime": "09:00",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "РПнJAVA",
+        "subjectFullName": "Разработка приложений на языке Java",
+        "weekNumber": [
+          1
+        ],
+        "employees": [
+          {
+            "id": 542004,
+            "firstName": "Антон",
+            "middleName": "Дмитриевич",
+            "lastName": "Ларькин",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/542004",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-larkin",
+            "calendarId": "23l9hfr84unkuj9n1hdn89840o@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "01.09.2022",
+        "endLessonDate": "24.11.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "404-1 к."
+        ],
+        "endLessonTime": "10:20",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "09:00",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "РПнJAVA",
+        "subjectFullName": "Разработка приложений на языке Java",
+        "weekNumber": [
+          2
+        ],
+        "employees": [
+          {
+            "id": 542004,
+            "firstName": "Антон",
+            "middleName": "Дмитриевич",
+            "lastName": "Ларькин",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/542004",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-larkin",
+            "calendarId": "23l9hfr84unkuj9n1hdn89840o@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "08.09.2022",
+        "endLessonDate": "01.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "405-1 к."
+        ],
+        "endLessonTime": "11:55",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 1,
+        "startLessonTime": "10:35",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "БвКС",
+        "subjectFullName": "Безопасность в компьютерных сетях",
+        "weekNumber": [
+          1
+        ],
+        "employees": [
+          {
+            "id": 515644,
+            "firstName": "Артём",
+            "middleName": "Александрович",
+            "lastName": "Фещенко",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/515644",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-feshchenko",
+            "calendarId": "5rnffnlt9if4jmjnju7g3qun1o@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "01.09.2022",
+        "endLessonDate": "24.11.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "405-1 к."
+        ],
+        "endLessonTime": "11:55",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 2,
+        "startLessonTime": "10:35",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "БвКС",
+        "subjectFullName": "Безопасность в компьютерных сетях",
+        "weekNumber": [
+          3
+        ],
+        "employees": [
+          {
+            "id": 515644,
+            "firstName": "Артём",
+            "middleName": "Александрович",
+            "lastName": "Фещенко",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/515644",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-feshchenko",
+            "calendarId": "5rnffnlt9if4jmjnju7g3qun1o@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "15.09.2022",
+        "endLessonDate": "08.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "413-1 к."
+        ],
+        "endLessonTime": "11:55",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "10:35",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "БвКС",
+        "subjectFullName": "Безопасность в компьютерных сетях",
+        "weekNumber": [
+          2
+        ],
+        "employees": [
+          {
+            "id": 515644,
+            "firstName": "Артём",
+            "middleName": "Александрович",
+            "lastName": "Фещенко",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/515644",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-feshchenko",
+            "calendarId": "5rnffnlt9if4jmjnju7g3qun1o@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "08.09.2022",
+        "endLessonDate": "01.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "504-2 к."
+        ],
+        "endLessonTime": "13:45",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "12:25",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "МВС",
+        "subjectFullName": "Мобильные вычислительные системы",
+        "weekNumber": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "employees": [
+          {
+            "id": 504556,
+            "firstName": "Олег",
+            "middleName": "Чеславович",
+            "lastName": "Ролич",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/504556",
+            "degree": "кандидат технических наук",
+            "degreeAbbrev": "к.т.н.",
+            "rank": "доцент",
+            "email": null,
+            "department": null,
+            "urlId": "o-rolich",
+            "calendarId": "b58lqrur79cnq6b9gadsmaav0c@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "01.09.2022",
+        "endLessonDate": "15.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "504-2 к."
+        ],
+        "endLessonTime": "15:20",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "14:00",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПОМС",
+        "subjectFullName": "Программное обеспечение мобильных систем",
+        "weekNumber": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "employees": [
+          {
+            "id": 511968,
+            "firstName": "Андрей",
+            "middleName": "Юрьевич",
+            "lastName": "Писарчик",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/511968",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-pisarchik",
+            "calendarId": "6rvmit42ntnjqgal7ga803ea5g@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "01.09.2022",
+        "endLessonDate": "15.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "413-1 к."
+        ],
+        "endLessonTime": "17:10",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "15:50",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПМКМЭС",
+        "subjectFullName": "Программирование микроконтроллеров для мобильных электронных систем",
+        "weekNumber": [
+          4
+        ],
+        "employees": [
+          {
+            "id": 545612,
+            "firstName": "Хамзат",
+            "middleName": "Шарофиддинович",
+            "lastName": "Джанибеков",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/545612",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "kh-dzhanibekov",
+            "calendarId": "14kpmshih3b7bcqc8ctcsrnj8k@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "22.09.2022",
+        "endLessonDate": "15.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "413-1 к."
+        ],
+        "endLessonTime": "18:45",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "17:25",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПОМС",
+        "subjectFullName": "Программное обеспечение мобильных систем",
+        "weekNumber": [
+          4
+        ],
+        "employees": [
+          {
+            "id": 532083,
+            "firstName": "Александр",
+            "middleName": "Сергеевич",
+            "lastName": "Гриб",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/532083",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-s-grib",
+            "calendarId": "u1rc7iobj84glmh45pt015t584@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "22.09.2022",
+        "endLessonDate": "15.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      }
+    ],
+    "Пятница": [
+      {
+        "auditories": [
+          "408-1 к."
+        ],
+        "endLessonTime": "11:55",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 1,
+        "startLessonTime": "10:35",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "МВС",
+        "subjectFullName": "Мобильные вычислительные системы",
+        "weekNumber": [
+          1,
+          3
+        ],
+        "employees": [
+          {
+            "id": 532084,
+            "firstName": "Дмитрий",
+            "middleName": "Викторович",
+            "lastName": "Проходский",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/532084",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "d-prokhodskij",
+            "calendarId": "khgtuu6eqda1td20t1g3jno850@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "02.09.2022",
+        "endLessonDate": "09.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "408-1 к."
+        ],
+        "endLessonTime": "11:55",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 2,
+        "startLessonTime": "10:35",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "МВС",
+        "subjectFullName": "Мобильные вычислительные системы",
+        "weekNumber": [
+          2,
+          4
+        ],
+        "employees": [
+          {
+            "id": 532084,
+            "firstName": "Дмитрий",
+            "middleName": "Викторович",
+            "lastName": "Проходский",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/532084",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "d-prokhodskij",
+            "calendarId": "khgtuu6eqda1td20t1g3jno850@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "09.09.2022",
+        "endLessonDate": "16.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "413-1 к."
+        ],
+        "endLessonTime": "11:55",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 1,
+        "startLessonTime": "10:35",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ДПиАОМС",
+        "subjectFullName": "Диагностирование программного и аппаратного обеспечения мобильных систем",
+        "weekNumber": [
+          2,
+          4
+        ],
+        "employees": [
+          {
+            "id": 500023,
+            "firstName": "Андрей",
+            "middleName": "Игоревич",
+            "lastName": "Бересневич",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500023",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-beresnevich",
+            "calendarId": "tq58aib2malh70oimhealbl78g@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "09.09.2022",
+        "endLessonDate": "16.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "413-1 к."
+        ],
+        "endLessonTime": "11:55",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 2,
+        "startLessonTime": "10:35",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ДПиАОМС",
+        "subjectFullName": "Диагностирование программного и аппаратного обеспечения мобильных систем",
+        "weekNumber": [
+          1,
+          3
+        ],
+        "employees": [
+          {
+            "id": 500023,
+            "firstName": "Андрей",
+            "middleName": "Игоревич",
+            "lastName": "Бересневич",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500023",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-beresnevich",
+            "calendarId": "tq58aib2malh70oimhealbl78g@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "02.09.2022",
+        "endLessonDate": "09.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "413-1 к."
+        ],
+        "endLessonTime": "13:45",
+        "lessonTypeAbbrev": "ПЗ",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "12:25",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "БвКС",
+        "subjectFullName": "Безопасность в компьютерных сетях",
+        "weekNumber": [
+          1,
+          3
+        ],
+        "employees": [
+          {
+            "id": 515644,
+            "firstName": "Артём",
+            "middleName": "Александрович",
+            "lastName": "Фещенко",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/515644",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-feshchenko",
+            "calendarId": "5rnffnlt9if4jmjnju7g3qun1o@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "02.09.2022",
+        "endLessonDate": "09.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "413-1 к."
+        ],
+        "endLessonTime": "13:45",
+        "lessonTypeAbbrev": "ПЗ",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "12:25",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПОМС",
+        "subjectFullName": "Программное обеспечение мобильных систем",
+        "weekNumber": [
+          2,
+          4
+        ],
+        "employees": [
+          {
+            "id": 532083,
+            "firstName": "Александр",
+            "middleName": "Сергеевич",
+            "lastName": "Гриб",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/532083",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-s-grib",
+            "calendarId": "u1rc7iobj84glmh45pt015t584@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "09.09.2022",
+        "endLessonDate": "16.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "416-1 к."
+        ],
+        "endLessonTime": "15:20",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "14:00",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "БвКС",
+        "subjectFullName": "Безопасность в компьютерных сетях",
+        "weekNumber": [
+          1,
+          3
+        ],
+        "employees": [
+          {
+            "id": 515644,
+            "firstName": "Артём",
+            "middleName": "Александрович",
+            "lastName": "Фещенко",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/515644",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-feshchenko",
+            "calendarId": "5rnffnlt9if4jmjnju7g3qun1o@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "02.09.2022",
+        "endLessonDate": "09.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "416-1 к."
+        ],
+        "endLessonTime": "15:20",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "14:00",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "МВС",
+        "subjectFullName": "Мобильные вычислительные системы",
+        "weekNumber": [
+          2,
+          4
+        ],
+        "employees": [
+          {
+            "id": 504556,
+            "firstName": "Олег",
+            "middleName": "Чеславович",
+            "lastName": "Ролич",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/504556",
+            "degree": "кандидат технических наук",
+            "degreeAbbrev": "к.т.н.",
+            "rank": "доцент",
+            "email": null,
+            "department": null,
+            "urlId": "o-rolich",
+            "calendarId": "b58lqrur79cnq6b9gadsmaav0c@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "09.09.2022",
+        "endLessonDate": "16.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "504-2 к."
+        ],
+        "endLessonTime": "17:10",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "15:50",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ДПиАОМС",
+        "subjectFullName": "Диагностирование программного и аппаратного обеспечения мобильных систем",
+        "weekNumber": [
+          1
+        ],
+        "employees": [
+          {
+            "id": 500023,
+            "firstName": "Андрей",
+            "middleName": "Игоревич",
+            "lastName": "Бересневич",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500023",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-beresnevich",
+            "calendarId": "tq58aib2malh70oimhealbl78g@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "02.09.2022",
+        "endLessonDate": "25.11.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "405-1 к."
+        ],
+        "endLessonTime": "17:10",
+        "lessonTypeAbbrev": "ПЗ",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "15:50",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "РПнJAVA",
+        "subjectFullName": "Разработка приложений на языке Java",
+        "weekNumber": [
+          2
+        ],
+        "employees": [
+          {
+            "id": 542004,
+            "firstName": "Антон",
+            "middleName": "Дмитриевич",
+            "lastName": "Ларькин",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/542004",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-larkin",
+            "calendarId": "23l9hfr84unkuj9n1hdn89840o@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "09.09.2022",
+        "endLessonDate": "02.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      }
+    ],
+    "Вторник": [
+      {
+        "auditories": [
+          "504-2 к."
+        ],
+        "endLessonTime": "13:45",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "12:25",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "РПнJAVA",
+        "subjectFullName": "Разработка приложений на языке Java",
+        "weekNumber": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "employees": [
+          {
+            "id": 511795,
+            "firstName": "Антон",
+            "middleName": "Петрович",
+            "lastName": "Горбач",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/511795",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-gorbach",
+            "calendarId": "323om2t78kia6ronsgvcahvpto@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "06.09.2022",
+        "endLessonDate": "20.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "504-2 к."
+        ],
+        "endLessonTime": "15:20",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "14:00",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПОМС",
+        "subjectFullName": "Программное обеспечение мобильных систем",
+        "weekNumber": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "employees": [
+          {
+            "id": 511968,
+            "firstName": "Андрей",
+            "middleName": "Юрьевич",
+            "lastName": "Писарчик",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/511968",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-pisarchik",
+            "calendarId": "6rvmit42ntnjqgal7ga803ea5g@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "06.09.2022",
+        "endLessonDate": "20.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      }
+    ],
+    "Понедельник": [
+      {
+        "auditories": [
+          "211-3 к."
+        ],
+        "endLessonTime": "13:45",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "12:25",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ДПиАОМС",
+        "subjectFullName": "Диагностирование программного и аппаратного обеспечения мобильных систем",
+        "weekNumber": [
+          1,
+          3
+        ],
+        "employees": [
+          {
+            "id": 500023,
+            "firstName": "Андрей",
+            "middleName": "Игоревич",
+            "lastName": "Бересневич",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500023",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-beresnevich",
+            "calendarId": "tq58aib2malh70oimhealbl78g@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "12.09.2022",
+        "endLessonDate": "19.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": true,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "211-3 к."
+        ],
+        "endLessonTime": "15:20",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "14:00",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ДПиАОМС",
+        "subjectFullName": "Диагностирование программного и аппаратного обеспечения мобильных систем",
+        "weekNumber": [
+          1,
+          3
+        ],
+        "employees": [
+          {
+            "id": 500023,
+            "firstName": "Андрей",
+            "middleName": "Игоревич",
+            "lastName": "Бересневич",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500023",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-beresnevich",
+            "calendarId": "tq58aib2malh70oimhealbl78g@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "12.09.2022",
+        "endLessonDate": "19.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": true,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "413-1 к."
+        ],
+        "endLessonTime": "17:10",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "15:50",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "МВС",
+        "subjectFullName": "Мобильные вычислительные системы",
+        "weekNumber": [
+          1,
+          3
+        ],
+        "employees": [
+          {
+            "id": 532084,
+            "firstName": "Дмитрий",
+            "middleName": "Викторович",
+            "lastName": "Проходский",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/532084",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "d-prokhodskij",
+            "calendarId": "khgtuu6eqda1td20t1g3jno850@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "12.09.2022",
+        "endLessonDate": "19.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "405-1 к."
+        ],
+        "endLessonTime": "17:10",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 1,
+        "startLessonTime": "15:50",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПМКМЭС",
+        "subjectFullName": "Программирование микроконтроллеров для мобильных электронных систем",
+        "weekNumber": [
+          2
+        ],
+        "employees": [
+          {
+            "id": 545612,
+            "firstName": "Хамзат",
+            "middleName": "Шарофиддинович",
+            "lastName": "Джанибеков",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/545612",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "kh-dzhanibekov",
+            "calendarId": "14kpmshih3b7bcqc8ctcsrnj8k@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "05.09.2022",
+        "endLessonDate": "28.11.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "405-1 к."
+        ],
+        "endLessonTime": "17:10",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 2,
+        "startLessonTime": "15:50",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПМКМЭС",
+        "subjectFullName": "Программирование микроконтроллеров для мобильных электронных систем",
+        "weekNumber": [
+          4
+        ],
+        "employees": [
+          {
+            "id": 545612,
+            "firstName": "Хамзат",
+            "middleName": "Шарофиддинович",
+            "lastName": "Джанибеков",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/545612",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "kh-dzhanibekov",
+            "calendarId": "14kpmshih3b7bcqc8ctcsrnj8k@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "19.09.2022",
+        "endLessonDate": "12.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "413-1 к."
+        ],
+        "endLessonTime": "18:45",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 1,
+        "startLessonTime": "17:25",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПОМС",
+        "subjectFullName": "Программное обеспечение мобильных систем",
+        "weekNumber": [
+          2
+        ],
+        "employees": [
+          {
+            "id": 532083,
+            "firstName": "Александр",
+            "middleName": "Сергеевич",
+            "lastName": "Гриб",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/532083",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-s-grib",
+            "calendarId": "u1rc7iobj84glmh45pt015t584@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "05.09.2022",
+        "endLessonDate": "28.11.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "413-1 к."
+        ],
+        "endLessonTime": "18:45",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 2,
+        "startLessonTime": "17:25",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПОМС",
+        "subjectFullName": "Программное обеспечение мобильных систем",
+        "weekNumber": [
+          4
+        ],
+        "employees": [
+          {
+            "id": 532083,
+            "firstName": "Александр",
+            "middleName": "Сергеевич",
+            "lastName": "Гриб",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/532083",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-s-grib",
+            "calendarId": "u1rc7iobj84glmh45pt015t584@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "19.09.2022",
+        "endLessonDate": "12.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "405-1 к."
+        ],
+        "endLessonTime": "18:45",
+        "lessonTypeAbbrev": "ПЗ",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "17:25",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПМКМЭС",
+        "subjectFullName": "Программирование микроконтроллеров для мобильных электронных систем",
+        "weekNumber": [
+          1,
+          3
+        ],
+        "employees": [
+          {
+            "id": 545612,
+            "firstName": "Хамзат",
+            "middleName": "Шарофиддинович",
+            "lastName": "Джанибеков",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/545612",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "kh-dzhanibekov",
+            "calendarId": "14kpmshih3b7bcqc8ctcsrnj8k@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "12.09.2022",
+        "endLessonDate": "19.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      }
+    ],
+    "Среда": [
+      {
+        "auditories": [
+          "402-1 к."
+        ],
+        "endLessonTime": "17:10",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "15:50",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "БвКС",
+        "subjectFullName": "Безопасность в компьютерных сетях",
+        "weekNumber": [
+          1,
+          3
+        ],
+        "employees": [
+          {
+            "id": 515644,
+            "firstName": "Артём",
+            "middleName": "Александрович",
+            "lastName": "Фещенко",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/515644",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-feshchenko",
+            "calendarId": "5rnffnlt9if4jmjnju7g3qun1o@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "14.09.2022",
+        "endLessonDate": "21.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "416-1 к."
+        ],
+        "endLessonTime": "18:45",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "17:25",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПМКМЭС",
+        "subjectFullName": "Программирование микроконтроллеров для мобильных электронных систем",
+        "weekNumber": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "employees": [
+          {
+            "id": 500038,
+            "firstName": "Владимир",
+            "middleName": "Михайлович",
+            "lastName": "Логин",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500038",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "v-login",
+            "calendarId": "6u56m4tvv3cro7r55amnndqas4@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "07.09.2022",
+        "endLessonDate": "21.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "416-1 к."
+        ],
+        "endLessonTime": "20:20",
+        "lessonTypeAbbrev": "ЛК",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "19:00",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ПМКМЭС",
+        "subjectFullName": "Программирование микроконтроллеров для мобильных электронных систем",
+        "weekNumber": [
+          2,
+          4
+        ],
+        "employees": [
+          {
+            "id": 500038,
+            "firstName": "Владимир",
+            "middleName": "Михайлович",
+            "lastName": "Логин",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500038",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "v-login",
+            "calendarId": "6u56m4tvv3cro7r55amnndqas4@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "07.09.2022",
+        "endLessonDate": "14.12.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      },
+      {
+        "auditories": [
+          "404-1 к."
+        ],
+        "endLessonTime": "20:20",
+        "lessonTypeAbbrev": "ЛР",
+        "note": null,
+        "numSubgroup": 0,
+        "startLessonTime": "19:00",
+        "studentGroups": [
+          {
+            "specialityName": "Программируемые мобильные системы",
+            "specialityCode": "1-39 03 02",
+            "numberOfStudents": 21,
+            "name": "913801",
+            "educationDegree": 1
+          }
+        ],
+        "subject": "ДПиАОМС",
+        "subjectFullName": "Диагностирование программного и аппаратного обеспечения мобильных систем",
+        "weekNumber": [
+          1
+        ],
+        "employees": [
+          {
+            "id": 500023,
+            "firstName": "Андрей",
+            "middleName": "Игоревич",
+            "lastName": "Бересневич",
+            "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500023",
+            "degree": "",
+            "degreeAbbrev": "",
+            "rank": null,
+            "email": null,
+            "department": null,
+            "urlId": "a-beresnevich",
+            "calendarId": "tq58aib2malh70oimhealbl78g@group.calendar.google.com",
+            "jobPositions": null
+          }
+        ],
+        "dateLesson": null,
+        "startLessonDate": "28.09.2022",
+        "endLessonDate": "23.11.2022",
+        "announcementStart": null,
+        "announcementEnd": null,
+        "split": false,
+        "announcement": false
+      }
+    ]
+  },
+  "exams": [
+    {
+      "auditories": [
+        "413-1 к."
+      ],
+      "endLessonTime": "14:00",
+      "lessonTypeAbbrev": "Консультация",
+      "note": null,
+      "numSubgroup": 0,
+      "startLessonTime": "13:00",
+      "studentGroups": [
+        {
+          "specialityName": "Программируемые мобильные системы",
+          "specialityCode": "1-39 03 02",
+          "numberOfStudents": 21,
+          "name": "913801",
+          "educationDegree": 1
+        }
+      ],
+      "subject": "ПОМС",
+      "subjectFullName": "Программное обеспечение мобильных систем",
+      "weekNumber": [
+        1
+      ],
+      "employees": [
+        {
+          "id": 511968,
+          "firstName": "Андрей",
+          "middleName": "Юрьевич",
+          "lastName": "Писарчик",
+          "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/511968",
+          "degree": "",
+          "degreeAbbrev": "",
+          "rank": null,
+          "email": null,
+          "department": null,
+          "urlId": "a-pisarchik",
+          "calendarId": "6rvmit42ntnjqgal7ga803ea5g@group.calendar.google.com",
+          "jobPositions": null
+        }
+      ],
+      "dateLesson": "22.12.2022",
+      "startLessonDate": null,
+      "endLessonDate": null,
+      "announcementStart": null,
+      "announcementEnd": null,
+      "split": false,
+      "announcement": false
+    },
+    {
+      "auditories": [
+        "413-1 к."
+      ],
+      "endLessonTime": "14:00",
+      "lessonTypeAbbrev": "Экзамен",
+      "note": null,
+      "numSubgroup": 0,
+      "startLessonTime": "09:00",
+      "studentGroups": [
+        {
+          "specialityName": "Программируемые мобильные системы",
+          "specialityCode": "1-39 03 02",
+          "numberOfStudents": 21,
+          "name": "913801",
+          "educationDegree": 1
+        }
+      ],
+      "subject": "ПОМС",
+      "subjectFullName": "Программное обеспечение мобильных систем",
+      "weekNumber": [
+        1
+      ],
+      "employees": [
+        {
+          "id": 511968,
+          "firstName": "Андрей",
+          "middleName": "Юрьевич",
+          "lastName": "Писарчик",
+          "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/511968",
+          "degree": "",
+          "degreeAbbrev": "",
+          "rank": null,
+          "email": null,
+          "department": null,
+          "urlId": "a-pisarchik",
+          "calendarId": "6rvmit42ntnjqgal7ga803ea5g@group.calendar.google.com",
+          "jobPositions": null
+        }
+      ],
+      "dateLesson": "23.12.2022",
+      "startLessonDate": null,
+      "endLessonDate": null,
+      "announcementStart": null,
+      "announcementEnd": null,
+      "split": false,
+      "announcement": false
+    },
+    {
+      "auditories": [
+        "404-1 к."
+      ],
+      "endLessonTime": "15:00",
+      "lessonTypeAbbrev": "Консультация",
+      "note": null,
+      "numSubgroup": 0,
+      "startLessonTime": "14:00",
+      "studentGroups": [
+        {
+          "specialityName": "Программируемые мобильные системы",
+          "specialityCode": "1-39 03 02",
+          "numberOfStudents": 21,
+          "name": "913801",
+          "educationDegree": 1
+        }
+      ],
+      "subject": "МВС",
+      "subjectFullName": "Мобильные вычислительные системы",
+      "weekNumber": [
+        2
+      ],
+      "employees": [
+        {
+          "id": 504556,
+          "firstName": "Олег",
+          "middleName": "Чеславович",
+          "lastName": "Ролич",
+          "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/504556",
+          "degree": "кандидат технических наук",
+          "degreeAbbrev": "к.т.н.",
+          "rank": "доцент",
+          "email": null,
+          "department": null,
+          "urlId": "o-rolich",
+          "calendarId": "b58lqrur79cnq6b9gadsmaav0c@group.calendar.google.com",
+          "jobPositions": null
+        }
+      ],
+      "dateLesson": "26.12.2022",
+      "startLessonDate": null,
+      "endLessonDate": null,
+      "announcementStart": null,
+      "announcementEnd": null,
+      "split": false,
+      "announcement": false
+    },
+    {
+      "auditories": [
+        "404-1 к."
+      ],
+      "endLessonTime": "14:00",
+      "lessonTypeAbbrev": "Экзамен",
+      "note": null,
+      "numSubgroup": 0,
+      "startLessonTime": "09:00",
+      "studentGroups": [
+        {
+          "specialityName": "Программируемые мобильные системы",
+          "specialityCode": "1-39 03 02",
+          "numberOfStudents": 21,
+          "name": "913801",
+          "educationDegree": 1
+        }
+      ],
+      "subject": "МВС",
+      "subjectFullName": "Мобильные вычислительные системы",
+      "weekNumber": [
+        2
+      ],
+      "employees": [
+        {
+          "id": 504556,
+          "firstName": "Олег",
+          "middleName": "Чеславович",
+          "lastName": "Ролич",
+          "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/504556",
+          "degree": "кандидат технических наук",
+          "degreeAbbrev": "к.т.н.",
+          "rank": "доцент",
+          "email": null,
+          "department": null,
+          "urlId": "o-rolich",
+          "calendarId": "b58lqrur79cnq6b9gadsmaav0c@group.calendar.google.com",
+          "jobPositions": null
+        }
+      ],
+      "dateLesson": "27.12.2022",
+      "startLessonDate": null,
+      "endLessonDate": null,
+      "announcementStart": null,
+      "announcementEnd": null,
+      "split": false,
+      "announcement": false
+    },
+    {
+      "auditories": [
+        "404-1 к."
+      ],
+      "endLessonTime": "15:00",
+      "lessonTypeAbbrev": "Консультация",
+      "note": null,
+      "numSubgroup": 0,
+      "startLessonTime": "14:00",
+      "studentGroups": [
+        {
+          "specialityName": "Программируемые мобильные системы",
+          "specialityCode": "1-39 03 02",
+          "numberOfStudents": 21,
+          "name": "913801",
+          "educationDegree": 1
+        }
+      ],
+      "subject": "ПМКМЭС",
+      "subjectFullName": "Программирование микроконтроллеров для мобильных электронных систем",
+      "weekNumber": [
+        2
+      ],
+      "employees": [
+        {
+          "id": 500038,
+          "firstName": "Владимир",
+          "middleName": "Михайлович",
+          "lastName": "Логин",
+          "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500038",
+          "degree": "",
+          "degreeAbbrev": "",
+          "rank": null,
+          "email": null,
+          "department": null,
+          "urlId": "v-login",
+          "calendarId": "6u56m4tvv3cro7r55amnndqas4@group.calendar.google.com",
+          "jobPositions": null
+        }
+      ],
+      "dateLesson": "30.12.2022",
+      "startLessonDate": null,
+      "endLessonDate": null,
+      "announcementStart": null,
+      "announcementEnd": null,
+      "split": false,
+      "announcement": false
+    },
+    {
+      "auditories": [
+        "404-1 к."
+      ],
+      "endLessonTime": "14:00",
+      "lessonTypeAbbrev": "Экзамен",
+      "note": null,
+      "numSubgroup": 0,
+      "startLessonTime": "09:00",
+      "studentGroups": [
+        {
+          "specialityName": "Программируемые мобильные системы",
+          "specialityCode": "1-39 03 02",
+          "numberOfStudents": 21,
+          "name": "913801",
+          "educationDegree": 1
+        }
+      ],
+      "subject": "ПМКМЭС",
+      "subjectFullName": "Программирование микроконтроллеров для мобильных электронных систем",
+      "weekNumber": [
+        2
+      ],
+      "employees": [
+        {
+          "id": 500038,
+          "firstName": "Владимир",
+          "middleName": "Михайлович",
+          "lastName": "Логин",
+          "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500038",
+          "degree": "",
+          "degreeAbbrev": "",
+          "rank": null,
+          "email": null,
+          "department": null,
+          "urlId": "v-login",
+          "calendarId": "6u56m4tvv3cro7r55amnndqas4@group.calendar.google.com",
+          "jobPositions": null
+        }
+      ],
+      "dateLesson": "31.12.2022",
+      "startLessonDate": null,
+      "endLessonDate": null,
+      "announcementStart": null,
+      "announcementEnd": null,
+      "split": false,
+      "announcement": false
+    },
+    {
+      "auditories": [
+        "404-1 к."
+      ],
+      "endLessonTime": "16:00",
+      "lessonTypeAbbrev": "Консультация",
+      "note": null,
+      "numSubgroup": 0,
+      "startLessonTime": "15:00",
+      "studentGroups": [
+        {
+          "specialityName": "Программируемые мобильные системы",
+          "specialityCode": "1-39 03 02",
+          "numberOfStudents": 21,
+          "name": "913801",
+          "educationDegree": 1
+        }
+      ],
+      "subject": "ДПиАОМС",
+      "subjectFullName": "Диагностирование программного и аппаратного обеспечения мобильных систем",
+      "weekNumber": [
+        3
+      ],
+      "employees": [
+        {
+          "id": 500023,
+          "firstName": "Андрей",
+          "middleName": "Игоревич",
+          "lastName": "Бересневич",
+          "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500023",
+          "degree": "",
+          "degreeAbbrev": "",
+          "rank": null,
+          "email": null,
+          "department": null,
+          "urlId": "a-beresnevich",
+          "calendarId": "tq58aib2malh70oimhealbl78g@group.calendar.google.com",
+          "jobPositions": null
+        }
+      ],
+      "dateLesson": "04.01.2023",
+      "startLessonDate": null,
+      "endLessonDate": null,
+      "announcementStart": null,
+      "announcementEnd": null,
+      "split": false,
+      "announcement": false
+    },
+    {
+      "auditories": [
+        "404-1 к."
+      ],
+      "endLessonTime": "22:00",
+      "lessonTypeAbbrev": "Экзамен",
+      "note": null,
+      "numSubgroup": 0,
+      "startLessonTime": "16:00",
+      "studentGroups": [
+        {
+          "specialityName": "Программируемые мобильные системы",
+          "specialityCode": "1-39 03 02",
+          "numberOfStudents": 21,
+          "name": "913801",
+          "educationDegree": 1
+        }
+      ],
+      "subject": "ДПиАОМС",
+      "subjectFullName": "Диагностирование программного и аппаратного обеспечения мобильных систем",
+      "weekNumber": [
+        3
+      ],
+      "employees": [
+        {
+          "id": 500023,
+          "firstName": "Андрей",
+          "middleName": "Игоревич",
+          "lastName": "Бересневич",
+          "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500023",
+          "degree": "",
+          "degreeAbbrev": "",
+          "rank": null,
+          "email": null,
+          "department": null,
+          "urlId": "a-beresnevich",
+          "calendarId": "tq58aib2malh70oimhealbl78g@group.calendar.google.com",
+          "jobPositions": null
+        }
+      ],
+      "dateLesson": "05.01.2023",
+      "startLessonDate": null,
+      "endLessonDate": null,
+      "announcementStart": null,
+      "announcementEnd": null,
+      "split": false,
+      "announcement": false
+    },
+    {
+      "auditories": [
+        "408-1 к."
+      ],
+      "endLessonTime": "16:00",
+      "lessonTypeAbbrev": "Консультация",
+      "note": "Начало в 15.20",
+      "numSubgroup": 0,
+      "startLessonTime": "15:00",
+      "studentGroups": [
+        {
+          "specialityName": "Программируемые мобильные системы",
+          "specialityCode": "1-39 03 02",
+          "numberOfStudents": 21,
+          "name": "913801",
+          "educationDegree": 1
+        }
+      ],
+      "subject": "БвКС",
+      "subjectFullName": "Безопасность в компьютерных сетях",
+      "weekNumber": [
+        4
+      ],
+      "employees": [
+        {
+          "id": 515644,
+          "firstName": "Артём",
+          "middleName": "Александрович",
+          "lastName": "Фещенко",
+          "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/515644",
+          "degree": "",
+          "degreeAbbrev": "",
+          "rank": null,
+          "email": null,
+          "department": null,
+          "urlId": "a-feshchenko",
+          "calendarId": "5rnffnlt9if4jmjnju7g3qun1o@group.calendar.google.com",
+          "jobPositions": null
+        }
+      ],
+      "dateLesson": "09.01.2023",
+      "startLessonDate": null,
+      "endLessonDate": null,
+      "announcementStart": null,
+      "announcementEnd": null,
+      "split": false,
+      "announcement": false
+    },
+    {
+      "auditories": [
+        "408-1 к."
+      ],
+      "endLessonTime": "14:00",
+      "lessonTypeAbbrev": "Экзамен",
+      "note": null,
+      "numSubgroup": 0,
+      "startLessonTime": "09:00",
+      "studentGroups": [
+        {
+          "specialityName": "Программируемые мобильные системы",
+          "specialityCode": "1-39 03 02",
+          "numberOfStudents": 21,
+          "name": "913801",
+          "educationDegree": 1
+        }
+      ],
+      "subject": "БвКС",
+      "subjectFullName": "Безопасность в компьютерных сетях",
+      "weekNumber": [
+        4
+      ],
+      "employees": [
+        {
+          "id": 515644,
+          "firstName": "Артём",
+          "middleName": "Александрович",
+          "lastName": "Фещенко",
+          "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/515644",
+          "degree": "",
+          "degreeAbbrev": "",
+          "rank": null,
+          "email": null,
+          "department": null,
+          "urlId": "a-feshchenko",
+          "calendarId": "5rnffnlt9if4jmjnju7g3qun1o@group.calendar.google.com",
+          "jobPositions": null
+        }
+      ],
+      "dateLesson": "10.01.2023",
+      "startLessonDate": null,
+      "endLessonDate": null,
+      "announcementStart": null,
+      "announcementEnd": null,
+      "split": false,
+      "announcement": false
+    }
+  ]
+}

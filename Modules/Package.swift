@@ -94,6 +94,10 @@ let package = Package(
         .testTarget(
             name: "BsuirCoreTests",
             dependencies: ["BsuirCore"]),
+        .testTarget(
+            name: "BsuirApiTests",
+            dependencies: ["BsuirApi"],
+            resources: [.process("jsons")]),
     ]
 )
 

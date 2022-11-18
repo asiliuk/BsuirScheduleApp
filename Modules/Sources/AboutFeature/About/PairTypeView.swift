@@ -15,7 +15,8 @@ struct PairTypeView: View {
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
                 }
             }
-            .foregroundColor(form.color)
+            // TODO: Use dynamic color here
+            .foregroundColor(.red)
             .frame(width: 30, height: 30)
 
             Text(name)

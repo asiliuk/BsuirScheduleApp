@@ -44,7 +44,7 @@ public struct PairCell<Details: View>: View {
     }
 }
 
-public enum PairViewForm: CaseIterable {
+public enum PairViewForm: String, CaseIterable {
     case lecture
     case practice
     case lab
@@ -302,16 +302,6 @@ extension PairViewForm {
         case .practice: return "view.pairView.form.name.short.practice"
         case .exam: return "view.pairView.form.name.short.exam"
         case .unknown: return "view.pairView.form.name.short.unknown"
-        }
-    }
-
-    public var color: Color {
-        switch self {
-        case .lecture: return .green
-        case .practice: return .red
-        case .lab: return .yellow
-        case .exam: return .purple
-        case .unknown: return .gray
         }
     }
 

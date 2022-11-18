@@ -9,32 +9,46 @@ struct ScheduleGridView: View {
         case groups(show: (String) -> Void)
         case nothing
     }
+    
+    enum Loading {
+        case loadMore(() -> Void)
+        case finished
+        case never
+    }
 
     let days: [DayViewModel]
-    var loadMore: (() -> Void)? = nil
+    var loading: Loading
     var pairDetails: PairDetails = .nothing
     @Binding var isOnTop: Bool
 
     var body: some View {
         ScrollViewReader { proxy in
             List {
-                ForEach(days) { day in
-                    ScheduleDay(
-                        title: day.title,
-                        subtitle: day.subtitle,
-                        isMostRelevant: day.isMostRelevant,
-                        isToday: day.isToday,
-                        pairs: day.pairs,
-                        details: pairDetails
-                    )
+                Group {
+                    ForEach(days) { day in
+                        ScheduleDay(
+                            title: day.title,
+                            subtitle: day.subtitle,
+                            isMostRelevant: day.isMostRelevant,
+                            isToday: day.isToday,
+                            pairs: day.pairs,
+                            details: pairDetails
+                        )
+                    }
+                    
+                    switch loading {
+                    case let .loadMore(load):
+                        ProgressView()
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .onAppear(perform: load)
+                    case .finished:
+                        NoMorePairsIndicator()
+                        
+                    case .never:
+                        EmptyView()
+                    }
                 }
                 .listRowSeparator(.hidden)
-
-                if let load = loadMore {
-                    ProgressView()
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .onAppear(perform: load)
-                }
             }
             .listStyle(.plain)
             // To disable cell celection
@@ -55,6 +69,15 @@ struct ScheduleGridView: View {
                 isOnTop = false
             })
         }
+    }
+}
+
+struct NoMorePairsIndicator: View {
+    var body: some View {
+        Text("screen.schedule.noMorePairs.title")
+            .font(.headline)
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .transition(.move(edge: .bottom).combined(with: .opacity))
     }
 }
 
@@ -151,9 +174,16 @@ struct ScheduleGridView_Previews: PreviewProvider {
 
             ScheduleGridView(
                 days: [.mock(title: "06.02.0003")],
+                loading: .never,
                 isOnTop: .constant(true)
             )
 
+            ScheduleGridView(
+                days: [.mock(title: "06.02.0003")],
+                loading: .finished,
+                isOnTop: .constant(true)
+            )
+            
             schedule()
                 .previewLayout(.fixed(width: 812, height: 375))
 
@@ -195,6 +225,7 @@ struct ScheduleGridView_Previews: PreviewProvider {
                 .mock(title: "05.02.0003"),
                 .mock(title: "06.02.0003"),
             ],
+            loading: .never,
             isOnTop: .constant(true)
         )
     }

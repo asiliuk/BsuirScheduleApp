@@ -41,6 +41,7 @@
 // MARK: - About, Colors
 
 "screen.about.colors.section.header" = "Цвета";
+"screen.about.colors.reset.title" = "Сбросить";
 
 // MARK: - About, Pair preview
 
@@ -93,6 +94,8 @@
 
 "screen.schedule.day.title.%@.%lld" = "%@, Неделя %lld";
 
+"screen.schedule.noMorePairs.title" = "Занятий больше нет 🎉";
+
 // TODO: - Remove when exams are supported
 "screen.schedule.unsupportedExams.title" = "Приношу глубочайгшие извинения";
 "screen.schedule.unsupportedExams.subject" = "В данный момент расписание экзаменов не поддерживается";
@@ -140,3 +143,17 @@
 
 "alert.clearCache.title" = "Кэш успешно очищен";
 "alert.clearCache.message" = "Был удален кэш скачанного расписания и фотографий преподавателей";
+
+// MARK: - Color Names
+
+"color.red" = "Красный";
+"color.pink" = "Розовый";
+"color.orange" = "Оранжевый";
+"color.yellow" = "Жёлтый";
+"color.green" = "Зелёный";
+"color.cyan" = "Голубой";
+"color.blue" = "Синий";
+"color.indigo" = "Индиго";
+"color.purple" = "Фиолетовый";
+"color.gray" = "Серый";
+"color.brown" = "Коричневый";

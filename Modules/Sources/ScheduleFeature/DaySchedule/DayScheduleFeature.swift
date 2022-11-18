@@ -57,7 +57,7 @@ public struct DayScheduleFeature: ReducerProtocol {
 
             return ScheduleDayViewModel(
                 id: uuid(),
-                title: calendar.localizedWeekdayName(weekday).capitalized,
+                title: weekday.localizedName(in: calendar).capitalized,
                 pairs: pairViewModels(pairs)
             )
         }
@@ -71,12 +71,5 @@ public struct DayScheduleFeature: ReducerProtocol {
                 pair: $0
             )
         }
-    }
-}
-
-private extension Calendar {
-    func localizedWeekdayName(_ weekday: DaySchedule.WeekDay) -> String {
-        let index = (weekday.weekdayIndex + firstWeekday - 1) % 7
-        return weekdaySymbols[index]
     }
 }

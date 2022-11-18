@@ -16,7 +16,8 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
         
         init(schedule: DaySchedule) {
             self.schedule = schedule
-            self.weekSchedule = WeekSchedule(schedule: schedule)
+            // TODO: Fix this with real dates
+            self.weekSchedule = WeekSchedule(schedule: schedule, startDate: .now, endDate: .now)
         }
     }
     

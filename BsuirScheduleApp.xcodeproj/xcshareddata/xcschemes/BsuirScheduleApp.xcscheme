@@ -32,10 +32,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BsuirApiTests"
+               BuildableName = "BsuirApiTests"
+               BlueprintName = "BsuirApiTests"
+               ReferencedContainer = "container:Modules">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "BsuirCoreTests"
                BuildableName = "BsuirCoreTests"
                BlueprintName = "BsuirCoreTests"
-               ReferencedContainer = "container:">
+               ReferencedContainer = "container:Modules">
             </BuildableReference>
          </TestableReference>
       </Testables>

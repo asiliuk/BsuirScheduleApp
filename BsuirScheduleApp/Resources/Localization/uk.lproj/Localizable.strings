@@ -41,6 +41,7 @@
 // MARK: - About, Colors
 
 "screen.about.colors.section.header" = "Кольори";
+"screen.about.colors.reset.title" = "Скинути";
 
 // MARK: - About, Pair preview
 
@@ -93,6 +94,8 @@
 
 "screen.schedule.day.title.%@.%lld" = "%@, Тиждень %lld";
 
+"screen.schedule.noMorePairs.title" = "Занять більше немає 🎉";
+
 // TODO: - Remove when exams are supported
 "screen.schedule.unsupportedExams.title" = "Приношу глибокі вибачення";
 "screen.schedule.unsupportedExams.subject" = "На даний момент розклад іспитів не підтримується";
@@ -140,3 +143,17 @@
 
 "alert.clearCache.title" = "Кеш успішно очищений";
 "alert.clearCache.message" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";
+
+// MARK: - Color Names
+
+"color.red" = "Червоний";
+"color.pink" = "Рожевий";
+"color.orange" = "Помаранчевий";
+"color.yellow" = "Жовтий";
+"color.green" = "Зелений";
+"color.cyan" = "Блакитний";
+"color.blue" = "Синій";
+"color.indigo" = "Індиго";
+"color.purple" = "Фіолетовий";
+"color.gray" = "Сірий";
+"color.brown" = "Коричневий";

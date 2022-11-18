@@ -31,6 +31,10 @@ public struct Pair: Codable, Equatable {
     
     public struct StudentGroup: Codable, Equatable {
         public let name: String
+        
+        public init(name: String) {
+            self.name = name
+        }
     }
 
     public let subject: String?
@@ -38,9 +42,9 @@ public struct Pair: Codable, Equatable {
     @NonEmpty public var auditories: [String]
 
     public let startLessonTime: Time
-    public let startLessonDate: Date
+    public let startLessonDate: Date?
     public let endLessonTime: Time
-    public let endLessonDate: Date
+    public let endLessonDate: Date?
     public let dateLesson: Date?
     
     public let subgroup: Int
@@ -81,9 +85,9 @@ public struct Pair: Codable, Equatable {
         subjectFullName: String? = nil,
         auditories: [String] = [],
         startLessonTime: Time = Time(),
-        startLessonDate: Date = Date(),
+        startLessonDate: Date? = nil,
         endLessonTime: Time = Time(),
-        endLessonDate: Date = Date(),
+        endLessonDate: Date? = nil,
         dateLesson: Date? = nil,
         subgroup: Int = 0,
         lessonType: Form? = .lecture,

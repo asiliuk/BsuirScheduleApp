@@ -10,15 +10,15 @@ public struct DaySchedule: Equatable {
         case saturday = "Суббота"
         case sunday = "Воскресенье"
     }
-    
+
     public subscript(weekDay: WeekDay) -> [Pair]? {
         days[weekDay]
     }
-    
+
     public var isEmpty: Bool {
         days.isEmpty
     }
-    
+
     public init(days: [WeekDay: [Pair]] = [:]) {
         self.days = days
     }
@@ -28,13 +28,18 @@ public struct DaySchedule: Equatable {
 
 extension DaySchedule: Decodable {
     public init(from decoder: Decoder) throws {
+        if let container = try? decoder.singleValueContainer(), container.decodeNil() {
+            self.init()
+            return
+        }
+        
         let container = try decoder.container(keyedBy: WeekDay.self)
-        self.days = try Dictionary(
+        self.init(days: try Dictionary(
             uniqueKeysWithValues: container.allKeys.map { key in
                 let pairs = try container.decode([Pair].self, forKey: key)
                 return (key, pairs)
             }
-        )
+        ))
     }
 }
 
@@ -48,7 +53,11 @@ extension DaySchedule: Encodable {
 }
 
 extension DaySchedule.WeekDay {
-    public var weekdayIndex: Int {
+    public func localizedName(in calendar: Calendar) -> String {
+        return calendar.weekdaySymbols[weekdayIndex]
+    }
+    
+    private var weekdayIndex: Int {
         switch self {
         case .sunday:
             return 0
