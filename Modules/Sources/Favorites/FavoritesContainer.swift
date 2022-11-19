@@ -15,8 +15,12 @@ public final class FavoritesContainer {
     @Published private var groupNamesStorage: FavoritesValue<String>
     @Published private var lecturersStorage: FavoritesValue<Employee>
     
-    public var isEmpty: Bool {
-        groupNamesStorage.value.isEmpty && lecturersStorage.value.isEmpty
+    public var isGroupsEmpty: Bool {
+        groupNamesStorage.value.isEmpty
+    }
+
+    public var isLecturersEmpty: Bool {
+        lecturersStorage.value.isEmpty
     }
 
     public init(storage: UserDefaults) {

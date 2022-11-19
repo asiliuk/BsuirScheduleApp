@@ -20,7 +20,12 @@ struct App: SwiftUI.App {
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     private(set) lazy var store = Store(
-        initialState: .init(),
+        initialState: .init(
+            // Open lecturers tab if only lecturers has favorites
+            currentSelection: favorites.isGroupsEmpty && !favorites.isLecturersEmpty
+                ? .lecturers
+                : .groups
+        ),
         reducer: AppFeature()
             .dependency(\.favorites, favorites)
             .dependency(\.urlCache, requestManager.cache)

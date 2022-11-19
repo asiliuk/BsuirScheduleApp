@@ -7,7 +7,7 @@ import ComposableArchitectureUtils
 
 struct AppFeature: ReducerProtocol {
     struct State: Equatable {
-        var currentSelection: CurrentSelection = .groups
+        var currentSelection: CurrentSelection
         var currentOverlay: CurrentOverlay?
 
         var groups = GroupsFeature.State()
