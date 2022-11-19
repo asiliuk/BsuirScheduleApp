@@ -14,6 +14,8 @@ public struct AboutView: View {
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             List {
+                ScrollTopIdentifyingView()
+
                 PairFormsColorPickerView(
                     store: store.scope(
                         state: \.pairFormsColorPicker,
@@ -43,6 +45,7 @@ public struct AboutView: View {
             .task { await viewStore.send(.task).finish() }
             .listStyle(InsetGroupedListStyle())
             .navigationTitle("screen.about.navigation.title")
+            .scrollableToTop(isOnTop: viewStore.binding(\.$isOnTop))
         }
     }
 }

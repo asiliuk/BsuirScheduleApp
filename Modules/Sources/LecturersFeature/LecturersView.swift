@@ -49,12 +49,17 @@ private struct LoadingLecturersView: View {
         ) { store in
             WithViewStore(store) { lecturersViewStore in
                 LecturersContentView(
-                    searchQuery: viewStore.binding(\.$searchQuery),
                     favorites: viewStore.favorites,
                     lecturers: lecturersViewStore.state,
                     select: { viewStore.send(.lecturerTapped($0)) },
-                    refresh: { await lecturersViewStore.send(.refresh).finish() }
+                    dismissSearch: viewStore.dismissSearch
                 )
+                .refreshable { await lecturersViewStore.send(.refresh).finish() }
+                .searchable(
+                    text: viewStore.binding(\.$searchQuery),
+                    prompt: Text("screen.lecturers.search.placeholder")
+                )
+                .scrollableToTop(isOnTop: viewStore.binding(\.$isOnTop))
             }
         } loading: {
             LoadingStateView()

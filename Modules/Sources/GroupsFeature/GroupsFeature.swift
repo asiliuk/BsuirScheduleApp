@@ -16,7 +16,11 @@ public struct GroupsFeature: ReducerProtocol {
         }
         
         @BindableState var searchQuery: String = ""
+        var dismissSearch: Bool = false
+        @BindableState var isOnTop: Bool = true
+
         @BindableState var groupSchedule: GroupScheduleFeature.State?
+
         var favorites: [String] = []
         @LoadableState var sections: [Section]?
         @LoadableState var loadedGroups: [StudentGroup]?
@@ -71,7 +75,13 @@ public struct GroupsFeature: ReducerProtocol {
             case let .reducer(.favoritesUpdate(value)):
                 state.favorites = value
                 return .none
-                
+
+            case .binding(\.$searchQuery):
+                if state.searchQuery.isEmpty {
+                    state.dismissSearch = false
+                }
+                return .none
+
             case .reducer, .binding, .loading:
                 return .none
             }
@@ -128,6 +138,25 @@ public struct GroupsFeature: ReducerProtocol {
             } catch {
                 await send(.failure(error))
             }
+        }
+    }
+}
+
+// MARK: - Reset
+
+extension GroupsFeature.State {
+    /// Reset navigation and inner state
+    public mutating func reset() {
+        if groupSchedule != nil {
+            return groupSchedule = nil
+        }
+
+        if !searchQuery.isEmpty {
+            return dismissSearch = true
+        }
+
+        if !isOnTop {
+            return isOnTop = true
         }
     }
 }

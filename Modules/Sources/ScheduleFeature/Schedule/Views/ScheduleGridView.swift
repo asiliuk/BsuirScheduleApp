@@ -22,53 +22,41 @@ struct ScheduleGridView: View {
     @Binding var isOnTop: Bool
 
     var body: some View {
-        ScrollViewReader { proxy in
-            List {
-                Group {
-                    ForEach(days) { day in
-                        ScheduleDay(
-                            title: day.title,
-                            subtitle: day.subtitle,
-                            isMostRelevant: day.isMostRelevant,
-                            isToday: day.isToday,
-                            pairs: day.pairs,
-                            details: pairDetails
-                        )
-                    }
+        List {
+            Group {
+                ForEach(days) { day in
+                    ScheduleDay(
+                        title: day.title,
+                        subtitle: day.subtitle,
+                        isMostRelevant: day.isMostRelevant,
+                        isToday: day.isToday,
+                        pairs: day.pairs,
+                        details: pairDetails
+                    )
+                }
 
-                    switch loading {
-                    case let .loadMore(load):
-                        ProgressView()
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .onAppear(perform: load)
-                    case .finished:
-                        NoMorePairsIndicator()
+                switch loading {
+                case let .loadMore(load):
+                    ProgressView()
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .onAppear(perform: load)
+                case .finished:
+                    NoMorePairsIndicator()
 
-                    case .never:
-                        EmptyView()
-                    }
-                }
-                .listRowSeparator(.hidden)
-            }
-            .listStyle(.plain)
-            // To disable cell celection
-            .buttonStyle(PlainButtonStyle())
-            .onAppear {
-                if isOnTop {
-                    proxy.scrollTo(RelevantDayViewID.mostRelevant, anchor: .top)
+                case .never:
+                    EmptyView()
                 }
             }
-            .onChange(of: isOnTop) { isOnTop in
-                if isOnTop {
-                    withAnimation {
-                        proxy.scrollTo(RelevantDayViewID.mostRelevant, anchor: .top)
-                    }
-                }
-            }
-            .gesture(DragGesture().onChanged { _ in
-                isOnTop = false
-            })
+            .listRowSeparator(.hidden)
         }
+        .listStyle(.plain)
+        // To disable cell celection
+        .buttonStyle(PlainButtonStyle())
+        .scrollableToTop(
+            id: RelevantDayViewID.mostRelevant,
+            isOnTop: $isOnTop,
+            updateOnAppear: true
+        )
     }
 }
 

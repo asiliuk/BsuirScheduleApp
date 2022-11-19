@@ -3,14 +3,16 @@ import BsuirApi
 import BsuirUI
 
 struct GroupsContentView: View {
-    @Binding var searchQuery: String
     let favorites: [String]
     let sections: [GroupsFeature.State.Section]
     let select: (String) -> Void
-    let refresh: () async -> Void
-    
+    let dismissSearch: Bool
+    @Environment(\.dismissSearch) private var dismissSearchAction
+
     var body: some View {
         List {
+            ScrollTopIdentifyingView()
+
             if !favorites.isEmpty {
                 Section(header: Text("screen.groups.favorites.section.header")) {
                     GroupLinksView(
@@ -30,11 +32,9 @@ struct GroupsContentView: View {
             }
         }
         .listStyle(.insetGrouped)
-        .refreshable { await refresh() }
-        .searchable(
-            text: $searchQuery,
-            prompt: Text("screen.groups.search.placeholder")
-        )
+        .onChange(of: dismissSearch) { dismiss in
+            if dismiss { dismissSearchAction() }
+        }
     }
 }
 

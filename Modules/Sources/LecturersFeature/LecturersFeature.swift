@@ -10,11 +10,14 @@ import Favorites
 public struct LecturersFeature: ReducerProtocol {
     public struct State: Equatable {
         @BindableState var searchQuery: String = ""
+        var dismissSearch: Bool = false
+        @BindableState var isOnTop: Bool = true
+
         @BindableState var lectorSchedule: LectorScheduleFeature.State?
         var favorites: [Employee] = []
         @LoadableState var lecturers: [Employee]?
         @LoadableState var loadedLecturers: [Employee]?
-        
+
         public init() {}
     }
     
@@ -65,6 +68,12 @@ public struct LecturersFeature: ReducerProtocol {
             case let .reducer(.favoritesUpdate(value)):
                 state.favorites = value
                 return .none
+
+            case .binding(\.$searchQuery):
+                if state.searchQuery.isEmpty {
+                    state.dismissSearch = false
+                }
+                return .none
                 
             case .reducer, .binding, .loading:
                 return .none
@@ -110,6 +119,25 @@ public struct LecturersFeature: ReducerProtocol {
             } catch {
                 await send(.failure(error))
             }
+        }
+    }
+}
+
+// MARK: - Reset
+
+extension LecturersFeature.State {
+    /// Reset navigation and inner state
+    public mutating func reset() {
+        if lectorSchedule != nil {
+            return lectorSchedule = nil
+        }
+
+        if !searchQuery.isEmpty {
+            return dismissSearch = true
+        }
+
+        if !isOnTop {
+            return isOnTop = true
         }
     }
 }

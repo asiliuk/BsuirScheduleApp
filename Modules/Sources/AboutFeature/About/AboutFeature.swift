@@ -11,11 +11,12 @@ public struct AboutFeature: ReducerProtocol {
         var appVersion: TextState?
         var appIcon = AppIconPickerReducer.State()
         var pairFormsColorPicker = PairFormsColorPicker.State()
+        @BindableState var isOnTop: Bool = true
 
         public init() {}
     }
     
-    public enum Action: Equatable, FeatureAction {
+    public enum Action: Equatable, FeatureAction, BindableAction {
         public enum ViewAction: Equatable {
             case task
             case clearCacheTapped
@@ -32,6 +33,7 @@ public struct AboutFeature: ReducerProtocol {
         
         public typealias DelegateAction = Never
 
+        case binding(BindingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
@@ -78,7 +80,7 @@ public struct AboutFeature: ReducerProtocol {
                     _ = await openUrl(.telegram, [:])
                 }
                 
-            case .reducer:
+            case .reducer, .binding:
                 return .none
             }
         }
@@ -90,6 +92,8 @@ public struct AboutFeature: ReducerProtocol {
         Scope(state: \.pairFormsColorPicker, action: /Action.ReducerAction.pairFormsColorPicker) {
             PairFormsColorPicker()
         }
+
+        BindingReducer()
     }
 }
 
@@ -101,4 +105,15 @@ private extension URL {
 private extension MeaningfulEvent {
     static let githubOpened = Self(score: 1)
     static let telegramOpened = Self(score: 1)
+}
+
+// MARK: - Reset
+
+extension AboutFeature.State {
+    /// Reset navigation and inner state
+    public mutating func reset() {
+        if !isOnTop {
+            return isOnTop = true
+        }
+    }
 }

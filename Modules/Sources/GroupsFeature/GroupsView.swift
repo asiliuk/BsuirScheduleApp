@@ -49,12 +49,17 @@ private struct LoadingGroupsView: View {
         ) { store in
             WithViewStore(store) { sectionsViewStore in
                 GroupsContentView(
-                    searchQuery: viewStore.binding(\.$searchQuery),
                     favorites: viewStore.favorites,
                     sections: sectionsViewStore.state,
                     select: { viewStore.send(.groupTapped(name: $0)) },
-                    refresh: { await sectionsViewStore.send(.refresh).finish() }
+                    dismissSearch: viewStore.dismissSearch
                 )
+                .refreshable { await sectionsViewStore.send(.refresh).finish() }
+                .searchable(
+                    text: viewStore.binding(\.$searchQuery),
+                    prompt: Text("screen.groups.search.placeholder")
+                )
+                .scrollableToTop(isOnTop: viewStore.binding(\.$isOnTop))
             }
         } loading: {
             LoadingStateView()

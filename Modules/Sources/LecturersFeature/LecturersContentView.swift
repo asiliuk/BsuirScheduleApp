@@ -3,14 +3,16 @@ import BsuirApi
 import BsuirUI
 
 struct LecturersContentView: View {
-    @Binding var searchQuery: String
     let favorites: [Employee]
     let lecturers: [Employee]
     let select: (Employee) -> Void
-    let refresh: () async -> Void
+    let dismissSearch: Bool
+    @Environment(\.dismissSearch) private var dismissSearchAction
     
     var body: some View {
         List {
+            ScrollTopIdentifyingView()
+            
             if !favorites.isEmpty {
                 Section(header: Text("screen.lecturers.favorites.section.header")) {
                     EmployeeLinksView(
@@ -28,11 +30,9 @@ struct LecturersContentView: View {
             }
         }
         .listStyle(.insetGrouped)
-        .refreshable { await refresh() }
-        .searchable(
-            text: $searchQuery,
-            prompt: Text("screen.lecturers.search.placeholder")
-        )
+        .onChange(of: dismissSearch) { dismiss in
+            if dismiss { dismissSearchAction() }
+        }
     }
 }
 

@@ -30,6 +30,7 @@ struct AppFeature: ReducerProtocol {
         Reduce { state, action in
             switch action {
             case let .setCurrentSelection(value):
+                updateSelection(state: &state, value)
                 state.currentSelection = value
                 return .none
 
@@ -59,6 +60,23 @@ struct AppFeature: ReducerProtocol {
 
         Scope(state: \.about, action: /Action.about) {
             AboutFeature()
+        }
+    }
+
+    private func updateSelection(state: inout State, _ newValue: CurrentSelection) {
+        guard newValue == state.currentSelection else {
+            state.currentSelection = newValue
+            return
+        }
+
+        // Handle tap on already selected tab
+        switch newValue {
+        case .groups:
+            state.groups.reset()
+        case .lecturers:
+            state.lecturers.reset()
+        case .about:
+            state.about.reset()
         }
     }
 }
