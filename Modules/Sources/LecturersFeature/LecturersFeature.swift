@@ -149,7 +149,7 @@ extension LecturersFeature.State {
     public mutating func openLector(id: Int) {
         guard lectorSchedule?.lector.id != id else { return }
 
-        reset()
+        dismissSearch = true
         if let lector = loadedLecturers?[id: id] {
             lectorSchedule = LectorScheduleFeature.State(lector: lector)
             lectorIdToOpen = nil
