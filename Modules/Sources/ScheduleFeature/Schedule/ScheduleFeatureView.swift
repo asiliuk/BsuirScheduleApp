@@ -4,6 +4,18 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 
 public struct ScheduleFeatureView<Value: Equatable>: View {
+    struct ViewState: Equatable {
+        let title: String
+        let isFavorite: Bool
+        let scheduleType: ScheduleDisplayType
+
+        init(state: ScheduleFeature<Value>.State) {
+            self.title = state.title
+            self.isFavorite = state.isFavorite
+            self.scheduleType = state.scheduleType
+        }
+    }
+
     public let store: StoreOf<ScheduleFeature<Value>>
     public let continiousSchedulePairDetails: ScheduleGridViewPairDetails
     
@@ -13,7 +25,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
     }
 
     public var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: ViewState.init) { viewStore in
             LoadingStore(
                 store,
                 state: \.$schedule,
@@ -55,7 +67,10 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                             toggle: { viewStore.send(.toggleFavoritesTapped) }
                         )
                         ScheduleDisplayTypePickerMenu(
-                            scheduleType: viewStore.binding(\.$scheduleType)
+                            scheduleType: viewStore.binding(
+                                get: \.scheduleType,
+                                send: { .view(.setScheduleType($0)) }
+                            )
                         )
                     }
                 }

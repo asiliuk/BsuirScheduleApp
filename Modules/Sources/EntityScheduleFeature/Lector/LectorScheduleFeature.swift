@@ -9,9 +9,9 @@ import ComposableArchitectureUtils
 public struct LectorScheduleFeature: ReducerProtocol {
     public struct State: Equatable, Identifiable {
         public var id: String { schedule.value }
+        public let lector: Employee
         public var schedule: ScheduleFeature<String>.State
         @BindableState var groupSchedule: GroupScheduleFeature.State?
-        fileprivate let lector: Employee
 
         public init(lector: Employee) {
             self.schedule = .init(title: lector.fio, value: lector.urlId)

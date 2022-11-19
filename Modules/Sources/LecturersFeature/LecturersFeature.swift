@@ -18,6 +18,7 @@ public struct LecturersFeature: ReducerProtocol {
         @LoadableState var lecturers: IdentifiedArrayOf<Employee>?
         @LoadableState var loadedLecturers: IdentifiedArrayOf<Employee>?
 
+        // When deeplink was opened but no lecturers yet loaded
         fileprivate var lectorIdToOpen: Int?
 
         public init() {}
@@ -146,6 +147,8 @@ extension LecturersFeature.State {
 
     /// Open shcedule screen for lector.
     public mutating func openLector(id: Int) {
+        guard lectorSchedule?.lector.id != id else { return }
+
         reset()
         if let lector = loadedLecturers?[id: id] {
             lectorSchedule = LectorScheduleFeature.State(lector: lector)
@@ -155,6 +158,7 @@ extension LecturersFeature.State {
         }
     }
 
+    /// Check if we have model for lecror we were trying to open if so open its schedule.
     fileprivate mutating func openLectorIfNeeded() {
         guard let lectorIdToOpen else { return }
         openLector(id: lectorIdToOpen)

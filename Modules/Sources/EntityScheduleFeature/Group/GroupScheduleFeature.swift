@@ -10,12 +10,11 @@ public struct GroupScheduleFeature: ReducerProtocol {
     public struct State: Equatable, Identifiable {
         public var id: String { schedule.value }
         public var schedule: ScheduleFeature<String>.State
-        
+        public let groupName: String
+
         // Has to be wrapped in the box or fails to compile because
         // of recursive state between group & lector schedule states
         @BindableState var lectorSchedule: Box<LectorScheduleFeature.State>?
-
-        fileprivate let groupName: String
 
         public init(groupName: String) {
             self.schedule = .init(title: groupName, value: groupName)

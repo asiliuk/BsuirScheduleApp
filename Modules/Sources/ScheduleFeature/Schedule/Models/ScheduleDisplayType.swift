@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-enum ScheduleDisplayType: Hashable, CaseIterable {
+public enum ScheduleDisplayType: Hashable, CaseIterable {
     case continuous
     case compact
     case exams

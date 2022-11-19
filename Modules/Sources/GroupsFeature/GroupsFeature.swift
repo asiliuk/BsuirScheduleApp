@@ -162,6 +162,7 @@ extension GroupsFeature.State {
 
     /// Open shcedule screen for group.
     mutating public func openGroup(named name: String) {
+        guard groupSchedule?.groupName != name else { return }
         reset()
         groupSchedule = GroupScheduleFeature.State(groupName: name)
     }

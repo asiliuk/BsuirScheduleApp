@@ -46,7 +46,7 @@ public struct LoadingStore<
         func fromViewAction(_ viewAction: ViewAction) -> Action {
             let wrapping = { Action.loading(.init(keyPath: loadingKeyPath, action: .view($0))) }
             switch viewAction {
-            case .view(.onAppear):
+            case .loading(.onAppear):
                 return wrapping(.onAppear)
             case .error(.reload):
                 return wrapping(.reload)
@@ -68,6 +68,7 @@ public struct LoadingStore<
             SwitchStore(store) {
                 CaseLet(state: /ViewState.loading, action: ViewAction.loading) { store in
                     loading
+                        .onAppear { ViewStore(store).send(.onAppear) }
                 }
 
                 CaseLet(state: /ViewState.error, action: ViewAction.error) { store in
@@ -79,7 +80,6 @@ public struct LoadingStore<
                 }
             }
         }
-        .onAppear { ViewStore(store.stateless).send(.view(.onAppear)) }
     }
 }
 
@@ -167,12 +167,10 @@ extension Store {
 // MARK: - Action
 
 public enum LoadingStoreViewAction<ValueAction> {
-    public enum ViewAction {
+    public enum LoadingAction {
         case onAppear
     }
 
-    public typealias LoadingAction = Never
-    
     public enum ErrorAction {
         case reload
     }
@@ -182,7 +180,6 @@ public enum LoadingStoreViewAction<ValueAction> {
         case value(ValueAction)
     }
 
-    case view(ViewAction)
     case loading(LoadingAction)
     case error(ErrorAction)
     case loaded(LoadedAction)

@@ -64,7 +64,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         public var value: Value
         public var isFavorite: Bool = false
         @LoadableState var schedule: Schedule?
-        @BindableState var scheduleType: ScheduleDisplayType = .continuous
+        var scheduleType: ScheduleDisplayType = .continuous
         
         public init(title: String, value: Value) {
             self.title = title
@@ -72,10 +72,11 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         }
     }
 
-    public enum Action: Equatable, FeatureAction, BindableAction, LoadableAction {
-        public enum ViewAction {
+    public enum Action: Equatable, FeatureAction, LoadableAction {
+        public enum ViewAction: Equatable {
             case scrollToMostRelevantTapped
             case toggleFavoritesTapped
+            case setScheduleType(ScheduleDisplayType)
         }
 
         public enum ReducerAction: Equatable {
@@ -92,7 +93,6 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
             case toggleFavorite
         }
 
-        case binding(BindingAction<State>)
         case loading(LoadingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
@@ -131,17 +131,21 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
             case .view(.scrollToMostRelevantTapped):
                 state.schedule?.continious.isOnTop = true
                 return .none
+
+            case let .view(.setScheduleType(value)):
+                defer { state.scheduleType = value }
+                guard state.scheduleType != value else { return .none }
+
+                state.schedule?.continious.isOnTop = true
+                return .fireAndForget {
+                    reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
+                }
                 
             case .loading(.finished(\.$schedule)):
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
                 }
-                
-            case .binding(\.$scheduleType):
-                state.schedule?.continious.isOnTop = true
-                return .fireAndForget {
-                    reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
-                }
+
             case .view(.toggleFavoritesTapped):
                 return .merge(
                     .task { .delegate(.toggleFavorite) },
@@ -151,7 +155,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                     }
                 )
 
-            case .reducer, .delegate, .loading, .binding:
+            case .reducer, .delegate, .loading:
                 return .none
             }
         }
@@ -172,8 +176,6 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         } fetch: { state in
             fetch(state.value)
         }
-        
-        BindingReducer()
     }
 }
 
