@@ -146,13 +146,18 @@ extension LecturersFeature.State {
     }
 
     /// Open shcedule screen for lector.
-    public mutating func openLector(id: Int) {
-        guard lectorSchedule?.lector.id != id else { return }
+    public mutating func openLector(_ lector: Employee) {
+        guard lectorSchedule?.lector != lector else { return }
 
         dismissSearch = true
+        lectorSchedule = LectorScheduleFeature.State(lector: lector)
+        lectorIdToOpen = nil
+    }
+
+    /// Open shcedule screen for lector.
+    public mutating func openLector(id: Int) {
         if let lector = loadedLecturers?[id: id] {
-            lectorSchedule = LectorScheduleFeature.State(lector: lector)
-            lectorIdToOpen = nil
+            openLector(lector)
         } else {
             lectorIdToOpen = id
         }

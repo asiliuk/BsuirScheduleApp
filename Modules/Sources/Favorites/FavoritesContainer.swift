@@ -2,34 +2,20 @@ import Foundation
 import BsuirApi
 import Combine
 
-public protocol FavoritesContainerProtocol {
-    var groupNames: AnyPublisher<[String], Never> { get }
-    func toggle(groupNamed: String)
-    
-    var lecturers: AnyPublisher<[Employee], Never> { get }
-    func toggle(lecturer: Employee)
-}
-
 public final class FavoritesContainer {
     @Published private var legacyGroupsStorage: FavoritesValue<StudentGroup>
     @Published private var groupNamesStorage: FavoritesValue<String>
     @Published private var lecturersStorage: FavoritesValue<Employee>
-    
-    public var isGroupsEmpty: Bool {
-        groupNamesStorage.value.isEmpty
-    }
 
-    public var isLecturersEmpty: Bool {
-        lecturersStorage.value.isEmpty
-    }
-
-    public init(storage: UserDefaults) {
+    init(storage: UserDefaults) {
         self.legacyGroupsStorage = FavoritesValue(storage: storage, key: "favorite-groups")
         self.groupNamesStorage = FavoritesValue(storage: storage, key: "favorite-group-names")
         self.lecturersStorage = FavoritesValue(storage: storage, key: "favorite-lecturers")
+
+        migrateIfNeeded()
     }
 
-    public func migrateIfNeeded() {
+    private func migrateIfNeeded() {
         let legacyGroups = legacyGroupsStorage.value
 
         guard !legacyGroups.isEmpty else { return }
@@ -38,7 +24,13 @@ public final class FavoritesContainer {
     }
 }
 
-extension FavoritesContainer: FavoritesContainerProtocol {
+// MARK: - API
+
+extension FavoritesContainer {
+    public var currentGroupNames: [String] {
+        groupNamesStorage.value
+    }
+
     public var groupNames: AnyPublisher<[String], Never> {
         $groupNamesStorage.map(\.value).eraseToAnyPublisher()
     }
@@ -46,7 +38,11 @@ extension FavoritesContainer: FavoritesContainerProtocol {
     public func toggle(groupNamed groupName: String) {
         groupNamesStorage.toggle(groupName)
     }
-    
+
+    public var currentLecturers: [Employee] {
+        lecturersStorage.value
+    }
+
     public var lecturers: AnyPublisher<[Employee], Never> {
         $lecturersStorage.map(\.value).eraseToAnyPublisher()
     }

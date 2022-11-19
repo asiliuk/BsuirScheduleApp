@@ -3,12 +3,13 @@ import GroupsFeature
 import LecturersFeature
 import AboutFeature
 import Deeplinking
+import Favorites
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
 struct AppFeature: ReducerProtocol {
     struct State: Equatable {
-        var selection: CurrentSelection
+        var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
 
         var groups = GroupsFeature.State()
@@ -17,6 +18,8 @@ struct AppFeature: ReducerProtocol {
     }
 
     enum Action {
+        case onAppear
+
         case handleDeeplink(URL)
         case setSelection(CurrentSelection)
         case setOverlay(CurrentOverlay?)
@@ -27,9 +30,15 @@ struct AppFeature: ReducerProtocol {
         case about(AboutFeature.Action)
     }
 
+    @Dependency(\.favorites) var favorites
+
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                handleInitialSelection(state: &state)
+                return .none
+
             case let .setSelection(value):
                 updateSelection(state: &state, value)
                 state.selection = value
@@ -67,6 +76,20 @@ struct AppFeature: ReducerProtocol {
 
         Scope(state: \.about, action: /Action.about) {
             AboutFeature()
+        }
+    }
+
+    private func handleInitialSelection(state: inout State) {
+        if let groupName = favorites.currentGroupNames.first {
+            state.selection = .groups
+            state.groups.openGroup(named: groupName)
+            return
+        }
+
+        if let lector = favorites.currentLecturers.first {
+            state.selection = .lecturers
+            state.lecturers.openLector(lector)
+            return
         }
     }
 

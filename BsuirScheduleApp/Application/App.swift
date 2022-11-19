@@ -12,6 +12,7 @@ struct App: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
             RootView(store: appDelegate.store)
+                .onAppear { ViewStore(appDelegate.store).send(.onAppear) }
                 .environment(\.reviewRequestService, appDelegate.reviewRequestService)
                 .environmentObject(appDelegate.pairFormColorService)
         }
@@ -20,14 +21,8 @@ struct App: SwiftUI.App {
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     private(set) lazy var store = Store(
-        initialState: .init(
-            // Open lecturers tab if only lecturers has favorites
-            selection: favorites.isGroupsEmpty && !favorites.isLecturersEmpty
-                ? .lecturers
-                : .groups
-        ),
+        initialState: .init(),
         reducer: AppFeature()
-            .dependency(\.favorites, favorites)
             .dependency(\.urlCache, requestManager.cache)
             .dependency(\.imageCache, .default)
             .dependency(\.reviewRequestService, reviewRequestService)
@@ -36,13 +31,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 
     override init() {
         super.init()
-        self.favorites.migrateIfNeeded()
     }
 
     private let storage: UserDefaults = .standard
     private let sharedStorage: UserDefaults = .asiliukShared
     private let requestManager = RequestsManager.iisBsuir()
-    private lazy var favorites = FavoritesContainer(storage: storage)
     private(set) lazy var reviewRequestService = ReviewRequestService(storage: storage)
     private(set) lazy var pairFormColorService = PairFormColorService(storage: sharedStorage)
 }
