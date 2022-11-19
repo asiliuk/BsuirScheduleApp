@@ -38,14 +38,14 @@
 		E691E96E250D2D6100116878 /* AppIconDark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E969250D2D6100116878 /* AppIconDark@2x.png */; };
 		E691E96F250D2D6100116878 /* AppIconDark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E96A250D2D6100116878 /* AppIconDark@3x.png */; };
 		E691E971250D2D6D00116878 /* AppIconNostalgia@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E691E970250D2D6D00116878 /* AppIconNostalgia@3x.png */; };
-		E6964820233F7BD3007EF2CB /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E696481F233F7BD3007EF2CB /* AppState.swift */; };
+		E69616632928243B00092585 /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69616622928243B00092585 /* AppFeature.swift */; };
 		E6964824233F7D72007EF2CB /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6964823233F7D72007EF2CB /* RootView.swift */; };
 		E6972D16287B4A4E0003506F /* BsuirCore in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D15287B4A4E0003506F /* BsuirCore */; };
 		E6972D18287B4A4E0003506F /* BsuirUI in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D17287B4A4E0003506F /* BsuirUI */; };
 		E6972D1A287B4A550003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D19287B4A550003506F /* BsuirApi */; };
 		E6972D1C287B4A550003506F /* BsuirUI in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1B287B4A550003506F /* BsuirUI */; };
 		E6972D1E287B4A5A0003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1D287B4A5A0003506F /* BsuirApi */; };
-		E69A300525C5AB86009324B6 /* BsuirScheduleApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69A300425C5AB86009324B6 /* BsuirScheduleApplication.swift */; };
+		E69A300525C5AB86009324B6 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69A300425C5AB86009324B6 /* App.swift */; };
 		E69A965D25121DE30057FCD6 /* AppIconDark_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A965C25121DE30057FCD6 /* AppIconDark_83.5@2x.png */; };
 		E69A966125121EAD0057FCD6 /* AppIconNostalgia_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A966025121EAD0057FCD6 /* AppIconNostalgia_83.5@2x.png */; };
 		E69A966325121EB70057FCD6 /* AppIconResist_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E69A966225121EB70057FCD6 /* AppIconResist_83.5@2x.png */; };
@@ -153,9 +153,9 @@
 		E691E969250D2D6100116878 /* AppIconDark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@2x.png"; sourceTree = "<group>"; };
 		E691E96A250D2D6100116878 /* AppIconDark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@3x.png"; sourceTree = "<group>"; };
 		E691E970250D2D6D00116878 /* AppIconNostalgia@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNostalgia@3x.png"; sourceTree = "<group>"; };
-		E696481F233F7BD3007EF2CB /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		E69616622928243B00092585 /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
 		E6964823233F7D72007EF2CB /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
-		E69A300425C5AB86009324B6 /* BsuirScheduleApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsuirScheduleApplication.swift; sourceTree = "<group>"; };
+		E69A300425C5AB86009324B6 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E69A965C25121DE30057FCD6 /* AppIconDark_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark_83.5@2x.png"; sourceTree = "<group>"; };
 		E69A966025121EAD0057FCD6 /* AppIconNostalgia_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconNostalgia_83.5@2x.png"; sourceTree = "<group>"; };
 		E69A966225121EB70057FCD6 /* AppIconResist_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconResist_83.5@2x.png"; sourceTree = "<group>"; };
@@ -308,15 +308,16 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		E696481E233F7BBE007EF2CB /* Screens */ = {
+		E696481E233F7BBE007EF2CB /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				E69A300425C5AB86009324B6 /* App.swift */,
 				E6964823233F7D72007EF2CB /* RootView.swift */,
 				E6373F05250A387900729EC8 /* CompactRootView.swift */,
 				E6373F07250A38C400729EC8 /* RegularRootView.swift */,
-				E696481F233F7BD3007EF2CB /* AppState.swift */,
+				E69616622928243B00092585 /* AppFeature.swift */,
 			);
-			path = Screens;
+			path = Application;
 			sourceTree = "<group>";
 		};
 		E6AA8D1425162F1A00788A02 /* ScheduleWidget */ = {
@@ -372,9 +373,8 @@
 			children = (
 				E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */,
 				E67491112523BC26006CE90E /* Services */,
-				E696481E233F7BBE007EF2CB /* Screens */,
+				E696481E233F7BBE007EF2CB /* Application */,
 				E695524A22F9D0E000EEFA72 /* Resources */,
-				E69A300425C5AB86009324B6 /* BsuirScheduleApplication.swift */,
 			);
 			path = BsuirScheduleApp;
 			sourceTree = "<group>";
@@ -588,14 +588,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E69A300525C5AB86009324B6 /* BsuirScheduleApplication.swift in Sources */,
+				E69616632928243B00092585 /* AppFeature.swift in Sources */,
+				E69A300525C5AB86009324B6 /* App.swift in Sources */,
 				E6373F06250A387900729EC8 /* CompactRootView.swift in Sources */,
 				E6964824233F7D72007EF2CB /* RootView.swift in Sources */,
 				E6A6D1C325D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */,
 				E6B289A027038759008469F3 /* DeeplinkHandler.swift in Sources */,
 				E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */,
 				E6373F08250A38C400729EC8 /* RegularRootView.swift in Sources */,
-				E6964820233F7BD3007EF2CB /* AppState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

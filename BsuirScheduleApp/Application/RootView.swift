@@ -1,13 +1,7 @@
-//
-//  RootView.swift
-//  BsuirScheduleApp
-//
-//  Created by Anton Siliuk on 9/28/19.
-//  Copyright © 2019 Saute. All rights reserved.
-//
-
 import SwiftUI
 import AboutFeature
+import ComposableArchitecture
+import ComposableArchitectureUtils
 
 enum CurrentSelection: Hashable {
     case groups
@@ -21,27 +15,20 @@ enum CurrentOverlay: Identifiable {
 }
 
 struct RootView: View {
-    @ObservedObject var state: AppState
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @State private var currentOverlay: CurrentOverlay?
+    let store: StoreOf<AppFeature>
 
     var body: some View {
         content
-            .onOpenURL(perform: state.deeplinkHandler.handle(url:))
-            .sheet(item: $currentOverlay) { overlay in
-                switch overlay {
-                case .about:
-                    NavigationView { AboutView(store: state.aboutStore) }
-                }
-            }
+            .onOpenURL(perform: { ViewStore(store.stateless).send(.handleDeeplink($0)) })
     }
 
     @ViewBuilder private var content: some View {
         switch horizontalSizeClass {
         case nil, .compact?:
-            CompactRootView(state: state, currentSelection: $state.currentSelection)
+            CompactRootView(store: store)
         case .regular?:
-            RegularRootView(state: state, currentSelection: $state.currentSelection, currentOverlay: $currentOverlay)
+            RegularRootView(store: store)
         case .some:
             EmptyView().onAppear { assertionFailure("Unexpected horizontalSizeClass") }
         }

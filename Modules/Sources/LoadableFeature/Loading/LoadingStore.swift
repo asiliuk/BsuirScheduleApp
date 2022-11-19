@@ -79,7 +79,7 @@ public struct LoadingStore<
                 }
             }
         }
-        .onAppear { store.tempViewStore().send(.view(.onAppear)) }
+        .onAppear { ViewStore(store.stateless).send(.view(.onAppear)) }
     }
 }
 
