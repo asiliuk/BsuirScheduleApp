@@ -28,7 +28,9 @@ public struct GroupsView: View {
             }
             .navigation(item: viewStore.binding(\.$groupSchedule)) { _ in
                 IfLetStore(
-                    store.scope(state: \.groupSchedule, action: { .reducer(.groupSchedule($0)) })
+                    store
+                        .scope(state: \.groupSchedule, action: { .groupSchedule($0) })
+                        .returningLastNonNilState()
                 ) { store in
                     GroupScheduleView(store: store)
                 }

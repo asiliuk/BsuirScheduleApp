@@ -20,7 +20,9 @@ public struct LecturersView: View {
             )
             .navigation(item: viewStore.binding(\.$lectorSchedule)) { _ in
                 IfLetStore(
-                    store.scope(state: \.lectorSchedule, action: { .reducer(.lectorSchedule($0)) })
+                    store
+                        .scope(state: \.lectorSchedule, action: { .lectorSchedule($0) })
+                        .returningLastNonNilState()
                 ) { store in
                     LectorScheduleView(store: store)
                 }
