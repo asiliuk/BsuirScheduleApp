@@ -74,7 +74,7 @@ struct ScheduleWidgetEntryView: View {
                 EmptyView()
             }
         }
-        .widgetURL(entry.deeplink?.rawValue)
+        .widgetURL(entry.deeplink)
     }
 }
 

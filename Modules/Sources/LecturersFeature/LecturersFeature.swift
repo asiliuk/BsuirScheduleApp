@@ -14,9 +14,11 @@ public struct LecturersFeature: ReducerProtocol {
         @BindableState var isOnTop: Bool = true
 
         @BindableState var lectorSchedule: LectorScheduleFeature.State?
-        var favorites: [Employee] = []
-        @LoadableState var lecturers: [Employee]?
-        @LoadableState var loadedLecturers: [Employee]?
+        var favorites: IdentifiedArrayOf<Employee> = []
+        @LoadableState var lecturers: IdentifiedArrayOf<Employee>?
+        @LoadableState var loadedLecturers: IdentifiedArrayOf<Employee>?
+
+        fileprivate var lectorIdToOpen: Int?
 
         public init() {}
     }
@@ -63,10 +65,11 @@ public struct LecturersFeature: ReducerProtocol {
                 
             case .loading(.finished(\.$loadedLecturers)):
                 filteredLecturers(state: &state)
+                state.openLectorIfNeeded()
                 return .none
                 
             case let .reducer(.favoritesUpdate(value)):
-                state.favorites = value
+                state.favorites = IdentifiedArray(uniqueElements: value)
                 return .none
 
             case .binding(\.$searchQuery):
@@ -105,7 +108,7 @@ public struct LecturersFeature: ReducerProtocol {
         }
     }
     
-    private func fetchLecturers(_ state: State) -> EffectTask<TaskResult<[Employee]>> {
+    private func fetchLecturers(_ state: State) -> EffectTask<TaskResult<IdentifiedArrayOf<Employee>>> {
         return .run { send in
             let request = requestsManager
                 .request(BsuirIISTargets.Employees())
@@ -114,7 +117,7 @@ public struct LecturersFeature: ReducerProtocol {
 
             do {
                 for try await value in request.values {
-                    await send(.success(value))
+                    await send(.success(IdentifiedArray(uniqueElements: value)))
                 }
             } catch {
                 await send(.failure(error))
@@ -139,5 +142,21 @@ extension LecturersFeature.State {
         if !isOnTop {
             return isOnTop = true
         }
+    }
+
+    /// Open shcedule screen for lector.
+    public mutating func openLector(id: Int) {
+        reset()
+        if let lector = loadedLecturers?[id: id] {
+            lectorSchedule = LectorScheduleFeature.State(lector: lector)
+            lectorIdToOpen = nil
+        } else {
+            lectorIdToOpen = id
+        }
+    }
+
+    fileprivate mutating func openLectorIfNeeded() {
+        guard let lectorIdToOpen else { return }
+        openLector(id: lectorIdToOpen)
     }
 }

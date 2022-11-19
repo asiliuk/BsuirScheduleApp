@@ -3,6 +3,7 @@ import SwiftUI
 import Intents
 import BsuirApi
 import BsuirCore
+import Deeplinking
 import Combine
 
 final class Provider: IntentTimelineProvider, ObservableObject {
@@ -105,7 +106,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
             return requestManager
                 .request(BsuirIISTargets.GroupSchedule(groupNumber: name))
                 .map { ScheduleResponse(
-                    deeplink: .groups(id: $0.studentGroup.id),
+                    deeplink: .group(name: $0.studentGroup.name),
                     title: $0.studentGroup.name,
                     startDate: $0.startDate,
                     endDate: $0.endDate,
@@ -116,7 +117,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
             return requestManager
                 .request(BsuirIISTargets.EmployeeSchedule(urlId: urlId))
                 .map { ScheduleResponse(
-                    deeplink: .lecturers(id: $0.employee.id),
+                    deeplink: .lector(id: $0.employee.id),
                     title: $0.employee.abbreviatedName,
                     startDate: $0.startDate,
                     endDate: $0.endDate,
@@ -166,7 +167,7 @@ private extension ScheduleEntry {
         self.init(
             date: date,
             relevance: relevance,
-            deeplink: response.deeplink,
+            deeplink: deeplinkRouter.url(for: response.deeplink),
             title: response.title,
             content: .pairs(
                 passed: passedPairs.map { PairViewModel(pair: $0, date: date) },

@@ -61,7 +61,7 @@ public struct GroupsFeature: ReducerProtocol {
                 return listenToFavoriteUpdates()
                 
             case let .view(.groupTapped(groupName)):
-                state.groupSchedule = .init(groupName: groupName)
+                state.openGroup(named: groupName)
                 return .none
                 
             case .view(.filterGroups):
@@ -158,5 +158,11 @@ extension GroupsFeature.State {
         if !isOnTop {
             return isOnTop = true
         }
+    }
+
+    /// Open shcedule screen for group.
+    mutating public func openGroup(named name: String) {
+        reset()
+        groupSchedule = GroupScheduleFeature.State(groupName: name)
     }
 }

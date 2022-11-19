@@ -2,13 +2,14 @@ import Foundation
 import GroupsFeature
 import LecturersFeature
 import AboutFeature
+import Deeplinking
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
 struct AppFeature: ReducerProtocol {
     struct State: Equatable {
-        var currentSelection: CurrentSelection
-        var currentOverlay: CurrentOverlay?
+        var selection: CurrentSelection
+        var overlay: CurrentOverlay?
 
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
@@ -17,8 +18,8 @@ struct AppFeature: ReducerProtocol {
 
     enum Action {
         case handleDeeplink(URL)
-        case setCurrentSelection(CurrentSelection)
-        case setCurrentOverlay(CurrentOverlay?)
+        case setSelection(CurrentSelection)
+        case setOverlay(CurrentOverlay?)
         case showAboutButtonTapped
 
         case groups(GroupsFeature.Action)
@@ -29,20 +30,26 @@ struct AppFeature: ReducerProtocol {
     var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case let .setCurrentSelection(value):
+            case let .setSelection(value):
                 updateSelection(state: &state, value)
-                state.currentSelection = value
+                state.selection = value
                 return .none
 
-            case let .setCurrentOverlay(value):
-                state.currentOverlay = value
+            case let .setOverlay(value):
+                state.overlay = value
                 return .none
 
             case .showAboutButtonTapped:
-                state.currentOverlay = .about
+                state.overlay = .about
                 return .none
 
             case let .handleDeeplink(url):
+                do {
+                    let deeplink = try deeplinkRouter.match(url: url)
+                    handleDeepling(state: &state, deeplink: deeplink)
+                } catch {
+                    assertionFailure("Failed to parse deeplink. \(error.localizedDescription)")
+                }
                 return .none
 
             case .groups, .lecturers, .about:
@@ -63,9 +70,26 @@ struct AppFeature: ReducerProtocol {
         }
     }
 
+    private func handleDeepling(state: inout State, deeplink: Deeplink) {
+        switch deeplink {
+        case .groups:
+            state.selection = .groups
+            state.groups.reset()
+        case let .group(name):
+            state.selection = .groups
+            state.groups.openGroup(named: name)
+        case .lecturers:
+            state.selection = .lecturers
+            state.lecturers.reset()
+        case let .lector(id):
+            state.selection = .lecturers
+            state.lecturers.openLector(id: id)
+        }
+    }
+
     private func updateSelection(state: inout State, _ newValue: CurrentSelection) {
-        guard newValue == state.currentSelection else {
-            state.currentSelection = newValue
+        guard newValue == state.selection else {
+            state.selection = newValue
             return
         }
 

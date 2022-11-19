@@ -22,7 +22,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     private(set) lazy var store = Store(
         initialState: .init(
             // Open lecturers tab if only lecturers has favorites
-            currentSelection: favorites.isGroupsEmpty && !favorites.isLecturersEmpty
+            selection: favorites.isGroupsEmpty && !favorites.isLecturersEmpty
                 ? .lecturers
                 : .groups
         ),
@@ -43,7 +43,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     private let sharedStorage: UserDefaults = .asiliukShared
     private let requestManager = RequestsManager.iisBsuir()
     private lazy var favorites = FavoritesContainer(storage: storage)
-    private(set) lazy var deeplinkHandler = DeeplinkHandler()
     private(set) lazy var reviewRequestService = ReviewRequestService(storage: storage)
     private(set) lazy var pairFormColorService = PairFormColorService(storage: sharedStorage)
 }

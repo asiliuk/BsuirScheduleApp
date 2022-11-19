@@ -10,8 +10,8 @@ struct RegularRootView: View {
         var overlay: CurrentOverlay?
 
         init(state: AppFeature.State) {
-            self.selection = state.currentSelection
-            self.overlay = state.currentOverlay
+            self.selection = state.selection
+            self.overlay = state.overlay
         }
     }
 
@@ -20,7 +20,7 @@ struct RegularRootView: View {
     var body: some View {
         WithViewStore(store, observe: { ViewState(state: $0) }) { viewStore in
             NavigationView {
-                TabView(selection: viewStore.binding(get: \.selection, send: AppFeature.Action.setCurrentSelection)) {
+                TabView(selection: viewStore.binding(get: \.selection, send: AppFeature.Action.setSelection)) {
                     // Placeholder
                     // When in NavigationView first tab is not visible on iPad
                     Text("Oops").opacity(0)
@@ -53,7 +53,7 @@ struct RegularRootView: View {
             }
             // TODO: Use unwraping API here from SwiftUINavigation
             // And merge overlay enum with selection enum
-            .sheet(item: viewStore.binding(get: \.overlay, send: AppFeature.Action.setCurrentOverlay)) { overlay in
+            .sheet(item: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay)) { overlay in
                 switch overlay {
                 case .about:
                     NavigationView {

@@ -10,8 +10,8 @@ struct CompactRootView: View {
     let store: StoreOf<AppFeature>
 
     var body: some View {
-        WithViewStore(store, observe: \.currentSelection) { viewStore in
-            TabView(selection: viewStore.binding(get: { $0 }, send: AppFeature.Action.setCurrentSelection)) {
+        WithViewStore(store, observe: \.selection) { viewStore in
+            TabView(selection: viewStore.binding(get: { $0 }, send: AppFeature.Action.setSelection)) {
                 NavigationView {
                     GroupsView(
                         store: store.scope(

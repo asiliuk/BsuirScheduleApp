@@ -1,10 +1,11 @@
 import SwiftUI
 import BsuirApi
 import BsuirUI
+import IdentifiedCollections
 
 struct LecturersContentView: View {
-    let favorites: [Employee]
-    let lecturers: [Employee]
+    let favorites: IdentifiedArrayOf<Employee>
+    let lecturers: IdentifiedArrayOf<Employee>
     let select: (Employee) -> Void
     let dismissSearch: Bool
     @Environment(\.dismissSearch) private var dismissSearchAction
@@ -37,7 +38,7 @@ struct LecturersContentView: View {
 }
 
 private struct EmployeeLinksView: View {
-    let lecturers: [Employee]
+    let lecturers: IdentifiedArrayOf<Employee>
     let select: (Employee) -> Void
 
     var body: some View {
