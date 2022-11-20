@@ -13,8 +13,13 @@ struct AppIconView: View {
     
     private var iconImage: UIImage {
         UIGraphicsImageRenderer(size: CGSize(width: size, height: size)).image { context in
-            UIBezierPath(roundedRect: context.format.bounds, cornerRadius: (8 / 34) * size).addClip()
+            let path = UIBezierPath(roundedRect: context.format.bounds, cornerRadius: (8 / 34) * size)
+            path.addClip()
+
             image?.draw(in: context.format.bounds)
+
+            UIColor.gray.withAlphaComponent(0.1).setStroke()
+            path.stroke()
         }
     }
     
