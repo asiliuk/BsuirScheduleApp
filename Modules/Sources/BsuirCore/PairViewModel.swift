@@ -6,6 +6,7 @@ public struct PairViewModel: Equatable, Identifiable {
         case lecture
         case practice
         case lab
+        case consultation
         case exam
         case unknown
     }
@@ -104,6 +105,8 @@ private extension PairViewModel {
             return .practice
         case .lab:
             return .lab
+        case .consultation:
+            return .consultation
         case .exam:
             return .exam
         case .unknown, nil:

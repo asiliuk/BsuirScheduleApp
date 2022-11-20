@@ -13,6 +13,7 @@ public struct Pair: Codable, Equatable {
         case lecture
         case practice
         case lab
+        case consultation
         case exam
         case unknown(String)
     }
@@ -161,6 +162,8 @@ extension Pair.Form: Codable {
             self = .practice
         case "лр", "улр":
             self = .lab
+        case "консультация":
+            self = .consultation
         case "экзамен":
             self = .exam
         case let unknown:
@@ -178,6 +181,8 @@ extension Pair.Form: Codable {
             try container.encode("пз")
         case .lab:
             try container.encode("лр")
+        case .consultation:
+            try container.encode("консультация")
         case .exam:
             try container.encode("экзамен")
         case let .unknown(value):

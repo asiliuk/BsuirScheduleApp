@@ -38,7 +38,9 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
             case loadMoreDays
         }
         
-        public typealias DelegateAction = Never
+        public enum DelegateAction {
+            case thereIsNoSchedule
+        }
         
         case binding(BindingAction<State>)
         case view(ViewAction)
@@ -59,7 +61,11 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
             case .view(.onAppear):
                 state.offset = calendar.date(byAdding: .day, value: -4, to: now)
                 loadDays(&state, count: 12)
-                return .none
+                if state.days.isEmpty {
+                    return .task { .delegate(.thereIsNoSchedule) }
+                } else  {
+                    return .none
+                }
                 
             case .view(.loadMoreIndicatorAppear):
                 return .task {
@@ -73,7 +79,7 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
                     reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
                 }
                 
-            case .binding:
+            case .binding, .delegate:
                 return .none
             }
         }

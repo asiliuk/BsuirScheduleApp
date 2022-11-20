@@ -14,7 +14,7 @@ public struct GroupScheduleView: View {
         WithViewStore(store) { viewStore in
             ScheduleFeatureView(
                 store: store.scope(state: \.schedule, action: { .schedule($0) }),
-                continiousSchedulePairDetails: .lecturers {
+                schedulePairDetails: .lecturers {
                     viewStore.send(.lectorTapped($0))
                 }
             )

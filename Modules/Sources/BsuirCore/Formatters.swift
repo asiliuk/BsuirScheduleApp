@@ -20,6 +20,11 @@ extension FormatStyle where Self == Date.FormatStyle {
             .day()
             .month(.wide)
     }
+
+    public static var examDay: Self {
+        return .scheduleDay
+            .year(.twoDigits)
+    }
     
     public static var widgetSmall: Self {
         return .dateTime

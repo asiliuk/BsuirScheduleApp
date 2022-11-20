@@ -74,6 +74,8 @@ private extension PairViewForm {
             return .red
         case .lab:
             return .yellow
+        case .consultation:
+            return .brown
         case .exam:
             return .purple
         case .unknown:

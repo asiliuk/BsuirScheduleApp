@@ -118,12 +118,14 @@
 "view.pairView.form.name.lecture" = "Lecture";
 "view.pairView.form.name.lab" = "Laboratory lesson";
 "view.pairView.form.name.practice" = "Practical lesson";
+"view.pairView.form.name.consultation" = "Consultation";
 "view.pairView.form.name.exam" = "Exam";
 "view.pairView.form.name.unknown" = "Unknown";
 
 "view.pairView.form.name.short.lecture" = "LE";
 "view.pairView.form.name.short.lab" = "LL";
 "view.pairView.form.name.short.practice" = "PL";
+"view.pairView.form.name.short.consultation" = "CO";
 "view.pairView.form.name.short.exam" = "EX";
 "view.pairView.form.name.short.unknown" = "UK";
 

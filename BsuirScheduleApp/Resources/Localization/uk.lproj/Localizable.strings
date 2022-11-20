@@ -118,12 +118,14 @@
 "view.pairView.form.name.lecture" = "Лекція";
 "view.pairView.form.name.lab" = "Лабораторна робота";
 "view.pairView.form.name.practice" = "Практична робота";
+"view.pairView.form.name.consultation" = "Консультація";
 "view.pairView.form.name.exam" = "Іспит";
 "view.pairView.form.name.unknown" = "Невідомо";
 
 "view.pairView.form.name.short.lecture" = "ЛК";
 "view.pairView.form.name.short.lab" = "ЛР";
 "view.pairView.form.name.short.practice" = "ПЗ";
+"view.pairView.form.name.short.consultation" = "КО";
 "view.pairView.form.name.short.exam" = "ІС";
 "view.pairView.form.name.short.unknown" = "ХВ";
 

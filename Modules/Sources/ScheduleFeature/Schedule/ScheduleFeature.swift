@@ -155,6 +155,10 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                     }
                 )
 
+            case .reducer(.schedule(.continious(.delegate(.thereIsNoSchedule)))):
+                state.scheduleType = .exams
+                return .none
+
             case .reducer, .delegate, .loading:
                 return .none
             }

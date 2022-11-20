@@ -17,11 +17,11 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
     }
 
     public let store: StoreOf<ScheduleFeature<Value>>
-    public let continiousSchedulePairDetails: ScheduleGridViewPairDetails
+    public let schedulePairDetails: ScheduleGridViewPairDetails
     
-    public init(store: StoreOf<ScheduleFeature<Value>>, continiousSchedulePairDetails: ScheduleGridViewPairDetails) {
+    public init(store: StoreOf<ScheduleFeature<Value>>, schedulePairDetails: ScheduleGridViewPairDetails) {
         self.store = store
-        self.continiousSchedulePairDetails = continiousSchedulePairDetails
+        self.schedulePairDetails = schedulePairDetails
     }
 
     public var body: some View {
@@ -43,13 +43,14 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                         store: store
                             .loaded()
                             .scope(state: \.continious, action: { .continious($0) }),
-                        pairDetails: continiousSchedulePairDetails
+                        pairDetails: schedulePairDetails
                     )
                 case .exams:
                     ExamsScheduleView(
                         store: store
                             .loaded()
-                            .scope(state: \.exams, action: { .exams($0) })
+                            .scope(state: \.exams, action: { .exams($0) }),
+                        pairDetails: schedulePairDetails
                     )
                 }
             } loading: {
