@@ -6,39 +6,39 @@ public enum Deeplink {
     case group(name: String)
     case lecturers
     case lector(id: Int)
+    case about
 }
 
 public let deeplinkRouter = OneOf {
     //groups
     Route(.case(Deeplink.groups)) {
-        bsuirSchedule
+        bsuirScheduleScheme
         Path { "groups" }
     }
 
     //groups/:name
     Route(.case(Deeplink.group(name:))) {
-        bsuirSchedule
-
-        Path {
-            "groups"
-            Rest().map(.string)
-        }
+        bsuirScheduleScheme
+        Path { "groups"; Rest().map(.string) }
     }
 
     //lecturers
     Route(.case(Deeplink.lecturers)) {
-        bsuirSchedule
+        bsuirScheduleScheme
         Path { "lecturers" }
     }
 
     //lecturers/:id
     Route(.case(Deeplink.lector(id:))) {
-        bsuirSchedule
+        bsuirScheduleScheme
         Path { "lecturers"; Digits() }
+    }
+
+    //about
+    Route(.case(Deeplink.about)) {
+        bsuirScheduleScheme
+        Path { "about" }
     }
 }
 
-private let bsuirSchedule = ParsePrint {
-    Scheme("bsuir-schedule")
-    Host("bsuirschedule.app")
-}
+private let bsuirScheduleScheme = Scheme("bsuir-schedule")

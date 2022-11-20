@@ -107,6 +107,9 @@ struct AppFeature: ReducerProtocol {
         case let .lector(id):
             state.selection = .lecturers
             state.lecturers.openLector(id: id)
+        case .about:
+            state.selection = .about
+            state.about.reset()
         }
     }
 
