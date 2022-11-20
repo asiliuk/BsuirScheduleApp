@@ -99,7 +99,7 @@ let package = Package(
             dependencies: ["BsuirApi", .tcaDependencies]),
         .target(
             name: "BsuirApi",
-            dependencies: [.tcaDependencies]),
+            dependencies: [.urlRouting, .tcaDependencies]),
         .testTarget(
             name: "BsuirCoreTests",
             dependencies: ["BsuirCore"]),
