@@ -7,7 +7,17 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  cancel:
+    name: Cancel previous runs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          workflow_id: continuous-integration.yml
+          access_token: ${{ github.token }}
+          
+  test:
     name: Build and Test BsuirSchedule using any available iPhone simulator
     runs-on: macos-12
 
