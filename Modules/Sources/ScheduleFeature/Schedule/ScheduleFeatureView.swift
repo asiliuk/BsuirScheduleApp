@@ -32,10 +32,11 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 action: { .schedule($0) }
             ) { store in
                 LoadedScheduleView(
-                    store: store,
+                    store: store.loaded(),
                     scheduleType: viewStore.scheduleType,
                     schedulePairDetails: schedulePairDetails
                 )
+                .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
             } loading: {
                 LoadingStateView()
             } error: { store in
@@ -73,7 +74,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
 }
 
 private struct LoadedScheduleView: View {
-    let store: LoadedStoreOf<LoadedScheduleReducer>
+    let store: StoreOf<LoadedScheduleReducer>
     let scheduleType: ScheduleDisplayType
     let schedulePairDetails: ScheduleGridViewPairDetails
 
@@ -81,22 +82,16 @@ private struct LoadedScheduleView: View {
         switch scheduleType {
         case .compact:
             DayScheduleView(
-                store: store
-                    .loaded()
-                    .scope(state: \.compact, action: { .day($0) })
+                store: store.scope(state: \.compact, action: { .day($0) })
             )
         case .continuous:
             ContiniousScheduleView(
-                store: store
-                    .loaded()
-                    .scope(state: \.continious, action: { .continious($0) }),
+                store: store.scope(state: \.continious, action: { .continious($0) }),
                 pairDetails: schedulePairDetails
             )
         case .exams:
             ExamsScheduleView(
-                store: store
-                    .loaded()
-                    .scope(state: \.exams, action: { .exams($0) }),
+                store: store.scope(state: \.exams, action: { .exams($0) }),
                 pairDetails: schedulePairDetails
             )
         }

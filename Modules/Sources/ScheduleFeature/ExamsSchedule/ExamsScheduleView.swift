@@ -10,19 +10,18 @@ struct ExamsScheduleView: View {
 
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            ZStack {
-                if viewStore.days.isEmpty {
-                    ScheduleEmptyView()
-                } else {
-                    ScheduleGridView(
-                        days: viewStore.days,
-                        loading: .never,
-                        pairDetails: pairDetails,
-                        isOnTop: .constant(false)
-                    )
-                }
+            if viewStore.days.isEmpty {
+                ScheduleEmptyView()
+                    .onAppear { viewStore.send(.onAppear) }
+            } else {
+                ScheduleGridView(
+                    days: viewStore.days,
+                    loading: .never,
+                    pairDetails: pairDetails,
+                    isOnTop: .constant(false)
+                )
+                .onAppear { viewStore.send(.onAppear) }
             }
-            .onAppear { viewStore.send(.onAppear) }
         }
     }
 }

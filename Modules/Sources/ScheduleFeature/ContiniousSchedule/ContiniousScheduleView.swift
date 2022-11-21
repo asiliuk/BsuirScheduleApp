@@ -8,21 +8,20 @@ struct ContiniousScheduleView: View {
 
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            ZStack {
-                if viewStore.days.isEmpty {
-                    ScheduleEmptyView()
-                } else {
-                    ScheduleGridView(
-                        days: viewStore.days,
-                        loading: viewStore.doneLoading
-                            ? .finished
-                            : .loadMore { viewStore.send(.loadMoreIndicatorAppear) },
-                        pairDetails: pairDetails,
-                        isOnTop: viewStore.binding(\.$isOnTop)
-                    )
-                }
+            if viewStore.days.isEmpty {
+                ScheduleEmptyView()
+                    .onAppear { viewStore.send(.onAppear) }
+            } else {
+                ScheduleGridView(
+                    days: viewStore.days,
+                    loading: viewStore.doneLoading
+                        ? .finished
+                        : .loadMore { viewStore.send(.loadMoreIndicatorAppear) },
+                    pairDetails: pairDetails,
+                    isOnTop: viewStore.binding(\.$isOnTop)
+                )
+                .onAppear { viewStore.send(.onAppear) }
             }
-            .onAppear { viewStore.send(.onAppear) }
         }
     }
 }
