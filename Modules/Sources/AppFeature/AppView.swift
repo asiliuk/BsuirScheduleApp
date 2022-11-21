@@ -3,22 +3,26 @@ import AboutFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-enum CurrentSelection: Hashable {
+public enum CurrentSelection: Hashable {
     case groups
     case lecturers
     case about
 }
 
-enum CurrentOverlay: Identifiable {
-    var id: Self { self }
+public enum CurrentOverlay: Identifiable {
+    public var id: Self { self }
     case about
 }
 
-struct RootView: View {
+public struct AppView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     let store: StoreOf<AppFeature>
 
-    var body: some View {
+    public init(store: StoreOf<AppFeature>) {
+        self.store = store
+    }
+
+    public var body: some View {
         content
             .onOpenURL(perform: { ViewStore(store.stateless).send(.handleDeeplink($0)) })
     }

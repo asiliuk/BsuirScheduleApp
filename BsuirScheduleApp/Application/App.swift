@@ -1,8 +1,8 @@
 import SwiftUI
+import AppFeature
 import BsuirCore
 import BsuirApi
 import BsuirUI
-import Favorites
 import ComposableArchitecture
 
 @main
@@ -11,9 +11,8 @@ struct App: SwiftUI.App {
 
     var body: some Scene {
         WindowGroup {
-            RootView(store: appDelegate.store)
+            AppView(store: appDelegate.store)
                 .onAppear { ViewStore(appDelegate.store).send(.onAppear) }
-                .environment(\.reviewRequestService, appDelegate.reviewRequestService)
                 .environmentObject(appDelegate.pairFormColorService)
         }
     }
@@ -25,7 +24,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         reducer: AppFeature()
             .dependency(\.urlCache, requestManager.cache)
             .dependency(\.imageCache, .default)
-            .dependency(\.reviewRequestService, reviewRequestService)
             .dependency(\.pairFormColorService, pairFormColorService)
     )
 
@@ -33,9 +31,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         super.init()
     }
 
-    private let storage: UserDefaults = .standard
-    private let sharedStorage: UserDefaults = .asiliukShared
     private let requestManager = RequestsManager.iisBsuir()
-    private(set) lazy var reviewRequestService = ReviewRequestService(storage: storage)
-    private(set) lazy var pairFormColorService = PairFormColorService(storage: sharedStorage)
+    private(set) lazy var pairFormColorService = PairFormColorService(storage: .asiliukShared)
 }

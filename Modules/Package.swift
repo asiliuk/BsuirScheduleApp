@@ -8,15 +8,8 @@ let package = Package(
     platforms: [.iOS(.v15)],
     products: [
         .library(
-            name: "Features",
-            targets: [
-                "AboutFeature",
-                "GroupsFeature",
-                "LecturersFeature",
-                "ScheduleFeature",
-                "LoadableFeature",
-                "Deeplinking"
-            ]),
+            name: "AppFeature",
+            targets: ["AppFeature"]),
         .library(
             name: "AboutFeature",
             targets: ["AboutFeature"]),
@@ -55,6 +48,15 @@ let package = Package(
     ],
     targets: [
         // MARK: - Features
+        .target(
+            name: "AppFeature",
+            dependencies: [
+                "GroupsFeature", "LecturersFeature", "AboutFeature",
+                "Deeplinking", "Favorites", "ComposableArchitectureUtils",
+                "BsuirCore", "BsuirApi", "BsuirUI",
+                .tca
+            ]
+        ),
         .target(
             name: "AboutFeature",
             dependencies: ["BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]

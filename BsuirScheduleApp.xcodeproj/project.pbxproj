@@ -10,8 +10,8 @@
 		E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */; };
 		E627876F28B6B36E00F61D9B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E627876D28B6B36E00F61D9B /* Localizable.strings */; };
 		E627877628B93AD500F61D9B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6992A5E828B0025D007FFF0F /* Localizable.strings */; };
-		E6373F06250A387900729EC8 /* CompactRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F05250A387900729EC8 /* CompactRootView.swift */; };
-		E6373F08250A38C400729EC8 /* RegularRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6373F07250A38C400729EC8 /* RegularRootView.swift */; };
+		E6310E31292C02A10013A103 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6310E30292C02A10013A103 /* App.swift */; };
+		E6310E33292C02D20013A103 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = E6310E32292C02D20013A103 /* AppFeature */; };
 		E64FE06028C7D0A90045D790 /* NoPairsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE05C28C7D08F0045D790 /* NoPairsView.swift */; };
 		E64FE06128C7D0A90045D790 /* NeedsConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE05E28C7D0A50045D790 /* NeedsConfigurationView.swift */; };
 		E64FE06328C7D0C90045D790 /* WidgetDateTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE06228C7D0C90045D790 /* WidgetDateTitle.swift */; };
@@ -22,16 +22,9 @@
 		E64FE06E28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE06D28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift */; };
 		E651C88E28C7D02400CAFBEC /* ScheduleWidgetEntryLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E651C88C28C7D01900CAFBEC /* ScheduleWidgetEntryLargeView.swift */; };
 		E654467829296CF000881956 /* Deeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = E654467729296CF000881956 /* Deeplinking */; };
-		E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67491122523BC40006CE90E /* ReviewRequestService.swift */; };
-		E67F7B2F2905674000F79712 /* Features in Frameworks */ = {isa = PBXBuildFile; productRef = E67F7B2E2905674000F79712 /* Features */; };
-		E69616632928243B00092585 /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69616622928243B00092585 /* AppFeature.swift */; };
-		E6964824233F7D72007EF2CB /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6964823233F7D72007EF2CB /* RootView.swift */; };
-		E6972D16287B4A4E0003506F /* BsuirCore in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D15287B4A4E0003506F /* BsuirCore */; };
-		E6972D18287B4A4E0003506F /* BsuirUI in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D17287B4A4E0003506F /* BsuirUI */; };
 		E6972D1A287B4A550003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D19287B4A550003506F /* BsuirApi */; };
 		E6972D1C287B4A550003506F /* BsuirUI in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1B287B4A550003506F /* BsuirUI */; };
 		E6972D1E287B4A5A0003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1D287B4A5A0003506F /* BsuirApi */; };
-		E69A300525C5AB86009324B6 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69A300425C5AB86009324B6 /* App.swift */; };
 		E6A6D1C325D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */; };
 		E6A6D1C425D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */; };
 		E6A6D1C525D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */; };
@@ -131,8 +124,7 @@
 		E627877328B6B50A00F61D9B /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E627877428B6B50C00F61D9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E627877528B6B50F00F61D9B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
-		E6373F05250A387900729EC8 /* CompactRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactRootView.swift; sourceTree = "<group>"; };
-		E6373F07250A38C400729EC8 /* RegularRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularRootView.swift; sourceTree = "<group>"; };
+		E6310E30292C02A10013A103 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E64FE05C28C7D08F0045D790 /* NoPairsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPairsView.swift; sourceTree = "<group>"; };
 		E64FE05E28C7D0A50045D790 /* NeedsConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedsConfigurationView.swift; sourceTree = "<group>"; };
 		E64FE06228C7D0C90045D790 /* WidgetDateTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDateTitle.swift; sourceTree = "<group>"; };
@@ -143,10 +135,6 @@
 		E64FE06D28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryAccessoryCircularView.swift; sourceTree = "<group>"; };
 		E651C88C28C7D01900CAFBEC /* ScheduleWidgetEntryLargeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryLargeView.swift; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
-		E67491122523BC40006CE90E /* ReviewRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRequestService.swift; sourceTree = "<group>"; };
-		E69616622928243B00092585 /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
-		E6964823233F7D72007EF2CB /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
-		E69A300425C5AB86009324B6 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E6A6D1C625D5C1CC00204A79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/ScheduleWidget.intentdefinition; sourceTree = "<group>"; };
 		E6A93FB528C923E80093691F /* ScheduleWidgetEntryAccessoryRectangularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryAccessoryRectangularView.swift; sourceTree = "<group>"; };
 		E6A93FB728C92FF70093691F /* ScheduleWidgetEntryAccessoryInlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryAccessoryInlineView.swift; sourceTree = "<group>"; };
@@ -220,9 +208,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E67F7B2F2905674000F79712 /* Features in Frameworks */,
-				E6972D18287B4A4E0003506F /* BsuirUI in Frameworks */,
-				E6972D16287B4A4E0003506F /* BsuirCore in Frameworks */,
+				E6310E33292C02D20013A103 /* AppFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,7 +262,6 @@
 		E67491112523BC26006CE90E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				E67491122523BC40006CE90E /* ReviewRequestService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -328,11 +313,7 @@
 		E696481E233F7BBE007EF2CB /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				E69A300425C5AB86009324B6 /* App.swift */,
-				E6964823233F7D72007EF2CB /* RootView.swift */,
-				E6373F05250A387900729EC8 /* CompactRootView.swift */,
-				E6373F07250A38C400729EC8 /* RegularRootView.swift */,
-				E69616622928243B00092585 /* AppFeature.swift */,
+				E6310E30292C02A10013A103 /* App.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -467,9 +448,7 @@
 			);
 			name = BsuirScheduleApp;
 			packageProductDependencies = (
-				E6972D15287B4A4E0003506F /* BsuirCore */,
-				E6972D17287B4A4E0003506F /* BsuirUI */,
-				E67F7B2E2905674000F79712 /* Features */,
+				E6310E32292C02D20013A103 /* AppFeature */,
 			);
 			productName = BsuirScheduleApp;
 			productReference = E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */;
@@ -612,13 +591,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E69616632928243B00092585 /* AppFeature.swift in Sources */,
-				E69A300525C5AB86009324B6 /* App.swift in Sources */,
-				E6373F06250A387900729EC8 /* CompactRootView.swift in Sources */,
-				E6964824233F7D72007EF2CB /* RootView.swift in Sources */,
+				E6310E31292C02A10013A103 /* App.swift in Sources */,
 				E6A6D1C325D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */,
-				E67491132523BC40006CE90E /* ReviewRequestService.swift in Sources */,
-				E6373F08250A38C400729EC8 /* RegularRootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -974,21 +948,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E6310E32292C02D20013A103 /* AppFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppFeature;
+		};
 		E654467729296CF000881956 /* Deeplinking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Deeplinking;
-		};
-		E67F7B2E2905674000F79712 /* Features */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Features;
-		};
-		E6972D15287B4A4E0003506F /* BsuirCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BsuirCore;
-		};
-		E6972D17287B4A4E0003506F /* BsuirUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BsuirUI;
 		};
 		E6972D19287B4A550003506F /* BsuirApi */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,17 +7,19 @@ import Favorites
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-struct AppFeature: ReducerProtocol {
-    struct State: Equatable {
+public struct AppFeature: ReducerProtocol {
+    public struct State: Equatable {
         var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
 
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
         var about = AboutFeature.State()
+
+        public init() {}
     }
 
-    enum Action {
+    public enum Action {
         case onAppear
 
         case handleDeeplink(URL)
@@ -32,7 +34,9 @@ struct AppFeature: ReducerProtocol {
 
     @Dependency(\.favorites) var favorites
 
-    var body: some ReducerProtocol<State, Action> {
+    public init() {}
+
+    public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
             case .onAppear:
