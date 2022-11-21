@@ -55,14 +55,14 @@ public struct AboutView: View {
 private struct PairPreviewSectionView: View {
     var body: some View {
         PairCell(
-            from: "screen.about.pairPreview.from",
-            to: "screen.about.pairPreview.to",
+            from: String(localized: "screen.about.pairPreview.from"),
+            to: String(localized: "screen.about.pairPreview.to"),
             interval: "\(String(localized: "screen.about.pairPreview.from"))-\(String(localized: "screen.about.pairPreview.to"))",
-            subject: "screen.about.pairPreview.subject",
-            weeks: "screen.about.pairPreview.weeks",
-            subgroup: "screen.about.pairPreview.subgroup",
-            auditory: "screen.about.pairPreview.auditory",
-            note: "screen.about.pairPreview.note",
+            subject: String(localized: "screen.about.pairPreview.subject"),
+            weeks: String(localized: "screen.about.pairPreview.weeks"),
+            subgroup: String(localized: "screen.about.pairPreview.subgroup"),
+            auditory: String(localized: "screen.about.pairPreview.auditory"),
+            note: String(localized: "screen.about.pairPreview.note"),
             form: .practice,
             progress: PairProgress(constant: 0.5),
             details: EmptyView()
