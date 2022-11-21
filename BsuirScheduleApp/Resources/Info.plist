@@ -87,7 +87,7 @@
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIconDark_83.5</string>
+					<string>AppIconDark</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -96,7 +96,7 @@
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIconNational_83.5</string>
+					<string>AppIconNational</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -105,7 +105,7 @@
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIconNostalgia_83.5</string>
+					<string>AppIconNostalgia</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -114,7 +114,7 @@
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIconPride_83.5</string>
+					<string>AppIconPride</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -123,7 +123,7 @@
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIconResist_83.5</string>
+					<string>AppIconResist</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
