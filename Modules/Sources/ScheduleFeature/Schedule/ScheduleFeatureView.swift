@@ -29,30 +29,13 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             LoadingStore(
                 store,
                 state: \.$schedule,
-                action: { .reducer(.schedule($0)) }
+                action: { .schedule($0) }
             ) { store in
-                switch viewStore.scheduleType {
-                case .compact:
-                    DayScheduleView(
-                        store: store
-                            .loaded()
-                            .scope(state: \.compact, action: { .day($0) })
-                    )
-                case .continuous:
-                    ContiniousScheduleView(
-                        store: store
-                            .loaded()
-                            .scope(state: \.continious, action: { .continious($0) }),
-                        pairDetails: schedulePairDetails
-                    )
-                case .exams:
-                    ExamsScheduleView(
-                        store: store
-                            .loaded()
-                            .scope(state: \.exams, action: { .exams($0) }),
-                        pairDetails: schedulePairDetails
-                    )
-                }
+                LoadedScheduleView(
+                    store: store,
+                    scheduleType: viewStore.scheduleType,
+                    schedulePairDetails: schedulePairDetails
+                )
             } loading: {
                 LoadingStateView()
             } error: { store in
@@ -85,6 +68,37 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             }
             .navigationTitle(viewStore.title)
             .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+}
+
+private struct LoadedScheduleView: View {
+    let store: LoadedStoreOf<LoadedScheduleReducer>
+    let scheduleType: ScheduleDisplayType
+    let schedulePairDetails: ScheduleGridViewPairDetails
+
+    var body: some View {
+        switch scheduleType {
+        case .compact:
+            DayScheduleView(
+                store: store
+                    .loaded()
+                    .scope(state: \.compact, action: { .day($0) })
+            )
+        case .continuous:
+            ContiniousScheduleView(
+                store: store
+                    .loaded()
+                    .scope(state: \.continious, action: { .continious($0) }),
+                pairDetails: schedulePairDetails
+            )
+        case .exams:
+            ExamsScheduleView(
+                store: store
+                    .loaded()
+                    .scope(state: \.exams, action: { .exams($0) }),
+                pairDetails: schedulePairDetails
+            )
         }
     }
 }

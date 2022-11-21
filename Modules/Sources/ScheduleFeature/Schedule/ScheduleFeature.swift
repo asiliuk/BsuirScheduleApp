@@ -36,34 +36,10 @@ public struct ScheduleRequestResponse {
 
 public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
     public struct State: Equatable {
-        struct Schedule: Equatable {
-            var compact: DayScheduleFeature.State
-            var continious: ContiniousScheduleFeature.State
-            var exams: ExamsScheduleFeature.State
-
-            init(response: ScheduleRequestResponse) {
-                self.compact = DayScheduleFeature.State(
-                    schedule: response.schedule
-                )
-
-                self.continious = ContiniousScheduleFeature.State(
-                    schedule: response.schedule,
-                    startDate: response.startDate,
-                    endDate: response.endDate
-                )
-
-                self.exams = ExamsScheduleFeature.State(
-                    exams: response.exams,
-                    startDate: response.startExamsDate,
-                    endDate: response.endExamsDate
-                )
-            }
-        }
-
         public var title: String
         public var value: Value
         public var isFavorite: Bool = false
-        @LoadableState var schedule: Schedule?
+        @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType = .continuous
         
         public init(title: String, value: Value) {
@@ -79,27 +55,20 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
             case setScheduleType(ScheduleDisplayType)
         }
 
-        public enum ReducerAction: Equatable {
-            public enum ScheduleAction: Equatable {
-                case day(DayScheduleFeature.Action)
-                case continious(ContiniousScheduleFeature.Action)
-                case exams(ExamsScheduleFeature.Action)
-            }
-            
-            case schedule(ScheduleAction)
-        }
+        public typealias ReducerAction = Never
 
         public enum DelegateAction: Equatable {
             case toggleFavorite
         }
 
         case loading(LoadingAction<State>)
+        case schedule(LoadedScheduleReducer.Action)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
     }
 
-    let fetch: (Value) -> EffectTask<TaskResult<State.Schedule>>
+    let fetch: (Value) -> EffectTask<TaskResult<LoadedScheduleReducer.State>>
     @Dependency(\.requestsManager) var requestsManager
     @Dependency(\.reviewRequestService) var reviewRequestService
     
@@ -117,7 +86,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                     .log(.appState, identifier: "Schedule")
 
                 for try await response in request.values {
-                    await send(.success(State.Schedule(response: response)))
+                    await send(.success(LoadedScheduleReducer.State(response: response)))
                 }
             } catch: { error, send in
                 await send(.failure(error))
@@ -155,30 +124,64 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                     }
                 )
 
-            case .reducer(.schedule(.continious(.delegate(.thereIsNoSchedule)))):
+            case .schedule(.continious(.delegate(.thereIsNoSchedule))):
                 state.scheduleType = .exams
                 return .none
 
-            case .reducer, .delegate, .loading:
+            case .schedule, .delegate, .loading:
                 return .none
             }
         }
-        .load(
-            \.$schedule,
-             action: (/Action.reducer).appending(path: /Action.ReducerAction.schedule)
-        ) {
-            Scope(state: \.compact, action: /Action.ReducerAction.ScheduleAction.day) {
-                DayScheduleFeature()
-            }
-            
-            Scope(state: \.continious, action: /Action.ReducerAction.ScheduleAction.continious) {
-                ContiniousScheduleFeature()
-            }
-            Scope(state: \.exams, action: /Action.ReducerAction.ScheduleAction.exams) {
-                ExamsScheduleFeature()
-            }
+        .load(\.$schedule, action: /Action.schedule) {
+            LoadedScheduleReducer()
         } fetch: { state in
             fetch(state.value)
+        }
+    }
+}
+
+public struct LoadedScheduleReducer: ReducerProtocol {
+    public struct State: Equatable {
+        var compact: DayScheduleFeature.State
+        var continious: ContiniousScheduleFeature.State
+        var exams: ExamsScheduleFeature.State
+
+        init(response: ScheduleRequestResponse) {
+            self.compact = DayScheduleFeature.State(
+                schedule: response.schedule
+            )
+
+            self.continious = ContiniousScheduleFeature.State(
+                schedule: response.schedule,
+                startDate: response.startDate,
+                endDate: response.endDate
+            )
+
+            self.exams = ExamsScheduleFeature.State(
+                exams: response.exams,
+                startDate: response.startExamsDate,
+                endDate: response.endExamsDate
+            )
+        }
+    }
+
+    public enum Action: Equatable {
+        case day(DayScheduleFeature.Action)
+        case continious(ContiniousScheduleFeature.Action)
+        case exams(ExamsScheduleFeature.Action)
+    }
+
+    public var body: some ReducerProtocol<State, Action> {
+        Scope(state: \.compact, action: /Action.day) {
+            DayScheduleFeature()
+        }
+
+        Scope(state: \.continious, action: /Action.continious) {
+            ContiniousScheduleFeature()
+        }
+
+        Scope(state: \.exams, action: /Action.exams) {
+            ExamsScheduleFeature()
         }
     }
 }

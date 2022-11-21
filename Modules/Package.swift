@@ -50,7 +50,7 @@ let package = Package(
     ],
     dependencies: [
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.0.0"),
-         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.43.0"),
+         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.46.0"),
          .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.4.0")
     ],
     targets: [

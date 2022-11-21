@@ -6,6 +6,7 @@ import LoadableFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import Favorites
+import ScheduleFeature
 
 public struct GroupsFeature: ReducerProtocol {
     public struct State: Equatable {
@@ -60,8 +61,8 @@ public struct GroupsFeature: ReducerProtocol {
             case .view(.task):
                 return listenToFavoriteUpdates()
                 
-            case let .view(.groupTapped(groupName)):
-                state.openGroup(named: groupName)
+            case let .view(.groupTapped(name)):
+                state.groupSchedule = .init(groupName: name)
                 return .none
                 
             case .view(.filterGroups):
