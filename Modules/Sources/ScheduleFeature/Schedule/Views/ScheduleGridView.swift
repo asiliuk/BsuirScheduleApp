@@ -37,7 +37,7 @@ struct ScheduleGridView: View {
 
                 switch loading {
                 case let .loadMore(load):
-                    ProgressView()
+                    PairPlaceholder()
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .onAppear(perform: load)
                 case .finished:

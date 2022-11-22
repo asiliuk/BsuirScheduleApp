@@ -69,7 +69,7 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
                 
             case .view(.loadMoreIndicatorAppear):
                 return .task {
-                    try await Task.sleep(nanoseconds: 200_000_000)
+                    try await Task.sleep(nanoseconds: 300_000_000)
                     return .reducer(.loadMoreDays)
                 }
                 
