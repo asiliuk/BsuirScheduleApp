@@ -3,7 +3,6 @@ import UIKit
 import StoreKit
 import Combine
 import SwiftUI
-import BsuirCore
 
 public struct MeaningfulEvent {
     public let score: Int

@@ -147,7 +147,7 @@ extension Pair.Time : Codable {
 }
 
 extension TimeZone {
-    public static let minsk = TimeZone(identifier: "Europe/Minsk")
+    public static let minsk = TimeZone(identifier: "Europe/Minsk")!
 }
 
 extension Pair.Form: Codable {

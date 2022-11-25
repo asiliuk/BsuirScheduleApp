@@ -37,7 +37,6 @@ extension JSONDecoder {
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy"
-        formatter.timeZone = .minsk
         return formatter
     }()
 }

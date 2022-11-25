@@ -59,26 +59,22 @@ extension WeekSchedule {
                     defer { offset += 1 }
 
                     guard
-                        let date = calendar.date(byAdding: .day, value: offset, to: start),
+                        let date = calendar.date(byAdding: .day, value: offset, to: start).map(calendar.startOfDay(for:)),
                         let rawWeekNumber = calendar.weekNumber(for: date, now: now),
                         let weekNumber = WeekNum(weekNum: rawWeekNumber),
-                        // TODO: Check if this is valid value
-                        date <= endDate
+                        calendar.isDate(date, inSameDayAs: endDate) || date < endDate
                     else {
                         // Break the sequence
                         return nil
                     }
                     
-                    guard date >= startDate else {
+                    guard calendar.isDate(date, inSameDayAs: startDate) || date > startDate else {
                         continue
                     }
 
                     let pairs = self.pairs(for: date, calendar: calendar)
                         .compactMap { pair -> ScheduleElement.Pair? in
-                            guard
-                                pair.weekNumber.contains(weekNumber),
-                                let dateStart = calendar.startOfDay(for: date, in: .minsk)
-                            else {
+                            guard pair.weekNumber.contains(weekNumber) else {
                                 return nil
                             }
 
@@ -87,7 +83,7 @@ extension WeekSchedule {
                             } else if
                                 let endLessonDate = pair.endLessonDate,
                                 let startLessonDate = pair.startLessonDate,
-                                !(startLessonDate...endLessonDate).contains(dateStart)
+                                !(startLessonDate...endLessonDate).contains(date)
                             {
                                 return nil
                             }
@@ -122,22 +118,14 @@ extension WeekSchedule.ScheduleElement {
 
 extension Calendar {
     public func date(bySetting time: BsuirApi.Pair.Time, of date: Date) -> Date? {
-        self.date(
-            bySettingHour: time.hour,
-            minute: time.minute,
-            second: 0,
-            of: date
-        )
-    }
-}
-
-extension Calendar {
-    func startOfDay(for date: Date, in timeZone: TimeZone?) -> Date? {
         var components = dateComponents([.day, .month, .year], from: date)
-        components.timeZone = timeZone
+        components.timeZone = time.timeZone
+        components.hour = time.hour
+        components.minute = time.minute
+        components.second = 0
         return self.date(from: components)
     }
-    
+
     func weekNumber(for date: Date, now: Date) -> Int? {
         let components = dateComponents([.day, .month, .year, .weekday], from: date)
         let firstDayComponents = mutating(components) { $0.day = 1; $0.month = 9 }

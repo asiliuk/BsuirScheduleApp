@@ -142,6 +142,28 @@ final class WeekScheduleTests: XCTestCase {
         // Then
         XCTAssertEqual(Array(schedule.prefix(10)), [])
     }
+
+    func testScheduleHasPairsOnEndDate() throws {
+        // Given
+        startDate = date("17.11.2022")
+        endDate = date("26.11.2022")
+
+        schedule = WeekSchedule(
+            schedule: daySchedule,
+            startDate: startDate,
+            endDate: endDate
+        )
+
+        let from = date("25.11.2022")
+        let now = date("17.11.2022")
+
+        // When
+        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar)
+
+        // Then
+        let element = try XCTUnwrap(Array(schedule.prefix(1)).first)
+        XCTAssertEqual(element.date, date("26.11.2022"))
+    }
     
     func testScheduleStartsOnStartDate() throws {
         // Given

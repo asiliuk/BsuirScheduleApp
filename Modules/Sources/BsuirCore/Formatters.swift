@@ -9,7 +9,7 @@ import Foundation
 
 extension FormatStyle where Self == Date.FormatStyle {
     public static var pairTime: Self {
-        return .dateTime
+        return .init(timeZone: .minsk)
             .hour(.twoDigits(amPM: .narrow))
             .minute(.twoDigits)
     }
