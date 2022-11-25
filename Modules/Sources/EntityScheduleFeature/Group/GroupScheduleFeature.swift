@@ -42,6 +42,7 @@ public struct GroupScheduleFeature: ReducerProtocol {
         case delegate(DelegateAction)
     }
 
+    @Dependency(\.apiClient) var apiClient
     @Dependency(\.favorites) var favorites
 
     public init() {}
@@ -80,10 +81,9 @@ public struct GroupScheduleFeature: ReducerProtocol {
         }
         
         Scope(state: \.schedule, action: /Action.ReducerAction.schedule) {
-            ScheduleFeature(
-                target: { BsuirIISTargets.GroupSchedule(groupNumber: $0) },
-                schedule: ScheduleRequestResponse.init(response:)
-            )
+            ScheduleFeature { name, isRefresh in
+                try await ScheduleRequestResponse(response: apiClient.groupSchedule(name: name, ignoreCache: isRefresh))
+            }
         }
         
         BindingReducer()
@@ -91,7 +91,7 @@ public struct GroupScheduleFeature: ReducerProtocol {
 }
 
 private extension ScheduleRequestResponse {
-    init(response: BsuirIISTargets.GroupSchedule.Value) {
+    init(response: StudentGroup.Schedule) {
         self.init(
             startDate: response.startDate,
             endDate: response.endDate,

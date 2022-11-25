@@ -39,7 +39,7 @@ public struct AboutFeature: ReducerProtocol {
         case delegate(DelegateAction)
     }
     
-    @Dependency(\.urlCache) var urlCache
+    @Dependency(\.apiClient.clearCache) var clearNetworkCache
     @Dependency(\.imageCache) var imageCache
     @Dependency(\.appInfo.version.description) var appVersion
     @Dependency(\.application.open) var openUrl
@@ -60,7 +60,7 @@ public struct AboutFeature: ReducerProtocol {
                     message: TextState("alert.clearCache.message")
                 )
                 return .fireAndForget {
-                    urlCache.removeAllCachedResponses()
+                    clearNetworkCache()
                     imageCache.clearCache()
                 }
                 

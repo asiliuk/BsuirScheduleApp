@@ -38,34 +38,28 @@ public struct MyFeature: ReducerProtocol {
                 return .none
             }
         }
-        .load(\.$groups) { state in
-                .task {
-                    try? await Task.sleep(nanoseconds: 200_000_000)
-                    return .success(["1", "2", "3"])
-                }
+        .load(\.$groups) { state, _ in
+            try await Task.sleep(nanoseconds: 200_000_000)
+            return ["1", "2", "3"]
         }
         .load(\.$lecturers, action: /Action.lecturers) {
             LecturersFeature()
                 ._printChanges()
-        } fetch: { _ in
-            return .task {
-                try? await Task.sleep(nanoseconds: 3_000_000_000)
-                let start = Int.random(in: 0..<3)
-                let end = Int.random(in: 5..<9)
-                let lecturers = (start...end).map { index in
-                    LecturerFeature.State(name: "Lect Anton Siliuk \(index)")
-                }
-                
-                return .success(IdentifiedArray(uniqueElements: lecturers))
+        } fetch: { _, _ in
+            try await Task.sleep(nanoseconds: 3_000_000_000)
+            let start = Int.random(in: 0..<3)
+            let end = Int.random(in: 5..<9)
+            let lecturers = (start...end).map { index in
+                LecturerFeature.State(name: "Lect Anton Siliuk \(index)")
             }
+                
+            return IdentifiedArray(uniqueElements: lecturers)
         }
         .load(\.$myself, action: /Action.myself) {
             LecturerFeature()
-        } fetch: { _ in
-                .task {
-                    try? await Task.sleep(nanoseconds: 500_000_000)
-                    return .success(.init(name: "Anton Siliuk"))
-                }
+        } fetch: { _, _ in
+            try await Task.sleep(nanoseconds: 500_000_000)
+            return .init(name: "Anton Siliuk")
         }
     }
 }

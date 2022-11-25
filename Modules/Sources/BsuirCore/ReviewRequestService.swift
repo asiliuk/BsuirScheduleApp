@@ -3,6 +3,7 @@ import UIKit
 import StoreKit
 import Combine
 import SwiftUI
+import Dependencies
 
 public struct MeaningfulEvent {
     public let score: Int
@@ -118,4 +119,17 @@ extension MeaningfulEvent {
     static let scheduleModeSwitched = Self(score: 3)
     static let scheduleRequested = Self(score: 2)
     static let moreScheduleRequested = Self(score: 1)
+}
+
+// MARK: - Dependency
+
+extension DependencyValues {
+    public var reviewRequestService: ReviewRequestService {
+        get { self[ReviewRequestServiceKey.self] }
+        set { self[ReviewRequestServiceKey.self] = newValue }
+    }
+}
+
+private enum ReviewRequestServiceKey: DependencyKey {
+    static let liveValue = ReviewRequestService(storage: .standard)
 }

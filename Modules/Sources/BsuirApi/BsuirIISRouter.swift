@@ -4,7 +4,7 @@ import URLRouting
 /// IIS Bsuir API routes
 ///
 /// API documentation could be found [here](https://iis.bsuir.by/api)
-public enum IISRoute {
+enum IISRoute {
     case groupSchedule(groupName: String)
     case employeeSchedule(urlId: String)
     case studentGroups

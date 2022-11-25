@@ -45,7 +45,7 @@ public struct LecturersFeature: ReducerProtocol {
         case delegate(DelegateAction)
     }
     
-    @Dependency(\.requestsManager) var requestsManager
+    @Dependency(\.apiClient) var apiClient
     @Dependency(\.favorites) var favorites
 
     public init() {}
@@ -83,7 +83,9 @@ public struct LecturersFeature: ReducerProtocol {
                 return .none
             }
         }
-        .load(\.$loadedLecturers, fetch: fetchLecturers)
+        .load(\.$loadedLecturers) { _, isRefresh in
+            try await IdentifiedArray(uniqueElements: apiClient.lecturers(ignoreCache: isRefresh))
+        }
         .ifLet(\.lectorSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.lectorSchedule)) {
             LectorScheduleFeature()
         }
@@ -105,23 +107,6 @@ public struct LecturersFeature: ReducerProtocol {
         return .run { send in
             for await value in favorites.lecturers.values {
                 await send(.reducer(.favoritesUpdate(value)), animation: .default)
-            }
-        }
-    }
-    
-    private func fetchLecturers(_ state: State) -> EffectTask<TaskResult<IdentifiedArrayOf<Employee>>> {
-        return .run { send in
-            let request = requestsManager
-                .request(BsuirIISTargets.Employees())
-                .removeDuplicates()
-                .log(.appState, identifier: "All lecturers")
-
-            do {
-                for try await value in request.values {
-                    await send(.success(IdentifiedArray(uniqueElements: value)))
-                }
-            } catch {
-                await send(.failure(error))
             }
         }
     }

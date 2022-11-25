@@ -7,6 +7,7 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 import Favorites
 import ScheduleFeature
+import os.log
 
 public struct GroupsFeature: ReducerProtocol {
     public struct State: Equatable {
@@ -49,8 +50,8 @@ public struct GroupsFeature: ReducerProtocol {
         case reducer(ReducerAction)
         case delegate(DelegateAction)
     }
-    
-    @Dependency(\.requestsManager) var requestsManager
+
+    @Dependency(\.apiClient) var apiClient
     @Dependency(\.favorites) var favorites
 
     public init() {}
@@ -87,7 +88,7 @@ public struct GroupsFeature: ReducerProtocol {
                 return .none
             }
         }
-        .load(\.$loadedGroups, fetch: fetchGroups)
+        .load(\.$loadedGroups) { _, isRefresh in try await apiClient.groups(ignoreCache: isRefresh) }
         .ifLet(\.groupSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.groupSchedule)) {
             GroupScheduleFeature()
         }
@@ -121,23 +122,6 @@ public struct GroupsFeature: ReducerProtocol {
         return .run { send in
             for await value in favorites.groupNames.values {
                 await send(.reducer(.favoritesUpdate(value)), animation: .default)
-            }
-        }
-    }
-    
-    private func fetchGroups(_ state: State) -> EffectTask<TaskResult<[StudentGroup]>> {
-        return .run { send in
-            let request = requestsManager
-                .request(BsuirIISTargets.StudentGroups())
-                .removeDuplicates()
-                .log(.appState, identifier: "All groups")
-
-            do {
-                for try await value in request.values {
-                    await send(.success(value))
-                }
-            } catch {
-                await send(.failure(error))
             }
         }
     }

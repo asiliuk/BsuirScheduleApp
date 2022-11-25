@@ -68,30 +68,11 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         case delegate(DelegateAction)
     }
 
-    let fetch: (Value) -> EffectTask<TaskResult<LoadedScheduleReducer.State>>
-    @Dependency(\.requestsManager) var requestsManager
+    let fetch: @Sendable (Value, _ ignoreCache: Bool) async throws -> ScheduleRequestResponse
     @Dependency(\.reviewRequestService) var reviewRequestService
     
-    public init<Response: Equatable>(
-        target: @escaping (Value) -> some Target<Response>,
-        schedule toSchedule: @escaping (Response) -> ScheduleRequestResponse
-    ) {
-        let requestsManager = _requestsManager.wrappedValue
-        fetch = { state in
-            .run { send in
-                let request = requestsManager
-                    .request(target(state))
-                    .removeDuplicates()
-                    .map(toSchedule)
-                    .log(.appState, identifier: "Schedule")
-
-                for try await response in request.values {
-                    await send(.success(LoadedScheduleReducer.State(response: response)))
-                }
-            } catch: { error, send in
-                await send(.failure(error))
-            }
-        }
+    public init(fetch: @Sendable @escaping (Value, _ ignoreCache: Bool) async throws -> ScheduleRequestResponse) {
+        self.fetch = fetch
     }
     
     public var body: some ReducerProtocol<State, Action> {
@@ -134,8 +115,8 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         }
         .load(\.$schedule, action: /Action.schedule) {
             LoadedScheduleReducer()
-        } fetch: { state in
-            fetch(state.value)
+        } fetch: { state, isRefresh in
+            try await LoadedScheduleReducer.State(response: fetch(state.value, isRefresh))
         }
     }
 }

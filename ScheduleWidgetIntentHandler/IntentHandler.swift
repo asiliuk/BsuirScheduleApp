@@ -4,35 +4,39 @@ import Combine
 
 class IntentHandler: INExtension, ConfigurationIntentHandling {
     func resolveGroupName(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationGroupNameResolutionResult) -> Void) {
-        groupsRequestCancellable = requestManager
-            .request(BsuirIISTargets.StudentGroups())
-            .map { groups in
-                intent.groupName.map { name in
-                    groups.filter { $0.name.starts(with: name.displayString) }
-                } ?? groups
+        groupsRequest = Task {
+            do {
+                let shceduleIdentifiers = try await apiCLient.groups()
+                    .filter { group in
+                        guard let search = intent.groupName else { return true }
+                        return group.name.contains(search.displayString)
+                    }
+                    .sorted(by: { $0.name < $1.name })
+                    .map { ScheduleIdentifier(identifier: $0.name, display: $0.name) }
+
+                completion(.disambiguation(with: shceduleIdentifiers))
+            } catch {
+                completion(.unsupported(forReason: .failed))
             }
-            .map { $0.sorted { $0.name < $1.name } }
-            .map { $0.map { ScheduleIdentifier(identifier: $0.name, display: $0.name) } }
-            .sink(
-                receiveFailure: { _ in completion(.unsupported(forReason: .failed)) },
-                receiveValue: { completion(.disambiguation(with: $0)) }
-            )
+        }
     }
 
     func resolveLecturerUrlId(for intent: ConfigurationIntent, with completion: @escaping (ConfigurationLecturerUrlIdResolutionResult) -> Void) {
-        lecturersRequestCancellable = requestManager
-            .request(BsuirIISTargets.Employees())
-            .map { lecturers in
-                intent.lecturerUrlId.map { urlId in
-                    lecturers.filter { $0.fio.contains(urlId.displayString) }
-                } ?? lecturers
+        lecturersRequest = Task {
+            do {
+                let shceduleIdentifiers = try await apiCLient.lecturers()
+                    .filter { lector in
+                        guard let search = intent.lecturerUrlId else { return true }
+                        return lector.fio.contains(search.displayString)
+                    }
+                    .sorted(by: { $0.fio < $1.fio })
+                    .map { ScheduleIdentifier(identifier: $0.urlId, display: $0.fio) }
+
+                completion(.disambiguation(with: shceduleIdentifiers))
+            } catch {
+                completion(.unsupported(forReason: .failed))
             }
-            .map { $0.sorted { $0.fio < $1.fio } }
-            .map { $0.map { ScheduleIdentifier(identifier: $0.urlId, display: $0.fio) } }
-            .sink(
-                receiveFailure: { _ in completion(.unsupported(forReason: .failed)) },
-                receiveValue: { completion(.disambiguation(with: $0)) }
-            )
+        }
     }
 
     override func handler(for intent: INIntent) -> Any {
@@ -42,9 +46,18 @@ class IntentHandler: INExtension, ConfigurationIntentHandling {
         return self
     }
 
-    private var groupsRequestCancellable: AnyCancellable?
-    private var lecturersRequestCancellable: AnyCancellable?
-    private let requestManager = RequestsManager.iisBsuir()
+    deinit {
+        groupsRequest?.cancel()
+        lecturersRequest?.cancel()
+    }
+
+    private var groupsRequest: Task<Void, Never>? {
+        didSet { oldValue?.cancel() }
+    }
+    private var lecturersRequest: Task<Void, Never>? {
+        didSet { oldValue?.cancel() }
+    }
+    private let apiCLient = ApiClient.live
 }
 
 private extension Publisher {

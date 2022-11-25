@@ -39,6 +39,7 @@ public struct LectorScheduleFeature: ReducerProtocol {
         case delegate(DelegateAction)
     }
 
+    @Dependency(\.apiClient) var apiClient
     @Dependency(\.favorites) var favorites
 
     public init() {}
@@ -77,16 +78,15 @@ public struct LectorScheduleFeature: ReducerProtocol {
         }
         
         Scope(state: \.schedule, action: /Action.ReducerAction.schedule) {
-            ScheduleFeature(
-                target: { BsuirIISTargets.EmployeeSchedule(urlId: $0) },
-                schedule: ScheduleRequestResponse.init(response:)
-            )
+            ScheduleFeature { urlId, isRefresh in
+                try await ScheduleRequestResponse(response: apiClient.lecturerSchedule(urlId: urlId, ignoreCache: isRefresh))
+            }
         }        
     }
 }
 
 private extension ScheduleRequestResponse {
-    init(response: BsuirIISTargets.EmployeeSchedule.Value) {
+    init(response: Employee.Schedule) {
         self.init(
             startDate: response.startDate,
             endDate: response.endDate,

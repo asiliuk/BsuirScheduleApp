@@ -22,7 +22,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     private(set) lazy var store = Store(
         initialState: .init(),
         reducer: AppFeature()
-            .dependency(\.urlCache, requestManager.cache)
             .dependency(\.imageCache, .default)
             .dependency(\.pairFormColorService, pairFormColorService)
     )
@@ -31,6 +30,5 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         super.init()
     }
 
-    private let requestManager = RequestsManager.iisBsuir()
     private(set) lazy var pairFormColorService = PairFormColorService(storage: .asiliukShared)
 }
