@@ -59,8 +59,11 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
         Reduce { state, action in
             switch action {
             case .view(.onAppear):
-                state.offset = calendar.date(byAdding: .day, value: -4, to: now)
-                loadDays(&state, count: 12)
+                if state.offset == nil {
+                    state.offset = calendar.date(byAdding: .day, value: -4, to: now)
+                    loadDays(&state, count: 12)
+                }
+
                 if state.days.isEmpty {
                     return .task { .delegate(.thereIsNoSchedule) }
                 } else  {
