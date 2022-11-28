@@ -15,7 +15,7 @@ public struct LoadingAction<Root>: Equatable {
         
         public enum ReducerAction {
             case loaded(Any, isEqualTo: (Any) -> Bool)
-            case loadingFailed
+            case loadingFailed(Error)
         }
         
         public enum DelegateAction: Equatable {
@@ -38,8 +38,8 @@ extension LoadingAction.Action.ReducerAction: Equatable {
         switch (lhs, rhs) {
         case let (.loaded(_, lhsIsEqualTo), .loaded(rhs, _)):
             return lhsIsEqualTo(rhs)
-        case (.loadingFailed, .loadingFailed):
-            return true
+        case let (.loadingFailed(lhs), .loadingFailed(rhs)):
+            return (lhs as NSError) == (rhs as NSError)
         case (.loadingFailed, .loaded), (.loaded, .loadingFailed):
             return false
         }

@@ -78,8 +78,8 @@ where Action: LoadableAction, State == Action.State {
             valueState = .some(value as! Value)
             return loadingFinished()
 
-        case .reducer(.loadingFailed):
-            valueState = .error
+        case let .reducer(.loadingFailed(error)):
+            valueState = .error(.init(error))
             return loadingFinished()
             
         case .delegate:
@@ -98,8 +98,8 @@ where Action: LoadableAction, State == Action.State {
         return EffectTask.task {
                 let value = try await fetch(state, isRefresh)
                 return .reducer(.loaded(value, isEqualTo: { $0 as? Value == value }))
-            } catch: { _ in
-                .reducer(.loadingFailed)
+            } catch: { error in
+                .reducer(.loadingFailed(error))
             }
             .map(toLoadingAction)
             .cancellable(id: LoadingCancelId.self, cancelInFlight: true)

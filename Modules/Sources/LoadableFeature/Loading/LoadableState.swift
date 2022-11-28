@@ -4,7 +4,7 @@ import Foundation
 public enum LoadableState<Value> {
     case initial
     case loading
-    case error
+    case error(LoadingError)
     case some(Value)
     
     public init(wrappedValue: Value? = nil) {
@@ -23,7 +23,7 @@ public enum LoadableState<Value> {
         set {
             guard let newValue else {
                 assertionFailure()
-                return self = .error
+                return self = .error(.unknown)
             }
             
             self = .some(newValue)
@@ -44,7 +44,7 @@ extension LoadableState {
         switch self {
         case .initial: return .initial
         case .loading: return .loading
-        case .error: return .error
+        case let .error(error): return .error(error)
         case let .some(value): return .some(transform(value))
         }
     }

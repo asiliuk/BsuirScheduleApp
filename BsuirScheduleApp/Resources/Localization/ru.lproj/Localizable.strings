@@ -111,6 +111,10 @@
 "view.errorState.title" = "Что-то пошло не так...";
 "view.errorState.button.label" = "Повторить попытку";
 
+"view.errorState.noInternet.title" = "Нет подключения к интернету";
+"view.errorState.noInternet.message" = "Похоже, нет подключения к интернету. Пожалуйста, проверьте подключение и повторите попытку...";
+"view.errorState.noInternet.button.label" = "Попробовать снова";
+
 // MARK: - PairView
 
 "view.pairView.announcement.title" = "📣 Объявление";

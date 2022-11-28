@@ -113,6 +113,10 @@
 "view.errorState.title" = "Something went wrong...";
 "view.errorState.button.label" = "Retry";
 
+"view.errorState.noInternet.title" = "No connection to the internet";
+"view.errorState.noInternet.message" = "Looks like there's no connection to the internet. Please check your connection and try again...";
+"view.errorState.noInternet.button.label" = "Try again";
+
 // MARK: - PairView
 
 "view.pairView.form.name.lecture" = "Lecture";

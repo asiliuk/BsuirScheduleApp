@@ -66,9 +66,7 @@ private struct LoadingGroupsView: View {
         } loading: {
             LoadingStateView()
         } error: { store in
-            WithViewStore(store) { viewStore in
-                ErrorStateView(retry: { viewStore.send(.reload) })
-            }
+            LoadableErrorView(store: store)
         }
     }
 }
