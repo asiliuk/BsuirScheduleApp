@@ -14,7 +14,7 @@ jobs:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
         with:
-          workflow_id: continuous-integration.yml
+          workflow_id: ios.yml
           access_token: ${{ github.token }}
           
   test:
