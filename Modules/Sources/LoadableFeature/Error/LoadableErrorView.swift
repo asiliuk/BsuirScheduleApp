@@ -17,7 +17,9 @@ public struct LoadableErrorView<ValueAction>: View {
             switch viewStore.state {
             case .notConnectedToInternet:
                 NetworkErrorStateView(retry: reload)
-            case .parsing, .unknown:
+            case let .failedToDecode(url, description, _):
+                DecodingErrorStateView(url: url, message: description)
+            case .unknown, .somethingWrongWithBsuir:
                 ErrorStateView(retry: reload)
             }
         }

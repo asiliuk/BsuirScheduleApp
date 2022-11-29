@@ -11,11 +11,15 @@ public struct NetworkErrorStateView: View, Animatable {
     public var body: some View {
         VStack(spacing: 24) {
             Spacer()
-            if #available(iOS 16.0, *) {
-                AnimatableImage(systemName: "wifi.router.fill").font(.system(size: 70))
-            } else {
-                Image(systemName: "wifi.router.fill")
+
+            Group {
+                if #available(iOS 16.0, *) {
+                    AnimatableImage(systemName: "wifi.router.fill")
+                } else {
+                    Image(systemName: "wifi.router.fill")
+                }
             }
+            .font(.system(size: 70))
 
             VStack(spacing: 12) {
                 Text("view.errorState.noInternet.title")

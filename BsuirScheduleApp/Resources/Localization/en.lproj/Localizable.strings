@@ -117,6 +117,10 @@
 "view.errorState.noInternet.message" = "Looks like there's no connection to the internet. Please check your connection and try again...";
 "view.errorState.noInternet.button.label" = "Try again";
 
+"view.errorState.parsing.title" = "Failed to parse response";
+"view.errorState.parsing.message" = "Received unexpected response from the API. Please copy following text and contact developer or create an issue";
+"view.errorState.parsing.button.label" = "Create issue";
+
 // MARK: - PairView
 
 "view.pairView.form.name.lecture" = "Lecture";
