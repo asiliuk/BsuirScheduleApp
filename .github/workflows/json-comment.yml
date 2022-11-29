@@ -1,0 +1,17 @@
+name: Add JSON comment
+on:
+  issues:
+    types: [opened, labeled]
+jobs:
+  add-comment:
+    if: contains(github.event.issue.labels.*.name, 'parsing')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Woop Woop this comment was added automatically
