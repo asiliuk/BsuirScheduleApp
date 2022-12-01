@@ -74,6 +74,10 @@
 "screen.about.aboutTheApp.section.header" = "About the app";
 "screen.about.aboutTheApp.version.%@" = "Version %@";
 
+// MARK: - About, Reachability
+
+"screen.about.reachability.section.header" = "Reachability";
+
 // MARK: - About, Data
 
 "screen.about.data.section.header" = "Data";

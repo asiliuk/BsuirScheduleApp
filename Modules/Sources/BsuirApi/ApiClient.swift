@@ -58,7 +58,7 @@ extension ApiClient {
         return ApiClient(
             client: .liveCaching(
                 in: cache,
-                router: iisRouter.baseURL("https://iis.bsuir.by/api"),
+                router: iisRouter.baseURL(URL.iisApi.absoluteString),
                 decoder: .bsuirDecoder
             ),
             clearCache: { cache.removeAllCachedResponses() }
@@ -78,4 +78,10 @@ extension DependencyValues {
 private enum ApiClientKey: DependencyKey {
     static let liveValue = ApiClient.live
     static let testValue = ApiClient(client: .failing, clearCache: {})
+}
+
+// MARK: - URL
+
+extension URL {
+    public static let iisApi = URL(string: "https://iis.bsuir.by/api")!
 }

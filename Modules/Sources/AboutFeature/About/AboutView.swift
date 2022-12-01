@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirCore
 import BsuirUI
+import ReachabilityFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
@@ -34,11 +35,15 @@ public struct AboutView: View {
                     )
                 )
                 
-                Section(header: Text("screen.about.aboutTheApp.section.header")) {
+                Section("screen.about.aboutTheApp.section.header") {
                     AboutSectionView(viewStore: viewStore)
                 }
+
+                Section("screen.about.reachability.section.header") {
+                    ReachabilitySectionView(store: store)
+                }
                 
-                Section(header: Text("screen.about.data.section.header")) {
+                Section("screen.about.data.section.header") {
                     ClearCacheSectionView(store: store, viewStore: viewStore)
                 }
             }
@@ -96,6 +101,27 @@ private struct LinkButton: View {
     }
 }
 
+// MARK: - Reachability
+
+private struct ReachabilitySectionView: View {
+    let store: StoreOf<AboutFeature>
+
+    var body: some View {
+        ReachabilityView(
+            store: store.scope(
+                state: \.iisReachability,
+                action: { .iisReachability($0) }
+            )
+        )
+
+        ReachabilityView(
+            store: store.scope(
+                state: \.appleReachability,
+                action: { .appleReachability($0) }
+            )
+        )
+    }
+}
 
 // MARK: - Clear Cache Section
 

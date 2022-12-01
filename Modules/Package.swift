@@ -59,7 +59,7 @@ let package = Package(
         ),
         .target(
             name: "AboutFeature",
-            dependencies: ["BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]
+            dependencies: ["ReachabilityFeature", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]
         ),
         .target(
             name: "GroupsFeature",
@@ -88,6 +88,10 @@ let package = Package(
         .target(
             name: "Deeplinking",
             dependencies: [.urlRouting, .tcaDependencies]
+        ),
+        .target(
+            name: "ReachabilityFeature",
+            dependencies: ["BsuirApi", .tca]
         ),
         // MARK: - Core
         .target(

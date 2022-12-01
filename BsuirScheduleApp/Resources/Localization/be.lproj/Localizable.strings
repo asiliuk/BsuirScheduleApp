@@ -72,6 +72,10 @@
 "screen.about.aboutTheApp.section.header" = "Аб дадатку";
 "screen.about.aboutTheApp.version.%@" = "Версія %@";
 
+// MARK: - About, Reachability
+
+"screen.about.reachability.section.header" = "Дасяжнасць";
+
 // MARK: - About, Data
 
 "screen.about.data.section.header" = "Звесткі";

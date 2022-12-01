@@ -1,6 +1,7 @@
 import Foundation
 import BsuirCore
 import BsuirUI
+import ReachabilityFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import Dependencies
@@ -12,6 +13,8 @@ public struct AboutFeature: ReducerProtocol {
         var appIcon = AppIconPickerReducer.State()
         var pairFormsColorPicker = PairFormsColorPicker.State()
         @BindableState var isOnTop: Bool = true
+        var iisReachability = ReachabilityFeature.State(host: URL.iisApi.bsr_host)
+        var appleReachability = ReachabilityFeature.State(host: "apple.com")
 
         public init() {}
     }
@@ -29,6 +32,8 @@ public struct AboutFeature: ReducerProtocol {
         public enum ReducerAction: Equatable {
             case appIcon(AppIconPickerReducer.Action)
             case pairFormsColorPicker(PairFormsColorPicker.Action)
+            case iisReachability(ReachabilityFeature.Action)
+            case appleReachability(ReachabilityFeature.Action)
         }
         
         public typealias DelegateAction = Never
@@ -44,6 +49,7 @@ public struct AboutFeature: ReducerProtocol {
     @Dependency(\.appInfo.version.description) var appVersion
     @Dependency(\.application.open) var openUrl
     @Dependency(\.reviewRequestService) var reviewRequestService
+    @Dependency(\.networkReachabilityTracker) var networkReachabilityTracker
 
     public init() {}
     
@@ -91,6 +97,14 @@ public struct AboutFeature: ReducerProtocol {
 
         Scope(state: \.pairFormsColorPicker, action: /Action.ReducerAction.pairFormsColorPicker) {
             PairFormsColorPicker()
+        }
+
+        Scope(state: \.iisReachability, action: /Action.ReducerAction.iisReachability) {
+            ReachabilityFeature(networkReachabilityTracker.iisApi)
+        }
+
+        Scope(state: \.appleReachability, action: /Action.ReducerAction.appleReachability) {
+            ReachabilityFeature(networkReachabilityTracker.track("apple.com"))
         }
 
         BindingReducer()
