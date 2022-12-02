@@ -100,11 +100,11 @@ public struct AboutFeature: ReducerProtocol {
         }
 
         Scope(state: \.iisReachability, action: /Action.ReducerAction.iisReachability) {
-            ReachabilityFeature(networkReachabilityTracker.iisApi)
+            ReachabilityFeature()
         }
 
         Scope(state: \.appleReachability, action: /Action.ReducerAction.appleReachability) {
-            ReachabilityFeature(networkReachabilityTracker.track("apple.com"))
+            ReachabilityFeature()
         }
 
         BindingReducer()

@@ -12,7 +12,7 @@ public struct ReachabilityView: View {
     public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             Label {
-                Text(viewStore.name)
+                Text(viewStore.host)
             } icon: {
                 switch viewStore.status {
                 case .unknown:

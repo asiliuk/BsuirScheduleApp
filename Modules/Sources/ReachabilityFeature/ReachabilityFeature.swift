@@ -5,10 +5,10 @@ import ComposableArchitecture
 public struct ReachabilityFeature: ReducerProtocol {
     public struct State: Equatable {
         var status: NetworkReachabilityStatus
-        var name: String
+        var host: String
 
         public init(host: String) {
-            self.name = host
+            self.host = host
             self.status = .unknown
         }
     }
@@ -18,17 +18,16 @@ public struct ReachabilityFeature: ReducerProtocol {
         case setStatus(NetworkReachabilityStatus)
     }
 
-    private let networkReachability: NetworkReachability
+    @Dependency(\.networkReachabilityTracker) var networkReachabilityTracker
 
-    public init(_ networkReachability: NetworkReachability) {
-        self.networkReachability = networkReachability
-    }
+    public init() {}
 
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .task:
+            let tracker = networkReachabilityTracker.track(state.host)
             return .run { send in
-                for try await status in networkReachability.status().values {
+                for try await status in tracker.status().values {
                     await send(.setStatus(status))
                 }
             }
