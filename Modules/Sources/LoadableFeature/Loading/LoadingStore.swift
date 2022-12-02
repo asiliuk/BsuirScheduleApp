@@ -12,7 +12,7 @@ public struct LoadingStore<
 
     private enum ViewState: Equatable {
         case loading
-        case error(LoadingError)
+        case error(LoadingError.State)
         case loaded(ValueState)
     }
     
@@ -21,7 +21,7 @@ public struct LoadingStore<
     private let store: Store<ViewState, ViewAction>
     @ViewBuilder private var value: (Store<ValueState, ViewAction.LoadedAction>) -> ValueView
     @ViewBuilder private var loading: LoadingView
-    @ViewBuilder private var error: (Store<LoadingError, ViewAction.ErrorAction>) -> ErrorView
+    @ViewBuilder private var error: (StoreOf<LoadingError>) -> ErrorView
     
     public init<State, Action: LoadableAction, LoadingValueState>(
         _ store: Store<State, Action>,
@@ -30,7 +30,7 @@ public struct LoadingStore<
         action fromValueAction: @escaping (ValueAction) -> Action,
         @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
         @ViewBuilder loading: () -> LoadingView,
-        @ViewBuilder error: @escaping (Store<LoadingError, ViewAction.ErrorAction>) -> ErrorView
+        @ViewBuilder error: @escaping (StoreOf<LoadingError>) -> ErrorView
     ) where Action.State == State {
         func toViewState(_ state: State) -> ViewState {
             switch state[keyPath: keyPath] {
@@ -48,8 +48,8 @@ public struct LoadingStore<
             switch viewAction {
             case .loading(.onAppear):
                 return wrapping(.onAppear)
-            case .error(.reload):
-                return wrapping(.reload)
+            case let .error(action):
+                return wrapping(.loadingError(action))
             case .loaded(.refresh):
                 return wrapping(.refresh)
             case let .loaded(.value(valueAction)):
@@ -94,7 +94,7 @@ extension LoadingStore {
         state keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
         @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
         @ViewBuilder loading: () -> LoadingView,
-        @ViewBuilder error: @escaping (Store<LoadingError, ViewAction.ErrorAction>) -> ErrorView
+        @ViewBuilder error: @escaping (StoreOf<LoadingError>) -> ErrorView
     ) where Action.State == State, ValueAction == Never {
         self.init(
             store,
@@ -112,7 +112,7 @@ extension LoadingStore {
         action fromValueAction: @escaping (ValueAction) -> Action,
         @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
         @ViewBuilder loading: () -> LoadingView,
-        @ViewBuilder error: @escaping (Store<LoadingError, ViewAction.ErrorAction>) -> ErrorView
+        @ViewBuilder error: @escaping (StoreOf<LoadingError>) -> ErrorView
     ) where Action.State == State {
         self.init(
             store,
@@ -131,7 +131,7 @@ extension LoadingStore {
         loading loadingKeyPath: WritableKeyPath<State, LoadableState<LoadingValueState>>,
         @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
         @ViewBuilder loading: () -> LoadingView,
-        @ViewBuilder error: @escaping (Store<LoadingError, ViewAction.ErrorAction>) -> ErrorView
+        @ViewBuilder error: @escaping (StoreOf<LoadingError>) -> ErrorView
     ) where Action.State == State, ValueAction == Never {
         func impossible<T>(_: Never) -> T {}
         
@@ -171,9 +171,7 @@ public enum LoadingStoreViewAction<ValueAction> {
         case onAppear
     }
 
-    public enum ErrorAction {
-        case reload
-    }
+    public typealias ErrorAction = LoadingError.Action
     
     public enum LoadedAction {
         case refresh

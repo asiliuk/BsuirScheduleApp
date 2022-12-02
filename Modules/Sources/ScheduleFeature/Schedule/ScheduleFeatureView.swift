@@ -40,7 +40,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             } loading: {
                 LoadingStateView()
             } error: { store in
-                LoadableErrorView(store: store)
+                LoadingErrorView(store: store)
             }
             .toolbar {
                 ToolbarItem {

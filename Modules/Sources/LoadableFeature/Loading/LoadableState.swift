@@ -4,7 +4,7 @@ import Foundation
 public enum LoadableState<Value> {
     case initial
     case loading
-    case error(LoadingError)
+    case error(LoadingError.State)
     case some(Value)
     
     public init(wrappedValue: Value? = nil) {
@@ -37,7 +37,6 @@ public enum LoadableState<Value> {
 }
 
 extension LoadableState: Equatable where Value: Equatable {}
-extension LoadableState: Hashable where Value: Hashable {}
 
 extension LoadableState {
     public func map<U>(_ transform: (Value) -> U) -> LoadableState<U> {

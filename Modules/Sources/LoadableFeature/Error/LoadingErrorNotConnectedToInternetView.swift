@@ -1,12 +1,9 @@
 import Foundation
 import SwiftUI
+import ComposableArchitecture
 
-public struct NetworkErrorStateView: View, Animatable {
-    public let retry: () -> Void
-
-    public init(retry: @escaping () -> Void) {
-        self.retry = retry
-    }
+public struct LoadingErrorNotConnectedToInternetView: View, Animatable {
+    public let store: StoreOf<LoadingErrorNotConnectedToInternet>
 
     public var body: some View {
         VStack(spacing: 24) {
@@ -33,7 +30,9 @@ public struct NetworkErrorStateView: View, Animatable {
             .padding(.horizontal, 24)
             .multilineTextAlignment(.center)
 
-            Button(action: retry) {
+            Button {
+                ViewStore(store.stateless).send(.reloadButtonTapped)
+            } label: {
                 Image(systemName: "repeat")
                 Text("view.errorState.noInternet.button.label")
             }
@@ -74,8 +73,10 @@ struct AnimatableImage: View {
     }
 }
 
-struct NetworkErrorStateView_Previews: PreviewProvider {
+struct LoadingErrorNotConnectedToInternetView_Previews: PreviewProvider {
     static var previews: some View {
-        NetworkErrorStateView() {}
+        LoadingErrorNotConnectedToInternetView(
+            store: Store(initialState: (), reducer: EmptyReducer())
+        )
     }
 }

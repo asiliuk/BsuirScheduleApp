@@ -79,7 +79,7 @@ let package = Package(
         ),
         .target(
             name: "LoadableFeature",
-            dependencies: ["BsuirCore", "ComposableArchitectureUtils", .tca, .urlRouting]
+            dependencies: ["BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .urlRouting]
         ),
         .target(
             name: "Favorites",

@@ -36,18 +36,34 @@ where Action: LoadableAction, State == Action.State {
     let keyPath: WritableKeyPath<State, LoadableState<Value>>
     let fetch: @Sendable (State, _ isRefresh: Bool) async throws -> Value
 
-    func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
-        guard
-            let loadingAction = (/Action.loading).extract(from: action),
-            loadingAction.keyPath == keyPath
-        else { return .none }
+    var body: some ReducerProtocol<State, Action> {
+        Scope(state: \.self, action: .loading(keyPath: keyPath)) {
+            CoreLoadingReducer(keyPath: keyPath, fetch: fetch)
 
+            Scope(state: keyPath, action: /LoadingAction<State>.Action.view) {
+                EmptyReducer()
+                    .ifCaseLet(/LoadableState.error, action: /LoadingAction<State>.Action.ViewAction.loadingError) {
+                        LoadingError()
+                    }
+            }
+        }
+    }
+}
+
+private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
+
+    typealias Action = LoadingAction<State>.Action
+
+    let keyPath: WritableKeyPath<State, LoadableState<Value>>
+    let fetch: @Sendable (State, _ isRefresh: Bool) async throws -> Value
+
+    func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         var valueState: LoadableState<Value> {
             get { state[keyPath: keyPath] }
             set { state[keyPath: keyPath] = newValue }
         }
-        
-        switch loadingAction.action {
+
+        switch action {
         case .view(.onAppear):
             switch valueState {
             case .initial:
@@ -57,7 +73,7 @@ where Action: LoadableAction, State == Action.State {
                 return .none
             }
 
-        case .view(.reload):
+        case .view(.loadingError(.reload)):
             switch valueState {
             case .error:
                 valueState = .loading
@@ -82,14 +98,13 @@ where Action: LoadableAction, State == Action.State {
             valueState = .error(.init(error))
             return loadingFinished()
             
-        case .delegate:
+        case .delegate, .view(.loadingError):
             return .none
         }
     }
     
     private func loadingFinished() -> EffectTask<Action> {
         return EffectTask.task { .delegate(.loadingFinished) }
-            .map(toLoadingAction)
     }
 
     private enum LoadingCancelId {}
@@ -101,11 +116,28 @@ where Action: LoadableAction, State == Action.State {
             } catch: { error in
                 .reducer(.loadingFailed(error))
             }
-            .map(toLoadingAction)
             .cancellable(id: LoadingCancelId.self, cancelInFlight: true)
     }
-    
-    private func toLoadingAction(_ action: LoadingAction<State>.Action) -> Action {
-        return .loading(.init(keyPath: keyPath, action: action))
+}
+
+// MARK: - CasePath
+
+private extension CasePath {
+    static func loading<V>(
+        keyPath: WritableKeyPath<Root.State, LoadableState<V>>
+    ) -> CasePath where Root: LoadableAction, Value == LoadingAction<Root.State>.Action {
+        CasePath(
+            embed: { loadingAction in
+                .loading(.init(keyPath: keyPath, action: loadingAction))
+            },
+            extract: { action in
+                guard
+                    let loadingAction = (/Root.loading).extract(from: action),
+                    loadingAction.keyPath == keyPath
+                else { return nil }
+
+                return loadingAction.action
+            }
+        )
     }
 }

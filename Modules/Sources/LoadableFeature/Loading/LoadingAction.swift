@@ -9,8 +9,8 @@ public struct LoadingAction<Root>: Equatable {
     public enum Action: Equatable {
         public enum ViewAction: Equatable {
             case onAppear
-            case reload
             case refresh
+            case loadingError(LoadingError.Action)
         }
         
         public enum ReducerAction {

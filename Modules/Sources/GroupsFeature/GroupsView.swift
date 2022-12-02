@@ -66,7 +66,7 @@ private struct LoadingGroupsView: View {
         } loading: {
             LoadingStateView()
         } error: { store in
-            LoadableErrorView(store: store)
+            LoadingErrorView(store: store)
         }
     }
 }
