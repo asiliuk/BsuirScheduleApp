@@ -79,9 +79,3 @@ private enum ApiClientKey: DependencyKey {
     static let liveValue = ApiClient.live
     static let testValue = ApiClient(client: .failing, clearCache: {})
 }
-
-// MARK: - URL
-
-extension URL {
-    public static let iisApi = URL(string: "https://iis.bsuir.by/api")!
-}

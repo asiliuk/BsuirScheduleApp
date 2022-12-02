@@ -1,4 +1,5 @@
 import Foundation
+import BsuirCore
 import SwiftUI
 
 public struct DecodingErrorStateView: View, Animatable {
@@ -40,7 +41,7 @@ public struct DecodingErrorStateView: View, Animatable {
             .padding(.horizontal, 24)
 
             Button {
-                if let issueUrl { openURL(issueUrl) }
+                openURL(issueUrl)
             } label: {
                 Image(systemName: "plus.diamond.fill")
                 Text("view.errorState.parsing.button.label")
@@ -51,18 +52,13 @@ public struct DecodingErrorStateView: View, Animatable {
         }
     }
 
-    // https://github.com/octo-org/octo-repo/issues/new?title=New+bug+report&body=Describe+the+problem.
-    private var issueUrl: URL? {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "github.com"
-        components.path = "/asiliuk/BsuirScheduleApp/issues/new"
-        components.queryItems = [
-            .init(name: "title", value: "Failed to parse"),
-            .init(name: "body", value: issueBody),
-            .init(name: "labels", value: "bug,parsing")
-        ]
-        return components.url
+
+    private var issueUrl: URL {
+        return .githubIssue(
+            title: "Failed to parse",
+            body: issueBody,
+            labels: "bug", "parsing"
+        )
     }
 
     private var issueBody: String {

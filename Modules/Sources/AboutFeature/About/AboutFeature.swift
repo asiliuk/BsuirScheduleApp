@@ -111,11 +111,6 @@ public struct AboutFeature: ReducerProtocol {
     }
 }
 
-private extension URL {
-    static let github = URL(string: "https://github.com/asiliuk/BsuirScheduleApp")!
-    static let telegram = URL(string: "https://t.me/bsuirschedule")!
-}
-
 private extension MeaningfulEvent {
     static let githubOpened = Self(score: 1)
     static let telegramOpened = Self(score: 1)
