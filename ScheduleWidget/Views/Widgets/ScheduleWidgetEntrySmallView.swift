@@ -9,6 +9,7 @@
 import SwiftUI
 import BsuirUI
 import BsuirCore
+import ScheduleCore
 
 struct ScheduleWidgetEntrySmallView : View {
     var entry: Provider.Entry

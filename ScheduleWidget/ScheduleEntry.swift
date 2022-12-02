@@ -1,5 +1,6 @@
 import WidgetKit
 import BsuirCore
+import ScheduleCore
 import Foundation
 import Deeplinking
 

@@ -1,5 +1,5 @@
 import Foundation
-import BsuirCore
+import ScheduleCore
 
 struct ScheduleDayViewModel: Equatable, Identifiable {
     let id: UUID

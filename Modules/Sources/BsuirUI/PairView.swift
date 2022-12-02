@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirCore
 import BsuirApi
+import ScheduleCore
 
 public struct PairCell<Details: View>: View {
     var pair: PairView<Details>

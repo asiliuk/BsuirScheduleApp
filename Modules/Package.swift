@@ -32,8 +32,8 @@ let package = Package(
             name: "BsuirUI",
             targets: ["BsuirUI"]),
         .library(
-            name: "BsuirCore",
-            targets: ["BsuirCore"]),
+            name: "ScheduleCore",
+            targets: ["ScheduleCore"]),
         .library(
             name: "BsuirApi",
             targets: ["BsuirApi"]),
@@ -53,29 +53,29 @@ let package = Package(
             dependencies: [
                 "GroupsFeature", "LecturersFeature", "AboutFeature",
                 "Deeplinking", "Favorites", "ComposableArchitectureUtils",
-                "BsuirCore", "BsuirApi", "BsuirUI",
+                "ScheduleCore", "BsuirApi", "BsuirUI",
                 .tca
             ]
         ),
         .target(
             name: "AboutFeature",
-            dependencies: ["ReachabilityFeature", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]
+            dependencies: ["ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]
         ),
         .target(
             name: "GroupsFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "LecturersFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "EntityScheduleFeature",
-            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "ScheduleFeature",
-            dependencies: ["LoadableFeature", "Favorites", "BsuirCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "LoadableFeature",
@@ -99,16 +99,19 @@ let package = Package(
             dependencies: [.tca]),
         .target(
             name: "BsuirUI",
-            dependencies: ["BsuirApi", "BsuirCore", "Kingfisher", .tcaDependencies]),
+            dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .tcaDependencies]),
         .target(
-            name: "BsuirCore",
+            name: "ScheduleCore",
             dependencies: ["BsuirApi", .tcaDependencies]),
         .target(
             name: "BsuirApi",
-            dependencies: [.urlRouting, .tcaDependencies]),
+            dependencies: ["BsuirCore", .urlRouting, .tcaDependencies]),
+        .target(
+            name: "BsuirCore",
+            dependencies: [.tcaDependencies]),
         .testTarget(
-            name: "BsuirCoreTests",
-            dependencies: ["BsuirCore"]),
+            name: "ScheduleCoreTests",
+            dependencies: ["ScheduleCore"]),
         .testTarget(
             name: "BsuirApiTests",
             dependencies: ["BsuirApi"],

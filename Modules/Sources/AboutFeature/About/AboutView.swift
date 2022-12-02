@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirCore
 import BsuirUI
+import ScheduleCore
 import ReachabilityFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils

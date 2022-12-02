@@ -4,6 +4,7 @@ import Intents
 import BsuirApi
 import BsuirUI
 import BsuirCore
+import ScheduleCore
 import Combine
 import StoreKit
 

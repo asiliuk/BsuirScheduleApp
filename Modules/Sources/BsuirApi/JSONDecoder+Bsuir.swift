@@ -1,15 +1,12 @@
 import Foundation
+import BsuirCore
 
 extension JSONDecoder {
-    static let bsuirDecoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(dateFormatter)
-        return decoder
-    }()
+    static let bsuirDecoder = mutating(JSONDecoder()) {
+        $0.dateDecodingStrategy = .formatted(dateFormatter)
+    }
 
-    private static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy"
-        return formatter
-    }()
+    private static let dateFormatter = mutating(DateFormatter()) {
+        $0.dateFormat = "dd.MM.yyyy"
+    }
 }

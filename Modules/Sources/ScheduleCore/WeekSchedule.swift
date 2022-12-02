@@ -1,5 +1,6 @@
 import Foundation
 import BsuirApi
+import BsuirCore
 
 public struct WeekSchedule: Equatable {
     public init(

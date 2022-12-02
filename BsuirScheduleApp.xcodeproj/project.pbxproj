@@ -22,6 +22,7 @@
 		E64FE06E28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64FE06D28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift */; };
 		E651C88E28C7D02400CAFBEC /* ScheduleWidgetEntryLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E651C88C28C7D01900CAFBEC /* ScheduleWidgetEntryLargeView.swift */; };
 		E654467829296CF000881956 /* Deeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = E654467729296CF000881956 /* Deeplinking */; };
+		E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */ = {isa = PBXBuildFile; productRef = E6611ABC293A8B59006E322B /* ScheduleCore */; };
 		E6972D1A287B4A550003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D19287B4A550003506F /* BsuirApi */; };
 		E6972D1C287B4A550003506F /* BsuirUI in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1B287B4A550003506F /* BsuirUI */; };
 		E6972D1E287B4A5A0003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1D287B4A5A0003506F /* BsuirApi */; };
@@ -192,6 +193,7 @@
 				E6972D1A287B4A550003506F /* BsuirApi in Frameworks */,
 				E6972D1C287B4A550003506F /* BsuirUI in Frameworks */,
 				E654467829296CF000881956 /* Deeplinking in Frameworks */,
+				E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */,
 				E6AA8D1125162F1A00788A02 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -405,6 +407,7 @@
 				E6972D19287B4A550003506F /* BsuirApi */,
 				E6972D1B287B4A550003506F /* BsuirUI */,
 				E654467729296CF000881956 /* Deeplinking */,
+				E6611ABC293A8B59006E322B /* ScheduleCore */,
 			);
 			productName = ScheduleWidgetExtension;
 			productReference = E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */;
@@ -955,6 +958,10 @@
 		E654467729296CF000881956 /* Deeplinking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Deeplinking;
+		};
+		E6611ABC293A8B59006E322B /* ScheduleCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ScheduleCore;
 		};
 		E6972D19287B4A550003506F /* BsuirApi */ = {
 			isa = XCSwiftPackageProductDependency;

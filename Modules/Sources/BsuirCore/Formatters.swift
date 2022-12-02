@@ -1,10 +1,3 @@
-//
-//  Formatters.swift
-//  
-//
-//  Created by Anton Siliuk on 20/08/2022.
-//
-
 import Foundation
 
 extension FormatStyle where Self == Date.FormatStyle {

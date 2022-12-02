@@ -3,6 +3,7 @@ import SwiftUI
 import Intents
 import BsuirApi
 import BsuirCore
+import ScheduleCore
 import Deeplinking
 import Combine
 

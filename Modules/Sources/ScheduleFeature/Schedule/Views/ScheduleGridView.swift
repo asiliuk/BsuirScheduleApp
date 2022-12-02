@@ -1,7 +1,7 @@
 import SwiftUI
 import BsuirUI
 import BsuirApi
-import BsuirCore
+import ScheduleCore
 
 public enum ScheduleGridViewPairDetails {
     case lecturers(show: (Employee) -> Void)

@@ -1,11 +1,5 @@
-//
-//  Pair.swift
-//  Pods
-//
-//  Created by Anton Siliuk on 07.03.17.
-//
-
 import Foundation
+import BsuirCore
 
 public struct Pair: Codable, Equatable {
 
@@ -144,10 +138,6 @@ extension Pair.Time : Codable {
         var container = encoder.singleValueContainer()
         try container.encode("\(hour):\(minute)")
     }
-}
-
-extension TimeZone {
-    public static let minsk = TimeZone(identifier: "Europe/Minsk")!
 }
 
 extension Pair.Form: Codable {
