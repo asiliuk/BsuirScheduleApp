@@ -16,14 +16,8 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
             VStack(spacing: 24) {
                 Spacer()
 
-                Group {
-                    if #available(iOS 16.0, *) {
-                        AnimatableImage(systemName: "wand.and.rays")
-                    } else {
-                        Image(systemName: "wand.and.rays")
-                    }
-                }
-                .font(.system(size: 70))
+                AnimatableImage(systemName: "wand.and.rays")
+                    .font(.system(size: 70))
 
                 VStack(spacing: 12) {
 

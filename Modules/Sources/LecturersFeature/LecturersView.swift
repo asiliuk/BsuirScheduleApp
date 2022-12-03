@@ -31,7 +31,7 @@ public struct LecturersView: View {
             .task { await viewStore.send(.task).finish() }
             .task(id: viewStore.searchQuery) {
                 do {
-                    try await Task.sleep(nanoseconds: 200_000_000)
+                    try await Task.sleep(nanoseconds: 300_000_000)
                     await viewStore.send(.filterLecturers, animation: .default).finish()
                 } catch {}
             }

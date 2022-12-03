@@ -70,7 +70,8 @@ public struct GroupsFeature: ReducerProtocol {
                 filteredGroups(state: &state)
                 return .none
                 
-            case .loading(.finished(\.$loadedGroups)):
+            case .loading(.started(\.$loadedGroups)),
+                 .loading(.finished(\.$loadedGroups)):
                 filteredGroups(state: &state)
                 return .none
                 
@@ -97,24 +98,13 @@ public struct GroupsFeature: ReducerProtocol {
     }
     
     private func filteredGroups(state: inout State) {
-        guard !state.searchQuery.isEmpty else {
-            state.$sections = state.$loadedGroups.map(makeSections(groups:))
-            return
-        }
-        
         state.$sections = state.$loadedGroups
-            .map { $0.filter { $0.name.localizedCaseInsensitiveContains(state.searchQuery) } }
-            .map(makeSections(groups:))
-    }
-    
-    private func makeSections(groups: [StudentGroup]) -> [State.Section] {
-        return Dictionary(grouping: groups, by: { $0.name.prefix(3) })
-            .sorted(by: { $0.key < $1.key })
-            .map { title, groups in
-                State.Section(
-                    title: String(title),
-                    groups: groups.sorted { $0.name < $1.name }
-                )
+            .map { groups in
+                guard !state.searchQuery.isEmpty else { return groups.makeSections() }
+                return groups
+                    .lazy
+                    .filter { $0.name.localizedCaseInsensitiveContains(state.searchQuery) }
+                    .makeSections()
             }
     }
     
@@ -124,6 +114,19 @@ public struct GroupsFeature: ReducerProtocol {
                 await send(.reducer(.favoritesUpdate(value)), animation: .default)
             }
         }
+    }
+}
+
+private extension Array where Element == StudentGroup {
+    func makeSections() -> [GroupsFeature.State.Section] {
+        return Dictionary(grouping: self, by: { $0.name.prefix(3) })
+            .sorted(by: { $0.key < $1.key })
+            .map { title, groups in
+                .init(
+                    title: String(title),
+                    groups: groups.sorted { $0.name < $1.name }
+                )
+            }
     }
 }
 

@@ -25,7 +25,7 @@ public struct LoadingStore<
     
     public init<State, Action: LoadableAction, LoadingValueState>(
         _ store: Store<State, Action>,
-        state keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
+        state keyPath: KeyPath<State, LoadableState<ValueState>>,
         loading loadingKeyPath: WritableKeyPath<State, LoadableState<LoadingValueState>>,
         action fromValueAction: @escaping (ValueAction) -> Action,
         @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
@@ -127,7 +127,7 @@ extension LoadingStore {
     
     public init<State, Action: LoadableAction, LoadingValueState>(
         _ store: Store<State, Action>,
-        state keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
+        state keyPath: KeyPath<State, LoadableState<ValueState>>,
         loading loadingKeyPath: WritableKeyPath<State, LoadableState<LoadingValueState>>,
         @ViewBuilder value: @escaping (Store<ValueState, ViewAction.LoadedAction>) -> ValueView,
         @ViewBuilder loading: () -> LoadingView,

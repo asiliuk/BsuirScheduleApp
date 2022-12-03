@@ -38,14 +38,14 @@ where Action: LoadableAction, State == Action.State {
 
     var body: some ReducerProtocol<State, Action> {
         Scope(state: \.self, action: .loading(keyPath: keyPath)) {
-            CoreLoadingReducer(keyPath: keyPath, fetch: fetch)
-
             Scope(state: keyPath, action: /LoadingAction<State>.Action.view) {
                 EmptyReducer()
                     .ifCaseLet(/LoadableState.error, action: /LoadingAction<State>.Action.ViewAction.loadingError) {
                         LoadingError()
                     }
             }
+
+            CoreLoadingReducer(keyPath: keyPath, fetch: fetch)
         }
     }
 }
@@ -68,7 +68,10 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
             switch valueState {
             case .initial:
                 valueState = .loading
-                return load(state, isRefresh: false)
+                return .merge(
+                    load(state, isRefresh: false),
+                    loadingStarted()
+                )
             case .loading, .error, .some:
                 return .none
             }
@@ -77,7 +80,10 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
             switch valueState {
             case .error:
                 valueState = .loading
-                return load(state, isRefresh: true)
+                return .merge(
+                    load(state, isRefresh: true),
+                    loadingStarted()
+                )
             case .initial, .loading, .some:
                 return .none
             }
@@ -102,7 +108,11 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
             return .none
         }
     }
-    
+
+    private func loadingStarted() -> EffectTask<Action> {
+        return EffectTask.task { .delegate(.loadingStarted) }
+    }
+
     private func loadingFinished() -> EffectTask<Action> {
         return EffectTask.task { .delegate(.loadingFinished) }
     }

@@ -19,6 +19,7 @@ public struct LoadingAction<Root>: Equatable {
         }
         
         public enum DelegateAction: Equatable {
+            case loadingStarted
             case loadingFinished
         }
         
@@ -52,7 +53,11 @@ extension LoadingAction {
     public static func refresh<Value>(_ keyPath: WritableKeyPath<Root, LoadableState<Value>>) -> Self {
         self.init(keyPath: keyPath, action: .view(.refresh))
     }
-    
+
+    public static func started<Value>(_ keyPath: WritableKeyPath<Root, LoadableState<Value>>) -> Self {
+        self.init(keyPath: keyPath, action: .delegate(.loadingStarted))
+    }
+
     public static func finished<Value>(_ keyPath: WritableKeyPath<Root, LoadableState<Value>>) -> Self {
         self.init(keyPath: keyPath, action: .delegate(.loadingFinished))
     }

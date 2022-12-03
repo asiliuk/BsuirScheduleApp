@@ -15,14 +15,8 @@ public struct LoadingErrorFailedToDecodeView: View, Animatable {
             VStack(spacing: 24) {
                 Spacer()
 
-                Group {
-                    if #available(iOS 16.0, *) {
-                        AnimatableImage(systemName: "ellipsis.curlybraces")
-                    } else {
-                        Image(systemName: "ellipsis.curlybraces")
-                    }
-                }
-                .font(.system(size: 70))
+                AnimatableImage(systemName: "ellipsis.curlybraces")
+                    .font(.system(size: 70))
 
                 VStack(spacing: 12) {
                     Text("view.errorState.parsing.title")

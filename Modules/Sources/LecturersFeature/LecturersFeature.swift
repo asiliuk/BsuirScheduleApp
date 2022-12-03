@@ -64,6 +64,10 @@ public struct LecturersFeature: ReducerProtocol {
                 filteredLecturers(state: &state)
                 return .none
                 
+            case .loading(.started(\.$loadedLecturers)):
+                filteredLecturers(state: &state)
+                return .none
+
             case .loading(.finished(\.$loadedLecturers)):
                 filteredLecturers(state: &state)
                 state.openLectorIfNeeded()
