@@ -22,28 +22,36 @@ public struct LoadingErrorFailedToDecode: ReducerProtocol {
         switch action {
         case .openIssueTapped:
             let url = issueUrl(state)
-            return .fireAndForget {
-                _ = await openUrl(url, [:])
-            }
+            return .fireAndForget { _ = await openUrl(url, [:]) }
         }
     }
 
     private func issueUrl(_ state: State) -> URL {
-        return .githubIssue(
+        return requestIssueUrl(
             title: "Failed to parse",
-            body: issueBody(state),
+            address: state.address,
+            message: state.message
+        )
+    }
+}
+
+extension ReducerProtocol {
+    func requestIssueUrl(title: String, address: String, message: String) -> URL {
+        return .githubIssue(
+            title: title,
+            body: issueBody(address: address, message: message),
             labels: "bug", "parsing"
         )
     }
 
-    private func issueBody(_ state: State) -> String {
+    private func issueBody(address: String, message: String) -> String {
         return """
         ## While requesting
-        \(state.address)
+        \(address)
 
         ## Received following error
         ```
-        \(state.message)
+        \(message)
         ```
         """
     }

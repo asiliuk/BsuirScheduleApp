@@ -34,7 +34,7 @@ public struct LoadingErrorFailedToDecodeView: View, Animatable {
                         .font(.body)
                         .foregroundColor(.secondary)
 
-                    ParsingErrorMessageField(
+                    NetworkErrorMessageField(
                         address: viewStore.address,
                         message: viewStore.message
                     )
@@ -45,50 +45,13 @@ public struct LoadingErrorFailedToDecodeView: View, Animatable {
                 Button {
                     viewStore.send(.openIssueTapped)
                 } label: {
-                    Image(systemName: "plus.diamond.fill")
-                    Text("view.errorState.parsing.button.label")
+                    Label("view.errorState.parsing.button.label", systemImage: "plus.diamond.fill")
                 }
                 .buttonStyle(.borderedProminent)
 
                 Spacer()
             }
         }
-    }
-}
-
-private struct ParsingErrorMessageField: View {
-    let address: String
-    let message: String
-
-    var body: some View {
-        let field = Text("\(addressText)\n\(messageText)")
-            .padding(8)
-            .textSelection(.enabled)
-            .background {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(uiColor: .secondarySystemBackground))
-            }
-
-        if #available(iOS 16.0, *) {
-            field.lineLimit(...10)
-        } else {
-            field
-        }
-    }
-
-    private var addressText: Text {
-        Text("`\(address)`")
-            .foregroundColor(.secondary)
-            .font(.footnote)
-    }
-
-    private var messageText: Text {
-        Text("""
-        ```
-        \(message.replacingOccurrences(of: "\\", with: ""))
-        ```
-        """)
-        .font(.caption)
     }
 }
 

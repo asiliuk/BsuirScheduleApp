@@ -24,7 +24,7 @@ public struct LoadingErrorView: View {
             }
 
             CaseLet(state: /LoadingError.State.somethingWrongWithBsuir, action: LoadingError.Action.somethingWrongWithBsuir) { store in
-                Color.red
+                LoadingErrorSomethingWrongWithBsuirView(store: store)
             }
         }
     }

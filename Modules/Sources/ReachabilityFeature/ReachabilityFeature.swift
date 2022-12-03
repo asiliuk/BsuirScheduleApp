@@ -4,8 +4,8 @@ import ComposableArchitecture
 
 public struct ReachabilityFeature: ReducerProtocol {
     public struct State: Equatable {
-        var status: NetworkReachabilityStatus
-        var host: String
+        public var status: NetworkReachabilityStatus
+        public var host: String
 
         public init(host: String) {
             self.host = host

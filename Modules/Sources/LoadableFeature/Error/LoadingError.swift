@@ -27,7 +27,10 @@ public struct LoadingError: ReducerProtocol {
                  .notConnectedToInternet(.reloadButtonTapped),
                  .unknown(.reloadButtonTapped):
                 return .task { .reload }
-            case .reload, .failedToDecode(.openIssueTapped):
+            case .reload,
+                 .failedToDecode(.openIssueTapped),
+                 .somethingWrongWithBsuir(.reachability),
+                 .somethingWrongWithBsuir(.openIssueTapped):
                 return .none
             }
         }

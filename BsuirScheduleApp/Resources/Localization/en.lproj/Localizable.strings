@@ -125,6 +125,11 @@
 "view.errorState.parsing.message" = "Received unexpected response from the API. Please copy following text and contact developer or create an issue";
 "view.errorState.parsing.button.label" = "Create issue";
 
+"view.errorState.apiDown.title.%@" = "Request failed with code: %@";
+"view.errorState.apiDown.message" = "Looks like Bsuir API is having some troubles. If you think it is my fault please copy following text and contact developer or create an issue";
+"view.errorState.apiDown.button.issue.label" = "Create issue";
+"view.errorState.apiDown.button.retry.label" = "Try again";
+
 // MARK: - PairView
 
 "view.pairView.form.name.lecture" = "Lecture";
