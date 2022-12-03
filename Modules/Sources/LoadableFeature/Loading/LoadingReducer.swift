@@ -111,12 +111,16 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
 
     private func load(_ state: State, isRefresh: Bool) -> EffectTask<Action> {
         return EffectTask.task {
-                let value = try await fetch(state, isRefresh)
-                return .reducer(.loaded(value, isEqualTo: { $0 as? Value == value }))
-            } catch: { error in
-                .reducer(.loadingFailed(error))
+            if isRefresh {
+                // Make sure loading UI is shown for some time before requesting
+                try await Task.sleep(nanoseconds: 200_000_000)
             }
-            .cancellable(id: LoadingCancelId.self, cancelInFlight: true)
+            let value = try await fetch(state, isRefresh)
+            return .reducer(.loaded(value, isEqualTo: { $0 as? Value == value }))
+        } catch: { error in
+            .reducer(.loadingFailed(error))
+        }
+        .cancellable(id: LoadingCancelId.self, cancelInFlight: true)
     }
 }
 
