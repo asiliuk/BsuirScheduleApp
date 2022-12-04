@@ -1,6 +1,8 @@
 import WidgetKit
 import BsuirCore
+import ScheduleCore
 import Foundation
+import Deeplinking
 
 struct ScheduleEntry: TimelineEntry {
     enum Content {
@@ -10,7 +12,7 @@ struct ScheduleEntry: TimelineEntry {
 
     var date = Date()
     var relevance: TimelineEntryRelevance? = nil
-    var deeplink: Deeplink? = nil
+    var deeplink: URL? = nil
     var title: String
     var content: Content
 }

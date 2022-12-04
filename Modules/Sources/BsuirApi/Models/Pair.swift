@@ -1,11 +1,5 @@
-//
-//  Pair.swift
-//  Pods
-//
-//  Created by Anton Siliuk on 07.03.17.
-//
-
 import Foundation
+import BsuirCore
 
 public struct Pair: Codable, Equatable {
 
@@ -13,6 +7,7 @@ public struct Pair: Codable, Equatable {
         case lecture
         case practice
         case lab
+        case consultation
         case exam
         case unknown(String)
     }
@@ -145,10 +140,6 @@ extension Pair.Time : Codable {
     }
 }
 
-extension TimeZone {
-    public static let minsk = TimeZone(identifier: "Europe/Minsk")
-}
-
 extension Pair.Form: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -161,6 +152,8 @@ extension Pair.Form: Codable {
             self = .practice
         case "лр", "улр":
             self = .lab
+        case "консультация":
+            self = .consultation
         case "экзамен":
             self = .exam
         case let unknown:
@@ -178,6 +171,8 @@ extension Pair.Form: Codable {
             try container.encode("пз")
         case .lab:
             try container.encode("лр")
+        case .consultation:
+            try container.encode("консультация")
         case .exam:
             try container.encode("экзамен")
         case let .unknown(value):

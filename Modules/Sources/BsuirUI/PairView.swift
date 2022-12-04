@@ -1,31 +1,32 @@
 import SwiftUI
 import BsuirCore
 import BsuirApi
+import ScheduleCore
 
 public struct PairCell<Details: View>: View {
     var pair: PairView<Details>
     public init(
-        from: String.LocalizationValue,
-        to: String.LocalizationValue,
-        interval: String.LocalizationValue,
-        subject: String.LocalizationValue,
-        weeks: String.LocalizationValue? = nil,
-        subgroup: String.LocalizationValue? = nil,
-        auditory: String.LocalizationValue,
-        note: String.LocalizationValue? = nil,
+        from: String,
+        to: String,
+        interval: String,
+        subject: String,
+        weeks: String? = nil,
+        subgroup: String? = nil,
+        auditory: String,
+        note: String? = nil,
         form: PairViewForm,
         progress: PairProgress,
         details: Details
     ) {
         self.pair = PairView(
-            from: String(localized: from),
-            to: String(localized: to),
-            interval: String(localized: interval),
-            subject: String(localized: subject),
-            weeks: weeks == nil ? nil : String(localized: weeks!),
-            subgroup: subgroup == nil ? nil : String(localized: subgroup!),
-            auditory: String(localized: auditory),
-            note: note == nil ? nil : String(localized: note!),
+            from: from,
+            to: to,
+            interval: interval,
+            subject: subject,
+            weeks: weeks,
+            subgroup: subgroup,
+            auditory: auditory,
+            note: note,
             form: form,
             progress: progress,
             details: details
@@ -49,6 +50,7 @@ public enum PairViewForm: String, CaseIterable {
     case practice
     case lab
     case exam
+    case consultation
     case unknown
 }
 
@@ -269,6 +271,7 @@ public extension PairViewForm {
     init(_ form: PairViewModel.Form) {
         switch form {
         case .exam: self = .exam
+        case .consultation: self = .consultation
         case .lab: self = .lab
         case .lecture: self = .lecture
         case .practice: self = .practice
@@ -290,6 +293,7 @@ extension PairViewForm {
         case .lecture: return "view.pairView.form.name.lecture"
         case .lab: return "view.pairView.form.name.lab"
         case .practice: return "view.pairView.form.name.practice"
+        case .consultation: return "view.pairView.form.name.consultation"
         case .exam: return "view.pairView.form.name.exam"
         case .unknown: return "view.pairView.form.name.unknown"
         }
@@ -300,6 +304,7 @@ extension PairViewForm {
         case .lecture: return "view.pairView.form.name.short.lecture"
         case .lab: return "view.pairView.form.name.short.lab"
         case .practice: return "view.pairView.form.name.short.practice"
+        case .consultation: return "view.pairView.form.name.short.consultation"
         case .exam: return "view.pairView.form.name.short.exam"
         case .unknown: return "view.pairView.form.name.short.unknown"
         }
@@ -310,16 +315,57 @@ extension PairViewForm {
         case .lecture: Circle()
         case .practice: Rectangle()
         case .lab: Image(systemName: "triangle.fill").resizable()
+        case .consultation: Image(systemName: "hexagon.fill").resizable()
         case .exam: Image(systemName: "star.fill").resizable()
         case .unknown: Image(systemName: "rhombus.fill").resizable()
         }
     }
 }
 
-#if DEBUG
+public struct PairPlaceholder: View {
+    let speed = 0.07
+
+    public init() {}
+
+    public var body: some View {
+        TimelineView(.periodic(from: .now, by: speed)) { context in
+            let iteration = self.iteration(date: context.date)
+            PairCell(
+                from: "10:00",
+                to: "11:30",
+                interval: "",
+                subject: placeholderText(for: iteration, from: 8, to: 22),
+                weeks: nil,
+                subgroup: nil,
+                auditory: placeholderText(for: iteration, from: 1, to: 15),
+                note: placeholderText(for: iteration, from: 4, to: 18),
+                form: .unknown,
+                progress: PairProgress(constant: 0),
+                details: EmptyView()
+            )
+            .animation(.default, value: iteration)
+            .redacted(reason: .placeholder)
+        }
+    }
+
+    func iteration(date: Date) -> Int {
+        Int(date.timeIntervalSinceReferenceDate / speed)
+    }
+
+    func placeholderText(for iteration: Int, from: Int, to: Int) -> String {
+        String(repeating: "-", count: repeatCount(for: iteration, from: from, to: to))
+    }
+
+    func repeatCount(for iteration: Int, from: Int, to: Int) -> Int {
+        return iteration.quotientAndRemainder(dividingBy: (to - from)).remainder + from
+    }
+}
+
 struct PairView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
+            PairPlaceholder()
+
             pair
                 .previewDisplayName("Pair")
             
@@ -340,6 +386,7 @@ struct PairView_Previews: PreviewProvider {
         }
         .previewLayout(.sizeThatFits)
         .background(Color.gray)
+        .environmentObject(PairFormColorService(storage: .standard, widgetCenter: .shared))
     }
 
     static let pair = PairCell(
@@ -356,4 +403,3 @@ struct PairView_Previews: PreviewProvider {
         details: EmptyView()
     )
 }
-#endif

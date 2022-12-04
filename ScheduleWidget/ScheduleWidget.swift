@@ -4,6 +4,7 @@ import Intents
 import BsuirApi
 import BsuirUI
 import BsuirCore
+import ScheduleCore
 import Combine
 import StoreKit
 
@@ -74,7 +75,7 @@ struct ScheduleWidgetEntryView: View {
                 EmptyView()
             }
         }
-        .widgetURL(entry.deeplink?.rawValue)
+        .widgetURL(entry.deeplink)
     }
 }
 

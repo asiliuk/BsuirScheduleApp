@@ -8,7 +8,7 @@
 
 import SwiftUI
 import BsuirUI
-import BsuirCore
+import ScheduleCore
 
 #if swift(>=5.7)
 @available(iOS 16.0, *)

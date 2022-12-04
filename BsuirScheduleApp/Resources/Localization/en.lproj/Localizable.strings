@@ -74,6 +74,10 @@
 "screen.about.aboutTheApp.section.header" = "About the app";
 "screen.about.aboutTheApp.version.%@" = "Version %@";
 
+// MARK: - About, Reachability
+
+"screen.about.reachability.section.header" = "Reachability";
+
 // MARK: - About, Data
 
 "screen.about.data.section.header" = "Data";
@@ -113,17 +117,32 @@
 "view.errorState.title" = "Something went wrong...";
 "view.errorState.button.label" = "Retry";
 
+"view.errorState.noInternet.title" = "No connection to the internet";
+"view.errorState.noInternet.message" = "Looks like there's no connection to the internet. Please check your connection and try again...";
+"view.errorState.noInternet.button.label" = "Try again";
+
+"view.errorState.parsing.title" = "Failed to parse response";
+"view.errorState.parsing.message" = "Received unexpected response from the API. Please copy following text and contact developer or create an issue";
+"view.errorState.parsing.button.label" = "Create issue";
+
+"view.errorState.apiDown.title.%@" = "Request failed with code: %@";
+"view.errorState.apiDown.message" = "Looks like Bsuir API is having some troubles. If you think it is my fault please copy following text and contact developer or create an issue";
+"view.errorState.apiDown.button.issue.label" = "Create issue";
+"view.errorState.apiDown.button.retry.label" = "Try again";
+
 // MARK: - PairView
 
 "view.pairView.form.name.lecture" = "Lecture";
 "view.pairView.form.name.lab" = "Laboratory lesson";
 "view.pairView.form.name.practice" = "Practical lesson";
+"view.pairView.form.name.consultation" = "Consultation";
 "view.pairView.form.name.exam" = "Exam";
 "view.pairView.form.name.unknown" = "Unknown";
 
 "view.pairView.form.name.short.lecture" = "LE";
 "view.pairView.form.name.short.lab" = "LL";
 "view.pairView.form.name.short.practice" = "PL";
+"view.pairView.form.name.short.consultation" = "CO";
 "view.pairView.form.name.short.exam" = "EX";
 "view.pairView.form.name.short.unknown" = "UK";
 
@@ -137,6 +156,9 @@
 
 "alert.goodIconChoice.title" = "Excellent choice!";
 "alert.goodIconChoice.message" = "Long live Belarus!";
+
+"alert.iconUpdateFailed.title" = "Something went wrong...";
+"alert.iconUpdateFailed.message" = "Failed to update app icon";
 
 "alert.clearCache.title" = "Cache successfully cleared";
 "alert.clearCache.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";

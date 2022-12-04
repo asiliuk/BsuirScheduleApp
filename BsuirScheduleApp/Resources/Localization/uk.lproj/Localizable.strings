@@ -72,6 +72,10 @@
 "screen.about.aboutTheApp.section.header" = "Про програму";
 "screen.about.aboutTheApp.version.%@" = "Версія %@";
 
+// MARK: - About, Reachability
+
+"screen.about.reachability.section.header" = "Досяжність";
+
 // MARK: - About, Data
 
 "screen.about.data.section.header" = "Дані";
@@ -111,6 +115,19 @@
 "view.errorState.title" = "Щось пішло не так...";
 "view.errorState.button.label" = "Повторити спробу";
 
+"view.errorState.noInternet.title" = "Немає підключення до Інтернету";
+"view.errorState.noInternet.message" = "Схоже, немає підключення до Інтернету. Перевірте підключення та повторіть спробу...";
+"view.errorState.noInternet.button.label" = "Спробувати знову";
+
+"view.errorState.parsing.title" = "Не вдалося декодувати відповідь";
+"view.errorState.parsing.message" = "Отримана несподівана відповідь від API. Будь ласка, скопіюйте наступний текст і зв'яжіться з розробником або створіть завдання";
+"view.errorState.parsing.button.label" = "Створити завдання";
+
+"view.errorState.apiDown.title.%@" = "Запит не вдався, код помилки: %@";
+"view.errorState.apiDown.message" = "Схоже, у API БДУІР якісь проблеми. Якщо ви вважаєте, що це моя вина, будь ласка, скопіюйте наступний текст і зв'яжіться з розробником або створіть завдання";
+"view.errorState.apiDown.button.issue.label" = "Створити завдання";
+"view.errorState.apiDown.button.retry.label" = "Повторити";
+
 // MARK: - PairView
 
 "view.pairView.announcement.title" = "📣 Оголошення";
@@ -118,12 +135,14 @@
 "view.pairView.form.name.lecture" = "Лекція";
 "view.pairView.form.name.lab" = "Лабораторна робота";
 "view.pairView.form.name.practice" = "Практична робота";
+"view.pairView.form.name.consultation" = "Консультація";
 "view.pairView.form.name.exam" = "Іспит";
 "view.pairView.form.name.unknown" = "Невідомо";
 
 "view.pairView.form.name.short.lecture" = "ЛК";
 "view.pairView.form.name.short.lab" = "ЛР";
 "view.pairView.form.name.short.practice" = "ПЗ";
+"view.pairView.form.name.short.consultation" = "КО";
 "view.pairView.form.name.short.exam" = "ІС";
 "view.pairView.form.name.short.unknown" = "ХВ";
 
@@ -137,6 +156,9 @@
 
 "alert.goodIconChoice.title" = "Чудовий вибір!";
 "alert.goodIconChoice.message" = "Живе Білорусь!";
+
+"alert.iconUpdateFailed.title" = "Щось пішло не так...";
+"alert.iconUpdateFailed.message" = "Не вдалося оновити значок програми";
 
 "alert.clearCache.title" = "Кеш успішно очищений";
 "alert.clearCache.message" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";

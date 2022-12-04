@@ -1,14 +1,14 @@
 @testable import BsuirApi
 import XCTest
 
-final class GroupTests: XCTestCase {
+final class StudentGroupTests: XCTestCase {
 
     func testScheduleParse_withOnlyExams() throws {
         // Given
         let data = try loadJson(named: "only_exams")
 
         // When
-        let schedule = try JSONDecoder.bsuirDecoder.decode(Group.Schedule.self, from: data)
+        let schedule = try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
 
         // Then
         XCTAssertEqual(schedule.schedules.isEmpty, true)
@@ -19,7 +19,7 @@ final class GroupTests: XCTestCase {
         let data = try loadJson(named: "no_start_end_lesson_date_on_exams")
 
         // When
-        let schedule = try JSONDecoder.bsuirDecoder.decode(Group.Schedule.self, from: data)
+        let schedule = try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
 
         // Then
         XCTAssertEqual(schedule.schedules.isEmpty, false)
@@ -31,7 +31,7 @@ final class GroupTests: XCTestCase {
         let data = try loadJson(named: "with_announcement")
 
         // When
-        let schedule = try JSONDecoder.bsuirDecoder.decode(Group.Schedule.self, from: data)
+        let schedule = try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
 
         // Then
         let announcement = try XCTUnwrap(schedule.schedules[.saturday]?.last)
@@ -42,7 +42,7 @@ final class GroupTests: XCTestCase {
 
 // MARK: - Helpers
 
-extension GroupTests {
+extension StudentGroupTests {
     func loadJson(named name: String) throws -> Data {
         let url = Bundle.module.url(forResource: name, withExtension: "json")
         return try Data(contentsOf: url!)

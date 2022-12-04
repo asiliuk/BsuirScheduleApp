@@ -10,11 +10,11 @@ public struct DaySchedule: Equatable {
         case saturday = "Суббота"
         case sunday = "Воскресенье"
     }
-    
+
     public subscript(weekDay: WeekDay) -> [Pair]? {
         days[weekDay]
     }
-    
+
     public var isEmpty: Bool {
         days.isEmpty
     }

@@ -4,25 +4,9 @@ struct PairFormIndicator: View {
     var form: PairViewForm
     var progress: Double
     var differentiateWithoutColor: Bool
-    @EnvironmentObject private var pairFormColorService: PairFormColorService
-
-    var body: some View {
-        _PairFormIndicator(
-            form: form,
-            progress: progress,
-            differentiateWithoutColor: differentiateWithoutColor,
-            formColor: pairFormColorService.color(for: form)
-        )
-    }
-}
-
-private struct _PairFormIndicator: View {
-    var form: PairViewForm
-    var progress: Double
-    var differentiateWithoutColor: Bool
-    @Binding var formColor: PairFormColor
     @ScaledMetric(relativeTo: .body) private var formIndicatorWidth: CGFloat = 8
     @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var pairFormColorService: PairFormColorService
 
     var body: some View {
         GeometryReader { proxy in
@@ -41,7 +25,7 @@ private struct _PairFormIndicator: View {
                 )
             }
         }
-        .foregroundColor(formColor.color)
+        .foregroundColor(pairFormColorService[form].color)
         .frame(width: formIndicatorWidth)
     }
 

@@ -13,16 +13,10 @@ public class PairFormColorService: ObservableObject {
             )
         )
     }
-    
-    public func color(for form: PairViewForm) -> Binding<PairFormColor> {
-        return Binding(
-            get: { [unowned self] in self.color(for: form) },
-            set: { [unowned self] color in
-                updatingColors {
-                    self.setColor(color, for: form)
-                }
-            }
-        )
+
+    public subscript(form: PairViewForm) -> PairFormColor {
+        get { color(for: form) }
+        set(newColor) { updatingColors { setColor(newColor, for: form) } }
     }
     
     public var areDefaultColors: Bool {
@@ -31,13 +25,9 @@ public class PairFormColorService: ObservableObject {
     }
     
     public func reset() {
-        // To prevent SwiftUI from complaining that object is changed during view update
-        // this is wrapped in async call
-        DispatchQueue.main.async {
-            self.updatingColors {
-                for form in PairViewForm.allCases {
-                    self.setColor(nil, for: form)
-                }
+        updatingColors {
+            for form in PairViewForm.allCases {
+                self.setColor(nil, for: form)
             }
         }
     }
@@ -84,6 +74,8 @@ private extension PairViewForm {
             return .red
         case .lab:
             return .yellow
+        case .consultation:
+            return .brown
         case .exam:
             return .purple
         case .unknown:

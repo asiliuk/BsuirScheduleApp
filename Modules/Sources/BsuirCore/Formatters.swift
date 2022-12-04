@@ -1,15 +1,8 @@
-//
-//  Formatters.swift
-//  
-//
-//  Created by Anton Siliuk on 20/08/2022.
-//
-
 import Foundation
 
 extension FormatStyle where Self == Date.FormatStyle {
     public static var pairTime: Self {
-        return .dateTime
+        return .init(timeZone: .minsk)
             .hour(.twoDigits(amPM: .narrow))
             .minute(.twoDigits)
     }
@@ -19,6 +12,11 @@ extension FormatStyle where Self == Date.FormatStyle {
             .weekday()
             .day()
             .month(.wide)
+    }
+
+    public static var examDay: Self {
+        return .scheduleDay
+            .year(.twoDigits)
     }
     
     public static var widgetSmall: Self {

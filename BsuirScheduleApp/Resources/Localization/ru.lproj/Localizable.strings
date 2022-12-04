@@ -72,6 +72,10 @@
 "screen.about.aboutTheApp.section.header" = "О приложении";
 "screen.about.aboutTheApp.version.%@" = "Версия %@";
 
+// MARK: - About, Reachability
+
+"screen.about.reachability.section.header" = "Доступность";
+
 // MARK: - About, Data
 
 "screen.about.data.section.header" = "Данные";
@@ -111,6 +115,19 @@
 "view.errorState.title" = "Что-то пошло не так...";
 "view.errorState.button.label" = "Повторить попытку";
 
+"view.errorState.noInternet.title" = "Нет подключения к интернету";
+"view.errorState.noInternet.message" = "Похоже, нет подключения к интернету. Пожалуйста, проверьте подключение и повторите попытку...";
+"view.errorState.noInternet.button.label" = "Попробовать снова";
+
+"view.errorState.parsing.title" = "Не удалось декодировать ответ";
+"view.errorState.parsing.message" = "Получен неожиданный ответ от API. Пожалуйста, скопируйте следующий текст и свяжитесь с разработчиком или создайте задачу";
+"view.errorState.parsing.button.label" = "Создать задачу";
+
+"view.errorState.apiDown.title.%@" = "Запрос не удался, код ошибки: %@";
+"view.errorState.apiDown.message" = "Похоже, у API БГУИРа какие-то проблемы. Если вы считаете, что это моя вина, пожалуйста, скопируйте следующий текст и свяжитесь с разработчиком или создайте задачу";
+"view.errorState.apiDown.button.issue.label" = "Создать задачу";
+"view.errorState.apiDown.button.retry.label" = "Повторить";
+
 // MARK: - PairView
 
 "view.pairView.announcement.title" = "📣 Объявление";
@@ -118,12 +135,14 @@
 "view.pairView.form.name.lecture" = "Лекция";
 "view.pairView.form.name.lab" = "Лабораторная работа";
 "view.pairView.form.name.practice" = "Практическая работа";
+"view.pairView.form.name.consultation" = "Консультация";
 "view.pairView.form.name.exam" = "Экзамен";
 "view.pairView.form.name.unknown" = "Неизвестно";
 
 "view.pairView.form.name.short.lecture" = "ЛК";
 "view.pairView.form.name.short.lab" = "ЛР";
 "view.pairView.form.name.short.practice" = "ПЗ";
+"view.pairView.form.name.short.consultation" = "КО";
 "view.pairView.form.name.short.exam" = "ЭК";
 "view.pairView.form.name.short.unknown" = "ХЗ";
 
@@ -137,6 +156,9 @@
 
 "alert.goodIconChoice.title" = "Отличный выбор!";
 "alert.goodIconChoice.message" = "Жыве Беларусь!";
+
+"alert.iconUpdateFailed.title" = "Что-то пошло не так...";
+"alert.iconUpdateFailed.message" = "Не удалось обновить иконку приложения";
 
 "alert.clearCache.title" = "Кэш успешно очищен";
 "alert.clearCache.message" = "Был удален кэш скачанного расписания и фотографий преподавателей";

@@ -3,6 +3,8 @@ import SwiftUI
 import Intents
 import BsuirApi
 import BsuirCore
+import ScheduleCore
+import Deeplinking
 import Combine
 
 final class Provider: IntentTimelineProvider, ObservableObject {
@@ -13,19 +15,21 @@ final class Provider: IntentTimelineProvider, ObservableObject {
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Entry) -> ()) {
-        if context.isPreview {
-            return completion(.preview)
-        }
+        requestSnapshot = Task {
+            if context.isPreview {
+                return completion(.preview)
+            }
 
-        guard let identifier = ScheduleIdentifier(configuration: configuration) else {
-            return completion(.placeholder)
-        }
+            guard
+                let identifier = ScheduleIdentifier(configuration: configuration),
+                let schedule = try? await mostRelevantSchedule(for: identifier),
+                let entry = Entry(schedule, at: Date())
+            else {
+                return completion(.placeholder)
+            }
 
-        requestSnapshotCancellable = mostRelevantSchedule(for: identifier)
-            .map { response in Entry(response, at: Date()) }
-            .replaceNil(with: .placeholder)
-            .replaceError(with: .placeholder)
-            .sink(receiveValue: completion)
+            completion(entry)
+        }
     }
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
@@ -37,10 +41,13 @@ final class Provider: IntentTimelineProvider, ObservableObject {
             return completion(.init(entries: [.needsConfiguration], policy: .never))
         }
 
-        requestTimelineCancellable = mostRelevantSchedule(for: identifier)
-            .map { Timeline<Entry>($0) }
-            .replaceError(with: .init(entries: [], policy: .after(Date().advanced(by: 5 * 60))))
-            .sink(receiveValue: completion)
+        requestTimeline = Task {
+            guard let schedule = try? await mostRelevantSchedule(for: identifier) else {
+                return completion(.init(entries: [], policy: .after(Date().advanced(by: 5 * 60))))
+            }
+
+            completion(Timeline(schedule))
+        }
     }
 
     fileprivate struct MostRelevantScheduleResponse {
@@ -49,30 +56,27 @@ final class Provider: IntentTimelineProvider, ObservableObject {
         let schedule: WeekSchedule.ScheduleElement
     }
 
-    private func mostRelevantSchedule(for identifier: ScheduleIdentifier) -> AnyPublisher<MostRelevantScheduleResponse, RequestsManager.RequestError> {
-        requestSchedule(for: identifier)
-            .compactMap { [calendar] response in
-                let now = Date()
+    private func mostRelevantSchedule(for identifier: ScheduleIdentifier) async throws -> MostRelevantScheduleResponse? {
+        let now = Date()
+        let response = try await requestSchedule(for: identifier)
 
-                guard
-                    let startDate = response.startDate,
-                    let endDate = response.endDate,
-                    let mostRelevantElement = WeekSchedule(
-                        schedule: response.schedule,
-                        startDate: startDate,
-                        endDate: endDate
-                    )
-                    .schedule(starting: now, now: now, calendar: calendar)
-                    .first(where: { $0.hasUnfinishedPairs(calendar: calendar, now: now) })
-                else { return nil }
+        guard
+            let startDate = response.startDate,
+            let endDate = response.endDate,
+            let mostRelevantElement = WeekSchedule(
+                schedule: response.schedule,
+                startDate: startDate,
+                endDate: endDate
+            )
+            .schedule(starting: now, now: now, calendar: calendar)
+            .first(where: { $0.hasUnfinishedPairs(now: now) })
+        else { return nil }
 
-                return MostRelevantScheduleResponse(
-                    deeplink: response.deeplink,
-                    title: response.title,
-                    schedule: mostRelevantElement
-                )
-            }
-            .eraseToAnyPublisher()
+        return MostRelevantScheduleResponse(
+            deeplink: response.deeplink,
+            title: response.title,
+            schedule: mostRelevantElement
+        )
     }
 
     private struct ScheduleResponse {
@@ -99,37 +103,42 @@ final class Provider: IntentTimelineProvider, ObservableObject {
         }
     }
 
-    private func requestSchedule(for identifier: ScheduleIdentifier) -> AnyPublisher<ScheduleResponse, RequestsManager.RequestError> {
+    private func requestSchedule(for identifier: ScheduleIdentifier) async throws -> ScheduleResponse {
         switch identifier {
         case let .group(name):
-            return requestManager
-                .request(BsuirIISTargets.GroupSchedule(groupNumber: name))
-                .map { ScheduleResponse(
-                    deeplink: .groups(id: $0.studentGroup.id),
-                    title: $0.studentGroup.name,
-                    startDate: $0.startDate,
-                    endDate: $0.endDate,
-                    schedule: $0.schedules
-                ) }
-                .eraseToAnyPublisher()
+            let schedule = try await apiClient.groupSchedule(name: name)
+            return ScheduleResponse(
+                deeplink: .group(name: schedule.studentGroup.name),
+                title: schedule.studentGroup.name,
+                startDate: schedule.startDate,
+                endDate: schedule.endDate,
+                schedule: schedule.schedules
+            )
         case let .lecturer(urlId):
-            return requestManager
-                .request(BsuirIISTargets.EmployeeSchedule(urlId: urlId))
-                .map { ScheduleResponse(
-                    deeplink: .lecturers(id: $0.employee.id),
-                    title: $0.employee.abbreviatedName,
-                    startDate: $0.startDate,
-                    endDate: $0.endDate,
-                    schedule: $0.schedules ?? DaySchedule()
-                ) }
-                .eraseToAnyPublisher()
+            let schedule = try await apiClient.lecturerSchedule(urlId: urlId)
+            return ScheduleResponse(
+                deeplink: .lector(id: schedule.employee.id),
+                title: schedule.employee.abbreviatedName,
+                startDate: schedule.startDate,
+                endDate: schedule.endDate,
+                schedule: schedule.schedules ?? DaySchedule()
+            )
         }
     }
 
+    deinit {
+        requestSnapshot?.cancel()
+        requestTimeline?.cancel()
+    }
+
     private let calendar = Calendar.current
-    private var requestSnapshotCancellable: AnyCancellable?
-    private var requestTimelineCancellable: AnyCancellable?
-    private let requestManager = RequestsManager.iisBsuir()
+    private var requestSnapshot: Task<Void, Never>? {
+        didSet { oldValue?.cancel() }
+    }
+    private var requestTimeline: Task<Void, Never>? {
+        didSet { oldValue?.cancel() }
+    }
+    private let apiClient = ApiClient.live
 }
 
 private extension Employee {
@@ -166,7 +175,7 @@ private extension ScheduleEntry {
         self.init(
             date: date,
             relevance: relevance,
-            deeplink: response.deeplink,
+            deeplink: deeplinkRouter.url(for: response.deeplink),
             title: response.title,
             content: .pairs(
                 passed: passedPairs.map { PairViewModel(pair: $0, date: date) },
