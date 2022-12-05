@@ -9,5 +9,8 @@ extension DependencyValues {
 }
 
 private enum FavoritesContainerKey: DependencyKey {
-    static let liveValue = FavoritesContainer(storage: .standard)
+    static let liveValue = FavoritesContainer(
+        storage: .asiliukShared,
+        legacyStorage: .standard
+    )
 }

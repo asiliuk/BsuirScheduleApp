@@ -7,6 +7,7 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 import Favorites
 import ScheduleFeature
+import Collections
 import os.log
 
 public struct GroupsFeature: ReducerProtocol {
@@ -38,7 +39,7 @@ public struct GroupsFeature: ReducerProtocol {
         }
         
         public enum ReducerAction: Equatable {
-            case favoritesUpdate([String])
+            case favoritesUpdate(OrderedSet<String>)
             case groupSchedule(GroupScheduleFeature.Action)
         }
         
@@ -76,7 +77,7 @@ public struct GroupsFeature: ReducerProtocol {
                 return .none
                 
             case let .reducer(.favoritesUpdate(value)):
-                state.favorites = value
+                state.favorites = Array(value)
                 return .none
 
             case .binding(\.$searchQuery):

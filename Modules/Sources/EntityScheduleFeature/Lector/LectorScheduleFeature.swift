@@ -51,8 +51,8 @@ public struct LectorScheduleFeature: ReducerProtocol {
             switch action {
             case .view(.task):
                 return .run { [lector = state.lector] send in
-                    for await value in favorites.lecturers.values {
-                        await send(.reducer(.updateIsFavorite(value.contains(lector))))
+                    for await value in favorites.lecturerIds.values {
+                        await send(.reducer(.updateIsFavorite(value.contains(lector.id))))
                     }
                 }
 
@@ -65,8 +65,8 @@ public struct LectorScheduleFeature: ReducerProtocol {
                 return .none
 
             case .reducer(.schedule(.delegate(.toggleFavorite))):
-                return .fireAndForget { [lector = state.lector] in
-                    favorites.toggle(lecturer: lector)
+                return .fireAndForget { [id = state.lector.id] in
+                    favorites.toggle(lecturerWithId: id)
                 }
 
             case .reducer, .binding:

@@ -44,7 +44,8 @@ let package = Package(
     dependencies: [
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.0.0"),
          .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.46.0"),
-         .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.4.0")
+         .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.4.0"),
+         .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0")
     ],
     targets: [
         // MARK: - Features
@@ -83,7 +84,7 @@ let package = Package(
         ),
         .target(
             name: "Favorites",
-            dependencies: ["BsuirApi", .tcaDependencies]
+            dependencies: ["BsuirApi", "BsuirCore", .swiftCollections, .tcaDependencies]
         ),
         .target(
             name: "Deeplinking",
@@ -123,4 +124,5 @@ private extension Target.Dependency {
     static let urlRouting: Self = .product(name: "URLRouting", package: "swift-url-routing")
     static let tca: Self = .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
     static let tcaDependencies: Self = .product(name: "Dependencies", package: "swift-composable-architecture")
+    static let swiftCollections: Self = .product(name: "Collections", package: "swift-collections")
 }

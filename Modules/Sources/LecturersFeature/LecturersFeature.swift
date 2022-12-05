@@ -6,6 +6,7 @@ import EntityScheduleFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import Favorites
+import Collections
 
 public struct LecturersFeature: ReducerProtocol {
     public struct State: Equatable {
@@ -14,7 +15,10 @@ public struct LecturersFeature: ReducerProtocol {
         @BindableState var isOnTop: Bool = true
 
         @BindableState var lectorSchedule: LectorScheduleFeature.State?
-        var favorites: IdentifiedArrayOf<Employee> = []
+
+        var favorites: IdentifiedArrayOf<Employee> { lecturers?.filter { favoriteIds.contains($0.id) } ?? [] }
+        fileprivate var favoriteIds: OrderedSet<Int> = []
+
         @LoadableState var lecturers: IdentifiedArrayOf<Employee>?
         @LoadableState var loadedLecturers: IdentifiedArrayOf<Employee>?
 
@@ -32,7 +36,7 @@ public struct LecturersFeature: ReducerProtocol {
         }
         
         public enum ReducerAction: Equatable {
-            case favoritesUpdate([Employee])
+            case favoritesUpdate(OrderedSet<Int>)
             case lectorSchedule(LectorScheduleFeature.Action)
         }
         
@@ -74,7 +78,7 @@ public struct LecturersFeature: ReducerProtocol {
                 return .none
                 
             case let .reducer(.favoritesUpdate(value)):
-                state.favorites = IdentifiedArray(uniqueElements: value)
+                state.favoriteIds = value
                 return .none
 
             case .binding(\.$searchQuery):
@@ -109,7 +113,7 @@ public struct LecturersFeature: ReducerProtocol {
     
     private func listenToFavoriteUpdates() -> EffectTask<Action> {
         return .run { send in
-            for await value in favorites.lecturers.values {
+            for await value in favorites.lecturerIds.values {
                 await send(.reducer(.favoritesUpdate(value)), animation: .default)
             }
         }

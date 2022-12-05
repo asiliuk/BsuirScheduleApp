@@ -90,9 +90,9 @@ public struct AppFeature: ReducerProtocol {
             return
         }
 
-        if let lector = favorites.currentLecturers.first {
+        if let lectorId = favorites.currentLectorIds.first {
             state.selection = .lecturers
-            state.lecturers.openLector(lector)
+            state.lecturers.openLector(id: lectorId)
             return
         }
     }
