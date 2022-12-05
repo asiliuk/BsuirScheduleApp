@@ -22,10 +22,10 @@ public enum LoadableState<Value> {
         }
         set {
             guard let newValue else {
-                assertionFailure()
-                return self = .error(.unknown)
+                if case .some = self { assertionFailure("Don't know what you're trying to do here") }
+                return
             }
-            
+
             self = .some(newValue)
         }
     }
