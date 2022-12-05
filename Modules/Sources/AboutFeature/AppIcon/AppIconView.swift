@@ -18,7 +18,7 @@ struct AppIconView: View {
 
             image?.draw(in: context.format.bounds)
 
-            UIColor.gray.withAlphaComponent(0.1).setStroke()
+            UIColor.gray.withAlphaComponent(0.4).setStroke()
             path.stroke()
         }
     }
