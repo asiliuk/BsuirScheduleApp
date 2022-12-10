@@ -25,6 +25,8 @@
 // MARK: - Groups
 
 "screen.groups.search.placeholder" = "Знайсці групу";
+"screen.groups.search.suggested.course.%@" = "%@ курс";
+"screen.groups.search.suggested.noCourse" = "Без курса";
 "screen.groups.navigation.title" = "Усе гурты";
 "screen.groups.favorites.section.header" = "⭐️ Выбраныя";
 

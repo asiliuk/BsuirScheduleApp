@@ -4,11 +4,29 @@ public struct StudentGroup: Codable, Equatable, Identifiable {
     public let id: Int
     public let name: String
     public let course: Int?
+    public let faculty: String
+    public let speciality: String
     
-    public init(id: Int, name: String, course: Int? = nil) {
+    public init(
+        id: Int,
+        name: String,
+        course: Int? = nil,
+        faculty: String,
+        speciality: String
+    ) {
         self.id = id
         self.name = name
         self.course = course
+        self.faculty = faculty
+        self.speciality = speciality
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case course
+        case faculty = "facultyAbbrev"
+        case speciality = "specialityAbbrev"
     }
 }
 

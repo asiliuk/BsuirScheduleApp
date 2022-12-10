@@ -10,6 +10,14 @@ import ScheduleFeature
 import Collections
 import os.log
 
+enum StrudentGroupSearchToken: Hashable, Identifiable {
+    var id: Self { self }
+
+    case faculty(String)
+    case speciality(String)
+    case course(Int?)
+}
+
 public struct GroupsFeature: ReducerProtocol {
     public struct State: Equatable {
         struct Section: Equatable, Identifiable {
@@ -17,7 +25,9 @@ public struct GroupsFeature: ReducerProtocol {
             let title: String
             let groups: [StudentGroup]
         }
-        
+
+        @BindableState var searchTokens: [StrudentGroupSearchToken] = []
+        @BindableState var searchSuggestedTokens: [StrudentGroupSearchToken] = []
         @BindableState var searchQuery: String = ""
         var dismissSearch: Bool = false
         @BindableState var isOnTop: Bool = true
@@ -58,6 +68,8 @@ public struct GroupsFeature: ReducerProtocol {
     public init() {}
     
     public var body: some ReducerProtocol<State, Action> {
+        BindingReducer()
+
         Reduce { state, action in
             switch action {
             case .view(.task):
@@ -80,6 +92,10 @@ public struct GroupsFeature: ReducerProtocol {
                 state.favorites = Array(value)
                 return .none
 
+            case .binding(\.$searchTokens):
+                filteredGroups(state: &state)
+                return .none
+
             case .binding(\.$searchQuery):
                 if state.searchQuery.isEmpty {
                     state.dismissSearch = false
@@ -94,25 +110,70 @@ public struct GroupsFeature: ReducerProtocol {
         .ifLet(\.groupSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.groupSchedule)) {
             GroupScheduleFeature()
         }
-        
-        BindingReducer()
     }
     
     private func filteredGroups(state: inout State) {
         state.$sections = state.$loadedGroups
             .map { groups in
-                guard !state.searchQuery.isEmpty else { return groups.makeSections() }
                 return groups
                     .lazy
-                    .filter { $0.name.localizedCaseInsensitiveContains(state.searchQuery) }
+                    .filter { group in
+                        guard state.searchTokens.matches(group: group) else { return false }
+                        guard !state.searchQuery.isEmpty else { return true }
+                        return group.name.localizedCaseInsensitiveContains(state.searchQuery)
+                    }
                     .makeSections()
             }
+
+        updateSearchSuggestedTokens(state: &state)
+    }
+
+    private func updateSearchSuggestedTokens(state: inout State) {
+        state.searchSuggestedTokens = {
+            let groups = state.loadedGroups ?? []
+            switch state.searchTokens.last {
+            case nil:
+                return groups
+                    .map(\.faculty)
+                    .uniqueSorted(by: <)
+                    .map(StrudentGroupSearchToken.faculty)
+            case let .faculty(value):
+                return groups
+                    .filter { $0.faculty == value }
+                    .map(\.speciality)
+                    .uniqueSorted(by: <)
+                    .map(StrudentGroupSearchToken.speciality)
+            case let .speciality(value):
+                return groups
+                    .filter { $0.speciality == value }
+                    .map(\.course)
+                    .uniqueSorted(by: { ($0 ?? 0) < ($1 ?? 0) })
+                    .map(StrudentGroupSearchToken.course)
+            case .course:
+                return []
+            }
+        }()
     }
     
     private func listenToFavoriteUpdates() -> EffectTask<Action> {
         return .run { send in
             for await value in favorites.groupNames.values {
                 await send(.reducer(.favoritesUpdate(value)), animation: .default)
+            }
+        }
+    }
+}
+
+private extension Array where Element == StrudentGroupSearchToken {
+    func matches(group: StudentGroup) -> Bool {
+        allSatisfy {
+            switch $0 {
+            case .faculty(group.faculty),
+                 .speciality(group.speciality),
+                 .course(group.course):
+                return true
+            case .faculty, .speciality, .course:
+                return false
             }
         }
     }

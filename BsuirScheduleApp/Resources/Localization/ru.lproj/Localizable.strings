@@ -25,6 +25,8 @@
 // MARK: - Groups
 
 "screen.groups.search.placeholder" = "Найти группу";
+"screen.groups.search.suggested.course.%@" = "%@ курс";
+"screen.groups.search.suggested.noCourse" = "Без курса";
 "screen.groups.navigation.title" = "Все группы";
 "screen.groups.favorites.section.header" = "⭐️ Избранные";
 

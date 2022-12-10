@@ -25,6 +25,8 @@
 // MARK: - Groups
 
 "screen.groups.search.placeholder" = "Find the group";
+"screen.groups.search.suggested.course.%@" = "Course %@";
+"screen.groups.search.suggested.noCourse" = "No course";
 "screen.groups.navigation.title" = "All groups";
 "screen.groups.favorites.section.header" = "⭐️ Favorites";
 
