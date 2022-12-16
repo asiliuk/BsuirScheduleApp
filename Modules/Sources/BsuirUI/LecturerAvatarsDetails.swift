@@ -26,19 +26,22 @@ public struct LecturerAvatarsDetails: View {
         if lecturers.isEmpty {
             EmptyView()
         } else {
-            Menu {
+            HStack(spacing: -overlap) {
                 ForEach(lecturers, id: \.id) { lecturer in
-                    Button {
-                        showDetails(lecturer)
-                    } label: {
-                        Text(lecturer.fio)
-                    }
+                    Avatar(url: lecturer.photoLink)
                 }
-            } label: {
-                HStack(spacing: -overlap) {
+            }
+            .overlay {
+                Menu {
                     ForEach(lecturers, id: \.id) { lecturer in
-                        Avatar(url: lecturer.photoLink)
+                        Button {
+                            showDetails(lecturer)
+                        } label: {
+                            Text(lecturer.fio)
+                        }
                     }
+                } label: {
+                    Color.clear
                 }
             }
         }

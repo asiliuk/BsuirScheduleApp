@@ -1,7 +1,5 @@
 import SwiftUI
 import Kingfisher
-import struct Kingfisher.DownsamplingImageProcessor
-import typealias Kingfisher.KingfisherOptionsInfo
 
 public struct Avatar: View {
     public let url: URL?
@@ -10,10 +8,6 @@ public struct Avatar: View {
 
     public var body: some View {
         KFImage(url)
-            .scaleFactor(UIScreen.main.scale)
-            .setProcessor(DownsamplingImageProcessor(
-                size: CGSize(width: size, height: size)
-            ))
             .loadDiskFileSynchronously()
             .cacheOriginalImage()
             .placeholder { UserPlaceholder() }
