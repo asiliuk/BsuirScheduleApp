@@ -5,13 +5,21 @@ struct ScheduleDisplayTypePickerMenu: View {
     
     var body: some View {
         Menu {
-            Picker("screen.schedule.scheduleTypePicker.title", selection: $scheduleType) {
-                ForEach(ScheduleDisplayType.allCases, id: \.self) { scheduleType in
-                    Label(scheduleType.title, systemImage: scheduleType.imageName)
-                }
-            }
+            ScheduleDisplayTypePicker(scheduleType: $scheduleType)
         } label: {
             Label("screen.schedule.scheduleTypePicker.title", systemImage: scheduleType.imageName)
+        }
+    }
+}
+
+struct ScheduleDisplayTypePicker: View {
+    @Binding var scheduleType: ScheduleDisplayType
+    
+    var body: some View {
+        Picker("screen.schedule.scheduleTypePicker.title", selection: $scheduleType) {
+            ForEach(ScheduleDisplayType.allCases, id: \.self) { scheduleType in
+                Label(scheduleType.title, systemImage: scheduleType.imageName)
+            }
         }
     }
 }
