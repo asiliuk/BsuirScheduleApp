@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
-        "revision" : "2231f92b5af71c78ad2c1450e583bf4a8713b951",
-        "version" : "7.3.1"
+        "revision" : "44e891bdb61426a95e31492a67c7c0dfad1f87c5",
+        "version" : "7.4.1"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture.git",
       "state" : {
-        "revision" : "52dca7e5edd6ec9e0b529380843a8cb13f57d7d7",
-        "version" : "0.46.0"
+        "revision" : "c9259b5f74892690cb04a9a8088b4a1789b05a7d",
+        "version" : "0.47.2"
       }
     },
     {
@@ -88,6 +88,15 @@
       "state" : {
         "revision" : "f54c4f74e7884f7930560c08387817ce28271770",
         "version" : "0.4.0"
+      }
+    },
+    {
+      "identity" : "swiftui-navigation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swiftui-navigation.git",
+      "state" : {
+        "revision" : "a4a84e387c83a735e56d03bf9736d49a07b3c3ae",
+        "version" : "0.4.3"
       }
     },
     {
