@@ -130,6 +130,7 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
         } catch: { error in
             .reducer(.loadingFailed(error))
         }
+        .animation()
         .cancellable(id: LoadingCancelId.self, cancelInFlight: true)
     }
 }

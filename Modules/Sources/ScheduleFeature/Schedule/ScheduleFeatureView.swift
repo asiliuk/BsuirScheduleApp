@@ -25,6 +25,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
     }
 
     public var body: some View {
+        
         WithViewStore(store, observe: ViewState.init) { viewStore in
             LoadingStore(
                 store,
@@ -38,7 +39,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 )
                 .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
             } loading: {
-                LoadingStateView()
+                ScheduleGridPlaceholder()
             } error: { store in
                 LoadingErrorView(store: store)
             }
