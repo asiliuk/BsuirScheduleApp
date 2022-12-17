@@ -261,13 +261,6 @@
 			path = Widgets;
 			sourceTree = "<group>";
 		};
-		E67491112523BC26006CE90E /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		E691E965250D2CA500116878 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,7 +365,6 @@
 			isa = PBXGroup;
 			children = (
 				E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */,
-				E67491112523BC26006CE90E /* Services */,
 				E696481E233F7BBE007EF2CB /* Application */,
 				E695524A22F9D0E000EEFA72 /* Resources */,
 			);

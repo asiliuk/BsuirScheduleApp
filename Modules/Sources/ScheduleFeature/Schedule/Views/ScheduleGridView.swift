@@ -78,18 +78,19 @@ struct ScheduleDay: View {
     let details: ScheduleGridViewPairDetails
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
-
-            ForEach(pairs) { pair in
-                PairCell(
-                    pair: pair,
-                    details: detailsView(pair: pair)
-                )
+        Section {
+            VStack(alignment: .leading, spacing: 10) {
+                ForEach(pairs) { pair in
+                    PairCell(
+                        pair: pair,
+                        details: detailsView(pair: pair)
+                    )
+                }
             }
+        } header: {
+            ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
         }
         .id(isMostRelevant ? RelevantDayViewID.mostRelevant : .other)
-        .padding(.vertical, 10)
     }
 
     @ViewBuilder private func detailsView(pair: PairViewModel) -> some View {
