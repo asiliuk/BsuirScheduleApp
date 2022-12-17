@@ -9,46 +9,43 @@ import Dependencies
 public struct ExamsScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
         var days: [ScheduleDayViewModel] = []
-        fileprivate var exams: [Pair]
         fileprivate let startDate: Date?
         fileprivate let endDate: Date?
         
         init(exams: [Pair], startDate: Date?, endDate: Date?) {
-            self.exams = exams
             self.startDate = startDate
             self.endDate = endDate
+
+            @Dependency(\.calendar) var calendar
+            @Dependency(\.date.now) var now
+            @Dependency(\.uuid) var uuid
+
+            self.loadDays(
+                exams: exams,
+                calendar: calendar,
+                now: now,
+                uuid: uuid
+            )
         }
     }
 
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case onAppear
-        }
-
-        public typealias ReducerAction = Never
-        public typealias DelegateAction = Never
-
-        case view(ViewAction)
-        case reducer(ReducerAction)
-        case delegate(DelegateAction)
-    }
-
-    @Dependency(\.uuid) var uuid
-    @Dependency(\.date.now) var now
-    @Dependency(\.calendar) var calendar
+    public typealias Action = Never
 
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
-        switch action {
-        case .view(.onAppear):
-            loadExamDays(state: &state)
-            return .none
-        }
+    public var body: some ReducerProtocol<State, Action> {
+        EmptyReducer()
     }
+}
 
-    private func loadExamDays(state: inout State) {
-        state.days = Dictionary(grouping: state.exams, by: \.dateLesson)
+private extension ExamsScheduleFeature.State {
+    mutating func loadDays(
+        exams: [Pair],
+        calendar: Calendar,
+        now: Date,
+        uuid: UUIDGenerator
+    ) {
+        days = Dictionary(grouping: exams, by: \.dateLesson)
             .sorted(by: optionalSort(\.key))
             .map { ScheduleDayViewModel(id: uuid(), date: $0, now: now, pairs: $1, calendar: calendar) }
     }

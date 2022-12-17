@@ -9,7 +9,10 @@ import Dependencies
 public struct AboutFeature: ReducerProtocol {
     public struct State: Equatable {
         var cacheClearedAlert: AlertState<Action>?
-        var appVersion: TextState?
+        var appVersion: TextState = {
+            @Dependency(\.appInfo.version.description) var appVersion
+            return TextState("screen.about.aboutTheApp.version.\(appVersion)")
+        }()
         var appIcon = AppIconPickerReducer.State()
         var pairFormsColorPicker = PairFormsColorPicker.State()
         @BindableState var isOnTop: Bool = true
@@ -21,7 +24,6 @@ public struct AboutFeature: ReducerProtocol {
     
     public enum Action: Equatable, FeatureAction, BindableAction {
         public enum ViewAction: Equatable {
-            case task
             case clearCacheTapped
             case cacheClearedAlertDismissed
             
@@ -46,7 +48,6 @@ public struct AboutFeature: ReducerProtocol {
     
     @Dependency(\.apiClient.clearCache) var clearNetworkCache
     @Dependency(\.imageCache) var imageCache
-    @Dependency(\.appInfo.version.description) var appVersion
     @Dependency(\.application.open) var openUrl
     @Dependency(\.reviewRequestService) var reviewRequestService
     @Dependency(\.networkReachabilityTracker) var networkReachabilityTracker
@@ -56,10 +57,6 @@ public struct AboutFeature: ReducerProtocol {
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .view(.task):
-                state.appVersion = TextState("screen.about.aboutTheApp.version.\(appVersion)")
-                return .none
-                
             case .view(.clearCacheTapped):
                 state.cacheClearedAlert = AlertState(
                     title: TextState("alert.clearCache.title"),

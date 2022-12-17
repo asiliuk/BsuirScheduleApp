@@ -9,7 +9,10 @@ public struct AppIconPickerReducer: ReducerProtocol {
     public struct State: Equatable {
         var alert: AlertState<Action>?
         var supportsIconPicking: Bool = true
-        var defaultIcon: UIImage?
+        var defaultIcon: UIImage? = {
+            @Dependency(\.appInfo.iconName) var appIconName
+            return appIconName.flatMap(UIImage.init(named:))
+        }()
         var currentIcon: AppIcon = .standard
     }
     
@@ -34,7 +37,6 @@ public struct AppIconPickerReducer: ReducerProtocol {
         case reducer(ReducerAction)
     }
 
-    @Dependency(\.appInfo.iconName) var appIconName
     @Dependency(\.application.supportsAlternateIcons) var supportsAlternateIcons
     @Dependency(\.application.alternateIconName) var alternateIconName
     @Dependency(\.application.setAlternateIconName) var setAlternateIconName
@@ -43,7 +45,6 @@ public struct AppIconPickerReducer: ReducerProtocol {
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .view(.task):
-            state.defaultIcon = appIconName.flatMap(UIImage.init(named:))
             return .merge(
                 .task { await checkIfIconPickingSupported() },
                 .task { await updateInitialAppIcon() }

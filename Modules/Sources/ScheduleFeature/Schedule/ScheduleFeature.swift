@@ -41,7 +41,6 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         public var isFavorite: Bool = false
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType = .continuous
-        fileprivate var switchToExamsIfNeeded = true
 
         public init(title: String, value: Value) {
             self.title = title
@@ -86,13 +85,15 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
             case let .view(.setScheduleType(value)):
                 defer { state.scheduleType = value }
                 guard state.scheduleType != value else { return .none }
-                state.switchToExamsIfNeeded = false
                 state.schedule?.continious.isOnTop = true
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
                 }
                 
             case .loading(.finished(\.$schedule)):
+                if state.schedule?.continious.schedule.isEmpty == true {
+                    state.scheduleType = .exams
+                }
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
                 }
@@ -105,12 +106,6 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                         reviewRequestService.madeMeaningfulEvent(.addToFavorites)
                     }
                 )
-
-            case .schedule(.continious(.delegate(.thereIsNoSchedule))):
-                guard state.switchToExamsIfNeeded else { return .none }
-                state.switchToExamsIfNeeded = false
-                state.scheduleType = .exams
-                return .none
 
             case .schedule, .delegate, .loading:
                 return .none

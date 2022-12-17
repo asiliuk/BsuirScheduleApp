@@ -8,19 +8,18 @@ struct ContiniousScheduleView: View {
 
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            if viewStore.days.isEmpty {
+            switch viewStore.schedule.days {
+            case []:
                 ScheduleEmptyView()
-                    .onAppear { viewStore.send(.onAppear) }
-            } else {
+            case let days:
                 ScheduleGridView(
-                    days: viewStore.days,
-                    loading: viewStore.doneLoading
+                    days: days,
+                    loading: viewStore.schedule.doneLoading
                         ? .finished
                         : .loadMore { viewStore.send(.loadMoreIndicatorAppear) },
                     pairDetails: pairDetails,
-                    isOnTop: viewStore.binding(\.$isOnTop)
+                    isOnTop: viewStore.binding(get: \.isOnTop, send: { .view(.setIsOnTop($0)) })
                 )
-                .onAppear { viewStore.send(.onAppear) }
             }
         }
     }

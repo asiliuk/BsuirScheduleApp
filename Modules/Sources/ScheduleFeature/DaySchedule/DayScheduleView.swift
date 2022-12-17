@@ -8,18 +8,17 @@ struct DayScheduleView: View {
     let store: StoreOf<DayScheduleFeature>
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
-            if viewStore.days.isEmpty {
+        WithViewStore(store, observe: \.days) { viewStore in
+            switch viewStore.state {
+            case []:
                 ScheduleEmptyView()
-                    .onAppear { viewStore.send(.onAppear) }
-            } else {
+            case let days:
                 ScheduleGridView(
-                    days: viewStore.days,
+                    days: days,
                     loading: .never,
                     pairDetails: .nothing,
                     isOnTop: .constant(false)
                 )
-                .onAppear { viewStore.send(.onAppear) }
             }
         }
     }

@@ -48,7 +48,6 @@ public struct AboutView: View {
                     ClearCacheSectionView(store: store, viewStore: viewStore)
                 }
             }
-            .task { await viewStore.send(.task).finish() }
             .listStyle(InsetGroupedListStyle())
             .navigationTitle("screen.about.navigation.title")
             .scrollableToTop(isOnTop: viewStore.binding(\.$isOnTop))
