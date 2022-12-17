@@ -17,7 +17,10 @@ public struct LecturersFeature: ReducerProtocol {
         @BindableState var lectorSchedule: LectorScheduleFeature.State?
 
         var favorites: IdentifiedArrayOf<Employee> { lecturers?.filter { favoriteIds.contains($0.id) } ?? [] }
-        fileprivate var favoriteIds: OrderedSet<Int> = []
+        fileprivate(set) var favoriteIds: OrderedSet<Int> = {
+            @Dependency(\.favorites.currentLectorIds) var currentLectorIds
+            return currentLectorIds
+        }()
 
         @LoadableState var lecturers: IdentifiedArrayOf<Employee>?
         @LoadableState var loadedLecturers: IdentifiedArrayOf<Employee>?

@@ -5,7 +5,7 @@ public struct ScheduleGridPlaceholder: View {
     public init() {}
 
     public var body: some View {
-        VStack(alignment: .leading) {
+        List {
             ScheduleGridSectionPlaceholder(
                 titleLength: 12,
                 numberOfPairs: 3
@@ -16,10 +16,14 @@ public struct ScheduleGridPlaceholder: View {
                 numberOfPairs: 2
             )
 
-            Spacer()
+            ScheduleGridSectionPlaceholder(
+                titleLength: 14,
+                numberOfPairs: 4
+            )
         }
-        .padding()
+        .listStyle(.plain)
         .redacted(reason: .placeholder)
+        .allowsHitTesting(false)
     }
 }
 
@@ -35,7 +39,12 @@ struct ScheduleGridSectionPlaceholder: View {
                 }
             }
         } header: {
-            Text(String(repeating: "A", count: titleLength)).padding(.top)
+            ScheduleDateTitle(
+                date: String(repeating: "-", count: titleLength),
+                relativeDate: nil,
+                isToday: false
+            )
         }
+        .listRowSeparator(.hidden)
     }
 }

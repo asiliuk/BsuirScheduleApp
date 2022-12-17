@@ -34,7 +34,10 @@ public struct GroupsFeature: ReducerProtocol {
 
         @BindableState var groupSchedule: GroupScheduleFeature.State?
 
-        var favorites: [String] = []
+        var favorites: [String] = {
+            @Dependency(\.favorites.currentGroupNames) var favorites
+            return Array(favorites)
+        }()
         @LoadableState var sections: [Section]?
         @LoadableState var loadedGroups: [StudentGroup]?
         

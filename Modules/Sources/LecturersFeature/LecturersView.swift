@@ -64,7 +64,7 @@ private struct LoadingLecturersView: View {
                 .scrollableToTop(isOnTop: viewStore.binding(\.$isOnTop))
             }
         } loading: {
-            LoadingStateView()
+            LecturersPlaceholderView(numberOfFavorites: viewStore.favoriteIds.count)
         } error: { store in
             LoadingErrorView(store: store)
         }

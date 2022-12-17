@@ -66,7 +66,7 @@ private struct LoadingGroupsView: View {
                 .scrollableToTop(isOnTop: viewStore.binding(\.$isOnTop))
             }
         } loading: {
-            LoadingStateView()
+            GroupsPlaceholderView(numberOfFavorites: viewStore.favorites.count)
         } error: { store in
             LoadingErrorView(store: store)
         }

@@ -21,14 +21,14 @@ public struct PairPlaceholder: View {
             )
         }
     }
+}
 
-    func placeholderText(for iteration: Int, from: Int, to: Int) -> String {
-        String(repeating: "-", count: repeatCount(for: iteration, from: from, to: to))
-    }
+public func placeholderText(for iteration: Int, from: Int, to: Int) -> String {
+    String(repeating: "-", count: repeatCount(for: iteration, from: from, to: to))
+}
 
-    func repeatCount(for iteration: Int, from: Int, to: Int) -> Int {
-        return iteration.quotientAndRemainder(dividingBy: (to - from)).remainder + from
-    }
+public func repeatCount(for iteration: Int, from: Int, to: Int) -> Int {
+    return iteration.quotientAndRemainder(dividingBy: (to - from)).remainder + from
 }
 
 struct PairPlaceholder_Previews: PreviewProvider {
