@@ -59,6 +59,5 @@ private extension DayScheduleTests {
         line: UInt = #line
     ) {
         XCTAssertEqual(weekday.localizedName(in: calendar), expectedName, file: file, line: line)
-
     }
 }

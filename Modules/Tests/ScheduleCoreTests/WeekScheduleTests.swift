@@ -1,4 +1,4 @@
-@testable import BsuirCore
+@testable import ScheduleCore
 import XCTest
 import BsuirApi
 
