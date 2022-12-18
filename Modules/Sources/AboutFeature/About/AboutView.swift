@@ -85,7 +85,7 @@ private struct AboutSectionView: View {
     
     var body: some View {
         Group {
-            Text(viewStore.appVersion ?? TextState("---"))
+            Text(viewStore.appVersion)
             LinkButton(title: "Github") { viewStore.send(.githubButtonTapped) }
             LinkButton(title: "Telegram") { viewStore.send(.telegramButtonTapped) }
         }

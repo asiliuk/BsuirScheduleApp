@@ -1,4 +1,5 @@
 import SwiftUI
+import BsuirCore
 import LoadableFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
@@ -81,7 +82,7 @@ private struct LoadedScheduleView: View {
         switch scheduleType {
         case .compact:
             DayScheduleView(
-                store: store.scope(state: \.compact, action: { .day($0) })
+                store: store.scope(state: \.compact, action: impossible)
             )
         case .continuous:
             ContiniousScheduleView(
@@ -90,7 +91,7 @@ private struct LoadedScheduleView: View {
             )
         case .exams:
             ExamsScheduleView(
-                store: store.scope(state: \.exams, action: { .exams($0) }),
+                store: store.scope(state: \.exams, action: impossible),
                 pairDetails: schedulePairDetails
             )
         }
