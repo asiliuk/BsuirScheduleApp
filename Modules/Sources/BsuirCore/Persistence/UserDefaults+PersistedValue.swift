@@ -1,6 +1,15 @@
 import Foundation
 
 extension UserDefaults {
+    public func persistedDictionary(
+        forKey key: String
+    ) -> PersistedValue<[String: Any]?> {
+        PersistedValue(
+            get: { self.dictionary(forKey: key) },
+            set: { self.set($0, forKey: key) }
+        )
+    }
+
     public func persistedArray<Element>(
         of elementType: Element.Type = Element.self,
         forKey key: String
@@ -25,13 +34,10 @@ extension UserDefaults {
         )
     }
 
-    public func persistedCodable<Value: Codable>(
-        _ value: Value.Type = Value.self,
-        forKey key: String
-    ) -> PersistedValue<Value?> {
+    public func persistedData(forKey key: String) -> PersistedValue<Data?> {
         PersistedValue(
-            get: { self.data(forKey: key).flatMap { try? JSONDecoder().decode(Value.self, from: $0) } },
-            set: { self.set($0.flatMap { try? JSONEncoder().encode($0) }, forKey: key) }
+            get: { self.data(forKey: key) },
+            set: { self.set($0, forKey: key) }
         )
     }
 }

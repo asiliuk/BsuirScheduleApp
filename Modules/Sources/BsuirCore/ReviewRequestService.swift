@@ -51,7 +51,8 @@ public final class ReviewRequestService {
         .withPublisher()
 
     private lazy var reviewTrack = storage
-        .persistedCodable(ReviewRequestTracking.self, forKey: "app-review-request.track")
+        .persistedData(forKey: "app-review-request.track")
+        .codable(ReviewRequestTracking.self)
         .withPublisher()
 }
 

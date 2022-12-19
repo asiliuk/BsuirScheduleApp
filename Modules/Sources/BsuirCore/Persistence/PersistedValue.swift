@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import Collections
 
 public struct PersistedValue<Value> {
     public var value: Value {
@@ -23,12 +24,12 @@ public struct PersistedValue<Value> {
 
 extension PersistedValue {
     public func map<U>(
-        get: @escaping (Value) -> U,
-        set: @escaping (U) -> Value
+        fromValue: @escaping (Value) -> U,
+        toValue: @escaping (U) -> Value
     ) -> PersistedValue<U> {
         PersistedValue<U>(
-            get: { get(self.get()) },
-            set: { self.set(set($0)) }
+            get: { fromValue(self.get()) },
+            set: { self.set(toValue($0)) }
         )
     }
 
@@ -41,6 +42,58 @@ extension PersistedValue {
     }
 
     public func unwrap<Wrapped>(withDefault default: Wrapped) -> PersistedValue<Wrapped> where Value == Wrapped? {
-        map(get: { $0 ?? `default` }, set: { $0 })
+        map(fromValue: { $0 ?? `default` }, toValue: { .some($0) })
+    }
+}
+
+// MARK: - OrderedSet
+
+extension PersistedValue {
+    public func toOrderedSet<Element: Hashable>() -> PersistedValue<OrderedSet<Element>?> where Value == [Element]? {
+        map(
+            fromValue: { $0.map(OrderedSet.init) },
+            toValue: { $0.map(Array.init) }
+        )
+    }
+}
+
+// MARK: - Codable
+
+extension PersistedValue where Value == Data? {
+    public func codable<U: Codable>(_ value: U.Type = U.self) -> PersistedValue<U?> {
+        map(
+            fromValue: { $0.flatMap { try? JSONDecoder().decode(U.self, from: $0) } },
+            toValue: { $0.flatMap { try? JSONEncoder().encode($0) } }
+        )
+    }
+}
+
+extension PersistedValue where Value == [String: Any]? {
+    public func codable<U: Codable>(_ value: U.Type = U.self) -> PersistedValue<U?> {
+        map(
+            fromValue: { dictionary in
+                guard let dictionary else { return nil }
+
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: dictionary, options: .fragmentsAllowed)
+                    return try JSONDecoder().decode(U.self, from: data)
+                } catch {
+                    assertionFailure(error.localizedDescription)
+                    return nil
+                }
+            },
+            toValue: { value in
+                guard let value else { return nil }
+
+                do {
+                    let data = try JSONEncoder().encode(value)
+                    let jsonObject = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    return jsonObject as? [String: Any]
+                } catch {
+                    assertionFailure(error.localizedDescription)
+                    return nil
+                }
+            }
+        )
     }
 }

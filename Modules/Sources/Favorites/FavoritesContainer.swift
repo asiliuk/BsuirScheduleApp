@@ -3,17 +3,21 @@ import BsuirApi
 import BsuirCore
 import Collections
 import Combine
+import Dependencies
 
 public final class FavoritesContainer {
     // MARK: - Legacy
     private lazy var legacyGroupsStorage = legacyStorage
-        .persistedCodable([StudentGroup].self, forKey: "favorite-groups")
+        .persistedData(forKey: "favorite-groups")
+        .codable([StudentGroup].self)
 
     private lazy var legacyGroupNamesStorage = legacyStorage
-        .persistedCodable([String].self, forKey: "favorite-group-names")
+        .persistedData(forKey: "favorite-group-names")
+        .codable([String].self)
 
     private lazy var legacyLecturersStorage = legacyStorage
-        .persistedCodable([Employee].self, forKey: "favorite-lecturers")
+        .persistedData(forKey: "favorite-lecturers")
+        .codable([Employee].self)
 
     // MARK: - Storage
     private let storage: UserDefaults
@@ -85,15 +89,28 @@ extension FavoritesContainer {
     public func toggle(lecturerWithId id: Int) {
         lecturerIDsStorage.persisted.toggle(id)
     }
+
+}
+
+// MARK: - Dependency
+
+extension DependencyValues {
+    public var favorites: FavoritesContainer {
+        get { self[FavoritesContainerKey.self] }
+        set { self[FavoritesContainerKey.self] = newValue }
+    }
+}
+
+private enum FavoritesContainerKey: DependencyKey {
+    static let liveValue = FavoritesContainer(
+        storage: .asiliukShared,
+        legacyStorage: .standard
+    )
 }
 
 // MARK: - Helpers
 
 private extension PersistedValue {
-    func toOrderedSet<Element: Hashable>() -> PersistedValue<OrderedSet<Element>?> where Value == [Element]? {
-        map(get: { $0.map(OrderedSet.init) }, set: { $0.map(Array.init) })
-    }
-
     func toggle<Element>(_ element: Element) where Value == OrderedSet<Element> {
         if value.contains(element) {
             value.remove(element)
