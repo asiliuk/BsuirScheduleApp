@@ -29,6 +29,7 @@ public struct LectorScheduleFeature: ReducerProtocol {
             case schedule(ScheduleFeature<String>.Action)
             indirect case groupSchedule(GroupScheduleFeature.Action)
             case updateIsFavorite(Bool)
+            case updateIsPinned(Bool)
         }
         
         public typealias DelegateAction = Never
@@ -50,11 +51,19 @@ public struct LectorScheduleFeature: ReducerProtocol {
         Reduce { state, action in
             switch action {
             case .view(.task):
-                return .run { [lector = state.lector] send in
-                    for await value in favorites.lecturerIds.values {
-                        await send(.reducer(.updateIsFavorite(value.contains(lector.id))))
+                let lector = state.lector
+                return .merge(
+                    .run { send in
+                        for await value in favorites.lecturerIds.values {
+                            await send(.reducer(.updateIsFavorite(value.contains(lector.id))))
+                        }
+                    },
+                    .run { send in
+                        for await value in favorites.pinnedSchedule.values {
+                            await send(.reducer(.updateIsPinned(value?.isLector(id: lector.id) == true)))
+                        }
                     }
-                }
+                )
 
             case let .view(.groupTapped(groupName)):
                 state.groupSchedule = .init(groupName: groupName)
@@ -64,9 +73,22 @@ public struct LectorScheduleFeature: ReducerProtocol {
                 state.schedule.isFavorite = value
                 return .none
 
+            case let .reducer(.updateIsPinned(value)):
+                state.schedule.isPinned = value
+                return .none
+
             case .reducer(.schedule(.delegate(.toggleFavorite))):
                 return .fireAndForget { [id = state.lector.id] in
                     favorites.toggle(lecturerWithId: id)
+                }
+
+            case .reducer(.schedule(.delegate(.togglePinned))):
+                return .fireAndForget { [lector = state.lector] in
+                    if let pinned = favorites.currentPinnedSchedule, pinned.isLector(id: lector.id) {
+                        favorites.currentPinnedSchedule = nil
+                    } else {
+                        favorites.currentPinnedSchedule = .lector(lector)
+                    }
                 }
 
             case .reducer, .binding:
@@ -84,6 +106,8 @@ public struct LectorScheduleFeature: ReducerProtocol {
         }        
     }
 }
+
+// MARK: - Lector
 
 private extension ScheduleRequestResponse {
     init(response: Employee.Schedule) {

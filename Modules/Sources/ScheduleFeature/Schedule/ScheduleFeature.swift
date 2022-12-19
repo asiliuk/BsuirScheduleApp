@@ -39,6 +39,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         public var title: String
         public var value: Value
         public var isFavorite: Bool = false
+        public var isPinned: Bool = false
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType = .continuous
 
@@ -52,6 +53,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         public enum ViewAction: Equatable {
             case scrollToMostRelevantTapped
             case toggleFavoritesTapped
+            case toggleIsPinnedTapped
             case setScheduleType(ScheduleDisplayType)
         }
 
@@ -59,6 +61,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
 
         public enum DelegateAction: Equatable {
             case toggleFavorite
+            case togglePinned
         }
 
         case loading(LoadingAction<State>)
@@ -104,6 +107,15 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                     .fireAndForget { [isFavorite = state.isFavorite] in
                         guard !isFavorite else { return }
                         reviewRequestService.madeMeaningfulEvent(.addToFavorites)
+                    }
+                )
+
+            case .view(.toggleIsPinnedTapped):
+                return .merge(
+                    .task { .delegate(.togglePinned) },
+                    .fireAndForget { [isPinned = state.isPinned] in
+                        guard !isPinned else { return }
+                        reviewRequestService.madeMeaningfulEvent(.pin)
                     }
                 )
 
@@ -169,4 +181,5 @@ private extension MeaningfulEvent {
     static let scheduleRequested = Self(score: 2)
     static let scheduleModeSwitched = Self(score: 3)
     static let addToFavorites = Self(score: 5)
+    static let pin = Self(score: 5)
 }

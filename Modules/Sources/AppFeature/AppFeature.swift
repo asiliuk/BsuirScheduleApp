@@ -6,27 +6,39 @@ import Deeplinking
 import Favorites
 import ComposableArchitecture
 import ComposableArchitectureUtils
+import EntityScheduleFeature
 
 public struct AppFeature: ReducerProtocol {
     public struct State: Equatable {
         var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
 
+        struct Pinned: Equatable {
+            var title: String
+            var schedule: PinnedScheduleFeature.State
+        }
+
+        var pinned: Pinned?
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
         var about = AboutFeature.State()
 
-        public init() {}
+        public init() {
+            @Dependency(\.favorites) var favorites
+            self.handleInitialSelection(favorites: favorites)
+        }
     }
 
     public enum Action {
-        case onAppear
+        case task
 
         case handleDeeplink(URL)
         case setSelection(CurrentSelection)
         case setOverlay(CurrentOverlay?)
+        case setPinnedSchedule(PinnedSchedule?)
         case showAboutButtonTapped
 
+        case pinned(PinnedScheduleFeature.Action)
         case groups(GroupsFeature.Action)
         case lecturers(LecturersFeature.Action)
         case about(AboutFeature.Action)
@@ -39,9 +51,12 @@ public struct AppFeature: ReducerProtocol {
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .onAppear:
-                handleInitialSelection(state: &state)
-                return .none
+            case .task:
+                return .run { send in
+                    for await pinnedSchedule in favorites.pinnedSchedule.values {
+                        await send(.setPinnedSchedule(pinnedSchedule))
+                    }
+                }
 
             case let .setSelection(value):
                 updateSelection(state: &state, value)
@@ -50,6 +65,14 @@ public struct AppFeature: ReducerProtocol {
 
             case let .setOverlay(value):
                 state.overlay = value
+                return .none
+
+            case .setPinnedSchedule(nil):
+                state.pinned = nil
+                return .none
+
+            case let .setPinnedSchedule(pinned?):
+                state.pinned = .init(pinned)
                 return .none
 
             case .showAboutButtonTapped:
@@ -65,8 +88,13 @@ public struct AppFeature: ReducerProtocol {
                 }
                 return .none
 
-            case .groups, .lecturers, .about:
+            case .groups, .lecturers, .about, .pinned:
                 return .none
+            }
+        }
+        .ifLet(\.pinned, action: /Action.pinned) {
+            Scope(state: \.schedule, action: .self) {
+                PinnedScheduleFeature()
             }
         }
 
@@ -80,20 +108,6 @@ public struct AppFeature: ReducerProtocol {
 
         Scope(state: \.about, action: /Action.about) {
             AboutFeature()
-        }
-    }
-
-    private func handleInitialSelection(state: inout State) {
-        if let groupName = favorites.currentGroupNames.first {
-            state.selection = .groups
-            state.groups.openGroup(named: groupName)
-            return
-        }
-
-        if let lectorId = favorites.currentLectorIds.first {
-            state.selection = .lecturers
-            state.lecturers.openLector(id: lectorId)
-            return
         }
     }
 
@@ -125,6 +139,8 @@ public struct AppFeature: ReducerProtocol {
 
         // Handle tap on already selected tab
         switch newValue {
+        case .pinned:
+            state.pinned?.schedule.reset()
         case .groups:
             state.groups.reset()
         case .lecturers:
@@ -132,5 +148,47 @@ public struct AppFeature: ReducerProtocol {
         case .about:
             state.about.reset()
         }
+    }
+}
+
+private extension AppFeature.State {
+    mutating func handleInitialSelection(favorites: FavoritesContainer) {
+        if let pinnedSchedule = favorites.currentPinnedSchedule {
+            selection = .pinned(pinnedSchedule.tabTitle)
+            pinned = .init(pinnedSchedule)
+            return
+        }
+
+        if let groupName = favorites.currentGroupNames.first {
+            selection = .groups
+            groups.openGroup(named: groupName)
+            return
+        }
+
+        if let lectorId = favorites.currentLectorIds.first {
+            selection = .lecturers
+            lecturers.openLector(id: lectorId)
+            return
+        }
+    }
+}
+
+private extension PinnedSchedule {
+    var tabTitle: String {
+        switch self {
+        case let .group(name):
+            return name
+        case let .lector(lector):
+            return lector.compactFio
+        }
+    }
+}
+
+private extension AppFeature.State.Pinned {
+    init(_ pinned: PinnedSchedule) {
+        self.init(
+            title: pinned.tabTitle,
+            schedule: .init(pinned: pinned)
+        )
     }
 }

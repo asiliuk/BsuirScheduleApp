@@ -32,6 +32,7 @@ public struct GroupScheduleFeature: ReducerProtocol {
             case schedule(ScheduleFeature<String>.Action)
             indirect case lectorSchedule(LectorScheduleFeature.Action)
             case updateIsFavorite(Bool)
+            case updateIsPinned(Bool)
         }
         
         public typealias DelegateAction = Never
@@ -51,11 +52,19 @@ public struct GroupScheduleFeature: ReducerProtocol {
         Reduce { state, action in
             switch action {
             case .view(.task):
-                return .run { [groupName = state.groupName] send in
-                    for await value in favorites.groupNames.values {
-                        await send(.reducer(.updateIsFavorite(value.contains(groupName))))
+                let groupName = state.groupName
+                return .merge(
+                    .run { send in
+                        for await value in favorites.groupNames.values {
+                            await send(.reducer(.updateIsFavorite(value.contains(groupName))))
+                        }
+                    },
+                    .run { send in
+                        for await value in favorites.pinnedSchedule.values {
+                            await send(.reducer(.updateIsPinned(value?.isGroup(named: groupName) == true)))
+                        }
                     }
-                }
+                )
 
             case let .view(.lectorTapped(lector)):
                 state.lectorSchedule = .init(.init(lector: lector))
@@ -65,9 +74,22 @@ public struct GroupScheduleFeature: ReducerProtocol {
                 state.schedule.isFavorite = value
                 return .none
 
+            case let .reducer(.updateIsPinned(value)):
+                state.schedule.isPinned = value
+                return .none
+
             case .reducer(.schedule(.delegate(.toggleFavorite))):
                 return .fireAndForget { [groupName = state.groupName] in
                     favorites.toggle(groupNamed: groupName)
+                }
+
+            case .reducer(.schedule(.delegate(.togglePinned))):
+                return .fireAndForget { [groupName = state.groupName] in
+                    if let pinned = favorites.currentPinnedSchedule, pinned.isGroup(named: groupName) {
+                        favorites.currentPinnedSchedule = nil
+                    } else {
+                        favorites.currentPinnedSchedule = .group(name: groupName)
+                    }
                 }
 
             case .reducer, .binding:

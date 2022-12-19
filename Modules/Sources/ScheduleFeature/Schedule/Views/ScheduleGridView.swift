@@ -52,11 +52,11 @@ struct ScheduleGridView: View {
         .listStyle(.plain)
         // To disable cell celection
         .buttonStyle(PlainButtonStyle())
-        .scrollableToTop(
-            id: RelevantDayViewID.mostRelevant,
-            isOnTop: $isOnTop,
-            updateOnAppear: true
-        )
+//        .scrollableToTop(
+//            id: RelevantDayViewID.mostRelevant,
+//            isOnTop: $isOnTop,
+//            updateOnAppear: true
+//        )
     }
 }
 

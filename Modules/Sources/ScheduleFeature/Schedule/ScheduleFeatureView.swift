@@ -8,11 +8,13 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
     struct ViewState: Equatable {
         let title: String
         let isFavorite: Bool
+        let isPinned: Bool
         let scheduleType: ScheduleDisplayType
 
         init(state: ScheduleFeature<Value>.State) {
             self.title = state.title
             self.isFavorite = state.isFavorite
+            self.isPinned = state.isPinned
             self.scheduleType = state.scheduleType
         }
     }
@@ -50,6 +52,10 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                         ToggleFavoritesButton(
                             isFavorite: viewStore.isFavorite,
                             toggle: { viewStore.send(.toggleFavoritesTapped) }
+                        )
+                        TogglePinnedButton(
+                            isPinned: viewStore.isPinned,
+                            toggle: { viewStore.send(.toggleIsPinnedTapped) }
                         )
                         ScheduleDisplayTypePickerMenu(
                             scheduleType: viewStore.binding(
@@ -95,6 +101,22 @@ private struct LoadedScheduleView: View {
                 pairDetails: schedulePairDetails
             )
         }
+    }
+}
+
+private struct TogglePinnedButton: View {
+    var isPinned: Bool
+    var toggle: () -> Void
+
+    var body: some View {
+        Button(action: toggle) {
+            Image(systemName: isPinned ? "pin.fill" : "pin")
+        }
+        .accessibility(
+            label: isPinned
+                ? Text("screen.schedule.favorite.accessibility.remove")
+                : Text("screen.schedule.favorite.accessibility.add")
+        )
     }
 }
 

@@ -52,4 +52,8 @@ extension Employee {
             .filter { !$0.isEmpty }
             .joined(separator: " ")
     }
+
+    public var compactFio: String {
+        "\(lastName) \(firstName.prefix(1))\(middleName?.prefix(1) ?? "")"
+    }
 }

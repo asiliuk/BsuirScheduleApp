@@ -35,6 +35,11 @@ public final class FavoritesContainer {
         .unwrap(withDefault: [])
         .withPublisher()
 
+    private lazy var pinnedScheduleStorage = storage
+        .persistedDictionary(forKey: "pinned-schedule")
+        .codable(PinnedSchedule.self)
+        .withPublisher()
+
     init(storage: UserDefaults, legacyStorage: UserDefaults) {
         self.storage = storage
         self.legacyStorage = legacyStorage
@@ -90,6 +95,14 @@ extension FavoritesContainer {
         lecturerIDsStorage.persisted.toggle(id)
     }
 
+    public var currentPinnedSchedule: PinnedSchedule? {
+        get { pinnedScheduleStorage.persisted.value }
+        set { pinnedScheduleStorage.persisted.value = newValue }
+    }
+
+    public var pinnedSchedule: AnyPublisher<PinnedSchedule?, Never> {
+        pinnedScheduleStorage.publisher
+    }
 }
 
 // MARK: - Dependency

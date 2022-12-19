@@ -3,6 +3,7 @@ import BsuirCore
 import AboutFeature
 import GroupsFeature
 import LecturersFeature
+import EntityScheduleFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
@@ -12,6 +13,22 @@ struct CompactRootView: View {
     var body: some View {
         WithViewStore(store, observe: \.selection) { viewStore in
             TabView(selection: viewStore.binding(get: { $0 }, send: AppFeature.Action.setSelection)) {
+                IfLetStore(
+                    store.scope(
+                        state: \.pinned,
+                        action: { .pinned($0) }
+                    )
+                ) { store in
+                    WithViewStore(store, observe: \.title) { viewStore in
+                        NavigationView {
+                            PinnedScheduleView(
+                                store: store.scope(state: \.schedule)
+                            )
+                        }
+                        .tab(.pinned(viewStore.state))
+                    }
+                }
+
                 NavigationView {
                     GroupsView(
                         store: store.scope(
