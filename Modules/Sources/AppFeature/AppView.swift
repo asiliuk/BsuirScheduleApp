@@ -4,7 +4,7 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 
 public enum CurrentSelection: Hashable {
-    case pinned(String)
+    case pinned
     case groups
     case lecturers
     case about
@@ -40,17 +40,9 @@ public struct AppView: View {
     }
 }
 
-extension CurrentSelection {
-    @ViewBuilder var label: some View {
-        switch self {
-        case let .pinned(title):
-            Label(title, systemImage: "pin")
-        case .groups:
-            Label("view.tabBar.groups.title", systemImage: "person.2")
-        case .lecturers:
-            Label("view.tabBar.lecturers.title", systemImage: "person.text.rectangle")
-        case .about:
-            Label("view.tabBar.about.title", systemImage: "info.circle")
-        }
-    }
+extension Label where Title == Text, Icon == Image {
+    static func pinned(title: String) -> Label { Label(title, systemImage: "pin") }
+    static let groups = Label("view.tabBar.groups.title", systemImage: "person.2")
+    static let lecturers = Label("view.tabBar.lecturers.title", systemImage: "person.text.rectangle")
+    static let about = Label("view.tabBar.about.title", systemImage: "info.circle")
 }

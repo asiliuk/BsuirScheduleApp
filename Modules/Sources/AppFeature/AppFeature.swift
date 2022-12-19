@@ -154,7 +154,7 @@ public struct AppFeature: ReducerProtocol {
 private extension AppFeature.State {
     mutating func handleInitialSelection(favorites: FavoritesContainer) {
         if let pinnedSchedule = favorites.currentPinnedSchedule {
-            selection = .pinned(pinnedSchedule.tabTitle)
+            selection = .pinned
             pinned = .init(pinnedSchedule)
             return
         }

@@ -25,7 +25,8 @@ struct CompactRootView: View {
                                 store: store.scope(state: \.schedule)
                             )
                         }
-                        .tab(.pinned(viewStore.state))
+                        .tag(CurrentSelection.pinned)
+                        .tabItem { Label.pinned(title: viewStore.state) }
                     }
                 }
 
@@ -37,7 +38,8 @@ struct CompactRootView: View {
                         )
                     )
                 }
-                .tab(.groups)
+                .tag(CurrentSelection.groups)
+                .tabItem { Label.groups }
 
                 NavigationView {
                     LecturersView(
@@ -47,7 +49,8 @@ struct CompactRootView: View {
                         )
                     )
                 }
-                .tab(.lecturers)
+                .tag(CurrentSelection.lecturers)
+                .tabItem { Label.lecturers }
 
                 NavigationView {
                     AboutView(
@@ -57,16 +60,17 @@ struct CompactRootView: View {
                         )
                     )
                 }
-                .tab(.about)
+                .tag(CurrentSelection.about)
+                .tabItem { Label.about }
             }
         }
     }
 }
 
-extension View {
-    func tab(_ selection: CurrentSelection) -> some View {
-        self
-            .tabItem { selection.label }
-            .tag(selection)
-    }
-}
+//extension View {
+//    func tab(_ selection: CurrentSelection) -> some View {
+//        self
+//            .tabItem { selection.label }
+//            .tag(selection)
+//    }
+//}

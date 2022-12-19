@@ -31,7 +31,8 @@ struct RegularRootView: View {
                             action: AppFeature.Action.groups
                         )
                     )
-                    .tab(.groups)
+                    .tag(CurrentSelection.groups)
+                    .tabItem { Label.groups }
 
                     LecturersView(
                         store: store.scope(
@@ -39,13 +40,14 @@ struct RegularRootView: View {
                             action: AppFeature.Action.lecturers
                         )
                     )
-                    .tab(.lecturers)
+                    .tag(CurrentSelection.lecturers)
+                    .tabItem { Label.lecturers }
                 }
                 .toolbar {
                     Button {
                         viewStore.send(.showAboutButtonTapped)
                     } label: {
-                        CurrentSelection.about.label
+                        Label.about
                     }
                 }
 
