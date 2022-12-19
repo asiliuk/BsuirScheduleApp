@@ -65,13 +65,6 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                         )
                     }
                 }
-
-                ToolbarItem(placement: .principal) {
-                    Text(viewStore.title)
-                        .bold()
-                        .minimumScaleFactor(0.5)
-                        .onTapGesture { viewStore.send(.scrollToMostRelevantTapped) }
-                }
             }
             .navigationTitle(viewStore.title)
             .navigationBarTitleDisplayMode(.inline)
@@ -88,7 +81,7 @@ private struct LoadedScheduleView: View {
         switch scheduleType {
         case .compact:
             DayScheduleView(
-                store: store.scope(state: \.compact, action: impossible)
+                store: store.scope(state: \.compact, action: { .day($0) })
             )
         case .continuous:
             ContiniousScheduleView(
@@ -97,7 +90,7 @@ private struct LoadedScheduleView: View {
             )
         case .exams:
             ExamsScheduleView(
-                store: store.scope(state: \.exams, action: impossible),
+                store: store.scope(state: \.exams, action: { .exams($0) }),
                 pairDetails: schedulePairDetails
             )
         }

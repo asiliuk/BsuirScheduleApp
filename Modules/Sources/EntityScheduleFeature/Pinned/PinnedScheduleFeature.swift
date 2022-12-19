@@ -37,6 +37,7 @@ public struct PinnedScheduleFeature: ReducerProtocol {
 
 extension PinnedScheduleFeature.State {
     public mutating func reset() {
-        // TODO: Scroll to top
+        try? (/Self.group).modify(&self) { $0.schedule.reset() }
+        try? (/Self.lector).modify(&self) { $0.schedule.reset() }
     }
 }

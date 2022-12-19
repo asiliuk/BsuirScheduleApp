@@ -40,6 +40,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         public var value: Value
         public var isFavorite: Bool = false
         public var isPinned: Bool = false
+        public var isOnTop: Bool = true
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType = .continuous
 
@@ -51,7 +52,6 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
 
     public enum Action: Equatable, FeatureAction, LoadableAction {
         public enum ViewAction: Equatable {
-            case scrollToMostRelevantTapped
             case toggleFavoritesTapped
             case toggleIsPinnedTapped
             case setScheduleType(ScheduleDisplayType)
@@ -81,20 +81,15 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .view(.scrollToMostRelevantTapped):
-                state.schedule?.continious.isOnTop = true
-                return .none
-
             case let .view(.setScheduleType(value)):
                 defer { state.scheduleType = value }
                 guard state.scheduleType != value else { return .none }
-                state.schedule?.continious.isOnTop = true
                 return .fireAndForget {
                     reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
                 }
                 
             case .loading(.finished(\.$schedule)):
-                if state.schedule?.continious.schedule.isEmpty == true {
+                if state.schedule?.continious.isEmpty == true {
                     state.scheduleType = .exams
                 }
                 return .fireAndForget {
@@ -182,4 +177,17 @@ private extension MeaningfulEvent {
     static let scheduleModeSwitched = Self(score: 3)
     static let addToFavorites = Self(score: 5)
     static let pin = Self(score: 5)
+}
+
+extension ScheduleFeature.State {
+    public mutating func reset() {
+        switch scheduleType {
+        case .compact:
+            schedule?.compact.isOnTop = true
+        case .exams:
+            schedule?.exams.isOnTop = true
+        case .continuous:
+            schedule?.continious.isOnTop = true
+        }
+    }
 }

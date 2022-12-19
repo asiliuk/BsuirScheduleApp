@@ -3,22 +3,34 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 
 struct ContiniousScheduleView: View {
+    struct ViewState: Equatable {
+        var isOnTop: Bool
+        var days: [ScheduleDayViewModel]
+        var doneLoading: Bool
+    }
+
     let store: StoreOf<ContiniousScheduleFeature>
     let pairDetails: ScheduleGridViewPairDetails
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
-            switch viewStore.schedule.days {
+        WithViewStore(
+            store,
+            observe: { ViewState(isOnTop: $0.isOnTop, days: $0.days, doneLoading: $0.doneLoading) }
+        ) { viewStore in
+            switch viewStore.days {
             case []:
                 ScheduleEmptyView()
             case let days:
                 ScheduleGridView(
                     days: days,
-                    loading: viewStore.schedule.doneLoading
+                    loading: viewStore.doneLoading
                         ? .finished
                         : .loadMore { viewStore.send(.loadMoreIndicatorAppear) },
                     pairDetails: pairDetails,
-                    isOnTop: viewStore.binding(get: \.isOnTop, send: { .view(.setIsOnTop($0)) })
+                    isOnTop: viewStore.binding(
+                        get: \.isOnTop,
+                        send: { .view(.setIsOnTop($0)) }
+                    )
                 )
             }
         }

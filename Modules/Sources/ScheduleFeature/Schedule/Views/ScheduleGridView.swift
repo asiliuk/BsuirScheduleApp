@@ -23,12 +23,13 @@ struct ScheduleGridView: View {
 
     var body: some View {
         List {
+            ScrollTopIdentifyingView()
+
             Group {
                 ForEach(days) { day in
                     ScheduleDay(
                         title: day.title,
                         subtitle: day.subtitle,
-                        isMostRelevant: day.isMostRelevant,
                         isToday: day.isToday,
                         pairs: day.pairs,
                         details: pairDetails
@@ -52,11 +53,7 @@ struct ScheduleGridView: View {
         .listStyle(.plain)
         // To disable cell celection
         .buttonStyle(PlainButtonStyle())
-//        .scrollableToTop(
-//            id: RelevantDayViewID.mostRelevant,
-//            isOnTop: $isOnTop,
-//            updateOnAppear: true
-//        )
+        .scrollableToTop(isOnTop: $isOnTop)
     }
 }
 
@@ -72,7 +69,6 @@ struct NoMorePairsIndicator: View {
 struct ScheduleDay: View {
     let title: String
     let subtitle: String?
-    var isMostRelevant: Bool
     let isToday: Bool
     let pairs: [PairViewModel]
     let details: ScheduleGridViewPairDetails
@@ -90,7 +86,6 @@ struct ScheduleDay: View {
         } header: {
             ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
         }
-        .id(isMostRelevant ? RelevantDayViewID.mostRelevant : .other)
     }
 
     @ViewBuilder private func detailsView(pair: PairViewModel) -> some View {
@@ -111,9 +106,4 @@ struct ScheduleDay: View {
             Text(title)
         }
     }
-}
-
-private enum RelevantDayViewID: Hashable {
-    case mostRelevant
-    case other
 }

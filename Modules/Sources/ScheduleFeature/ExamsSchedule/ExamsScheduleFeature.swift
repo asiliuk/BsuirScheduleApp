@@ -8,6 +8,7 @@ import Dependencies
 
 public struct ExamsScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
+        public var isOnTop: Bool = true
         var days: [ScheduleDayViewModel] = []
         fileprivate let startDate: Date?
         fileprivate let endDate: Date?
@@ -29,12 +30,18 @@ public struct ExamsScheduleFeature: ReducerProtocol {
         }
     }
 
-    public typealias Action = Never
+    public enum Action: Equatable {
+        case setIsOnTop(Bool)
+    }
 
     public init() {}
 
-    public var body: some ReducerProtocol<State, Action> {
-        EmptyReducer()
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+        switch action {
+        case .setIsOnTop(let value):
+            state.isOnTop = value
+            return .none
+        }
     }
 }
 

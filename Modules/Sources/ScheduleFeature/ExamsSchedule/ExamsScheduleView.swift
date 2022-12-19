@@ -5,12 +5,20 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 
 struct ExamsScheduleView: View {
+    struct ViewState: Equatable {
+        var isOnTop: Bool
+        var days: [ScheduleDayViewModel]
+    }
+
     let store: StoreOf<ExamsScheduleFeature>
     let pairDetails: ScheduleGridViewPairDetails
 
     var body: some View {
-        WithViewStore(store, observe: \.days) { viewStore in
-            switch viewStore.state {
+        WithViewStore(
+            store,
+            observe: { ViewState(isOnTop: $0.isOnTop, days: $0.days) }
+        ) { viewStore in
+            switch viewStore.days {
             case []:
                 ScheduleEmptyView()
             case let days:
@@ -18,7 +26,10 @@ struct ExamsScheduleView: View {
                     days: days,
                     loading: .never,
                     pairDetails: pairDetails,
-                    isOnTop: .constant(false)
+                    isOnTop: viewStore.binding(
+                        get: \.isOnTop,
+                        send: { .setIsOnTop($0) }
+                    )
                 )
             }
         }
