@@ -1,7 +1,7 @@
 import Foundation
 import BsuirApi
 
-public enum ScheduleSource: Codable {
+public enum ScheduleSource: Equatable, Codable {
     case group(name: String)
     case lector(Employee)
 }
