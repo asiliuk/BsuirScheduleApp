@@ -14,7 +14,11 @@ public struct LectorScheduleFeature: ReducerProtocol {
         @BindableState var groupSchedule: GroupScheduleFeature.State?
 
         public init(lector: Employee) {
-            self.schedule = .init(title: lector.fio, source: .lector(lector), value: lector.urlId)
+            self.schedule = .init(
+                title: lector.compactFio,
+                source: .lector(lector),
+                value: lector.urlId
+            )
             self.lector = lector
         }
     }

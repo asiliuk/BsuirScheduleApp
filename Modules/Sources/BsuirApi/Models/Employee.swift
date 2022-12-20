@@ -1,10 +1,3 @@
-//
-//  Employee.swift
-//  Pods
-//
-//  Created by Anton Siliuk on 17.01.17.
-//
-
 import Foundation
 
 public struct Employee: Codable, Equatable, Identifiable, Hashable {
@@ -55,5 +48,10 @@ extension Employee {
 
     public var compactFio: String {
         "\(lastName) \(firstName.prefix(1))\(middleName?.prefix(1) ?? "")"
+    }
+
+    // TODO: Use this to format titles inplace?
+    public var nameComponents: PersonNameComponents {
+        PersonNameComponents(givenName: firstName, middleName: middleName, familyName: lastName)
     }
 }

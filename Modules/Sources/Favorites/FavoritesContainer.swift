@@ -73,27 +73,21 @@ public final class FavoritesContainer {
 
 extension FavoritesContainer {
     public var currentGroupNames: OrderedSet<String> {
-        groupNamesStorage.persisted.value
+        get { groupNamesStorage.persisted.value }
+        set { groupNamesStorage.persisted.value = newValue }
     }
 
     public var groupNames: AnyPublisher<OrderedSet<String>, Never> {
         groupNamesStorage.publisher
     }
-    
-    public func toggle(groupNamed groupName: String) {
-        groupNamesStorage.persisted.toggle(groupName)
-    }
 
     public var currentLectorIds: OrderedSet<Int> {
-        lecturerIDsStorage.persisted.value
+        get { lecturerIDsStorage.persisted.value }
+        set { lecturerIDsStorage.persisted.value = newValue }
     }
 
     public var lecturerIds: AnyPublisher<OrderedSet<Int>, Never> {
         lecturerIDsStorage.publisher
-    }
-    
-    public func toggle(lecturerWithId id: Int) {
-        lecturerIDsStorage.persisted.toggle(id)
     }
 
     public var currentPinnedSchedule: ScheduleSource? {

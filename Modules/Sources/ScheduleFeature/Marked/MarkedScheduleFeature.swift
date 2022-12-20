@@ -31,9 +31,12 @@ public struct MarkedScheduleFeature: ReducerProtocol {
         public enum ViewAction: Equatable {
             case task
             case favoriteButtonTapped
+            case moveToFavoriteButtonTapped
             case unfavoriteButtonTapped
             case pinButtonTapped
+            case moveToPinButtonTapped
             case unpinButtonTapped
+            case unsaveButtonTapped
         }
 
         public enum ReducerAction: Equatable {
@@ -60,23 +63,28 @@ public struct MarkedScheduleFeature: ReducerProtocol {
             )
 
         case .view(.favoriteButtonTapped):
-            return .merge(
-                toggleFavorites(source: state.source),
-                .fireAndForget { reviewRequestService.madeMeaningfulEvent(.addToFavorites) }
-            )
+            return favorite(source: state.source, unpin: false)
+
+        case .view(.moveToFavoriteButtonTapped):
+            return favorite(source: state.source, unpin: true)
 
         case .view(.unfavoriteButtonTapped):
-            return toggleFavorites(source: state.source)
+            return unfavorite(source: state.source)
 
         case .view(.pinButtonTapped):
-            return .fireAndForget { [source = state.source] in
-                favorites.currentPinnedSchedule = source
-                reviewRequestService.madeMeaningfulEvent(.pin)
-            }
+            return pin(source: state.source, unfavorite: false)
+
+        case .view(.moveToPinButtonTapped):
+            return pin(source: state.source, unfavorite: true)
 
         case .view(.unpinButtonTapped):
-            // TODO: Handle move to favorites here?
-            return .fireAndForget { favorites.currentPinnedSchedule = nil }
+            return favorite(source: state.source, unpin: true)
+
+        case .view(.unsaveButtonTapped):
+            return .merge(
+                unfavorite(source: state.source),
+                unpin()
+            )
 
         case let .reducer(.setIsFavorite(value)):
             state.isFavorite = value
@@ -88,13 +96,45 @@ public struct MarkedScheduleFeature: ReducerProtocol {
         }
     }
 
-    private func toggleFavorites(source: ScheduleSource) -> EffectTask<Action> {
-        switch source {
-        case let .group(name):
-            return .fireAndForget { favorites.toggle(groupNamed: name) }
-        case let .lector(lector):
-            return .fireAndForget { favorites.toggle(lecturerWithId: lector.id) }
+    private func favorite(source: ScheduleSource, unpin: Bool) -> EffectTask<Action> {
+        return .merge(
+            .fireAndForget {
+                switch source {
+                case .group(let name):
+                    favorites.currentGroupNames.append(name)
+                case .lector(let lector):
+                    favorites.currentLectorIds.append(lector.id)
+                }
+
+                reviewRequestService.madeMeaningfulEvent(.addToFavorites)
+            },
+            unpin ? self.unpin() : .none
+        )
+    }
+
+    private func unfavorite(source: ScheduleSource) -> EffectTask<Action> {
+        return .fireAndForget {
+            switch source {
+            case .group(let name):
+                favorites.currentGroupNames.remove(name)
+            case .lector(let lector):
+                favorites.currentLectorIds.remove(lector.id)
+            }
         }
+    }
+
+    private func pin(source: ScheduleSource, unfavorite: Bool) -> EffectTask<Action> {
+        return .merge(
+            .fireAndForget {
+                favorites.currentPinnedSchedule = source
+                reviewRequestService.madeMeaningfulEvent(.pin)
+            },
+            unfavorite ? self.unfavorite(source: source) : .none
+        )
+    }
+
+    private func unpin() -> EffectTask<Action> {
+        .fireAndForget { favorites.currentPinnedSchedule = nil }
     }
 
     private func observeIsPinned(source: ScheduleSource) -> EffectTask<Action> {
