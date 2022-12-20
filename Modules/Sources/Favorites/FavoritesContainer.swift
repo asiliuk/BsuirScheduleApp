@@ -1,6 +1,7 @@
 import Foundation
-import BsuirApi
 import BsuirCore
+import BsuirApi
+import ScheduleCore
 import Collections
 import Combine
 import Dependencies
@@ -37,7 +38,7 @@ public final class FavoritesContainer {
 
     private lazy var pinnedScheduleStorage = storage
         .persistedDictionary(forKey: "pinned-schedule")
-        .codable(PinnedSchedule.self)
+        .codable(ScheduleSource.self)
         .withPublisher()
 
     init(storage: UserDefaults, legacyStorage: UserDefaults) {
@@ -95,12 +96,12 @@ extension FavoritesContainer {
         lecturerIDsStorage.persisted.toggle(id)
     }
 
-    public var currentPinnedSchedule: PinnedSchedule? {
+    public var currentPinnedSchedule: ScheduleSource? {
         get { pinnedScheduleStorage.persisted.value }
         set { pinnedScheduleStorage.persisted.value = newValue }
     }
 
-    public var pinnedSchedule: AnyPublisher<PinnedSchedule?, Never> {
+    public var pinnedSchedule: AnyPublisher<ScheduleSource?, Never> {
         pinnedScheduleStorage.publisher
     }
 }

@@ -1,14 +1,14 @@
 import Foundation
 import BsuirApi
 
-public enum PinnedSchedule: Codable {
+public enum ScheduleSource: Codable {
     case group(name: String)
     case lector(Employee)
 }
 
 // MARK: - Checks
 
-extension PinnedSchedule {
+extension ScheduleSource {
     public func isGroup(named name: String) -> Bool {
         guard case .group(name) = self else {
             return false

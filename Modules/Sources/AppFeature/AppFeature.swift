@@ -4,6 +4,7 @@ import LecturersFeature
 import AboutFeature
 import Deeplinking
 import Favorites
+import ScheduleCore
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import EntityScheduleFeature
@@ -35,7 +36,7 @@ public struct AppFeature: ReducerProtocol {
         case handleDeeplink(URL)
         case setSelection(CurrentSelection)
         case setOverlay(CurrentOverlay?)
-        case setPinnedSchedule(PinnedSchedule?)
+        case setPinnedSchedule(ScheduleSource?)
         case showAboutButtonTapped
 
         case pinned(PinnedScheduleFeature.Action)
@@ -173,7 +174,7 @@ private extension AppFeature.State {
     }
 }
 
-private extension PinnedSchedule {
+private extension ScheduleSource {
     var tabTitle: String {
         switch self {
         case let .group(name):
@@ -185,7 +186,7 @@ private extension PinnedSchedule {
 }
 
 private extension AppFeature.State.Pinned {
-    init(_ pinned: PinnedSchedule) {
+    init(_ pinned: ScheduleSource) {
         self.init(
             title: pinned.tabTitle,
             schedule: .init(pinned: pinned)

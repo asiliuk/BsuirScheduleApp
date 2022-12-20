@@ -1,5 +1,6 @@
 import Foundation
 import Favorites
+import ScheduleCore
 import ComposableArchitecture
 
 public struct PinnedScheduleFeature: ReducerProtocol {
@@ -7,7 +8,7 @@ public struct PinnedScheduleFeature: ReducerProtocol {
         case group(GroupScheduleFeature.State)
         case lector(LectorScheduleFeature.State)
 
-        public init(pinned: PinnedSchedule) {
+        public init(pinned: ScheduleSource) {
             switch pinned {
             case let .group(groupName):
                 self = .group(.init(groupName: groupName))

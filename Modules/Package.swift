@@ -84,7 +84,7 @@ let package = Package(
         ),
         .target(
             name: "Favorites",
-            dependencies: ["BsuirApi", "BsuirCore", .swiftCollections, .tcaDependencies]
+            dependencies: ["BsuirCore", "ScheduleCore", .swiftCollections, .tcaDependencies]
         ),
         .target(
             name: "Deeplinking",
