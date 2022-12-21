@@ -73,9 +73,9 @@ private extension MarkedScheduleFeature.Action {
         case .task:
             self = .view(.task)
         case .setSelection(.pinned):
-            self = .view(.moveToPinButtonTapped)
+            self = .view(.pinButtonTapped)
         case .setSelection(.favorite):
-            self = .view(.moveToFavoriteButtonTapped)
+            self = .view(.favoriteButtonTapped)
         case .setSelection(.nothing):
             self = .view(.unsaveButtonTapped)
         }
