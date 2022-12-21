@@ -51,6 +51,7 @@ private struct LoadingGroupsView: View {
         ) { store in
             WithViewStore(store) { sectionsViewStore in
                 GroupsContentView(
+                    pinned: viewStore.pinned,
                     favorites: viewStore.favorites,
                     sections: sectionsViewStore.state,
                     select: { viewStore.send(.groupTapped(name: $0)) },

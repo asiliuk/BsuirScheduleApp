@@ -29,12 +29,14 @@
 "screen.groups.search.suggested.noCourse" = "Без курсу";
 "screen.groups.navigation.title" = "Всі групи";
 "screen.groups.favorites.section.header" = "⭐️ Вибрані";
+"screen.groups.pinned.section.header" = "📌 Закріплене";
 
 // MARK: - Lecturers
 
 "screen.lecturers.search.placeholder" = "Знайти викладача";
 "screen.lecturers.navigation.title" = "Всі викладачі";
 "screen.lecturers.favorites.section.header" = "⭐️ Вибрані";
+"screen.lecturers.pinned.section.header" = "📌 Закріплене";
 
 // MARK: - About
 

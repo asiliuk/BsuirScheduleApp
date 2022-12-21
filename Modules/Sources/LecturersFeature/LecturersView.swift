@@ -51,6 +51,7 @@ private struct LoadingLecturersView: View {
         ) { store in
             WithViewStore(store) { lecturersViewStore in
                 LecturersContentView(
+                    pinned: viewStore.pinned,
                     favorites: viewStore.favorites,
                     lecturers: lecturersViewStore.state,
                     select: { viewStore.send(.lecturerTapped($0)) },

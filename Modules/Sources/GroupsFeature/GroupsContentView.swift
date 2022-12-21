@@ -3,6 +3,7 @@ import BsuirApi
 import BsuirUI
 
 struct GroupsContentView: View {
+    let pinned: String?
     let favorites: [String]
     let sections: [GroupsFeature.State.Section]
     let select: (String) -> Void
@@ -13,8 +14,17 @@ struct GroupsContentView: View {
         List {
             ScrollTopIdentifyingView()
 
+            if let pinned {
+                Section("screen.groups.pinned.section.header") {
+                    GroupLinksView(
+                        groups: [pinned],
+                        select: select
+                    )
+                }
+            }
+
             if !favorites.isEmpty {
-                Section(header: Text("screen.groups.favorites.section.header")) {
+                Section("screen.groups.favorites.section.header") {
                     GroupLinksView(
                         groups: favorites,
                         select: select

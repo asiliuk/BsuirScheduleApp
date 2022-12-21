@@ -17,6 +17,12 @@ public struct LecturersFeature: ReducerProtocol {
         @BindableState var lectorSchedule: LectorScheduleFeature.State?
 
         var favorites: IdentifiedArrayOf<Employee> { lecturers?.filter { favoriteIds.contains($0.id) } ?? [] }
+
+        fileprivate(set) var pinned: Employee? = {
+            @Dependency(\.favorites.currentPinnedSchedule) var pinned
+            return pinned?.lector
+        }()
+
         fileprivate(set) var favoriteIds: OrderedSet<Int> = {
             @Dependency(\.favorites.currentLectorIds) var currentLectorIds
             return currentLectorIds
@@ -40,6 +46,7 @@ public struct LecturersFeature: ReducerProtocol {
         
         public enum ReducerAction: Equatable {
             case favoritesUpdate(OrderedSet<Int>)
+            case pinnedUpdate(Employee?)
             case lectorSchedule(LectorScheduleFeature.Action)
         }
         
@@ -61,7 +68,10 @@ public struct LecturersFeature: ReducerProtocol {
         Reduce { state, action in
             switch action {
             case .view(.task):
-                return listenToFavoriteUpdates()
+                return .merge(
+                    listenToFavoriteUpdates(),
+                    listenToPinnedUpdates()
+                )
                 
             case let .view(.lecturerTapped(lector)):
                 state.lectorSchedule = .init(lector: lector)
@@ -82,6 +92,10 @@ public struct LecturersFeature: ReducerProtocol {
                 
             case let .reducer(.favoritesUpdate(value)):
                 state.favoriteIds = value
+                return .none
+
+            case let .reducer(.pinnedUpdate(value)):
+                state.pinned = value
                 return .none
 
             case .binding(\.$searchQuery):
@@ -118,6 +132,14 @@ public struct LecturersFeature: ReducerProtocol {
         return .run { send in
             for await value in favorites.lecturerIds.values {
                 await send(.reducer(.favoritesUpdate(value)), animation: .default)
+            }
+        }
+    }
+
+    private func listenToPinnedUpdates() -> EffectTask<Action> {
+        return .run { send in
+            for await value in favorites.pinnedSchedule.map(\.?.lector).removeDuplicates().values {
+                await send(.reducer(.pinnedUpdate(value)), animation: .default)
             }
         }
     }

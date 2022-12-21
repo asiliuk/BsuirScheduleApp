@@ -9,19 +9,21 @@ public enum ScheduleSource: Equatable, Codable {
 // MARK: - Checks
 
 extension ScheduleSource {
-    public func isGroup(named name: String) -> Bool {
-        guard case .group(name) = self else {
-            return false
+    public var groupName: String? {
+        switch self {
+        case .group(let name):
+            return name
+        case .lector:
+            return nil
         }
-
-        return true
     }
 
-    public func isLector(id: Int) -> Bool {
-        guard case let .lector(lector) = self, lector.id == id else {
-            return false
+    public var lector: Employee? {
+        switch self {
+        case .lector(let lector):
+            return lector
+        case .group:
+            return nil
         }
-
-        return true
     }
 }

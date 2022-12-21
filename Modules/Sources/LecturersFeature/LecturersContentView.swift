@@ -4,6 +4,7 @@ import BsuirUI
 import IdentifiedCollections
 
 struct LecturersContentView: View {
+    let pinned: Employee?
     let favorites: IdentifiedArrayOf<Employee>
     let lecturers: IdentifiedArrayOf<Employee>
     let select: (Employee) -> Void
@@ -13,9 +14,18 @@ struct LecturersContentView: View {
     var body: some View {
         List {
             ScrollTopIdentifyingView()
+
+            if let pinned {
+                Section("screen.lecturers.pinned.section.header") {
+                    EmployeeLinksView(
+                        lecturers: [pinned],
+                        select: select
+                    )
+                }
+            }
             
             if !favorites.isEmpty {
-                Section(header: Text("screen.lecturers.favorites.section.header")) {
+                Section("screen.lecturers.favorites.section.header") {
                     EmployeeLinksView(
                         lecturers: favorites,
                         select: select
