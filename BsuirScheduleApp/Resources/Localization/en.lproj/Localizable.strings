@@ -89,8 +89,10 @@
 
 "screen.schedule.placeholder.title" = "Please select a schedule to display...";
 
-"screen.schedule.favorite.accessibility.remove" = "Remove from favorites";
-"screen.schedule.favorite.accessibility.add" = "Add to favorites";
+"screen.schedule.mark.pin" = "Pin";
+"screen.schedule.mark.favorite" = "Favorite";
+"screen.schedule.mark.dontSave" = "Don't save";
+"screen.schedule.mark.title" = "Schedule mark";
 
 "screen.schedule.scheduleTypePicker.title" = "Schedule type";
 "screen.schedule.scheduleType.schedule" = "Schedule";

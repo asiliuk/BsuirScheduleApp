@@ -87,8 +87,10 @@
 
 "screen.schedule.placeholder.title" = "Будь ласка, виберіть розклад, щоб відобразити...";
 
-"screen.schedule.favorite.accessibility.remove" = "Прибрати з вибраного";
-"screen.schedule.favorite.accessibility.add" = "Додати до вибраного";
+"screen.schedule.mark.pin" = "Закріпити";
+"screen.schedule.mark.favorite" = "Вибране";
+"screen.schedule.mark.dontSave" = "Не зберігати";
+"screen.schedule.mark.title" = "Мітка";
 
 "screen.schedule.scheduleTypePicker.title" = "Тип розкладу";
 "screen.schedule.scheduleType.schedule" = "Розклад";

@@ -1,8 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-// TODO: Localize!!!
-
 struct MarkedSchedulePickerView: View {
     enum ViewState: Identifiable, Hashable, CaseIterable {
         var id: Self { self }
@@ -21,7 +19,7 @@ struct MarkedSchedulePickerView: View {
     var body: some View {
         WithViewStore(store, observe: ViewState.init, send: MarkedScheduleFeature.Action.init) { viewStore in
             Picker(
-                "Schedule mark",
+                "screen.schedule.mark.title",
                 selection: viewStore.binding(
                     get: { $0 },
                     send: { .setSelection($0) }
@@ -40,11 +38,11 @@ private extension MarkedSchedulePickerView.ViewState {
     func label(selected: Bool) -> some View {
         switch self {
         case .pinned:
-            Label("Pin", systemImage: selected ? "pin.fill" : "pin")
+            Label("screen.schedule.mark.pin", systemImage: selected ? "pin.fill" : "pin")
         case .favorite:
-            Label("Favorite", systemImage: selected ? "star.fill" : "star")
+            Label("screen.schedule.mark.favorite", systemImage: selected ? "star.fill" : "star")
         case .nothing:
-            Label("Don't save", systemImage: "square.dashed")
+            Label("screen.schedule.mark.dontSave", systemImage: "square.dashed")
         }
     }
 

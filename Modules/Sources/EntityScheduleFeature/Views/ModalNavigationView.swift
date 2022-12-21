@@ -8,7 +8,7 @@ struct ModalNavigationView<Content: View>: View {
         NavigationView {
             content
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
+                    ToolbarItem(placement: .navigation) {
                         Button(
                             action: { dismiss() },
                             label: { Image(systemName: "xmark") }

@@ -87,8 +87,10 @@
 
 "screen.schedule.placeholder.title" = "Пожалуйста, выберите расписание чтобы отобразить...";
 
-"screen.schedule.favorite.accessibility.remove" = "Убрать из избранного";
-"screen.schedule.favorite.accessibility.add" = "Добавить в избранное";
+"screen.schedule.mark.pin" = "Закрепить";
+"screen.schedule.mark.favorite" = "Избранное";
+"screen.schedule.mark.dontSave" = "Не сохранять";
+"screen.schedule.mark.title" = "Метка";
 
 "screen.schedule.scheduleTypePicker.title" = "Тип расписания";
 "screen.schedule.scheduleType.schedule" = "Расписание";
