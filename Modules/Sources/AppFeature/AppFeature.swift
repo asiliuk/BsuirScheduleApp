@@ -60,8 +60,7 @@ public struct AppFeature: ReducerProtocol {
                 }
 
             case let .setSelection(value):
-                updateSelection(state: &state, value)
-                state.selection = value
+                state.updateSelection(value)
                 return .none
 
             case let .setOverlay(value):
@@ -83,7 +82,7 @@ public struct AppFeature: ReducerProtocol {
             case let .handleDeeplink(url):
                 do {
                     let deeplink = try deeplinkRouter.match(url: url)
-                    handleDeepling(state: &state, deeplink: deeplink)
+                    handleDeeplink(state: &state, deeplink: deeplink)
                 } catch {
                     assertionFailure("Failed to parse deeplink. \(error.localizedDescription)")
                 }
@@ -111,46 +110,53 @@ public struct AppFeature: ReducerProtocol {
             AboutFeature()
         }
     }
+}
 
-    private func handleDeepling(state: inout State, deeplink: Deeplink) {
+// MARK: - Deeplink
+
+
+private extension AppFeature {
+
+    func handleDeeplink(state: inout State, deeplink: Deeplink) {
         switch deeplink {
         case .groups:
             state.selection = .groups
             state.groups.reset()
         case let .group(name):
-            state.selection = .groups
-            state.groups.openGroup(named: name)
+            handleDeeplink(state: &state, groupName: name)
         case .lecturers:
             state.selection = .lecturers
             state.lecturers.reset()
         case let .lector(id):
-            state.selection = .lecturers
-            state.lecturers.openLector(id: id)
+            handleDeeplink(state: &state, lectorId: id)
         case .about:
             state.selection = .about
             state.about.reset()
         }
     }
 
-    private func updateSelection(state: inout State, _ newValue: CurrentSelection) {
-        guard newValue == state.selection else {
-            state.selection = newValue
-            return
+    func handleDeeplink(state: inout State, groupName: String) {
+        switch favorites.currentPinnedSchedule {
+        case .group(groupName):
+            state.selection = .pinned
+        case .group, .lector, nil:
+            state.selection = .groups
+            state.groups.openGroup(named: groupName)
         }
+    }
 
-        // Handle tap on already selected tab
-        switch newValue {
-        case .pinned:
-            state.pinned?.schedule.reset()
-        case .groups:
-            state.groups.reset()
-        case .lecturers:
-            state.lecturers.reset()
-        case .about:
-            state.about.reset()
+    func handleDeeplink(state: inout State, lectorId: Int) {
+        switch favorites.currentPinnedSchedule {
+        case .lector(let lector) where lector.id == lectorId:
+            state.selection = .pinned
+        case .lector, .group, nil:
+            state.selection = .lecturers
+            state.lecturers.openLector(id: lectorId)
         }
     }
 }
+
+// MARK: - Selection
 
 private extension AppFeature.State {
     mutating func handleInitialSelection(favorites: FavoritesContainer) {
@@ -172,7 +178,28 @@ private extension AppFeature.State {
             return
         }
     }
+
+    mutating func updateSelection(_ newValue: CurrentSelection) {
+        guard newValue == selection else {
+            selection = newValue
+            return
+        }
+
+        // Handle tap on already selected tab
+        switch newValue {
+        case .pinned:
+            pinned?.schedule.reset()
+        case .groups:
+            groups.reset()
+        case .lecturers:
+            lecturers.reset()
+        case .about:
+            about.reset()
+        }
+    }
 }
+
+// MARK: - Helpers
 
 private extension ScheduleSource {
     var tabTitle: String {
