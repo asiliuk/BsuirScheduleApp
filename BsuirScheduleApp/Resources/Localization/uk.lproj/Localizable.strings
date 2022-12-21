@@ -104,12 +104,6 @@
 
 "screen.schedule.noMorePairs.title" = "Занять більше немає 🎉";
 
-// TODO: - Remove when exams are supported
-"screen.schedule.unsupportedExams.title" = "Приношу глибокі вибачення";
-"screen.schedule.unsupportedExams.subject" = "На даний момент розклад іспитів не підтримується";
-"screen.schedule.unsupportedExams.auditory" = "Довелося тимчасово прибрати цю фічу тому що немає часу переїхати на новий API";
-"screen.schedule.unsupportedExams.subject2" = "Але ви можете мені допомогти";
-
 // MARK: - Loading
 
 "view.loadingState.title" = "Завантаження...";

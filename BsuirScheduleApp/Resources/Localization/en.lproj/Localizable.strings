@@ -106,12 +106,6 @@
 
 "screen.schedule.noMorePairs.title" = "No more pairs 🎉";
 
-// TODO: - Remove when exams are supported
-"screen.schedule.unsupportedExams.title" = "My deepest apologies";
-"screen.schedule.unsupportedExams.subject" = "The exam schedule is not currently supported";
-"screen.schedule.unsupportedExams.auditory" = "I had to temporarily remove this feature because there is no time to move to a new API";
-"screen.schedule.unsupportedExams.subject2" = "But you can help me";
-
 // MARK: - Loading
 
 "view.loadingState.title" = "Loading...";
