@@ -22,9 +22,7 @@ struct ScheduleGridView: View {
     @Binding var isOnTop: Bool
 
     var body: some View {
-        List {
-            ScrollTopIdentifyingView()
-
+        ScrollableToTopList(isOnTop: $isOnTop) {
             Group {
                 ForEach(days) { day in
                     ScheduleDay(
@@ -53,7 +51,6 @@ struct ScheduleGridView: View {
         .listStyle(.plain)
         // To disable cell celection
         .buttonStyle(PlainButtonStyle())
-        .scrollableToTop(isOnTop: $isOnTop)
     }
 }
 

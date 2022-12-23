@@ -29,11 +29,8 @@ public struct LecturersView: View {
             }
             .navigationTitle("screen.lecturers.navigation.title")
             .task { await viewStore.send(.task).finish() }
-            .task(id: viewStore.searchQuery) {
-                do {
-                    try await Task.sleep(nanoseconds: 300_000_000)
-                    await viewStore.send(.filterLecturers, animation: .default).finish()
-                } catch {}
+            .task(id: viewStore.searchQuery, throttleFor: 300_000_000) {
+                await viewStore.send(.filterLecturers, animation: .default).finish()
             }
         }
     }
@@ -55,14 +52,14 @@ private struct LoadingLecturersView: View {
                     favorites: viewStore.favorites,
                     lecturers: lecturersViewStore.state,
                     select: { viewStore.send(.lecturerTapped($0)) },
-                    dismissSearch: viewStore.dismissSearch
+                    dismissSearch: viewStore.dismissSearch,
+                    isOnTop: viewStore.binding(\.$isOnTop)
                 )
                 .refreshable { await lecturersViewStore.send(.refresh).finish() }
                 .searchable(
                     text: viewStore.binding(\.$searchQuery),
                     prompt: Text("screen.lecturers.search.placeholder")
                 )
-                .scrollableToTop(isOnTop: viewStore.binding(\.$isOnTop))
             }
         } loading: {
             LecturersPlaceholderView(numberOfFavorites: viewStore.favoriteIds.count)

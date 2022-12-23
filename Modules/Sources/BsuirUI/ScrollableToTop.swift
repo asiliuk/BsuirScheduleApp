@@ -1,69 +1,60 @@
 import SwiftUI
+import Introspect
 
-enum ScrollInitialPositionID {}
+public struct ScrollableToTopList<Content: View>: View {
+    let content: Content
+    @Binding var isOnTop: Bool
+    @StateObject private var scrollModel = ScrollModel()
+    private struct InitialPositionID: Hashable {}
 
-/// Put tthis empty view as first element in ScrollView\List to be able to scroll to it.
-public struct ScrollTopIdentifyingView: View {
-    public init() {}
+    public init(isOnTop: Binding<Bool>, @ViewBuilder content: () -> Content) {
+        self.content = content()
+        self._isOnTop = isOnTop
+    }
 
     public var body: some View {
-        EmptyView()
-            .id(ObjectIdentifier(ScrollInitialPositionID.self))
-    }
-}
-
-extension View {
-    public func scrollableToTop(
-        isOnTop: Binding<Bool>,
-        updateOnAppear: Bool = false
-    ) -> some View {
-        scrollableToTop(
-            id: ObjectIdentifier(ScrollInitialPositionID.self),
-            isOnTop: isOnTop,
-            // For empty view bottom anchor works better
-            anchor: .bottom,
-            updateOnAppear: updateOnAppear
-        )
-    }
-
-    public func scrollableToTop<TopId: Hashable>(
-        id: TopId,
-        isOnTop: Binding<Bool>,
-        anchor: UnitPoint? = .top,
-        updateOnAppear: Bool = false
-    ) -> some View {
-        self.modifier(ScrollableToTopModifier(isOnTop: isOnTop, topId: id, anchor: anchor, updateOnAppear: updateOnAppear))
-    }
-}
-
-struct ScrollableToTopModifier<TopId: Hashable>: ViewModifier {
-    @Binding var isOnTop: Bool
-    let topId: TopId
-    let anchor: UnitPoint?
-    let updateOnAppear: Bool
-
-    func body(content: Content) -> some View {
         ScrollViewReader { proxy in
-            content
-                .onAppear {
-                    if isOnTop, updateOnAppear {
-                        scrollToTop(proxy: proxy)
-                    }
-                }
-                .onChange(of: isOnTop) { needsToScroll in
-                    if needsToScroll {
-                        withAnimation {
-                            scrollToTop(proxy: proxy)
-                        }
-                    }
-                }
-                .gesture(DragGesture().onChanged { _ in
-                    isOnTop = false
-                })
+            List {
+                EmptyView()
+                    .id(InitialPositionID())
+
+                content
+                    .introspectScrollView(customize: scrollModel.bind(to:))
+            }
+            .onChange(of: isOnTop) { needsToScroll in
+                guard needsToScroll, !scrollModel.isDragging else { return }
+                withAnimation { proxy.scrollTo(InitialPositionID(), anchor: .bottom) }
+            }
+            .onChange(of: scrollModel.isDragging) { newValue in
+                if newValue { isOnTop = false }
+            }
         }
     }
+}
 
-    private func scrollToTop(proxy: ScrollViewProxy) {
-        proxy.scrollTo(topId, anchor: anchor)
+// MARK: - ScrollModel
+
+// TODO: Find a way to sync `isOnTop` with actual `contentOffset` so it would be more correct
+private final class ScrollModel: ObservableObject {
+    private var scrollView: UIScrollView?
+    @Published var isDragging: Bool = false
+
+    func bind(to scrollView: UIScrollView) {
+        guard scrollView != self.scrollView else { return }
+        self.scrollView = scrollView
+        scrollView.panGestureRecognizer.addTarget(self, action: #selector(didScroll))
+    }
+
+    @objc private func didScroll(_ gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .began, .changed:
+            isDragging = true
+        case .ended, .failed, .cancelled:
+            isDragging = false
+        case .possible:
+            break
+        @unknown default:
+            break
+        }
     }
 }

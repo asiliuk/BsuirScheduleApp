@@ -45,7 +45,8 @@ let package = Package(
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.4.0"),
          .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.47.2"),
          .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.4.0"),
-         .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0")
+         .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
+         .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.1.4"),
     ],
     targets: [
         // MARK: - Features
@@ -100,7 +101,7 @@ let package = Package(
             dependencies: [.tca]),
         .target(
             name: "BsuirUI",
-            dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .tcaDependencies]),
+            dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .tcaDependencies, .introspect]),
         .target(
             name: "ScheduleCore",
             dependencies: ["BsuirApi", .tcaDependencies]),
@@ -125,4 +126,5 @@ private extension Target.Dependency {
     static let tca: Self = .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
     static let tcaDependencies: Self = .product(name: "Dependencies", package: "swift-composable-architecture")
     static let swiftCollections: Self = .product(name: "Collections", package: "swift-collections")
+    static let introspect: Self = .product(name: "Introspect", package: "SwiftUI-Introspect")
 }

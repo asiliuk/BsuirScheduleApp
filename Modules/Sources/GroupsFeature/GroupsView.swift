@@ -20,11 +20,8 @@ public struct GroupsView: View {
             )
             .navigationTitle("screen.groups.navigation.title")
             .task { await viewStore.send(.task).finish() }
-            .task(id: viewStore.searchQuery) {
-                do {
-                    try await Task.sleep(nanoseconds: 300_000_000)
-                    await viewStore.send(.filterGroups, animation: .default).finish()
-                } catch {}
+            .task(id: viewStore.searchQuery, throttleFor: 300_000_000) {
+                await viewStore.send(.filterGroups, animation: .default).finish()
             }
             .navigation(item: viewStore.binding(\.$groupSchedule)) { _ in
                 IfLetStore(
@@ -55,7 +52,8 @@ private struct LoadingGroupsView: View {
                     favorites: viewStore.favorites,
                     sections: sectionsViewStore.state,
                     select: { viewStore.send(.groupTapped(name: $0)) },
-                    dismissSearch: viewStore.dismissSearch
+                    dismissSearch: viewStore.dismissSearch,
+                    isOnTop: viewStore.binding(\.$isOnTop)
                 )
                 .refreshable { await sectionsViewStore.send(.refresh).finish() }
                 .modifier(StudentGroupSearchable(
@@ -64,7 +62,6 @@ private struct LoadingGroupsView: View {
                     tokens: viewStore.binding(\.$searchTokens),
                     suggestedTokens: viewStore.binding(\.$searchSuggestedTokens)
                 ))
-                .scrollableToTop(isOnTop: viewStore.binding(\.$isOnTop))
             }
         } loading: {
             GroupsPlaceholderView(numberOfFavorites: viewStore.favorites.count)

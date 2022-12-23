@@ -10,11 +10,10 @@ struct LecturersContentView: View {
     let select: (Employee) -> Void
     let dismissSearch: Bool
     @Environment(\.dismissSearch) private var dismissSearchAction
+    @Binding var isOnTop: Bool
     
     var body: some View {
-        List {
-            ScrollTopIdentifyingView()
-
+        ScrollableToTopList(isOnTop: $isOnTop) {
             if let pinned {
                 Section("screen.lecturers.pinned.section.header") {
                     EmployeeLinksView(
