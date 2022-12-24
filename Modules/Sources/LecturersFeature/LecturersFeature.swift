@@ -111,7 +111,7 @@ public struct LecturersFeature: ReducerProtocol {
         .load(\.$loadedLecturers) { _, isRefresh in
             try await IdentifiedArray(uniqueElements: apiClient.lecturers(ignoreCache: isRefresh))
         }
-        .ifLet(\.lectorSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.lectorSchedule)) {
+        .ifLet(\.lectorSchedule, reducerAction: /Action.ReducerAction.lectorSchedule) {
             LectorScheduleFeature()
         }
         

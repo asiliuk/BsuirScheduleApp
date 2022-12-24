@@ -58,11 +58,11 @@ public struct LectorScheduleFeature: ReducerProtocol {
                 return .none
             }
         }
-        .ifLet(\.groupSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.groupSchedule)) {
+        .ifLet(\.groupSchedule, reducerAction: /Action.ReducerAction.groupSchedule) {
             GroupScheduleFeature()
         }
         
-        Scope(state: \.schedule, action: /Action.ReducerAction.schedule) {
+        Scope(state: \.schedule, reducerAction: /Action.ReducerAction.schedule) {
             ScheduleFeature { urlId, isRefresh in
                 try await ScheduleRequestResponse(response: apiClient.lecturerSchedule(urlId: urlId, ignoreCache: isRefresh))
             }

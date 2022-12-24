@@ -104,7 +104,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
             try await LoadedScheduleReducer.State(response: fetch(state.value, isRefresh))
         }
 
-        Scope(state: \State.mark, action: /Action.ReducerAction.mark) {
+        Scope(state: \State.mark, reducerAction: /Action.ReducerAction.mark) {
             MarkedScheduleFeature()
         }
     }

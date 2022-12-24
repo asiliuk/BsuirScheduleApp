@@ -13,7 +13,7 @@ public struct GroupScheduleView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             ScheduleFeatureView(
-                store: store.scope(state: \.schedule, action: { .schedule($0) }),
+                store: store.scope(state: \.schedule, reducerAction: { .schedule($0) }),
                 schedulePairDetails: .lecturers {
                     viewStore.send(.lectorTapped($0))
                 }
@@ -21,7 +21,7 @@ public struct GroupScheduleView: View {
             .sheet(item: viewStore.binding(\.$lectorSchedule)) { _ in
                 ModalNavigationView {
                     IfLetStore(
-                        store.scope(state: \.lectorSchedule?.value, action: { .lectorSchedule($0) })
+                        store.scope(state: \.lectorSchedule?.value, reducerAction: { .lectorSchedule($0) })
                     ) { store in
                         LectorScheduleView(store: store)
                     }

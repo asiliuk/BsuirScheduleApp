@@ -19,7 +19,7 @@ public struct AboutView: View {
                 PairFormsColorPickerView(
                     store: store.scope(
                         state: \.pairFormsColorPicker,
-                        action: { .pairFormsColorPicker($0) }
+                        reducerAction: { .pairFormsColorPicker($0) }
                     )
                 )
 
@@ -30,7 +30,7 @@ public struct AboutView: View {
                 AppIconPickerView(
                     store: store.scope(
                         state: \.appIcon,
-                        action: { .appIcon($0) }
+                        reducerAction: { .appIcon($0) }
                     )
                 )
                 
@@ -107,14 +107,14 @@ private struct ReachabilitySectionView: View {
         ReachabilityView(
             store: store.scope(
                 state: \.iisReachability,
-                action: { .iisReachability($0) }
+                reducerAction: { .iisReachability($0) }
             )
         )
 
         ReachabilityView(
             store: store.scope(
                 state: \.appleReachability,
-                action: { .appleReachability($0) }
+                reducerAction: { .appleReachability($0) }
             )
         )
     }

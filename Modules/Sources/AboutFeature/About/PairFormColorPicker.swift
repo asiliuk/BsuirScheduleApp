@@ -48,10 +48,7 @@ public struct PairFormsColorPicker: ReducerProtocol {
                 return .none
             }
         }
-        .forEach(
-            \.pairFormColorPickers,
-             action: (/Action.reducer).appending(path: /Action.ReducerAction.pairFormColorPickers)
-        ) {
+        .forEach(\.pairFormColorPickers, reducerAction: /Action.ReducerAction.pairFormColorPickers) {
             PairFormColorPicker()
         }
     }

@@ -57,13 +57,13 @@ public struct GroupScheduleFeature: ReducerProtocol {
                 return .none
             }
         }
-        .ifLet(\.lectorSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.lectorSchedule)) {
+        .ifLet(\.lectorSchedule, reducerAction: /Action.ReducerAction.lectorSchedule) {
             Scope(state: \.value, action: .self) {
                 LectorScheduleFeature()
             }
         }
         
-        Scope(state: \.schedule, action: /Action.ReducerAction.schedule) {
+        Scope(state: \.schedule, reducerAction: /Action.ReducerAction.schedule) {
             ScheduleFeature { name, isRefresh in
                 try await ScheduleRequestResponse(response: apiClient.groupSchedule(name: name, ignoreCache: isRefresh))
             }

@@ -124,7 +124,7 @@ public struct GroupsFeature: ReducerProtocol {
             }
         }
         .load(\.$loadedGroups) { _, isRefresh in try await apiClient.groups(ignoreCache: isRefresh) }
-        .ifLet(\.groupSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.groupSchedule)) {
+        .ifLet(\.groupSchedule, reducerAction: /Action.ReducerAction.groupSchedule) {
             GroupScheduleFeature()
         }
     }

@@ -88,19 +88,19 @@ public struct AboutFeature: ReducerProtocol {
             }
         }
         
-        Scope(state: \.appIcon, action: /Action.ReducerAction.appIcon) {
+        Scope(state: \.appIcon, reducerAction: /Action.ReducerAction.appIcon) {
             AppIconPickerReducer()
         }
 
-        Scope(state: \.pairFormsColorPicker, action: /Action.ReducerAction.pairFormsColorPicker) {
+        Scope(state: \.pairFormsColorPicker, reducerAction: /Action.ReducerAction.pairFormsColorPicker) {
             PairFormsColorPicker()
         }
 
-        Scope(state: \.iisReachability, action: /Action.ReducerAction.iisReachability) {
+        Scope(state: \.iisReachability, reducerAction: /Action.ReducerAction.iisReachability) {
             ReachabilityFeature()
         }
 
-        Scope(state: \.appleReachability, action: /Action.ReducerAction.appleReachability) {
+        Scope(state: \.appleReachability, reducerAction: /Action.ReducerAction.appleReachability) {
             ReachabilityFeature()
         }
 
