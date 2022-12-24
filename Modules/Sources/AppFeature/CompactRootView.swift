@@ -31,7 +31,7 @@ struct CompactRootView: View {
                 }
 
                 NavigationView {
-                    GroupsView(
+                    GroupsFeatureView(
                         store: store.scope(
                             state: \.groups,
                             action: AppFeature.Action.groups

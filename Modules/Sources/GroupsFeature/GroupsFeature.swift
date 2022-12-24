@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import BsuirApi
 import BsuirCore
 import EntityScheduleFeature
@@ -8,6 +9,7 @@ import ComposableArchitectureUtils
 import Favorites
 import ScheduleFeature
 import Collections
+import IdentifiedCollections
 import os.log
 
 enum StrudentGroupSearchToken: Hashable, Identifiable {
@@ -20,53 +22,46 @@ enum StrudentGroupSearchToken: Hashable, Identifiable {
 
 public struct GroupsFeature: ReducerProtocol {
     public struct State: Equatable {
-        struct Section: Equatable, Identifiable {
-            var id: String { title }
-            let title: String
-            let groups: [StudentGroup]
-        }
+        @LoadableState var sections: IdentifiedArrayOf<GroupSection.State>?
+        var search: GroupSearch.State = .init()
+        var isOnTop: Bool = true
+        var groupSchedule: GroupScheduleFeature.State?
 
-        @BindableState var searchTokens: [StrudentGroupSearchToken] = []
-        @BindableState var searchSuggestedTokens: [StrudentGroupSearchToken] = []
-        @BindableState var searchQuery: String = ""
-        var dismissSearch: Bool = false
-        @BindableState var isOnTop: Bool = true
-
-        @BindableState var groupSchedule: GroupScheduleFeature.State?
-
-        fileprivate(set) var pinned: String?  = {
+        fileprivate(set) var pinned: GroupSection.State? = {
             @Dependency(\.favorites.currentPinnedSchedule) var pinned
-            return pinned?.groupName
+            return (pinned?.groupName).flatMap(GroupSection.State.pinned)
         }()
 
-        fileprivate(set) var favorites: [String] = {
+        fileprivate(set) var favorites: GroupSection.State? = {
             @Dependency(\.favorites.currentGroupNames) var favorites
-            return Array(favorites)
+            return .favorites(Array(favorites))
         }()
 
-        @LoadableState var sections: [Section]?
         @LoadableState var loadedGroups: [StudentGroup]?
         
         public init() {}
     }
     
-    public enum Action: Equatable, FeatureAction, BindableAction, LoadableAction {
+    public enum Action: Equatable, FeatureAction, LoadableAction {
         public enum ViewAction: Equatable {
             case task
-            case groupTapped(name: String)
-            case filterGroups
+            case setIsOnTop(Bool)
+            case setGroupSchedule(GroupScheduleFeature.State?)
         }
         
         public enum ReducerAction: Equatable {
             case favoritesUpdate(OrderedSet<String>)
             case pinnedUpdate(String?)
             case groupSchedule(GroupScheduleFeature.Action)
+            case pinned(GroupSection.Action)
+            case favorites(GroupSection.Action)
+            case search(GroupSearch.Action)
         }
-        
+
         public typealias DelegateAction = Never
         
-        case binding(BindingAction<State>)
         case loading(LoadingAction<State>)
+        case groupSection(id: GroupSection.State.ID, action: GroupSection.Action)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
@@ -78,8 +73,6 @@ public struct GroupsFeature: ReducerProtocol {
     public init() {}
     
     public var body: some ReducerProtocol<State, Action> {
-        BindingReducer()
-
         Reduce { state, action in
             switch action {
             case .view(.task):
@@ -87,13 +80,25 @@ public struct GroupsFeature: ReducerProtocol {
                     listenToFavoriteUpdates(),
                     listenToPinnedUpdates()
                 )
-                
-            case let .view(.groupTapped(name)):
-                state.groupSchedule = .init(groupName: name)
+
+            case .view(.setIsOnTop(let value)):
+                state.isOnTop = value
                 return .none
-                
-            case .view(.filterGroups):
-                filteredGroups(state: &state)
+
+            case .view(.setGroupSchedule(let value)):
+                state.groupSchedule = value
+                return .none
+
+            case let .groupSection(sectionId, action: .groupRow(rowId, action: .rowTapped)):
+                groupTapped(rowId: rowId, in: \.sections?[id: sectionId], state: &state)
+                return .none
+
+            case let .reducer(.pinned(.groupRow(rowId, .rowTapped))):
+                groupTapped(rowId: rowId, in: \.pinned, state: &state)
+                return .none
+
+            case let .reducer(.favorites(.groupRow(rowId, .rowTapped))):
+                groupTapped(rowId: rowId, in: \.favorites, state: &state)
                 return .none
                 
             case .loading(.started(\.$loadedGroups)),
@@ -102,31 +107,44 @@ public struct GroupsFeature: ReducerProtocol {
                 return .none
                 
             case let .reducer(.favoritesUpdate(value)):
-                state.favorites = Array(value)
+                state.favorites = .favorites(Array(value))
                 return .none
 
             case let .reducer(.pinnedUpdate(value)):
-                state.pinned = value
+                state.pinned = value.flatMap(GroupSection.State.pinned)
                 return .none
 
-            case .binding(\.$searchTokens):
+            case .reducer(.search(.delegate(.didUpdateImportantState))):
                 filteredGroups(state: &state)
                 return .none
 
-            case .binding(\.$searchQuery):
-                if state.searchQuery.isEmpty {
-                    state.dismissSearch = false
-                }
-                return .none
-
-            case .reducer, .binding, .loading:
+            case .reducer, .loading, .groupSection:
                 return .none
             }
+        }
+        .ifLet(\.pinned, reducerAction: /Action.ReducerAction.pinned) {
+            GroupSection()
+        }
+        .ifLet(\.favorites, reducerAction: /Action.ReducerAction.favorites) {
+            GroupSection()
+        }
+        .ifLet(\.sections, action: /Action.groupSection) {
+            EmptyReducer()
+                .forEach(\.self, action: .self) { GroupSection() }
         }
         .load(\.$loadedGroups) { _, isRefresh in try await apiClient.groups(ignoreCache: isRefresh) }
         .ifLet(\.groupSchedule, reducerAction: /Action.ReducerAction.groupSchedule) {
             GroupScheduleFeature()
         }
+
+        Scope(state: \.search, reducerAction: /Action.ReducerAction.search) {
+            GroupSearch()
+        }
+    }
+
+    private func groupTapped(rowId: String, in keyPath: KeyPath<State, GroupSection.State?>, state: inout State) {
+        let groupName = state[keyPath: keyPath]?.groupRows[id: rowId]?.groupName
+        state.groupSchedule = groupName.map(GroupScheduleFeature.State.init(groupName:))
     }
     
     private func filteredGroups(state: inout State) {
@@ -134,42 +152,11 @@ public struct GroupsFeature: ReducerProtocol {
             .map { groups in
                 return groups
                     .lazy
-                    .filter { group in
-                        guard state.searchTokens.matches(group: group) else { return false }
-                        guard !state.searchQuery.isEmpty else { return true }
-                        return group.name.localizedCaseInsensitiveContains(state.searchQuery)
-                    }
+                    .filter(state.search.matches(group:))
                     .makeSections()
             }
 
-        updateSearchSuggestedTokens(state: &state)
-    }
-
-    private func updateSearchSuggestedTokens(state: inout State) {
-        state.searchSuggestedTokens = {
-            let groups = state.loadedGroups ?? []
-            switch state.searchTokens.last {
-            case nil:
-                return groups
-                    .map(\.faculty)
-                    .uniqueSorted(by: <)
-                    .map(StrudentGroupSearchToken.faculty)
-            case let .faculty(value):
-                return groups
-                    .filter { $0.faculty == value }
-                    .map(\.speciality)
-                    .uniqueSorted(by: <)
-                    .map(StrudentGroupSearchToken.speciality)
-            case let .speciality(value):
-                return groups
-                    .filter { $0.speciality == value }
-                    .map(\.course)
-                    .uniqueSorted(by: { ($0 ?? 0) < ($1 ?? 0) })
-                    .map(StrudentGroupSearchToken.course)
-            case .course:
-                return []
-            }
-        }()
+        state.search.updateSuggestedTokens(for: state.loadedGroups ?? [])
     }
     
     private func listenToFavoriteUpdates() -> EffectTask<Action> {
@@ -189,31 +176,30 @@ public struct GroupsFeature: ReducerProtocol {
     }
 }
 
-private extension Array where Element == StrudentGroupSearchToken {
-    func matches(group: StudentGroup) -> Bool {
-        allSatisfy {
-            switch $0 {
-            case .faculty(group.faculty),
-                 .speciality(group.speciality),
-                 .course(group.course):
-                return true
-            case .faculty, .speciality, .course:
-                return false
+private extension Array where Element == StudentGroup {
+    func makeSections() -> IdentifiedArrayOf<GroupSection.State> {
+        let sections: [GroupSection.State] = Dictionary(grouping: self, by: { $0.name.prefix(3) })
+            .sorted(by: { $0.key < $1.key })
+            .compactMap { title, groups in
+                GroupSection.State(
+                    title: String(title),
+                    groupNames: groups.map(\.name).sorted()
+                )
             }
-        }
+
+        return IdentifiedArray(uniqueElements: sections)
     }
 }
 
-private extension Array where Element == StudentGroup {
-    func makeSections() -> [GroupsFeature.State.Section] {
-        return Dictionary(grouping: self, by: { $0.name.prefix(3) })
-            .sorted(by: { $0.key < $1.key })
-            .map { title, groups in
-                .init(
-                    title: String(title),
-                    groups: groups.sorted { $0.name < $1.name }
-                )
-            }
+// MARK: - GroupSection
+
+private extension GroupSection.State {
+    static func favorites(_ groupNames: [String]) -> Self? {
+        return .init(title: String(localized: "screen.groups.favorites.section.header"), groupNames: groupNames)
+    }
+
+    static func pinned(_ groupName: String) -> Self? {
+        return .init(title: String(localized: "screen.groups.pinned.section.header"), groupNames: [groupName])
     }
 }
 
@@ -226,8 +212,8 @@ extension GroupsFeature.State {
             return groupSchedule = nil
         }
 
-        if !searchQuery.isEmpty {
-            return dismissSearch = true
+        if !search.query.isEmpty {
+            return search.dismiss = true
         }
 
         if !isOnTop {
@@ -238,7 +224,7 @@ extension GroupsFeature.State {
     /// Open shcedule screen for group.
     mutating public func openGroup(named name: String) {
         guard groupSchedule?.groupName != name else { return }
-        dismissSearch = true
+        search.dismiss = true
         groupSchedule = GroupScheduleFeature.State(groupName: name)
     }
 }

@@ -18,7 +18,7 @@ struct MarkedScheduleRowActions: ViewModifier {
             removeDuplicates: ==
         ) { viewStore in
             content
-                .task { await viewStore.send(.task).finish() }
+                .task(throttleFor: 200_000_000) { await viewStore.send(.task).finish() }
                 .swipeActions(edge: .leading) {
                     swipeButton(viewStore.isPinned ? .unpin : .pin, send: viewStore.send).tint(.red)
                 }

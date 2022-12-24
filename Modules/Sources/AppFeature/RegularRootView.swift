@@ -25,7 +25,7 @@ struct RegularRootView: View {
                     // When in NavigationView first tab is not visible on iPad
                     Text("Oops").opacity(0)
 
-                    GroupsView(
+                    GroupsFeatureView(
                         store: store.scope(
                             state: \.groups,
                             action: AppFeature.Action.groups

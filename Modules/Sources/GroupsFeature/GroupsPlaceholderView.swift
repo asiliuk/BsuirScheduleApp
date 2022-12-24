@@ -2,15 +2,23 @@ import SwiftUI
 import BsuirUI
 
 struct GroupsPlaceholderView: View {
+    private let hasPinned: Bool
     private let favoriteOffsets: [Int]
 
-    init(numberOfFavorites: Int) {
+    init(hasPinned: Bool, numberOfFavorites: Int) {
+        self.hasPinned = hasPinned
         favoriteOffsets = (0..<numberOfFavorites).map { _ in Int.random(in: 0..<4) }
     }
 
     var body: some View {
         PlaceholderView(speed: 0.07) { iteration in
             List {
+                if hasPinned {
+                    Section("screen.groups.pinned.section.header") {
+                        Text(placeholderText(for: iteration, from: 4, to: 18))
+                    }
+                }
+
                 if !favoriteOffsets.isEmpty {
                     Section("screen.groups.favorites.section.header") {
                         ForEach(favoriteOffsets.indices, id: \.self) { idx in
