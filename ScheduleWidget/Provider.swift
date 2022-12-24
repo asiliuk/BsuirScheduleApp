@@ -118,7 +118,7 @@ final class Provider: IntentTimelineProvider, ObservableObject {
             let schedule = try await apiClient.lecturerSchedule(urlId: urlId)
             return ScheduleResponse(
                 deeplink: .lector(id: schedule.employee.id),
-                title: schedule.employee.abbreviatedName,
+                title: schedule.employee.compactFio,
                 startDate: schedule.startDate,
                 endDate: schedule.endDate,
                 schedule: schedule.schedules ?? DaySchedule()
@@ -139,16 +139,6 @@ final class Provider: IntentTimelineProvider, ObservableObject {
         didSet { oldValue?.cancel() }
     }
     private let apiClient = ApiClient.live
-}
-
-private extension Employee {
-    var abbreviatedName: String {
-        let abbreviation = [firstName, middleName]
-            .compactMap { $0?.first }
-            .map { String($0).capitalized }
-            .joined()
-        return [lastName, abbreviation].filter { !$0.isEmpty }.joined(separator: " ")
-    }
 }
 
 private extension ScheduleEntry {
