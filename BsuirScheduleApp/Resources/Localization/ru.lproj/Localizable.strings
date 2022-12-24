@@ -22,6 +22,13 @@
 "screen.favorites.groups.section.header" = "Группы";
 "screen.favorites.lecturers.section.header" = "Преподаватели";
 
+// MARK: - Row
+
+"row.markedSchedule.actions.removeFromFavorites.title" = "Убрать из избранного";
+"row.markedSchedule.actions.addToFavorites.title" = "Добавить в избранное";
+"row.markedSchedule.actions.unpin.title" = "Открепить";
+"row.markedSchedule.actions.pin.title" = "Закрепить";
+
 // MARK: - Groups
 
 "screen.groups.search.placeholder" = "Найти группу";
