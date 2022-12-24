@@ -33,7 +33,10 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             ) { store in
                 LoadedScheduleView(
                     store: store.loaded(),
-                    scheduleType: viewStore.scheduleType,
+                    scheduleType: viewStore.binding(
+                        get: \.scheduleType,
+                        send: { .view(.setScheduleType($0)) }
+                    ),
                     schedulePairDetails: schedulePairDetails
                 )
                 .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
@@ -45,10 +48,9 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                         ScheduleDisplayTypePicker(
-                            scheduleType: viewStore.binding(
-                                get: \.scheduleType,
-                                send: { .view(.setScheduleType($0)) }
-                            )
+                            scheduleType: viewStore
+                                .binding(get: \.scheduleType, send: { .view(.setScheduleType($0)) })
+                                .animation(.default)
                         )
                         .pickerStyle(.segmented)
                         .frame(width: 200)
@@ -70,25 +72,28 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
 
 private struct LoadedScheduleView: View {
     let store: StoreOf<LoadedScheduleReducer>
-    let scheduleType: ScheduleDisplayType
+    @Binding var scheduleType: ScheduleDisplayType
     let schedulePairDetails: ScheduleGridViewPairDetails
 
     var body: some View {
-        switch scheduleType {
-        case .compact:
-            DayScheduleView(
-                store: store.scope(state: \.compact, action: { .day($0) })
-            )
-        case .continuous:
+        TabView(selection: $scheduleType) {
             ContiniousScheduleView(
                 store: store.scope(state: \.continious, action: { .continious($0) }),
                 pairDetails: schedulePairDetails
             )
-        case .exams:
+            .tag(ScheduleDisplayType.continuous)
+
+            DayScheduleView(
+                store: store.scope(state: \.compact, action: { .day($0) })
+            )
+            .tag(ScheduleDisplayType.compact)
+
             ExamsScheduleView(
                 store: store.scope(state: \.exams, action: { .exams($0) }),
                 pairDetails: schedulePairDetails
             )
+            .tag(ScheduleDisplayType.exams)
         }
+        .tabViewStyle(.page(indexDisplayMode: .never))
     }
 }
