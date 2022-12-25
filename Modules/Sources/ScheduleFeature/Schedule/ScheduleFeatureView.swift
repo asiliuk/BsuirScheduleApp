@@ -95,5 +95,6 @@ private struct LoadedScheduleView: View {
             .tag(ScheduleDisplayType.exams)
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
+        .ignoresSafeArea(.container, edges: .all)
     }
 }
