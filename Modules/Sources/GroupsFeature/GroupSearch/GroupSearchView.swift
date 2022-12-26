@@ -1,4 +1,5 @@
 import SwiftUI
+import BsuirUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
@@ -10,23 +11,20 @@ extension View {
 
 struct GroupSearchViewModifier: ViewModifier {
     let store: StoreOf<GroupSearch>
-    @Environment(\.dismissSearch) private var dismissSearch
 
     func body(content: Content) -> some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             content
+                .dismissSearch(viewStore.dismiss)
                 .modifier(StudentGroupSearchable(
                     text: viewStore.binding(\.$query),
-                    prompt: viewStore.prompt.map { Text($0) },
+                    prompt: Text("screen.groups.search.placeholder"),
                     tokens: viewStore.binding(\.$tokens),
                     suggestedTokens: viewStore.binding(\.$suggestedTokens)
                 ))
-                .onChange(of: viewStore.dismiss) { dismiss in
-                    if dismiss { dismissSearch() }
+                .task(id: viewStore.query, throttleFor: 300_000_000) {
+                    await viewStore.send(.filter, animation: .default).finish()
                 }
-//                .task(id: viewStore.query, throttleFor: 300_000_000) {
-//                    await viewStore.send(.filter, animation: .default).finish()
-//                }
         }
     }
 }

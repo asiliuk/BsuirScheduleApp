@@ -212,8 +212,8 @@ extension GroupsFeature.State {
             return groupSchedule = nil
         }
 
-        if !search.query.isEmpty {
-            return search.dismiss = true
+        if search.reset() {
+            return
         }
 
         if !isOnTop {
@@ -224,7 +224,7 @@ extension GroupsFeature.State {
     /// Open shcedule screen for group.
     mutating public func openGroup(named name: String) {
         guard groupSchedule?.groupName != name else { return }
-        search.dismiss = true
+        search.reset()
         groupSchedule = GroupScheduleFeature.State(groupName: name)
     }
 }

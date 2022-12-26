@@ -1,16 +1,14 @@
 import Foundation
 import BsuirApi
-import SwiftUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
 public struct GroupSearch: ReducerProtocol {
     public struct State: Equatable {
-        var prompt: LocalizedStringKey?
         @BindableState var tokens: [StrudentGroupSearchToken] = []
         @BindableState var suggestedTokens: [StrudentGroupSearchToken] = []
         @BindableState var query: String = ""
-        var dismiss: Bool = false
+        fileprivate(set) var dismiss: Bool = false
     }
 
     public enum Action: Equatable, BindableAction, FeatureAction {
@@ -103,5 +101,16 @@ private extension Array where Element == StrudentGroupSearchToken {
                 return false
             }
         }
+    }
+}
+
+// MARK: - Reset
+
+extension GroupSearch.State {
+    @discardableResult
+    mutating func reset() -> Bool {
+        guard !query.isEmpty else { return false }
+        dismiss = true
+        return true
     }
 }

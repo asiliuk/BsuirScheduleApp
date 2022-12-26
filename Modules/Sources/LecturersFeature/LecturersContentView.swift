@@ -8,8 +8,6 @@ struct LecturersContentView: View {
     let favorites: IdentifiedArrayOf<Employee>
     let lecturers: IdentifiedArrayOf<Employee>
     let select: (Employee) -> Void
-    let dismissSearch: Bool
-    @Environment(\.dismissSearch) private var dismissSearchAction
     @Binding var isOnTop: Bool
     
     var body: some View {
@@ -40,9 +38,6 @@ struct LecturersContentView: View {
             }
         }
         .listStyle(.insetGrouped)
-        .onChange(of: dismissSearch) { dismiss in
-            if dismiss { dismissSearchAction() }
-        }
     }
 }
 

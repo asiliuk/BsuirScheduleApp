@@ -10,10 +10,8 @@ import Collections
 
 public struct LecturersFeature: ReducerProtocol {
     public struct State: Equatable {
-        @BindableState var searchQuery: String = ""
-        var dismissSearch: Bool = false
+        var search: LecturersSearch.State = .init()
         @BindableState var isOnTop: Bool = true
-
         @BindableState var lectorSchedule: LectorScheduleFeature.State?
 
         var favorites: IdentifiedArrayOf<Employee> { lecturers?.filter { favoriteIds.contains($0.id) } ?? [] }
@@ -41,13 +39,13 @@ public struct LecturersFeature: ReducerProtocol {
         public enum ViewAction: Equatable {
             case task
             case lecturerTapped(Employee)
-            case filterLecturers
         }
         
         public enum ReducerAction: Equatable {
             case favoritesUpdate(OrderedSet<Int>)
             case pinnedUpdate(Employee?)
             case lectorSchedule(LectorScheduleFeature.Action)
+            case search(LecturersSearch.Action)
         }
         
         public typealias DelegateAction = Never
@@ -65,6 +63,8 @@ public struct LecturersFeature: ReducerProtocol {
     public init() {}
     
     public var body: some ReducerProtocol<State, Action> {
+        BindingReducer()
+
         Reduce { state, action in
             switch action {
             case .view(.task):
@@ -77,10 +77,6 @@ public struct LecturersFeature: ReducerProtocol {
                 state.lectorSchedule = .init(lector: lector)
                 return .none
                 
-            case .view(.filterLecturers):
-                filteredLecturers(state: &state)
-                return .none
-                
             case .loading(.started(\.$loadedLecturers)):
                 filteredLecturers(state: &state)
                 return .none
@@ -89,6 +85,10 @@ public struct LecturersFeature: ReducerProtocol {
                 filteredLecturers(state: &state)
                 state.openLectorIfNeeded()
                 return .none
+
+            case .reducer(.search(.delegate(.didUpdateImportantState))):
+                filteredLecturers(state: &state)
+                return .none
                 
             case let .reducer(.favoritesUpdate(value)):
                 state.favoriteIds = value
@@ -96,12 +96,6 @@ public struct LecturersFeature: ReducerProtocol {
 
             case let .reducer(.pinnedUpdate(value)):
                 state.pinned = value
-                return .none
-
-            case .binding(\.$searchQuery):
-                if state.searchQuery.isEmpty {
-                    state.dismissSearch = false
-                }
                 return .none
                 
             case .reducer, .binding, .loading:
@@ -114,18 +108,15 @@ public struct LecturersFeature: ReducerProtocol {
         .ifLet(\.lectorSchedule, reducerAction: /Action.ReducerAction.lectorSchedule) {
             LectorScheduleFeature()
         }
-        
-        BindingReducer()
+
+        Scope(state: \.search, reducerAction: /Action.ReducerAction.search) {
+            LecturersSearch()
+        }
     }
     
     private func filteredLecturers(state: inout State) {
-        guard !state.searchQuery.isEmpty else {
-            state.$lecturers = state.$loadedLecturers
-            return
-        }
-
         state.$lecturers = state.$loadedLecturers
-            .map { $0.filter { $0.fio.localizedCaseInsensitiveContains(state.searchQuery) } }
+            .map { $0.filter(state.search.matches(lector:)) }
     }
     
     private func listenToFavoriteUpdates() -> EffectTask<Action> {
@@ -154,8 +145,8 @@ extension LecturersFeature.State {
             return lectorSchedule = nil
         }
 
-        if !searchQuery.isEmpty {
-            return dismissSearch = true
+        if search.reset() {
+            return
         }
 
         if !isOnTop {
@@ -167,7 +158,7 @@ extension LecturersFeature.State {
     public mutating func openLector(_ lector: Employee) {
         guard lectorSchedule?.lector != lector else { return }
 
-        dismissSearch = true
+        search.reset()
         lectorSchedule = LectorScheduleFeature.State(lector: lector)
         lectorIdToOpen = nil
     }
