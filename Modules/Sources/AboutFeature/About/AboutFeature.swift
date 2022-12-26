@@ -15,15 +15,17 @@ public struct AboutFeature: ReducerProtocol {
         }()
         var appIcon = AppIconPickerReducer.State()
         var pairFormsColorPicker = PairFormsColorPicker.State()
-        @BindableState var isOnTop: Bool = true
+        var isOnTop: Bool = true
         var iisReachability = ReachabilityFeature.State(host: URL.iisApi.bsr_host)
         var appleReachability = ReachabilityFeature.State(host: "apple.com")
 
         public init() {}
     }
     
-    public enum Action: Equatable, FeatureAction, BindableAction {
+    public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
+            case setIsOnTop(Bool)
+
             case clearCacheTapped
             case cacheClearedAlertDismissed
             
@@ -40,7 +42,6 @@ public struct AboutFeature: ReducerProtocol {
         
         public typealias DelegateAction = Never
 
-        case binding(BindingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
@@ -57,6 +58,10 @@ public struct AboutFeature: ReducerProtocol {
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
+            case let .view(.setIsOnTop(value)):
+                state.isOnTop = value
+                return .none
+
             case .view(.clearCacheTapped):
                 state.cacheClearedAlert = AlertState(
                     title: TextState("alert.clearCache.title"),
@@ -83,7 +88,7 @@ public struct AboutFeature: ReducerProtocol {
                     _ = await openUrl(.telegram, [:])
                 }
                 
-            case .reducer, .binding:
+            case .reducer:
                 return .none
             }
         }
@@ -103,8 +108,6 @@ public struct AboutFeature: ReducerProtocol {
         Scope(state: \.appleReachability, reducerAction: /Action.ReducerAction.appleReachability) {
             ReachabilityFeature()
         }
-
-        BindingReducer()
     }
 }
 

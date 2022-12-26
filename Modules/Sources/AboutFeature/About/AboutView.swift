@@ -14,8 +14,8 @@ public struct AboutView: View {
     }
     
     public var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
-            ScrollableToTopList(isOnTop: viewStore.binding(\.$isOnTop)) {
+        WithViewStore(store, observe: \.isOnTop) { viewStore in
+            ScrollableToTopList(isOnTop: viewStore.binding(send: { .view(.setIsOnTop($0)) })) {
                 PairFormsColorPickerView(
                     store: store.scope(
                         state: \.pairFormsColorPicker,
@@ -35,7 +35,7 @@ public struct AboutView: View {
                 )
                 
                 Section("screen.about.aboutTheApp.section.header") {
-                    AboutSectionView(viewStore: viewStore)
+                    AboutSectionView(store: store.scope(state: \.appVersion))
                 }
 
                 Section("screen.about.reachability.section.header") {
@@ -43,7 +43,7 @@ public struct AboutView: View {
                 }
                 
                 Section("screen.about.data.section.header") {
-                    ClearCacheSectionView(store: store, viewStore: viewStore)
+                    ClearCacheSectionView(store: store)
                 }
             }
             .listStyle(InsetGroupedListStyle())
@@ -78,11 +78,11 @@ private struct PairPreviewSectionView: View {
 // MARK: - About Section
 
 private struct AboutSectionView: View {
-    let viewStore: ViewStoreOf<AboutFeature>
+    let store: Store<TextState, AboutFeature.Action>
     
     var body: some View {
-        Group {
-            Text(viewStore.appVersion)
+        WithViewStore(store, observe: { $0 }) { viewStore in
+            Text(viewStore.state)
             LinkButton(title: "Github") { viewStore.send(.githubButtonTapped) }
             LinkButton(title: "Telegram") { viewStore.send(.telegramButtonTapped) }
         }
@@ -124,11 +124,10 @@ private struct ReachabilitySectionView: View {
 
 private struct ClearCacheSectionView: View {
     let store: StoreOf<AboutFeature>
-    let viewStore: ViewStoreOf<AboutFeature>
-    
+
     var body: some View {
         Button("screen.about.data.section.clearCache.button") {
-            viewStore.send(.clearCacheTapped)
+            ViewStore(store.stateless).send(.clearCacheTapped)
         }
         .alert(store.scope(state: \.cacheClearedAlert), dismiss: .view(.cacheClearedAlertDismissed))
     }
