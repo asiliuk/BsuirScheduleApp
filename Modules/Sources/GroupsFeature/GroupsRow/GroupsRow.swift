@@ -3,7 +3,7 @@ import BsuirApi
 import ScheduleFeature
 import ComposableArchitecture
 
-public struct GroupRow: ReducerProtocol {
+public struct GroupsRow: ReducerProtocol {
     public struct State: Identifiable, Equatable {
         public var id: String { groupName }
         public let groupName: String

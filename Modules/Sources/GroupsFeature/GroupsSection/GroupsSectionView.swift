@@ -1,9 +1,9 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct GroupSectionView: View {
-    let store: StoreOf<GroupSection>
-    init(store: StoreOf<GroupSection>) {
+struct GroupsSectionView: View {
+    let store: StoreOf<GroupsSection>
+    init(store: StoreOf<GroupsSection>) {
         self.store = store
     }
 
@@ -13,10 +13,10 @@ struct GroupSectionView: View {
                 ForEachStore(
                     store.scope(
                         state: \.groupRows,
-                        action: GroupSection.Action.groupRow
+                        action: GroupsSection.Action.groupRow
                     )
                 ) { store in
-                    GroupRowView(store: store)
+                    GroupsRowView(store: store)
                 }
             }
         }

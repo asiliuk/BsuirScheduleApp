@@ -3,7 +3,7 @@ import BsuirApi
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct GroupSearch: ReducerProtocol {
+public struct GroupsSearch: ReducerProtocol {
     public struct State: Equatable {
         @BindableState var tokens: [StrudentGroupSearchToken] = []
         @BindableState var suggestedTokens: [StrudentGroupSearchToken] = []
@@ -51,7 +51,7 @@ public struct GroupSearch: ReducerProtocol {
 
 // MARK: - Update
 
-extension GroupSearch.State {
+extension GroupsSearch.State {
     mutating func updateSuggestedTokens(for groups: [StudentGroup]) {
         suggestedTokens = {
             switch tokens.last {
@@ -81,7 +81,7 @@ extension GroupSearch.State {
 
 // MARK: - Matching
 
-extension GroupSearch.State {
+extension GroupsSearch.State {
     func matches(group: StudentGroup) -> Bool {
         guard tokens.matches(group: group) else { return false }
         guard !query.isEmpty else { return true }
@@ -106,7 +106,7 @@ private extension Array where Element == StrudentGroupSearchToken {
 
 // MARK: - Reset
 
-extension GroupSearch.State {
+extension GroupsSearch.State {
     @discardableResult
     mutating func reset() -> Bool {
         guard !query.isEmpty else { return false }

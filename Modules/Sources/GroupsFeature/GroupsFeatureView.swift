@@ -66,20 +66,20 @@ private struct LoadingGroupsView: View {
         ) { store in
             ScrollableToTopList(isOnTop: $isOnTop) {
                 IfLetStore(self.store.scope(state: \.pinned, reducerAction: { .pinned($0) })) { store in
-                    GroupSectionView(store: store)
+                    GroupsSectionView(store: store)
                 }
 
                 IfLetStore(self.store.scope(state: \.favorites, reducerAction: { .favorites($0) })) { store in
-                    GroupSectionView(store: store)
+                    GroupsSectionView(store: store)
                 }
 
                 ForEachStore(store.loaded()) { store in
-                    GroupSectionView(store: store)
+                    GroupsSectionView(store: store)
                 }
             }
             .listStyle(.insetGrouped)
             .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
-            .groupSearchable(store: self.store.scope(state: \.search, reducerAction: { .search($0) }))
+            .groupsSearchable(store: self.store.scope(state: \.search, reducerAction: { .search($0) }))
         } loading: {
             GroupsPlaceholderView(hasPinned: hasPinned, numberOfFavorites: numberOfFavorites)
         } error: { store in

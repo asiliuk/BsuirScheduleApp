@@ -4,19 +4,19 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 
 extension View {
-    func groupSearchable(store: StoreOf<GroupSearch>) -> some View {
-        modifier(GroupSearchViewModifier(store: store))
+    func groupsSearchable(store: StoreOf<GroupsSearch>) -> some View {
+        modifier(GroupsSearchViewModifier(store: store))
     }
 }
 
-struct GroupSearchViewModifier: ViewModifier {
-    let store: StoreOf<GroupSearch>
+struct GroupsSearchViewModifier: ViewModifier {
+    let store: StoreOf<GroupsSearch>
 
     func body(content: Content) -> some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             content
                 .dismissSearch(viewStore.dismiss)
-                .modifier(StudentGroupSearchable(
+                .modifier(StudentGroupsSearchable(
                     text: viewStore.binding(\.$query),
                     prompt: Text("screen.groups.search.placeholder"),
                     tokens: viewStore.binding(\.$tokens),
@@ -29,7 +29,7 @@ struct GroupSearchViewModifier: ViewModifier {
     }
 }
 
-private struct StudentGroupSearchable: ViewModifier {
+private struct StudentGroupsSearchable: ViewModifier {
     @Binding var text: String
     var prompt: Text?
     @Binding var tokens: [StrudentGroupSearchToken]

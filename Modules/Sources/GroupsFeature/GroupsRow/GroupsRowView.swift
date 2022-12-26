@@ -3,8 +3,8 @@ import BsuirUI
 import ScheduleFeature
 import ComposableArchitecture
 
-struct GroupRowView: View {
-    let store: StoreOf<GroupRow>
+struct GroupsRowView: View {
+    let store: StoreOf<GroupsRow>
 
     var body: some View {
         WithViewStore(store, observe: \.title) { viewStore in
@@ -16,7 +16,7 @@ struct GroupRowView: View {
             .markedScheduleRowActions(
                 store: store.scope(
                     state: \.mark,
-                    action: GroupRow.Action.mark
+                    action: GroupsRow.Action.mark
                 )
             )
         }
