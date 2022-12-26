@@ -8,22 +8,14 @@ import ComposableArchitectureUtils
 
 public struct MarkedScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
-        public var isFavorite: Bool
-        public var isPinned: Bool
+        public var isFavorite: Bool = false
+        public var isPinned: Bool = false
         let source: ScheduleSource
 
         public init(source: ScheduleSource) {
             self.source = source
             @Dependency(\.favorites) var favorites
-            self.isPinned = favorites.currentPinnedSchedule == source
-            self.isFavorite = {
-                switch source {
-                case let .group(name):
-                    return favorites.currentGroupNames.contains(name)
-                case let .lector(lector):
-                    return favorites.currentLectorIds.contains(lector.id)
-                }
-            }()
+            self.update(favorites: favorites)
         }
     }
 
@@ -163,6 +155,25 @@ public struct MarkedScheduleFeature: ReducerProtocol {
         }
     }
 }
+
+// MARK: - Update
+
+private extension MarkedScheduleFeature.State {
+    mutating func update(favorites: FavoritesContainer) {
+        isPinned = favorites.currentPinnedSchedule == source
+        isFavorite = {
+            switch source {
+            case let .group(name):
+                return favorites.currentGroupNames.contains(name)
+            case let .lector(lector):
+                return favorites.currentLectorIds.contains(lector.id)
+            }
+        }()
+    }
+}
+
+
+// MARK: - MeaningfulEvent
 
 private extension MeaningfulEvent {
     static let addToFavorites = Self(score: 5)
