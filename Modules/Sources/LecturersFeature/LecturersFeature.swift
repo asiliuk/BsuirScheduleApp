@@ -11,22 +11,33 @@ import Collections
 public struct LecturersFeature: ReducerProtocol {
     public struct State: Equatable {
         var search: LecturersSearch.State = .init()
-        @BindableState var isOnTop: Bool = true
-        @BindableState var lectorSchedule: LectorScheduleFeature.State?
+        @LoadableState var lecturers: IdentifiedArrayOf<LecturersRow.State>?
+        fileprivate(set) var isOnTop: Bool = true
+        fileprivate(set) var lectorSchedule: LectorScheduleFeature.State?
 
-        var favorites: IdentifiedArrayOf<Employee> { lecturers?.filter { favoriteIds.contains($0.id) } ?? [] }
+        var favorites: IdentifiedArrayOf<LecturersRow.State>? {
+            get {
+                guard
+                    let favorites = lecturers?.filter({ favoriteIds.contains($0.id) }),
+                    !favorites.isEmpty
+                else { return nil }
+                return favorites
+            }
+            set {
+                favoriteIds = newValue?.ids ?? []
+            }
+        }
 
-        fileprivate(set) var pinned: Employee? = {
+        var pinned: LecturersRow.State? = {
             @Dependency(\.favorites.currentPinnedSchedule) var pinned
-            return pinned?.lector
+            return (pinned?.lector).map(LecturersRow.State.init(lector:))
         }()
 
-        fileprivate(set) var favoriteIds: OrderedSet<Int> = {
+        var favoriteIds: OrderedSet<Int> = {
             @Dependency(\.favorites.currentLectorIds) var currentLectorIds
             return currentLectorIds
         }()
 
-        @LoadableState var lecturers: IdentifiedArrayOf<Employee>?
         @LoadableState var loadedLecturers: IdentifiedArrayOf<Employee>?
 
         // When deeplink was opened but no lecturers yet loaded
@@ -35,10 +46,11 @@ public struct LecturersFeature: ReducerProtocol {
         public init() {}
     }
     
-    public enum Action: Equatable, FeatureAction, BindableAction, LoadableAction {
+    public enum Action: Equatable, FeatureAction, LoadableAction {
         public enum ViewAction: Equatable {
             case task
-            case lecturerTapped(Employee)
+            case setIsOnTop(Bool)
+            case setLectorSchedule(LectorScheduleFeature.State?)
         }
         
         public enum ReducerAction: Equatable {
@@ -46,11 +58,13 @@ public struct LecturersFeature: ReducerProtocol {
             case pinnedUpdate(Employee?)
             case lectorSchedule(LectorScheduleFeature.Action)
             case search(LecturersSearch.Action)
+            case pinned(LecturersRow.Action)
+            case favorite(id: LecturersRow.State.ID, action: LecturersRow.Action)
+            case lector(id: LecturersRow.State.ID, action: LecturersRow.Action)
         }
         
         public typealias DelegateAction = Never
         
-        case binding(BindingAction<State>)
         case loading(LoadingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
@@ -63,8 +77,6 @@ public struct LecturersFeature: ReducerProtocol {
     public init() {}
     
     public var body: some ReducerProtocol<State, Action> {
-        BindingReducer()
-
         Reduce { state, action in
             switch action {
             case .view(.task):
@@ -72,9 +84,28 @@ public struct LecturersFeature: ReducerProtocol {
                     listenToFavoriteUpdates(),
                     listenToPinnedUpdates()
                 )
-                
-            case let .view(.lecturerTapped(lector)):
-                state.lectorSchedule = .init(lector: lector)
+
+            case let .view(.setIsOnTop(value)):
+                state.isOnTop = value
+                return .none
+
+            case let .view(.setLectorSchedule(value)):
+                state.lectorSchedule = value
+                return .none
+
+            case .reducer(.pinned(.rowTapped)):
+                let lector = state.pinned?.lector
+                state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+                return .none
+
+            case let .reducer(.favorite(id, .rowTapped)):
+                let lector = state.favorites?[id: id]?.lector
+                state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+                return .none
+
+            case let .reducer(.lector(id, .rowTapped)):
+                let lector = state.loadedLecturers?[id: id]
+                state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
                 return .none
                 
             case .loading(.started(\.$loadedLecturers)):
@@ -95,12 +126,27 @@ public struct LecturersFeature: ReducerProtocol {
                 return .none
 
             case let .reducer(.pinnedUpdate(value)):
-                state.pinned = value
+                state.pinned = value.map(LecturersRow.State.init(lector:))
                 return .none
                 
-            case .reducer, .binding, .loading:
+            case .reducer, .loading:
                 return .none
             }
+        }
+        .ifLet(\.pinned, reducerAction: /Action.ReducerAction.pinned) {
+            LecturersRow()
+        }
+        .ifLet(\.favorites, reducerAction: /Action.ReducerAction.favorite) {
+            EmptyReducer()
+                .forEach(\.self, action: .self) {
+                    LecturersRow()
+                }
+        }
+        .ifLet(\.lecturers, reducerAction: /Action.ReducerAction.lector) {
+            EmptyReducer()
+                .forEach(\.self, action: .self) {
+                    LecturersRow()
+                }
         }
         .load(\.$loadedLecturers) { _, isRefresh in
             try await IdentifiedArray(uniqueElements: apiClient.lecturers(ignoreCache: isRefresh))
@@ -113,10 +159,16 @@ public struct LecturersFeature: ReducerProtocol {
             LecturersSearch()
         }
     }
-    
+
     private func filteredLecturers(state: inout State) {
         state.$lecturers = state.$loadedLecturers
-            .map { $0.filter(state.search.matches(lector:)) }
+            .map { lecturers in
+                IdentifiedArray(
+                    uniqueElements: lecturers
+                        .filter(state.search.matches(lector:))
+                        .map(LecturersRow.State.init(lector:))
+                )
+            }
     }
     
     private func listenToFavoriteUpdates() -> EffectTask<Action> {

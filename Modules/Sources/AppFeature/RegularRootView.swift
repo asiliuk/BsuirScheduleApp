@@ -34,7 +34,7 @@ struct RegularRootView: View {
                     .tag(CurrentSelection.groups)
                     .tabItem { Label.groups }
 
-                    LecturersView(
+                    LecturersFeatureView(
                         store: store.scope(
                             state: \.lecturers,
                             action: AppFeature.Action.lecturers

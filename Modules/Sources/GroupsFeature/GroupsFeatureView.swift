@@ -62,7 +62,7 @@ private struct LoadingGroupsView: View {
             store,
             state: \.$sections,
             loading: \.$loadedGroups,
-            action: GroupsFeature.Action.groupSection
+            action: { .reducer(.groupSection(id: $0, action: $1)) }
         ) { store in
             ScrollableToTopList(isOnTop: $isOnTop) {
                 IfLetStore(self.store.scope(state: \.pinned, reducerAction: { .pinned($0) })) { store in

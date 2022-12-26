@@ -42,7 +42,7 @@ struct CompactRootView: View {
                 .tabItem { Label.groups }
 
                 NavigationView {
-                    LecturersView(
+                    LecturersFeatureView(
                         store: store.scope(
                             state: \.lecturers,
                             action: AppFeature.Action.lecturers

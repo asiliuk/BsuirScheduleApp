@@ -56,12 +56,12 @@ public struct GroupsFeature: ReducerProtocol {
             case pinned(GroupsSection.Action)
             case favorites(GroupsSection.Action)
             case search(GroupsSearch.Action)
+            case groupSection(id: GroupsSection.State.ID, action: GroupsSection.Action)
         }
 
         public typealias DelegateAction = Never
         
         case loading(LoadingAction<State>)
-        case groupSection(id: GroupsSection.State.ID, action: GroupsSection.Action)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
@@ -89,7 +89,7 @@ public struct GroupsFeature: ReducerProtocol {
                 state.groupSchedule = value
                 return .none
 
-            case let .groupSection(sectionId, action: .groupRow(rowId, action: .rowTapped)):
+            case let .reducer(.groupSection(sectionId, action: .groupRow(rowId, action: .rowTapped))):
                 groupTapped(rowId: rowId, in: \.sections?[id: sectionId], state: &state)
                 return .none
 
@@ -118,7 +118,7 @@ public struct GroupsFeature: ReducerProtocol {
                 filteredGroups(state: &state)
                 return .none
 
-            case .reducer, .loading, .groupSection:
+            case .reducer, .loading:
                 return .none
             }
         }
@@ -128,7 +128,7 @@ public struct GroupsFeature: ReducerProtocol {
         .ifLet(\.favorites, reducerAction: /Action.ReducerAction.favorites) {
             GroupsSection()
         }
-        .ifLet(\.sections, action: /Action.groupSection) {
+        .ifLet(\.sections, reducerAction: /Action.ReducerAction.groupSection) {
             EmptyReducer()
                 .forEach(\.self, action: .self) { GroupsSection() }
         }

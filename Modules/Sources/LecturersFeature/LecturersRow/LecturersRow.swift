@@ -3,17 +3,18 @@ import BsuirApi
 import ScheduleFeature
 import ComposableArchitecture
 
-public struct GroupsRow: ReducerProtocol {
+public struct LecturersRow: ReducerProtocol {
     public struct State: Identifiable, Equatable {
-        public var id: String { groupName }
-        public let groupName: String
+        public var id: Int { lector.id }
+        public let lector: Employee
 
-        var title: String { groupName }
+        var fullName: String { lector.fio }
+        var imageUrl: URL? { lector.photoLink }
         var mark: MarkedScheduleFeature.State
 
-        init(groupName: String) {
-            self.groupName = groupName
-            self.mark = .init(source: .group(name: groupName))
+        init(lector: Employee) {
+            self.lector = lector
+            self.mark = .init(source: .lector(lector))
         }
     }
 
