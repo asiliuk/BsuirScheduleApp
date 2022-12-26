@@ -69,6 +69,9 @@ public struct AppFeature: ReducerProtocol {
 
             case .setPinnedSchedule(nil):
                 state.pinned = nil
+                if state.selection == .pinned {
+                    state.selection = .groups
+                }
                 return .none
 
             case let .setPinnedSchedule(pinned?):
