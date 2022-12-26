@@ -22,7 +22,7 @@ public struct LecturersFeatureView: View {
             self.isOnTop = state.isOnTop
             self.lectorSchedule = state.lectorSchedule
             self.hasPinned = state.pinned != nil
-            self.numberOfFavorites = state.favorites?.count ?? 0
+            self.numberOfFavorites = state.favoriteIds.count
         }
     }
     
