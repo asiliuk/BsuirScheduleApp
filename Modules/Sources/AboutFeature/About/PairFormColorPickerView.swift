@@ -20,7 +20,6 @@ public struct PairFormsColorPickerView: View {
                     }
                 }
             }
-            .onAppear { viewStore.send(.onAppear) }
         }
     }
 }

@@ -8,11 +8,15 @@ public struct PairFormsColorPicker: ReducerProtocol {
     public struct State: Equatable {
         var hasChanges: Bool = false
         var pairFormColorPickers: IdentifiedArrayOf<PairFormColorPicker.State> = []
+
+        public init() {
+            @Dependency(\.pairFormColorService) var pairFormColorService
+            self.update(service: pairFormColorService)
+        }
     }
 
     public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
-            case onAppear
             case resetButtonTapped
         }
 
@@ -32,17 +36,14 @@ public struct PairFormsColorPicker: ReducerProtocol {
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .view(.onAppear):
-                updateColors(state: &state)
-                return .none
             case .view(.resetButtonTapped):
                 pairFormColorService.reset()
-                updateColors(state: &state)
+                state.update(service: pairFormColorService)
                 return .none
             case .reducer(.pairFormColorPickers(let id, .delegate(.colorDidChange))):
                 guard let formState = state.pairFormColorPickers[id: id] else { return .none }
                 pairFormColorService[formState.form] = formState.color
-                updateChanges(state: &state)
+                state.updateHasChanges(service: pairFormColorService)
                 return .none
             case .reducer:
                 return .none
@@ -52,21 +53,23 @@ public struct PairFormsColorPicker: ReducerProtocol {
             PairFormColorPicker()
         }
     }
+}
 
-    private func updateColors(state: inout State) {
-        updateChanges(state: &state)
-        state.pairFormColorPickers = IdentifiedArray(
+private extension PairFormsColorPicker.State {
+    mutating func update(service: PairFormColorService) {
+        updateHasChanges(service: service)
+        pairFormColorPickers = IdentifiedArray(
             uncheckedUniqueElements: PairViewForm.allCases.map { form in
                 PairFormColorPicker.State(
                     form: form,
-                    color: pairFormColorService[form]
+                    color: service[form]
                 )
             }
         )
     }
 
-    private func updateChanges(state: inout State) {
-        state.hasChanges = !pairFormColorService.areDefaultColors
+    mutating func updateHasChanges(service: PairFormColorService) {
+        hasChanges = !service.areDefaultColors
     }
 }
 
