@@ -10,7 +10,6 @@ import SwiftUI
 import BsuirUI
 import ScheduleCore
 
-#if swift(>=5.7)
 @available(iOS 16.0, *)
 struct ScheduleWidgetEntryAccessoryRectangularView: View {
     var entry: Provider.Entry
@@ -39,4 +38,3 @@ struct ScheduleWidgetEntryAccessoryRectangularView: View {
         }
     }
 }
-#endif

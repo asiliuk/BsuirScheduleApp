@@ -10,7 +10,6 @@ import SwiftUI
 import BsuirUI
 import ScheduleCore
 
-#if swift(>=5.7)
 /// Not yet supported
 ///
 /// Needs predefined configuration to work. No way to configure as other widgets
@@ -48,4 +47,3 @@ struct ScheduleWidgetEntryAccessoryInlineView: View {
         }
     }
 }
-#endif
