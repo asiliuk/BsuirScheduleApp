@@ -48,3 +48,25 @@ extension LoadableState {
         }
     }
 }
+
+extension LoadableState {
+    var isInitial: Bool {
+        guard case .initial = self else { return false }
+        return true
+    }
+
+    var isLoading: Bool {
+        guard case .loading = self else { return false }
+        return true
+    }
+
+    var isError: Bool {
+        guard case .error = self else { return false }
+        return true
+    }
+
+    var isSome: Bool {
+        guard case .some = self else { return false }
+        return true
+    }
+}
