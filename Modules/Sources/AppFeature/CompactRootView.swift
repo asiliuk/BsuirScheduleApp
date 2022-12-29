@@ -37,6 +37,7 @@ struct CompactRootView: View {
                             action: AppFeature.Action.groups
                         )
                     )
+                    .navigationBarTitleDisplayMode(.inline)
                 }
                 .tag(CurrentSelection.groups)
                 .tabItem { Label.groups }
@@ -48,6 +49,7 @@ struct CompactRootView: View {
                             action: AppFeature.Action.lecturers
                         )
                     )
+                    .navigationBarTitleDisplayMode(.inline)
                 }
                 .tag(CurrentSelection.lecturers)
                 .tabItem { Label.lecturers }
@@ -59,6 +61,7 @@ struct CompactRootView: View {
                             action: AppFeature.Action.settings
                         )
                     )
+                    .navigationBarTitleDisplayMode(.inline)
                 }
                 .tag(CurrentSelection.settings)
                 .tabItem { Label.settings }

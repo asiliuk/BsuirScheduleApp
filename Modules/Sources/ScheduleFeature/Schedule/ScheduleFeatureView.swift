@@ -24,7 +24,6 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
     }
 
     public var body: some View {
-
         WithViewStore(store, observe: ViewState.init) { viewStore in
             LoadingStore(
                 store,
@@ -66,6 +65,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 }
             }
             .navigationTitle(viewStore.title)
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 }
