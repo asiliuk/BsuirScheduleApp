@@ -35,6 +35,17 @@ public struct SettingsFeatureView: View {
                 )
 
                 NavigationLink {
+                    NetworkAndDataFeatureView(
+                        store: store.scope(
+                            state: \.networkAndData,
+                            reducerAction: { .networkAndData($0) }
+                        )
+                    )
+                } label: {
+                    Label("screen.settings.networkAndData.navigation.title", systemImage: "network")
+                }
+
+                NavigationLink {
                     AboutFeatureView(
                         store: store.scope(
                             state: \.about,
@@ -43,15 +54,6 @@ public struct SettingsFeatureView: View {
                     )
                 } label: {
                     Label("screen.settings.about.navigation.title", systemImage: "info.circle")
-                }
-
-
-                Section("screen.about.reachability.section.header") {
-                    ReachabilitySectionView(store: store)
-                }
-                
-                Section("screen.about.data.section.header") {
-                    ClearCacheSectionView(store: store)
                 }
             }
             .listStyle(.insetGrouped)
@@ -80,41 +82,6 @@ private struct PairPreviewSectionView: View {
         .fixedSize(horizontal: false, vertical: true)
         .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
         .accessibility(label: Text("screen.about.pairPreview.accessibility.label"))
-    }
-}
-
-// MARK: - Reachability
-
-private struct ReachabilitySectionView: View {
-    let store: StoreOf<SettingsFeature>
-
-    var body: some View {
-        ReachabilityView(
-            store: store.scope(
-                state: \.iisReachability,
-                reducerAction: { .iisReachability($0) }
-            )
-        )
-
-        ReachabilityView(
-            store: store.scope(
-                state: \.appleReachability,
-                reducerAction: { .appleReachability($0) }
-            )
-        )
-    }
-}
-
-// MARK: - Clear Cache Section
-
-private struct ClearCacheSectionView: View {
-    let store: StoreOf<SettingsFeature>
-
-    var body: some View {
-        Button("screen.about.data.section.clearCache.button") {
-            ViewStore(store.stateless).send(.clearCacheTapped)
-        }
-        .alert(store.scope(state: \.cacheClearedAlert), dismiss: .view(.cacheClearedAlertDismissed))
     }
 }
 

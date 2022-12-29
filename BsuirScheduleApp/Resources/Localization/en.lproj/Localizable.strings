@@ -86,14 +86,12 @@
 "screen.settings.about.version.section.header" = "Version";
 "screen.settings.about.links.section.header" = "Links";
 
-// MARK: - About, Reachability
+// MARK: - Network & Data
 
-"screen.about.reachability.section.header" = "Reachability";
-
-// MARK: - About, Data
-
-"screen.about.data.section.header" = "Data";
-"screen.about.data.section.clearCache.button" = "Clear cache";
+"screen.settings.networkAndData.navigation.title" = "Network & Data";
+"screen.settings.networkAndData.reachability.section.header" = "Reachability";
+"screen.settings.networkAndData.data.section.header" = "Data";
+"screen.settings.networkAndData.data.section.clearCache.button" = "Clear cache";
 
 // MARK: - Schedule
 

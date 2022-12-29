@@ -84,14 +84,12 @@
 "screen.settings.about.version.section.header" = "Версія";
 "screen.settings.about.links.section.header" = "Спасылкі";
 
-// MARK: - About, Reachability
+// MARK: - Network & Data
 
-"screen.about.reachability.section.header" = "Дасяжнасць";
-
-// MARK: - About, Data
-
-"screen.about.data.section.header" = "Звесткі";
-"screen.about.data.section.clearCache.button" = "Ачысціць кэш";
+"screen.settings.networkAndData.navigation.title" = "Сетка & Дадзеныя";
+"screen.settings.networkAndData.reachability.section.header" = "Дасяжнасць";
+"screen.settings.networkAndData.data.section.header" = "Звесткі";
+"screen.settings.networkAndData.data.section.clearCache.button" = "Ачысціць кэш";
 
 // MARK: - Schedule
 
