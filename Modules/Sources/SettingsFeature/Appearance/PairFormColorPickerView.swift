@@ -8,14 +8,14 @@ public struct PairFormsColorPickerView: View {
 
     public var body: some View {
         WithViewStore(store, observe: \.hasChanges) { viewStore in
-            Section(header: Text("screen.about.colors.section.header")) {
+            Section(header: Text("screen.settings.appearance.colors.section.header")) {
                 ForEachStore(
                     store.scope(state: \.pairFormColorPickers, reducerAction: { .pairFormColorPickers(id: $0, action: $1) }),
                     content: PairFormColorPickerView.init(store:)
                 )
 
                 if viewStore.state {
-                    Button("screen.about.colors.reset.title") {
+                    Button("screen.settings.appearance.colors.reset.title") {
                         viewStore.send(.resetButtonTapped, animation: .default)
                     }
                 }

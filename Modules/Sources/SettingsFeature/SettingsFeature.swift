@@ -8,11 +8,12 @@ import Dependencies
 public struct SettingsFeature: ReducerProtocol {
     public struct State: Equatable {
         var appIcon = AppIconPickerReducer.State()
-        var pairFormsColorPicker = PairFormsColorPicker.State()
+
         var isOnTop: Bool = true
 
-        var about: AboutFeature.State = .init()
+        var appearance: AppearanceFeature.State = .init()
         var networkAndData: NetworkAndDataFeature.State = .init()
+        var about: AboutFeature.State = .init()
 
         public init() {}
     }
@@ -24,9 +25,9 @@ public struct SettingsFeature: ReducerProtocol {
         
         public enum ReducerAction: Equatable {
             case appIcon(AppIconPickerReducer.Action)
-            case pairFormsColorPicker(PairFormsColorPicker.Action)
-            case about(AboutFeature.Action)
+            case appearance(AppearanceFeature.Action)
             case networkAndData(NetworkAndDataFeature.Action)
+            case about(AboutFeature.Action)
         }
         
         public typealias DelegateAction = Never
@@ -54,16 +55,16 @@ public struct SettingsFeature: ReducerProtocol {
             AppIconPickerReducer()
         }
 
-        Scope(state: \.pairFormsColorPicker, reducerAction: /Action.ReducerAction.pairFormsColorPicker) {
-            PairFormsColorPicker()
-        }
-
-        Scope(state: \.about, reducerAction: /Action.ReducerAction.about) {
-            AboutFeature()
+        Scope(state: \.appearance, reducerAction: /Action.ReducerAction.appearance) {
+            AppearanceFeature()
         }
 
         Scope(state: \.networkAndData, reducerAction: /Action.ReducerAction.networkAndData) {
             NetworkAndDataFeature()
+        }
+
+        Scope(state: \.about, reducerAction: /Action.ReducerAction.about) {
+            AboutFeature()
         }
     }
 }

@@ -49,22 +49,22 @@
 
 "screen.settings.navigation.title" = "Налады";
 
-// MARK: - About, Colors
+// MARK: - Appearance
 
-"screen.about.colors.section.header" = "Колеры";
-"screen.about.colors.reset.title" = "Скінуць";
+"screen.settings.appearance.navigation.title" = "Знешні выгляд";
 
-// MARK: - About, Pair preview
+"screen.settings.appearance.colors.section.header" = "Колеры";
+"screen.settings.appearance.colors.reset.title" = "Скінуць";
 
-"screen.about.pairPreview.section.header" = "Як выглядае пара";
-"screen.about.pairPreview.from" = "пачатак";
-"screen.about.pairPreview.to" = "канец";
-"screen.about.pairPreview.subject" = "Прадмет";
-"screen.about.pairPreview.weeks" = "нед.";
-"screen.about.pairPreview.subgroup" = "падгр.";
-"screen.about.pairPreview.auditory" = "Кабінет - корпус";
-"screen.about.pairPreview.note" = "Каментар";
-"screen.about.pairPreview.accessibility.label" = "Візуальнае адлюстраванне пары з падпісанымі элементамі";
+"screen.settings.appearance.pairPreview.section.header" = "Як выглядае пара";
+"screen.settings.appearance.pairPreview.from" = "пачатак";
+"screen.settings.appearance.pairPreview.to" = "канец";
+"screen.settings.appearance.pairPreview.subject" = "Прадмет";
+"screen.settings.appearance.pairPreview.weeks" = "нед.";
+"screen.settings.appearance.pairPreview.subgroup" = "падгр.";
+"screen.settings.appearance.pairPreview.auditory" = "Кабінет - корпус";
+"screen.settings.appearance.pairPreview.note" = "Каментар";
+"screen.settings.appearance.pairPreview.accessibility.label" = "Візуальнае адлюстраванне пары з падпісанымі элементамі";
 
 // MARK: - About, Appearance
 

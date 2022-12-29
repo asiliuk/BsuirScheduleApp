@@ -16,23 +16,23 @@ public struct SettingsFeatureView: View {
     public var body: some View {
         WithViewStore(store, observe: \.isOnTop) { viewStore in
             ScrollableToTopList(isOnTop: viewStore.binding(send: { .view(.setIsOnTop($0)) })) {
-                PairFormsColorPickerView(
-                    store: store.scope(
-                        state: \.pairFormsColorPicker,
-                        reducerAction: { .pairFormsColorPicker($0) }
-                    )
-                )
-
-                Section(header: Text("screen.about.pairPreview.section.header")) {
-                    PairPreviewSectionView()
-                }
-                
                 AppIconPickerView(
                     store: store.scope(
                         state: \.appIcon,
                         reducerAction: { .appIcon($0) }
                     )
                 )
+
+                NavigationLink {
+                    AppearanceFeatureView(
+                        store: store.scope(
+                            state: \.appearance,
+                            reducerAction: { .appearance($0) }
+                        )
+                    )
+                } label: {
+                    Label("screen.settings.appearance.navigation.title", systemImage: "eye")
+                }
 
                 NavigationLink {
                     NetworkAndDataFeatureView(
@@ -59,29 +59,6 @@ public struct SettingsFeatureView: View {
             .listStyle(.insetGrouped)
             .navigationTitle("screen.settings.navigation.title")
         }
-    }
-}
-
-// MARK: - Pair Preview Section
-
-private struct PairPreviewSectionView: View {
-    var body: some View {
-        PairCell(
-            from: String(localized: "screen.about.pairPreview.from"),
-            to: String(localized: "screen.about.pairPreview.to"),
-            interval: "\(String(localized: "screen.about.pairPreview.from"))-\(String(localized: "screen.about.pairPreview.to"))",
-            subject: String(localized: "screen.about.pairPreview.subject"),
-            weeks: String(localized: "screen.about.pairPreview.weeks"),
-            subgroup: String(localized: "screen.about.pairPreview.subgroup"),
-            auditory: String(localized: "screen.about.pairPreview.auditory"),
-            note: String(localized: "screen.about.pairPreview.note"),
-            form: .practice,
-            progress: PairProgress(constant: 0.5),
-            details: EmptyView()
-        )
-        .fixedSize(horizontal: false, vertical: true)
-        .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
-        .accessibility(label: Text("screen.about.pairPreview.accessibility.label"))
     }
 }
 

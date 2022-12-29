@@ -49,22 +49,22 @@
 
 "screen.settings.navigation.title" = "Настройки";
 
-// MARK: - About, Colors
+// MARK: - Appearance
 
-"screen.about.colors.section.header" = "Цвета";
-"screen.about.colors.reset.title" = "Сбросить";
+"screen.settings.appearance.navigation.title" = "Внешний вид";
 
-// MARK: - About, Pair preview
+"screen.settings.appearance.colors.section.header" = "Цвета";
+"screen.settings.appearance.colors.reset.title" = "Сбросить";
 
-"screen.about.pairPreview.section.header" = "Как выглядит пара";
-"screen.about.pairPreview.from" = "начало";
-"screen.about.pairPreview.to" = "конец";
-"screen.about.pairPreview.subject" = "Предмет";
-"screen.about.pairPreview.weeks" = "нед.";
-"screen.about.pairPreview.subgroup" = "подгр.";
-"screen.about.pairPreview.auditory" = "Кабинет - корпус";
-"screen.about.pairPreview.note" = "Комментарий";
-"screen.about.pairPreview.accessibility.label" = "Визуальное отображение пары с подписанными элементами";
+"screen.settings.appearance.pairPreview.section.header" = "Как выглядит пара";
+"screen.settings.appearance.pairPreview.from" = "начало";
+"screen.settings.appearance.pairPreview.to" = "конец";
+"screen.settings.appearance.pairPreview.subject" = "Предмет";
+"screen.settings.appearance.pairPreview.weeks" = "нед.";
+"screen.settings.appearance.pairPreview.subgroup" = "подгр.";
+"screen.settings.appearance.pairPreview.auditory" = "Кабинет - корпус";
+"screen.settings.appearance.pairPreview.note" = "Комментарий";
+"screen.settings.appearance.pairPreview.accessibility.label" = "Визуальное отображение пары с подписанными элементами";
 
 // MARK: - About, Appearance
 

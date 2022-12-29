@@ -49,24 +49,22 @@
 
 "screen.settings.navigation.title" = "Settings";
 
-// MARK: - About, Colors
+// MARK: - Appearance
 
-"screen.about.colors.section.header" = "Colors";
-"screen.about.colors.reset.title" = "Reset";
+"screen.settings.appearance.navigation.title" = "Appearance";
 
-// MARK: - About, Pair preview
+"screen.settings.appearance.colors.section.header" = "Colors";
+"screen.settings.appearance.colors.reset.title" = "Reset";
 
-"view.pairView.announcement.title" = "📣 Announcement";
-
-"screen.about.pairPreview.section.header" = "What a lesson looks like";
-"screen.about.pairPreview.from" = "start";
-"screen.about.pairPreview.to" = "end";
-"screen.about.pairPreview.subject" = "Subject";
-"screen.about.pairPreview.weeks" = "week";
-"screen.about.pairPreview.subgroup" = "subgroup";
-"screen.about.pairPreview.auditory" = "Auditorium - building";
-"screen.about.pairPreview.note" = "Comment";
-"screen.about.pairPreview.accessibility.label" = "Visual display of the lesson with signed items";
+"screen.settings.appearance.pairPreview.section.header" = "What a lesson looks like";
+"screen.settings.appearance.pairPreview.from" = "start";
+"screen.settings.appearance.pairPreview.to" = "end";
+"screen.settings.appearance.pairPreview.subject" = "Subject";
+"screen.settings.appearance.pairPreview.weeks" = "week";
+"screen.settings.appearance.pairPreview.subgroup" = "subgroup";
+"screen.settings.appearance.pairPreview.auditory" = "Auditorium - building";
+"screen.settings.appearance.pairPreview.note" = "Comment";
+"screen.settings.appearance.pairPreview.accessibility.label" = "Visual display of the lesson with signed items";
 
 // MARK: - About, Appearance
 
@@ -137,6 +135,8 @@
 "view.errorState.apiDown.button.retry.label" = "Try again";
 
 // MARK: - PairView
+
+"view.pairView.announcement.title" = "📣 Announcement";
 
 "view.pairView.form.name.lecture" = "Lecture";
 "view.pairView.form.name.lab" = "Laboratory lesson";

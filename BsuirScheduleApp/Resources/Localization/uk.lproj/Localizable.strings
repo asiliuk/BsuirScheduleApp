@@ -49,22 +49,22 @@
 
 "screen.settings.navigation.title" = "Налаштування";
 
-// MARK: - About, Colors
+// MARK: - Appearance
 
-"screen.about.colors.section.header" = "Кольори";
-"screen.about.colors.reset.title" = "Скинути";
+"screen.settings.appearance.navigation.title" = "Зовнішній вигляд";
 
-// MARK: - About, Pair preview
+"screen.settings.appearance.colors.section.header" = "Кольори";
+"screen.settings.appearance.colors.reset.title" = "Скинути";
 
-"screen.about.pairPreview.section.header" = "Як виглядає пара";
-"screen.about.pairPreview.from" = "початок";
-"screen.about.pairPreview.to" = "кінець";
-"screen.about.pairPreview.subject" = "Предмет";
-"screen.about.pairPreview.weeks" = "тиж.";
-"screen.about.pairPreview.subgroup" = "підгр.";
-"screen.about.pairPreview.auditory" = "Кабінет - корпус";
-"screen.about.pairPreview.note" = "Коментар";
-"screen.about.pairPreview.accessibility.label" = "Візуальне відображення пари з підписаними елементами";
+"screen.settings.appearance.pairPreview.section.header" = "Як виглядає пара";
+"screen.settings.appearance.pairPreview.from" = "початок";
+"screen.settings.appearance.pairPreview.to" = "кінець";
+"screen.settings.appearance.pairPreview.subject" = "Предмет";
+"screen.settings.appearance.pairPreview.weeks" = "тиж.";
+"screen.settings.appearance.pairPreview.subgroup" = "підгр.";
+"screen.settings.appearance.pairPreview.auditory" = "Кабінет - корпус";
+"screen.settings.appearance.pairPreview.note" = "Коментар";
+"screen.settings.appearance.pairPreview.accessibility.label" = "Візуальне відображення пари з підписаними елементами";
 
 // MARK: - About, Appearance
 
