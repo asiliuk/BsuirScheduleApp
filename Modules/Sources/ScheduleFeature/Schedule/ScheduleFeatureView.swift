@@ -76,25 +76,21 @@ private struct LoadedScheduleView: View {
     let schedulePairDetails: ScheduleGridViewPairDetails
 
     var body: some View {
-        TabView(selection: $scheduleType) {
+        switch scheduleType {
+        case .continuous:
             ContiniousScheduleView(
                 store: store.scope(state: \.continious, action: { .continious($0) }),
                 pairDetails: schedulePairDetails
             )
-            .tag(ScheduleDisplayType.continuous)
-
+        case .compact:
             DayScheduleView(
                 store: store.scope(state: \.compact, action: { .day($0) })
             )
-            .tag(ScheduleDisplayType.compact)
-
+        case .exams:
             ExamsScheduleView(
                 store: store.scope(state: \.exams, action: { .exams($0) }),
                 pairDetails: schedulePairDetails
             )
-            .tag(ScheduleDisplayType.exams)
         }
-        .tabViewStyle(.page(indexDisplayMode: .never))
-        .ignoresSafeArea(.container, edges: .vertical)
     }
 }
