@@ -1,9 +1,9 @@
 import SwiftUI
 
-struct AppIconView: View {
+struct AppIconPreviewView: View {
     let icon: AppIcon
     let defaultIcon: UIImage?
-    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 34
+    @ScaledMetric(relativeTo: .body) var size: CGFloat = 34
 
     var body: some View {
         Image(uiImage: iconImage)
@@ -13,7 +13,7 @@ struct AppIconView: View {
     
     private var iconImage: UIImage {
         UIGraphicsImageRenderer(size: CGSize(width: size, height: size)).image { context in
-            let path = UIBezierPath(roundedRect: context.format.bounds, cornerRadius: (8 / 34) * size)
+            let path = UIBezierPath(roundedRect: context.format.bounds, cornerRadius: 0.2237 * size )
             path.addClip()
 
             image?.draw(in: context.format.bounds)

@@ -16,7 +16,7 @@ public struct SettingsFeatureView: View {
     public var body: some View {
         WithViewStore(store, observe: \.isOnTop) { viewStore in
             ScrollableToTopList(isOnTop: viewStore.binding(send: { .view(.setIsOnTop($0)) })) {
-                AppIconPickerView(
+                AppIconFeatureView(
                     store: store.scope(
                         state: \.appIcon,
                         reducerAction: { .appIcon($0) }

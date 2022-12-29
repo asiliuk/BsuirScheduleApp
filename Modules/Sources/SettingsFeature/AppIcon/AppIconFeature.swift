@@ -4,7 +4,7 @@ import BsuirCore
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct AppIconPickerReducer: ReducerProtocol {
+public struct AppIconFeature: ReducerProtocol {
     public struct State: Equatable {
         var alert: AlertState<Action>?
 
@@ -31,7 +31,6 @@ public struct AppIconPickerReducer: ReducerProtocol {
         }
         
         public enum ReducerAction: Equatable {
-//            case setSupportsIconPicking(Bool)
             case setCurrentIcon(AppIcon?)
             case iconChanged(AppIcon)
             case iconChangeFailed

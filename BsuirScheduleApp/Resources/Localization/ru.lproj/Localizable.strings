@@ -66,17 +66,17 @@
 "screen.settings.appearance.pairPreview.note" = "Комментарий";
 "screen.settings.appearance.pairPreview.accessibility.label" = "Визуальное отображение пары с подписанными элементами";
 
-// MARK: - About, Appearance
+// MARK: - App Icon
 
-"screen.about.appearance.section.header" = "Внешний вид";
-"screen.about.appearance.iconPicker.title" = "Иконка";
-"screen.about.appearance.icon.default.title" = "Стандартная";
-"screen.about.appearance.icon.dark.title" = "Темная";
-"screen.about.appearance.icon.nostalgia.title" = "Ностальгия";
-"screen.about.appearance.icon.resist.title" = "❤️✊✌️";
-"screen.about.appearance.icon.pride.title" = "Pride";
-"screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
-"screen.about.appearance.icon.ukrainianFlag.title" = "Украинская";
+"screen.settings.appIcon.navigation.title" = "Иконка приложения";
+"screen.settings.appIcon.iconPicker.title" = "Иконки";
+"screen.settings.appIcon.icon.default.title" = "Стандартная";
+"screen.settings.appIcon.icon.dark.title" = "Темная";
+"screen.settings.appIcon.icon.nostalgia.title" = "Ностальгия";
+"screen.settings.appIcon.icon.resist.title" = "❤️✊✌️";
+"screen.settings.appIcon.icon.pride.title" = "Pride";
+"screen.settings.appIcon.icon.belarusFlag.title" = "БЧБ";
+"screen.settings.appIcon.icon.ukrainianFlag.title" = "Украинская";
 
 // MARK: - About
 

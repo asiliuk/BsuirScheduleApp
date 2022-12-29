@@ -28,13 +28,13 @@ extension AppIcon {
 
     var title: LocalizedStringKey {
         switch self {
-        case .standard: return "screen.about.appearance.icon.default.title"
-        case .dark: return "screen.about.appearance.icon.dark.title"
-        case .nostalgia: return "screen.about.appearance.icon.nostalgia.title"
-        case .resist: return "screen.about.appearance.icon.resist.title"
-        case .pride: return "screen.about.appearance.icon.pride.title"
-        case .national: return "screen.about.appearance.icon.belarusFlag.title"
-        case .ukrainian: return "screen.about.appearance.icon.ukrainianFlag.title"
+        case .standard: return "screen.settings.appIcon.icon.default.title"
+        case .dark: return "screen.settings.appIcon.icon.dark.title"
+        case .nostalgia: return "screen.settings.appIcon.icon.nostalgia.title"
+        case .resist: return "screen.settings.appIcon.icon.resist.title"
+        case .pride: return "screen.settings.appIcon.icon.pride.title"
+        case .national: return "screen.settings.appIcon.icon.belarusFlag.title"
+        case .ukrainian: return "screen.settings.appIcon.icon.ukrainianFlag.title"
         }
     }
 

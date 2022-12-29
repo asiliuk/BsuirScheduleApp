@@ -7,13 +7,12 @@ import Dependencies
 
 public struct SettingsFeature: ReducerProtocol {
     public struct State: Equatable {
-        var appIcon = AppIconPickerReducer.State()
-
         var isOnTop: Bool = true
 
-        var appearance: AppearanceFeature.State = .init()
-        var networkAndData: NetworkAndDataFeature.State = .init()
-        var about: AboutFeature.State = .init()
+        var appIcon = AppIconFeature.State()
+        var appearance = AppearanceFeature.State()
+        var networkAndData = NetworkAndDataFeature.State()
+        var about = AboutFeature.State()
 
         public init() {}
     }
@@ -24,7 +23,7 @@ public struct SettingsFeature: ReducerProtocol {
         }
         
         public enum ReducerAction: Equatable {
-            case appIcon(AppIconPickerReducer.Action)
+            case appIcon(AppIconFeature.Action)
             case appearance(AppearanceFeature.Action)
             case networkAndData(NetworkAndDataFeature.Action)
             case about(AboutFeature.Action)
@@ -52,7 +51,7 @@ public struct SettingsFeature: ReducerProtocol {
         }
         
         Scope(state: \.appIcon, reducerAction: /Action.ReducerAction.appIcon) {
-            AppIconPickerReducer()
+            AppIconFeature()
         }
 
         Scope(state: \.appearance, reducerAction: /Action.ReducerAction.appearance) {
