@@ -33,10 +33,18 @@ public struct SettingsFeatureView: View {
                         reducerAction: { .appIcon($0) }
                     )
                 )
-                
-                Section("screen.about.aboutTheApp.section.header") {
-                    AboutSectionView(store: store.scope(state: \.appVersion))
+
+                NavigationLink {
+                    AboutFeatureView(
+                        store: store.scope(
+                            state: \.about,
+                            reducerAction: { .about($0) }
+                        )
+                    )
+                } label: {
+                    Label("screen.settings.about.navigation.title", systemImage: "info.circle")
                 }
+
 
                 Section("screen.about.reachability.section.header") {
                     ReachabilitySectionView(store: store)
@@ -46,7 +54,7 @@ public struct SettingsFeatureView: View {
                     ClearCacheSectionView(store: store)
                 }
             }
-            .listStyle(InsetGroupedListStyle())
+            .listStyle(.insetGrouped)
             .navigationTitle("screen.settings.navigation.title")
         }
     }
@@ -72,29 +80,6 @@ private struct PairPreviewSectionView: View {
         .fixedSize(horizontal: false, vertical: true)
         .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
         .accessibility(label: Text("screen.about.pairPreview.accessibility.label"))
-    }
-}
-
-// MARK: - About Section
-
-private struct AboutSectionView: View {
-    let store: Store<TextState, SettingsFeature.Action>
-    
-    var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
-            Text(viewStore.state)
-            LinkButton(title: "Github") { viewStore.send(.githubButtonTapped) }
-            LinkButton(title: "Telegram") { viewStore.send(.telegramButtonTapped) }
-        }
-    }
-}
-
-private struct LinkButton: View {
-    let title: LocalizedStringKey
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) { Text(title).underline() }
     }
 }
 

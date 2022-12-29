@@ -9,15 +9,12 @@ import Dependencies
 public struct SettingsFeature: ReducerProtocol {
     public struct State: Equatable {
         var cacheClearedAlert: AlertState<Action>?
-        var appVersion: TextState = {
-            @Dependency(\.appInfo.version.description) var appVersion
-            return TextState("screen.about.aboutTheApp.version.\(appVersion)")
-        }()
         var appIcon = AppIconPickerReducer.State()
         var pairFormsColorPicker = PairFormsColorPicker.State()
         var isOnTop: Bool = true
         var iisReachability = ReachabilityFeature.State(host: URL.iisApi.bsr_host)
         var appleReachability = ReachabilityFeature.State(host: "apple.com")
+        var about: AboutFeature.State = .init()
 
         public init() {}
     }
@@ -28,9 +25,6 @@ public struct SettingsFeature: ReducerProtocol {
 
             case clearCacheTapped
             case cacheClearedAlertDismissed
-            
-            case githubButtonTapped
-            case telegramButtonTapped
         }
         
         public enum ReducerAction: Equatable {
@@ -38,6 +32,7 @@ public struct SettingsFeature: ReducerProtocol {
             case pairFormsColorPicker(PairFormsColorPicker.Action)
             case iisReachability(ReachabilityFeature.Action)
             case appleReachability(ReachabilityFeature.Action)
+            case about(AboutFeature.Action)
         }
         
         public typealias DelegateAction = Never
@@ -49,8 +44,6 @@ public struct SettingsFeature: ReducerProtocol {
     
     @Dependency(\.apiClient.clearCache) var clearNetworkCache
     @Dependency(\.imageCache) var imageCache
-    @Dependency(\.application.open) var openUrl
-    @Dependency(\.reviewRequestService) var reviewRequestService
     @Dependency(\.networkReachabilityTracker) var networkReachabilityTracker
 
     public init() {}
@@ -76,18 +69,6 @@ public struct SettingsFeature: ReducerProtocol {
                 state.cacheClearedAlert = nil
                 return .none
                 
-            case .view(.githubButtonTapped):
-                return .fireAndForget {
-                    reviewRequestService.madeMeaningfulEvent(.githubOpened)
-                    _ = await openUrl(.github, [:])
-                }
-                
-            case .view(.telegramButtonTapped):
-                return .fireAndForget {
-                    reviewRequestService.madeMeaningfulEvent(.telegramOpened)
-                    _ = await openUrl(.telegram, [:])
-                }
-                
             case .reducer:
                 return .none
             }
@@ -108,12 +89,11 @@ public struct SettingsFeature: ReducerProtocol {
         Scope(state: \.appleReachability, reducerAction: /Action.ReducerAction.appleReachability) {
             ReachabilityFeature()
         }
-    }
-}
 
-private extension MeaningfulEvent {
-    static let githubOpened = Self(score: 1)
-    static let telegramOpened = Self(score: 1)
+        Scope(state: \.about, reducerAction: /Action.ReducerAction.about) {
+            AboutFeature()
+        }
+    }
 }
 
 // MARK: - Reset

@@ -78,10 +78,11 @@
 "screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
 "screen.about.appearance.icon.ukrainianFlag.title" = "Украинская";
 
-// MARK: - About, About App
+// MARK: - About
 
-"screen.about.aboutTheApp.section.header" = "О приложении";
-"screen.about.aboutTheApp.version.%@" = "Версия %@";
+"screen.settings.about.navigation.title" = "О приложении";
+"screen.settings.about.version.section.header" = "Версия";
+"screen.settings.about.links.section.header" = "Ссылки";
 
 // MARK: - About, Reachability
 

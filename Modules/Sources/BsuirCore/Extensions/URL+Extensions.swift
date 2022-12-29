@@ -13,6 +13,7 @@ extension URL {
     public static let iisApi = URL(string: "https://iis.bsuir.by/api")!
     public static let github = URL(string: "https://github.com/asiliuk/BsuirScheduleApp")!
     public static let telegram = URL(string: "https://t.me/bsuirschedule")!
+    public static let mastodon = URL(string: "https://indieapps.space/@BsuirSchedule")!
 }
 
 // MARK: - Github
