@@ -6,10 +6,10 @@ import ReachabilityFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct AboutView: View {
-    public let store: StoreOf<AboutFeature>
+public struct SettingsFeatureView: View {
+    public let store: StoreOf<SettingsFeature>
     
-    public init(store: StoreOf<AboutFeature>) {
+    public init(store: StoreOf<SettingsFeature>) {
         self.store = store
     }
     
@@ -47,7 +47,7 @@ public struct AboutView: View {
                 }
             }
             .listStyle(InsetGroupedListStyle())
-            .navigationTitle("screen.about.navigation.title")
+            .navigationTitle("screen.settings.navigation.title")
         }
     }
 }
@@ -78,7 +78,7 @@ private struct PairPreviewSectionView: View {
 // MARK: - About Section
 
 private struct AboutSectionView: View {
-    let store: Store<TextState, AboutFeature.Action>
+    let store: Store<TextState, SettingsFeature.Action>
     
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
@@ -101,7 +101,7 @@ private struct LinkButton: View {
 // MARK: - Reachability
 
 private struct ReachabilitySectionView: View {
-    let store: StoreOf<AboutFeature>
+    let store: StoreOf<SettingsFeature>
 
     var body: some View {
         ReachabilityView(
@@ -123,7 +123,7 @@ private struct ReachabilitySectionView: View {
 // MARK: - Clear Cache Section
 
 private struct ClearCacheSectionView: View {
-    let store: StoreOf<AboutFeature>
+    let store: StoreOf<SettingsFeature>
 
     var body: some View {
         Button("screen.about.data.section.clearCache.button") {
@@ -137,6 +137,6 @@ private struct ClearCacheSectionView: View {
 
 struct AboutView_Previews: PreviewProvider {
     static var previews: some View {
-        AboutView(store: Store(initialState: .init(), reducer: AboutFeature()))
+        SettingsFeatureView(store: Store(initialState: .init(), reducer: SettingsFeature()))
     }
 }

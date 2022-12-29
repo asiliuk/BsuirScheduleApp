@@ -11,8 +11,8 @@ let package = Package(
             name: "AppFeature",
             targets: ["AppFeature"]),
         .library(
-            name: "AboutFeature",
-            targets: ["AboutFeature"]),
+            name: "SettingsFeature",
+            targets: ["SettingsFeature"]),
         .library(
             name: "GroupsFeature",
             targets: ["GroupsFeature"]),
@@ -53,14 +53,14 @@ let package = Package(
         .target(
             name: "AppFeature",
             dependencies: [
-                "GroupsFeature", "LecturersFeature", "AboutFeature",
+                "GroupsFeature", "LecturersFeature", "SettingsFeature",
                 "Deeplinking", "Favorites", "ComposableArchitectureUtils",
                 "ScheduleCore", "BsuirApi", "BsuirUI",
                 .tca
             ]
         ),
         .target(
-            name: "AboutFeature",
+            name: "SettingsFeature",
             dependencies: ["ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]
         ),
         .target(

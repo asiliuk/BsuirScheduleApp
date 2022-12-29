@@ -6,7 +6,7 @@ public enum Deeplink {
     case group(name: String)
     case lecturers
     case lector(id: Int)
-    case about
+    case settings
 }
 
 public let deeplinkRouter = OneOf {
@@ -34,10 +34,10 @@ public let deeplinkRouter = OneOf {
         Path { "lecturers"; Digits() }
     }
 
-    //about
-    Route(.case(Deeplink.about)) {
+    //settings
+    Route(.case(Deeplink.settings)) {
         bsuirScheduleScheme
-        Path { "about" }
+        Path { "settings" }
     }
 }
 

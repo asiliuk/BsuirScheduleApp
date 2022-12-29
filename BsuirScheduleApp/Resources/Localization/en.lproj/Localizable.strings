@@ -10,7 +10,7 @@
 
 "view.tabBar.groups.title" = "Groups";
 "view.tabBar.lecturers.title" = "Lecturers";
-"view.tabBar.about.title" = "About";
+"view.tabBar.settings.title" = "Settings";
 "view.tabBar.favorites.title" = "Favorites";
 
 // MARK: - Favorites
@@ -45,9 +45,9 @@
 "screen.lecturers.favorites.section.header" = "⭐️ Favorites";
 "screen.lecturers.pinned.section.header" = "📌 Pinned";
 
-// MARK: - About
+// MARK: - Settings
 
-"screen.about.navigation.title" = "Information";
+"screen.settings.navigation.title" = "Settings";
 
 // MARK: - About, Colors
 

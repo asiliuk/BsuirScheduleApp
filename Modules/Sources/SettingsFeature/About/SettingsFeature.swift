@@ -6,7 +6,7 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 import Dependencies
 
-public struct AboutFeature: ReducerProtocol {
+public struct SettingsFeature: ReducerProtocol {
     public struct State: Equatable {
         var cacheClearedAlert: AlertState<Action>?
         var appVersion: TextState = {
@@ -118,7 +118,7 @@ private extension MeaningfulEvent {
 
 // MARK: - Reset
 
-extension AboutFeature.State {
+extension SettingsFeature.State {
     /// Reset navigation and inner state
     public mutating func reset() {
         if !isOnTop {

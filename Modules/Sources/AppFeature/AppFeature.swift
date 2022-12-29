@@ -1,7 +1,7 @@
 import Foundation
 import GroupsFeature
 import LecturersFeature
-import AboutFeature
+import SettingsFeature
 import Deeplinking
 import Favorites
 import ScheduleCore
@@ -22,7 +22,7 @@ public struct AppFeature: ReducerProtocol {
         var pinned: Pinned?
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
-        var about = AboutFeature.State()
+        var settings = SettingsFeature.State()
 
         public init() {
             @Dependency(\.favorites) var favorites
@@ -37,12 +37,12 @@ public struct AppFeature: ReducerProtocol {
         case setSelection(CurrentSelection)
         case setOverlay(CurrentOverlay?)
         case setPinnedSchedule(ScheduleSource?)
-        case showAboutButtonTapped
+        case showSettingsButtonTapped
 
         case pinned(PinnedScheduleFeature.Action)
         case groups(GroupsFeature.Action)
         case lecturers(LecturersFeature.Action)
-        case about(AboutFeature.Action)
+        case settings(SettingsFeature.Action)
     }
 
     @Dependency(\.favorites) var favorites
@@ -78,8 +78,8 @@ public struct AppFeature: ReducerProtocol {
                 state.pinned = .init(pinned)
                 return .none
 
-            case .showAboutButtonTapped:
-                state.overlay = .about
+            case .showSettingsButtonTapped:
+                state.overlay = .settings
                 return .none
 
             case let .handleDeeplink(url):
@@ -91,7 +91,7 @@ public struct AppFeature: ReducerProtocol {
                 }
                 return .none
 
-            case .groups, .lecturers, .about, .pinned:
+            case .groups, .lecturers, .settings, .pinned:
                 return .none
             }
         }
@@ -109,8 +109,8 @@ public struct AppFeature: ReducerProtocol {
             LecturersFeature()
         }
 
-        Scope(state: \.about, action: /Action.about) {
-            AboutFeature()
+        Scope(state: \.settings, action: /Action.settings) {
+            SettingsFeature()
         }
     }
 }
@@ -132,9 +132,9 @@ private extension AppFeature {
             state.lecturers.reset()
         case let .lector(id):
             handleDeeplink(state: &state, lectorId: id)
-        case .about:
-            state.selection = .about
-            state.about.reset()
+        case .settings:
+            state.selection = .settings
+            state.settings.reset()
         }
     }
 
@@ -196,8 +196,8 @@ private extension AppFeature.State {
             groups.reset()
         case .lecturers:
             lecturers.reset()
-        case .about:
-            about.reset()
+        case .settings:
+            settings.reset()
         }
     }
 }

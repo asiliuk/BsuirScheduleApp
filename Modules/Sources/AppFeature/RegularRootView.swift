@@ -1,7 +1,7 @@
 import SwiftUI
 import GroupsFeature
 import LecturersFeature
-import AboutFeature
+import SettingsFeature
 import ComposableArchitecture
 
 struct RegularRootView: View {
@@ -45,9 +45,9 @@ struct RegularRootView: View {
                 }
                 .toolbar {
                     Button {
-                        viewStore.send(.showAboutButtonTapped)
+                        viewStore.send(.showSettingsButtonTapped)
                     } label: {
-                        Label.about
+                        Label.settings
                     }
                 }
 
@@ -57,12 +57,12 @@ struct RegularRootView: View {
             // And merge overlay enum with selection enum
             .sheet(item: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay)) { overlay in
                 switch overlay {
-                case .about:
+                case .settings:
                     NavigationView {
-                        AboutView(
+                        SettingsFeatureView(
                             store: store.scope(
-                                state: \.about,
-                                action: AppFeature.Action.about
+                                state: \.settings,
+                                action: AppFeature.Action.settings
                             )
                         )
                     }

@@ -1,6 +1,6 @@
 import SwiftUI
 import BsuirCore
-import AboutFeature
+import SettingsFeature
 import GroupsFeature
 import LecturersFeature
 import EntityScheduleFeature
@@ -53,24 +53,16 @@ struct CompactRootView: View {
                 .tabItem { Label.lecturers }
 
                 NavigationView {
-                    AboutView(
+                    SettingsFeatureView(
                         store: store.scope(
-                            state: \.about,
-                            action: AppFeature.Action.about
+                            state: \.settings,
+                            action: AppFeature.Action.settings
                         )
                     )
                 }
-                .tag(CurrentSelection.about)
-                .tabItem { Label.about }
+                .tag(CurrentSelection.settings)
+                .tabItem { Label.settings }
             }
         }
     }
 }
-
-//extension View {
-//    func tab(_ selection: CurrentSelection) -> some View {
-//        self
-//            .tabItem { selection.label }
-//            .tag(selection)
-//    }
-//}

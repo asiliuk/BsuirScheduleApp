@@ -10,7 +10,7 @@
 
 "view.tabBar.groups.title" = "Групи";
 "view.tabBar.lecturers.title" = "Викладачі";
-"view.tabBar.about.title" = "Про програму";
+"view.tabBar.settings.title" = "Налаштування";
 "view.tabBar.favorites.title" = "Вибрані";
 
 // MARK: - Favorites
@@ -45,9 +45,9 @@
 "screen.lecturers.favorites.section.header" = "⭐️ Вибрані";
 "screen.lecturers.pinned.section.header" = "📌 Закріплене";
 
-// MARK: - About
+// MARK: - Settings
 
-"screen.about.navigation.title" = "Інформація";
+"screen.settings.navigation.title" = "Налаштування";
 
 // MARK: - About, Colors
 
