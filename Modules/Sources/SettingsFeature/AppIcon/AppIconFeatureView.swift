@@ -1,7 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
-import SwiftUINavigation
 
 struct AppIconFeatureView: View {
     let store: StoreOf<AppIconFeature>
@@ -23,7 +22,7 @@ struct AppIconFeatureView: View {
                         AppIconPreviewView(
                             icon: viewStore.currentIcon,
                             defaultIcon: viewStore.defaultIcon,
-                            size: 24
+                            size: 28
                         )
                     }
                 }

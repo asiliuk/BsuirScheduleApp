@@ -31,7 +31,8 @@ public struct SettingsFeatureView: View {
                         )
                     )
                 } label: {
-                    Label("screen.settings.appearance.navigation.title", systemImage: "eye")
+                    Label("screen.settings.appearance.navigation.title", systemImage: "circle.lefthalf.filled")
+                        .settingsRowAccentColor(.orange)
                 }
 
                 NavigationLink {
@@ -43,6 +44,7 @@ public struct SettingsFeatureView: View {
                     )
                 } label: {
                     Label("screen.settings.networkAndData.navigation.title", systemImage: "network")
+                        .settingsRowAccentColor(.blue)
                 }
 
                 NavigationLink {
@@ -53,9 +55,11 @@ public struct SettingsFeatureView: View {
                         )
                     )
                 } label: {
-                    Label("screen.settings.about.navigation.title", systemImage: "info.circle")
+                    Label("screen.settings.about.navigation.title", systemImage: "info.circle.fill")
+                        .settingsRowAccentColor(.indigo)
                 }
             }
+            .labelStyle(SettingsLabelStyle())
             .listStyle(.insetGrouped)
             .navigationTitle("screen.settings.navigation.title")
         }
@@ -64,7 +68,7 @@ public struct SettingsFeatureView: View {
 
 // MARK: - Previews
 
-struct AboutView_Previews: PreviewProvider {
+struct SettingsFeatureView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsFeatureView(store: Store(initialState: .init(), reducer: SettingsFeature()))
     }

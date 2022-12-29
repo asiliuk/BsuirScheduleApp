@@ -111,7 +111,7 @@ let package = Package(
             dependencies: ["BsuirCore", .urlRouting, .tcaDependencies]),
         .target(
             name: "BsuirCore",
-            dependencies: [.tcaDependencies]),
+            dependencies: [.tcaDependencies, .swiftCollections]),
         .testTarget(
             name: "ScheduleCoreTests",
             dependencies: ["ScheduleCore"]),
