@@ -4,27 +4,34 @@ import BsuirCore
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-// TODO: Find a way to make internal
 public struct AppIconPickerReducer: ReducerProtocol {
     public struct State: Equatable {
         var alert: AlertState<Action>?
-        var supportsIconPicking: Bool = true
+
+        var supportsIconPicking: Bool = {
+            @Dependency(\.application.supportsAlternateIcons) var supportsAlternateIcons
+            return supportsAlternateIcons()
+        }()
+
         var defaultIcon: UIImage? = {
             @Dependency(\.appInfo.iconName) var appIconName
             return appIconName.flatMap(UIImage.init(named:))
         }()
-        var currentIcon: AppIcon = .standard
+
+        var currentIcon: AppIcon = {
+            @Dependency(\.application.alternateIconName) var alternateIconName
+            return alternateIconName().flatMap(AppIcon.init(name:)) ?? .standard
+        }()
     }
     
     public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
-            case task
             case alertDismissed
             case iconPicked(AppIcon)
         }
         
         public enum ReducerAction: Equatable {
-            case setSupportsIconPicking(Bool)
+//            case setSupportsIconPicking(Bool)
             case setCurrentIcon(AppIcon?)
             case iconChanged(AppIcon)
             case iconChangeFailed
@@ -37,19 +44,11 @@ public struct AppIconPickerReducer: ReducerProtocol {
         case reducer(ReducerAction)
     }
 
-    @Dependency(\.application.supportsAlternateIcons) var supportsAlternateIcons
-    @Dependency(\.application.alternateIconName) var alternateIconName
     @Dependency(\.application.setAlternateIconName) var setAlternateIconName
     @Dependency(\.reviewRequestService) var reviewRequestService
 
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
-        case .view(.task):
-            return .merge(
-                .task { await checkIfIconPickingSupported() },
-                .task { await updateInitialAppIcon() }
-            )
-            
         case .view(.alertDismissed):
             state.alert = nil
             return .none
@@ -67,10 +66,6 @@ public struct AppIconPickerReducer: ReducerProtocol {
             } catch: { _ in
                 .reducer(.iconChangeFailed)
             }
-            
-        case let .reducer(.setSupportsIconPicking(value)):
-            state.supportsIconPicking = value
-            return .none
             
         case let .reducer(.setCurrentIcon(appIcon?)):
             state.currentIcon = appIcon
@@ -95,16 +90,6 @@ public struct AppIconPickerReducer: ReducerProtocol {
             )
             return .none
         }
-    }
-    
-    private func checkIfIconPickingSupported() async -> Action {
-        await .reducer(.setSupportsIconPicking(supportsAlternateIcons()))
-    }
-    
-    private func updateInitialAppIcon() async -> Action {
-        let alternateIconName = await alternateIconName()
-        let appIcon = alternateIconName.flatMap(AppIcon.init(name:))
-        return .reducer(.setCurrentIcon(appIcon))
     }
 }
 

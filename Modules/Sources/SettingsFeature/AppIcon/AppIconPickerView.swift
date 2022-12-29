@@ -21,7 +21,6 @@ struct AppIconPickerView: View {
                         }
                     }
                 }
-                .task { await viewStore.send(.task).finish() }
                 .alert(store.scope(state: \.alert), dismiss: .alertDismissed)
             }
         }
