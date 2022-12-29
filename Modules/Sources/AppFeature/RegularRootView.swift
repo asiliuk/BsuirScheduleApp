@@ -3,6 +3,7 @@ import GroupsFeature
 import LecturersFeature
 import SettingsFeature
 import ComposableArchitecture
+import SwiftUINavigation
 
 struct RegularRootView: View {
     struct ViewState: Equatable {
@@ -53,19 +54,17 @@ struct RegularRootView: View {
 
                 SchedulePlaceholder()
             }
-            // TODO: Use unwraping API here from SwiftUINavigation
-            // And merge overlay enum with selection enum
-            .sheet(item: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay)) { overlay in
-                switch overlay {
-                case .settings:
-                    NavigationView {
-                        SettingsFeatureView(
-                            store: store.scope(
-                                state: \.settings,
-                                action: AppFeature.Action.settings
-                            )
+            .sheet(
+                unwrapping: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay),
+                case: /CurrentOverlay.settings
+            ) { _ in
+                NavigationView {
+                    SettingsFeatureView(
+                        store: store.scope(
+                            state: \.settings,
+                            action: AppFeature.Action.settings
                         )
-                    }
+                    )
                 }
             }
         }
