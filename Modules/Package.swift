@@ -62,7 +62,7 @@ let package = Package(
         ),
         .target(
             name: "SettingsFeature",
-            dependencies: ["ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]
+            dependencies: ["ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies, .swiftUINavigation]
         ),
         .target(
             name: "GroupsFeature",

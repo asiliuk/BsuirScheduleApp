@@ -13,21 +13,21 @@ public struct AppIconFeature: ReducerProtocol {
             return supportsAlternateIcons()
         }()
 
-        var currentIcon: AppIcon = {
+        var currentIcon: AppIcon? = {
             @Dependency(\.application.alternateIconName) var alternateIconName
-            return alternateIconName().flatMap(AppIcon.init(name:)) ?? .standard
+            return alternateIconName().flatMap(AppIcon.init(name:))
         }()
     }
     
     public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
             case alertDismissed
-            case iconPicked(AppIcon)
+            case iconPicked(AppIcon?)
         }
         
         public enum ReducerAction: Equatable {
             case setCurrentIcon(AppIcon?)
-            case iconChanged(AppIcon)
+            case iconChanged(AppIcon?)
             case iconChangeFailed
         }
         
@@ -54,7 +54,7 @@ public struct AppIconFeature: ReducerProtocol {
             
             state.currentIcon = icon
             return .task {
-                try await setAlternateIconName(icon.name)
+                try await setAlternateIconName(icon?.iconName)
                 reviewRequestService.madeMeaningfulEvent(.appIconChanged)
                 return .reducer(.iconChanged(icon))
             } catch: { _ in
@@ -69,7 +69,7 @@ public struct AppIconFeature: ReducerProtocol {
             return .none
             
         case let .reducer(.iconChanged(newIcon)):
-            if newIcon.showNiceChoiceAlert {
+            if let newIcon, newIcon.showNiceChoiceAlert {
                 state.alert =  AlertState(
                     title: TextState("alert.goodIconChoice.title"),
                     message: TextState("alert.goodIconChoice.message")
@@ -92,7 +92,7 @@ public struct AppIconFeature: ReducerProtocol {
 private extension AppIcon {
     var showNiceChoiceAlert: Bool {
         switch self {
-        case .resist, .national:
+        case .symbol(.resist), .symbol(.national):
             return true
         default:
             return false

@@ -69,7 +69,8 @@
 // MARK: - App Icon
 
 "screen.settings.appIcon.navigation.title" = "App Icon";
-"screen.settings.appIcon.iconPicker.title" = "Icon";
+"screen.settings.appIcon.iconPicker.plain.title" = "Plain";
+"screen.settings.appIcon.iconPicker.symbol.title" = "Symbol";
 "screen.settings.appIcon.icon.default.title" = "Default";
 "screen.settings.appIcon.icon.dark.title" = "Dark";
 "screen.settings.appIcon.icon.nostalgia.title" = "Nostalgia";

@@ -15,7 +15,7 @@ struct AppIconPreviewView: View {
             let path = UIBezierPath(roundedRect: context.format.bounds, cornerRadius: 0.2237 * size )
             path.addClip()
 
-            UIImage(named: icon.name)?.draw(in: context.format.bounds)
+            UIImage(named: icon.imageName)?.draw(in: context.format.bounds)
 
             UIColor.gray.withAlphaComponent(0.4).setStroke()
             path.stroke()

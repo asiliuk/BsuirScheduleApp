@@ -69,7 +69,8 @@
 // MARK: - App Icon
 
 "screen.settings.appIcon.navigation.title" = "Додаток значок";
-"screen.settings.appIcon.iconPicker.title" = "Іконка";
+"screen.settings.appIcon.iconPicker.plain.title" = "Прості";
+"screen.settings.appIcon.iconPicker.symbol.title" = "Символ";
 "screen.settings.appIcon.icon.default.title" = "Стандартна";
 "screen.settings.appIcon.icon.dark.title" = "Темна";
 "screen.settings.appIcon.icon.nostalgia.title" = "Ностальгія";

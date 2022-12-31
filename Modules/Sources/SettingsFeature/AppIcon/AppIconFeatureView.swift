@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUINavigation
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
@@ -19,7 +20,7 @@ struct AppIconFeatureView: View {
                         Text("screen.settings.appIcon.navigation.title")
                     } icon: {
                         AppIconPreviewView(
-                            icon: viewStore.currentIcon,
+                            icon: viewStore.currentIcon ?? .plain(.standard),
                             size: 28
                         )
                     }
@@ -30,32 +31,46 @@ struct AppIconFeatureView: View {
 }
 
 private struct AppIconPickerView: View {
-    @Binding var selection: AppIcon
+    @Binding var selection: AppIcon?
 
     var body: some View {
         List {
-            Picker(
+            AppIconGroupPicker(
                 selection: $selection,
-                label: Text("screen.settings.appIcon.iconPicker.title")
-            ) {
-                ForEach(AppIcon.allCases) { icon in
-                    AppIconRowPreviewView(icon: icon)
-                }
-            }
-            .pickerStyle(.inline)
+                label: Text("screen.settings.appIcon.iconPicker.plain.title"),
+                case: /AppIcon.plain
+            )
+
+            AppIconGroupPicker(
+                selection: $selection,
+                label: Text("screen.settings.appIcon.iconPicker.symbol.title"),
+                case: /AppIcon.symbol
+            )
         }
+        .pickerStyle(.inline)
         .listStyle(.insetGrouped)
     }
 }
 
-private struct AppIconRowPreviewView: View {
-    let icon: AppIcon
+private struct AppIconGroupPicker<Icon>: View where Icon: CaseIterable & Hashable & Identifiable, Icon.AllCases: RandomAccessCollection {
+    @Binding var selection: AppIcon?
+    let label: Text
+    let `case`: CasePath<AppIcon, Icon>
 
     var body: some View {
-        Label {
-            Text("  ") + Text(icon.title)
-        } icon: {
-            AppIconPreviewView(icon: icon, size: 50)
+        Picker(
+            selection: $selection.case(`case`),
+            label: label
+        ) {
+            ForEach(Icon.allCases) { icon in
+                let appIcon = `case`.embed(icon)
+                Label {
+                    Text("  ") + Text(appIcon.title)
+                } icon: {
+                    AppIconPreviewView(icon: appIcon, size: 50)
+                }
+                .tag(Optional.some(icon))
+            }
         }
     }
 }
