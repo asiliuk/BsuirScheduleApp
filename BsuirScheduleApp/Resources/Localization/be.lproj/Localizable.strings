@@ -71,13 +71,17 @@
 "screen.settings.appIcon.navigation.title" = "Абразок прыкладання";
 "screen.settings.appIcon.iconPicker.plain.title" = "Простыя";
 "screen.settings.appIcon.iconPicker.symbol.title" = "Сімвал";
+"screen.settings.appIcon.iconPicker.metall.title" = "Метал";
 "screen.settings.appIcon.icon.default.title" = "Стандартная";
 "screen.settings.appIcon.icon.dark.title" = "Цёмная";
 "screen.settings.appIcon.icon.nostalgia.title" = "Настальгія";
+"screen.settings.appIcon.icon.bsuirDonalds.title" = "BsuirDonald's";
 "screen.settings.appIcon.icon.resist.title" = "❤️✊✌️";
 "screen.settings.appIcon.icon.pride.title" = "Pride";
 "screen.settings.appIcon.icon.belarusFlag.title" = "БЧБ";
 "screen.settings.appIcon.icon.ukrainianFlag.title" = "Украінская";
+"screen.settings.appIcon.icon.silver.title" = "Срэбра";
+"screen.settings.appIcon.icon.copper.title" = "Медзь";
 
 // MARK: - About
 

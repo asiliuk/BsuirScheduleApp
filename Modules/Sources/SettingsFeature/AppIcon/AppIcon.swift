@@ -7,6 +7,7 @@ public enum AppIcon: Hashable {
         case standard
         case dark
         case nostalgia
+        case bsuirDonalds
     }
 
     public enum Symbol: CaseIterable, Hashable, Identifiable {
@@ -17,8 +18,15 @@ public enum AppIcon: Hashable {
         case pride
     }
 
+    public enum Metal: CaseIterable, Hashable, Identifiable {
+        public var id: Self { self }
+        case silver
+        case copper
+    }
+
     case plain(Plain)
     case symbol(Symbol)
+    case metal(Metal)
 }
 
 extension AppIcon {
@@ -27,10 +35,13 @@ extension AppIcon {
         case "AppIcon": self = .plain(.standard)
         case "AppIconDark": self = .plain(.dark)
         case "AppIconNostalgia": self = .plain(.nostalgia)
+        case "AppIconBsuirDonalds": self = .plain(.bsuirDonalds)
         case "AppIconResist": self = .symbol(.resist)
         case "AppIconNational": self = .symbol(.national)
         case "AppIconUkrainian": self = .symbol(.ukrainian)
         case "AppIconPride": self = .symbol(.pride)
+        case "AppIconSilver": self = .metal(.silver)
+        case "AppIconCopper": self = .metal(.copper)
         default: return nil
         }
     }
@@ -40,10 +51,13 @@ extension AppIcon {
         case .plain(.standard): return "screen.settings.appIcon.icon.default.title"
         case .plain(.dark): return "screen.settings.appIcon.icon.dark.title"
         case .plain(.nostalgia): return "screen.settings.appIcon.icon.nostalgia.title"
+        case .plain(.bsuirDonalds): return "screen.settings.appIcon.icon.bsuirDonalds.title"
         case .symbol(.resist): return "screen.settings.appIcon.icon.resist.title"
         case .symbol(.pride): return "screen.settings.appIcon.icon.pride.title"
         case .symbol(.national): return "screen.settings.appIcon.icon.belarusFlag.title"
         case .symbol(.ukrainian): return "screen.settings.appIcon.icon.ukrainianFlag.title"
+        case .metal(.silver): return "screen.settings.appIcon.icon.silver.title"
+        case .metal(.copper): return "screen.settings.appIcon.icon.copper.title"
         }
     }
 
@@ -60,10 +74,13 @@ extension AppIcon {
         case .plain(.standard): return nil
         case .plain(.dark): return "AppIconDark"
         case .plain(.nostalgia): return "AppIconNostalgia"
+        case .plain(.bsuirDonalds): return "AppIconBsuirDonalds"
         case .symbol(.resist): return "AppIconResist"
         case .symbol(.national): return "AppIconNational"
         case .symbol(.ukrainian): return "AppIconUkrainian"
         case .symbol(.pride): return "AppIconPride"
+        case .metal(.silver): return "AppIconSilver"
+        case .metal(.copper): return "AppIconCopper"
         }
     }
 }

@@ -46,6 +46,12 @@ private struct AppIconPickerView: View {
                 label: Text("screen.settings.appIcon.iconPicker.symbol.title"),
                 case: /AppIcon.symbol
             )
+
+            AppIconGroupPicker(
+                selection: $selection,
+                label: Text("screen.settings.appIcon.iconPicker.metall.title"),
+                case: /AppIcon.metal
+            )
         }
         .pickerStyle(.inline)
         .listStyle(.insetGrouped)

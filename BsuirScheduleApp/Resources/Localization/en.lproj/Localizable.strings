@@ -71,13 +71,17 @@
 "screen.settings.appIcon.navigation.title" = "App Icon";
 "screen.settings.appIcon.iconPicker.plain.title" = "Plain";
 "screen.settings.appIcon.iconPicker.symbol.title" = "Symbol";
+"screen.settings.appIcon.iconPicker.metall.title" = "Metal";
 "screen.settings.appIcon.icon.default.title" = "Default";
 "screen.settings.appIcon.icon.dark.title" = "Dark";
 "screen.settings.appIcon.icon.nostalgia.title" = "Nostalgia";
+"screen.settings.appIcon.icon.bsuirDonalds.title" = "BsuirDonald's";
 "screen.settings.appIcon.icon.resist.title" = "❤️✊✌️";
 "screen.settings.appIcon.icon.pride.title" = "Pride";
 "screen.settings.appIcon.icon.belarusFlag.title" = "БЧБ";
 "screen.settings.appIcon.icon.ukrainianFlag.title" = "Ukrainian";
+"screen.settings.appIcon.icon.silver.title" = "Silver";
+"screen.settings.appIcon.icon.copper.title" = "Copper";
 
 // MARK: - About
 
