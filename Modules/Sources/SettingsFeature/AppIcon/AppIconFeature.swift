@@ -13,11 +13,6 @@ public struct AppIconFeature: ReducerProtocol {
             return supportsAlternateIcons()
         }()
 
-        var defaultIcon: UIImage? = {
-            @Dependency(\.appInfo.iconName) var appIconName
-            return appIconName.flatMap(UIImage.init(named:))
-        }()
-
         var currentIcon: AppIcon = {
             @Dependency(\.application.alternateIconName) var alternateIconName
             return alternateIconName().flatMap(AppIcon.init(name:)) ?? .standard

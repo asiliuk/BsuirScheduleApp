@@ -2,7 +2,6 @@ import SwiftUI
 
 struct AppIconPreviewView: View {
     let icon: AppIcon
-    let defaultIcon: UIImage?
     @ScaledMetric(relativeTo: .body) var size: CGFloat = 34
 
     var body: some View {
@@ -16,14 +15,10 @@ struct AppIconPreviewView: View {
             let path = UIBezierPath(roundedRect: context.format.bounds, cornerRadius: 0.2237 * size )
             path.addClip()
 
-            image?.draw(in: context.format.bounds)
+            UIImage(named: icon.name)?.draw(in: context.format.bounds)
 
             UIColor.gray.withAlphaComponent(0.4).setStroke()
             path.stroke()
         }
-    }
-    
-    private var image: UIImage? {
-        icon.name.flatMap(UIImage.init(named:)) ?? defaultIcon
     }
 }

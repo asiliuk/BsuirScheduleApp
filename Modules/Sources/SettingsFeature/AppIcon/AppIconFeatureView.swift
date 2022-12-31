@@ -10,8 +10,7 @@ struct AppIconFeatureView: View {
             if viewStore.supportsIconPicking {
                 NavigationLink {
                     AppIconPickerView(
-                        selection: viewStore.binding(get: \.currentIcon, send: { .view(.iconPicked($0)) }),
-                        defaultIcon: viewStore.defaultIcon
+                        selection: viewStore.binding(get: \.currentIcon, send: { .view(.iconPicked($0)) })
                     )
                     .alert(store.scope(state: \.alert), dismiss: .alertDismissed)
                     .navigationTitle("screen.settings.appIcon.navigation.title")
@@ -21,7 +20,6 @@ struct AppIconFeatureView: View {
                     } icon: {
                         AppIconPreviewView(
                             icon: viewStore.currentIcon,
-                            defaultIcon: viewStore.defaultIcon,
                             size: 28
                         )
                     }
@@ -33,7 +31,6 @@ struct AppIconFeatureView: View {
 
 private struct AppIconPickerView: View {
     @Binding var selection: AppIcon
-    let defaultIcon: UIImage?
 
     var body: some View {
         List {
@@ -42,7 +39,7 @@ private struct AppIconPickerView: View {
                 label: Text("screen.settings.appIcon.iconPicker.title")
             ) {
                 ForEach(AppIcon.allCases) { icon in
-                    AppIconRowPreviewView(icon: icon, defaultIcon: defaultIcon)
+                    AppIconRowPreviewView(icon: icon)
                 }
             }
             .pickerStyle(.inline)
@@ -53,13 +50,12 @@ private struct AppIconPickerView: View {
 
 private struct AppIconRowPreviewView: View {
     let icon: AppIcon
-    let defaultIcon: UIImage?
 
     var body: some View {
         Label {
             Text("  ") + Text(icon.title)
         } icon: {
-            AppIconPreviewView(icon: icon, defaultIcon: defaultIcon, size: 50)
+            AppIconPreviewView(icon: icon, size: 50)
         }
     }
 }

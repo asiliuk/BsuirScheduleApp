@@ -1,7 +1,6 @@
 import Foundation
 import SwiftUI
 
-// TODO: Find a way to make internal
 public enum AppIcon: CaseIterable, Equatable, Identifiable {
     public var id: Self { self }
     case standard
@@ -16,6 +15,7 @@ public enum AppIcon: CaseIterable, Equatable, Identifiable {
 extension AppIcon {
     init?(name: String) {
         switch name {
+        case "AppIcon": self = .standard
         case "AppIconDark": self = .dark
         case "AppIconNostalgia": self = .nostalgia
         case "AppIconResist": self = .resist
@@ -38,9 +38,9 @@ extension AppIcon {
         }
     }
 
-    var name: String? {
+    var name: String {
         switch self {
-        case .standard: return nil
+        case .standard: return "AppIcon"
         case .dark: return "AppIconDark"
         case .nostalgia: return "AppIconNostalgia"
         case .resist: return "AppIconResist"
