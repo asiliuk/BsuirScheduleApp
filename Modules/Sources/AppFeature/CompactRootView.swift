@@ -20,7 +20,7 @@ struct CompactRootView: View {
                     )
                 ) { store in
                     WithViewStore(store, observe: \.title) { viewStore in
-                        NavigationView {
+                        NavigationStack {
                             PinnedScheduleView(
                                 store: store.scope(state: \.schedule)
                             )
@@ -30,7 +30,7 @@ struct CompactRootView: View {
                     }
                 }
 
-                NavigationView {
+                NavigationStack {
                     GroupsFeatureView(
                         store: store.scope(
                             state: \.groups,
@@ -42,7 +42,7 @@ struct CompactRootView: View {
                 .tag(CurrentSelection.groups)
                 .tabItem { Label.groups }
 
-                NavigationView {
+                NavigationStack {
                     LecturersFeatureView(
                         store: store.scope(
                             state: \.lecturers,
@@ -54,7 +54,7 @@ struct CompactRootView: View {
                 .tag(CurrentSelection.lecturers)
                 .tabItem { Label.lecturers }
 
-                NavigationView {
+                NavigationStack {
                     SettingsFeatureView(
                         store: store.scope(
                             state: \.settings,

@@ -19,7 +19,7 @@ public struct LectorScheduleView: View {
                 }
             )
             .sheet(item: viewStore.binding(\.$groupSchedule)) { _ in
-                ModalNavigationView {
+                ModalNavigationStack {
                     IfLetStore(
                         store.scope(state: \.groupSchedule, reducerAction: { .groupSchedule($0) })
                     ) { store in

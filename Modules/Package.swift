@@ -66,11 +66,11 @@ let package = Package(
         ),
         .target(
             name: "GroupsFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .swiftUINavigation]
         ),
         .target(
             name: "LecturersFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .swiftUINavigation]
         ),
         .target(
             name: "EntityScheduleFeature",

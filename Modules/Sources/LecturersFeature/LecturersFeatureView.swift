@@ -4,6 +4,7 @@ import BsuirApi
 import LoadableFeature
 import EntityScheduleFeature
 import ComposableArchitecture
+import SwiftUINavigation
 
 public struct LecturersFeatureView: View {
     public let store: StoreOf<LecturersFeature>
@@ -34,8 +35,8 @@ public struct LecturersFeatureView: View {
                 numberOfFavorites: viewStore.numberOfFavorites,
                 isOnTop: viewStore.binding(get: \.isOnTop, send: { .view(.setIsOnTop($0)) })
             )
-            .navigation(
-                item: viewStore.binding(
+            .navigationDestination(
+                unwrapping: viewStore.binding(
                     get: \.lectorSchedule,
                     send: { .view(.setLectorSchedule($0)) }
                 )

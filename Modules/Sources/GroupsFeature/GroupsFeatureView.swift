@@ -4,6 +4,7 @@ import BsuirApi
 import LoadableFeature
 import EntityScheduleFeature
 import ComposableArchitecture
+import SwiftUINavigation
 
 public struct GroupsFeatureView: View {
     public let store: StoreOf<GroupsFeature>
@@ -36,8 +37,11 @@ public struct GroupsFeatureView: View {
             )
             .navigationTitle("screen.groups.navigation.title")
             .task { await viewStore.send(.task).finish() }
-            .navigation(
-                item: viewStore.binding(get: \.groupSchedule, send: { .view(.setGroupSchedule($0)) })
+            .navigationDestination(
+                unwrapping: viewStore.binding(
+                    get: \.groupSchedule,
+                    send: { .view(.setGroupSchedule($0)) }
+                )
             ) { _ in
                 IfLetStore(
                     store
