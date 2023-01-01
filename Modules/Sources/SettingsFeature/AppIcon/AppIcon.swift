@@ -4,7 +4,7 @@ import SwiftUI
 public enum AppIcon: Hashable {
     public enum Plain: String, CaseIterable, Hashable, Identifiable {
         public var id: Self { self }
-        case standard = "AppIcon"
+        case standard = "AppIconStandart"
         case dark = "AppIconDark"
         case nostalgia = "AppIconNostalgia"
         case bsuirDonalds = "AppIconBsuirDonalds"
