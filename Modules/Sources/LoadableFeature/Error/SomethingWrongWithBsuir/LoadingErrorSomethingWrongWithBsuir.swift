@@ -12,7 +12,7 @@ public struct LoadingErrorSomethingWrongWithBsuir: ReducerProtocol {
         var message: String
 
         init(url: URL?, description: String, statusCode: Int?) {
-            self.reachability = url.map { .init(host: $0.bsr_host) }
+            self.reachability = url.map { .init(host: $0.host()!) }
             self.address = url?.absoluteString ?? "--"
             self.message = description
             self.errorCode = "\(statusCode ?? 123)"

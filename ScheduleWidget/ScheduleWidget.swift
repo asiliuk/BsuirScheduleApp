@@ -23,22 +23,13 @@ struct ScheduleWidget: Widget {
         .description("widget.description")
     }
     
-    private var supportedFamilies: [WidgetFamily] {
-        var families: [WidgetFamily] = [
-            .systemSmall,
-            .systemMedium,
-            .systemLarge
-        ]
-
-        if #available(iOS 16.0, *) {
-            families += [
-                .accessoryCircular,
-                .accessoryRectangular
-            ]
-        }
-        
-        return families
-    }
+    private let supportedFamilies: [WidgetFamily] = [
+        .systemSmall,
+        .systemMedium,
+        .systemLarge,
+        .accessoryCircular,
+        .accessoryRectangular
+    ]
 }
 
 struct ScheduleWidgetEntryView: View {
@@ -57,13 +48,9 @@ struct ScheduleWidgetEntryView: View {
             case .systemExtraLarge:
                 EmptyView()
             case .accessoryCircular:
-                if #available(iOS 16.0, *) {
-                    ScheduleWidgetEntryAccessoryCircularView(entry: entry)
-                }
+                ScheduleWidgetEntryAccessoryCircularView(entry: entry)
             case .accessoryRectangular:
-                if #available(iOS 16.0, *) {
-                    ScheduleWidgetEntryAccessoryRectangularView(entry: entry)
-                }
+                ScheduleWidgetEntryAccessoryRectangularView(entry: entry)
             case .accessoryInline:
                 /// Not yet supported
                 EmptyView()

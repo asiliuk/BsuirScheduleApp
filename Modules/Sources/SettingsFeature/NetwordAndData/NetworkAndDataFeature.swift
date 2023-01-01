@@ -6,7 +6,7 @@ import ComposableArchitectureUtils
 public struct NetworkAndDataFeature: ReducerProtocol {
     public struct State: Equatable {
         var cacheClearedAlert: AlertState<Action>?
-        var iisReachability = ReachabilityFeature.State(host: URL.iisApi.bsr_host)
+        var iisReachability = ReachabilityFeature.State(host: URL.iisApi.host()!)
         var appleReachability = ReachabilityFeature.State(host: "apple.com")
     }
 

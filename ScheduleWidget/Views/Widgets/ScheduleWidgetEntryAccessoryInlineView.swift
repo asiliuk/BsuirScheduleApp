@@ -1,11 +1,3 @@
-//
-//  ScheduleWidgetEntryAccessoryInlineView.swift
-//  ScheduleWidgetExtension
-//
-//  Created by Anton Siliuk on 07/09/2022.
-//  Copyright © 2022 Saute. All rights reserved.
-//
-
 import SwiftUI
 import BsuirUI
 import ScheduleCore
@@ -13,7 +5,6 @@ import ScheduleCore
 /// Not yet supported
 ///
 /// Needs predefined configuration to work. No way to configure as other widgets
-@available(iOS 16.0, *)
 struct ScheduleWidgetEntryAccessoryInlineView: View {
     var entry: Provider.Entry
     

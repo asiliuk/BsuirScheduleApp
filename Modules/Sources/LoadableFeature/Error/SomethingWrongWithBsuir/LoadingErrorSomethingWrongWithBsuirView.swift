@@ -58,13 +58,9 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
                     Label("view.errorState.apiDown.button.retry.label", systemImage: "arrow.clockwise")
                 }
 
-                if #available(iOS 16.0, *) {
-                    ViewThatFits {
-                        HStack { openIssue; retry }
-                        VStack { openIssue; retry }
-                    }
-                } else {
+                ViewThatFits {
                     HStack { openIssue; retry }
+                    VStack { openIssue; retry }
                 }
 
                 Spacer()
