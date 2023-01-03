@@ -28,7 +28,7 @@ private struct PairFormColorPickerView: View {
     let store: StoreOf<PairFormColorPicker>
 
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             Picker(viewStore.name, selection: viewStore.binding(\.$color)) {
                 ForEach(PairFormColor.allCases, id: \.self) { color in
                     ColorView(color: color.color, name: color.name)

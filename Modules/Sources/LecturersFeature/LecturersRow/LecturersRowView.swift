@@ -9,13 +9,15 @@ struct LecturersRowView: View {
     struct ViewState: Equatable {
         let fullName: String
         let imageUrl: URL?
+
+        init(state: LecturersRow.State) {
+            self.fullName = state.fullName
+            self.imageUrl = state.imageUrl
+        }
     }
 
     var body: some View {
-        WithViewStore(
-            store,
-            observe: { ViewState(fullName: $0.fullName, imageUrl: $0.imageUrl) }
-        ) { viewStore in
+        WithViewStore(store, observe: ViewState.init) { viewStore in
             NavigationLinkButton {
                 viewStore.send(.rowTapped)
             } label: {
