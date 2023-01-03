@@ -14,7 +14,7 @@ public struct GroupScheduleFeature: ReducerProtocol {
 
         // Has to be wrapped in the box or fails to compile because
         // of recursive state between group & lector schedule states
-        @BindableState var lectorSchedule: Box<LectorScheduleFeature.State>?
+        var lectorSchedule: Box<LectorScheduleFeature.State>?
 
         public init(groupName: String) {
             self.schedule = .init(title: groupName, source: .group(name: groupName), value: groupName)
@@ -22,9 +22,10 @@ public struct GroupScheduleFeature: ReducerProtocol {
         }
     }
     
-    public enum Action: Equatable, FeatureAction, BindableAction {
+    public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
             case lectorTapped(Employee)
+            case setLectorScheduleId(Int?)
         }
         
         public enum ReducerAction: Equatable {
@@ -34,7 +35,6 @@ public struct GroupScheduleFeature: ReducerProtocol {
         
         public typealias DelegateAction = Never
 
-        case binding(BindingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
@@ -45,15 +45,21 @@ public struct GroupScheduleFeature: ReducerProtocol {
     public init() {}
 
     public var body: some ReducerProtocol<State, Action> {
-        BindingReducer()
-
         Reduce { state, action in
             switch action {
             case let .view(.lectorTapped(lector)):
                 state.lectorSchedule = .init(.init(lector: lector))
                 return .none
 
-            case .reducer, .binding:
+            case .view(.setLectorScheduleId(nil)):
+                state.lectorSchedule = nil
+                return .none
+
+            case .view(.setLectorScheduleId(.some)):
+                assertionFailure("Not suppose to happen")
+                return .none
+
+            case .reducer:
                 return .none
             }
         }

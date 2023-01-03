@@ -6,6 +6,8 @@ import ComposableArchitecture
 import SwiftUINavigation
 
 struct RegularRootView: View {
+    let store: StoreOf<AppFeature>
+
     struct ViewState: Equatable {
         var selection: CurrentSelection
         var overlay: CurrentOverlay?
@@ -16,10 +18,8 @@ struct RegularRootView: View {
         }
     }
 
-    let store: StoreOf<AppFeature>
-
     var body: some View {
-        WithViewStore(store, observe: { ViewState(state: $0) }) { viewStore in
+        WithViewStore(store, observe: ViewState.init) { viewStore in
             NavigationView {
                 TabView(selection: viewStore.binding(get: \.selection, send: AppFeature.Action.setSelection)) {
                     // Placeholder

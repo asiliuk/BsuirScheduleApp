@@ -11,7 +11,7 @@ public struct LectorScheduleFeature: ReducerProtocol {
         public var id: String { schedule.value }
         public let lector: Employee
         public var schedule: ScheduleFeature<String>.State
-        @BindableState var groupSchedule: GroupScheduleFeature.State?
+        var groupSchedule: GroupScheduleFeature.State?
 
         public init(lector: Employee) {
             self.schedule = .init(
@@ -23,9 +23,10 @@ public struct LectorScheduleFeature: ReducerProtocol {
         }
     }
     
-    public enum Action: Equatable, FeatureAction, BindableAction {
+    public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
             case groupTapped(String)
+            case setGroupScheduleName(String?)
         }
         
         public enum ReducerAction: Equatable {
@@ -35,7 +36,6 @@ public struct LectorScheduleFeature: ReducerProtocol {
         
         public typealias DelegateAction = Never
 
-        case binding(BindingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
@@ -46,15 +46,21 @@ public struct LectorScheduleFeature: ReducerProtocol {
     public init() {}
 
     public var body: some ReducerProtocol<State, Action> {
-        BindingReducer()
-
         Reduce { state, action in
             switch action {
             case let .view(.groupTapped(groupName)):
                 state.groupSchedule = .init(groupName: groupName)
                 return .none
 
-            case .reducer, .binding:
+            case .view(.setGroupScheduleName(nil)):
+                state.groupSchedule = nil
+                return .none
+
+            case .view(.setGroupScheduleName(.some)):
+                assertionFailure("Unexpected")
+                return .none
+
+            case .reducer:
                 return .none
             }
         }
