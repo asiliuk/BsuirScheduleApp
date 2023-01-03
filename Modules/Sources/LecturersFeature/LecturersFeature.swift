@@ -50,7 +50,7 @@ public struct LecturersFeature: ReducerProtocol {
         public enum ViewAction: Equatable {
             case task
             case setIsOnTop(Bool)
-            case setHasLectorSchedule(Bool)
+            case setLectorScheduleId(Int?)
         }
         
         public enum ReducerAction: Equatable {
@@ -89,11 +89,11 @@ public struct LecturersFeature: ReducerProtocol {
                 state.isOnTop = value
                 return .none
 
-            case .view(.setHasLectorSchedule(false)):
+            case .view(.setLectorScheduleId(nil)):
                 state.lectorSchedule = nil
                 return .none
 
-            case .view(.setHasLectorSchedule(true)):
+            case .view(.setLectorScheduleId(.some)):
                 assertionFailure("Not really expecting this to happen")
                 return .none
 
