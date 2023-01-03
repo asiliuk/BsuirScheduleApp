@@ -39,6 +39,7 @@ struct ScheduleGridView: View {
                     PairPlaceholder()
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .onAppear(perform: load)
+
                 case .finished:
                     NoMorePairsIndicator()
 
@@ -69,17 +70,16 @@ struct ScheduleDay: View {
     let details: ScheduleGridViewPairDetails
 
     var body: some View {
-        Section {
-            VStack(alignment: .leading, spacing: 10) {
-                ForEach(pairs) { pair in
-                    PairCell(
-                        pair: pair,
-                        details: detailsView(pair: pair)
-                    )
-                }
-            }
-        } header: {
+        VStack(alignment: .leading, spacing: 10) {
             ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
+
+            ForEach(pairs.prefix(100)) { pair in
+                PairCell(
+                    pair: pair,
+                    details: detailsView(pair: pair)
+                )
+                .frame(minWidth: 10, minHeight: 10)
+            }
         }
     }
 
