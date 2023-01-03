@@ -12,7 +12,7 @@ struct App: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
             AppView(store: appDelegate.store)
-                .task { await ViewStore(appDelegate.store).send(.task).finish() }
+                .task { await ViewStore(appDelegate.store.stateless).send(.task).finish() }
                 .environmentObject(appDelegate.pairFormColorService)
         }
     }
