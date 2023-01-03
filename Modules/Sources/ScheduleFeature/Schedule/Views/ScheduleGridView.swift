@@ -49,8 +49,6 @@ struct ScheduleGridView: View {
             .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
-        // To disable cell celection
-        .buttonStyle(PlainButtonStyle())
     }
 }
 
