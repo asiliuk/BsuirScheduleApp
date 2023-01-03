@@ -16,14 +16,10 @@ public struct GroupsFeatureView: View {
     struct ViewState: Equatable {
         let isOnTop: Bool
         let groupScheduleName: String?
-        let hasPinned: Bool
-        let numberOfFavorites: Int
 
         init(_ state: GroupsFeature.State) {
             self.isOnTop = state.isOnTop
             self.groupScheduleName = state.groupSchedule?.groupName
-            self.hasPinned = state.pinned != nil
-            self.numberOfFavorites = state.favorites?.groupRows.count ?? 0
         }
     }
     
@@ -31,8 +27,6 @@ public struct GroupsFeatureView: View {
         WithViewStore(store, observe: ViewState.init) { viewStore in
             LoadingGroupsView(
                 store: store,
-                hasPinned: viewStore.hasPinned,
-                numberOfFavorites: viewStore.numberOfFavorites,
                 isOnTop: viewStore.binding(get: \.isOnTop, send: { .view(.setIsOnTop($0)) })
             )
             .navigationTitle("screen.groups.navigation.title")
@@ -57,8 +51,6 @@ public struct GroupsFeatureView: View {
 
 private struct LoadingGroupsView: View {
     let store: StoreOf<GroupsFeature>
-    let hasPinned: Bool
-    let numberOfFavorites: Int
     @Binding var isOnTop: Bool
 
     var body: some View {
@@ -85,11 +77,31 @@ private struct LoadingGroupsView: View {
             .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
             .groupsSearchable(store: self.store.scope(state: \.search, reducerAction: { .search($0) }))
         } loading: {
-            GroupsPlaceholderView(hasPinned: hasPinned, numberOfFavorites: numberOfFavorites)
+            GroupsLoadingPlaceholder(store: store)
         } error: { store in
             LoadingErrorView(store: store)
         }
     }
 }
 
+private struct GroupsLoadingPlaceholder: View {
+    let store: StoreOf<GroupsFeature>
 
+    struct ViewState: Equatable {
+        let hasPinned: Bool
+        let numberOfFavorites: Int
+
+        init(state: GroupsFeature.State) {
+            self.hasPinned = state.pinned != nil
+            self.numberOfFavorites = state.favorites?.groupRows.count ?? 0
+        }
+    }
+    var body: some View {
+        WithViewStore(store, observe: ViewState.init) { viewStore in
+            GroupsPlaceholderView(
+                hasPinned: viewStore.hasPinned,
+                numberOfFavorites: viewStore.numberOfFavorites
+            )
+        }
+    }
+}

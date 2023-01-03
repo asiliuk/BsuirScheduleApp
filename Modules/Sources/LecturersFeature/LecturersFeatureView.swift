@@ -16,14 +16,10 @@ public struct LecturersFeatureView: View {
     struct ViewState: Equatable {
         let isOnTop: Bool
         let lectorScheduleId: Int?
-        let hasPinned: Bool
-        let numberOfFavorites: Int
 
         init(_ state: LecturersFeature.State) {
             self.isOnTop = state.isOnTop
             self.lectorScheduleId = state.lectorSchedule?.lector.id
-            self.hasPinned = state.pinned != nil
-            self.numberOfFavorites = state.favoriteIds.count
         }
     }
     
@@ -31,8 +27,6 @@ public struct LecturersFeatureView: View {
         WithViewStore(store, observe: ViewState.init) { viewStore in
             LoadingLecturersView(
                 store: store,
-                hasPinned: viewStore.hasPinned,
-                numberOfFavorites: viewStore.numberOfFavorites,
                 isOnTop: viewStore.binding(get: \.isOnTop, send: { .view(.setIsOnTop($0)) })
             )
             .navigationDestination(
@@ -57,8 +51,6 @@ public struct LecturersFeatureView: View {
 
 private struct LoadingLecturersView: View {
     let store: StoreOf<LecturersFeature>
-    let hasPinned: Bool
-    let numberOfFavorites: Int
     @Binding var isOnTop: Bool
 
     var body: some View {
@@ -103,9 +95,32 @@ private struct LoadingLecturersView: View {
             .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
             .lecturersSearchable(store: self.store.scope(state: \.search, reducerAction: { .search($0) }))
         } loading: {
-            LecturersPlaceholderView(hasPinned: hasPinned, numberOfFavorites: numberOfFavorites)
+            LecturersLoadingPlaceholder(store: store)
         } error: { store in
             LoadingErrorView(store: store)
+        }
+    }
+}
+
+private struct LecturersLoadingPlaceholder: View {
+    let store: StoreOf<LecturersFeature>
+
+    struct ViewState: Equatable {
+        let hasPinned: Bool
+        let numberOfFavorites: Int
+
+        init(state: LecturersFeature.State) {
+            self.hasPinned = state.pinned != nil
+            self.numberOfFavorites = state.favoriteIds.count
+        }
+    }
+
+    var body: some View {
+        WithViewStore(store, observe: ViewState.init) { viewStore in
+            LecturersPlaceholderView(
+                hasPinned: viewStore.hasPinned,
+                numberOfFavorites: viewStore.numberOfFavorites
+            )
         }
     }
 }
