@@ -1,26 +1,15 @@
-/* 
-  Localizable.strings
-  BsuirScheduleApp
-
-  Created by Nikita Prokhorchuk on 19.08.22.
-  Copyright © 2022 Saute. All rights reserved.
-*/
-
 // MARK: - Tabbar
 
+"view.tabBar.pinned.empty.title" = "Pinned";
 "view.tabBar.groups.title" = "Groups";
 "view.tabBar.lecturers.title" = "Lecturers";
 "view.tabBar.settings.title" = "Settings";
 "view.tabBar.favorites.title" = "Favorites";
 
-// MARK: - Favorites
+// MARK: - Empty Pinned
 
-"screen.favorites.navigation.title" = "Favorites";
-"screen.favorites.emptyState.title" = "You are not the chosen one, Neo";
-"screen.favorites.emptyState.subtitle" = "Pick someone else";
-"screen.favorites.emptyState.action.title" = "Lead the way!";
-"screen.favorites.groups.section.header" = "Groups";
-"screen.favorites.lecturers.section.header" = "Lecturers";
+"screen.pinned.empty.title" = "There's no pinned schedule";
+"screen.pinned.empty.message" = "Please, pin any schedule and it will appear in this tab";
 
 // MARK: - Row
 

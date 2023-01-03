@@ -12,7 +12,7 @@ public struct PinnedScheduleFeature: ReducerProtocol {
             switch pinned {
             case let .group(groupName):
                 self = .group(.init(groupName: groupName))
-            case .lector(let lector):
+            case let .lector(lector):
                 self = .lector(.init(lector: lector))
             }
         }
@@ -33,6 +33,17 @@ public struct PinnedScheduleFeature: ReducerProtocol {
             .ifCaseLet(/State.lector, action: /Action.lector) {
                 LectorScheduleFeature()
             }
+    }
+}
+
+extension PinnedScheduleFeature.State {
+    public var title: String {
+        switch self {
+        case let .group(schedule):
+            return schedule.groupName
+        case let .lector(schedule):
+            return schedule.lector.compactFio
+        }
     }
 }
 

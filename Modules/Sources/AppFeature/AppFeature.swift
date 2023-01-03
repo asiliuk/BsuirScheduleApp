@@ -14,12 +14,7 @@ public struct AppFeature: ReducerProtocol {
         var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
 
-        struct Pinned: Equatable {
-            var title: String
-            var schedule: PinnedScheduleFeature.State
-        }
-
-        var pinned: Pinned?
+        var pinned: PinnedScheduleFeature.State?
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
         var settings = SettingsFeature.State()
@@ -69,13 +64,10 @@ public struct AppFeature: ReducerProtocol {
 
             case .setPinnedSchedule(nil):
                 state.pinned = nil
-                if state.selection == .pinned {
-                    state.selection = .groups
-                }
                 return .none
 
             case let .setPinnedSchedule(pinned?):
-                state.pinned = .init(pinned)
+                state.pinned = .init(pinned: pinned)
                 return .none
 
             case .showSettingsButtonTapped:
@@ -96,9 +88,7 @@ public struct AppFeature: ReducerProtocol {
             }
         }
         .ifLet(\.pinned, action: /Action.pinned) {
-            Scope(state: \.schedule, action: .self) {
-                PinnedScheduleFeature()
-            }
+            PinnedScheduleFeature()
         }
 
         Scope(state: \.groups, action: /Action.groups) {
@@ -165,7 +155,7 @@ private extension AppFeature.State {
     mutating func handleInitialSelection(favorites: FavoritesContainer) {
         if let pinnedSchedule = favorites.currentPinnedSchedule {
             selection = .pinned
-            pinned = .init(pinnedSchedule)
+            pinned = .init(pinned: pinnedSchedule)
             return
         }
 
@@ -191,7 +181,7 @@ private extension AppFeature.State {
         // Handle tap on already selected tab
         switch newValue {
         case .pinned:
-            pinned?.schedule.reset()
+            pinned?.reset()
         case .groups:
             groups.reset()
         case .lecturers:
@@ -199,27 +189,5 @@ private extension AppFeature.State {
         case .settings:
             settings.reset()
         }
-    }
-}
-
-// MARK: - Helpers
-
-private extension ScheduleSource {
-    var tabTitle: String {
-        switch self {
-        case let .group(name):
-            return name
-        case let .lector(lector):
-            return lector.compactFio
-        }
-    }
-}
-
-private extension AppFeature.State.Pinned {
-    init(_ pinned: ScheduleSource) {
-        self.init(
-            title: pinned.tabTitle,
-            schedule: .init(pinned: pinned)
-        )
     }
 }

@@ -1,26 +1,15 @@
-/* 
-  Localizable.strings
-  BsuirScheduleApp
-
-  Created by Nikita Prokhorchuk on 19.08.22.
-  Copyright © 2022 Saute. All rights reserved.
-*/
-
 // MARK: - Tabbar
 
+"view.tabBar.pinned.empty.title" = "Замацаванае";
 "view.tabBar.groups.title" = "Групы";
 "view.tabBar.lecturers.title" = "Выкладчыкі";
 "view.tabBar.settings.title" = "Налады";
 "view.tabBar.favorites.title" = "Выбраныя";
 
-// MARK: - Favorites
+// MARK: - Empty Pinned
 
-"screen.favorites.navigation.title" = "Выбраныя";
-"screen.favorites.emptyState.title" = "Ты не абраны, Неа";
-"screen.favorites.emptyState.subtitle" = "Абяры каго-небудзь іншага";
-"screen.favorites.emptyState.action.title" = "Вядзі мяне!";
-"screen.favorites.groups.section.header" = "Групы";
-"screen.favorites.lecturers.section.header" = "Выкладчыкі";
+"screen.pinned.empty.title" = "Няма замацаванага раскладу";
+"screen.pinned.empty.message" = "Калі ласка, замацуйце расклад, каб ён адлюстроўваўся ў гэтай укладцы";
 
 // MARK: - Row
 
