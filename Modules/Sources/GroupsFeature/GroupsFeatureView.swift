@@ -15,13 +15,13 @@ public struct GroupsFeatureView: View {
 
     struct ViewState: Equatable {
         let isOnTop: Bool
-        let groupSchedule: GroupScheduleFeature.State?
+        let hasGroupSchedule: Bool
         let hasPinned: Bool
         let numberOfFavorites: Int
 
         init(_ state: GroupsFeature.State) {
             self.isOnTop = state.isOnTop
-            self.groupSchedule = state.groupSchedule
+            self.hasGroupSchedule = state.groupSchedule != nil
             self.hasPinned = state.pinned != nil
             self.numberOfFavorites = state.favorites?.groupRows.count ?? 0
         }
@@ -38,11 +38,11 @@ public struct GroupsFeatureView: View {
             .navigationTitle("screen.groups.navigation.title")
             .task { await viewStore.send(.task).finish() }
             .navigationDestination(
-                unwrapping: viewStore.binding(
-                    get: \.groupSchedule,
-                    send: { .view(.setGroupSchedule($0)) }
+                isPresented: viewStore.binding(
+                    get: \.hasGroupSchedule,
+                    send: { .view(.setHasGroupSchedule($0)) }
                 )
-            ) { _ in
+            ) {
                 IfLetStore(
                     store
                         .scope(state: \.groupSchedule, reducerAction: { .groupSchedule($0) })

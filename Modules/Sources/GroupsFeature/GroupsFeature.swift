@@ -46,7 +46,7 @@ public struct GroupsFeature: ReducerProtocol {
         public enum ViewAction: Equatable {
             case task
             case setIsOnTop(Bool)
-            case setGroupSchedule(GroupScheduleFeature.State?)
+            case setHasGroupSchedule(Bool)
         }
         
         public enum ReducerAction: Equatable {
@@ -85,8 +85,12 @@ public struct GroupsFeature: ReducerProtocol {
                 state.isOnTop = value
                 return .none
 
-            case .view(.setGroupSchedule(let value)):
-                state.groupSchedule = value
+            case .view(.setHasGroupSchedule(false)):
+                state.groupSchedule = nil
+                return .none
+
+            case .view(.setHasGroupSchedule(true)):
+                assertionFailure("Not really expecting this to happen")
                 return .none
 
             case let .reducer(.groupSection(sectionId, action: .groupRow(rowId, action: .rowTapped))):

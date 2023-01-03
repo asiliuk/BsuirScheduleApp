@@ -15,13 +15,13 @@ public struct LecturersFeatureView: View {
 
     struct ViewState: Equatable {
         let isOnTop: Bool
-        let lectorSchedule: LectorScheduleFeature.State?
+        let hasLectorSchedule: Bool
         let hasPinned: Bool
         let numberOfFavorites: Int
 
         init(_ state: LecturersFeature.State) {
             self.isOnTop = state.isOnTop
-            self.lectorSchedule = state.lectorSchedule
+            self.hasLectorSchedule = state.lectorSchedule != nil
             self.hasPinned = state.pinned != nil
             self.numberOfFavorites = state.favoriteIds.count
         }
@@ -36,11 +36,11 @@ public struct LecturersFeatureView: View {
                 isOnTop: viewStore.binding(get: \.isOnTop, send: { .view(.setIsOnTop($0)) })
             )
             .navigationDestination(
-                unwrapping: viewStore.binding(
-                    get: \.lectorSchedule,
-                    send: { .view(.setLectorSchedule($0)) }
+                isPresented: viewStore.binding(
+                    get: \.hasLectorSchedule,
+                    send: { .view(.setHasLectorSchedule($0)) }
                 )
-            ) { _ in
+            ) {
                 IfLetStore(
                     store
                         .scope(state: \.lectorSchedule, reducerAction: { .lectorSchedule($0) })
