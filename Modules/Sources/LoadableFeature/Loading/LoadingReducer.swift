@@ -108,7 +108,7 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
         return EffectTask.task {
             if isRefresh {
                 // Make sure loading UI is shown for some time before requesting
-                try await Task.sleep(nanoseconds: 200_000_000)
+                try await Task.sleep(for: .milliseconds(200))
             }
             let value = try await fetch(state, isRefresh)
             return .reducer(.loaded(value, isEqualTo: { $0 as? Value == value }))

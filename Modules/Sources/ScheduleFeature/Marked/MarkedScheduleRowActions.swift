@@ -21,7 +21,7 @@ struct MarkedScheduleRowActions: ViewModifier {
                 // This triggers listening for favorites & pinned updates
                 // since we have correct initial value it is *ok* to wait some time before triggering this
                 // otherwise it is very heavy load when list is scrolled
-                .task(throttleFor: 2_000_000_000) { await viewStore.send(.task).finish() }
+                .task(throttleFor: .seconds(2)) { await viewStore.send(.task).finish() }
                 .swipeActions(edge: .leading) {
                     swipeButton(viewStore.isPinned ? .unpin : .pin, send: viewStore.send).tint(.red)
                 }

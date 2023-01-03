@@ -3,26 +3,26 @@ import SwiftUI
 extension View {
     public func task(
         id: some Hashable,
-        throttleFor nanoseconds: UInt64,
+        throttleFor duration: Duration,
         _ action: @MainActor @Sendable @escaping() async -> Void
     ) -> some View {
-        task(id: id, throttleAction(for: nanoseconds, action))
+        task(id: id, throttleAction(for: duration, action))
     }
 
     public func task(
-        throttleFor nanoseconds: UInt64,
+        throttleFor duration: Duration,
         _ action: @MainActor @Sendable @escaping() async -> Void
     ) -> some View {
-        task(throttleAction(for: nanoseconds, action))
+        task(throttleAction(for: duration, action))
     }
 
     private func throttleAction(
-        for nanoseconds: UInt64,
+        for duration: Duration,
         _ action: @MainActor @Sendable @escaping() async -> Void
     ) -> @MainActor @Sendable () async -> Void {
         {
             do {
-                try await Task.sleep(nanoseconds: nanoseconds)
+                try await Task.sleep(for: duration)
                 await action()
             } catch {}
         }
