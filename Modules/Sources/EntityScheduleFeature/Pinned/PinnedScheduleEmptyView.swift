@@ -21,7 +21,7 @@ public struct PinnedScheduleEmptyView: View {
                     .font(.body)
                     .foregroundColor(.secondary)
             }
-            .multilineTextAlignment(.leading)
+            .multilineTextAlignment(.center)
             .padding(.horizontal, 24)
 
             Spacer()
