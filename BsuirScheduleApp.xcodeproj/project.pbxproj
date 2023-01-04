@@ -760,7 +760,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconUkrainian AppIconSilver AppIconResist AppIconPride AppIconNostalgia AppIconNational AppIconDark AppIconCopper AppIconBsuirDonalds";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconStandart;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = BsuirScheduleApp/BsuirScheduleApp.entitlements;
@@ -782,7 +781,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconUkrainian AppIconSilver AppIconResist AppIconPride AppIconNostalgia AppIconNational AppIconDark AppIconCopper AppIconBsuirDonalds";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconStandart;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = BsuirScheduleApp/BsuirScheduleApp.entitlements;

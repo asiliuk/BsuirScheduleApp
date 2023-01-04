@@ -59,10 +59,11 @@ extension AppIcon {
 
     /// Name used to create UIImage for the app icon
     var imageName: String {
+        let previewSuffix = "-Preview"
         switch self {
-        case let .plain(icon): return icon.rawValue
-        case let .symbol(icon): return icon.rawValue
-        case let .metal(icon): return icon.rawValue
+        case let .plain(icon): return icon.rawValue + previewSuffix
+        case let .symbol(icon): return icon.rawValue + previewSuffix
+        case let .metal(icon): return icon.rawValue + previewSuffix
         }
     }
 
@@ -70,7 +71,11 @@ extension AppIcon {
     ///
     /// Should be `nil` for default app icon
     var iconName: String? {
-        if case .plain(.standard) = self { return nil }
-        return imageName
+        switch self {
+        case .plain(.standard): return nil
+        case let .plain(icon): return icon.rawValue
+        case let .symbol(icon): return icon.rawValue
+        case let .metal(icon): return icon.rawValue
+        }
     }
 }

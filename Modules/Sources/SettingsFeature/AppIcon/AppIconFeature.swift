@@ -15,7 +15,7 @@ public struct AppIconFeature: ReducerProtocol {
 
         var currentIcon: AppIcon? = {
             @Dependency(\.application.alternateIconName) var alternateIconName
-            return alternateIconName().flatMap(AppIcon.init(name:))
+            return alternateIconName().flatMap(AppIcon.init(name:)) ?? .plain(.standard)
         }()
     }
     
