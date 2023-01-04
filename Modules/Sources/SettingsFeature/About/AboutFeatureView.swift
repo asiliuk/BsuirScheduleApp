@@ -14,7 +14,6 @@ struct AboutFeatureView: View {
                 Section("screen.settings.about.links.section.header") {
                     LinkButton(title: "Github") { viewStore.send(.githubButtonTapped) }
                     LinkButton(title: "Telegram") { viewStore.send(.telegramButtonTapped) }
-                    LinkButton(title: viewStore.mastodonHandle) { viewStore.send(.mastodonButtonTapped) }
                 }
             }
             .listStyle(.insetGrouped)

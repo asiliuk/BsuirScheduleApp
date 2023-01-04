@@ -10,16 +10,11 @@ public struct AboutFeature: ReducerProtocol {
             return appVersion
         }()
 
-        var mastodonHandle: String {
-            let components = URLComponents(url: .mastodon, resolvingAgainstBaseURL: true)
-            return [components?.path.dropFirst(), components?.host?[...]].compactMap { $0 }.joined(separator: "@")
-        }
     }
 
     public enum Action: Equatable {
         case githubButtonTapped
         case telegramButtonTapped
-        case mastodonButtonTapped
     }
 
     @Dependency(\.application.open) var openUrl
@@ -38,12 +33,6 @@ public struct AboutFeature: ReducerProtocol {
                 reviewRequestService.madeMeaningfulEvent(.telegramOpened)
                 _ = await openUrl(.telegram, [:])
             }
-
-        case .mastodonButtonTapped:
-            return .fireAndForget {
-                reviewRequestService.madeMeaningfulEvent(.mastodonOpened)
-                _ = await openUrl(.mastodon, [:])
-            }
         }
     }
 }
@@ -51,5 +40,4 @@ public struct AboutFeature: ReducerProtocol {
 private extension MeaningfulEvent {
     static let githubOpened = Self(score: 1)
     static let telegramOpened = Self(score: 1)
-    static let mastodonOpened = Self(score: 1)
 }
