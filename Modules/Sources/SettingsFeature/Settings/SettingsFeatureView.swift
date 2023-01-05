@@ -16,47 +16,69 @@ public struct SettingsFeatureView: View {
     public var body: some View {
         WithViewStore(store, observe: \.isOnTop) { viewStore in
             ScrollableToTopList(isOnTop: viewStore.binding(send: { .view(.setIsOnTop($0)) })) {
-                AppIconFeatureView(
-                    store: store.scope(
-                        state: \.appIcon,
-                        reducerAction: { .appIcon($0) }
-                    )
-                )
+                Section {
+                    NavigationLink {
+                        Text("Put some subscriptions here")
+                    } label: {
+                        VStack(alignment: .leading) {
+                            Label("Premium Club", systemImage: "flame.fill")
+                                .settingsRowAccent(LinearGradient(
+                                    colors: [.pink, .indigo],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ))
+                                .font(.headline)
 
-                NavigationLink {
-                    AppearanceFeatureView(
-                        store: store.scope(
-                            state: \.appearance,
-                            reducerAction: { .appearance($0) }
-                        )
-                    )
-                } label: {
-                    Label("screen.settings.appearance.navigation.title", systemImage: "circle.lefthalf.filled")
-                        .settingsRowAccentColor(.orange)
+                            Text("Active pass: **2022-2033**")
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
+                        }
+                    }
                 }
 
-                NavigationLink {
-                    NetworkAndDataFeatureView(
+                Section {
+                    AppIconFeatureView(
                         store: store.scope(
-                            state: \.networkAndData,
-                            reducerAction: { .networkAndData($0) }
+                            state: \.appIcon,
+                            reducerAction: { .appIcon($0) }
                         )
                     )
-                } label: {
-                    Label("screen.settings.networkAndData.navigation.title", systemImage: "network")
-                        .settingsRowAccentColor(.blue)
-                }
 
-                NavigationLink {
-                    AboutFeatureView(
-                        store: store.scope(
-                            state: \.about,
-                            reducerAction: { .about($0) }
+                    NavigationLink {
+                        AppearanceFeatureView(
+                            store: store.scope(
+                                state: \.appearance,
+                                reducerAction: { .appearance($0) }
+                            )
                         )
-                    )
-                } label: {
-                    Label("screen.settings.about.navigation.title", systemImage: "info.circle.fill")
-                        .settingsRowAccentColor(.indigo)
+                    } label: {
+                        Label("screen.settings.appearance.navigation.title", systemImage: "circle.lefthalf.filled")
+                            .settingsRowAccent(Color.orange)
+                    }
+
+                    NavigationLink {
+                        NetworkAndDataFeatureView(
+                            store: store.scope(
+                                state: \.networkAndData,
+                                reducerAction: { .networkAndData($0) }
+                            )
+                        )
+                    } label: {
+                        Label("screen.settings.networkAndData.navigation.title", systemImage: "network")
+                            .settingsRowAccent(Color.blue)
+                    }
+
+                    NavigationLink {
+                        AboutFeatureView(
+                            store: store.scope(
+                                state: \.about,
+                                reducerAction: { .about($0) }
+                            )
+                        )
+                    } label: {
+                        Label("screen.settings.about.navigation.title", systemImage: "info.circle.fill")
+                            .settingsRowAccent(Color.indigo)
+                    }
                 }
             }
             .labelStyle(SettingsLabelStyle())
@@ -70,6 +92,9 @@ public struct SettingsFeatureView: View {
 
 struct SettingsFeatureView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsFeatureView(store: Store(initialState: .init(), reducer: SettingsFeature()))
+        NavigationStack {
+            SettingsFeatureView(store: Store(initialState: .init(), reducer: SettingsFeature()))
+                .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
