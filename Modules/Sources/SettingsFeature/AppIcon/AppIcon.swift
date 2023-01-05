@@ -8,6 +8,7 @@ public enum AppIcon: Hashable {
         case dark = "AppIconDark"
         case nostalgia = "AppIconNostalgia"
         case bsuirDonalds = "AppIconBsuirDonalds"
+        case premium = "AppIconPremium"
     }
 
     public enum Symbol: String, CaseIterable, Hashable, Identifiable {
@@ -48,6 +49,7 @@ extension AppIcon {
         case .plain(.dark): return "screen.settings.appIcon.icon.dark.title"
         case .plain(.nostalgia): return "screen.settings.appIcon.icon.nostalgia.title"
         case .plain(.bsuirDonalds): return "screen.settings.appIcon.icon.bsuirDonalds.title"
+        case .plain(.premium): return "screen.settings.appIcon.icon.premium.title"
         case .symbol(.resist): return "screen.settings.appIcon.icon.resist.title"
         case .symbol(.pride): return "screen.settings.appIcon.icon.pride.title"
         case .symbol(.national): return "screen.settings.appIcon.icon.belarusFlag.title"
