@@ -8,6 +8,7 @@ import ComposableArchitectureUtils
 
 public struct SettingsFeatureView: View {
     public let store: StoreOf<SettingsFeature>
+    @State var hasActivePass = false
     
     public init(store: StoreOf<SettingsFeature>) {
         self.store = store
@@ -34,9 +35,16 @@ public struct SettingsFeatureView: View {
                                 Text("Premium Club")
                                     .font(.headline)
 
-                                Text("Active pass: **2022-2033**")
-                                    .font(.footnote)
-                                    .foregroundColor(.secondary)
+                                Group {
+                                    if hasActivePass {
+                                        Text("\(Image(systemName: "checkmark.seal.fill")) Active pass: **2022-2023**")
+                                    } else {
+                                        Text("No active pass")
+                                    }
+                                }
+                                .onTapGesture { hasActivePass.toggle() }
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
                             }
                         }
                     }
