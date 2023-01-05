@@ -8,11 +8,9 @@ struct SettingsLabelStyle: LabelStyle {
             configuration.title
         } icon: {
             if let settingsRowAccent {
-                configuration.icon
-                    .padding(4)
-                    .aspectRatio(1, contentMode: .fit)
-                    .background { SettingsRowIconBackground(fill: settingsRowAccent) }
-                    .foregroundColor(.white)
+                SettingsRowIcon(fill: settingsRowAccent) {
+                    configuration.icon
+                }
             } else {
                 configuration.icon
             }
@@ -20,15 +18,22 @@ struct SettingsLabelStyle: LabelStyle {
     }
 }
 
-private struct SettingsRowIconBackground<Fill: ShapeStyle>: View {
+struct SettingsRowIcon<Icon: View, Fill: ShapeStyle>: View {
     let fill: Fill
+    @ViewBuilder var icon: Icon
 
     var body: some View {
-        GeometryReader { proxy in
-            RoundedRectangle(cornerRadius: proxy.size.width * 0.2237)
-                .fill(fill)
-        }
-        .aspectRatio(1, contentMode: .fill)
+        icon
+            .padding(4)
+            .aspectRatio(1, contentMode: .fit)
+            .background {
+                GeometryReader { proxy in
+                    RoundedRectangle(cornerRadius: proxy.size.width * 0.2237)
+                        .fill(fill)
+                }
+                .aspectRatio(1, contentMode: .fill)
+            }
+            .foregroundColor(.white)
     }
 }
 

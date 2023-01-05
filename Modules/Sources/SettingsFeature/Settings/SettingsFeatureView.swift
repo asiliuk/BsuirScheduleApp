@@ -20,18 +20,24 @@ public struct SettingsFeatureView: View {
                     NavigationLink {
                         Text("Put some subscriptions here")
                     } label: {
-                        VStack(alignment: .leading) {
-                            Label("Premium Club", systemImage: "flame.fill")
-                                .settingsRowAccent(LinearGradient(
-                                    colors: [.pink, .indigo],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ))
-                                .font(.headline)
+                        HStack(spacing: 12) {
+                            SettingsRowIcon(fill: LinearGradient(
+                                colors: [.pink, .indigo],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )) {
+                                Image(systemName: "flame.fill")
+                                    .font(.title2)
+                            }
 
-                            Text("Active pass: **2022-2033**")
-                                .font(.footnote)
-                                .foregroundColor(.secondary)
+                            VStack(alignment: .leading) {
+                                Text("Premium Club")
+                                    .font(.headline)
+
+                                Text("Active pass: **2022-2033**")
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }
