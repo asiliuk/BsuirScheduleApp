@@ -64,5 +64,5 @@ struct LecturersLabel: View {
 }
 
 struct SettingsLabel: View {
-    let body = Label("view.tabBar.settings.title", systemImage: "gear")
+    let body = Label("view.tabBar.settings.title", systemImage: "gearshape")
 }
