@@ -22,11 +22,7 @@ public struct SettingsFeatureView: View {
                         Text("Put some subscriptions here")
                     } label: {
                         HStack(spacing: 12) {
-                            SettingsRowIcon(fill: LinearGradient(
-                                colors: [.pink, .indigo],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )) {
+                            SettingsRowIcon(fill: .premiumGradient) {
                                 Image(systemName: "flame.fill")
                                     .font(.title2)
                             }

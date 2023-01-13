@@ -1,4 +1,5 @@
 import SwiftUI
+import BsuirUI
 import SwiftUINavigation
 import ComposableArchitecture
 import ComposableArchitectureUtils
@@ -20,7 +21,7 @@ struct AppIconFeatureView: View {
                         Text("screen.settings.appIcon.navigation.title")
                     } icon: {
                         AppIconPreviewView(
-                            icon: viewStore.currentIcon ?? .plain(.standard),
+                            imageName: viewStore.currentIcon.or(.plain(.standard)).appIcon.previewImageName,
                             size: 28
                         )
                     }
@@ -37,20 +38,20 @@ private struct AppIconPickerView: View {
         List {
             AppIconGroupPicker(
                 selection: $selection,
-                label: Text("screen.settings.appIcon.iconPicker.plain.title"),
-                case: /AppIcon.plain
+                label: "screen.settings.appIcon.iconPicker.plain.title",
+                casePath: /AppIcon.plain
             )
 
             AppIconGroupPicker(
                 selection: $selection,
-                label: Text("screen.settings.appIcon.iconPicker.symbol.title"),
-                case: /AppIcon.symbol
+                label: "screen.settings.appIcon.iconPicker.symbol.title",
+                casePath: /AppIcon.symbol
             )
 
             AppIconGroupPicker(
                 selection: $selection,
-                label: Text("screen.settings.appIcon.iconPicker.metall.title"),
-                case: /AppIcon.metal
+                label: "screen.settings.appIcon.iconPicker.metall.title",
+                casePath: /AppIcon.metal
             )
         }
         .pickerStyle(.inline)
@@ -58,25 +59,56 @@ private struct AppIconPickerView: View {
     }
 }
 
-private struct AppIconGroupPicker<Icon>: View where Icon: CaseIterable & Hashable & Identifiable, Icon.AllCases: RandomAccessCollection {
+private struct AppIconGroupPicker<Icon: AppIconProtocol>: View {
     @Binding var selection: AppIcon?
-    let label: Text
-    let `case`: CasePath<AppIcon, Icon>
+    let label: LocalizedStringKey
+    let casePath: CasePath<AppIcon, Icon>
 
     var body: some View {
-        Picker(
-            selection: $selection.case(`case`),
-            label: label
-        ) {
+        Section(label) {
             ForEach(Icon.allCases) { icon in
-                let appIcon = `case`.embed(icon)
-                Label {
-                    Text("  ") + Text(appIcon.title)
-                } icon: {
-                    AppIconPreviewView(icon: appIcon, size: 50)
-                }
-                .tag(Optional.some(icon))
+                AppIconRow(
+                    icon: icon,
+                    isSelected: .init(
+                        get: { $selection.wrappedValue.flatMap(casePath.extract(from:)) == icon },
+                        set: { newValue, transaction in
+                            $selection.transaction(transaction).wrappedValue = newValue ? casePath.embed(icon) : nil
+                        }
+                    )
+                )
             }
         }
+    }
+}
+
+private struct AppIconRow<Icon: AppIconProtocol>: View {
+    let icon: Icon
+    @Binding var isSelected: Bool
+
+    var body: some View {
+        Button {
+            isSelected = true
+        } label: {
+            LabeledContent {
+                if icon.isPremium {
+                    Image(systemName: "lock.square.fill")
+                        .foregroundStyle(.white, .premiumGradient)
+                        .font(.title2)
+                } else if isSelected {
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.blue)
+                        .font(.title3)
+                }
+            } label: {
+                Label {
+                    Text("  \(Text(icon.title))")
+                } icon: {
+                    AppIconPreviewView(imageName: icon.previewImageName, size: 50)
+                }
+                .opacity(icon.isPremium ? 0.5 : 1)
+            }
+        }
+        .foregroundColor(.primary)
+        .disabled(icon.isPremium)
     }
 }

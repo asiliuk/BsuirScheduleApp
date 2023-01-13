@@ -26,7 +26,6 @@ public struct AppIconFeature: ReducerProtocol {
         }
         
         public enum ReducerAction: Equatable {
-            case setCurrentIcon(AppIcon?)
             case iconChanged(AppIcon?)
             case iconChangeFailed
         }
@@ -51,24 +50,17 @@ public struct AppIconFeature: ReducerProtocol {
             guard icon != state.currentIcon else {
                 return .none
             }
-            
-            state.currentIcon = icon
+
             return .task {
-                try await setAlternateIconName(icon?.iconName)
+                try await setAlternateIconName(icon?.appIcon.iconName)
                 reviewRequestService.madeMeaningfulEvent(.appIconChanged)
                 return .reducer(.iconChanged(icon))
             } catch: { _ in
                 .reducer(.iconChangeFailed)
             }
             
-        case let .reducer(.setCurrentIcon(appIcon?)):
-            state.currentIcon = appIcon
-            return .none
-            
-        case .reducer(.setCurrentIcon(nil)):
-            return .none
-            
         case let .reducer(.iconChanged(newIcon)):
+            state.currentIcon = newIcon
             if let newIcon, newIcon.showNiceChoiceAlert {
                 state.alert =  AlertState(
                     title: TextState("alert.goodIconChoice.title"),
