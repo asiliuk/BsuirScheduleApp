@@ -8,7 +8,7 @@ struct PremiumClubFeatureView: View {
 
     var body: some View {
         NavigationLink {
-
+            PremiumClubContentView(store: store)
         } label: {
             PremiumClubLabel(store: store)
         }
