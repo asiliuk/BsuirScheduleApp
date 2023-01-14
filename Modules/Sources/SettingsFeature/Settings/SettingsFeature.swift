@@ -9,6 +9,7 @@ public struct SettingsFeature: ReducerProtocol {
     public struct State: Equatable {
         var isOnTop: Bool = true
 
+        var premiumClub = PremiumClubFeature.State()
         var appIcon = AppIconFeature.State()
         var appearance = AppearanceFeature.State()
         var networkAndData = NetworkAndDataFeature.State()
@@ -23,6 +24,7 @@ public struct SettingsFeature: ReducerProtocol {
         }
         
         public enum ReducerAction: Equatable {
+            case premiumClub(PremiumClubFeature.Action)
             case appIcon(AppIconFeature.Action)
             case appearance(AppearanceFeature.Action)
             case networkAndData(NetworkAndDataFeature.Action)
@@ -49,7 +51,11 @@ public struct SettingsFeature: ReducerProtocol {
                 return .none
             }
         }
-        
+
+        Scope(state: \.premiumClub, reducerAction: /Action.ReducerAction.premiumClub) {
+            PremiumClubFeature()
+        }
+
         Scope(state: \.appIcon, reducerAction: /Action.ReducerAction.appIcon) {
             AppIconFeature()
         }

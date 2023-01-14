@@ -18,32 +18,12 @@ public struct SettingsFeatureView: View {
         WithViewStore(store, observe: \.isOnTop) { viewStore in
             ScrollableToTopList(isOnTop: viewStore.binding(send: { .view(.setIsOnTop($0)) })) {
                 Section {
-                    NavigationLink {
-                        Text("Put some subscriptions here")
-                    } label: {
-                        HStack(spacing: 12) {
-                            SettingsRowIcon(fill: .premiumGradient) {
-                                Image(systemName: "flame.fill")
-                                    .font(.title2)
-                            }
-
-                            VStack(alignment: .leading) {
-                                Text("Premium Club")
-                                    .font(.headline)
-
-                                Group {
-                                    if hasActivePass {
-                                        Text("\(Image(systemName: "checkmark.seal.fill")) Active pass: **2022-2023**")
-                                    } else {
-                                        Text("No active pass")
-                                    }
-                                }
-                                .onTapGesture { hasActivePass.toggle() }
-                                .font(.footnote)
-                                .foregroundColor(.secondary)
-                            }
-                        }
-                    }
+                    PremiumClubFeatureView(
+                        store: store.scope(
+                            state: \.premiumClub,
+                            reducerAction: { .premiumClub($0) }
+                        )
+                    )
                 }
 
                 Section {
