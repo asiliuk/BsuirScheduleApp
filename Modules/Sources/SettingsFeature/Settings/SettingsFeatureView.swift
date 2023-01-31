@@ -90,6 +90,7 @@ public struct SettingsFeatureView: View {
                             reducerAction: { .premiumClub($0) }
                         )
                     )
+                    .navigationBarTitleDisplayMode(.inline)
                 }
             }
             .navigationDestination(for: SettingsFeatureDestination.self) { destination in
