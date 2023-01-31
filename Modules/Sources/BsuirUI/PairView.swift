@@ -322,45 +322,6 @@ extension PairViewForm {
     }
 }
 
-public struct PairPlaceholder: View {
-    let speed = 0.07
-
-    public init() {}
-
-    public var body: some View {
-        TimelineView(.periodic(from: .now, by: speed)) { context in
-            let iteration = self.iteration(date: context.date)
-            PairCell(
-                from: "10:00",
-                to: "11:30",
-                interval: "",
-                subject: placeholderText(for: iteration, from: 8, to: 22),
-                weeks: nil,
-                subgroup: nil,
-                auditory: placeholderText(for: iteration, from: 1, to: 15),
-                note: placeholderText(for: iteration, from: 4, to: 18),
-                form: .unknown,
-                progress: PairProgress(constant: 0),
-                details: EmptyView()
-            )
-            .animation(.default, value: iteration)
-            .redacted(reason: .placeholder)
-        }
-    }
-
-    func iteration(date: Date) -> Int {
-        Int(date.timeIntervalSinceReferenceDate / speed)
-    }
-
-    func placeholderText(for iteration: Int, from: Int, to: Int) -> String {
-        String(repeating: "-", count: repeatCount(for: iteration, from: from, to: to))
-    }
-
-    func repeatCount(for iteration: Int, from: Int, to: Int) -> Int {
-        return iteration.quotientAndRemainder(dividingBy: (to - from)).remainder + from
-    }
-}
-
 struct PairView_Previews: PreviewProvider {
     static var previews: some View {
         Group {

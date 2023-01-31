@@ -1,5 +1,6 @@
 import XCTest
-@testable import BsuirCore
+import BsuirCore
+@testable import ScheduleCore
 
 class WeekNumberTests: XCTestCase {
     var calendar: Calendar!

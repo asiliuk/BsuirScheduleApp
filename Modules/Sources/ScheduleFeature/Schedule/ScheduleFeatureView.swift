@@ -1,4 +1,5 @@
 import SwiftUI
+import BsuirCore
 import LoadableFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
@@ -6,12 +7,10 @@ import ComposableArchitectureUtils
 public struct ScheduleFeatureView<Value: Equatable>: View {
     struct ViewState: Equatable {
         let title: String
-        let isFavorite: Bool
         let scheduleType: ScheduleDisplayType
 
         init(state: ScheduleFeature<Value>.State) {
             self.title = state.title
-            self.isFavorite = state.isFavorite
             self.scheduleType = state.scheduleType
         }
     }
@@ -33,59 +32,59 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             ) { store in
                 LoadedScheduleView(
                     store: store.loaded(),
-                    scheduleType: viewStore.scheduleType,
+                    scheduleType: viewStore.binding(
+                        get: \.scheduleType,
+                        send: { .view(.setScheduleType($0)) }
+                    ),
                     schedulePairDetails: schedulePairDetails
                 )
                 .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
             } loading: {
-                LoadingStateView()
+                ScheduleGridPlaceholder()
             } error: { store in
                 LoadingErrorView(store: store)
             }
             .toolbar {
-                ToolbarItem {
-                    HStack {
-                        ToggleFavoritesButton(
-                            isFavorite: viewStore.isFavorite,
-                            toggle: { viewStore.send(.toggleFavoritesTapped) }
+                ToolbarItem(placement: .principal) {
+                        ScheduleDisplayTypePicker(
+                            scheduleType: viewStore
+                                .binding(get: \.scheduleType, send: { .view(.setScheduleType($0)) })
+                                .animation(.default)
                         )
-                        ScheduleDisplayTypePickerMenu(
-                            scheduleType: viewStore.binding(
-                                get: \.scheduleType,
-                                send: { .view(.setScheduleType($0)) }
-                            )
-                        )
-                    }
+                        .pickerStyle(.segmented)
+                        .frame(width: 200)
                 }
 
-                ToolbarItem(placement: .principal) {
-                    Text(viewStore.title)
-                        .bold()
-                        .minimumScaleFactor(0.5)
-                        .onTapGesture { viewStore.send(.scrollToMostRelevantTapped) }
+                ToolbarItem {
+                    MarkedSchedulePickerView(
+                        store: store.scope(
+                            state: \.mark,
+                            action: { .reducer(.mark($0)) }
+                        )
+                    )
                 }
             }
             .navigationTitle(viewStore.title)
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 }
 
 private struct LoadedScheduleView: View {
     let store: StoreOf<LoadedScheduleReducer>
-    let scheduleType: ScheduleDisplayType
+    @Binding var scheduleType: ScheduleDisplayType
     let schedulePairDetails: ScheduleGridViewPairDetails
 
     var body: some View {
         switch scheduleType {
-        case .compact:
-            DayScheduleView(
-                store: store.scope(state: \.compact, action: { .day($0) })
-            )
         case .continuous:
             ContiniousScheduleView(
                 store: store.scope(state: \.continious, action: { .continious($0) }),
                 pairDetails: schedulePairDetails
+            )
+        case .compact:
+            DayScheduleView(
+                store: store.scope(state: \.compact, action: { .day($0) })
             )
         case .exams:
             ExamsScheduleView(
@@ -93,22 +92,5 @@ private struct LoadedScheduleView: View {
                 pairDetails: schedulePairDetails
             )
         }
-    }
-}
-
-private struct ToggleFavoritesButton: View {
-    let isFavorite: Bool
-    let toggle: () -> Void
-
-    var body: some View {
-        Button(action: toggle) {
-            Image(systemName: isFavorite ? "star.fill" : "star")
-        }
-        .accessibility(
-            label: isFavorite
-                ? Text("screen.schedule.favorite.accessibility.remove")
-                : Text("screen.schedule.favorite.accessibility.add")
-        )
-        .accentColor(.yellow)
     }
 }

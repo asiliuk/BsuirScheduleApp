@@ -1,6 +1,6 @@
-import Foundation
-import ComposableArchitecture
 import SwiftUI
+import BsuirCore
+import ComposableArchitecture
 
 public struct LoadingStore<
     ValueState: Equatable,
@@ -133,8 +133,6 @@ extension LoadingStore {
         @ViewBuilder loading: () -> LoadingView,
         @ViewBuilder error: @escaping (StoreOf<LoadingError>) -> ErrorView
     ) where Action.State == State, ValueAction == Never {
-        func impossible<T>(_: Never) -> T {}
-        
         self.init(
             store,
             state: keyPath,

@@ -2,8 +2,6 @@ import SwiftUI
 import BsuirCore
 import ScheduleCore
 
-#if swift(>=5.7)
-@available(iOS 16.0, *)
 struct ScheduleWidgetEntryAccessoryCircularView: View {
     var entry: Provider.Entry
     
@@ -31,7 +29,6 @@ struct ScheduleWidgetEntryAccessoryCircularView: View {
     }
 }
 
-@available(iOS 16.0, *)
 private struct PairDetailsView<Content: View, Label: View>: View {
     @ObservedObject var progress: PairProgress
     @ViewBuilder let content: () -> Content
@@ -46,4 +43,3 @@ private struct PairDetailsView<Content: View, Label: View>: View {
         .gaugeStyle(.accessoryCircular)
     }
 }
-#endif

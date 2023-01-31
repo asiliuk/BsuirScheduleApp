@@ -1,35 +1,43 @@
 import Foundation
 import GroupsFeature
 import LecturersFeature
-import AboutFeature
+import SettingsFeature
 import Deeplinking
 import Favorites
+import ScheduleCore
 import ComposableArchitecture
 import ComposableArchitectureUtils
+import EntityScheduleFeature
 
 public struct AppFeature: ReducerProtocol {
     public struct State: Equatable {
         var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
 
+        var pinned: PinnedScheduleFeature.State?
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
-        var about = AboutFeature.State()
+        var settings = SettingsFeature.State()
 
-        public init() {}
+        public init() {
+            @Dependency(\.favorites) var favorites
+            self.handleInitialSelection(favorites: favorites)
+        }
     }
 
     public enum Action {
-        case onAppear
+        case task
 
         case handleDeeplink(URL)
         case setSelection(CurrentSelection)
         case setOverlay(CurrentOverlay?)
-        case showAboutButtonTapped
+        case setPinnedSchedule(ScheduleSource?)
+        case showSettingsButtonTapped
 
+        case pinned(PinnedScheduleFeature.Action)
         case groups(GroupsFeature.Action)
         case lecturers(LecturersFeature.Action)
-        case about(AboutFeature.Action)
+        case settings(SettingsFeature.Action)
     }
 
     @Dependency(\.favorites) var favorites
@@ -39,35 +47,48 @@ public struct AppFeature: ReducerProtocol {
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .onAppear:
-                handleInitialSelection(state: &state)
-                return .none
+            case .task:
+                return .run { send in
+                    for await pinnedSchedule in favorites.pinnedSchedule.values {
+                        await send(.setPinnedSchedule(pinnedSchedule))
+                    }
+                }
 
             case let .setSelection(value):
-                updateSelection(state: &state, value)
-                state.selection = value
+                state.updateSelection(value)
                 return .none
 
             case let .setOverlay(value):
                 state.overlay = value
                 return .none
 
-            case .showAboutButtonTapped:
-                state.overlay = .about
+            case .setPinnedSchedule(nil):
+                state.pinned = nil
+                return .none
+
+            case let .setPinnedSchedule(pinned?):
+                state.pinned = .init(pinned: pinned)
+                return .none
+
+            case .showSettingsButtonTapped:
+                state.overlay = .settings
                 return .none
 
             case let .handleDeeplink(url):
                 do {
                     let deeplink = try deeplinkRouter.match(url: url)
-                    handleDeepling(state: &state, deeplink: deeplink)
+                    handleDeeplink(state: &state, deeplink: deeplink)
                 } catch {
                     assertionFailure("Failed to parse deeplink. \(error.localizedDescription)")
                 }
                 return .none
 
-            case .groups, .lecturers, .about:
+            case .groups, .lecturers, .settings, .pinned:
                 return .none
             }
+        }
+        .ifLet(\.pinned, action: /Action.pinned) {
+            PinnedScheduleFeature()
         }
 
         Scope(state: \.groups, action: /Action.groups) {
@@ -78,59 +99,95 @@ public struct AppFeature: ReducerProtocol {
             LecturersFeature()
         }
 
-        Scope(state: \.about, action: /Action.about) {
-            AboutFeature()
+        Scope(state: \.settings, action: /Action.settings) {
+            SettingsFeature()
         }
     }
+}
 
-    private func handleInitialSelection(state: inout State) {
-        if let groupName = favorites.currentGroupNames.first {
-            state.selection = .groups
-            state.groups.openGroup(named: groupName)
-            return
-        }
+// MARK: - Deeplink
 
-        if let lector = favorites.currentLecturers.first {
-            state.selection = .lecturers
-            state.lecturers.openLector(lector)
-            return
-        }
-    }
 
-    private func handleDeepling(state: inout State, deeplink: Deeplink) {
+private extension AppFeature {
+
+    func handleDeeplink(state: inout State, deeplink: Deeplink) {
         switch deeplink {
         case .groups:
             state.selection = .groups
             state.groups.reset()
         case let .group(name):
-            state.selection = .groups
-            state.groups.openGroup(named: name)
+            handleDeeplink(state: &state, groupName: name)
         case .lecturers:
             state.selection = .lecturers
             state.lecturers.reset()
         case let .lector(id):
-            state.selection = .lecturers
-            state.lecturers.openLector(id: id)
-        case .about:
-            state.selection = .about
-            state.about.reset()
+            handleDeeplink(state: &state, lectorId: id)
+        case .settings:
+            state.selection = .settings
+            state.settings.reset()
         }
     }
 
-    private func updateSelection(state: inout State, _ newValue: CurrentSelection) {
-        guard newValue == state.selection else {
-            state.selection = newValue
+    func handleDeeplink(state: inout State, groupName: String) {
+        switch favorites.currentPinnedSchedule {
+        case .group(groupName):
+            state.selection = .pinned
+        case .group, .lector, nil:
+            state.selection = .groups
+            state.groups.openGroup(named: groupName)
+        }
+    }
+
+    func handleDeeplink(state: inout State, lectorId: Int) {
+        switch favorites.currentPinnedSchedule {
+        case .lector(let lector) where lector.id == lectorId:
+            state.selection = .pinned
+        case .lector, .group, nil:
+            state.selection = .lecturers
+            state.lecturers.openLector(id: lectorId)
+        }
+    }
+}
+
+// MARK: - Selection
+
+private extension AppFeature.State {
+    mutating func handleInitialSelection(favorites: FavoritesContainer) {
+        if let pinnedSchedule = favorites.currentPinnedSchedule {
+            selection = .pinned
+            pinned = .init(pinned: pinnedSchedule)
+            return
+        }
+
+        if let groupName = favorites.currentGroupNames.first {
+            selection = .groups
+            groups.openGroup(named: groupName)
+            return
+        }
+
+        if let lectorId = favorites.currentLectorIds.first {
+            selection = .lecturers
+            lecturers.openLector(id: lectorId)
+            return
+        }
+    }
+
+    mutating func updateSelection(_ newValue: CurrentSelection) {
+        guard newValue == selection else {
+            selection = newValue
             return
         }
 
         // Handle tap on already selected tab
         switch newValue {
+        case .pinned:
+            pinned?.reset()
         case .groups:
-            state.groups.reset()
+            groups.reset()
         case .lecturers:
-            state.lecturers.reset()
-        case .about:
-            state.about.reset()
+            lecturers.reset()
+        case .settings:
+            settings.reset()
         }
     }
 }

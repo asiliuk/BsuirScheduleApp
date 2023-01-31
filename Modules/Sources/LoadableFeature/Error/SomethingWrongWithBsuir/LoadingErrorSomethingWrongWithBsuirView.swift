@@ -12,7 +12,11 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
     }
 
     public var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(
+            store,
+            observe: { (errorCode: $0.errorCode, address: $0.address, message: $0.message) },
+            removeDuplicates: ==
+        ) { viewStore in
             VStack(spacing: 24) {
                 Spacer()
 
@@ -54,13 +58,9 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
                     Label("view.errorState.apiDown.button.retry.label", systemImage: "arrow.clockwise")
                 }
 
-                if #available(iOS 16.0, *) {
-                    ViewThatFits {
-                        HStack { openIssue; retry }
-                        VStack { openIssue; retry }
-                    }
-                } else {
+                ViewThatFits {
                     HStack { openIssue; retry }
+                    VStack { openIssue; retry }
                 }
 
                 Spacer()

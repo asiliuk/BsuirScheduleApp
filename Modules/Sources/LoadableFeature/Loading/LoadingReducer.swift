@@ -64,37 +64,22 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
         }
 
         switch action {
-        case .view(.onAppear):
-            switch valueState {
-            case .initial:
-                valueState = .loading
-                return .merge(
-                    load(state, isRefresh: false),
-                    loadingStarted()
-                )
-            case .loading, .error, .some:
-                return .none
-            }
+        case .view(.onAppear) where valueState.isInitial:
+            valueState = .loading
+            return .merge(
+                load(state, isRefresh: false),
+                loadingStarted()
+            )
 
-        case .view(.loadingError(.reload)):
-            switch valueState {
-            case .error:
-                valueState = .loading
-                return .merge(
-                    load(state, isRefresh: true),
-                    loadingStarted()
-                )
-            case .initial, .loading, .some:
-                return .none
-            }
+        case .view(.loadingError(.reload)) where valueState.isError:
+            valueState = .loading
+            return .merge(
+                load(state, isRefresh: true),
+                loadingStarted()
+            )
 
-        case .view(.refresh):
-            switch valueState {
-            case .error, .some:
-                return load(state, isRefresh: true)
-            case .loading, .initial:
-                return .none
-            }
+        case .view(.refresh) where valueState.isError || valueState.isSome:
+            return load(state, isRefresh: true)
 
         case let .reducer(.loaded(value, _)):
             valueState = .some(value as! Value)
@@ -104,7 +89,7 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
             valueState = .error(.init(error))
             return loadingFinished()
             
-        case .delegate, .view(.loadingError):
+        case .delegate, .view(.loadingError), .view(.onAppear), .view(.refresh):
             return .none
         }
     }
@@ -123,13 +108,14 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
         return EffectTask.task {
             if isRefresh {
                 // Make sure loading UI is shown for some time before requesting
-                try await Task.sleep(nanoseconds: 200_000_000)
+                try await Task.sleep(for: .milliseconds(200))
             }
             let value = try await fetch(state, isRefresh)
             return .reducer(.loaded(value, isEqualTo: { $0 as? Value == value }))
         } catch: { error in
             .reducer(.loadingFailed(error))
         }
+        .animation()
         .cancellable(id: LoadingCancelId.self, cancelInFlight: true)
     }
 }

@@ -1,92 +1,99 @@
-/* 
-  Localizable.strings
-  BsuirScheduleApp
-
-  Created by Nikita Prokhorchuk on 19.08.22.
-  Copyright © 2022 Saute. All rights reserved.
-*/
-
 // MARK: - Tabbar
 
+"view.tabBar.pinned.empty.title" = "Закреплённое";
 "view.tabBar.groups.title" = "Группы";
 "view.tabBar.lecturers.title" = "Преподаватели";
-"view.tabBar.about.title" = "О приложении";
+"view.tabBar.settings.title" = "Настройки";
 "view.tabBar.favorites.title" = "Избранные";
 
-// MARK: - Favorites
+// MARK: - Empty Pinned
 
-"screen.favorites.navigation.title" = "Избранные";
-"screen.favorites.emptyState.title" = "Ты не избранный, Нео";
-"screen.favorites.emptyState.subtitle" = "Выбери кого-нибудь другого";
-"screen.favorites.emptyState.action.title" = "Веди меня!";
-"screen.favorites.groups.section.header" = "Группы";
-"screen.favorites.lecturers.section.header" = "Преподаватели";
+"screen.pinned.empty.title" = "Нет закрепленного расписания";
+"screen.pinned.empty.message" = "Пожалуйста, закрепите расписание, чтобы оно отображалось в этой вкладке";
+
+// MARK: - Row
+
+"row.markedSchedule.actions.removeFromFavorites.title" = "Убрать из избранного";
+"row.markedSchedule.actions.addToFavorites.title" = "Добавить в избранное";
+"row.markedSchedule.actions.unpin.title" = "Открепить";
+"row.markedSchedule.actions.pin.title" = "Закрепить";
 
 // MARK: - Groups
 
 "screen.groups.search.placeholder" = "Найти группу";
+"screen.groups.search.suggested.course.%@" = "%@ курс";
+"screen.groups.search.suggested.noCourse" = "Без курса";
 "screen.groups.navigation.title" = "Все группы";
 "screen.groups.favorites.section.header" = "⭐️ Избранные";
+"screen.groups.pinned.section.header" = "📌 Закрепленное";
 
 // MARK: - Lecturers
 
 "screen.lecturers.search.placeholder" = "Найти преподавателя";
 "screen.lecturers.navigation.title" = "Все преподаватели";
 "screen.lecturers.favorites.section.header" = "⭐️ Избранные";
+"screen.lecturers.pinned.section.header" = "📌 Закрепленное";
+
+// MARK: - Settings
+
+"screen.settings.navigation.title" = "Настройки";
+
+// MARK: - Appearance
+
+"screen.settings.appearance.navigation.title" = "Внешний вид";
+
+"screen.settings.appearance.colors.section.header" = "Цвета";
+"screen.settings.appearance.colors.reset.title" = "Сбросить";
+
+"screen.settings.appearance.pairPreview.section.header" = "Как выглядит пара";
+"screen.settings.appearance.pairPreview.from" = "начало";
+"screen.settings.appearance.pairPreview.to" = "конец";
+"screen.settings.appearance.pairPreview.subject" = "Предмет";
+"screen.settings.appearance.pairPreview.weeks" = "нед.";
+"screen.settings.appearance.pairPreview.subgroup" = "подгр.";
+"screen.settings.appearance.pairPreview.auditory" = "Кабинет - корпус";
+"screen.settings.appearance.pairPreview.note" = "Комментарий";
+"screen.settings.appearance.pairPreview.accessibility.label" = "Визуальное отображение пары с подписанными элементами";
+
+// MARK: - App Icon
+
+"screen.settings.appIcon.navigation.title" = "Иконка приложения";
+"screen.settings.appIcon.iconPicker.plain.title" = "Простые";
+"screen.settings.appIcon.iconPicker.symbol.title" = "Символ";
+"screen.settings.appIcon.iconPicker.metall.title" = "Металл";
+"screen.settings.appIcon.icon.default.title" = "Стандартная";
+"screen.settings.appIcon.icon.dark.title" = "Темная";
+"screen.settings.appIcon.icon.nostalgia.title" = "Ностальгия";
+"screen.settings.appIcon.icon.bsuirDonalds.title" = "BsuirDonald's";
+"screen.settings.appIcon.icon.premium.title" = "Премиум";
+"screen.settings.appIcon.icon.resist.title" = "❤️✊✌️";
+"screen.settings.appIcon.icon.pride.title" = "Pride";
+"screen.settings.appIcon.icon.belarusFlag.title" = "БЧБ";
+"screen.settings.appIcon.icon.ukrainianFlag.title" = "Украинская";
+"screen.settings.appIcon.icon.silver.title" = "Серебро";
+"screen.settings.appIcon.icon.copper.title" = "Медь";
 
 // MARK: - About
 
-"screen.about.navigation.title" = "Информация";
+"screen.settings.about.navigation.title" = "О приложении";
+"screen.settings.about.version.section.header" = "Версия";
+"screen.settings.about.links.section.header" = "Ссылки";
 
-// MARK: - About, Colors
+// MARK: - Network & Data
 
-"screen.about.colors.section.header" = "Цвета";
-"screen.about.colors.reset.title" = "Сбросить";
-
-// MARK: - About, Pair preview
-
-"screen.about.pairPreview.section.header" = "Как выглядит пара";
-"screen.about.pairPreview.from" = "начало";
-"screen.about.pairPreview.to" = "конец";
-"screen.about.pairPreview.subject" = "Предмет";
-"screen.about.pairPreview.weeks" = "нед.";
-"screen.about.pairPreview.subgroup" = "подгр.";
-"screen.about.pairPreview.auditory" = "Кабинет - корпус";
-"screen.about.pairPreview.note" = "Комментарий";
-"screen.about.pairPreview.accessibility.label" = "Визуальное отображение пары с подписанными элементами";
-
-// MARK: - About, Appearance
-
-"screen.about.appearance.section.header" = "Внешний вид";
-"screen.about.appearance.iconPicker.title" = "Иконка";
-"screen.about.appearance.icon.default.title" = "Стандартная";
-"screen.about.appearance.icon.dark.title" = "Темная";
-"screen.about.appearance.icon.nostalgia.title" = "Ностальгия";
-"screen.about.appearance.icon.resist.title" = "❤️✊✌️";
-"screen.about.appearance.icon.pride.title" = "Pride";
-"screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
-"screen.about.appearance.icon.ukrainianFlag.title" = "Украинская";
-
-// MARK: - About, About App
-
-"screen.about.aboutTheApp.section.header" = "О приложении";
-"screen.about.aboutTheApp.version.%@" = "Версия %@";
-
-// MARK: - About, Reachability
-
-"screen.about.reachability.section.header" = "Доступность";
-
-// MARK: - About, Data
-
-"screen.about.data.section.header" = "Данные";
-"screen.about.data.section.clearCache.button" = "Очистить кэш";
+"screen.settings.networkAndData.navigation.title" = "Сеть & Данные";
+"screen.settings.networkAndData.reachability.section.header" = "Доступность";
+"screen.settings.networkAndData.data.section.header" = "Данные";
+"screen.settings.networkAndData.data.section.clearCache.button" = "Очистить кэш";
 
 // MARK: - Schedule
 
 "screen.schedule.placeholder.title" = "Пожалуйста, выберите расписание чтобы отобразить...";
 
-"screen.schedule.favorite.accessibility.remove" = "Убрать из избранного";
-"screen.schedule.favorite.accessibility.add" = "Добавить в избранное";
+"screen.schedule.mark.pin" = "Закрепить";
+"screen.schedule.mark.favorite" = "Избранное";
+"screen.schedule.mark.dontSave" = "Не сохранять";
+"screen.schedule.mark.title" = "Метка";
 
 "screen.schedule.scheduleTypePicker.title" = "Тип расписания";
 "screen.schedule.scheduleType.schedule" = "Расписание";
@@ -99,12 +106,6 @@
 "screen.schedule.day.title.%@.%lld" = "%@, Неделя %lld";
 
 "screen.schedule.noMorePairs.title" = "Занятий больше нет 🎉";
-
-// TODO: - Remove when exams are supported
-"screen.schedule.unsupportedExams.title" = "Приношу глубочайгшие извинения";
-"screen.schedule.unsupportedExams.subject" = "В данный момент расписание экзаменов не поддерживается";
-"screen.schedule.unsupportedExams.auditory" = "Пришлось временно убрать эту фичу потому что нет времени переехать на новый API";
-"screen.schedule.unsupportedExams.subject2" = "Но вы можете мне помочь";
 
 // MARK: - Loading
 

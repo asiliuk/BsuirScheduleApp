@@ -2,32 +2,48 @@ import SwiftUI
 import ScheduleFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
+import SwiftUINavigation
 
 public struct LectorScheduleView: View {
     let store: StoreOf<LectorScheduleFeature>
+
+    struct ViewState: Equatable {
+        let groupScheduleName: String?
+
+        init(state: LectorScheduleFeature.State) {
+            self.groupScheduleName = state.groupSchedule?.groupName
+        }
+    }
     
     public init(store: StoreOf<LectorScheduleFeature>) {
         self.store = store
     }
     
     public var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store, observe: ViewState.init) { viewStore in
             ScheduleFeatureView(
-                store: store.scope(state: \.schedule, action: { .schedule($0) }),
+                store: store.scope(state: \.schedule, reducerAction: { .schedule($0) }),
                 schedulePairDetails: .groups {
                     viewStore.send(.groupTapped($0))
                 }
             )
-            .sheet(item: viewStore.binding(\.$groupSchedule)) { _ in
-                ModalNavigationView {
-                    IfLetStore(
-                        store.scope(state: \.groupSchedule, action: { .groupSchedule($0) })
-                    ) { store in
+            .sheet(
+                unwrapping: viewStore.binding(
+                    get: \.groupScheduleName,
+                    send: { .view(.setGroupScheduleName($0)) }
+                )
+            ) { _ in
+                IfLetStore(
+                    store.scope(
+                        state: \.groupSchedule,
+                        reducerAction: { .groupSchedule($0) }
+                    )
+                ) { store in
+                    ModalNavigationStack {
                         GroupScheduleView(store: store)
                     }
                 }
             }
-            .task { await viewStore.send(.task).finish() }
         }
     }
 }

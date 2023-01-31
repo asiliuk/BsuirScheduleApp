@@ -7,63 +7,65 @@ import Dependencies
 
 public struct DayScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
+        public var isOnTop: Bool = true
         var days: [ScheduleDayViewModel] = []
-        fileprivate var schedule: DaySchedule
-        
+
         init(schedule: DaySchedule) {
-            self.schedule = schedule
-        }
-    }
+            @Dependency(\.calendar) var calendar
+            @Dependency(\.date.now) var now
+            @Dependency(\.uuid) var uuid
 
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case onAppear
-        }
-
-        public typealias ReducerAction = Never
-        public typealias DelegateAction = Never
-
-        case view(ViewAction)
-        case reducer(ReducerAction)
-        case delegate(DelegateAction)
-    }
-
-    @Dependency(\.calendar) var calendar
-    @Dependency(\.date.now) var now
-    @Dependency(\.uuid) var uuid
-
-    public init() {}
-
-    public var body: some ReducerProtocol<State, Action> {
-        Reduce { state, action in
-            switch action {
-            case .view(.onAppear) where state.days.isEmpty:
-                loadDays(&state)
-                return .none
-                
-            case .view:
-                return .none
-            }
-        }
-    }
-    
-    private func loadDays(_ state: inout State) {
-        state.days = DaySchedule.WeekDay.allCases
-            .compactMap { weekday in
-            guard
-                let pairs = state.schedule[weekday],
-                !pairs.isEmpty
-            else { return nil }
-
-            return ScheduleDayViewModel(
-                id: uuid(),
-                title: weekday.localizedName(in: calendar).capitalized,
-                pairs: pairViewModels(pairs)
+            self.loadDays(
+                schedule: schedule,
+                calendar: calendar,
+                now: now,
+                uuid: uuid
             )
         }
     }
 
-    private func pairViewModels(_ pairs: [Pair]) -> [PairViewModel] {
+    public enum Action: Equatable {
+        case setIsOnTop(Bool)
+    }
+
+    public init() {}
+
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+        switch action {
+        case .setIsOnTop(let value):
+            state.isOnTop = value
+            return .none
+        }
+    }
+}
+
+private extension DayScheduleFeature.State {
+    mutating func loadDays(
+        schedule: DaySchedule,
+        calendar: Calendar,
+        now: Date,
+        uuid: UUIDGenerator
+    ) {
+        days = DaySchedule.WeekDay.allCases
+            .compactMap { (weekday: DaySchedule.WeekDay) -> ScheduleDayViewModel? in
+                guard
+                    let pairs = schedule[weekday],
+                    !pairs.isEmpty
+                else { return nil }
+
+                return ScheduleDayViewModel(
+                    id: uuid(),
+                    title: weekday.localizedName(in: calendar).capitalized,
+                    pairs: pairViewModels(pairs, calendar: calendar, now: now)
+                )
+            }
+    }
+
+    func pairViewModels(
+        _ pairs: [Pair],
+        calendar: Calendar,
+        now: Date
+    ) -> [PairViewModel] {
         pairs.map {
             PairViewModel(
                 start: calendar.date(bySetting: $0.startLessonTime, of: now),

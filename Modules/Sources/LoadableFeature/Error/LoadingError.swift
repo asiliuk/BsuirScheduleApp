@@ -56,7 +56,7 @@ extension LoadingError.State {
         switch error {
         case let urlError as URLError:
             switch urlError.code {
-            case .notConnectedToInternet, .timedOut, .networkConnectionLost:
+            case .notConnectedToInternet, .timedOut, .networkConnectionLost, .dataNotAllowed:
                 self = .notConnectedToInternet
             default:
                 assertionFailure("Unknown url error code \(urlError.code)")

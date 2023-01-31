@@ -22,13 +22,12 @@ struct ScheduleGridView: View {
     @Binding var isOnTop: Bool
 
     var body: some View {
-        List {
+        ScrollableToTopList(isOnTop: $isOnTop) {
             Group {
                 ForEach(days) { day in
                     ScheduleDay(
                         title: day.title,
                         subtitle: day.subtitle,
-                        isMostRelevant: day.isMostRelevant,
                         isToday: day.isToday,
                         pairs: day.pairs,
                         details: pairDetails
@@ -40,6 +39,7 @@ struct ScheduleGridView: View {
                     PairPlaceholder()
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .onAppear(perform: load)
+
                 case .finished:
                     NoMorePairsIndicator()
 
@@ -50,13 +50,6 @@ struct ScheduleGridView: View {
             .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
-        // To disable cell celection
-        .buttonStyle(PlainButtonStyle())
-        .scrollableToTop(
-            id: RelevantDayViewID.mostRelevant,
-            isOnTop: $isOnTop,
-            updateOnAppear: true
-        )
     }
 }
 
@@ -72,7 +65,6 @@ struct NoMorePairsIndicator: View {
 struct ScheduleDay: View {
     let title: String
     let subtitle: String?
-    var isMostRelevant: Bool
     let isToday: Bool
     let pairs: [PairViewModel]
     let details: ScheduleGridViewPairDetails
@@ -81,15 +73,14 @@ struct ScheduleDay: View {
         VStack(alignment: .leading, spacing: 10) {
             ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
 
-            ForEach(pairs) { pair in
+            ForEach(pairs.prefix(100)) { pair in
                 PairCell(
                     pair: pair,
                     details: detailsView(pair: pair)
                 )
+                .frame(minWidth: 10, minHeight: 10)
             }
         }
-        .id(isMostRelevant ? RelevantDayViewID.mostRelevant : .other)
-        .padding(.vertical, 10)
     }
 
     @ViewBuilder private func detailsView(pair: PairViewModel) -> some View {
@@ -110,9 +101,4 @@ struct ScheduleDay: View {
             Text(title)
         }
     }
-}
-
-private enum RelevantDayViewID: Hashable {
-    case mostRelevant
-    case other
 }

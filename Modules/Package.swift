@@ -1,18 +1,18 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "BsuirScheduleApp",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v16)],
     products: [
         .library(
             name: "AppFeature",
             targets: ["AppFeature"]),
         .library(
-            name: "AboutFeature",
-            targets: ["AboutFeature"]),
+            name: "SettingsFeature",
+            targets: ["SettingsFeature"]),
         .library(
             name: "GroupsFeature",
             targets: ["GroupsFeature"]),
@@ -42,32 +42,36 @@ let package = Package(
             targets: ["Deeplinking"]),
     ],
     dependencies: [
-         .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.0.0"),
-         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.46.0"),
-         .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.4.0")
+         .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.4.0"),
+         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.49.1"),
+         .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.4.0"),
+         .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
+         .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.1.4"),
+         .package(url: "https://github.com/pointfreeco/swiftui-navigation.git", from: "0.5.0"),
+         .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "0.1.1"),
     ],
     targets: [
         // MARK: - Features
         .target(
             name: "AppFeature",
             dependencies: [
-                "GroupsFeature", "LecturersFeature", "AboutFeature",
+                "GroupsFeature", "LecturersFeature", "SettingsFeature",
                 "Deeplinking", "Favorites", "ComposableArchitectureUtils",
                 "ScheduleCore", "BsuirApi", "BsuirUI",
-                .tca
+                .tca, .swiftUINavigation
             ]
         ),
         .target(
-            name: "AboutFeature",
-            dependencies: ["ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .tcaDependencies]
+            name: "SettingsFeature",
+            dependencies: ["ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .dependencies, .swiftUINavigation]
         ),
         .target(
             name: "GroupsFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .swiftUINavigation]
         ),
         .target(
             name: "LecturersFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .swiftUINavigation]
         ),
         .target(
             name: "EntityScheduleFeature",
@@ -83,11 +87,11 @@ let package = Package(
         ),
         .target(
             name: "Favorites",
-            dependencies: ["BsuirApi", .tcaDependencies]
+            dependencies: ["BsuirCore", "ScheduleCore", .swiftCollections, .dependencies]
         ),
         .target(
             name: "Deeplinking",
-            dependencies: [.urlRouting, .tcaDependencies]
+            dependencies: [.urlRouting, .dependencies]
         ),
         .target(
             name: "ReachabilityFeature",
@@ -99,16 +103,16 @@ let package = Package(
             dependencies: [.tca]),
         .target(
             name: "BsuirUI",
-            dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .tcaDependencies]),
+            dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .dependencies, .introspect]),
         .target(
             name: "ScheduleCore",
-            dependencies: ["BsuirApi", .tcaDependencies]),
+            dependencies: ["BsuirApi", .dependencies]),
         .target(
             name: "BsuirApi",
-            dependencies: ["BsuirCore", .urlRouting, .tcaDependencies]),
+            dependencies: ["BsuirCore", .urlRouting, .dependencies]),
         .target(
             name: "BsuirCore",
-            dependencies: [.tcaDependencies]),
+            dependencies: [.dependencies, .swiftCollections]),
         .testTarget(
             name: "ScheduleCoreTests",
             dependencies: ["ScheduleCore"]),
@@ -122,5 +126,8 @@ let package = Package(
 private extension Target.Dependency {
     static let urlRouting: Self = .product(name: "URLRouting", package: "swift-url-routing")
     static let tca: Self = .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-    static let tcaDependencies: Self = .product(name: "Dependencies", package: "swift-composable-architecture")
+    static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
+    static let swiftCollections: Self = .product(name: "Collections", package: "swift-collections")
+    static let introspect: Self = .product(name: "Introspect", package: "SwiftUI-Introspect")
+    static let swiftUINavigation: Self = .product(name: "SwiftUINavigation", package: "swiftui-navigation")
 }

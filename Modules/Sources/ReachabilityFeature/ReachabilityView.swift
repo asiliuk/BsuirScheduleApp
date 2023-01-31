@@ -10,7 +10,11 @@ public struct ReachabilityView: View {
     }
 
     public var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(
+            store,
+            observe: { (host: $0.host, status: $0.status) },
+            removeDuplicates: ==
+        ) { viewStore in
             Label {
                 Text(viewStore.host)
             } icon: {

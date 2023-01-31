@@ -5,19 +5,17 @@ struct NetworkErrorMessageField: View {
     let message: String
 
     var body: some View {
-        let field = Text("\(addressText)\n\(messageText)")
-            .padding(8)
-            .textSelection(.enabled)
-            .background {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(uiColor: .secondarySystemBackground))
-            }
+        GroupBox {
+            let field = Text("\(addressText)\n\(messageText)")
+                .textSelection(.enabled)
 
-        if #available(iOS 16.1, *) {
-            field.lineLimit(...10)
-                .monospaced()
-        } else {
-            field
+
+            if #available(iOS 16.1, *) {
+                field.lineLimit(...10)
+                    .monospaced()
+            } else {
+                field
+            }
         }
     }
 

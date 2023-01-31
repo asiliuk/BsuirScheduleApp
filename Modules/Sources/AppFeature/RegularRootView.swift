@@ -1,10 +1,13 @@
 import SwiftUI
 import GroupsFeature
 import LecturersFeature
-import AboutFeature
+import SettingsFeature
 import ComposableArchitecture
+import SwiftUINavigation
 
 struct RegularRootView: View {
+    let store: StoreOf<AppFeature>
+
     struct ViewState: Equatable {
         var selection: CurrentSelection
         var overlay: CurrentOverlay?
@@ -15,55 +18,53 @@ struct RegularRootView: View {
         }
     }
 
-    let store: StoreOf<AppFeature>
-
     var body: some View {
-        WithViewStore(store, observe: { ViewState(state: $0) }) { viewStore in
+        WithViewStore(store, observe: ViewState.init) { viewStore in
             NavigationView {
                 TabView(selection: viewStore.binding(get: \.selection, send: AppFeature.Action.setSelection)) {
                     // Placeholder
                     // When in NavigationView first tab is not visible on iPad
                     Text("Oops").opacity(0)
 
-                    GroupsView(
+                    GroupsFeatureView(
                         store: store.scope(
                             state: \.groups,
                             action: AppFeature.Action.groups
                         )
                     )
-                    .tab(.groups)
+                    .tag(CurrentSelection.groups)
+                    .tabItem { GroupsLabel() }
 
-                    LecturersView(
+                    LecturersFeatureView(
                         store: store.scope(
                             state: \.lecturers,
                             action: AppFeature.Action.lecturers
                         )
                     )
-                    .tab(.lecturers)
+                    .tag(CurrentSelection.lecturers)
+                    .tabItem { LecturersLabel() }
                 }
                 .toolbar {
                     Button {
-                        viewStore.send(.showAboutButtonTapped)
+                        viewStore.send(.showSettingsButtonTapped)
                     } label: {
-                        CurrentSelection.about.label
+                        SettingsLabel()
                     }
                 }
 
                 SchedulePlaceholder()
             }
-            // TODO: Use unwraping API here from SwiftUINavigation
-            // And merge overlay enum with selection enum
-            .sheet(item: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay)) { overlay in
-                switch overlay {
-                case .about:
-                    NavigationView {
-                        AboutView(
-                            store: store.scope(
-                                state: \.about,
-                                action: AppFeature.Action.about
-                            )
+            .sheet(
+                unwrapping: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay),
+                case: /CurrentOverlay.settings
+            ) { _ in
+                NavigationView {
+                    SettingsFeatureView(
+                        store: store.scope(
+                            state: \.settings,
+                            action: AppFeature.Action.settings
                         )
-                    }
+                    )
                 }
             }
         }

@@ -7,5 +7,4 @@ struct ScheduleDayViewModel: Equatable, Identifiable {
     var subtitle: String?
     var pairs: [PairViewModel]
     var isToday: Bool = false
-    var isMostRelevant: Bool = false
 }

@@ -22,10 +22,10 @@ public enum LoadableState<Value> {
         }
         set {
             guard let newValue else {
-                assertionFailure()
-                return self = .error(.unknown)
+                if case .some = self { assertionFailure("Don't know what you're trying to do here") }
+                return
             }
-            
+
             self = .some(newValue)
         }
     }
@@ -46,5 +46,27 @@ extension LoadableState {
         case let .error(error): return .error(error)
         case let .some(value): return .some(transform(value))
         }
+    }
+}
+
+extension LoadableState {
+    var isInitial: Bool {
+        guard case .initial = self else { return false }
+        return true
+    }
+
+    var isLoading: Bool {
+        guard case .loading = self else { return false }
+        return true
+    }
+
+    var isError: Bool {
+        guard case .error = self else { return false }
+        return true
+    }
+
+    var isSome: Bool {
+        guard case .some = self else { return false }
+        return true
     }
 }

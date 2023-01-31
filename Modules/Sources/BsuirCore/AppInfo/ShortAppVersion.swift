@@ -15,7 +15,6 @@ public struct ShortAppVersion: Hashable {
 extension ShortAppVersion: CustomStringConvertible, ExpressibleByStringLiteral {
     public init(_ version: String) {
         var components = Array(version.components(separatedBy: ".").reversed())
-        assert(components.count == 3, "Expects version in format \"x.x.x\"")
         self.major = components.popLast().flatMap(Int.init) ?? 0
         self.minor = components.popLast().flatMap(Int.init) ?? 0
         self.patch = components.popLast().flatMap(Int.init) ?? 0

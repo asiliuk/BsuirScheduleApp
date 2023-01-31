@@ -14,79 +14,66 @@ public struct GroupScheduleFeature: ReducerProtocol {
 
         // Has to be wrapped in the box or fails to compile because
         // of recursive state between group & lector schedule states
-        @BindableState var lectorSchedule: Box<LectorScheduleFeature.State>?
+        var lectorSchedule: Box<LectorScheduleFeature.State>?
 
         public init(groupName: String) {
-            self.schedule = .init(title: groupName, value: groupName)
+            self.schedule = .init(title: groupName, source: .group(name: groupName), value: groupName)
             self.groupName = groupName
         }
     }
     
-    public enum Action: Equatable, FeatureAction, BindableAction {
+    public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
-            case task
             case lectorTapped(Employee)
+            case setLectorScheduleId(Int?)
         }
         
         public enum ReducerAction: Equatable {
             case schedule(ScheduleFeature<String>.Action)
             indirect case lectorSchedule(LectorScheduleFeature.Action)
-            case updateIsFavorite(Bool)
         }
         
         public typealias DelegateAction = Never
 
-        case binding(BindingAction<State>)
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
     }
 
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.favorites) var favorites
 
     public init() {}
 
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
-            case .view(.task):
-                return .run { [groupName = state.groupName] send in
-                    for await value in favorites.groupNames.values {
-                        await send(.reducer(.updateIsFavorite(value.contains(groupName))))
-                    }
-                }
-
             case let .view(.lectorTapped(lector)):
                 state.lectorSchedule = .init(.init(lector: lector))
                 return .none
 
-            case let .reducer(.updateIsFavorite(value)):
-                state.schedule.isFavorite = value
+            case .view(.setLectorScheduleId(nil)):
+                state.lectorSchedule = nil
                 return .none
 
-            case .reducer(.schedule(.delegate(.toggleFavorite))):
-                return .fireAndForget { [groupName = state.groupName] in
-                    favorites.toggle(groupNamed: groupName)
-                }
+            case .view(.setLectorScheduleId(.some)):
+                assertionFailure("Not suppose to happen")
+                return .none
 
-            case .reducer, .binding:
+            case .reducer:
                 return .none
             }
         }
-        .ifLet(\.lectorSchedule, action: (/Action.reducer).appending(path: /Action.ReducerAction.lectorSchedule)) {
+        .ifLet(\.lectorSchedule, reducerAction: /Action.ReducerAction.lectorSchedule) {
             Scope(state: \.value, action: .self) {
                 LectorScheduleFeature()
             }
         }
         
-        Scope(state: \.schedule, action: /Action.ReducerAction.schedule) {
+        Scope(state: \.schedule, reducerAction: /Action.ReducerAction.schedule) {
             ScheduleFeature { name, isRefresh in
                 try await ScheduleRequestResponse(response: apiClient.groupSchedule(name: name, ignoreCache: isRefresh))
             }
         }
-        
-        BindingReducer()
     }
 }
 

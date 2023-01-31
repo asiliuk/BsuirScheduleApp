@@ -1,94 +1,99 @@
-/* 
-  Localizable.strings
-  BsuirScheduleApp
-
-  Created by Nikita Prokhorchuk on 19.08.22.
-  Copyright © 2022 Saute. All rights reserved.
-*/
-
 // MARK: - Tabbar
 
+"view.tabBar.pinned.empty.title" = "Pinned";
 "view.tabBar.groups.title" = "Groups";
 "view.tabBar.lecturers.title" = "Lecturers";
-"view.tabBar.about.title" = "About";
+"view.tabBar.settings.title" = "Settings";
 "view.tabBar.favorites.title" = "Favorites";
 
-// MARK: - Favorites
+// MARK: - Empty Pinned
 
-"screen.favorites.navigation.title" = "Favorites";
-"screen.favorites.emptyState.title" = "You are not the chosen one, Neo";
-"screen.favorites.emptyState.subtitle" = "Pick someone else";
-"screen.favorites.emptyState.action.title" = "Lead the way!";
-"screen.favorites.groups.section.header" = "Groups";
-"screen.favorites.lecturers.section.header" = "Lecturers";
+"screen.pinned.empty.title" = "There's no pinned schedule";
+"screen.pinned.empty.message" = "Please, pin any schedule and it will appear in this tab";
+
+// MARK: - Row
+
+"row.markedSchedule.actions.removeFromFavorites.title" = "Remove from favorites";
+"row.markedSchedule.actions.addToFavorites.title" = "Add to favorites";
+"row.markedSchedule.actions.unpin.title" = "Unpin";
+"row.markedSchedule.actions.pin.title" = "Pin";
 
 // MARK: - Groups
 
 "screen.groups.search.placeholder" = "Find the group";
+"screen.groups.search.suggested.course.%@" = "Course %@";
+"screen.groups.search.suggested.noCourse" = "No course";
 "screen.groups.navigation.title" = "All groups";
 "screen.groups.favorites.section.header" = "⭐️ Favorites";
+"screen.groups.pinned.section.header" = "📌 Pinned";
 
 // MARK: - Lecturers
 
 "screen.lecturers.search.placeholder" = "Find a lecturer";
 "screen.lecturers.navigation.title" = "All lecturers";
 "screen.lecturers.favorites.section.header" = "⭐️ Favorites";
+"screen.lecturers.pinned.section.header" = "📌 Pinned";
+
+// MARK: - Settings
+
+"screen.settings.navigation.title" = "Settings";
+
+// MARK: - Appearance
+
+"screen.settings.appearance.navigation.title" = "Appearance";
+
+"screen.settings.appearance.colors.section.header" = "Colors";
+"screen.settings.appearance.colors.reset.title" = "Reset";
+
+"screen.settings.appearance.pairPreview.section.header" = "What a lesson looks like";
+"screen.settings.appearance.pairPreview.from" = "start";
+"screen.settings.appearance.pairPreview.to" = "end";
+"screen.settings.appearance.pairPreview.subject" = "Subject";
+"screen.settings.appearance.pairPreview.weeks" = "week";
+"screen.settings.appearance.pairPreview.subgroup" = "subgroup";
+"screen.settings.appearance.pairPreview.auditory" = "Auditorium - building";
+"screen.settings.appearance.pairPreview.note" = "Comment";
+"screen.settings.appearance.pairPreview.accessibility.label" = "Visual display of the lesson with signed items";
+
+// MARK: - App Icon
+
+"screen.settings.appIcon.navigation.title" = "App Icon";
+"screen.settings.appIcon.iconPicker.plain.title" = "Plain";
+"screen.settings.appIcon.iconPicker.symbol.title" = "Symbol";
+"screen.settings.appIcon.iconPicker.metall.title" = "Metal";
+"screen.settings.appIcon.icon.default.title" = "Default";
+"screen.settings.appIcon.icon.dark.title" = "Dark";
+"screen.settings.appIcon.icon.nostalgia.title" = "Nostalgia";
+"screen.settings.appIcon.icon.bsuirDonalds.title" = "BsuirDonald's";
+"screen.settings.appIcon.icon.premium.title" = "Premium";
+"screen.settings.appIcon.icon.resist.title" = "❤️✊✌️";
+"screen.settings.appIcon.icon.pride.title" = "Pride";
+"screen.settings.appIcon.icon.belarusFlag.title" = "БЧБ";
+"screen.settings.appIcon.icon.ukrainianFlag.title" = "Ukrainian";
+"screen.settings.appIcon.icon.silver.title" = "Silver";
+"screen.settings.appIcon.icon.copper.title" = "Copper";
 
 // MARK: - About
 
-"screen.about.navigation.title" = "Information";
+"screen.settings.about.navigation.title" = "About";
+"screen.settings.about.version.section.header" = "Version";
+"screen.settings.about.links.section.header" = "Links";
 
-// MARK: - About, Colors
+// MARK: - Network & Data
 
-"screen.about.colors.section.header" = "Colors";
-"screen.about.colors.reset.title" = "Reset";
-
-// MARK: - About, Pair preview
-
-"view.pairView.announcement.title" = "📣 Announcement";
-
-"screen.about.pairPreview.section.header" = "What a lesson looks like";
-"screen.about.pairPreview.from" = "start";
-"screen.about.pairPreview.to" = "end";
-"screen.about.pairPreview.subject" = "Subject";
-"screen.about.pairPreview.weeks" = "week";
-"screen.about.pairPreview.subgroup" = "subgroup";
-"screen.about.pairPreview.auditory" = "Auditorium - building";
-"screen.about.pairPreview.note" = "Comment";
-"screen.about.pairPreview.accessibility.label" = "Visual display of the lesson with signed items";
-
-// MARK: - About, Appearance
-
-"screen.about.appearance.section.header" = "Appearance";
-"screen.about.appearance.iconPicker.title" = "Icon";
-"screen.about.appearance.icon.default.title" = "Default";
-"screen.about.appearance.icon.dark.title" = "Dark";
-"screen.about.appearance.icon.nostalgia.title" = "Nostalgia";
-"screen.about.appearance.icon.resist.title" = "❤️✊✌️";
-"screen.about.appearance.icon.pride.title" = "Pride";
-"screen.about.appearance.icon.belarusFlag.title" = "БЧБ";
-"screen.about.appearance.icon.ukrainianFlag.title" = "Ukrainian";
-
-// MARK: - About, About App
-
-"screen.about.aboutTheApp.section.header" = "About the app";
-"screen.about.aboutTheApp.version.%@" = "Version %@";
-
-// MARK: - About, Reachability
-
-"screen.about.reachability.section.header" = "Reachability";
-
-// MARK: - About, Data
-
-"screen.about.data.section.header" = "Data";
-"screen.about.data.section.clearCache.button" = "Clear cache";
+"screen.settings.networkAndData.navigation.title" = "Network & Data";
+"screen.settings.networkAndData.reachability.section.header" = "Reachability";
+"screen.settings.networkAndData.data.section.header" = "Data";
+"screen.settings.networkAndData.data.section.clearCache.button" = "Clear cache";
 
 // MARK: - Schedule
 
 "screen.schedule.placeholder.title" = "Please select a schedule to display...";
 
-"screen.schedule.favorite.accessibility.remove" = "Remove from favorites";
-"screen.schedule.favorite.accessibility.add" = "Add to favorites";
+"screen.schedule.mark.pin" = "Pin";
+"screen.schedule.mark.favorite" = "Favorite";
+"screen.schedule.mark.dontSave" = "Don't save";
+"screen.schedule.mark.title" = "Schedule mark";
 
 "screen.schedule.scheduleTypePicker.title" = "Schedule type";
 "screen.schedule.scheduleType.schedule" = "Schedule";
@@ -101,12 +106,6 @@
 "screen.schedule.day.title.%@.%lld" = "%@, Week %lld";
 
 "screen.schedule.noMorePairs.title" = "No more pairs 🎉";
-
-// TODO: - Remove when exams are supported
-"screen.schedule.unsupportedExams.title" = "My deepest apologies";
-"screen.schedule.unsupportedExams.subject" = "The exam schedule is not currently supported";
-"screen.schedule.unsupportedExams.auditory" = "I had to temporarily remove this feature because there is no time to move to a new API";
-"screen.schedule.unsupportedExams.subject2" = "But you can help me";
 
 // MARK: - Loading
 
@@ -131,6 +130,8 @@
 "view.errorState.apiDown.button.retry.label" = "Try again";
 
 // MARK: - PairView
+
+"view.pairView.announcement.title" = "📣 Announcement";
 
 "view.pairView.form.name.lecture" = "Lecture";
 "view.pairView.form.name.lab" = "Laboratory lesson";

@@ -47,12 +47,13 @@ public final class ReviewRequestService {
     private var cancellables: Set<AnyCancellable> = []
 
     private lazy var reviewScore = storage
-        .persistedInteger(key: "app-review-request.score")
-        .publisher()
+        .persistedInteger(forKey: "app-review-request.score")
+        .withPublisher()
 
     private lazy var reviewTrack = storage
-        .persistedCodable(ReviewRequestTracking.self, key: "app-review-request.track")
-        .publisher()
+        .persistedData(forKey: "app-review-request.track")
+        .codable(ReviewRequestTracking.self)
+        .withPublisher()
 }
 
 private extension UIApplication {
@@ -74,42 +75,6 @@ private struct ReviewRequestTracking: Equatable, Codable {
     var meaningfulEventsScore: Int
     let date: Date
     let version: ShortAppVersion
-}
-
-private struct PersistedValue<Value> {
-    var value: Value {
-        get { get() }
-        nonmutating set { set(newValue) }
-    }
-
-    let get: () -> Value
-    let set: (Value) -> Void
-}
-
-private extension UserDefaults {
-    func persistedInteger(key: String) -> PersistedValue<Int> {
-        PersistedValue(
-            get: { self.integer(forKey: key) },
-            set: { self.set($0, forKey: key) }
-        )
-    }
-
-    func persistedCodable<Value: Codable>(_ value: Value.Type = Value.self, key: String) -> PersistedValue<Value?> {
-        PersistedValue(
-            get: { self.data(forKey: key).flatMap { try? JSONDecoder().decode(Value.self, from: $0) } },
-            set: { self.set($0.flatMap { try? JSONEncoder().encode($0) }, forKey: key) }
-        )
-    }
-}
-
-extension PersistedValue {
-    func publisher() -> (persisted: PersistedValue, publisher:  AnyPublisher<Value, Never>) {
-        let subject = CurrentValueSubject<Value, Never>(get())
-        return (
-            persisted: PersistedValue(get: get, set: { subject.send($0); self.set($0) }),
-            publisher: subject.eraseToAnyPublisher()
-        )
-    }
 }
 
 // MARK: - Events
