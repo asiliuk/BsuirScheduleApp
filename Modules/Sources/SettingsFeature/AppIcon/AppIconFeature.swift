@@ -22,6 +22,7 @@ public struct AppIconFeature: ReducerProtocol {
     public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
             case alertDismissed
+            case learnAboutPremiumClubButtonTapped
             case iconPicked(AppIcon?)
         }
         
@@ -45,9 +46,18 @@ public struct AppIconFeature: ReducerProtocol {
         case .view(.alertDismissed):
             state.alert = nil
             return .none
+
+        case .view(.learnAboutPremiumClubButtonTapped):
+            print("More info about premium club coming...")
+            return .none
             
         case let .view(.iconPicked(icon)):
             guard icon != state.currentIcon else {
+                return .none
+            }
+
+            if let icon, icon.appIcon.isPremium {
+                state.alert = .premiumLocked
                 return .none
             }
 
@@ -62,21 +72,40 @@ public struct AppIconFeature: ReducerProtocol {
         case let .reducer(.iconChanged(newIcon)):
             state.currentIcon = newIcon
             if let newIcon, newIcon.showNiceChoiceAlert {
-                state.alert =  AlertState(
-                    title: TextState("alert.goodIconChoice.title"),
-                    message: TextState("alert.goodIconChoice.message")
-                )
+                state.alert = .goodIconChoice
             }
             return .none
             
         case .reducer(.iconChangeFailed):
-            state.alert =  AlertState(
-                title: TextState("alert.iconUpdateFailed.title"),
-                message: TextState("alert.iconUpdateFailed.message")
-            )
+            state.alert = .iconUpdateFailed
             return .none
         }
     }
+}
+
+// MARK: - AlertState
+
+private extension AlertState where Action == AppIconFeature.Action {
+    static let premiumLocked = AlertState(
+        title: TextState("Premium Club only"),
+        message: TextState("Icon that you're trying to set is available only for **Premium Club** members"),
+        buttons: [
+            .default(
+                TextState("Join Premium Club..."),
+                action: .send(.view(.learnAboutPremiumClubButtonTapped))),
+            .cancel(TextState("Cancel"))
+        ]
+    )
+
+    static let goodIconChoice = AlertState(
+        title: TextState("alert.goodIconChoice.title"),
+        message: TextState("alert.goodIconChoice.message")
+    )
+
+    static let iconUpdateFailed = AlertState(
+        title: TextState("alert.iconUpdateFailed.title"),
+        message: TextState("alert.iconUpdateFailed.message")
+    )
 }
 
 // MARK: - AppIcon

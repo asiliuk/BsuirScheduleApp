@@ -91,8 +91,8 @@ private struct AppIconRow<Icon: AppIconProtocol>: View {
         } label: {
             LabeledContent {
                 if icon.isPremium {
-                    Image(systemName: "lock.square.fill")
-                        .foregroundStyle(.white, .premiumGradient)
+                    Image(systemName: "lock.fill")
+                        .foregroundStyle(.premiumGradient)
                         .font(.title2)
                 } else if isSelected {
                     Image(systemName: "checkmark")
@@ -109,6 +109,5 @@ private struct AppIconRow<Icon: AppIconProtocol>: View {
             }
         }
         .foregroundColor(.primary)
-        .disabled(icon.isPremium)
     }
 }
