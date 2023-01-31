@@ -32,7 +32,9 @@ public struct AppIconFeature: ReducerProtocol {
             case iconChangeFailed
         }
         
-        public typealias DelegateAction = Never
+        public enum DelegateAction: Equatable {
+            case openPremiumClub
+        }
         
         case view(ViewAction)
         case delegate(DelegateAction)
@@ -41,7 +43,6 @@ public struct AppIconFeature: ReducerProtocol {
 
     @Dependency(\.application.setAlternateIconName) var setAlternateIconName
     @Dependency(\.reviewRequestService) var reviewRequestService
-    @Dependency(\.openURL) var openUrl
 
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
@@ -50,8 +51,7 @@ public struct AppIconFeature: ReducerProtocol {
             return .none
 
         case .view(.learnAboutPremiumClubButtonTapped):
-            let url = deeplinkRouter.url(for: .premiumClub(source: .appIcon))
-            return .fireAndForget { await openUrl(url) }
+            return .task { .delegate(.openPremiumClub) }
             
         case let .view(.iconPicked(icon)):
             guard icon != state.currentIcon else {
@@ -80,6 +80,9 @@ public struct AppIconFeature: ReducerProtocol {
             
         case .reducer(.iconChangeFailed):
             state.alert = .iconUpdateFailed
+            return .none
+
+        case .delegate:
             return .none
         }
     }

@@ -1,10 +1,14 @@
 import SwiftUI
 
-struct ModalNavigationStack<Content: View>: View {
+public struct ModalNavigationStack<Content: View>: View {
     @Environment(\.dismiss) var dismiss
-    @ViewBuilder var content: Content
+    var content: Content
 
-    var body: some View {
+    public init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    public var body: some View {
         NavigationStack {
             content
                 .toolbar {

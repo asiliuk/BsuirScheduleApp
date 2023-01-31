@@ -11,6 +11,7 @@ public struct SettingsFeature: ReducerProtocol {
     public struct State: Equatable {
         public var path = NavigationPath()
         var isOnTop: Bool = true
+        var showModalPremiumClub: Bool = false
 
         var premiumClub = PremiumClubFeature.State()
         var appIcon = AppIconFeature.State()
@@ -25,6 +26,7 @@ public struct SettingsFeature: ReducerProtocol {
         public enum ViewAction: Equatable {
             case setIsOnTop(Bool)
             case setPath(NavigationPath)
+            case setShowModalPremiumClub(Bool)
         }
         
         public enum ReducerAction: Equatable {
@@ -55,14 +57,14 @@ public struct SettingsFeature: ReducerProtocol {
                 state.path = value
                 return .none
 
+            case let .view(.setShowModalPremiumClub(value)):
+                state.showModalPremiumClub = value
+                return .none
+
             case .reducer(.appIcon(.delegate(.openPremiumClub))):
-                state.reset()
-                return .task {
-                    try await Task.sleep(for: .milliseconds(500))
-                    return .view(.setPath(NavigationPath([SettingsFeatureDestination.premiumClub])))
-                }
-                .animation()
-                
+                state.showModalPremiumClub = true
+                return .none
+
             case .reducer:
                 return .none
             }
