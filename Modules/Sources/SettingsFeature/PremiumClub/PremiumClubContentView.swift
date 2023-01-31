@@ -7,20 +7,26 @@ struct PremiumClubContentView: View {
 
     var body: some View {
         ScrollView {
-
+            ForEach(0..<10) { _ in
+                Color.random
+                    .frame(height: 100)
+                    .padding()
+            }
         }
         .safeAreaInset(edge: .bottom) {
-            VStack {
                 Button {} label: { Text("Buy premium pass").frame(maxWidth: .infinity) }
                     .controlSize(.large)
                     .buttonStyle(.borderedProminent)
                     .tint(.indigo)
-
-                Button("Restore purchase") {}
-            }
-            .padding(.horizontal)
+                    .padding()
+                    .background(.thickMaterial)
         }
         .navigationTitle("Premium Club")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button("Restore") {}
+            }
+        }
     }
 }
 
