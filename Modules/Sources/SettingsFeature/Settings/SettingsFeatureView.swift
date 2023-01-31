@@ -2,9 +2,18 @@ import SwiftUI
 import BsuirCore
 import BsuirUI
 import ScheduleCore
+import Deeplinking
 import ReachabilityFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
+
+enum SettingsFeatureDestination: Hashable {
+    case premiumClub
+    case appIcon
+    case appearance
+    case networkAndData
+    case about
+}
 
 public struct SettingsFeatureView: View {
     public let store: StoreOf<SettingsFeature>
@@ -18,15 +27,52 @@ public struct SettingsFeatureView: View {
         WithViewStore(store, observe: \.isOnTop) { viewStore in
             ScrollableToTopList(isOnTop: viewStore.binding(send: { .view(.setIsOnTop($0)) })) {
                 Section {
+                    NavigationLink(value: SettingsFeatureDestination.premiumClub) {
+                        PremiumClubLabel(
+                            store: store.scope(
+                                state: \.premiumClub,
+                                reducerAction: { .premiumClub($0) }
+                            )
+                        )
+                    }
+                }
+
+                Section {
+                    AppIconFeatureNavigationLink(
+                        value: .appIcon,
+                        store: store.scope(
+                            state: \.appIcon,
+                            reducerAction: { .appIcon($0) }
+                        )
+                    )
+
+                    NavigationLink(value: SettingsFeatureDestination.appearance) {
+                        Label("screen.settings.appearance.navigation.title", systemImage: "circle.lefthalf.filled")
+                            .settingsRowAccent(Color.orange)
+                    }
+
+                    NavigationLink(value: SettingsFeatureDestination.networkAndData) {
+                        Label("screen.settings.networkAndData.navigation.title", systemImage: "network")
+                            .settingsRowAccent(Color.blue)
+                    }
+
+                    NavigationLink(value: SettingsFeatureDestination.about) {
+                        Label("screen.settings.about.navigation.title", systemImage: "info.circle.fill")
+                            .settingsRowAccent(Color.indigo)
+                    }
+                }
+            }
+            .navigationDestination(for: SettingsFeatureDestination.self) { destination in
+                switch destination {
+                case .premiumClub:
                     PremiumClubFeatureView(
                         store: store.scope(
                             state: \.premiumClub,
                             reducerAction: { .premiumClub($0) }
                         )
                     )
-                }
 
-                Section {
+                case .appIcon:
                     AppIconFeatureView(
                         store: store.scope(
                             state: \.appIcon,
@@ -34,41 +80,29 @@ public struct SettingsFeatureView: View {
                         )
                     )
 
-                    NavigationLink {
-                        AppearanceFeatureView(
-                            store: store.scope(
-                                state: \.appearance,
-                                reducerAction: { .appearance($0) }
-                            )
+                case .appearance:
+                    AppearanceFeatureView(
+                        store: store.scope(
+                            state: \.appearance,
+                            reducerAction: { .appearance($0) }
                         )
-                    } label: {
-                        Label("screen.settings.appearance.navigation.title", systemImage: "circle.lefthalf.filled")
-                            .settingsRowAccent(Color.orange)
-                    }
+                    )
 
-                    NavigationLink {
-                        NetworkAndDataFeatureView(
-                            store: store.scope(
-                                state: \.networkAndData,
-                                reducerAction: { .networkAndData($0) }
-                            )
+                case .networkAndData:
+                    NetworkAndDataFeatureView(
+                        store: store.scope(
+                            state: \.networkAndData,
+                            reducerAction: { .networkAndData($0) }
                         )
-                    } label: {
-                        Label("screen.settings.networkAndData.navigation.title", systemImage: "network")
-                            .settingsRowAccent(Color.blue)
-                    }
+                    )
 
-                    NavigationLink {
-                        AboutFeatureView(
-                            store: store.scope(
-                                state: \.about,
-                                reducerAction: { .about($0) }
-                            )
+                case .about:
+                    AboutFeatureView(
+                        store: store.scope(
+                            state: \.about,
+                            reducerAction: { .about($0) }
                         )
-                    } label: {
-                        Label("screen.settings.about.navigation.title", systemImage: "info.circle.fill")
-                            .settingsRowAccent(Color.indigo)
-                    }
+                    )
                 }
             }
             .labelStyle(SettingsLabelStyle())

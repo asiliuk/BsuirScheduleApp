@@ -4,19 +4,14 @@ import SwiftUINavigation
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-struct AppIconFeatureView: View {
+struct AppIconFeatureNavigationLink: View {
+    let value: SettingsFeatureDestination
     let store: StoreOf<AppIconFeature>
-    
+
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             if viewStore.supportsIconPicking {
-                NavigationLink {
-                    AppIconPickerView(
-                        selection: viewStore.binding(get: \.currentIcon, send: { .view(.iconPicked($0)) })
-                    )
-                    .alert(store.scope(state: \.alert), dismiss: .alertDismissed)
-                    .navigationTitle("screen.settings.appIcon.navigation.title")
-                } label: {
+                NavigationLink(value: value) {
                     Label {
                         Text("screen.settings.appIcon.navigation.title")
                     } icon: {
@@ -27,6 +22,20 @@ struct AppIconFeatureView: View {
                     }
                 }
             }
+        }
+    }
+}
+
+struct AppIconFeatureView: View {
+    let store: StoreOf<AppIconFeature>
+
+    var body: some View {
+        WithViewStore(store, observe: \.currentIcon) { viewStore in
+            AppIconPickerView(
+                selection: viewStore.binding(send: { .view(.iconPicked($0)) })
+            )
+            .alert(store.scope(state: \.alert), dismiss: .alertDismissed)
+            .navigationTitle("screen.settings.appIcon.navigation.title")
         }
     }
 }

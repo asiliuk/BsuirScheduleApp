@@ -5,9 +5,11 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 import Dependencies
 import Deeplinking
+import SwiftUI
 
 public struct SettingsFeature: ReducerProtocol {
     public struct State: Equatable {
+        public var path = NavigationPath()
         var isOnTop: Bool = true
 
         var premiumClub = PremiumClubFeature.State()
@@ -22,6 +24,7 @@ public struct SettingsFeature: ReducerProtocol {
     public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
             case setIsOnTop(Bool)
+            case setPath(NavigationPath)
         }
         
         public enum ReducerAction: Equatable {
@@ -47,6 +50,18 @@ public struct SettingsFeature: ReducerProtocol {
             case let .view(.setIsOnTop(value)):
                 state.isOnTop = value
                 return .none
+
+            case let .view(.setPath(value)):
+                state.path = value
+                return .none
+
+            case .reducer(.appIcon(.delegate(.openPremiumClub))):
+                state.reset()
+                return .task {
+                    try await Task.sleep(for: .milliseconds(500))
+                    return .view(.setPath(NavigationPath([SettingsFeatureDestination.premiumClub])))
+                }
+                .animation()
                 
             case .reducer:
                 return .none
@@ -80,13 +95,17 @@ public struct SettingsFeature: ReducerProtocol {
 extension SettingsFeature.State {
     /// Reset navigation and inner state
     public mutating func reset() {
+        if !path.isEmpty {
+            return path = NavigationPath()
+        }
+
         if !isOnTop {
             return isOnTop = true
         }
     }
 
     public mutating func openPremiumClub(source: PremiumClubDeeplinkSource?) {
-        print("Opening premium club...")
         reset()
+        path.append(SettingsFeatureDestination.premiumClub)
     }
 }

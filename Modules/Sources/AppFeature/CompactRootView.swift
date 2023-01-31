@@ -116,9 +116,11 @@ private struct SettingsFeatureTab: View {
     let store: StoreOf<SettingsFeature>
 
     var body: some View {
-        NavigationStack {
-            SettingsFeatureView(store: store)
-                .navigationBarTitleDisplayMode(.inline)
+        WithViewStore(store, observe: \.path) { viewStore in
+            NavigationStack(path: viewStore.binding(send: { .view(.setPath($0)) })) {
+                SettingsFeatureView(store: store)
+                    .navigationBarTitleDisplayMode(.inline)
+            }
         }
         .tabItem { SettingsLabel() }
     }
