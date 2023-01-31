@@ -77,66 +77,7 @@ public struct LecturersFeature: ReducerProtocol {
     public init() {}
     
     public var body: some ReducerProtocol<State, Action> {
-        Reduce { state, action in
-            switch action {
-            case .view(.task):
-                return .merge(
-                    listenToFavoriteUpdates(),
-                    listenToPinnedUpdates()
-                )
-
-            case let .view(.setIsOnTop(value)):
-                state.isOnTop = value
-                return .none
-
-            case .view(.setLectorScheduleId(nil)):
-                state.lectorSchedule = nil
-                return .none
-
-            case .view(.setLectorScheduleId(.some)):
-                assertionFailure("Not really expecting this to happen")
-                return .none
-
-            case .reducer(.pinned(.rowTapped)):
-                let lector = state.pinned?.lector
-                state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
-                return .none
-
-            case let .reducer(.favorite(id, .rowTapped)):
-                let lector = state.favorites?[id: id]?.lector
-                state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
-                return .none
-
-            case let .reducer(.lector(id, .rowTapped)):
-                let lector = state.loadedLecturers?[id: id]
-                state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
-                return .none
-                
-            case .loading(.started(\.$loadedLecturers)):
-                filteredLecturers(state: &state)
-                return .none
-
-            case .loading(.finished(\.$loadedLecturers)):
-                filteredLecturers(state: &state)
-                state.openLectorIfNeeded()
-                return .none
-
-            case .reducer(.search(.delegate(.didUpdateImportantState))):
-                filteredLecturers(state: &state)
-                return .none
-                
-            case let .reducer(.favoritesUpdate(value)):
-                state.favoriteIds = value
-                return .none
-
-            case let .reducer(.pinnedUpdate(value)):
-                state.pinned = value.map(LecturersRow.State.init(lector:))
-                return .none
-                
-            case .reducer, .loading:
-                return .none
-            }
-        }
+        Reduce { coreReduce(into: &$0, action: $1) }
         .ifLet(\.pinned, reducerAction: /Action.ReducerAction.pinned) {
             LecturersRow()
         }
@@ -161,6 +102,67 @@ public struct LecturersFeature: ReducerProtocol {
 
         Scope(state: \.search, reducerAction: /Action.ReducerAction.search) {
             LecturersSearch()
+        }
+    }
+
+    private func coreReduce(into state: inout State, action: Action) -> EffectTask<Action> {
+        switch action {
+        case .view(.task):
+            return .merge(
+                listenToFavoriteUpdates(),
+                listenToPinnedUpdates()
+            )
+
+        case let .view(.setIsOnTop(value)):
+            state.isOnTop = value
+            return .none
+
+        case .view(.setLectorScheduleId(nil)):
+            state.lectorSchedule = nil
+            return .none
+
+        case .view(.setLectorScheduleId(.some)):
+            assertionFailure("Not really expecting this to happen")
+            return .none
+
+        case .reducer(.pinned(.rowTapped)):
+            let lector = state.pinned?.lector
+            state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+            return .none
+
+        case let .reducer(.favorite(id, .rowTapped)):
+            let lector = state.favorites?[id: id]?.lector
+            state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+            return .none
+
+        case let .reducer(.lector(id, .rowTapped)):
+            let lector = state.loadedLecturers?[id: id]
+            state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+            return .none
+
+        case .loading(.started(\.$loadedLecturers)):
+            filteredLecturers(state: &state)
+            return .none
+
+        case .loading(.finished(\.$loadedLecturers)):
+            filteredLecturers(state: &state)
+            state.openLectorIfNeeded()
+            return .none
+
+        case .reducer(.search(.delegate(.didUpdateImportantState))):
+            filteredLecturers(state: &state)
+            return .none
+
+        case let .reducer(.favoritesUpdate(value)):
+            state.favoriteIds = value
+            return .none
+
+        case let .reducer(.pinnedUpdate(value)):
+            state.pinned = value.map(LecturersRow.State.init(lector:))
+            return .none
+
+        case .reducer, .loading:
+            return .none
         }
     }
 

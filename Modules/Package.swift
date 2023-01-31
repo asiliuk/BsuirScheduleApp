@@ -43,7 +43,7 @@ let package = Package(
     ],
     dependencies: [
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.4.0"),
-         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.49.1"),
+         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.50.1"),
          .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.4.0"),
          .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
          .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.1.4"),

@@ -5,7 +5,7 @@ import ComposableArchitectureUtils
 
 public struct LecturersSearch: ReducerProtocol {
     public struct State: Equatable {
-        @BindableState var query: String = ""
+        @BindingState var query: String = ""
         fileprivate(set) var dismiss: Bool = false
     }
 

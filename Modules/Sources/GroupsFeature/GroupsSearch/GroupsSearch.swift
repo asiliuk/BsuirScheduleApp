@@ -5,9 +5,9 @@ import ComposableArchitectureUtils
 
 public struct GroupsSearch: ReducerProtocol {
     public struct State: Equatable {
-        @BindableState var tokens: [StrudentGroupSearchToken] = []
-        @BindableState var suggestedTokens: [StrudentGroupSearchToken] = []
-        @BindableState var query: String = ""
+        @BindingState var tokens: [StrudentGroupSearchToken] = []
+        @BindingState var suggestedTokens: [StrudentGroupSearchToken] = []
+        @BindingState var query: String = ""
         fileprivate(set) var dismiss: Bool = false
     }
 

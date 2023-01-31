@@ -78,7 +78,7 @@ public struct PairFormColorPicker: ReducerProtocol {
         public var id: String { form.rawValue }
         var name: LocalizedStringKey { form.name }
         let form: PairViewForm
-        @BindableState var color: PairFormColor
+        @BindingState var color: PairFormColor
     }
 
     public enum Action: Equatable, FeatureAction, BindableAction {
