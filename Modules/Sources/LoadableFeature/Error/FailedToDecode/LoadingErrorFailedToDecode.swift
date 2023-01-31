@@ -16,13 +16,13 @@ public struct LoadingErrorFailedToDecode: ReducerProtocol {
         case openIssueTapped
     }
 
-    @Dependency(\.application.open) var openUrl
+    @Dependency(\.openURL) var openUrl
 
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .openIssueTapped:
             let url = issueUrl(state)
-            return .fireAndForget { _ = await openUrl(url, [:]) }
+            return .fireAndForget { await openUrl(url) }
         }
     }
 

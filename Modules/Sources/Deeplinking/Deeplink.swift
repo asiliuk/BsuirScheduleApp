@@ -1,12 +1,17 @@
 import Foundation
 import URLRouting
 
+public enum PremiumClubDeeplinkSource: String {
+    case appIcon = "app_icon"
+}
+
 public enum Deeplink {
     case groups
     case group(name: String)
     case lecturers
     case lector(id: Int)
     case settings
+    case premiumClub(source: PremiumClubDeeplinkSource? = nil)
 }
 
 public let deeplinkRouter = OneOf {
@@ -38,6 +43,17 @@ public let deeplinkRouter = OneOf {
     Route(.case(Deeplink.settings)) {
         bsuirScheduleScheme
         Path { "settings" }
+    }
+
+    //premium_club?source=...
+    Route(.case(Deeplink.premiumClub)) {
+        bsuirScheduleScheme
+        Path { "premium_club" }
+        Query {
+            Optionally {
+                Field("source", .string.representing(PremiumClubDeeplinkSource.self))
+            }
+        }
     }
 }
 

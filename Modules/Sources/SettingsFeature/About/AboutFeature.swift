@@ -17,7 +17,7 @@ public struct AboutFeature: ReducerProtocol {
         case telegramButtonTapped
     }
 
-    @Dependency(\.application.open) var openUrl
+    @Dependency(\.openURL) var openUrl
     @Dependency(\.reviewRequestService) var reviewRequestService
 
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
@@ -25,13 +25,13 @@ public struct AboutFeature: ReducerProtocol {
         case .githubButtonTapped:
             return .fireAndForget {
                 reviewRequestService.madeMeaningfulEvent(.githubOpened)
-                _ = await openUrl(.github, [:])
+                await openUrl(.github)
             }
 
         case .telegramButtonTapped:
             return .fireAndForget {
                 reviewRequestService.madeMeaningfulEvent(.telegramOpened)
-                _ = await openUrl(.telegram, [:])
+                await openUrl(.telegram)
             }
         }
     }

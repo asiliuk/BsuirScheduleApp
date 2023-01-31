@@ -125,6 +125,9 @@ private extension AppFeature {
         case .settings:
             state.selection = .settings
             state.settings.reset()
+        case let .premiumClub(source):
+            state.selection = .settings
+            state.settings.openPremiumClub(source: source)
         }
     }
 

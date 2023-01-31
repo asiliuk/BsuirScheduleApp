@@ -4,6 +4,7 @@ import BsuirUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import Dependencies
+import Deeplinking
 
 public struct SettingsFeature: ReducerProtocol {
     public struct State: Equatable {
@@ -82,5 +83,10 @@ extension SettingsFeature.State {
         if !isOnTop {
             return isOnTop = true
         }
+    }
+
+    public mutating func openPremiumClub(source: PremiumClubDeeplinkSource?) {
+        print("Opening premium club...")
+        reset()
     }
 }

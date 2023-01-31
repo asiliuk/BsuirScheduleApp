@@ -24,14 +24,14 @@ public struct LoadingErrorSomethingWrongWithBsuir: ReducerProtocol {
         case openIssueTapped
     }
 
-    @Dependency(\.application.open) var openUrl
+    @Dependency(\.openURL) var openUrl
 
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in
             switch action {
             case .openIssueTapped:
                 let url = issueUrl(state)
-                return .fireAndForget { _ = await openUrl(url, [:]) }
+                return .fireAndForget { await openUrl(url) }
 
             case .reachability, .reloadButtonTapped:
                 return .none
