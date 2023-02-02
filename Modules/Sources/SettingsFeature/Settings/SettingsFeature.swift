@@ -14,6 +14,10 @@ public struct SettingsFeature: ReducerProtocol {
         var showModalPremiumClub: Bool = false
 
         var premiumClub = PremiumClubFeature.State()
+        #if DEBUG
+        var debugPremiumClubRow = DebugPremiumClubRow.State()
+        #endif
+
         var appIcon = AppIconFeature.State()
         var appearance = AppearanceFeature.State()
         var networkAndData = NetworkAndDataFeature.State()
@@ -31,6 +35,10 @@ public struct SettingsFeature: ReducerProtocol {
         
         public enum ReducerAction: Equatable {
             case premiumClub(PremiumClubFeature.Action)
+            #if DEBUG
+            case debugPremiumClubRow(DebugPremiumClubRow.Action)
+            #endif
+
             case appIcon(AppIconFeature.Action)
             case appearance(AppearanceFeature.Action)
             case networkAndData(NetworkAndDataFeature.Action)
@@ -73,6 +81,12 @@ public struct SettingsFeature: ReducerProtocol {
         Scope(state: \.premiumClub, reducerAction: /Action.ReducerAction.premiumClub) {
             PremiumClubFeature()
         }
+
+        #if DEBUG
+        Scope(state: \.debugPremiumClubRow, reducerAction: /Action.ReducerAction.debugPremiumClubRow) {
+            DebugPremiumClubRow()
+        }
+        #endif
 
         Scope(state: \.appIcon, reducerAction: /Action.ReducerAction.appIcon) {
             AppIconFeature()

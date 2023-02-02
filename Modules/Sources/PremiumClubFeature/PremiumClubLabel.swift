@@ -32,11 +32,11 @@ public struct PremiumClubLabel: View {
                             Text("Become a member of the club")
                         }
                     }
-                    .onTapGesture { viewStore.send(._togglePremium) }
                     .font(.footnote)
                     .foregroundColor(.secondary)
                 }
             }
+            .task { await viewStore.send(.task).finish() }
         }
     }
 }

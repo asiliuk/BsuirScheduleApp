@@ -2,10 +2,16 @@ import Foundation
 import Combine
 import Collections
 
+@propertyWrapper
 public struct PersistedValue<Value> {
     public var value: Value {
         get { get() }
         nonmutating set { set(newValue) }
+    }
+
+    public var wrappedValue: Value {
+        get { value }
+        nonmutating set { value = newValue }
     }
 
     public init(

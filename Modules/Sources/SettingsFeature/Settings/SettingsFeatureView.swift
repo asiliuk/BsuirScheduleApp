@@ -76,6 +76,17 @@ public struct SettingsFeatureView: View {
                             .settingsRowAccent(Color.indigo)
                     }
                 }
+
+                #if DEBUG
+                Section {
+                    DebugPremiumClubRowView(
+                        store: store.scope(
+                            state: \.debugPremiumClubRow,
+                            reducerAction: { .debugPremiumClubRow($0) }
+                        )
+                    )
+                }
+                #endif
             }
             .sheet(
                 isPresented: viewStore.binding(
