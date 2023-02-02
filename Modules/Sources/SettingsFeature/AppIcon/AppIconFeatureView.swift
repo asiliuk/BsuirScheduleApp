@@ -133,14 +133,14 @@ private struct AppIconRow: View {
             isSelected = true
         } label: {
             LabeledContent {
-                if isPremiumLocked {
-                    Image(systemName: "lock.fill")
-                        .foregroundStyle(.premiumGradient)
-                        .font(.title2)
-                } else if isSelected {
+                if isSelected {
                     Image(systemName: "checkmark")
                         .foregroundColor(.blue)
                         .font(.title3)
+                } else if isPremiumLocked {
+                    Image(systemName: "lock.fill")
+                        .foregroundStyle(.premiumGradient)
+                        .font(.title2)
                 }
             } label: {
                 Label {
