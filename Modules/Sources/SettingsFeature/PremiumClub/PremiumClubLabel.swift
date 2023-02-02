@@ -14,9 +14,8 @@ struct PremiumClubLabel: View {
                 }
 
                 VStack(alignment: .leading) {
-                    let statusText = viewStore.state
-                        ? Text(" \(Image(systemName: "checkmark.seal.fill"))").foregroundColor(.indigo)
-                        : Text("")
+                    let statusText = Text(" \(Image(systemName: "checkmark.seal.fill"))")
+                        .foregroundColor(viewStore.state ? .indigo : .clear)
 
                     Text("Premium Club\(statusText)")
                         .font(.headline)
