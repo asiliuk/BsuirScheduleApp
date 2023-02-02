@@ -11,6 +11,10 @@ public struct PremiumClubFeature: ReducerProtocol {
         public var source: Source?
         public var hasPremium: Bool
 
+        #if DEBUG
+        var debugRow = DebugPremiumClubRow.State()
+        #endif
+
         public init(
             source: Source? = nil,
             hasPremium: Bool? = nil
@@ -24,6 +28,9 @@ public struct PremiumClubFeature: ReducerProtocol {
     public enum Action: Equatable {
         case task
         case _setIsPremium(Bool)
+        #if DEBUG
+        case debugRow(DebugPremiumClubRow.Action)
+        #endif
     }
 
     @Dependency(\.premiumService) var premiumService
@@ -38,8 +45,16 @@ public struct PremiumClubFeature: ReducerProtocol {
             case let ._setIsPremium(value):
                 state.hasPremium = value
                 return .none
+            default:
+                return .none
             }
         }
+
+        #if DEBUG
+        Scope(state: \.debugRow, action: /Action.debugRow) {
+            DebugPremiumClubRow()
+        }
+        #endif
     }
 
     private func listenToPremiumUpdates() -> EffectTask<Action> {

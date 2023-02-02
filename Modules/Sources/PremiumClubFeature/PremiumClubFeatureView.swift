@@ -17,6 +17,18 @@ public struct PremiumClubFeatureView: View {
                     .padding()
             }
         }
+        #if DEBUG
+        .safeAreaInset(edge: .top) {
+            DebugPremiumClubRowView(
+                store: store.scope(
+                    state: \.debugRow,
+                    action: PremiumClubFeature.Action.debugRow
+                )
+            )
+            .padding(.horizontal)
+            .background(.thickMaterial)
+        }
+        #endif
         .safeAreaInset(edge: .bottom) {
                 Button {} label: { Text("Buy premium pass").frame(maxWidth: .infinity) }
                     .controlSize(.large)
