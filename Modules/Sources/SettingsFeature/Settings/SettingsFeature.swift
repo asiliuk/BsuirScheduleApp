@@ -4,7 +4,6 @@ import BsuirUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import Dependencies
-import Deeplinking
 import SwiftUI
 
 public struct SettingsFeature: ReducerProtocol {
@@ -106,8 +105,9 @@ extension SettingsFeature.State {
         }
     }
 
-    public mutating func openPremiumClub(source: PremiumClubDeeplinkSource?) {
+    public mutating func openPremiumClub(source: PremiumClubFeature.Source?) {
         reset()
+        premiumClub.source = source
         path.append(SettingsFeatureDestination.premiumClub)
     }
 }

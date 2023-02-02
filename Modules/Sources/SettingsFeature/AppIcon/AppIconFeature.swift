@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 import BsuirCore
-import Deeplinking
 import ComposableArchitecture
 import ComposableArchitectureUtils
 

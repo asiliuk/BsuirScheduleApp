@@ -3,7 +3,12 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 
 public struct PremiumClubFeature: ReducerProtocol {
+    public enum Source {
+        case appIcon
+    }
+
     public struct State: Equatable {
+        var source: Source? = nil
         var hasPremium: Bool = false
     }
 

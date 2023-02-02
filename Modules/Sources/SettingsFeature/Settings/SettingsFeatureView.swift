@@ -2,7 +2,6 @@ import SwiftUI
 import BsuirCore
 import BsuirUI
 import ScheduleCore
-import Deeplinking
 import ReachabilityFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils

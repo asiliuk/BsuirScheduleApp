@@ -127,7 +127,7 @@ private extension AppFeature {
             state.settings.reset()
         case let .premiumClub(source):
             state.selection = .settings
-            state.settings.openPremiumClub(source: source)
+            state.settings.openPremiumClub(source: .init(deeplinkSource: source))
         }
     }
 
@@ -191,6 +191,17 @@ private extension AppFeature.State {
             lecturers.reset()
         case .settings:
             settings.reset()
+        }
+    }
+}
+
+// MARK: - PremiumClubFeature.Source
+
+private extension PremiumClubFeature.Source {
+    init?(deeplinkSource: PremiumClubDeeplinkSource?) {
+        guard let deeplinkSource else { return nil }
+        switch deeplinkSource {
+        case .appIcon: self = .appIcon
         }
     }
 }
