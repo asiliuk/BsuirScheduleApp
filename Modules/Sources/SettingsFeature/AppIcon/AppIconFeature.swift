@@ -17,10 +17,13 @@ public struct AppIconFeature: ReducerProtocol {
             @Dependency(\.application.alternateIconName) var alternateIconName
             return alternateIconName().flatMap(AppIcon.init(name:)) ?? .plain(.standard)
         }()
+
+        var isPremiumLocked: Bool = false
     }
     
     public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
+            case task
             case alertDismissed
             case learnAboutPremiumClubButtonTapped
             case iconPicked(AppIcon?)
@@ -29,6 +32,7 @@ public struct AppIconFeature: ReducerProtocol {
         public enum ReducerAction: Equatable {
             case iconChanged(AppIcon?)
             case iconChangeFailed
+            case setIsPremiumLocked(Bool)
         }
         
         public enum DelegateAction: Equatable {
@@ -42,9 +46,17 @@ public struct AppIconFeature: ReducerProtocol {
 
     @Dependency(\.application.setAlternateIconName) var setAlternateIconName
     @Dependency(\.reviewRequestService) var reviewRequestService
+    @Dependency(\.premiumService) var premiumService
 
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
+        case .view(.task):
+            state.isPremiumLocked = !premiumService.isCurrentlyPremium
+            return .run { send in
+                for await value in premiumService.isPremium.removeDuplicates().values {
+                    await send(.reducer(.setIsPremiumLocked(!value)))
+                }
+            }
         case .view(.alertDismissed):
             state.alert = nil
             return .none
@@ -57,7 +69,7 @@ public struct AppIconFeature: ReducerProtocol {
                 return .none
             }
 
-            if let icon, icon.appIcon.isPremium {
+            if let icon, state.isPremiumLocked, icon.appIcon.isPremium {
                 state.alert = .premiumLocked
                 return .none
             }
@@ -79,6 +91,10 @@ public struct AppIconFeature: ReducerProtocol {
             
         case .reducer(.iconChangeFailed):
             state.alert = .iconUpdateFailed
+            return .none
+
+        case .reducer(.setIsPremiumLocked(let value)):
+            state.isPremiumLocked = value
             return .none
 
         case .delegate:

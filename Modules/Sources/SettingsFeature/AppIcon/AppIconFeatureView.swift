@@ -5,11 +5,21 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 
 struct AppIconFeatureNavigationLink: View {
+    struct ViewState: Equatable {
+        var supportsIconPicking: Bool
+        var currentIcon: AppIcon?
+
+        init(_ state: AppIconFeature.State) {
+            supportsIconPicking = state.supportsIconPicking
+            currentIcon = state.currentIcon
+        }
+    }
+
     let value: SettingsFeatureDestination
     let store: StoreOf<AppIconFeature>
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: ViewState.init) { viewStore in
             if viewStore.supportsIconPicking {
                 NavigationLink(value: value) {
                     Label {
@@ -27,38 +37,57 @@ struct AppIconFeatureNavigationLink: View {
 }
 
 struct AppIconFeatureView: View {
+    struct ViewState: Equatable {
+        var currentIcon: AppIcon?
+        var isPremiumLocked: Bool
+
+        init(_ state: AppIconFeature.State) {
+            currentIcon = state.currentIcon
+            isPremiumLocked = state.isPremiumLocked
+        }
+    }
+
     let store: StoreOf<AppIconFeature>
 
     var body: some View {
-        WithViewStore(store, observe: \.currentIcon) { viewStore in
+        WithViewStore(store, observe: ViewState.init) { viewStore in
             AppIconPickerView(
-                selection: viewStore.binding(send: { .view(.iconPicked($0)) })
+                selection: viewStore.binding(
+                    get: \.currentIcon,
+                    send: { .view(.iconPicked($0)) }
+                ),
+                isPremiumLocked: viewStore.isPremiumLocked
             )
             .alert(store.scope(state: \.alert), dismiss: .alertDismissed)
             .navigationTitle("screen.settings.appIcon.navigation.title")
+            .task { await viewStore.send(.task).finish() }
         }
     }
 }
 
 private struct AppIconPickerView: View {
     @Binding var selection: AppIcon?
+    let isPremiumLocked: Bool
 
     var body: some View {
         List {
             AppIconGroupPicker(
                 selection: $selection,
+                isPremiumLocked: isPremiumLocked,
                 label: "screen.settings.appIcon.iconPicker.plain.title",
                 casePath: /AppIcon.plain
             )
 
             AppIconGroupPicker(
                 selection: $selection,
+                isPremiumLocked: isPremiumLocked,
                 label: "screen.settings.appIcon.iconPicker.symbol.title",
                 casePath: /AppIcon.symbol
             )
 
             AppIconGroupPicker(
                 selection: $selection,
+                isPremiumLocked: isPremiumLocked,
                 label: "screen.settings.appIcon.iconPicker.metall.title",
                 casePath: /AppIcon.metal
             )
@@ -70,6 +99,7 @@ private struct AppIconPickerView: View {
 
 private struct AppIconGroupPicker<Icon: AppIconProtocol>: View {
     @Binding var selection: AppIcon?
+    let isPremiumLocked: Bool
     let label: LocalizedStringKey
     let casePath: CasePath<AppIcon, Icon>
 
@@ -77,7 +107,9 @@ private struct AppIconGroupPicker<Icon: AppIconProtocol>: View {
         Section(label) {
             ForEach(Icon.allCases) { icon in
                 AppIconRow(
-                    icon: icon,
+                    title: icon.title,
+                    imageName: icon.previewImageName,
+                    isPremiumLocked: icon.isPremium && isPremiumLocked,
                     isSelected: .init(
                         get: { $selection.wrappedValue.flatMap(casePath.extract(from:)) == icon },
                         set: { newValue, transaction in
@@ -90,8 +122,10 @@ private struct AppIconGroupPicker<Icon: AppIconProtocol>: View {
     }
 }
 
-private struct AppIconRow<Icon: AppIconProtocol>: View {
-    let icon: Icon
+private struct AppIconRow: View {
+    let title: LocalizedStringKey
+    let imageName: String
+    let isPremiumLocked: Bool
     @Binding var isSelected: Bool
 
     var body: some View {
@@ -99,7 +133,7 @@ private struct AppIconRow<Icon: AppIconProtocol>: View {
             isSelected = true
         } label: {
             LabeledContent {
-                if icon.isPremium {
+                if isPremiumLocked {
                     Image(systemName: "lock.fill")
                         .foregroundStyle(.premiumGradient)
                         .font(.title2)
@@ -110,11 +144,11 @@ private struct AppIconRow<Icon: AppIconProtocol>: View {
                 }
             } label: {
                 Label {
-                    Text("  \(Text(icon.title))")
+                    Text("  \(Text(title))")
                 } icon: {
-                    AppIconPreviewView(imageName: icon.previewImageName, size: 50)
+                    AppIconPreviewView(imageName: imageName, size: 50)
                 }
-                .opacity(icon.isPremium ? 0.5 : 1)
+                .opacity(isPremiumLocked ? 0.5 : 1)
             }
         }
         .foregroundColor(.primary)
