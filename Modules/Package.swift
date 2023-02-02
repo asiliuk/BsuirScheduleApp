@@ -14,6 +14,9 @@ let package = Package(
             name: "SettingsFeature",
             targets: ["SettingsFeature"]),
         .library(
+            name: "PremiumClubFeature",
+            targets: ["PremiumClubFeature"]),
+        .library(
             name: "GroupsFeature",
             targets: ["GroupsFeature"]),
         .library(
@@ -63,7 +66,11 @@ let package = Package(
         ),
         .target(
             name: "SettingsFeature",
-            dependencies: ["ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .dependencies, .swiftUINavigation]
+            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .dependencies, .swiftUINavigation]
+        ),
+        .target(
+            name: "PremiumClubFeature",
+            dependencies: ["BsuirUI", "ComposableArchitectureUtils", .tca, .dependencies, .swiftUINavigation]
         ),
         .target(
             name: "GroupsFeature",

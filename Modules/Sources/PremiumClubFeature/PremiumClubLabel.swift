@@ -1,11 +1,16 @@
 import SwiftUI
+import BsuirUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-struct PremiumClubLabel: View {
+public struct PremiumClubLabel: View {
     let store: StoreOf<PremiumClubFeature>
 
-    var body: some View {
+    public init(store: StoreOf<PremiumClubFeature>) {
+        self.store = store
+    }
+
+    public var body: some View {
         WithViewStore(store, observe: \.hasPremium) { viewStore in
             HStack(spacing: 12) {
                 SettingsRowIcon(fill: .premiumGradient) {

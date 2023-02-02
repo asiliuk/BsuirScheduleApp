@@ -8,13 +8,20 @@ public struct PremiumClubFeature: ReducerProtocol {
     }
 
     public struct State: Equatable {
-        var source: Source? = nil
-        var hasPremium: Bool = false
+        public var source: Source?
+        public var hasPremium: Bool
+
+        public init(source: Source? = nil, hasPremium: Bool = false) {
+            self.source = source
+            self.hasPremium = hasPremium
+        }
     }
 
     public enum Action: Equatable {
         case _togglePremium
     }
+
+    public init() {}
 
     public var body: some ReducerProtocol<State, Action> {
         Reduce { state, action in

@@ -3,6 +3,7 @@ import BsuirCore
 import BsuirUI
 import ScheduleCore
 import ReachabilityFeature
+import PremiumClubFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 

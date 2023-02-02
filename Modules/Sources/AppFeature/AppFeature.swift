@@ -5,6 +5,7 @@ import SettingsFeature
 import Deeplinking
 import Favorites
 import ScheduleCore
+import PremiumClubFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import EntityScheduleFeature

@@ -2,10 +2,14 @@ import SwiftUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-struct PremiumClubFeatureView: View {
+public struct PremiumClubFeatureView: View {
     let store: StoreOf<PremiumClubFeature>
 
-    var body: some View {
+    public init(store: StoreOf<PremiumClubFeature>) {
+        self.store = store
+    }
+
+    public var body: some View {
         ScrollView {
             ForEach(0..<10) { _ in
                 Color.random

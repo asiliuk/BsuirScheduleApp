@@ -1,4 +1,5 @@
 import SwiftUI
+import BsuirUI
 
 struct SettingsLabelStyle: LabelStyle {
     @Environment(\.settingsRowAccent) var settingsRowAccent
@@ -15,25 +16,6 @@ struct SettingsLabelStyle: LabelStyle {
                 configuration.icon
             }
         }
-    }
-}
-
-struct SettingsRowIcon<Icon: View, Fill: ShapeStyle>: View {
-    let fill: Fill
-    @ViewBuilder var icon: Icon
-
-    var body: some View {
-        icon
-            .padding(4)
-            .aspectRatio(1, contentMode: .fit)
-            .background {
-                GeometryReader { proxy in
-                    RoundedRectangle(cornerRadius: proxy.size.width * 0.2237)
-                        .fill(fill)
-                }
-                .aspectRatio(1, contentMode: .fill)
-            }
-            .foregroundColor(.white)
     }
 }
 
