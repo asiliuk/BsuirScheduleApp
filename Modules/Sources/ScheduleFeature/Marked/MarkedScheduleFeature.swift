@@ -159,7 +159,7 @@ public struct MarkedScheduleFeature: ReducerProtocol {
 // MARK: - Update
 
 private extension MarkedScheduleFeature.State {
-    mutating func update(favorites: FavoritesContainer) {
+    mutating func update(favorites: FavoritesService) {
         isPinned = favorites.currentPinnedSchedule == source
         isFavorite = {
             switch source {

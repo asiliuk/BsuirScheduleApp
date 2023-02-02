@@ -6,7 +6,7 @@ import Collections
 import Combine
 import Dependencies
 
-public final class FavoritesContainer {
+public final class FavoritesService {
     // MARK: - Legacy
     private lazy var legacyGroupsStorage = legacyStorage
         .persistedData(forKey: "favorite-groups")
@@ -71,7 +71,7 @@ public final class FavoritesContainer {
 
 // MARK: - API
 
-extension FavoritesContainer {
+extension FavoritesService {
     public var currentGroupNames: OrderedSet<String> {
         get { groupNamesStorage.persisted.value }
         set { groupNamesStorage.persisted.value = newValue }
@@ -103,14 +103,14 @@ extension FavoritesContainer {
 // MARK: - Dependency
 
 extension DependencyValues {
-    public var favorites: FavoritesContainer {
-        get { self[FavoritesContainerKey.self] }
-        set { self[FavoritesContainerKey.self] = newValue }
+    public var favorites: FavoritesService {
+        get { self[FavoritesServiceKey.self] }
+        set { self[FavoritesServiceKey.self] = newValue }
     }
 }
 
-private enum FavoritesContainerKey: DependencyKey {
-    static let liveValue = FavoritesContainer(
+private enum FavoritesServiceKey: DependencyKey {
+    static let liveValue = FavoritesService(
         storage: .asiliukShared,
         legacyStorage: .standard
     )

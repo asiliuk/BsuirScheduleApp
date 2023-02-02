@@ -156,7 +156,7 @@ private extension AppFeature {
 // MARK: - Selection
 
 private extension AppFeature.State {
-    mutating func handleInitialSelection(favorites: FavoritesContainer) {
+    mutating func handleInitialSelection(favorites: FavoritesService) {
         if let pinnedSchedule = favorites.currentPinnedSchedule {
             selection = .pinned
             pinned = .init(pinned: pinnedSchedule)
