@@ -57,6 +57,8 @@ private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
     let keyPath: WritableKeyPath<State, LoadableState<Value>>
     let fetch: @Sendable (State, _ isRefresh: Bool) async throws -> Value
 
+    @Dependency(\.continuousClock) var clock
+
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
         var valueState: LoadableState<Value> {
             get { state[keyPath: keyPath] }
@@ -106,12 +108,14 @@ private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
 
     private func load(_ state: State, isRefresh: Bool) -> Effect<Action> {
         return .task {
-            if isRefresh {
-                // Make sure loading UI is shown for some time before requesting
-                try await Task.sleep(for: .milliseconds(200))
+            try await withTaskCancellation(id: #function, cancelInFlight: true) {
+                if isRefresh {
+                    // Make sure loading UI is shown for some time before requesting
+                    try await clock.sleep(for: .milliseconds(200))
+                }
+                let value = try await fetch(state, isRefresh)
+                return .reducer(.loaded(value, isEqualTo: { $0 as? Value == value }))
             }
-            let value = try await fetch(state, isRefresh)
-            return .reducer(.loaded(value, isEqualTo: { $0 as? Value == value }))
         } catch: { error in
             .reducer(.loadingFailed(error))
         }

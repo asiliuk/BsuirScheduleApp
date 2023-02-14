@@ -76,6 +76,7 @@ public struct ContiniousScheduleFeature: Reducer {
     }
     
     @Dependency(\.reviewRequestService) var reviewRequestService
+    @Dependency(\.continuousClock) var clock
     
     public init() {}
 
@@ -85,9 +86,12 @@ public struct ContiniousScheduleFeature: Reducer {
             state.isOnTop = value
             return .none
         case .view(.loadMoreIndicatorAppear):
+            enum TaskID {}
             return .task {
-                try await Task.sleep(for: .milliseconds(300))
-                return .reducer(.loadMoreDays)
+                try await withTaskCancellation(id: TaskID.self, cancelInFlight: true) {
+                    try await clock.sleep(for: .milliseconds(300))
+                    return .reducer(.loadMoreDays)
+                }
             }
 
         case .reducer(.loadMoreDays):
