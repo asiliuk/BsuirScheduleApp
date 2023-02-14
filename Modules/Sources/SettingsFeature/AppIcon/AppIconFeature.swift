@@ -62,7 +62,7 @@ public struct AppIconFeature: ReducerProtocol {
             return .none
 
         case .view(.learnAboutPremiumClubButtonTapped):
-            return .task { .delegate(.openPremiumClub) }
+            return .send(.delegate(.openPremiumClub))
             
         case let .view(.iconPicked(icon)):
             guard icon != state.currentIcon else {

@@ -95,11 +95,11 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
     }
 
     private func loadingStarted() -> EffectTask<Action> {
-        return EffectTask.task { .delegate(.loadingStarted) }
+        return EffectTask.send(.delegate(.loadingStarted))
     }
 
     private func loadingFinished() -> EffectTask<Action> {
-        return EffectTask.task { .delegate(.loadingFinished) }
+        return EffectTask.send(.delegate(.loadingFinished))
     }
 
     private enum LoadingCancelId {}

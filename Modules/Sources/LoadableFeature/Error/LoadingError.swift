@@ -26,7 +26,7 @@ public struct LoadingError: ReducerProtocol {
             case .somethingWrongWithBsuir(.reloadButtonTapped),
                  .notConnectedToInternet(.reloadButtonTapped),
                  .unknown(.reloadButtonTapped):
-                return .task { .reload }
+                return .send(.reload)
             case .reload,
                  .failedToDecode(.openIssueTapped),
                  .somethingWrongWithBsuir(.reachability),

@@ -38,7 +38,7 @@ public struct LecturersSearch: ReducerProtocol {
                 return .none
 
             case .view(.filter):
-                return .task { .delegate(.didUpdateImportantState) }
+                return .send(.delegate(.didUpdateImportantState))
 
             case .binding, .delegate:
                 return .none

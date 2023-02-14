@@ -99,7 +99,7 @@ public struct PairFormColorPicker: ReducerProtocol {
         Reduce { state, action in
             switch action {
             case .binding(\.$color):
-                return .task { .delegate(.colorDidChange) }
+                return .send(.delegate(.colorDidChange))
             case .delegate, .binding:
                 return .none
             }

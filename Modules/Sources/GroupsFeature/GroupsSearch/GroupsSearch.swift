@@ -40,7 +40,7 @@ public struct GroupsSearch: ReducerProtocol {
                 return .none
 
             case .view(.filter), .binding(\.$tokens):
-                return .task { .delegate(.didUpdateImportantState) }
+                return .send(.delegate(.didUpdateImportantState))
 
             case .binding, .delegate:
                 return .none
