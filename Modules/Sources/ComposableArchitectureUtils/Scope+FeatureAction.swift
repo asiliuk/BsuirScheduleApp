@@ -6,12 +6,12 @@ extension Scope where ParentAction: FeatureAction {
     public init(
         state toChildState: WritableKeyPath<ParentState, Child.State>,
         reducerAction toChildAction: CasePath<ParentAction.ReducerAction, Child.Action>,
-        @ReducerBuilderOf<Child> _ child: () -> Child
+        @ReducerBuilderOf<Child> child: () -> Child
     ) {
         self.init(
             state: toChildState,
             action: (/Action.reducer).appending(path: toChildAction),
-            child
+            child: child
         )
     }
 }

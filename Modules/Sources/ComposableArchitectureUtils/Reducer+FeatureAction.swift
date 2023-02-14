@@ -23,7 +23,7 @@ extension ReducerProtocol where Action: FeatureAction {
     public func forEach<ID: Hashable, Element: ReducerProtocol>(
         _ toElementsState: WritableKeyPath<State, IdentifiedArray<ID, Element.State>>,
         reducerAction toElementAction: CasePath<Action.ReducerAction, (ID, Element.Action)>,
-        @ReducerBuilderOf<Element> _ element: () -> Element,
+        @ReducerBuilderOf<Element> element: () -> Element,
         file: StaticString = #file,
         fileID: StaticString = #fileID,
         line: UInt = #line
@@ -31,7 +31,7 @@ extension ReducerProtocol where Action: FeatureAction {
         self.forEach(
             toElementsState,
             action: (/Action.reducer).appending(path: toElementAction),
-            element,
+            element: element,
             file: file,
             fileID: fileID,
             line: line
