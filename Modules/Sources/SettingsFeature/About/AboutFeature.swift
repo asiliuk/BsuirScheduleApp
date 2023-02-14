@@ -24,13 +24,13 @@ public struct AboutFeature: Reducer {
         switch action {
         case .githubButtonTapped:
             return .fireAndForget {
-                reviewRequestService.madeMeaningfulEvent(.githubOpened)
+                await reviewRequestService.madeMeaningfulEvent(.githubOpened)
                 await openUrl(.github)
             }
 
         case .telegramButtonTapped:
             return .fireAndForget {
-                reviewRequestService.madeMeaningfulEvent(.telegramOpened)
+                await reviewRequestService.madeMeaningfulEvent(.telegramOpened)
                 await openUrl(.telegram)
             }
         }

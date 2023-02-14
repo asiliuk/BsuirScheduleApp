@@ -76,7 +76,7 @@ public struct AppIconFeature: Reducer {
 
             return .task {
                 try await setAlternateIconName(icon?.appIcon.iconName)
-                reviewRequestService.madeMeaningfulEvent(.appIconChanged)
+                await reviewRequestService.madeMeaningfulEvent(.appIconChanged)
                 return .reducer(.iconChanged(icon))
             } catch: { _ in
                 .reducer(.iconChangeFailed)

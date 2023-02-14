@@ -93,7 +93,7 @@ public struct ContiniousScheduleFeature: Reducer {
         case .reducer(.loadMoreDays):
             state.load(count: 10)
             return .fireAndForget {
-                reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
+                await reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
             }
 
         case .delegate:

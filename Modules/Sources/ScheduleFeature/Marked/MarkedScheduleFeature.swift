@@ -92,7 +92,7 @@ public struct MarkedScheduleFeature: Reducer {
                     favorites.currentLectorIds.append(lector.id)
                 }
 
-                reviewRequestService.madeMeaningfulEvent(.addToFavorites)
+                await reviewRequestService.madeMeaningfulEvent(.addToFavorites)
             },
             // Unpin if currently pinned
             unpin(source: source)
@@ -117,7 +117,7 @@ public struct MarkedScheduleFeature: Reducer {
             unfavorite(source: source),
             .fireAndForget {
                 favorites.currentPinnedSchedule = source
-                reviewRequestService.madeMeaningfulEvent(.pin)
+                await reviewRequestService.madeMeaningfulEvent(.pin)
             }
         )
     }

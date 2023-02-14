@@ -83,7 +83,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                 defer { state.scheduleType = value }
                 guard state.scheduleType != value else { return .none }
                 return .fireAndForget {
-                    reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
+                    await reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
                 }
                 
             case .loading(.finished(\.$schedule)):
@@ -91,7 +91,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                     state.scheduleType = .exams
                 }
                 return .fireAndForget {
-                    reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
+                    await reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
                 }
 
             case .schedule, .delegate, .loading, .reducer:
