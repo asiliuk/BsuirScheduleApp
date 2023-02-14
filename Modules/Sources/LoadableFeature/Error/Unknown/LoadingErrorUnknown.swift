@@ -1,14 +1,14 @@
 import Foundation
 import ComposableArchitecture
 
-public struct LoadingErrorUnknown: ReducerProtocol {
+public struct LoadingErrorUnknown: Reducer {
     public typealias State = Void
 
     public enum Action: Equatable {
         case reloadButtonTapped
     }
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         EmptyReducer()
     }
 }

@@ -4,7 +4,7 @@ import BsuirCore
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct AppIconFeature: ReducerProtocol {
+public struct AppIconFeature: Reducer {
     public struct State: Equatable {
         var alert: AlertState<Action>?
 
@@ -48,7 +48,7 @@ public struct AppIconFeature: ReducerProtocol {
     @Dependency(\.reviewRequestService) var reviewRequestService
     @Dependency(\.premiumService) var premiumService
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .view(.task):
             state.isPremiumLocked = !premiumService.isCurrentlyPremium

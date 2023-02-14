@@ -3,7 +3,7 @@ import ReachabilityFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct NetworkAndDataFeature: ReducerProtocol {
+public struct NetworkAndDataFeature: Reducer {
     public struct State: Equatable {
         var cacheClearedAlert: AlertState<Action>?
         var iisReachability = ReachabilityFeature.State(host: URL.iisApi.host()!)
@@ -31,7 +31,7 @@ public struct NetworkAndDataFeature: ReducerProtocol {
     @Dependency(\.apiClient.clearCache) var clearNetworkCache
     @Dependency(\.imageCache) var imageCache
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .view(.clearCacheTapped):

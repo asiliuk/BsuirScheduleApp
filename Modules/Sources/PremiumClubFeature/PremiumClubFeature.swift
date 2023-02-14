@@ -2,7 +2,7 @@ import Foundation
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct PremiumClubFeature: ReducerProtocol {
+public struct PremiumClubFeature: Reducer {
     public enum Source {
         case appIcon
     }
@@ -37,7 +37,7 @@ public struct PremiumClubFeature: ReducerProtocol {
 
     public init() {}
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .task:
@@ -57,7 +57,7 @@ public struct PremiumClubFeature: ReducerProtocol {
         #endif
     }
 
-    private func listenToPremiumUpdates() -> EffectTask<Action> {
+    private func listenToPremiumUpdates() -> Effect<Action> {
         return .run { send in
             for await value in premiumService.isPremium.removeDuplicates().values {
                 await send(._setIsPremium(value))

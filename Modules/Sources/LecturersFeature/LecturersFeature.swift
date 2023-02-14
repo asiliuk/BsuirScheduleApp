@@ -8,7 +8,7 @@ import ComposableArchitectureUtils
 import Favorites
 import Collections
 
-public struct LecturersFeature: ReducerProtocol {
+public struct LecturersFeature: Reducer {
     public struct State: Equatable {
         var search: LecturersSearch.State = .init()
         @LoadableState var lecturers: IdentifiedArrayOf<LecturersRow.State>?
@@ -76,7 +76,7 @@ public struct LecturersFeature: ReducerProtocol {
 
     public init() {}
     
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { coreReduce(into: &$0, action: $1) }
         .ifLet(\.pinned, reducerAction: /Action.ReducerAction.pinned) {
             LecturersRow()
@@ -105,7 +105,7 @@ public struct LecturersFeature: ReducerProtocol {
         }
     }
 
-    private func coreReduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    private func coreReduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .view(.task):
             return .merge(
@@ -177,7 +177,7 @@ public struct LecturersFeature: ReducerProtocol {
             }
     }
     
-    private func listenToFavoriteUpdates() -> EffectTask<Action> {
+    private func listenToFavoriteUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.lecturerIds.values {
                 await send(.reducer(.favoritesUpdate(value)), animation: .default)
@@ -185,7 +185,7 @@ public struct LecturersFeature: ReducerProtocol {
         }
     }
 
-    private func listenToPinnedUpdates() -> EffectTask<Action> {
+    private func listenToPinnedUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.pinnedSchedule.map(\.?.lector).removeDuplicates().values {
                 await send(.reducer(.pinnedUpdate(value)), animation: .default)

@@ -10,7 +10,7 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 import EntityScheduleFeature
 
-public struct AppFeature: ReducerProtocol {
+public struct AppFeature: Reducer {
     public struct State: Equatable {
         var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
@@ -45,7 +45,7 @@ public struct AppFeature: ReducerProtocol {
 
     public init() {}
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .task:

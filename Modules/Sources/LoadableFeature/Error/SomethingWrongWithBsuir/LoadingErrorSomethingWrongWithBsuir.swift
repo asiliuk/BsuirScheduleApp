@@ -4,7 +4,7 @@ import BsuirCore
 import ReachabilityFeature
 import ComposableArchitecture
 
-public struct LoadingErrorSomethingWrongWithBsuir: ReducerProtocol {
+public struct LoadingErrorSomethingWrongWithBsuir: Reducer {
     public struct State: Equatable {
         var reachability: ReachabilityFeature.State?
         var errorCode: String
@@ -26,7 +26,7 @@ public struct LoadingErrorSomethingWrongWithBsuir: ReducerProtocol {
 
     @Dependency(\.openURL) var openUrl
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .openIssueTapped:

@@ -3,7 +3,7 @@ import BsuirApi
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct LecturersSearch: ReducerProtocol {
+public struct LecturersSearch: Reducer {
     public struct State: Equatable {
         @BindingState var query: String = ""
         fileprivate(set) var dismiss: Bool = false
@@ -26,7 +26,7 @@ public struct LecturersSearch: ReducerProtocol {
         case delegate(DelegateAction)
     }
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         BindingReducer()
 
         Reduce { state, action in

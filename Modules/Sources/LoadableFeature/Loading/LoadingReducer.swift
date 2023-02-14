@@ -36,7 +36,7 @@ where Action: LoadableAction, State == Action.State {
     let keyPath: WritableKeyPath<State, LoadableState<Value>>
     let fetch: @Sendable (State, _ isRefresh: Bool) async throws -> Value
 
-    var body: some ReducerProtocol<State, Action> {
+    var body: some Reducer<State, Action> {
         Scope(state: \.self, action: .loading(keyPath: keyPath)) {
             Scope(state: keyPath, action: /LoadingAction<State>.Action.view) {
                 EmptyReducer()
@@ -50,14 +50,14 @@ where Action: LoadableAction, State == Action.State {
     }
 }
 
-private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
+private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
 
     typealias Action = LoadingAction<State>.Action
 
     let keyPath: WritableKeyPath<State, LoadableState<Value>>
     let fetch: @Sendable (State, _ isRefresh: Bool) async throws -> Value
 
-    func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    func reduce(into state: inout State, action: Action) -> Effect<Action> {
         var valueState: LoadableState<Value> {
             get { state[keyPath: keyPath] }
             set { state[keyPath: keyPath] = newValue }
@@ -94,18 +94,18 @@ private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
         }
     }
 
-    private func loadingStarted() -> EffectTask<Action> {
-        return EffectTask.send(.delegate(.loadingStarted))
+    private func loadingStarted() -> Effect<Action> {
+        return .send(.delegate(.loadingStarted))
     }
 
-    private func loadingFinished() -> EffectTask<Action> {
-        return EffectTask.send(.delegate(.loadingFinished))
+    private func loadingFinished() -> Effect<Action> {
+        return .send(.delegate(.loadingFinished))
     }
 
     private enum LoadingCancelId {}
 
-    private func load(_ state: State, isRefresh: Bool) -> EffectTask<Action> {
-        return EffectTask.task {
+    private func load(_ state: State, isRefresh: Bool) -> Effect<Action> {
+        return .task {
             if isRefresh {
                 // Make sure loading UI is shown for some time before requesting
                 try await Task.sleep(for: .milliseconds(200))

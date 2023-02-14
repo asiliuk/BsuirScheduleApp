@@ -3,7 +3,7 @@ import BsuirApi
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct GroupsSearch: ReducerProtocol {
+public struct GroupsSearch: Reducer {
     public struct State: Equatable {
         @BindingState var tokens: [StrudentGroupSearchToken] = []
         @BindingState var suggestedTokens: [StrudentGroupSearchToken] = []
@@ -28,7 +28,7 @@ public struct GroupsSearch: ReducerProtocol {
         case delegate(DelegateAction)
     }
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         BindingReducer()
 
         Reduce { state, action in
