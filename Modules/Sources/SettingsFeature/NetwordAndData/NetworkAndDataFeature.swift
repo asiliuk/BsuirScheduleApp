@@ -40,7 +40,7 @@ public struct NetworkAndDataFeature: Reducer {
                     message: TextState("alert.clearCache.message")
                 )
                 return .fireAndForget {
-                    clearNetworkCache()
+                    await clearNetworkCache()
                     imageCache.clearCache()
                 }
 
