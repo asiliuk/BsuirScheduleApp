@@ -14,8 +14,11 @@ struct CompactRootView: View {
         WithViewStore(store, observe: \.selection) { viewStore in
             TabView(selection: viewStore.binding(get: { $0 }, send: AppFeature.Action.setSelection)) {
 
-                PinnedFeatureTab(
-                    store: store
+                PinnedTabView(
+                    store: store.scope(
+                        state: \.pinnedTab,
+                        action: AppFeature.Action.pinnedTab
+                    )
                 )
                 .tag(CurrentSelection.pinned)
 
@@ -43,68 +46,6 @@ struct CompactRootView: View {
                 )
                 .tag(CurrentSelection.settings)
             }
-        }
-    }
-}
-
-private struct PinnedFeatureTab: View {
-    let store: StoreOf<AppFeature>
-
-    var body: some View {
-        WithViewStore(store, observe: \.isPremium) { viewStore in
-            if viewStore.state {
-                IfLetStore(store.scope(
-                    state: \.pinned,
-                    action: AppFeature.Action.pinned
-                )) { store in
-                    PinnedScheduleFeatureTab(store: store)
-                } else: {
-                    PinnedScheduleEmptyTab()
-                }
-            } else {
-                PinnedSchedulePremiumLockedTab {
-                    viewStore.send(.learnAboutPremiumClubTapped)
-                }
-            }
-        }
-    }
-}
-
-private struct PinnedScheduleFeatureTab: View {
-    let store: StoreOf<PinnedScheduleFeature>
-
-    var body: some View {
-        NavigationStack {
-            PinnedScheduleView(store: store)
-        }
-        .tabItem {
-            WithViewStore(store, observe: \.title) { viewStore in
-                PinnedLabel(title: viewStore.state)
-            }
-        }
-    }
-}
-
-private struct PinnedScheduleEmptyTab: View {
-    var body: some View {
-        NavigationStack {
-            PinnedScheduleEmptyView()
-        }
-        .tabItem {
-            EmptyPinnedLabel()
-        }
-    }
-}
-
-private struct PinnedSchedulePremiumLockedTab: View {
-    var onLearnMoreTapped: () -> Void
-
-    var body: some View {
-        NavigationStack {
-            PinnedScheduleLockedView(onLearnMoreTapped: onLearnMoreTapped)
-        }
-        .tabItem {
-            EmptyPinnedLabel()
         }
     }
 }

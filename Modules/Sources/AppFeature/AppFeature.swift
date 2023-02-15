@@ -15,15 +15,12 @@ public struct AppFeature: Reducer {
         var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
 
-        var isPremium: Bool
-        var pinned: PinnedScheduleFeature.State?
+        var pinnedTab = PinnedTabFeature.State()
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
         var settings = SettingsFeature.State()
 
         public init() {
-            @Dependency(\.premiumService) var premiumService
-            self.isPremium = premiumService.isCurrentlyPremium
             @Dependency(\.favorites) var favorites
             self.handleInitialSelection(favorites: favorites)
         }
@@ -36,18 +33,16 @@ public struct AppFeature: Reducer {
         case setSelection(CurrentSelection)
         case setOverlay(CurrentOverlay?)
         case setPinnedSchedule(ScheduleSource?)
-        case setIsPremium(Bool)
         case showSettingsButtonTapped
         case learnAboutPremiumClubTapped
 
-        case pinned(PinnedScheduleFeature.Action)
+        case pinnedTab(PinnedTabFeature.Action)
         case groups(GroupsFeature.Action)
         case lecturers(LecturersFeature.Action)
         case settings(SettingsFeature.Action)
     }
 
     @Dependency(\.favorites) var favorites
-    @Dependency(\.premiumService) var premiumService
 
     public init() {}
 
@@ -55,18 +50,11 @@ public struct AppFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .task:
-                return .merge(
-                    .run { send in
-                        for await pinnedSchedule in favorites.pinnedSchedule.values {
-                            await send(.setPinnedSchedule(pinnedSchedule))
-                        }
-                    },
-                    .run { send in
-                        for await isPremium in premiumService.isPremium.removeDuplicates().values {
-                            await send(.setIsPremium(isPremium))
-                        }
+                return .run { send in
+                    for await pinnedSchedule in favorites.pinnedSchedule.values {
+                        await send(.setPinnedSchedule(pinnedSchedule))
                     }
-                )
+                }
 
             case let .setSelection(value):
                 state.updateSelection(value)
@@ -77,15 +65,11 @@ public struct AppFeature: Reducer {
                 return .none
 
             case .setPinnedSchedule(nil):
-                state.pinned = nil
+                state.pinnedTab.resetPinned()
                 return .none
 
             case let .setPinnedSchedule(pinned?):
-                state.pinned = .init(pinned: pinned)
-                return .none
-
-            case let .setIsPremium(value):
-                state.isPremium = value
+                state.pinnedTab.show(pinned: pinned)
                 return .none
 
             case .showSettingsButtonTapped:
@@ -105,12 +89,13 @@ public struct AppFeature: Reducer {
                 }
                 return .none
 
-            case .groups, .lecturers, .settings, .pinned:
+            case .groups, .lecturers, .settings, .pinnedTab:
                 return .none
             }
         }
-        .ifLet(\.pinned, action: /Action.pinned) {
-            PinnedScheduleFeature()
+
+        Scope(state: \.pinnedTab, action: /Action.pinnedTab) {
+            PinnedTabFeature()
         }
 
         Scope(state: \.groups, action: /Action.groups) {
@@ -180,7 +165,7 @@ private extension AppFeature.State {
     mutating func handleInitialSelection(favorites: FavoritesService) {
         if let pinnedSchedule = favorites.currentPinnedSchedule {
             selection = .pinned
-            pinned = .init(pinned: pinnedSchedule)
+            pinnedTab.show(pinned: pinnedSchedule)
             return
         }
 
@@ -206,7 +191,7 @@ private extension AppFeature.State {
         // Handle tap on already selected tab
         switch newValue {
         case .pinned:
-            pinned?.reset()
+            pinnedTab.reset()
         case .groups:
             groups.reset()
         case .lecturers:
