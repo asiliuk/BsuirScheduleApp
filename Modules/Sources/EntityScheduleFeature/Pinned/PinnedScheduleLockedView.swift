@@ -22,7 +22,7 @@ public struct PinnedScheduleLockedView: View {
                     .bold()
                     .multilineTextAlignment(.center)
 
-                Text("Please join Premium Club if you want to pin schedule")
+                Text("Please become a member of the Premium Club to be able to pin your schedule")
                     .font(.body)
                     .foregroundColor(.secondary)
 
@@ -31,7 +31,7 @@ public struct PinnedScheduleLockedView: View {
                 Button {
                     onLearnMoreTapped()
                 } label: {
-                    Text("Learn more...")
+                    Text("Join Premium Club...")
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.regular)
