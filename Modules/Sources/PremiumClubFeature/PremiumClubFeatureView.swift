@@ -19,12 +19,19 @@ public struct PremiumClubFeatureView: View {
         }
         #if DEBUG
         .safeAreaInset(edge: .top) {
-            DebugPremiumClubRowView(
-                store: store.scope(
-                    state: \.debugRow,
-                    action: PremiumClubFeature.Action.debugRow
+            VStack(alignment: .leading) {
+                DebugPremiumClubRowView(
+                    store: store.scope(
+                        state: \.debugRow,
+                        action: PremiumClubFeature.Action.debugRow
+                    )
                 )
-            )
+
+                WithViewStore(store, observe: \.source) { viewStore in
+                    let source = Text("\(viewStore.state.map(String.init(describing:)) ?? "No source")").bold()
+                    Text("Source: \(source)")
+                }
+            }
             .padding(.horizontal)
             .background(.thickMaterial)
         }
