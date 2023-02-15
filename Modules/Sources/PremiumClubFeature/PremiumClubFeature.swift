@@ -4,6 +4,7 @@ import ComposableArchitectureUtils
 
 public struct PremiumClubFeature: Reducer {
     public enum Source {
+        case pin
         case appIcon
     }
 

@@ -15,10 +15,7 @@ struct CompactRootView: View {
             TabView(selection: viewStore.binding(get: { $0 }, send: AppFeature.Action.setSelection)) {
 
                 PinnedFeatureTab(
-                    store: store.scope(
-                        state: \.pinned,
-                        action: AppFeature.Action.pinned
-                    )
+                    store: store
                 )
                 .tag(CurrentSelection.pinned)
 
@@ -51,13 +48,24 @@ struct CompactRootView: View {
 }
 
 private struct PinnedFeatureTab: View {
-    let store: Store<PinnedScheduleFeature.State?, PinnedScheduleFeature.Action>
+    let store: StoreOf<AppFeature>
 
     var body: some View {
-        IfLetStore(store) { store in
-            PinnedScheduleFeatureTab(store: store)
-        } else: {
-            PinnedScheduleEmptyTab()
+        WithViewStore(store, observe: \.isPremium) { viewStore in
+            if viewStore.state {
+                IfLetStore(store.scope(
+                    state: \.pinned,
+                    action: AppFeature.Action.pinned
+                )) { store in
+                    PinnedScheduleFeatureTab(store: store)
+                } else: {
+                    PinnedScheduleEmptyTab()
+                }
+            } else {
+                PinnedSchedulePremiumLockedTab {
+                    viewStore.send(.learnAboutPremiumClubTapped)
+                }
+            }
         }
     }
 }
@@ -81,6 +89,19 @@ private struct PinnedScheduleEmptyTab: View {
     var body: some View {
         NavigationStack {
             PinnedScheduleEmptyView()
+        }
+        .tabItem {
+            EmptyPinnedLabel()
+        }
+    }
+}
+
+private struct PinnedSchedulePremiumLockedTab: View {
+    var onLearnMoreTapped: () -> Void
+
+    var body: some View {
+        NavigationStack {
+            PinnedScheduleLockedView(onLearnMoreTapped: onLearnMoreTapped)
         }
         .tabItem {
             EmptyPinnedLabel()

@@ -2,6 +2,7 @@ import Foundation
 import URLRouting
 
 public enum PremiumClubDeeplinkSource: String {
+    case pin = "pin"
     case appIcon = "app_icon"
 }
 

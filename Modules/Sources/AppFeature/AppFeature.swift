@@ -15,12 +15,15 @@ public struct AppFeature: Reducer {
         var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
 
+        var isPremium: Bool
         var pinned: PinnedScheduleFeature.State?
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
         var settings = SettingsFeature.State()
 
         public init() {
+            @Dependency(\.premiumService) var premiumService
+            self.isPremium = premiumService.isCurrentlyPremium
             @Dependency(\.favorites) var favorites
             self.handleInitialSelection(favorites: favorites)
         }
@@ -33,7 +36,9 @@ public struct AppFeature: Reducer {
         case setSelection(CurrentSelection)
         case setOverlay(CurrentOverlay?)
         case setPinnedSchedule(ScheduleSource?)
+        case setIsPremium(Bool)
         case showSettingsButtonTapped
+        case learnAboutPremiumClubTapped
 
         case pinned(PinnedScheduleFeature.Action)
         case groups(GroupsFeature.Action)
@@ -42,6 +47,7 @@ public struct AppFeature: Reducer {
     }
 
     @Dependency(\.favorites) var favorites
+    @Dependency(\.premiumService) var premiumService
 
     public init() {}
 
@@ -49,11 +55,18 @@ public struct AppFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .task:
-                return .run { send in
-                    for await pinnedSchedule in favorites.pinnedSchedule.values {
-                        await send(.setPinnedSchedule(pinnedSchedule))
+                return .merge(
+                    .run { send in
+                        for await pinnedSchedule in favorites.pinnedSchedule.values {
+                            await send(.setPinnedSchedule(pinnedSchedule))
+                        }
+                    },
+                    .run { send in
+                        for await isPremium in premiumService.isPremium.removeDuplicates().values {
+                            await send(.setIsPremium(isPremium))
+                        }
                     }
-                }
+                )
 
             case let .setSelection(value):
                 state.updateSelection(value)
@@ -71,8 +84,16 @@ public struct AppFeature: Reducer {
                 state.pinned = .init(pinned: pinned)
                 return .none
 
+            case let .setIsPremium(value):
+                state.isPremium = value
+                return .none
+
             case .showSettingsButtonTapped:
                 state.overlay = .settings
+                return .none
+
+            case .learnAboutPremiumClubTapped:
+                handleDeeplink(state: &state, deeplink: .premiumClub(source: .pin))
                 return .none
 
             case let .handleDeeplink(url):
@@ -203,6 +224,7 @@ private extension PremiumClubFeature.Source {
         guard let deeplinkSource else { return nil }
         switch deeplinkSource {
         case .appIcon: self = .appIcon
+        case .pin: self = .pin
         }
     }
 }
