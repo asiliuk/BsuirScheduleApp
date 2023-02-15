@@ -1,4 +1,5 @@
 import SwiftUI
+import BsuirUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
@@ -11,12 +12,69 @@ public struct PremiumClubFeatureView: View {
 
     public var body: some View {
         ScrollView {
-            ForEach(0..<10) { _ in
-                Color.random
-                    .frame(height: 100)
-                    .padding()
+            VStack(spacing: 20) {
+                GroupBox {
+                    Color.clear
+                        .frame(height: 100)
+                } label: {
+                    Label("Custom App Icons", systemImage: "app.gift.fill")
+                        .settingsRowAccent(.orange)
+                }
+
+                GroupBox {
+                    Color.clear
+                        .frame(height: 100)
+                } label: {
+                    Label("Pinned Schedule", systemImage: "pin.square.fill")
+                        .settingsRowAccent(.red)
+                }
+
+                GroupBox {
+                    Color.clear
+                        .frame(height: 100)
+                } label: {
+                    Label("Widgets", systemImage: "square.text.square.fill")
+                        .settingsRowAccent(.blue)
+                }
+
+                GroupBox {
+                    Color.clear
+                        .frame(height: 100)
+                } label: {
+                    Label("No Fake Ads", systemImage: "hand.raised.square.fill")
+                        .settingsRowAccent(.purple)
+                }
+
+                GroupBox {
+                    VStack(alignment: .leading) {
+                        LabeledContent {
+                            Button("1.99$", action: {})
+                        } label: {
+                            Text("☕️ Small tip")
+                        }
+
+                        LabeledContent {
+                            Button("5.00$", action: {})
+                        } label: {
+                            Text("🥐 Medium tip")
+                        }
+
+                        LabeledContent {
+                            Button("10.00$", action: {})
+                        } label: {
+                            Text("🥙 Big tip")
+                        }
+                    }
+                    .font(.title3)
+                    .buttonStyle(.borderedProminent)
+                } label: {
+                    Label("Leave tips", systemImage: "heart.square.fill")
+                        .settingsRowAccent(.pink)
+                }
             }
+            .padding()
         }
+        .labelStyle(PremiumGroupTitleLabelStyle())
         #if DEBUG
         .safeAreaInset(edge: .top) {
             VStack(alignment: .leading) {
@@ -62,6 +120,22 @@ struct PremiumClubFeatureView_Previews: PreviewProvider {
                     reducer: PremiumClubFeature()
                 )
             )
+        }
+    }
+}
+
+private struct PremiumGroupTitleLabelStyle: LabelStyle {
+    @Environment(\.settingsRowAccent) var settingsRowAccent
+
+    func makeBody(configuration: Configuration) -> some View {
+        Label {
+            configuration.title
+        } icon: {
+            if let settingsRowAccent {
+                configuration.icon
+                    .font(.title.bold())
+                    .foregroundStyle(settingsRowAccent)
+            }
         }
     }
 }

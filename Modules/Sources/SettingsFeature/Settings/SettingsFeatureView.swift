@@ -147,7 +147,7 @@ public struct SettingsFeatureView: View {
                     )
                 }
             }
-            .labelStyle(SettingsLabelStyle())
+            .labelStyle(.settings)
             .listStyle(.insetGrouped)
             .navigationTitle("screen.settings.navigation.title")
         }

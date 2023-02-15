@@ -1,10 +1,13 @@
 import SwiftUI
-import BsuirUI
 
-struct SettingsLabelStyle: LabelStyle {
+extension LabelStyle where Self == SettingsLabelStyle {
+    public static var settings: SettingsLabelStyle { .init() }
+}
+
+public struct SettingsLabelStyle: LabelStyle {
     @Environment(\.settingsRowAccent) var settingsRowAccent
 
-    func makeBody(configuration: Configuration) -> some View {
+    public func makeBody(configuration: Configuration) -> some View {
         Label {
             configuration.title
         } icon: {
@@ -22,18 +25,18 @@ struct SettingsLabelStyle: LabelStyle {
 // MARK: - Accent Color
 
 private enum SettingsRowAccentKey: EnvironmentKey {
-    static let defaultValue: AnyShapeStyle? = nil
+    public static let defaultValue: AnyShapeStyle? = nil
 }
 
 extension EnvironmentValues {
-    var settingsRowAccent: AnyShapeStyle? {
+    public var settingsRowAccent: AnyShapeStyle? {
         get { self[SettingsRowAccentKey.self] }
         set { self[SettingsRowAccentKey.self] = newValue }
     }
 }
 
 extension View {
-    func settingsRowAccent(_ fill: some ShapeStyle) -> some View {
+    public func settingsRowAccent(_ fill: some ShapeStyle) -> some View {
         environment(\.settingsRowAccent, AnyShapeStyle(fill))
     }
 }
