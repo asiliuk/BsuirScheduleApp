@@ -5,12 +5,14 @@ import ComposableArchitecture
 
 public struct PinnedTabFeature: Reducer {
     public struct State: Equatable {
+        var showModalPremiumClub: Bool = false
         var schedule: PinnedScheduleFeature.State?
-        var premiumClub = PremiumClubFeature.State()
+        var premiumClub = PremiumClubFeature.State(source: .pin)
     }
 
     public enum Action: Equatable {
         case learnAboutPremiumClubTapped
+        case setShowModalPremiumClub(Bool)
         case schedule(PinnedScheduleFeature.Action)
         case premiumClub(PremiumClubFeature.Action)
     }
@@ -19,8 +21,13 @@ public struct PinnedTabFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .learnAboutPremiumClubTapped:
-                print("Show premium club")
+                state.showModalPremiumClub = true
                 return .none
+
+            case let .setShowModalPremiumClub(value):
+                state.showModalPremiumClub = value
+                return .none
+
             case .schedule, .premiumClub:
                 return .none
             }
