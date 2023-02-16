@@ -25,7 +25,7 @@ struct AppIconFeatureNavigationLink: View {
                     Label {
                         Text("screen.settings.appIcon.navigation.title")
                     } icon: {
-                        AppIconPreviewView(
+                        ScaledAppIconPreviewView(
                             imageName: viewStore.currentIcon.or(.plain(.standard)).previewImageName,
                             size: 28
                         )
@@ -146,7 +146,7 @@ private struct AppIconRow: View {
                 Label {
                     Text("  \(Text(title))")
                 } icon: {
-                    AppIconPreviewView(imageName: imageName, size: 50)
+                    ScaledAppIconPreviewView(imageName: imageName, size: 50)
                 }
                 .opacity(isPremiumLocked ? 0.5 : 1)
             }

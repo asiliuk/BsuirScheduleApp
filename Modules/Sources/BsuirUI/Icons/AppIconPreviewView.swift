@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct AppIconPreviewView: View {
+public struct ScaledAppIconPreviewView: View {
     let imageName: String
     @ScaledMetric var size: CGFloat
 
@@ -10,6 +10,29 @@ public struct AppIconPreviewView: View {
     }
 
     public var body: some View {
+        AppIconPreviewView(imageName: imageName, size: size)
+    }
+}
+
+public struct FullWidthAppIconPreviewView: View {
+    let imageName: String
+
+    public init(imageName: String) {
+        self.imageName = imageName
+    }
+
+    public var body: some View {
+        GeometryReader { proxy in
+            AppIconPreviewView(imageName: imageName, size: proxy.size.width)
+        }
+    }
+}
+
+struct AppIconPreviewView: View {
+    let imageName: String
+    let size: CGFloat
+
+    var body: some View {
         Image(uiImage: iconImage)
             .resizable()
             .frame(width: size, height: size)
@@ -20,7 +43,15 @@ public struct AppIconPreviewView: View {
             let path = UIBezierPath(roundedRect: context.format.bounds, cornerRadius: 0.2237 * size )
             path.addClip()
 
-            UIImage(named: imageName)?.draw(in: context.format.bounds)
+            if let image = UIImage(named: imageName) {
+                image.draw(in: context.format.bounds)
+            } else {
+                #if DEBUG
+                let value = abs(imageName.hashValue).quotientAndRemainder(dividingBy: 360).remainder
+                UIColor(hue: CGFloat(value) / 360, saturation: 1, brightness: 1, alpha: 1).setFill()
+                path.fill()
+                #endif
+            }
 
             UIColor.gray.withAlphaComponent(0.4).setStroke()
             path.stroke()
