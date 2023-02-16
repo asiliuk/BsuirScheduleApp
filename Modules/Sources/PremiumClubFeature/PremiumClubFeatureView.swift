@@ -14,8 +14,12 @@ public struct PremiumClubFeatureView: View {
         ScrollView {
             VStack(spacing: 20) {
                 GroupBox {
-                    Color.clear
-                        .frame(height: 100)
+                    HStack(alignment: .top) {
+                        Text("Unlock new and stunning app icons").font(.body)
+                        Spacer()
+                        PremiumAppIconGrid()
+                            .frame(width: 80)
+                    }
                 } label: {
                     Label("Custom App Icons", systemImage: "app.gift.fill")
                         .settingsRowAccent(.orange)
@@ -111,19 +115,6 @@ public struct PremiumClubFeatureView: View {
     }
 }
 
-struct PremiumClubFeatureView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            PremiumClubFeatureView(
-                store: .init(
-                    initialState: .init(),
-                    reducer: PremiumClubFeature()
-                )
-            )
-        }
-    }
-}
-
 private struct PremiumGroupTitleLabelStyle: LabelStyle {
     @Environment(\.settingsRowAccent) var settingsRowAccent
 
@@ -136,6 +127,19 @@ private struct PremiumGroupTitleLabelStyle: LabelStyle {
                     .font(.title.bold())
                     .foregroundStyle(settingsRowAccent)
             }
+        }
+    }
+}
+
+struct PremiumClubFeatureView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+            PremiumClubFeatureView(
+                store: .init(
+                    initialState: .init(),
+                    reducer: PremiumClubFeature()
+                )
+            )
         }
     }
 }
