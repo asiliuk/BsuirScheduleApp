@@ -1,10 +1,15 @@
 import SwiftUI
 
-struct AppIconPreviewView: View {
+public struct AppIconPreviewView: View {
     let imageName: String
-    @ScaledMetric(relativeTo: .body) var size: CGFloat = 34
+    @ScaledMetric var size: CGFloat
 
-    var body: some View {
+    public init(imageName: String, size: CGFloat = 34) {
+        self.imageName = imageName
+        self._size = ScaledMetric(wrappedValue: size, relativeTo: .body)
+    }
+
+    public var body: some View {
         Image(uiImage: iconImage)
             .resizable()
             .frame(width: size, height: size)

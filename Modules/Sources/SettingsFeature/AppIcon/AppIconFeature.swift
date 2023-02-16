@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import BsuirCore
+import BsuirUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
@@ -69,13 +70,13 @@ public struct AppIconFeature: Reducer {
                 return .none
             }
 
-            if let icon, state.isPremiumLocked, icon.appIcon.isPremium {
+            if let icon, state.isPremiumLocked, icon.isPremium {
                 state.alert = .premiumLocked
                 return .none
             }
 
             return .task {
-                try await setAlternateIconName(icon?.appIcon.iconName)
+                try await setAlternateIconName(icon?.iconName)
                 await reviewRequestService.madeMeaningfulEvent(.appIconChanged)
                 return .reducer(.iconChanged(icon))
             } catch: { _ in

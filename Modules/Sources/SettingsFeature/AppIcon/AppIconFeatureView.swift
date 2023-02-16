@@ -26,7 +26,7 @@ struct AppIconFeatureNavigationLink: View {
                         Text("screen.settings.appIcon.navigation.title")
                     } icon: {
                         AppIconPreviewView(
-                            imageName: viewStore.currentIcon.or(.plain(.standard)).appIcon.previewImageName,
+                            imageName: viewStore.currentIcon.or(.plain(.standard)).previewImageName,
                             size: 28
                         )
                     }

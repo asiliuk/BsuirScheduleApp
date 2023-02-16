@@ -2,8 +2,9 @@ import Foundation
 import SwiftUI
 import BsuirCore
 
+@dynamicMemberLookup
 public enum AppIcon: Hashable {
-    public enum Plain: String {
+    public enum Plain: String, CaseIterable {
         case standard = "AppIconStandart"
         case dark = "AppIconDark"
         case nostalgia = "AppIconNostalgia"
@@ -11,14 +12,14 @@ public enum AppIcon: Hashable {
         case premium = "AppIconPremium"
     }
 
-    public enum Symbol: String {
+    public enum Symbol: String, CaseIterable {
         case resist = "AppIconResist"
         case national = "AppIconNational"
         case ukrainian = "AppIconUkrainian"
         case pride = "AppIconPride"
     }
 
-    public enum Metal: String {
+    public enum Metal: String, CaseIterable {
         case silver = "AppIconSilver"
         case copper = "AppIconCopper"
     }
@@ -29,7 +30,7 @@ public enum AppIcon: Hashable {
 }
 
 extension AppIcon {
-    init?(name: String) {
+    public init?(name: String) {
         let icon = Plain(rawValue: name).map(Self.plain)
             .or(Symbol(rawValue: name).map(Self.symbol))
             .or(Metal(rawValue: name).map(Self.metal))
@@ -38,12 +39,27 @@ extension AppIcon {
         self = icon
     }
 
-    var appIcon: any AppIconProtocol {
+    public subscript<T>(dynamicMember keyPath: KeyPath<any AppIconProtocol, T>) -> T {
+        appIcon[keyPath: keyPath]
+    }
+
+    private var appIcon: any AppIconProtocol {
         switch self {
         case .plain(let plain): return plain
         case .symbol(let symbol): return symbol
         case .metal(let metal): return metal
         }
+    }
+}
+
+// MARK: - CaseIterable
+
+extension AppIcon: CaseIterable {
+    public static var allCases: [AppIcon] {
+        return []
+            + Plain.allCases.map(Self.plain)
+            + Symbol.allCases.map(Self.symbol)
+            + Metal.allCases.map(Self.metal)
     }
 }
 
