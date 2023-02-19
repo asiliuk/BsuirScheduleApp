@@ -14,25 +14,16 @@ public struct ScaledAppIconPreviewView: View {
     }
 }
 
-public struct FullWidthAppIconPreviewView: View {
-    let imageName: String
-
-    public init(imageName: String) {
-        self.imageName = imageName
-    }
-
-    public var body: some View {
-        GeometryReader { proxy in
-            AppIconPreviewView(imageName: imageName, size: proxy.size.width)
-        }
-    }
-}
-
-struct AppIconPreviewView: View {
+public struct AppIconPreviewView: View {
     let imageName: String
     let size: CGFloat
 
-    var body: some View {
+    public init(imageName: String, size: CGFloat) {
+        self.imageName = imageName
+        self.size = size
+    }
+
+    public var body: some View {
         Image(uiImage: iconImage)
             .resizable()
             .frame(width: size, height: size)
