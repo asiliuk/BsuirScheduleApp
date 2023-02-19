@@ -14,6 +14,9 @@ let package = Package(
             name: "SettingsFeature",
             targets: ["SettingsFeature"]),
         .library(
+            name: "PremiumClubFeature",
+            targets: ["PremiumClubFeature"]),
+        .library(
             name: "GroupsFeature",
             targets: ["GroupsFeature"]),
         .library(
@@ -43,7 +46,7 @@ let package = Package(
     ],
     dependencies: [
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.4.0"),
-         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "0.49.1"),
+         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", branch: "prerelease/1.0"),
          .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.4.0"),
          .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
          .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.1.4"),
@@ -63,7 +66,11 @@ let package = Package(
         ),
         .target(
             name: "SettingsFeature",
-            dependencies: ["ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .dependencies, .swiftUINavigation]
+            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .dependencies, .swiftUINavigation]
+        ),
+        .target(
+            name: "PremiumClubFeature",
+            dependencies: ["BsuirUI", "ComposableArchitectureUtils", .tca, .dependencies, .swiftUINavigation]
         ),
         .target(
             name: "GroupsFeature",

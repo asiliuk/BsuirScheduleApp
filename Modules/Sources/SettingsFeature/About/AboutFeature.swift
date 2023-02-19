@@ -3,7 +3,7 @@ import BsuirCore
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct AboutFeature: ReducerProtocol {
+public struct AboutFeature: Reducer {
     public struct State: Equatable {
         var appVersion: String = {
             @Dependency(\.appInfo.version.description) var appVersion
@@ -17,21 +17,21 @@ public struct AboutFeature: ReducerProtocol {
         case telegramButtonTapped
     }
 
-    @Dependency(\.application.open) var openUrl
+    @Dependency(\.openURL) var openUrl
     @Dependency(\.reviewRequestService) var reviewRequestService
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .githubButtonTapped:
             return .fireAndForget {
-                reviewRequestService.madeMeaningfulEvent(.githubOpened)
-                _ = await openUrl(.github, [:])
+                await reviewRequestService.madeMeaningfulEvent(.githubOpened)
+                await openUrl(.github)
             }
 
         case .telegramButtonTapped:
             return .fireAndForget {
-                reviewRequestService.madeMeaningfulEvent(.telegramOpened)
-                _ = await openUrl(.telegram, [:])
+                await reviewRequestService.madeMeaningfulEvent(.telegramOpened)
+                await openUrl(.telegram)
             }
         }
     }

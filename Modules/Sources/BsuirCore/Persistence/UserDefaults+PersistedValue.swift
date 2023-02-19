@@ -40,4 +40,11 @@ extension UserDefaults {
             set: { self.set($0, forKey: key) }
         )
     }
+
+    public func persistedBool(forKey key: String) -> PersistedValue<Bool> {
+        PersistedValue(
+            get: { self.bool(forKey: key) },
+            set: { self.set($0, forKey: key) }
+        )
+    }
 }

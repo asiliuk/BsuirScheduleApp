@@ -25,7 +25,7 @@ private extension ScheduleDayViewModel {
     static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 }
 
-public struct ContiniousScheduleFeature: ReducerProtocol {
+public struct ContiniousScheduleFeature: Reducer {
     public struct State {
         public var isOnTop: Bool = true
         public var isEmpty: Bool { days.isEmpty }
@@ -76,24 +76,28 @@ public struct ContiniousScheduleFeature: ReducerProtocol {
     }
     
     @Dependency(\.reviewRequestService) var reviewRequestService
+    @Dependency(\.continuousClock) var clock
     
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .view(.setIsOnTop(let value)):
             state.isOnTop = value
             return .none
         case .view(.loadMoreIndicatorAppear):
+            enum TaskID {}
             return .task {
-                try await Task.sleep(for: .milliseconds(300))
-                return .reducer(.loadMoreDays)
+                try await withTaskCancellation(id: TaskID.self, cancelInFlight: true) {
+                    try await clock.sleep(for: .milliseconds(300))
+                    return .reducer(.loadMoreDays)
+                }
             }
 
         case .reducer(.loadMoreDays):
             state.load(count: 10)
             return .fireAndForget {
-                reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
+                await reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
             }
 
         case .delegate:

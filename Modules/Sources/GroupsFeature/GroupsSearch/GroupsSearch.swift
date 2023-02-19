@@ -3,11 +3,11 @@ import BsuirApi
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct GroupsSearch: ReducerProtocol {
+public struct GroupsSearch: Reducer {
     public struct State: Equatable {
-        @BindableState var tokens: [StrudentGroupSearchToken] = []
-        @BindableState var suggestedTokens: [StrudentGroupSearchToken] = []
-        @BindableState var query: String = ""
+        @BindingState var tokens: [StrudentGroupSearchToken] = []
+        @BindingState var suggestedTokens: [StrudentGroupSearchToken] = []
+        @BindingState var query: String = ""
         fileprivate(set) var dismiss: Bool = false
     }
 
@@ -28,7 +28,7 @@ public struct GroupsSearch: ReducerProtocol {
         case delegate(DelegateAction)
     }
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         BindingReducer()
 
         Reduce { state, action in
@@ -40,7 +40,7 @@ public struct GroupsSearch: ReducerProtocol {
                 return .none
 
             case .view(.filter), .binding(\.$tokens):
-                return .task { .delegate(.didUpdateImportantState) }
+                return .send(.delegate(.didUpdateImportantState))
 
             case .binding, .delegate:
                 return .none

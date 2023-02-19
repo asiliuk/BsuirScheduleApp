@@ -20,7 +20,7 @@ enum StrudentGroupSearchToken: Hashable, Identifiable {
     case course(Int?)
 }
 
-public struct GroupsFeature: ReducerProtocol {
+public struct GroupsFeature: Reducer {
     public struct State: Equatable {
         @LoadableState var sections: IdentifiedArrayOf<GroupsSection.State>?
         var search: GroupsSearch.State = .init()
@@ -72,7 +72,7 @@ public struct GroupsFeature: ReducerProtocol {
 
     public init() {}
     
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .view(.task):
@@ -163,7 +163,7 @@ public struct GroupsFeature: ReducerProtocol {
         state.search.updateSuggestedTokens(for: state.loadedGroups ?? [])
     }
     
-    private func listenToFavoriteUpdates() -> EffectTask<Action> {
+    private func listenToFavoriteUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.groupNames.values {
                 await send(.reducer(.favoritesUpdate(value)), animation: .default)
@@ -171,7 +171,7 @@ public struct GroupsFeature: ReducerProtocol {
         }
     }
 
-    private func listenToPinnedUpdates() -> EffectTask<Action> {
+    private func listenToPinnedUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.pinnedSchedule.map(\.?.groupName).removeDuplicates().values {
                 await send(.reducer(.pinnedUpdate(value)), animation: .default)

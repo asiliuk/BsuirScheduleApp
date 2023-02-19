@@ -1,15 +1,23 @@
 import Foundation
 import BsuirCore
 import BsuirUI
+import PremiumClubFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import Dependencies
+import SwiftUI
 
-public struct SettingsFeature: ReducerProtocol {
+public struct SettingsFeature: Reducer {
     public struct State: Equatable {
+        public var path = NavigationPath()
         var isOnTop: Bool = true
+        var showModalPremiumClub: Bool = false
 
         var premiumClub = PremiumClubFeature.State()
+        #if DEBUG
+        var debugPremiumClubRow = DebugPremiumClubRow.State()
+        #endif
+
         var appIcon = AppIconFeature.State()
         var appearance = AppearanceFeature.State()
         var networkAndData = NetworkAndDataFeature.State()
@@ -21,10 +29,16 @@ public struct SettingsFeature: ReducerProtocol {
     public enum Action: Equatable, FeatureAction {
         public enum ViewAction: Equatable {
             case setIsOnTop(Bool)
+            case setPath(NavigationPath)
+            case setShowModalPremiumClub(Bool)
         }
         
         public enum ReducerAction: Equatable {
             case premiumClub(PremiumClubFeature.Action)
+            #if DEBUG
+            case debugPremiumClubRow(DebugPremiumClubRow.Action)
+            #endif
+
             case appIcon(AppIconFeature.Action)
             case appearance(AppearanceFeature.Action)
             case networkAndData(NetworkAndDataFeature.Action)
@@ -40,13 +54,25 @@ public struct SettingsFeature: ReducerProtocol {
 
     public init() {}
     
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case let .view(.setIsOnTop(value)):
                 state.isOnTop = value
                 return .none
-                
+
+            case let .view(.setPath(value)):
+                state.path = value
+                return .none
+
+            case let .view(.setShowModalPremiumClub(value)):
+                state.showModalPremiumClub = value
+                return .none
+
+            case .reducer(.appIcon(.delegate(.openPremiumClub))):
+                state.showModalPremiumClub = true
+                return .none
+
             case .reducer:
                 return .none
             }
@@ -55,6 +81,12 @@ public struct SettingsFeature: ReducerProtocol {
         Scope(state: \.premiumClub, reducerAction: /Action.ReducerAction.premiumClub) {
             PremiumClubFeature()
         }
+
+        #if DEBUG
+        Scope(state: \.debugPremiumClubRow, reducerAction: /Action.ReducerAction.debugPremiumClubRow) {
+            DebugPremiumClubRow()
+        }
+        #endif
 
         Scope(state: \.appIcon, reducerAction: /Action.ReducerAction.appIcon) {
             AppIconFeature()
@@ -79,8 +111,18 @@ public struct SettingsFeature: ReducerProtocol {
 extension SettingsFeature.State {
     /// Reset navigation and inner state
     public mutating func reset() {
+        if !path.isEmpty {
+            return path = NavigationPath()
+        }
+
         if !isOnTop {
             return isOnTop = true
         }
+    }
+
+    public mutating func openPremiumClub(source: PremiumClubFeature.Source?) {
+        reset()
+        premiumClub.source = source
+        path.append(SettingsFeatureDestination.premiumClub)
     }
 }

@@ -35,7 +35,7 @@ public struct ScheduleRequestResponse {
     }
 }
 
-public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
+public struct ScheduleFeature<Value: Equatable>: Reducer {
     public struct State: Equatable {
         public var title: String
         public var value: Value
@@ -76,14 +76,14 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
         self.fetch = fetch
     }
     
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case let .view(.setScheduleType(value)):
                 defer { state.scheduleType = value }
                 guard state.scheduleType != value else { return .none }
                 return .fireAndForget {
-                    reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
+                    await reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
                 }
                 
             case .loading(.finished(\.$schedule)):
@@ -91,7 +91,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
                     state.scheduleType = .exams
                 }
                 return .fireAndForget {
-                    reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
+                    await reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
                 }
 
             case .schedule, .delegate, .loading, .reducer:
@@ -110,7 +110,7 @@ public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
     }
 }
 
-public struct LoadedScheduleReducer: ReducerProtocol {
+public struct LoadedScheduleReducer: Reducer {
     public struct State: Equatable {
         var compact: DayScheduleFeature.State
         var continious: ContiniousScheduleFeature.State
@@ -141,7 +141,7 @@ public struct LoadedScheduleReducer: ReducerProtocol {
         case exams(ExamsScheduleFeature.Action)
     }
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Scope(state: \.compact, action: /Action.day) {
             DayScheduleFeature()
         }

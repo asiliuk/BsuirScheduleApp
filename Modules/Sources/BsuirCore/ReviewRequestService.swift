@@ -14,7 +14,7 @@ public struct MeaningfulEvent {
 
 public final class ReviewRequestService {
 
-    public func madeMeaningfulEvent(_ event: MeaningfulEvent) {
+    public func madeMeaningfulEvent(_ event: MeaningfulEvent) async {
         reviewScore.persisted.value += event.score
     }
 

@@ -4,7 +4,7 @@ import SwiftUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct PairFormsColorPicker: ReducerProtocol {
+public struct PairFormsColorPicker: Reducer {
     public struct State: Equatable {
         var hasChanges: Bool = false
         var pairFormColorPickers: IdentifiedArrayOf<PairFormColorPicker.State> = []
@@ -33,7 +33,7 @@ public struct PairFormsColorPicker: ReducerProtocol {
 
     @Dependency(\.pairFormColorService) var pairFormColorService
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .view(.resetButtonTapped):
@@ -73,12 +73,12 @@ private extension PairFormsColorPicker.State {
     }
 }
 
-public struct PairFormColorPicker: ReducerProtocol {
+public struct PairFormColorPicker: Reducer {
     public struct State: Equatable, Identifiable {
         public var id: String { form.rawValue }
         var name: LocalizedStringKey { form.name }
         let form: PairViewForm
-        @BindableState var color: PairFormColor
+        @BindingState var color: PairFormColor
     }
 
     public enum Action: Equatable, FeatureAction, BindableAction {
@@ -95,11 +95,11 @@ public struct PairFormColorPicker: ReducerProtocol {
         case delegate(DelegateAction)
     }
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .binding(\.$color):
-                return .task { .delegate(.colorDidChange) }
+                return .send(.delegate(.colorDidChange))
             case .delegate, .binding:
                 return .none
             }

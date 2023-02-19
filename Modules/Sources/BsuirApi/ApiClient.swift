@@ -3,7 +3,7 @@ import Dependencies
 @preconcurrency import URLRouting
 
 public struct ApiClient: Sendable {
-    public var clearCache: @Sendable () -> Void
+    public var clearCache: @Sendable () async -> Void
     private var client: URLRoutingClient<CachingRoute<IISRoute>>
 
     init(client: URLRoutingClient<CachingRoute<IISRoute>>, clearCache: @Sendable @escaping () -> Void) {

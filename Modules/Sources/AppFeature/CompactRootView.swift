@@ -14,10 +14,10 @@ struct CompactRootView: View {
         WithViewStore(store, observe: \.selection) { viewStore in
             TabView(selection: viewStore.binding(get: { $0 }, send: AppFeature.Action.setSelection)) {
 
-                PinnedFeatureTab(
+                PinnedTabView(
                     store: store.scope(
-                        state: \.pinned,
-                        action: AppFeature.Action.pinned
+                        state: \.pinnedTab,
+                        action: AppFeature.Action.pinnedTab
                     )
                 )
                 .tag(CurrentSelection.pinned)
@@ -50,44 +50,6 @@ struct CompactRootView: View {
     }
 }
 
-private struct PinnedFeatureTab: View {
-    let store: Store<PinnedScheduleFeature.State?, PinnedScheduleFeature.Action>
-
-    var body: some View {
-        IfLetStore(store) { store in
-            PinnedScheduleFeatureTab(store: store)
-        } else: {
-            PinnedScheduleEmptyTab()
-        }
-    }
-}
-
-private struct PinnedScheduleFeatureTab: View {
-    let store: StoreOf<PinnedScheduleFeature>
-
-    var body: some View {
-        NavigationStack {
-            PinnedScheduleView(store: store)
-        }
-        .tabItem {
-            WithViewStore(store, observe: \.title) { viewStore in
-                PinnedLabel(title: viewStore.state)
-            }
-        }
-    }
-}
-
-private struct PinnedScheduleEmptyTab: View {
-    var body: some View {
-        NavigationStack {
-            PinnedScheduleEmptyView()
-        }
-        .tabItem {
-            EmptyPinnedLabel()
-        }
-    }
-}
-
 private struct GroupsFeatureTab: View {
     let store: StoreOf<GroupsFeature>
 
@@ -116,9 +78,11 @@ private struct SettingsFeatureTab: View {
     let store: StoreOf<SettingsFeature>
 
     var body: some View {
-        NavigationStack {
-            SettingsFeatureView(store: store)
-                .navigationBarTitleDisplayMode(.inline)
+        WithViewStore(store, observe: \.path) { viewStore in
+            NavigationStack(path: viewStore.binding(send: { .view(.setPath($0)) })) {
+                SettingsFeatureView(store: store)
+                    .navigationBarTitleDisplayMode(.inline)
+            }
         }
         .tabItem { SettingsLabel() }
     }

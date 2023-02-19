@@ -8,7 +8,7 @@ import ComposableArchitectureUtils
 import Favorites
 import Collections
 
-public struct LecturersFeature: ReducerProtocol {
+public struct LecturersFeature: Reducer {
     public struct State: Equatable {
         var search: LecturersSearch.State = .init()
         @LoadableState var lecturers: IdentifiedArrayOf<LecturersRow.State>?
@@ -76,67 +76,8 @@ public struct LecturersFeature: ReducerProtocol {
 
     public init() {}
     
-    public var body: some ReducerProtocol<State, Action> {
-        Reduce { state, action in
-            switch action {
-            case .view(.task):
-                return .merge(
-                    listenToFavoriteUpdates(),
-                    listenToPinnedUpdates()
-                )
-
-            case let .view(.setIsOnTop(value)):
-                state.isOnTop = value
-                return .none
-
-            case .view(.setLectorScheduleId(nil)):
-                state.lectorSchedule = nil
-                return .none
-
-            case .view(.setLectorScheduleId(.some)):
-                assertionFailure("Not really expecting this to happen")
-                return .none
-
-            case .reducer(.pinned(.rowTapped)):
-                let lector = state.pinned?.lector
-                state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
-                return .none
-
-            case let .reducer(.favorite(id, .rowTapped)):
-                let lector = state.favorites?[id: id]?.lector
-                state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
-                return .none
-
-            case let .reducer(.lector(id, .rowTapped)):
-                let lector = state.loadedLecturers?[id: id]
-                state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
-                return .none
-                
-            case .loading(.started(\.$loadedLecturers)):
-                filteredLecturers(state: &state)
-                return .none
-
-            case .loading(.finished(\.$loadedLecturers)):
-                filteredLecturers(state: &state)
-                state.openLectorIfNeeded()
-                return .none
-
-            case .reducer(.search(.delegate(.didUpdateImportantState))):
-                filteredLecturers(state: &state)
-                return .none
-                
-            case let .reducer(.favoritesUpdate(value)):
-                state.favoriteIds = value
-                return .none
-
-            case let .reducer(.pinnedUpdate(value)):
-                state.pinned = value.map(LecturersRow.State.init(lector:))
-                return .none
-                
-            case .reducer, .loading:
-                return .none
-            }
-        }
+    public var body: some ReducerOf<Self> {
+        Reduce { coreReduce(into: &$0, action: $1) }
         .ifLet(\.pinned, reducerAction: /Action.ReducerAction.pinned) {
             LecturersRow()
         }
@@ -164,6 +105,67 @@ public struct LecturersFeature: ReducerProtocol {
         }
     }
 
+    private func coreReduce(into state: inout State, action: Action) -> Effect<Action> {
+        switch action {
+        case .view(.task):
+            return .merge(
+                listenToFavoriteUpdates(),
+                listenToPinnedUpdates()
+            )
+
+        case let .view(.setIsOnTop(value)):
+            state.isOnTop = value
+            return .none
+
+        case .view(.setLectorScheduleId(nil)):
+            state.lectorSchedule = nil
+            return .none
+
+        case .view(.setLectorScheduleId(.some)):
+            assertionFailure("Not really expecting this to happen")
+            return .none
+
+        case .reducer(.pinned(.rowTapped)):
+            let lector = state.pinned?.lector
+            state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+            return .none
+
+        case let .reducer(.favorite(id, .rowTapped)):
+            let lector = state.favorites?[id: id]?.lector
+            state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+            return .none
+
+        case let .reducer(.lector(id, .rowTapped)):
+            let lector = state.loadedLecturers?[id: id]
+            state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+            return .none
+
+        case .loading(.started(\.$loadedLecturers)):
+            filteredLecturers(state: &state)
+            return .none
+
+        case .loading(.finished(\.$loadedLecturers)):
+            filteredLecturers(state: &state)
+            state.openLectorIfNeeded()
+            return .none
+
+        case .reducer(.search(.delegate(.didUpdateImportantState))):
+            filteredLecturers(state: &state)
+            return .none
+
+        case let .reducer(.favoritesUpdate(value)):
+            state.favoriteIds = value
+            return .none
+
+        case let .reducer(.pinnedUpdate(value)):
+            state.pinned = value.map(LecturersRow.State.init(lector:))
+            return .none
+
+        case .reducer, .loading:
+            return .none
+        }
+    }
+
     private func filteredLecturers(state: inout State) {
         state.$lecturers = state.$loadedLecturers
             .map { lecturers in
@@ -175,7 +177,7 @@ public struct LecturersFeature: ReducerProtocol {
             }
     }
     
-    private func listenToFavoriteUpdates() -> EffectTask<Action> {
+    private func listenToFavoriteUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.lecturerIds.values {
                 await send(.reducer(.favoritesUpdate(value)), animation: .default)
@@ -183,7 +185,7 @@ public struct LecturersFeature: ReducerProtocol {
         }
     }
 
-    private func listenToPinnedUpdates() -> EffectTask<Action> {
+    private func listenToPinnedUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.pinnedSchedule.map(\.?.lector).removeDuplicates().values {
                 await send(.reducer(.pinnedUpdate(value)), animation: .default)

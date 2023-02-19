@@ -1,11 +1,16 @@
 import SwiftUI
+import BsuirUI
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-struct PremiumClubLabel: View {
+public struct PremiumClubLabel: View {
     let store: StoreOf<PremiumClubFeature>
 
-    var body: some View {
+    public init(store: StoreOf<PremiumClubFeature>) {
+        self.store = store
+    }
+
+    public var body: some View {
         WithViewStore(store, observe: \.hasPremium) { viewStore in
             HStack(spacing: 12) {
                 SettingsRowIcon(fill: .premiumGradient) {
@@ -14,9 +19,8 @@ struct PremiumClubLabel: View {
                 }
 
                 VStack(alignment: .leading) {
-                    let statusText = viewStore.state
-                        ? Text(" \(Image(systemName: "checkmark.seal.fill"))").foregroundColor(.indigo)
-                        : Text("")
+                    let statusText = Text(" \(Image(systemName: "checkmark.seal.fill"))")
+                        .foregroundColor(viewStore.state ? .indigo : .clear)
 
                     Text("Premium Club\(statusText)")
                         .font(.headline)
@@ -28,11 +32,11 @@ struct PremiumClubLabel: View {
                             Text("Become a member of the club")
                         }
                     }
-                    .onTapGesture { viewStore.send(._togglePremium) }
                     .font(.footnote)
                     .foregroundColor(.secondary)
                 }
             }
+            .task { await viewStore.send(.task).finish() }
         }
     }
 }

@@ -6,7 +6,7 @@ import Favorites
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
-public struct MarkedScheduleFeature: ReducerProtocol {
+public struct MarkedScheduleFeature: Reducer {
     public struct State: Equatable {
         public var isFavorite: Bool = false
         public var isPinned: Bool = false
@@ -46,7 +46,7 @@ public struct MarkedScheduleFeature: ReducerProtocol {
 
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .view(.task):
             return .merge(
@@ -82,7 +82,7 @@ public struct MarkedScheduleFeature: ReducerProtocol {
         }
     }
 
-    private func favorite(source: ScheduleSource) -> EffectTask<Action> {
+    private func favorite(source: ScheduleSource) -> Effect<Action> {
         return .merge(
             .fireAndForget {
                 switch source {
@@ -92,14 +92,14 @@ public struct MarkedScheduleFeature: ReducerProtocol {
                     favorites.currentLectorIds.append(lector.id)
                 }
 
-                reviewRequestService.madeMeaningfulEvent(.addToFavorites)
+                await reviewRequestService.madeMeaningfulEvent(.addToFavorites)
             },
             // Unpin if currently pinned
             unpin(source: source)
         )
     }
 
-    private func unfavorite(source: ScheduleSource) -> EffectTask<Action> {
+    private func unfavorite(source: ScheduleSource) -> Effect<Action> {
         return .fireAndForget {
             switch source {
             case .group(let name):
@@ -110,19 +110,19 @@ public struct MarkedScheduleFeature: ReducerProtocol {
         }
     }
 
-    private func pin(source: ScheduleSource) -> EffectTask<Action> {
+    private func pin(source: ScheduleSource) -> Effect<Action> {
         return .merge(
             // Move currently pinned schedule to favorites
             favorites.currentPinnedSchedule.map(favorite(source:)) ?? .none,
             unfavorite(source: source),
             .fireAndForget {
                 favorites.currentPinnedSchedule = source
-                reviewRequestService.madeMeaningfulEvent(.pin)
+                await reviewRequestService.madeMeaningfulEvent(.pin)
             }
         )
     }
 
-    private func unpin(source: ScheduleSource) -> EffectTask<Action> {
+    private func unpin(source: ScheduleSource) -> Effect<Action> {
         return .fireAndForget {
             if favorites.currentPinnedSchedule == source {
                 favorites.currentPinnedSchedule = nil
@@ -130,7 +130,7 @@ public struct MarkedScheduleFeature: ReducerProtocol {
         }
     }
 
-    private func observeIsPinned(source: ScheduleSource) -> EffectTask<Action> {
+    private func observeIsPinned(source: ScheduleSource) -> Effect<Action> {
         .run { send in
             for await value in favorites.pinnedSchedule.map({ $0 == source }).removeDuplicates().values {
                 await send(.reducer(.setIsPinned(value)))
@@ -138,7 +138,7 @@ public struct MarkedScheduleFeature: ReducerProtocol {
         }
     }
 
-    private func observeIsFavorite(source: ScheduleSource) -> EffectTask<Action> {
+    private func observeIsFavorite(source: ScheduleSource) -> Effect<Action> {
         switch source {
         case let .group(name):
             return observeIsFavorite(source: favorites.groupNames.map { $0.contains(name) })
@@ -147,7 +147,7 @@ public struct MarkedScheduleFeature: ReducerProtocol {
         }
     }
 
-    private func observeIsFavorite(source: some Publisher<Bool, Never>) -> EffectTask<Action> {
+    private func observeIsFavorite(source: some Publisher<Bool, Never>) -> Effect<Action> {
         return .run { send in
             for await value in source.removeDuplicates().values {
                 await send(.reducer(.setIsFavorite(value)))
@@ -159,7 +159,7 @@ public struct MarkedScheduleFeature: ReducerProtocol {
 // MARK: - Update
 
 private extension MarkedScheduleFeature.State {
-    mutating func update(favorites: FavoritesContainer) {
+    mutating func update(favorites: FavoritesService) {
         isPinned = favorites.currentPinnedSchedule == source
         isFavorite = {
             switch source {

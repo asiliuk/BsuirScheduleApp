@@ -5,16 +5,17 @@ import SettingsFeature
 import Deeplinking
 import Favorites
 import ScheduleCore
+import PremiumClubFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import EntityScheduleFeature
 
-public struct AppFeature: ReducerProtocol {
+public struct AppFeature: Reducer {
     public struct State: Equatable {
         var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
 
-        var pinned: PinnedScheduleFeature.State?
+        var pinnedTab = PinnedTabFeature.State()
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
         var settings = SettingsFeature.State()
@@ -33,8 +34,9 @@ public struct AppFeature: ReducerProtocol {
         case setOverlay(CurrentOverlay?)
         case setPinnedSchedule(ScheduleSource?)
         case showSettingsButtonTapped
+        case learnAboutPremiumClubTapped
 
-        case pinned(PinnedScheduleFeature.Action)
+        case pinnedTab(PinnedTabFeature.Action)
         case groups(GroupsFeature.Action)
         case lecturers(LecturersFeature.Action)
         case settings(SettingsFeature.Action)
@@ -44,7 +46,7 @@ public struct AppFeature: ReducerProtocol {
 
     public init() {}
 
-    public var body: some ReducerProtocol<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .task:
@@ -63,15 +65,19 @@ public struct AppFeature: ReducerProtocol {
                 return .none
 
             case .setPinnedSchedule(nil):
-                state.pinned = nil
+                state.pinnedTab.resetPinned()
                 return .none
 
             case let .setPinnedSchedule(pinned?):
-                state.pinned = .init(pinned: pinned)
+                state.pinnedTab.show(pinned: pinned)
                 return .none
 
             case .showSettingsButtonTapped:
                 state.overlay = .settings
+                return .none
+
+            case .learnAboutPremiumClubTapped:
+                handleDeeplink(state: &state, deeplink: .premiumClub(source: .pin))
                 return .none
 
             case let .handleDeeplink(url):
@@ -83,12 +89,13 @@ public struct AppFeature: ReducerProtocol {
                 }
                 return .none
 
-            case .groups, .lecturers, .settings, .pinned:
+            case .groups, .lecturers, .settings, .pinnedTab:
                 return .none
             }
         }
-        .ifLet(\.pinned, action: /Action.pinned) {
-            PinnedScheduleFeature()
+
+        Scope(state: \.pinnedTab, action: /Action.pinnedTab) {
+            PinnedTabFeature()
         }
 
         Scope(state: \.groups, action: /Action.groups) {
@@ -125,6 +132,9 @@ private extension AppFeature {
         case .settings:
             state.selection = .settings
             state.settings.reset()
+        case let .premiumClub(source):
+            state.selection = .settings
+            state.settings.openPremiumClub(source: .init(deeplinkSource: source))
         }
     }
 
@@ -152,10 +162,10 @@ private extension AppFeature {
 // MARK: - Selection
 
 private extension AppFeature.State {
-    mutating func handleInitialSelection(favorites: FavoritesContainer) {
+    mutating func handleInitialSelection(favorites: FavoritesService) {
         if let pinnedSchedule = favorites.currentPinnedSchedule {
             selection = .pinned
-            pinned = .init(pinned: pinnedSchedule)
+            pinnedTab.show(pinned: pinnedSchedule)
             return
         }
 
@@ -181,13 +191,25 @@ private extension AppFeature.State {
         // Handle tap on already selected tab
         switch newValue {
         case .pinned:
-            pinned?.reset()
+            pinnedTab.reset()
         case .groups:
             groups.reset()
         case .lecturers:
             lecturers.reset()
         case .settings:
             settings.reset()
+        }
+    }
+}
+
+// MARK: - PremiumClubFeature.Source
+
+private extension PremiumClubFeature.Source {
+    init?(deeplinkSource: PremiumClubDeeplinkSource?) {
+        guard let deeplinkSource else { return nil }
+        switch deeplinkSource {
+        case .appIcon: self = .appIcon
+        case .pin: self = .pin
         }
     }
 }
