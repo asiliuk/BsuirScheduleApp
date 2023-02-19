@@ -8,6 +8,7 @@ struct ScheduleEntry: TimelineEntry {
     enum Content {
         case pairs(passed: [PairViewModel] = [], upcoming: [PairViewModel] = [])
         case needsConfiguration
+        case noPinned
     }
 
     var date = Date()
@@ -20,8 +21,11 @@ struct ScheduleEntry: TimelineEntry {
 extension ScheduleEntry {
     static let placeholder = Self(title: "---", content: .pairs())
     static let needsConfiguration = Self(title: "---", content: .needsConfiguration)
+    static let noPinned = Self(title: "---", content: .noPinned)
     static let preview = Self(title: "000001", content: .previewPairs)
 }
+
+// MARK: - Preview
 
 private extension ScheduleEntry.Content {
     static let previewPairs = Self.pairs(

@@ -23,6 +23,8 @@ struct ScheduleWidgetEntryMediumView : View {
             }
 
             switch entry.content {
+            case .noPinned:
+                NoPinnedScheduleView()
             case .needsConfiguration:
                 NeedsConfigurationView()
             case .pairs(_, []):

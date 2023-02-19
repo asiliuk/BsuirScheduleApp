@@ -5,8 +5,13 @@ import ScheduleCore
 import Collections
 import Combine
 import Dependencies
+import WidgetKit
 
 public final class FavoritesService {
+    private let widgetCenter: WidgetCenter
+    private let storage: UserDefaults
+    private let legacyStorage: UserDefaults
+
     // MARK: - Legacy
     private lazy var legacyGroupsStorage = legacyStorage
         .persistedData(forKey: "favorite-groups")
@@ -21,9 +26,6 @@ public final class FavoritesService {
         .codable([Employee].self)
 
     // MARK: - Storage
-    private let storage: UserDefaults
-    private let legacyStorage: UserDefaults
-
     private lazy var groupNamesStorage = storage
         .persistedArray(of: String.self, forKey: "favorite-group-names")
         .toOrderedSet()
@@ -41,9 +43,10 @@ public final class FavoritesService {
         .codable(ScheduleSource.self)
         .withPublisher()
 
-    init(storage: UserDefaults, legacyStorage: UserDefaults) {
+    init(storage: UserDefaults, legacyStorage: UserDefaults, widgetCenter: WidgetCenter) {
         self.storage = storage
         self.legacyStorage = legacyStorage
+        self.widgetCenter = widgetCenter
         migrateIfNeeded()
     }
 
@@ -92,7 +95,11 @@ extension FavoritesService {
 
     public var currentPinnedSchedule: ScheduleSource? {
         get { pinnedScheduleStorage.persisted.value }
-        set { pinnedScheduleStorage.persisted.value = newValue }
+        set {
+            pinnedScheduleStorage.persisted.value = newValue
+            // Make sure widget UI is also updated
+            widgetCenter.reloadTimelines(ofKind: "PinnedScheduleWidget")
+        }
     }
 
     public var pinnedSchedule: AnyPublisher<ScheduleSource?, Never> {
@@ -102,6 +109,14 @@ extension FavoritesService {
 
 // MARK: - Dependency
 
+extension FavoritesService {
+    public static let live = FavoritesService(
+        storage: .asiliukShared,
+        legacyStorage: .standard,
+        widgetCenter: .shared
+    )
+}
+
 extension DependencyValues {
     public var favorites: FavoritesService {
         get { self[FavoritesServiceKey.self] }
@@ -110,10 +125,7 @@ extension DependencyValues {
 }
 
 private enum FavoritesServiceKey: DependencyKey {
-    static let liveValue = FavoritesService(
-        storage: .asiliukShared,
-        legacyStorage: .standard
-    )
+    static let liveValue = FavoritesService.live
 }
 
 // MARK: - Helpers

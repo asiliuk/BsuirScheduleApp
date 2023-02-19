@@ -1,9 +1,13 @@
 "widget.displayName" = "Розклад";
 "widget.description" = "Найактуальніший розклад для групи або викладача.";
 
+"widget.pinned.displayName" = "📌 Закріплений Розклад";
+"widget.pinned.description" = "Найактуальніший розклад для закріпленої групи або викладача.";
+
 "widget.schedule.empty" = "🤩 Немає занять";
 "widget.schedule.more.%lld" = "ще %lld";
 "widget.needsConfiguration.selectSchedule" = "Виберіть розклад";
+"widget.noPinned.title" = "Немає закріпленого розкладу";
 
 "view.pairView.form.name.short.lecture" = "ЛК";
 "view.pairView.form.name.short.lab" = "ЛР";

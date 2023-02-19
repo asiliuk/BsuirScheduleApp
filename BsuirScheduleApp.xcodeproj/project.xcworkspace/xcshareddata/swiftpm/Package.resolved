@@ -111,7 +111,7 @@
     {
       "identity" : "swiftui-navigation",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pointfreeco/swiftui-navigation.git",
+      "location" : "https://github.com/pointfreeco/swiftui-navigation",
       "state" : {
         "revision" : "47dd574b900ba5ba679f56ea00d4d282fc7305a6",
         "version" : "0.7.1"

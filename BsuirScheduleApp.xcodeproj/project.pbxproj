@@ -39,6 +39,11 @@
 		E6AA8D1F25162F1B00788A02 /* ScheduleWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E6AA8D2D2516301500788A02 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D2C2516301500788A02 /* IntentHandler.swift */; };
 		E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E6B33E7C29A2B7DE0034AD63 /* Favorites in Frameworks */ = {isa = PBXBuildFile; productRef = E6B33E7B29A2B7DE0034AD63 /* Favorites */; };
+		E6B33E7F29A2BAA10034AD63 /* PinnedScheduleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */; };
+		E6B33E8329A2BB6E0034AD63 /* MostRelevantScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */; };
+		E6B33E8729A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */; };
+		E6B33E8929A2C2200034AD63 /* NoPinnedScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8829A2C2200034AD63 /* NoPinnedScheduleView.swift */; };
 		E6EDC2E42522101900C8A73C /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2DC25220F9800C8A73C /* Provider.swift */; };
 		E6F931BF22F8B1C20038FC43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931BE22F8B1C20038FC43 /* Assets.xcassets */; };
 		E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C122F8B1C20038FC43 /* Preview Assets.xcassets */; };
@@ -125,6 +130,10 @@
 		E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetIntentHandler.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D2C2516301500788A02 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		E6AA8D2E2516301500788A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedScheduleProvider.swift; sourceTree = "<group>"; };
+		E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostRelevantScheduleResponse.swift; sourceTree = "<group>"; };
+		E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleEntry+MostRelevant.swift"; sourceTree = "<group>"; };
+		E6B33E8829A2C2200034AD63 /* NoPinnedScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPinnedScheduleView.swift; sourceTree = "<group>"; };
 		E6CCA27A2917EF900079D815 /* ScheduleWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScheduleWidgetExtension.entitlements; sourceTree = "<group>"; };
 		E6CCA27B2917EF9B0079D815 /* ScheduleWidgetIntentHandler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScheduleWidgetIntentHandler.entitlements; sourceTree = "<group>"; };
 		E6EDC2DC25220F9800C8A73C /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
@@ -145,6 +154,7 @@
 				E6972D1A287B4A550003506F /* BsuirApi in Frameworks */,
 				E6972D1C287B4A550003506F /* BsuirUI in Frameworks */,
 				E654467829296CF000881956 /* Deeplinking in Frameworks */,
+				E6B33E7C29A2B7DE0034AD63 /* Favorites in Frameworks */,
 				E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */,
 				E6AA8D1125162F1A00788A02 /* WidgetKit.framework in Frameworks */,
 			);
@@ -191,6 +201,7 @@
 			children = (
 				E64FE06628C7D1120045D790 /* Widgets */,
 				E64FE05E28C7D0A50045D790 /* NeedsConfigurationView.swift */,
+				E6B33E8829A2C2200034AD63 /* NoPinnedScheduleView.swift */,
 				E64FE05C28C7D08F0045D790 /* NoPairsView.swift */,
 				E64FE06B28C7D1950045D790 /* RemainingPairsView.swift */,
 				E64FE06428C7D0F80045D790 /* ScheduleIdentifierTitle.swift */,
@@ -236,9 +247,8 @@
 		E6AA8D1425162F1A00788A02 /* ScheduleWidget */ = {
 			isa = PBXGroup;
 			children = (
+				E6B33E8029A2BAD80034AD63 /* Provider */,
 				E64FE05B28C7D0850045D790 /* Views */,
-				E6EDC2DC25220F9800C8A73C /* Provider.swift */,
-				E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */,
 				E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */,
 				E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */,
 				E6AA8D1825162F1B00788A02 /* Assets.xcassets */,
@@ -256,6 +266,18 @@
 				E6AA8D2E2516301500788A02 /* Info.plist */,
 			);
 			path = ScheduleWidgetIntentHandler;
+			sourceTree = "<group>";
+		};
+		E6B33E8029A2BAD80034AD63 /* Provider */ = {
+			isa = PBXGroup;
+			children = (
+				E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */,
+				E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */,
+				E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */,
+				E6EDC2DC25220F9800C8A73C /* Provider.swift */,
+				E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */,
+			);
+			path = Provider;
 			sourceTree = "<group>";
 		};
 		E6F931A922F8B1C10038FC43 = {
@@ -320,6 +342,7 @@
 				E6972D1B287B4A550003506F /* BsuirUI */,
 				E654467729296CF000881956 /* Deeplinking */,
 				E6611ABC293A8B59006E322B /* ScheduleCore */,
+				E6B33E7B29A2B7DE0034AD63 /* Favorites */,
 			);
 			productName = ScheduleWidgetExtension;
 			productReference = E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */;
@@ -453,17 +476,21 @@
 				E6A93FB628C923E80093691F /* ScheduleWidgetEntryAccessoryRectangularView.swift in Sources */,
 				E6A93FB828C92FF70093691F /* ScheduleWidgetEntryAccessoryInlineView.swift in Sources */,
 				E64FE06528C7D0F80045D790 /* ScheduleIdentifierTitle.swift in Sources */,
+				E6B33E8329A2BB6E0034AD63 /* MostRelevantScheduleResponse.swift in Sources */,
 				E6A93FBA28C930250093691F /* BsuirImage.swift in Sources */,
 				E64FE06828C7D1230045D790 /* ScheduleWidgetEntryMediumView.swift in Sources */,
 				E6AA8D1625162F1A00788A02 /* ScheduleWidget.swift in Sources */,
 				E64FE06128C7D0A90045D790 /* NeedsConfigurationView.swift in Sources */,
 				E64FE06028C7D0A90045D790 /* NoPairsView.swift in Sources */,
+				E6B33E8929A2C2200034AD63 /* NoPinnedScheduleView.swift in Sources */,
 				E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */,
+				E6B33E7F29A2BAA10034AD63 /* PinnedScheduleProvider.swift in Sources */,
 				E64FE06328C7D0C90045D790 /* WidgetDateTitle.swift in Sources */,
 				E64FE06E28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift in Sources */,
 				E64FE06C28C7D1950045D790 /* RemainingPairsView.swift in Sources */,
 				E64FE06A28C7D1420045D790 /* ScheduleWidgetEntrySmallView.swift in Sources */,
 				E6EDC2E42522101900C8A73C /* Provider.swift in Sources */,
+				E6B33E8729A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift in Sources */,
 				E6A6D1C425D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */,
 				E651C88E28C7D02400CAFBEC /* ScheduleWidgetEntryLargeView.swift in Sources */,
 			);
@@ -864,6 +891,10 @@
 		E6972D1D287B4A5A0003506F /* BsuirApi */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BsuirApi;
+		};
+		E6B33E7B29A2B7DE0034AD63 /* Favorites */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Favorites;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

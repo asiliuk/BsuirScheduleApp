@@ -7,6 +7,8 @@ struct ScheduleWidgetEntryAccessoryRectangularView: View {
     
     var body: some View {
         switch entry.content {
+        case .noPinned:
+            NoPinnedScheduleView()
         case .needsConfiguration:
             NeedsConfigurationView()
         case .pairs(_, []):

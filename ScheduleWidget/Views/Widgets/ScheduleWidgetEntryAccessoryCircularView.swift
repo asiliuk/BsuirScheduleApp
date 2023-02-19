@@ -7,6 +7,8 @@ struct ScheduleWidgetEntryAccessoryCircularView: View {
     
     var body: some View {
         switch entry.content {
+        case .noPinned:
+            NoPinSymbol()
         case .needsConfiguration:
             Text("⚙️")
         case .pairs(_, []):

@@ -24,6 +24,8 @@ struct ScheduleWidgetEntrySmallView : View {
             WidgetDateTitle(date: entry.date, isSmall: true)
 
             switch entry.content {
+            case .noPinned:
+                NoPinnedScheduleView()
             case .needsConfiguration:
                 NeedsConfigurationView()
             case .pairs(_, []):

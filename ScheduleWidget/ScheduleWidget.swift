@@ -9,6 +9,13 @@ import Combine
 import StoreKit
 
 @main
+struct ScheduleWidgetBundle: WidgetBundle {
+    var body: some Widget {
+        ScheduleWidget()
+        PinnedScheduleWidget()
+    }
+}
+
 struct ScheduleWidget: Widget {
     let kind: String = "ScheduleWidget"
     @StateObject var provider = Provider()
@@ -28,7 +35,31 @@ struct ScheduleWidget: Widget {
         .systemMedium,
         .systemLarge,
         .accessoryCircular,
-        .accessoryRectangular
+        .accessoryRectangular,
+    ]
+}
+
+struct PinnedScheduleWidget: Widget {
+    let kind: String = "PinnedScheduleWidget"
+    @StateObject var provider = PinnedScheduleProvider()
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: provider) { entry in
+            ScheduleWidgetEntryView(entry: entry)
+                .environmentObject(PairFormColorService(storage: .asiliukShared))
+        }
+        .configurationDisplayName("widget.pinned.displayName")
+        .supportedFamilies(supportedFamilies)
+        .description("widget.pinned.description")
+    }
+
+    private let supportedFamilies: [WidgetFamily] = [
+        .systemSmall,
+        .systemMedium,
+        .systemLarge,
+        .accessoryCircular,
+        .accessoryRectangular,
+        .accessoryInline,
     ]
 }
 
@@ -52,8 +83,7 @@ struct ScheduleWidgetEntryView: View {
             case .accessoryRectangular:
                 ScheduleWidgetEntryAccessoryRectangularView(entry: entry)
             case .accessoryInline:
-                /// Not yet supported
-                EmptyView()
+                ScheduleWidgetEntryAccessoryInlineView(entry: entry)
             @unknown default:
                 EmptyView()
             }
@@ -66,20 +96,21 @@ struct ScheduleWidgetEntryView: View {
 
 struct ScheduleWidget_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            ScheduleWidgetEntryView(entry: entry)
-                .previewDisplayName("Schedule")
-                .previewContext(WidgetPreviewContext(family: family))
+        ScheduleWidgetEntryView(entry: entry)
+            .previewDisplayName("Schedule")
+            .previewContext(WidgetPreviewContext(family: family))
+        
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
+            .previewContext(WidgetPreviewContext(family: family))
+            .previewDisplayName("No Pairs")
+        
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .needsConfiguration })
+            .previewContext(WidgetPreviewContext(family: family))
+            .previewDisplayName("No Configuration")
 
-            ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-                .previewContext(WidgetPreviewContext(family: family))
-                .previewDisplayName("No Pairs")
-
-            ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .needsConfiguration })
-                .previewContext(WidgetPreviewContext(family: family))
-                .previewDisplayName("No Configuration")
-        }
-        .environmentObject(PairFormColorService(storage: .init()))
+        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .noPinned })
+            .previewContext(WidgetPreviewContext(family: family))
+            .previewDisplayName("No Pinned")
     }
     
     static var family: WidgetFamily {

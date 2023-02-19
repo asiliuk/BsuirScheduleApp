@@ -46,6 +46,9 @@ let package = Package(
         .library(
             name: "FakeAdsFeature",
             targets: ["FakeAdsFeature"]),
+        .library(
+            name: "Favorites",
+            targets: ["Favorites"]),
     ],
     dependencies: [
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.4.0"),
