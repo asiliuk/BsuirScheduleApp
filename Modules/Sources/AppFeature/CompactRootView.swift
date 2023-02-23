@@ -95,19 +95,52 @@ struct SomePreview: PreviewProvider {
         let image: String
         let name: String
         let degree: String?
+        @State var photoTapped = false
+        @State var cellTapped = false
 
         var body: some View {
-            HStack {
-                Avatar(url: URL(string: image), baseSize: 80)
-                VStack(alignment: .leading) {
-                    Text(name)
-                        .font(.headline)
-                    degree.map(Text.init(verbatim:))?
-                        .font(.caption)
+            Button(action: { cellTapped.toggle() }) {
+                HStack {
+                    Button {
+                        photoTapped.toggle()
+                    } label: {
+                        Avatar(url: URL(string: image), baseSize: 60)
+                            .overlay(alignment: .bottomTrailing) {
+                                Image(systemName: "magnifyingglass.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(Color.primary, Color(uiColor: .secondarySystemGroupedBackground))
+                            }
+                    }
+                    VStack(alignment: .leading) {
+                        Text(name)
+                        degree.map(Text.init(verbatim:))?
+                            .font(.caption)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "chevron.forward")
+                        .font(.footnote.bold())
+                        .foregroundColor(.secondary)
                 }
+                .foregroundColor(.primary)
             }
         }
     }
+
+    struct PairBottomDetails<Content: View>: View {
+        @State var detent: PresentationDetent = .height(250)
+        @ViewBuilder var content: Content
+
+        var body: some View {
+            ModalNavigationStack(showCloseButton: detent == .large) {
+                content
+            }
+            .presentationDetents([.height(250), .large], selection: $detent)
+            .presentationDragIndicator(.hidden)
+        }
+    }
+
     struct TestView: View {
         @State var bottomSheetVisible = true
 
@@ -117,21 +150,26 @@ struct SomePreview: PreviewProvider {
             }
             .buttonStyle(.borderedProminent)
             .sheet(isPresented: $bottomSheetVisible) {
-                List {
-                    Section {
-                        Text("Проектирование и разработка информационных систем")
-                            .font(.title2.bold())
-                            .foregroundColor(.primary)
-
-                        Text("Среда, 22 Февраля 2023\nС 16:00 До 17:00")
-                            .font(.subheadline)
-                            .padding(.top, 8)
-                    }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(EmptyView())
-
+                PairBottomDetails {
+                    List {
                         Section {
+                            LectorCell(
+                                image: "https://iis.bsuir.by/api/v1/employees/photo/515644",
+                                name: "Фещенко Артём Александрович",
+                                degree: nil
+                            )
+                            LectorCell(
+                                image: "https://iis.bsuir.by/api/v1/employees/photo/511968",
+                                name: "Ролич Олег Чеславович",
+                                degree: "кандидат технических наук"
+                            )
+                        }
+                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+
+                        Section("Детали") {
+                            Text("Проектирование и разработка информационных систем")
+                                .font(.title3.bold())
+
                             LabeledContent("Тип") { Text("Лекция") }
                             LabeledContent("Подгруппы") { Text("--") }
                             LabeledContent("Аудитории") { Text("157к 2") }
@@ -144,28 +182,20 @@ struct SomePreview: PreviewProvider {
                                     .foregroundColor(.secondary)
                             }
                         }
-
-                    Section {
-                        LectorCell(
-                            image: "https://iis.bsuir.by/api/v1/employees/photo/515644",
-                            name: "Фещенко Артём Александрович",
-                            degree: nil
-                        )
-                        LectorCell(
-                            image: "https://iis.bsuir.by/api/v1/employees/photo/511968",
-                            name: "Ролич Олег Чеславович",
-                            degree: "кандидат технических наук"
-                        )
                     }
+                    .padding(.top, -24)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                          ToolbarItem(placement: .principal) {
+                              VStack {
+                                  Text("ПиРИС").font(.headline)
+                                  Text((Date.now..<Date.now.addingTimeInterval(3600)).formatted())
+                                      .font(.subheadline)
+                                      .foregroundColor(.secondary)
+                              }
+                          }
+                      }
                 }
-                .padding(.top, -32)
-                .listStyle(.insetGrouped)
-                .safeAreaInset(edge: .top) {
-                    Color(uiColor: .systemGroupedBackground)
-                        .frame(height: 16)
-                }
-                .presentationDetents([.height(200), .large])
-                .presentationDragIndicator(.visible)
             }
         }
     }
