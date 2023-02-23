@@ -91,18 +91,25 @@ private struct SettingsFeatureTab: View {
 import BsuirUI
 
 struct SomePreview: PreviewProvider {
-    struct LectorCell: View {
+    struct Lecturer: Identifiable {
+        let id = UUID()
         let image: String
         let name: String
         let degree: String?
-        @State var photoTapped = false
+    }
+    
+    struct LecturerCell: View {
+        let image: String
+        let name: String
+        let degree: String?
+        let photoAction: () -> Void
         @State var cellTapped = false
 
         var body: some View {
             Button(action: { cellTapped.toggle() }) {
                 HStack {
                     Button {
-                        photoTapped.toggle()
+                        photoAction()
                     } label: {
                         Avatar(url: URL(string: image), baseSize: 60)
                             .overlay(alignment: .bottomTrailing) {
@@ -133,14 +140,145 @@ struct SomePreview: PreviewProvider {
         @ViewBuilder var content: Content
 
         var body: some View {
-            ModalNavigationStack(showCloseButton: detent == .large) {
+            ModalNavigationStack {
                 content
             }
+//            MARK: If image is open, keep only .large detent, image is not really beautiful in .height(250)
+//            .presentationDetents(imagePresent ? [.large] : [.height(250), .large], selection: $detent)
             .presentationDetents([.height(250), .large], selection: $detent)
             .presentationDragIndicator(.hidden)
+            .scrollIndicators(.never)
         }
     }
-
+    
+    struct PairDetailsView: View {
+        let lecturers: [Lecturer]
+        let subjectName: String
+        let subjectFullName: String
+        let pairType: String
+        let subgroups: String
+        let auditories: String
+        let days: String
+        let weeks: String
+        let note: String?
+        
+        @State private var imagePresent = false
+        @State private var imageURL = ""
+        
+        var body: some View {
+            List {
+                Section {
+                    ForEach(lecturers) { lecturer in
+                        LecturerCell(
+                            image: lecturer.image,
+                            name: lecturer.name,
+                            degree: lecturer.degree,
+                            photoAction: {
+                                imageURL = lecturer.image
+                                imagePresent = true
+                            }
+                        )
+                    }
+                }
+                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                
+                Section("Детали") {
+                    Text(subjectFullName)
+                        .font(.title3.bold())
+                    
+                    LabeledContent("Тип") { Text(pairType) }
+                    LabeledContent("Подгруппы") { Text(subgroups) }
+                    LabeledContent("Аудитории") { Text(auditories) }
+                    LabeledContent("Дни") { Text(days) }
+                    LabeledContent("Недели") { Text(weeks) }
+                    
+                    if note != nil {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Заметки")
+                            Text(note!)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+            }
+            .padding(.top, -24)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                if !imagePresent {
+                    ToolbarItem(placement: .principal) {
+                        VStack {
+                            Text(subjectName).font(.headline)
+                            Text((Date.now..<Date.now.addingTimeInterval(3600)).formatted())
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+            }
+            .overlay {
+                if imagePresent {
+                    imageDetailsOverlay
+                }
+            }
+            .animation(.easeInOut(duration: 0.1), value: imagePresent)
+        }
+        
+        @GestureState private var imageDraggingOffset: CGSize = .zero
+        @State private var imageScale: CGFloat = 1
+        @State private var backgroundOpacity: Double = 1
+        
+        private var imageDetailsOverlay: some View {
+            ZStack {
+                Color.black
+                    .ignoresSafeArea()
+                    .opacity(backgroundOpacity)
+                    .onTapGesture { imagePresent = false }
+                
+                FullScreenAvatar(url: URL(string: imageURL))
+                    .offset(y: imageDraggingOffset.height)
+                    .scaleEffect(imageScale > 1 ? imageScale : 1)
+                    .simultaneousGesture(DragGesture().updating($imageDraggingOffset) { value, outValue, _ in
+                        outValue = value.translation
+                    }.onEnded { value in
+                        var predictedLocation = value.predictedEndLocation.y
+                        
+                        if predictedLocation < 0 {
+                            predictedLocation = -predictedLocation
+                        }
+                        
+                        if predictedLocation > 250 {
+                            imagePresent = false
+                        }
+                        
+                        backgroundOpacity = 1
+                    })
+                // MARK: Zoom to scale
+                //                    .simultaneousGesture(MagnificationGesture().onChanged { value in
+                //                        imageScale = value
+                //                    }.onEnded { _ in
+                //                        withAnimation(.spring()) {
+                //                            imageScale = 1
+                //                        }
+                //                    })
+                // MARK: Double tap to scale
+                //                    .simultaneousGesture(TapGesture(count: 2).onEnded {
+                //                        withAnimation {
+                //                            imageScale = imageScale > 1 ? 1 : 4
+                //                        }
+                //                    })
+                    .onChange(of: imageDraggingOffset) { newValue in
+                        let screenHalfHeight = UIScreen.main.bounds.height / 2 // TODO: Change UIScreen.main due to deprecation
+                        let progress = newValue.height / screenHalfHeight
+                        
+                        withAnimation(.default) {
+                            backgroundOpacity = 1 - (progress < 0 ? -progress : progress)
+                        }
+                    }
+                    .animation(.easeInOut(duration: 0.1), value: imageDraggingOffset)
+            }
+        }
+    }
+    
     struct TestView: View {
         @State var bottomSheetVisible = true
 
@@ -151,50 +289,28 @@ struct SomePreview: PreviewProvider {
             .buttonStyle(.borderedProminent)
             .sheet(isPresented: $bottomSheetVisible) {
                 PairBottomDetails {
-                    List {
-                        Section {
-                            LectorCell(
+                    PairDetailsView(
+                        lecturers: [
+                            Lecturer(
                                 image: "https://iis.bsuir.by/api/v1/employees/photo/515644",
                                 name: "Фещенко Артём Александрович",
                                 degree: nil
-                            )
-                            LectorCell(
+                            ),
+                            Lecturer(
                                 image: "https://iis.bsuir.by/api/v1/employees/photo/511968",
                                 name: "Ролич Олег Чеславович",
                                 degree: "кандидат технических наук"
                             )
-                        }
-                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-
-                        Section("Детали") {
-                            Text("Проектирование и разработка информационных систем")
-                                .font(.title3.bold())
-
-                            LabeledContent("Тип") { Text("Лекция") }
-                            LabeledContent("Подгруппы") { Text("--") }
-                            LabeledContent("Аудитории") { Text("157к 2") }
-                            LabeledContent("Дни") { Text("Чт, Пт") }
-                            LabeledContent("Недели") { Text("1, 3") }
-
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Заметки")
-                                Text("Это какая-то совершенно не нужная, но очень длинная и важная заметка")
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                    .padding(.top, -24)
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                          ToolbarItem(placement: .principal) {
-                              VStack {
-                                  Text("ПиРИС").font(.headline)
-                                  Text((Date.now..<Date.now.addingTimeInterval(3600)).formatted())
-                                      .font(.subheadline)
-                                      .foregroundColor(.secondary)
-                              }
-                          }
-                      }
+                        ],
+                        subjectName: "ПиРИС",
+                        subjectFullName: "Проектирование и разработка информационных систем",
+                        pairType: "Лекция",
+                        subgroups: "--",
+                        auditories: "157к 2",
+                        days: "Чт, Пт",
+                        weeks: "1, 3",
+                        note: "Это какая-то совершенно не нужная, но очень длинная и важная заметка"
+                    )
                 }
             }
         }
