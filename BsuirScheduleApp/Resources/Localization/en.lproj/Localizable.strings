@@ -164,6 +164,13 @@
 "alert.clearCache.title" = "Cache successfully cleared";
 "alert.clearCache.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";
 
+// MARK: - PairDetailsView
+"view.pairDetailsView.details.title" = "Details";
+"view.pairDetailsView.details.pairType" = "Type";
+"view.pairDetailsView.details.auditories" = "Auditories";
+"view.pairDetailsView.details.days" = "Days";
+"view.pairDetailsView.details.weeks" = "Weeks";
+
 // MARK: - Color Names
 
 "color.red" = "Red";

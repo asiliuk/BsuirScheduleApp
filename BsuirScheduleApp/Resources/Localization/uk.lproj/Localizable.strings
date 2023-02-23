@@ -164,6 +164,13 @@
 "alert.clearCache.title" = "Кеш успішно очищений";
 "alert.clearCache.message" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";
 
+// MARK: - PairDetailsView
+"view.pairDetailsView.details.title" = "Деталі";
+"view.pairDetailsView.details.pairType" = "Тип";
+"view.pairDetailsView.details.auditories" = "Аудиторії";
+"view.pairDetailsView.details.days" = "Дні";
+"view.pairDetailsView.details.weeks" = "Тижня";
+
 // MARK: - Color Names
 
 "color.red" = "Червоний";

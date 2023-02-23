@@ -164,6 +164,13 @@
 "alert.clearCache.title" = "Кэш успешно очищен";
 "alert.clearCache.message" = "Был удален кэш скачанного расписания и фотографий преподавателей";
 
+// MARK: - PairDetailsView
+"view.pairDetailsView.details.title" = "Детали";
+"view.pairDetailsView.details.pairType" = "Тип";
+"view.pairDetailsView.details.auditories" = "Аудитории";
+"view.pairDetailsView.details.days" = "Дни";
+"view.pairDetailsView.details.weeks" = "Недели";
+
 // MARK: - Color Names
 
 "color.red" = "Красный";

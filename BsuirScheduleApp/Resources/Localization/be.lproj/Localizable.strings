@@ -129,6 +129,13 @@
 "view.errorState.apiDown.button.issue.label" = "Стварыць задачу";
 "view.errorState.apiDown.button.retry.label" = "Паўтарыць";
 
+// MARK: - PairDetailsView
+"view.pairDetailsView.details.title" = "Дэталі";
+"view.pairDetailsView.details.pairType" = "Тып";
+"view.pairDetailsView.details.auditories" = "Аўдыторыі";
+"view.pairDetailsView.details.days" = "Дні";
+"view.pairDetailsView.details.weeks" = "Тыдні";
+
 // MARK: - PairView
 
 "view.pairView.announcement.title" = "📣 Аб'ява";
