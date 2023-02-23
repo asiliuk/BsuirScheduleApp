@@ -44,25 +44,33 @@ private struct AppIconsGrid: View {
 
     var body: some View {
         GeometryReader { proxy in
-            let gridWidth = proxy.size.width * (CGFloat(numberOfItemsInTheRow) / CGFloat(numberOfItemsVisibleAtOnce))
             LazyVGrid(columns: Array(repeating: GridItem(spacing: 0), count: numberOfItemsInTheRow), spacing: spacing) {
                 ForEach(0..<numberOfRows, id: \.self) { rowIndex in
                     ForEach(0..<numberOfItemsInTheRow, id: \.self) { itemIndex in
-                        FullWidthAppIconPreviewView(imageName: gridRows[rowIndex][itemIndex].previewImageName)
-                            .aspectRatio(1, contentMode: .fill)
-                            .padding(spacing / 2)
-                            .offset(x: rowIndex.isMultiple(of: 2) ? 0 : -proxy.size.width / CGFloat(numberOfItemsVisibleAtOnce * 2))
-                            .id(rowIndex * numberOfItemsInTheRow + itemIndex)
+                        GeometryReader { itemProxy in
+                            AppIconPreviewView(
+                                imageName: gridRows[rowIndex][itemIndex].previewImageName,
+                                size: itemProxy.size.width
+                            )
+                            .offset(x: rowIndex.isMultiple(of: 2) ? 0 : -itemProxy.size.width / 2)
+                        }
+                        .aspectRatio(1, contentMode: .fill)
+                        .padding(spacing / 2)
+                        .id(rowIndex * numberOfItemsInTheRow + itemIndex)
                     }
                 }
             }
             .offset(
-                x: isAtTheBegining ? -proxy.size.width * ((CGFloat(numberOfItemsInTheRow) / CGFloat(numberOfItemsVisibleAtOnce)) - 1.5) : 0,
+                x: isAtTheBegining ? -proxy.size.width * (percentItemsVisible - 1.5) : 0,
                 y: -proxy.size.height / (CGFloat(numberOfItemsVisibleAtOnce) * 1.15)
             )
             .rotationEffect(.degrees(-8))
-            .frame(width: gridWidth, alignment: .trailing)
+            .frame(width: proxy.size.width * percentItemsVisible, alignment: .trailing)
         }
+    }
+
+    private var percentItemsVisible: CGFloat {
+        CGFloat(numberOfItemsInTheRow) / CGFloat(numberOfItemsVisibleAtOnce)
     }
 }
 

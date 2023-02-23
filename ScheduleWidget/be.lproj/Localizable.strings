@@ -8,5 +8,6 @@
 "view.pairView.form.name.short.lecture" = "ЛК";
 "view.pairView.form.name.short.lab" = "ЛР";
 "view.pairView.form.name.short.practice" = "ПЗ";
+"view.pairView.form.name.short.consultation" = "КА";
 "view.pairView.form.name.short.exam" = "ІС";
 "view.pairView.form.name.short.unknown" = "ХВ";
