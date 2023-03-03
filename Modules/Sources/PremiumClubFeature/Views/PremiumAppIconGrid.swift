@@ -5,16 +5,20 @@ import Collections
 struct PremiumAppIconGrid: View {
     private let gridRows: [[AppIcon]]
     @State private var isAnimating = false
-    private let animationSpeed: CGFloat = 0.01
+    private let animationSpeed: CGFloat
 
     init() {
         let premiumIcons = AppIcon.allCases.filter(\.isPremium)
         // Show 3 rows of icons
         self.gridRows = (0..<3).map { _ in
-            let icons = premiumIcons.shuffled()
+            let icons = premiumIcons.shuffled().shuffled()
             // Repeat first 3 icons so animation will look continious
             return icons + Array(icons.prefix(3))
         }
+
+        // Measured that `0.01` animation speed looks good on
+        // a row with 7 icons (4 real + 3 buffer) this is rough extrapolation
+        self.animationSpeed = 0.1 / CGFloat(gridRows.first?.count ?? 10)
     }
 
     var body: some View {
@@ -62,9 +66,9 @@ private struct AppIconsGrid: View {
             }
             .offset(
                 x: isAtTheBegining ? -proxy.size.width * (percentItemsVisible - 1.5) : 0,
-                y: -proxy.size.height / (CGFloat(numberOfItemsVisibleAtOnce) * 1.15)
+                y: -proxy.size.height / (CGFloat(numberOfItemsVisibleAtOnce) * 2.3)
             )
-            .rotationEffect(.degrees(-8))
+            .rotationEffect(.degrees(-8), anchor: .topLeading)
             .frame(width: proxy.size.width * percentItemsVisible, alignment: .trailing)
         }
     }
