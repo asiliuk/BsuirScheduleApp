@@ -159,10 +159,10 @@ private struct AppIconRow: View {
             } label: {
                 Label {
                     Text("  \(Text(title))")
+                        .foregroundColor(isPremiumLocked ? .secondary : .primary)
                 } icon: {
                     ScaledAppIconPreviewView(imageName: imageName, size: 50)
                 }
-                .opacity(isPremiumLocked ? 0.5 : 1)
             }
         }
         .foregroundColor(.primary)
