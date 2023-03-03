@@ -91,6 +91,20 @@ private struct AppIconPickerView: View {
                 label: "screen.settings.appIcon.iconPicker.metall.title",
                 casePath: /AppIcon.metal
             )
+
+            AppIconGroupPicker(
+                selection: $selection,
+                isPremiumLocked: isPremiumLocked,
+                label: "screen.settings.appIcon.iconPicker.neon.title",
+                casePath: /AppIcon.neon
+            )
+
+            AppIconGroupPicker(
+                selection: $selection,
+                isPremiumLocked: isPremiumLocked,
+                label: "screen.settings.appIcon.iconPicker.glitch.title",
+                casePath: /AppIcon.glitch
+            )
         }
         .pickerStyle(.inline)
         .listStyle(.insetGrouped)

@@ -58,20 +58,35 @@
 // MARK: - App Icon
 
 "screen.settings.appIcon.navigation.title" = "Додаток значок";
+
 "screen.settings.appIcon.iconPicker.plain.title" = "Прості";
-"screen.settings.appIcon.iconPicker.symbol.title" = "Символ";
-"screen.settings.appIcon.iconPicker.metall.title" = "Метал";
 "screen.settings.appIcon.icon.default.title" = "Стандартна";
 "screen.settings.appIcon.icon.dark.title" = "Темна";
 "screen.settings.appIcon.icon.nostalgia.title" = "Ностальгія";
 "screen.settings.appIcon.icon.bsuirDonalds.title" = "BsuirDonald's";
 "screen.settings.appIcon.icon.premium.title" = "Преміум";
+
+"screen.settings.appIcon.iconPicker.symbol.title" = "Символ";
 "screen.settings.appIcon.icon.resist.title" = "❤️✊✌️";
 "screen.settings.appIcon.icon.pride.title" = "Pride";
 "screen.settings.appIcon.icon.belarusFlag.title" = "БЧБ";
 "screen.settings.appIcon.icon.ukrainianFlag.title" = "Українська";
+
+"screen.settings.appIcon.iconPicker.metall.title" = "Метал";
 "screen.settings.appIcon.icon.silver.title" = "Срібло";
 "screen.settings.appIcon.icon.copper.title" = "Мідь";
+
+"screen.settings.appIcon.iconPicker.neon.title" = "Неон";
+"screen.settings.appIcon.icon.neon.blue.title" = "Синій";
+"screen.settings.appIcon.icon.neon.orange.title" = "Помаранчевий";
+"screen.settings.appIcon.icon.neon.pink.title" = "Рожевий";
+"screen.settings.appIcon.icon.neon.red.title" = "Червоний";
+
+"screen.settings.appIcon.iconPicker.glitch.title" = "Збій";
+"screen.settings.appIcon.icon.glitch.blue.title" = "Синій";
+"screen.settings.appIcon.icon.glitch.gray.title" = "Сірий";
+"screen.settings.appIcon.icon.glitch.pink.title" = "Рожевий";
+"screen.settings.appIcon.icon.glitch.orange.title" = "Помаранчевий";
 
 // MARK: - About
 

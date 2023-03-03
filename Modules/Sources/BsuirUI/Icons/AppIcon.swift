@@ -24,9 +24,25 @@ public enum AppIcon: Hashable {
         case copper = "AppIconCopper"
     }
 
+    public enum Neon: String, CaseIterable {
+        case blue = "AppIconNeonBlue"
+        case orange = "AppIconNeonOrange"
+        case pink = "AppIconNeonPink"
+        case red = "AppIconNeonRed"
+    }
+
+    public enum Glitch: String, CaseIterable {
+        case blue = "AppIconGlitchBlue"
+        case gray = "AppIconGlitchGray"
+        case pink = "AppIconGlitchPink"
+        case orange = "AppIconGlitchOrange"
+    }
+
     case plain(Plain)
     case symbol(Symbol)
     case metal(Metal)
+    case neon(Neon)
+    case glitch(Glitch)
 }
 
 extension AppIcon {
@@ -34,6 +50,8 @@ extension AppIcon {
         let icon = Plain(rawValue: name).map(Self.plain)
             .or(Symbol(rawValue: name).map(Self.symbol))
             .or(Metal(rawValue: name).map(Self.metal))
+            .or(Neon(rawValue: name).map(Self.neon))
+            .or(Glitch(rawValue: name).map(Self.glitch))
 
         guard let icon else { return nil }
         self = icon
@@ -48,6 +66,8 @@ extension AppIcon {
         case .plain(let plain): return plain
         case .symbol(let symbol): return symbol
         case .metal(let metal): return metal
+        case .neon(let neon): return neon
+        case .glitch(let glitch): return glitch
         }
     }
 }
@@ -56,10 +76,12 @@ extension AppIcon {
 
 extension AppIcon: CaseIterable {
     public static var allCases: [AppIcon] {
-        return []
+        return [AppIcon]()
             + Plain.allCases.map(Self.plain)
             + Symbol.allCases.map(Self.symbol)
             + Metal.allCases.map(Self.metal)
+            + Neon.allCases.map(Self.neon)
+            + Glitch.allCases.map(Self.glitch)
     }
 }
 
@@ -123,6 +145,46 @@ extension AppIcon.Metal: AppIconProtocol {
     public var isPremium: Bool {
         switch self {
         case .silver, .copper:
+            return true
+        }
+    }
+}
+
+// MARK: - Neon + AppIconProtocol
+
+extension AppIcon.Neon: AppIconProtocol {
+    public var title: LocalizedStringKey {
+        switch self {
+        case .blue: return "screen.settings.appIcon.icon.neon.blue.title"
+        case .orange: return "screen.settings.appIcon.icon.neon.orange.title"
+        case .pink: return "screen.settings.appIcon.icon.neon.pink.title"
+        case .red: return "screen.settings.appIcon.icon.neon.red.title"
+        }
+    }
+
+    public var isPremium: Bool {
+        switch self {
+        case .blue, .orange, .pink, .red:
+            return true
+        }
+    }
+}
+
+// MARK: - Glitch + AppIconProtocol
+
+extension AppIcon.Glitch: AppIconProtocol {
+    public var title: LocalizedStringKey {
+        switch self {
+        case .blue: return "screen.settings.appIcon.icon.glitch.blue.title"
+        case .gray: return "screen.settings.appIcon.icon.glitch.gray.title"
+        case .pink: return "screen.settings.appIcon.icon.glitch.pink.title"
+        case .orange: return "screen.settings.appIcon.icon.glitch.orange.title"
+        }
+    }
+
+    public var isPremium: Bool {
+        switch self {
+        case .blue, .gray, .pink, .orange:
             return true
         }
     }
