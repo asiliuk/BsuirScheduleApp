@@ -25,6 +25,7 @@ struct DayScheduleView: View {
                     days: days,
                     loading: .never,
                     pairDetails: .nothing,
+                    pairShowWeeks: true,
                     isOnTop: viewStore.binding(
                         get: \.isOnTop,
                         send: { .setIsOnTop($0) }

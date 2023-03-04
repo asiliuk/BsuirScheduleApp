@@ -36,7 +36,7 @@ struct ScheduleWidgetEntryMediumView : View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     ForEach(pairs.visible) { pair in
-                        PairView<EmptyView>(pair: pair, isCompact: true)
+                        PairView<EmptyView>(pair: pair, isCompact: true, showWeeks: false)
                     }
                 }
                 .padding(.top, 6)

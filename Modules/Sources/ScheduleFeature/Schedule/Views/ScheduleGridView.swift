@@ -19,6 +19,7 @@ struct ScheduleGridView: View {
     let days: [ScheduleDayViewModel]
     var loading: ScheduleGridLoading
     var pairDetails: ScheduleGridViewPairDetails
+    let pairShowWeeks: Bool
     @Binding var isOnTop: Bool
 
     var body: some View {
@@ -29,6 +30,7 @@ struct ScheduleGridView: View {
                         title: day.title,
                         subtitle: day.subtitle,
                         isToday: day.isToday,
+                        showWeeks: pairShowWeeks,
                         pairs: day.pairs,
                         details: pairDetails
                     )
@@ -66,6 +68,7 @@ struct ScheduleDay: View {
     let title: String
     let subtitle: String?
     let isToday: Bool
+    let showWeeks: Bool
     let pairs: [PairViewModel]
     let details: ScheduleGridViewPairDetails
 
@@ -76,6 +79,7 @@ struct ScheduleDay: View {
             ForEach(pairs.prefix(100)) { pair in
                 PairCell(
                     pair: pair,
+                    showWeeks: showWeeks,
                     details: detailsView(pair: pair)
                 )
                 .frame(minWidth: 10, minHeight: 10)

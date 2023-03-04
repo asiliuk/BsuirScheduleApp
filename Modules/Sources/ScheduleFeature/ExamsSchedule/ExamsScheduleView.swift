@@ -26,6 +26,7 @@ struct ExamsScheduleView: View {
                     days: days,
                     loading: .never,
                     pairDetails: pairDetails,
+                    pairShowWeeks: false,
                     isOnTop: viewStore.binding(
                         get: \.isOnTop,
                         send: { .setIsOnTop($0) }

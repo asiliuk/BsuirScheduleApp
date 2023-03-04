@@ -27,6 +27,7 @@ struct ContiniousScheduleView: View {
                         ? .finished
                         : .loadMore { viewStore.send(.loadMoreIndicatorAppear) },
                     pairDetails: pairDetails,
+                    pairShowWeeks: false,
                     isOnTop: viewStore.binding(
                         get: \.isOnTop,
                         send: { .view(.setIsOnTop($0)) }

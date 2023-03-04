@@ -59,7 +59,6 @@ extension PairViewModel {
         start: Date?,
         end: Date?,
         pair: BsuirApi.Pair,
-        showWeeks: Bool = true,
         progress: PairProgress = .init(constant: 0)
     ) {
         self.init(
@@ -70,7 +69,7 @@ extension PairViewModel {
             subject: Self.title(from: pair),
             auditory: Self.details(from: pair),
             note: Self.note(from: pair),
-            weeks: showWeeks ? Self.weeks(from: pair.weekNumber) : nil,
+            weeks: Self.weeks(from: pair.weekNumber),
             subgroup: Self.subgroup(from: pair.subgroup),
             progress: progress,
             lecturers: pair.employees,
@@ -166,7 +165,6 @@ extension PairViewModel {
             start: pair.start,
             end: pair.end,
             pair: pair.base,
-            showWeeks: false,
             progress: progress
         )
     }
@@ -176,7 +174,6 @@ extension PairViewModel {
             start: pair.start,
             end: pair.end,
             pair: pair.base,
-            showWeeks: false,
             progress: PairProgress(from: pair.start, to: pair.end)
         )
     }

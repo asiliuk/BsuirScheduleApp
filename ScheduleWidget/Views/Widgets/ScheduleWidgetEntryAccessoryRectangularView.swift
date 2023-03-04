@@ -23,7 +23,8 @@ struct ScheduleWidgetEntryAccessoryRectangularView: View {
                     pair: pair,
                     distribution: .vertical,
                     isCompact: true,
-                    spellForm: true
+                    spellForm: true,
+                    showWeeks: false
                 )
             }
         }

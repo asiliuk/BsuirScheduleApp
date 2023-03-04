@@ -71,7 +71,7 @@ private extension ScheduleDayViewModel {
                 return (start, end, pair)
             }
             .sorted(by: optionalSort(\.0))
-            .map { PairViewModel(start: $0, end: $1, pair: $2, showWeeks: false) }
+            .map { PairViewModel(start: $0, end: $1, pair: $2) }
         )
     }
 }

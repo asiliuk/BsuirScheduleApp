@@ -218,8 +218,8 @@ public struct PairView<Details: View>: View {
 }
 
 extension PairCell {
-    public init(pair: PairViewModel, details: Details) {
-        self.pair = PairView(pair: pair, details: details)
+    public init(pair: PairViewModel, showWeeks: Bool, details: Details) {
+        self.pair = PairView(pair: pair, showWeeks: showWeeks, details: details)
     }
 }
 
@@ -229,6 +229,7 @@ extension PairView {
         distribution: Distribution = .horizontal,
         isCompact: Bool = false,
         spellForm: Bool = false,
+        showWeeks: Bool,
         details: Details
     ) {
         self.init(
@@ -236,7 +237,7 @@ extension PairView {
             to: pair.to,
             interval: pair.interval,
             subject: pair.subject,
-            weeks: pair.weeks,
+            weeks: showWeeks ? pair.weeks : nil,
             subgroup: pair.subgroup,
             auditory: pair.auditory,
             note: pair.note,
@@ -255,13 +256,15 @@ extension PairView where Details == EmptyView {
         pair: PairViewModel,
         distribution: Distribution = .horizontal,
         isCompact: Bool = false,
-        spellForm: Bool = false
+        spellForm: Bool = false,
+        showWeeks: Bool
     ) {
         self.init(
             pair: pair,
             distribution: distribution,
             isCompact: isCompact,
             spellForm: spellForm,
+            showWeeks: showWeeks,
             details: Details()
         )
     }
