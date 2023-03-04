@@ -8,7 +8,19 @@ public struct PairViewModel: Equatable, Identifiable {
         case lab
         case consultation
         case exam
-        case unknown
+        case unknown(String?)
+
+        init(_ form: BsuirApi.Pair.Form?) {
+            switch form {
+            case .lecture: self = .lecture
+            case .practice: self = .practice
+            case .lab: self = .lab
+            case .consultation: self = .consultation
+            case .exam: self = .exam
+            case let .unknown(value): self = .unknown(value)
+            case nil: self = .unknown(nil)
+            }
+        }
     }
 
     public let id = UUID()
@@ -65,7 +77,7 @@ extension PairViewModel {
             from: Self.time(from: start),
             to: Self.time(from: end),
             interval: Self.interval(from: start, to: end),
-            form: Self.form(from: pair.lessonType),
+            form: Form(pair.lessonType),
             subject: Self.title(from: pair),
             auditory: Self.details(from: pair),
             note: Self.note(from: pair),
@@ -94,23 +106,6 @@ private extension PairViewModel {
     
     static func time(from date: Date?) -> String {
         date?.formatted(.pairTime) ?? "N/A"
-    }
-    
-    static func form(from form: BsuirApi.Pair.Form?) -> Form {
-        switch form {
-        case .lecture:
-            return .lecture
-        case .practice:
-            return .practice
-        case .lab:
-            return .lab
-        case .consultation:
-            return .consultation
-        case .exam:
-            return .exam
-        case .unknown, nil:
-            return .unknown
-        }
     }
     
     static func title(from pair: BsuirApi.Pair) -> String? {
