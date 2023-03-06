@@ -3,7 +3,7 @@ import BsuirUI
 import Collections
 
 struct PremiumAppIconGrid: View {
-    private let gridRows: [[AppIcon]]
+    @State private var gridRows: [[AppIcon]]
     @State private var isAnimating = false
     private let animationSpeed: CGFloat
 
@@ -18,7 +18,7 @@ struct PremiumAppIconGrid: View {
 
         // Measured that `0.01` animation speed looks good on
         // a row with 7 icons (4 real + 3 buffer) this is rough extrapolation
-        self.animationSpeed = 0.1 / CGFloat(gridRows.first?.count ?? 10)
+        self.animationSpeed = 0.1 / CGFloat(_gridRows.wrappedValue.first?.count ?? 10)
     }
 
     var body: some View {
