@@ -66,17 +66,20 @@ struct ScheduleWidgetEntryView: View {
 
 struct ScheduleWidget_Previews: PreviewProvider {
     static var previews: some View {
-        ScheduleWidgetEntryView(entry: entry)
-            .previewDisplayName("Schedule")
-            .previewContext(WidgetPreviewContext(family: family))
-        
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
-            .previewContext(WidgetPreviewContext(family: family))
-            .previewDisplayName("No Pairs")
-        
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .needsConfiguration })
-            .previewContext(WidgetPreviewContext(family: family))
-            .previewDisplayName("No Configuration")
+        Group {
+            ScheduleWidgetEntryView(entry: entry)
+                .previewDisplayName("Schedule")
+                .previewContext(WidgetPreviewContext(family: family))
+
+            ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .pairs() })
+                .previewContext(WidgetPreviewContext(family: family))
+                .previewDisplayName("No Pairs")
+
+            ScheduleWidgetEntryView(entry: mutating(entry) { $0.content = .needsConfiguration })
+                .previewContext(WidgetPreviewContext(family: family))
+                .previewDisplayName("No Configuration")
+        }
+        .environmentObject(PairFormColorService(storage: .init()))
     }
     
     static var family: WidgetFamily {
