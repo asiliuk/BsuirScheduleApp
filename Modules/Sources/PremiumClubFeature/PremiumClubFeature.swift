@@ -8,9 +8,33 @@ public struct PremiumClubFeature: Reducer {
         case appIcon
     }
 
+    enum Section: Hashable, Identifiable {
+        var id: Self { self }
+
+        case fakeAds
+        case pinnedSchedule
+        case widgets
+        case appIcons
+        case tips
+    }
+
     public struct State: Equatable {
         public var source: Source?
         public var hasPremium: Bool
+
+        var sections: [Section] {
+            let sections: [Section]
+            switch source {
+            case nil:
+                sections = [.fakeAds, .pinnedSchedule, .widgets, .appIcons]
+            case .appIcon:
+                sections = [.appIcons, .pinnedSchedule, .fakeAds, .widgets]
+            case .pin:
+                sections = [.pinnedSchedule, .fakeAds, .widgets, .appIcons]
+            }
+
+            return hasPremium ? [.tips] + sections : sections + [.tips]
+        }
 
         #if DEBUG
         var debugRow = DebugPremiumClubRow.State()

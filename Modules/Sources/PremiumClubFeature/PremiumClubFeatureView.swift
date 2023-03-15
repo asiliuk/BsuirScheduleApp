@@ -29,67 +29,21 @@ public struct PremiumClubFeatureView: View {
                 }
 #endif
 
-                GroupBox {
-                    HStack(alignment: .top) {
-                        Text("Unlock stunning new icons, I've spent a lot of time designing them, more to come...").font(.body)
-                        Spacer()
-                        PremiumAppIconGrid()
-                            .frame(width: 80)
-                    }
-                } label: {
-                    Label("Custom App Icons", systemImage: "app.gift.fill")
-                        .settingsRowAccent(.orange)
-                }
-
-                GroupBox {
-                    Color.clear
-                        .frame(height: 100)
-                } label: {
-                    Label("Pinned Schedule", systemImage: "pin.square.fill")
-                        .settingsRowAccent(.red)
-                }
-
-                GroupBox {
-                    Color.clear
-                        .frame(height: 100)
-                } label: {
-                    Label("Widgets", systemImage: "square.text.square.fill")
-                        .settingsRowAccent(.blue)
-                }
-
-                GroupBox {
-                    Color.clear
-                        .frame(height: 100)
-                } label: {
-                    Label("No Fake Ads", systemImage: "hand.raised.square.fill")
-                        .settingsRowAccent(.purple)
-                }
-
-                GroupBox {
-                    VStack(alignment: .leading) {
-                        LabeledContent {
-                            Button("1.99$", action: {})
-                        } label: {
-                            Text("☕️ Small tip")
-                        }
-
-                        LabeledContent {
-                            Button("5.00$", action: {})
-                        } label: {
-                            Text("🥐 Medium tip")
-                        }
-
-                        LabeledContent {
-                            Button("10.00$", action: {})
-                        } label: {
-                            Text("🥙 Big tip")
+                WithViewStore(store, observe: \.sections) { viewStore in
+                    ForEach(viewStore.state) { section in
+                        switch section {
+                        case .fakeAds:
+                            FakeAdsSection()
+                        case .pinnedSchedule:
+                            PinnedScheduleSection()
+                        case .widgets:
+                            WidgetsSection()
+                        case .appIcons:
+                            AppIconsSection()
+                        case .tips:
+                            TipsSection()
                         }
                     }
-                    .font(.title3)
-                    .buttonStyle(.borderedProminent)
-                } label: {
-                    Label("Leave tips", systemImage: "heart.square.fill")
-                        .settingsRowAccent(.pink)
                 }
             }
             .padding()
@@ -108,6 +62,91 @@ public struct PremiumClubFeatureView: View {
             ToolbarItem(placement: .primaryAction) {
                 Button("Restore") {}
             }
+        }
+    }
+}
+
+private struct AppIconsSection: View {
+    var body: some View {
+        GroupBox {
+            HStack(alignment: .top) {
+                Text("Unlock stunning new icons, I've spent a lot of time designing them, more to come...").font(.body)
+                Spacer()
+                PremiumAppIconGrid()
+                    .frame(width: 80)
+            }
+        } label: {
+            Label("Custom App Icons", systemImage: "app.gift.fill")
+                .settingsRowAccent(.orange)
+        }
+    }
+}
+
+private struct PinnedScheduleSection: View {
+    var body: some View {
+        GroupBox {
+            Color.clear
+                .frame(height: 100)
+        } label: {
+            Label("Pinned Schedule", systemImage: "pin.square.fill")
+                .settingsRowAccent(.red)
+        }
+    }
+}
+
+private struct WidgetsSection: View {
+    var body: some View {
+        GroupBox {
+            Color.clear
+                .frame(height: 100)
+        } label: {
+            Label("Widgets", systemImage: "square.text.square.fill")
+                .settingsRowAccent(.blue)
+        }
+    }
+}
+
+private struct FakeAdsSection: View {
+    var body: some View {
+        GroupBox {
+            Color.clear
+                .frame(height: 100)
+        } label: {
+            Label("No Fake Ads", systemImage: "hand.raised.square.fill")
+                .settingsRowAccent(.purple)
+        }
+    }
+}
+
+private struct TipsSection: View {
+    var body: some View {
+        GroupBox {
+            VStack(alignment: .leading) {
+                LabeledContent {
+                    Button("1.99$", action: {})
+                } label: {
+                    Text("☕️ Small tip")
+                }
+
+                LabeledContent {
+                    Button("5.00$", action: {})
+                } label: {
+                    Text("🥐 Medium tip")
+                }
+
+                LabeledContent {
+                    Button("10.00$", action: {})
+                } label: {
+                    Text("🥙 Big tip")
+                }
+
+                Text("* Any tips amount removes fake ads banner")
+                    .font(.footnote)
+            }
+            .buttonStyle(.borderedProminent)
+        } label: {
+            Label("Leave tips", systemImage: "heart.square.fill")
+                .settingsRowAccent(.pink)
         }
     }
 }
