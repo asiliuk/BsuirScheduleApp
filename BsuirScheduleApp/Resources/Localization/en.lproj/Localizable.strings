@@ -93,6 +93,7 @@
 "screen.settings.about.navigation.title" = "About";
 "screen.settings.about.version.section.header" = "Version";
 "screen.settings.about.links.section.header" = "Links";
+"screen.settings.about.links.rate.title" = "Rate Bsuir Schedule";
 
 // MARK: - Network & Data
 

@@ -15,6 +15,7 @@ public struct AboutFeature: Reducer {
     public enum Action: Equatable {
         case githubButtonTapped
         case telegramButtonTapped
+        case reviewButtonTapped
     }
 
     @Dependency(\.openURL) var openUrl
@@ -32,6 +33,11 @@ public struct AboutFeature: Reducer {
             return .fireAndForget {
                 await reviewRequestService.madeMeaningfulEvent(.telegramOpened)
                 await openUrl(.telegram)
+            }
+
+        case .reviewButtonTapped:
+            return .fireAndForget {
+                await openUrl(.appStoreReview)
             }
         }
     }

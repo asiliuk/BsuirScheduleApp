@@ -6,6 +6,7 @@ extension URL {
     public static let iisApi = URL(string: "https://iis.bsuir.by/api")!
     public static let github = URL(string: "https://github.com/asiliuk/BsuirScheduleApp")!
     public static let telegram = URL(string: "https://t.me/bsuirschedule")!
+    public static let appStoreReview = URL(string: "https://apps.apple.com/us/app/bsuir-schedule/id944151090?action=write-review")!
 }
 
 // MARK: - Github

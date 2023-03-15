@@ -12,21 +12,27 @@ struct AboutFeatureView: View {
                 }
 
                 Section("screen.settings.about.links.section.header") {
-                    LinkButton(title: "Github") { viewStore.send(.githubButtonTapped) }
-                    LinkButton(title: "Telegram") { viewStore.send(.telegramButtonTapped) }
+                    Button {
+                        viewStore.send(.githubButtonTapped)
+                    } label: {
+                        Label("Github", systemImage: "curlybraces")
+                    }
+
+                    Button {
+                        viewStore.send(.telegramButtonTapped)
+                    } label: {
+                        Label("Telegram", systemImage: "paperplane")
+                    }
+
+                    Button {
+                        viewStore.send(.telegramButtonTapped)
+                    } label: {
+                        Label("screen.settings.about.links.rate.title", systemImage: "star")
+                    }
                 }
             }
             .listStyle(.insetGrouped)
             .navigationTitle("screen.settings.about.navigation.title")
         }
-    }
-}
-
-private struct LinkButton: View {
-    let title: String
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) { Text(title).underline() }
     }
 }

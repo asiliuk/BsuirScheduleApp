@@ -93,6 +93,7 @@
 "screen.settings.about.navigation.title" = "Про програму";
 "screen.settings.about.version.section.header" = "Версія";
 "screen.settings.about.links.section.header" = "Посилання";
+"screen.settings.about.links.rate.title" = "Оцінити Bsuir Schedule";
 
 // MARK: - Network & Data
 
