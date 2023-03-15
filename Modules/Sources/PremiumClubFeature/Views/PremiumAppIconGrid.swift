@@ -27,7 +27,7 @@ struct PremiumAppIconGrid: View {
             isAtTheBegining: isAnimating
         )
         .aspectRatio(1, contentMode: .fit)
-        .onAppear {
+        .task {
             withAnimation(.linear.speed(animationSpeed).repeatForever(autoreverses: false)) {
                 isAnimating.toggle()
             }
