@@ -13,9 +13,25 @@ public struct PremiumClubFeatureView: View {
     public var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+#if DEBUG
+                VStack(alignment: .leading) {
+                    DebugPremiumClubRowView(
+                        store: store.scope(
+                            state: \.debugRow,
+                            action: PremiumClubFeature.Action.debugRow
+                        )
+                    )
+
+                    WithViewStore(store, observe: \.source) { viewStore in
+                        let source = Text("\(viewStore.state.map(String.init(describing:)) ?? "No source")").bold()
+                        Text("Source: \(source)")
+                    }
+                }
+#endif
+
                 GroupBox {
                     HStack(alignment: .top) {
-                        Text("Unlock new and stunning app icons").font(.body)
+                        Text("Unlock stunning new icons, I've spent a lot of time designing them, more to come...").font(.body)
                         Spacer()
                         PremiumAppIconGrid()
                             .frame(width: 80)
@@ -79,25 +95,6 @@ public struct PremiumClubFeatureView: View {
             .padding()
         }
         .labelStyle(PremiumGroupTitleLabelStyle())
-        #if DEBUG
-        .safeAreaInset(edge: .top) {
-            VStack(alignment: .leading) {
-                DebugPremiumClubRowView(
-                    store: store.scope(
-                        state: \.debugRow,
-                        action: PremiumClubFeature.Action.debugRow
-                    )
-                )
-
-                WithViewStore(store, observe: \.source) { viewStore in
-                    let source = Text("\(viewStore.state.map(String.init(describing:)) ?? "No source")").bold()
-                    Text("Source: \(source)")
-                }
-            }
-            .padding(.horizontal)
-            .background(.thickMaterial)
-        }
-        #endif
         .safeAreaInset(edge: .bottom) {
                 Button {} label: { Text("Buy premium pass").frame(maxWidth: .infinity) }
                     .controlSize(.large)
@@ -124,7 +121,7 @@ private struct PremiumGroupTitleLabelStyle: LabelStyle {
         } icon: {
             if let settingsRowAccent {
                 configuration.icon
-                    .font(.title.bold())
+                    .font(.title2.bold())
                     .foregroundStyle(settingsRowAccent)
             }
         }
