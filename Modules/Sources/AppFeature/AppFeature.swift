@@ -17,12 +17,13 @@ public struct AppFeature: Reducer {
 
         var premiumClub = PremiumClubFeature.State(source: .pin)
 
-        var pinnedTab = PinnedTabFeature.State()
+        var pinnedTab: PinnedTabFeature.State
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
         var settings = SettingsFeature.State()
 
         public init() {
+            self.pinnedTab = .init(isPremiumLocked: !premiumClub.hasPremium)
             @Dependency(\.favorites) var favorites
             self.handleInitialSelection(favorites: favorites)
         }
@@ -53,11 +54,14 @@ public struct AppFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .task:
-                return .run { send in
-                    for await pinnedSchedule in favorites.pinnedSchedule.values {
-                        await send(.setPinnedSchedule(pinnedSchedule))
+                return .merge(
+                    .send(.premiumClub(.task)),
+                    .run { send in
+                        for await pinnedSchedule in favorites.pinnedSchedule.values {
+                            await send(.setPinnedSchedule(pinnedSchedule))
+                        }
                     }
-                }
+                )
 
             case let .setSelection(value):
                 state.updateSelection(value)
@@ -88,6 +92,10 @@ public struct AppFeature: Reducer {
                 }
                 return .none
 
+            case let .premiumClub(._setIsPremium(value)):
+                state.pinnedTab.isPremiumLocked = !value
+                return .none
+
             case .groups(.delegate(let action)):
                 switch action {
                 case .showPremiumClub:
@@ -101,6 +109,14 @@ public struct AppFeature: Reducer {
                     state.overlay = .premiumClub
                     return .none
                 }
+
+            case .pinnedTab(.delegate(let action)):
+                switch action {
+                case .showPremiumClub:
+                    state.overlay = .premiumClub
+                    return .none
+                }
+
             case .groups, .lecturers, .settings, .pinnedTab, .premiumClub:
                 return .none
             }

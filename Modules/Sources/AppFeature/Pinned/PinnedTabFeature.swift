@@ -2,42 +2,50 @@ import PremiumClubFeature
 import EntityScheduleFeature
 import ScheduleCore
 import ComposableArchitecture
+import ComposableArchitectureUtils
 
 public struct PinnedTabFeature: Reducer {
     public struct State: Equatable {
-        var showModalPremiumClub: Bool = false
+        var isPremiumLocked: Bool
         var schedule: PinnedScheduleFeature.State?
-        var premiumClub = PremiumClubFeature.State(source: .pin)
     }
 
-    public enum Action: Equatable {
-        case learnAboutPremiumClubTapped
-        case setShowModalPremiumClub(Bool)
-        case schedule(PinnedScheduleFeature.Action)
-        case premiumClub(PremiumClubFeature.Action)
+    public enum Action: Equatable, FeatureAction {
+        public enum ViewAction: Equatable {
+            case learnAboutPremiumClubTapped
+        }
+
+        public enum ReducerAction: Equatable {
+            case schedule(PinnedScheduleFeature.Action)
+        }
+
+        public enum DelegateAction: Equatable {
+            case showPremiumClub
+        }
+
+        case view(ViewAction)
+        case reducer(ReducerAction)
+        case delegate(DelegateAction)
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .learnAboutPremiumClubTapped:
-                state.showModalPremiumClub = true
-                return .none
+            case .view(.learnAboutPremiumClubTapped):
+                return .send(.delegate(.showPremiumClub))
 
-            case let .setShowModalPremiumClub(value):
-                state.showModalPremiumClub = value
-                return .none
+            case .reducer(.schedule(.delegate(let action))):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClub))
+                }
 
-            case .schedule, .premiumClub:
+            case .reducer, .delegate:
                 return .none
             }
         }
-        .ifLet(\.schedule, action: /Action.schedule) {
+        .ifLet(\.schedule, reducerAction: /Action.ReducerAction.schedule) {
             PinnedScheduleFeature()
-        }
-
-        Scope(state: \.premiumClub, action: /Action.premiumClub) {
-            PremiumClubFeature()
         }
     }
 }

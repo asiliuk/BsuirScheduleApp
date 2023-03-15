@@ -19,20 +19,42 @@ public struct PinnedScheduleFeature: Reducer {
     }
 
     public enum Action: Equatable {
+        public enum Delegate: Equatable {
+            case showPremiumClub
+        }
+
         case group(GroupScheduleFeature.Action)
         case lector(LectorScheduleFeature.Action)
+        case delegate(Delegate)
     }
 
     public init() {}
 
     public var body: some ReducerOf<Self> {
-        EmptyReducer()
-            .ifCaseLet(/State.group, action: /Action.group) {
-                GroupScheduleFeature()
+        Reduce { state, action in
+            switch action {
+            case .group(.delegate(let action)):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClub))
+                }
+
+            case .lector(.delegate(let action)):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClub))
+                }
+
+            case .delegate, .group, .lector:
+                return .none
             }
-            .ifCaseLet(/State.lector, action: /Action.lector) {
-                LectorScheduleFeature()
-            }
+        }
+        .ifCaseLet(/State.group, action: /Action.group) {
+            GroupScheduleFeature()
+        }
+        .ifCaseLet(/State.lector, action: /Action.lector) {
+            LectorScheduleFeature()
+        }
     }
 }
 

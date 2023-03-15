@@ -16,6 +16,9 @@ struct CompactRootView: View {
 
         init(_ state: AppFeature.State) {
             self.selection = state.selection
+            // TODO: Make sure TCA navigation solves it
+            // Because of this thing it retriggers whole TabView body
+            // every time overlay is presented, because technically view state changed
             self.overlay = state.overlay
         }
     }

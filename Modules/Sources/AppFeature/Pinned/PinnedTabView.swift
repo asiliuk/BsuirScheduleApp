@@ -18,53 +18,26 @@ struct PinnedTabView: View {
 }
 
 private struct PinnedTabContentView: View {
-    struct ViewState: Equatable {
-        var hasPremium: Bool
-        var showModalPremiumClub: Bool
-
-        init(_ state: PinnedTabFeature.State) {
-            hasPremium = state.premiumClub.hasPremium
-            showModalPremiumClub = state.showModalPremiumClub
-        }
-    }
     let store: StoreOf<PinnedTabFeature>
 
     var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
-            Group {
-                if viewStore.hasPremium {
-                    IfLetStore(
-                        store.scope(
-                            state: \.schedule,
-                            action: PinnedTabFeature.Action.schedule
-                        )
-                    ) { store in
-                        PinnedScheduleView(store: store)
-                    } else: {
-                        PinnedScheduleEmptyView()
-                        // Reset navigation title left from schedule screen
-                            .navigationTitle("")
-                    }
-                } else {
-                    PinnedScheduleLockedView {
-                        viewStore.send(.learnAboutPremiumClubTapped)
-                    }
+        WithViewStore(store, observe: \.isPremiumLocked) { viewStore in
+            if viewStore.state {
+                PinnedScheduleLockedView {
+                    viewStore.send(.learnAboutPremiumClubTapped)
                 }
-            }
-            .sheet(
-                isPresented: viewStore.binding(
-                    get: \.showModalPremiumClub,
-                    send: PinnedTabFeature.Action.setShowModalPremiumClub
-                )
-            ) {
-                ModalNavigationStack {
-                    PremiumClubFeatureView(
-                        store: store.scope(
-                            state: \.premiumClub,
-                            action: PinnedTabFeature.Action.premiumClub
-                        )
+            } else {
+                IfLetStore(
+                    store.scope(
+                        state: \.schedule,
+                        reducerAction: PinnedTabFeature.Action.ReducerAction.schedule
                     )
-                    .navigationBarTitleDisplayMode(.inline)
+                ) { store in
+                    PinnedScheduleView(store: store)
+                } else: {
+                    PinnedScheduleEmptyView()
+                    // Reset navigation title left from schedule screen
+                        .navigationTitle("")
                 }
             }
         }
@@ -77,16 +50,13 @@ private struct PinnedTabItem: View {
     var body: some View {
         WithViewStore(
             store,
-            observe: { $0.premiumClub.hasPremium ? $0.schedule?.title : nil }
+            observe: { $0.isPremiumLocked ? nil : $0.schedule?.title }
         ) { viewStore in
-            Group {
-                if let title = viewStore.state {
-                    PinnedLabel(title: title)
-                } else {
-                    EmptyPinnedLabel()
-                }
+            if let title = viewStore.state {
+                PinnedLabel(title: title)
+            } else {
+                EmptyPinnedLabel()
             }
-            .task { await viewStore.send(.premiumClub(.task)).finish() }
         }
     }
 }
