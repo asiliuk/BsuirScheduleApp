@@ -63,7 +63,9 @@ public struct LecturersFeature: Reducer {
             case lector(id: LecturersRow.State.ID, action: LecturersRow.Action)
         }
         
-        public typealias DelegateAction = Never
+        public enum DelegateAction: Equatable {
+            case showPremiumClub
+        }
         
         case loading(LoadingAction<State>)
         case view(ViewAction)
@@ -161,7 +163,20 @@ public struct LecturersFeature: Reducer {
             state.pinned = value.map(LecturersRow.State.init(lector:))
             return .none
 
-        case .reducer, .loading:
+        case .reducer(.favorite(_, .mark(.delegate(let action)))),
+             .reducer(.lector(_, .mark(.delegate(let action)))):
+            switch action {
+            case .showPremiumClub:
+                return .send(.delegate(.showPremiumClub))
+            }
+
+        case .reducer(.lectorSchedule(.delegate(let action))):
+            switch action {
+            case .showPremiumClub:
+                return .send(.delegate(.showPremiumClub))
+            }
+
+        case .reducer, .loading, .delegate:
             return .none
         }
     }

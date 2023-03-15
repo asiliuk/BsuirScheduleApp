@@ -60,7 +60,9 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
             case mark(MarkedScheduleFeature.Action)
         }
 
-        public typealias DelegateAction = Never
+        public enum DelegateAction: Equatable {
+            case showPremiumClub
+        }
 
         case loading(LoadingAction<State>)
         case schedule(LoadedScheduleReducer.Action)
@@ -92,6 +94,12 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                 }
                 return .fireAndForget {
                     await reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
+                }
+
+            case let .reducer(.mark(.delegate(action))):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClub))
                 }
 
             case .schedule, .delegate, .loading, .reducer:

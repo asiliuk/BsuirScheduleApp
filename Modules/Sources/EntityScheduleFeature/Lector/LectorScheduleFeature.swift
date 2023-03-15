@@ -34,7 +34,9 @@ public struct LectorScheduleFeature: Reducer {
             indirect case groupSchedule(GroupScheduleFeature.Action)
         }
         
-        public typealias DelegateAction = Never
+        public enum DelegateAction: Equatable {
+            case showPremiumClub
+        }
 
         case view(ViewAction)
         case reducer(ReducerAction)
@@ -60,7 +62,19 @@ public struct LectorScheduleFeature: Reducer {
                 assertionFailure("Unexpected")
                 return .none
 
-            case .reducer:
+            case let .reducer(.schedule(.delegate(action))):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClub))
+                }
+
+            case let .reducer(.groupSchedule(.delegate(action))):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClub))
+                }
+
+            case .reducer, .delegate:
                 return .none
             }
         }

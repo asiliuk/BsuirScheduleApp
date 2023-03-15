@@ -59,7 +59,9 @@ public struct GroupsFeature: Reducer {
             case groupSection(id: GroupsSection.State.ID, action: GroupsSection.Action)
         }
 
-        public typealias DelegateAction = Never
+        public enum DelegateAction: Equatable {
+            case showPremiumClub
+        }
         
         case loading(LoadingAction<State>)
         case view(ViewAction)
@@ -122,7 +124,21 @@ public struct GroupsFeature: Reducer {
                 filteredGroups(state: &state)
                 return .none
 
-            case .reducer, .loading:
+            case .reducer(.pinned(.groupRow(_, .mark(.delegate(let action))))),
+                 .reducer(.favorites(.groupRow(_, .mark(.delegate(let action))))),
+                 .reducer(.groupSection(_, .groupRow(_, action: .mark(.delegate(let action))))):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClub))
+                }
+
+            case .reducer(.groupSchedule(.delegate(let action))):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClub))
+                }
+
+            case .reducer, .loading, .delegate:
                 return .none
             }
         }

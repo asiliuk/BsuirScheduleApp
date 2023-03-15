@@ -89,6 +89,14 @@ public struct AppFeature: Reducer {
                 }
                 return .none
 
+            case .groups(.delegate(let action)):
+                print("!!!!!! Groups")
+                return .none
+                
+            case .lecturers(.delegate(let action)):
+                print("!!!!!! Lecturers")
+                return .none
+
             case .groups, .lecturers, .settings, .pinnedTab:
                 return .none
             }
