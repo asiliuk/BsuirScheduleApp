@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftUINavigation
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
@@ -28,10 +29,20 @@ struct MarkedScheduleRowActions: ViewModifier {
                 .swipeActions(edge: .trailing) {
                     swipeButton(viewStore.isFavorite ? .removeFromFavorites : .addToFavorites, send: viewStore.send).tint(.yellow)
                 }
+                .alert(
+                    store.scope(
+                        state: \.alert,
+                        action: MarkedScheduleFeature.Action.alert
+                    ),
+                    dismiss: .dismissed
+                )
         }
     }
 
-    private func swipeButton(_ config: SwipeButtonConfig, send: @escaping (MarkedScheduleFeature.Action.ViewAction, Animation?) -> ViewStoreTask) -> some View {
+    private func swipeButton(
+        _ config: SwipeButtonConfig,
+        send: @escaping (MarkedScheduleFeature.Action.ViewAction, Animation?
+    ) -> ViewStoreTask) -> some View {
         Button {
             _ = send(config.action, Animation.default)
         } label: {

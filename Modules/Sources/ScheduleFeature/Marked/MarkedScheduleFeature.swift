@@ -3,17 +3,23 @@ import Combine
 import BsuirCore
 import ScheduleCore
 import Favorites
+import PremiumClubFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
+import SwiftUINavigation
 
 public struct MarkedScheduleFeature: Reducer {
     public struct State: Equatable {
+        public var alert: AlertState<Action.AlertAction>?
         public var isFavorite: Bool = false
         public var isPinned: Bool = false
+        var isPremiumLocked: Bool
         let source: ScheduleSource
 
         public init(source: ScheduleSource) {
             self.source = source
+            @Dependency(\.premiumService) var premiumService
+            self.isPremiumLocked = !premiumService.isCurrentlyPremium
             @Dependency(\.favorites) var favorites
             self.update(favorites: favorites)
         }
@@ -32,17 +38,27 @@ public struct MarkedScheduleFeature: Reducer {
         public enum ReducerAction: Equatable {
             case setIsFavorite(Bool)
             case setIsPinned(Bool)
+            case setIsPremiumLocked(Bool)
         }
 
-        public typealias DelegateAction = Never
+        public enum AlertAction: Equatable {
+            case learnAboutPremiumClubButtonTapped
+            case dismissed
+        }
+
+        public enum DelegateAction: Equatable {
+            case showPremiumClub
+        }
 
         case view(ViewAction)
         case reducer(ReducerAction)
         case delegate(DelegateAction)
+        case alert(AlertAction)
     }
 
     @Dependency(\.favorites) var favorites
     @Dependency(\.reviewRequestService) var reviewRequestService
+    @Dependency(\.premiumService) var premiumService
 
     public init() {}
 
@@ -51,7 +67,8 @@ public struct MarkedScheduleFeature: Reducer {
         case .view(.task):
             return .merge(
                 observeIsPinned(source: state.source),
-                observeIsFavorite(source: state.source)
+                observeIsFavorite(source: state.source),
+                observeIsPremium()
             )
 
         case .view(.favoriteButtonTapped):
@@ -61,7 +78,12 @@ public struct MarkedScheduleFeature: Reducer {
             return unfavorite(source: state.source)
 
         case .view(.pinButtonTapped):
-            return pin(source: state.source)
+            if state.isPremiumLocked {
+                state.alert = .premiumLocked
+                return .none
+            } else {
+                return pin(source: state.source)
+            }
 
         case .view(.unpinButtonTapped):
             return favorite(source: state.source)
@@ -78,6 +100,20 @@ public struct MarkedScheduleFeature: Reducer {
 
         case let .reducer(.setIsPinned(value)):
             state.isPinned = value
+            return .none
+
+        case let .reducer(.setIsPremiumLocked(value)):
+            state.isPremiumLocked = value
+            return .none
+
+        case .alert(.dismissed):
+            state.alert = nil
+            return .none
+
+        case .alert(.learnAboutPremiumClubButtonTapped):
+            return .send(.delegate(.showPremiumClub))
+
+        case .delegate:
             return .none
         }
     }
@@ -154,6 +190,14 @@ public struct MarkedScheduleFeature: Reducer {
             }
         }
     }
+
+    private func observeIsPremium() -> Effect<Action> {
+        return .run { send in
+            for await value in premiumService.isPremium.removeDuplicates().values {
+                await send(.reducer(.setIsPremiumLocked(!value)))
+            }
+        }
+    }
 }
 
 // MARK: - Update
@@ -172,10 +216,24 @@ private extension MarkedScheduleFeature.State {
     }
 }
 
-
 // MARK: - MeaningfulEvent
 
 private extension MeaningfulEvent {
     static let addToFavorites = Self(score: 5)
     static let pin = Self(score: 5)
+}
+
+// MARK: - Alert
+
+private extension AlertState where Action == MarkedScheduleFeature.Action.AlertAction {
+    static let premiumLocked = AlertState(
+        title: TextState("Premium Club only"),
+        message: TextState("Pinning of the schedule is available only for **Premium Club** members"),
+        buttons: [
+            .default(
+                TextState("Join Premium Club..."),
+                action: .send(.learnAboutPremiumClubButtonTapped)),
+            .cancel(TextState("Cancel"))
+        ]
+    )
 }
