@@ -1,5 +1,5 @@
 # BsuirScheduleApp
-A new version of famous Bsuir Schedule app, rewritten in Swift/SwiftUI
+A new version of famous [Bsuir Schedule app](https://apps.apple.com/us/app/bsuir-schedule/id944151090), rewritten in Swift/SwiftUI
 
 Main focus of current version is simplicity and use of modern technologies for future profing of project.
 DarkMode, DynamicType and VoiceOver should be supported out-of-the-box, also iPad version gets big attention this time.
