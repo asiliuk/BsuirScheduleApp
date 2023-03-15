@@ -96,6 +96,13 @@ public struct AppFeature: Reducer {
                 state.pinnedTab.isPremiumLocked = !value
                 return .none
 
+            case .pinnedTab(.delegate(let action)):
+                switch action {
+                case .showPremiumClub:
+                    state.showPremiumClubOverlay(source: .pin)
+                    return .none
+                }
+
             case .groups(.delegate(let action)):
                 switch action {
                 case .showPremiumClub:
@@ -110,10 +117,10 @@ public struct AppFeature: Reducer {
                     return .none
                 }
 
-            case .pinnedTab(.delegate(let action)):
+            case .settings(.delegate(let action)):
                 switch action {
-                case .showPremiumClub:
-                    state.showPremiumClubOverlay(source: .pin)
+                case let .showPremiumClub(source):
+                    state.showPremiumClubOverlay(source: source)
                     return .none
                 }
 

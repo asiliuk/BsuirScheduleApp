@@ -11,7 +11,6 @@ public struct SettingsFeature: Reducer {
     public struct State: Equatable {
         public var path = NavigationPath()
         var isOnTop: Bool = true
-        var showModalPremiumClub: Bool = false
 
         var premiumClub = PremiumClubFeature.State()
         #if DEBUG
@@ -30,7 +29,6 @@ public struct SettingsFeature: Reducer {
         public enum ViewAction: Equatable {
             case setIsOnTop(Bool)
             case setPath(NavigationPath)
-            case setShowModalPremiumClub(Bool)
         }
         
         public enum ReducerAction: Equatable {
@@ -45,7 +43,9 @@ public struct SettingsFeature: Reducer {
             case about(AboutFeature.Action)
         }
         
-        public typealias DelegateAction = Never
+        public enum DelegateAction: Equatable {
+            case showPremiumClub(source: PremiumClubFeature.Source?)
+        }
 
         case view(ViewAction)
         case reducer(ReducerAction)
@@ -65,15 +65,13 @@ public struct SettingsFeature: Reducer {
                 state.path = value
                 return .none
 
-            case let .view(.setShowModalPremiumClub(value)):
-                state.showModalPremiumClub = value
-                return .none
+            case .reducer(.appIcon(.delegate(let action))):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClub(source: .appIcon)))
+                }
 
-            case .reducer(.appIcon(.delegate(.openPremiumClub))):
-                state.showModalPremiumClub = true
-                return .none
-
-            case .reducer:
+            case .reducer, .delegate:
                 return .none
             }
         }

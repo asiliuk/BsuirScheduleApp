@@ -37,7 +37,7 @@ public struct AppIconFeature: Reducer {
         }
         
         public enum DelegateAction: Equatable {
-            case openPremiumClub
+            case showPremiumClub
         }
         
         case view(ViewAction)
@@ -63,7 +63,7 @@ public struct AppIconFeature: Reducer {
             return .none
 
         case .view(.learnAboutPremiumClubButtonTapped):
-            return .send(.delegate(.openPremiumClub))
+            return .send(.delegate(.showPremiumClub))
             
         case let .view(.iconPicked(icon)):
             guard icon != state.currentIcon else {

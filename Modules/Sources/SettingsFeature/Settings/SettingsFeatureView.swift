@@ -16,16 +16,6 @@ enum SettingsFeatureDestination: Hashable {
 }
 
 public struct SettingsFeatureView: View {
-    struct ViewState: Equatable {
-        var isOnTop: Bool
-        var showModalPremiumClub: Bool
-
-        init(_ state: SettingsFeature.State) {
-            isOnTop = state.isOnTop
-            showModalPremiumClub = state.showModalPremiumClub
-        }
-    }
-
     public let store: StoreOf<SettingsFeature>
     @State var hasActivePass = false
     
@@ -34,10 +24,10 @@ public struct SettingsFeatureView: View {
     }
     
     public var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
+        WithViewStore(store, observe: \.isOnTop) { viewStore in
             ScrollableToTopList(
                 isOnTop: viewStore.binding(
-                    get: \.isOnTop,
+                    get: { $0 },
                     send: { .view(.setIsOnTop($0)) }
                 )
             ) {
@@ -87,22 +77,6 @@ public struct SettingsFeatureView: View {
                     )
                 }
                 #endif
-            }
-            .sheet(
-                isPresented: viewStore.binding(
-                    get: \.showModalPremiumClub,
-                    send: { .view(.setShowModalPremiumClub($0)) }
-                )
-            ) {
-                ModalNavigationStack {
-                    PremiumClubFeatureView(
-                        store: store.scope(
-                            state: \.premiumClub,
-                            reducerAction: { .premiumClub($0) }
-                        )
-                    )
-                    .navigationBarTitleDisplayMode(.inline)
-                }
             }
             .navigationDestination(for: SettingsFeatureDestination.self) { destination in
                 switch destination {
