@@ -15,7 +15,7 @@ public struct AppFeature: Reducer {
         var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
 
-        var premiumClub = PremiumClubFeature.State(source: .pin)
+        var premiumClub = PremiumClubFeature.State()
 
         var pinnedTab: PinnedTabFeature.State
         var groups = GroupsFeature.State()
@@ -99,21 +99,21 @@ public struct AppFeature: Reducer {
             case .groups(.delegate(let action)):
                 switch action {
                 case .showPremiumClub:
-                    state.overlay = .premiumClub
+                    state.showPremiumClubOverlay(source: .pin)
                     return .none
                 }
 
             case .lecturers(.delegate(let action)):
                 switch action {
                 case .showPremiumClub:
-                    state.overlay = .premiumClub
+                    state.showPremiumClubOverlay(source: .pin)
                     return .none
                 }
 
             case .pinnedTab(.delegate(let action)):
                 switch action {
                 case .showPremiumClub:
-                    state.overlay = .premiumClub
+                    state.showPremiumClubOverlay(source: .pin)
                     return .none
                 }
 
@@ -231,6 +231,15 @@ private extension AppFeature.State {
         case .settings:
             settings.reset()
         }
+    }
+}
+
+// MARK: - Premium Club
+
+private extension AppFeature.State {
+    mutating func showPremiumClubOverlay(source: PremiumClubFeature.Source?) {
+        premiumClub.source = source
+        overlay = .premiumClub
     }
 }
 
