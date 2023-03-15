@@ -1,7 +1,9 @@
 import SwiftUI
+import BsuirUI
 import GroupsFeature
 import LecturersFeature
 import SettingsFeature
+import PremiumClubFeature
 import ComposableArchitecture
 import SwiftUINavigation
 
@@ -65,6 +67,20 @@ struct RegularRootView: View {
                             action: AppFeature.Action.settings
                         )
                     )
+                }
+            }
+            .sheet(
+                unwrapping: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay),
+                case: /CurrentOverlay.premiumClub
+            ) { _ in
+                ModalNavigationStack {
+                    PremiumClubFeatureView(
+                        store: store.scope(
+                            state: \.premiumClub,
+                            action: AppFeature.Action.premiumClub
+                        )
+                    )
+                    .navigationBarTitleDisplayMode(.inline)
                 }
             }
         }

@@ -1,19 +1,30 @@
 import SwiftUI
 import BsuirCore
+import BsuirUI
 import SettingsFeature
 import GroupsFeature
 import LecturersFeature
 import EntityScheduleFeature
+import PremiumClubFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
 struct CompactRootView: View {
+    struct ViewState: Equatable {
+        var selection: CurrentSelection
+        var overlay: CurrentOverlay?
+
+        init(_ state: AppFeature.State) {
+            self.selection = state.selection
+            self.overlay = state.overlay
+        }
+    }
+
     let store: StoreOf<AppFeature>
 
     var body: some View {
-        WithViewStore(store, observe: \.selection) { viewStore in
-            TabView(selection: viewStore.binding(get: { $0 }, send: AppFeature.Action.setSelection)) {
-
+        WithViewStore(store, observe: ViewState.init) { viewStore in
+            TabView(selection: viewStore.binding(get: \.selection, send: AppFeature.Action.setSelection)) {
                 PinnedTabView(
                     store: store.scope(
                         state: \.pinnedTab,
@@ -45,6 +56,20 @@ struct CompactRootView: View {
                     )
                 )
                 .tag(CurrentSelection.settings)
+            }
+            .sheet(
+                unwrapping: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay),
+                case: /CurrentOverlay.premiumClub
+            ) { _ in
+                ModalNavigationStack {
+                    PremiumClubFeatureView(
+                        store: store.scope(
+                            state: \.premiumClub,
+                            action: AppFeature.Action.premiumClub
+                        )
+                    )
+                    .navigationBarTitleDisplayMode(.inline)
+                }
             }
         }
     }

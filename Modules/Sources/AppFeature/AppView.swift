@@ -13,6 +13,7 @@ public enum CurrentSelection: Hashable {
 public enum CurrentOverlay: Identifiable {
     public var id: Self { self }
     case settings
+    case premiumClub
 }
 
 public struct AppView: View {

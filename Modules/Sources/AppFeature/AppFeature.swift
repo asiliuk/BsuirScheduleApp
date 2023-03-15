@@ -15,6 +15,8 @@ public struct AppFeature: Reducer {
         var selection: CurrentSelection = .groups
         var overlay: CurrentOverlay?
 
+        var premiumClub = PremiumClubFeature.State(source: .pin)
+
         var pinnedTab = PinnedTabFeature.State()
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
@@ -34,7 +36,8 @@ public struct AppFeature: Reducer {
         case setOverlay(CurrentOverlay?)
         case setPinnedSchedule(ScheduleSource?)
         case showSettingsButtonTapped
-        case learnAboutPremiumClubTapped
+
+        case premiumClub(PremiumClubFeature.Action)
 
         case pinnedTab(PinnedTabFeature.Action)
         case groups(GroupsFeature.Action)
@@ -76,10 +79,6 @@ public struct AppFeature: Reducer {
                 state.overlay = .settings
                 return .none
 
-            case .learnAboutPremiumClubTapped:
-                handleDeeplink(state: &state, deeplink: .premiumClub(source: .pin))
-                return .none
-
             case let .handleDeeplink(url):
                 do {
                     let deeplink = try deeplinkRouter.match(url: url)
@@ -90,16 +89,25 @@ public struct AppFeature: Reducer {
                 return .none
 
             case .groups(.delegate(let action)):
-                print("!!!!!! Groups")
-                return .none
-                
-            case .lecturers(.delegate(let action)):
-                print("!!!!!! Lecturers")
-                return .none
+                switch action {
+                case .showPremiumClub:
+                    state.overlay = .premiumClub
+                    return .none
+                }
 
-            case .groups, .lecturers, .settings, .pinnedTab:
+            case .lecturers(.delegate(let action)):
+                switch action {
+                case .showPremiumClub:
+                    state.overlay = .premiumClub
+                    return .none
+                }
+            case .groups, .lecturers, .settings, .pinnedTab, .premiumClub:
                 return .none
             }
+        }
+
+        Scope(state: \.premiumClub, action: /Action.premiumClub) {
+            PremiumClubFeature()
         }
 
         Scope(state: \.pinnedTab, action: /Action.pinnedTab) {
