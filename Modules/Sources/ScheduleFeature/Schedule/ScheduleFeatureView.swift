@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirCore
 import LoadableFeature
+import FakeAdsFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 
@@ -43,6 +44,17 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 ScheduleGridPlaceholder()
             } error: { store in
                 LoadingErrorView(store: store)
+            }
+            .safeAreaInset(edge: .bottom) {
+                FakeAdsView(
+                    image: Image(systemName: "airplane.departure"),
+                    store: store.scope(
+                        state: \.fakeAds,
+                        reducerAction: { .fakeAds($0) }
+                    )
+                )
+                .padding(.horizontal)
+                .padding(.vertical, 6)
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {

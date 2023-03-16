@@ -43,6 +43,9 @@ let package = Package(
         .library(
             name: "Deeplinking",
             targets: ["Deeplinking"]),
+        .library(
+            name: "FakeAdsFeature",
+            targets: ["FakeAdsFeature"]),
     ],
     dependencies: [
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.4.0"),
@@ -86,7 +89,7 @@ let package = Package(
         ),
         .target(
             name: "ScheduleFeature",
-            dependencies: ["LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["LoadableFeature", "Favorites", "FakeAdsFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "LoadableFeature",
@@ -103,6 +106,10 @@ let package = Package(
         .target(
             name: "ReachabilityFeature",
             dependencies: ["BsuirApi", .tca]
+        ),
+        .target(
+            name: "FakeAdsFeature",
+            dependencies: ["BsuirUI", .tca]
         ),
         // MARK: - Core
         .target(

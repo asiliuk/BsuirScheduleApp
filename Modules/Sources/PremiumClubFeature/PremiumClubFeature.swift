@@ -6,6 +6,7 @@ public struct PremiumClubFeature: Reducer {
     public enum Source {
         case pin
         case appIcon
+        case fakeAds
     }
 
     enum Section: Hashable, Identifiable {
@@ -31,6 +32,8 @@ public struct PremiumClubFeature: Reducer {
                 sections = [.appIcons, .pinnedSchedule, .fakeAds, .widgets]
             case .pin:
                 sections = [.pinnedSchedule, .fakeAds, .widgets, .appIcons]
+            case .fakeAds:
+                sections = [.fakeAds, .pinnedSchedule, .widgets, .appIcons]
             }
 
             return hasPremium ? [.tips] + sections : sections + [.tips]

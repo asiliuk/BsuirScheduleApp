@@ -64,7 +64,8 @@ public struct LecturersFeature: Reducer {
         }
         
         public enum DelegateAction: Equatable {
-            case showPremiumClub
+            case showPremiumClubPinned
+            case showPremiumClubFakeAdsBanner
         }
         
         case loading(LoadingAction<State>)
@@ -167,13 +168,15 @@ public struct LecturersFeature: Reducer {
              .reducer(.lector(_, .mark(.delegate(let action)))):
             switch action {
             case .showPremiumClub:
-                return .send(.delegate(.showPremiumClub))
+                return .send(.delegate(.showPremiumClubPinned))
             }
 
         case .reducer(.lectorSchedule(.delegate(let action))):
             switch action {
-            case .showPremiumClub:
-                return .send(.delegate(.showPremiumClub))
+            case .showPremiumClubPinned:
+                return .send(.delegate(.showPremiumClubPinned))
+            case .showPremiumClubFakeAdsBanner:
+                return .send(.delegate(.showPremiumClubFakeAdsBanner))
             }
 
         case .reducer, .loading, .delegate:

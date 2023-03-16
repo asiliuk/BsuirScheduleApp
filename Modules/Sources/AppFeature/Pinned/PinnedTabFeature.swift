@@ -20,7 +20,8 @@ public struct PinnedTabFeature: Reducer {
         }
 
         public enum DelegateAction: Equatable {
-            case showPremiumClub
+            case showPremiumClubPinned
+            case showPremiumClubFakeAdsBanner
         }
 
         case view(ViewAction)
@@ -32,12 +33,14 @@ public struct PinnedTabFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .view(.learnAboutPremiumClubTapped):
-                return .send(.delegate(.showPremiumClub))
+                return .send(.delegate(.showPremiumClubPinned))
 
             case .reducer(.schedule(.delegate(let action))):
                 switch action {
-                case .showPremiumClub:
-                    return .send(.delegate(.showPremiumClub))
+                case .showPremiumClubPinned:
+                    return .send(.delegate(.showPremiumClubPinned))
+                case .showPremiumClubFakeAdsBanner:
+                    return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
             case .reducer, .delegate:

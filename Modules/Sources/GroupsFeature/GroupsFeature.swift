@@ -60,7 +60,8 @@ public struct GroupsFeature: Reducer {
         }
 
         public enum DelegateAction: Equatable {
-            case showPremiumClub
+            case showPremiumClubPinned
+            case showPremiumClubFakeAdsBanner
         }
         
         case loading(LoadingAction<State>)
@@ -129,13 +130,15 @@ public struct GroupsFeature: Reducer {
                  .reducer(.groupSection(_, .groupRow(_, action: .mark(.delegate(let action))))):
                 switch action {
                 case .showPremiumClub:
-                    return .send(.delegate(.showPremiumClub))
+                    return .send(.delegate(.showPremiumClubPinned))
                 }
 
             case .reducer(.groupSchedule(.delegate(let action))):
                 switch action {
-                case .showPremiumClub:
-                    return .send(.delegate(.showPremiumClub))
+                case .showPremiumClubPinned:
+                    return .send(.delegate(.showPremiumClubPinned))
+                case .showPremiumClubFakeAdsBanner:
+                    return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
             case .reducer, .loading, .delegate:

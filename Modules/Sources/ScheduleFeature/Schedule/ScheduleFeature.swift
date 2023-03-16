@@ -4,6 +4,7 @@ import BsuirApi
 import BsuirUI
 import ScheduleCore
 import LoadableFeature
+import FakeAdsFeature
 import ComposableArchitecture
 import ComposableArchitectureUtils
 import Dependencies
@@ -43,6 +44,11 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         public var isOnTop: Bool = true
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType = .continuous
+        var fakeAds = FakeAdsFeature.State(
+            label: TextState("FakeAD"),
+            title: TextState("Hello there my fake ad"),
+            description: TextState("This is description of my fake ad banner")
+        )
 
         public init(title: String, source: ScheduleSource, value: Value) {
             self.title = title
@@ -58,10 +64,12 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
 
         public enum ReducerAction: Equatable {
             case mark(MarkedScheduleFeature.Action)
+            case fakeAds(FakeAdsFeature.Action)
         }
 
         public enum DelegateAction: Equatable {
-            case showPremiumClub
+            case showPremiumClubPinned
+            case showPremiumClubFakeAdsBanner
         }
 
         case loading(LoadingAction<State>)
@@ -99,7 +107,13 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
             case let .reducer(.mark(.delegate(action))):
                 switch action {
                 case .showPremiumClub:
-                    return .send(.delegate(.showPremiumClub))
+                    return .send(.delegate(.showPremiumClubPinned))
+                }
+
+            case .reducer(.fakeAds(.delegate(let action))):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
             case .schedule, .delegate, .loading, .reducer:
@@ -114,6 +128,10 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
 
         Scope(state: \State.mark, reducerAction: /Action.ReducerAction.mark) {
             MarkedScheduleFeature()
+        }
+
+        Scope(state: \State.fakeAds, reducerAction: /Action.ReducerAction.fakeAds) {
+            FakeAdsFeature()
         }
     }
 }

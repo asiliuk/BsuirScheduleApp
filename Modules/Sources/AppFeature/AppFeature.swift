@@ -98,22 +98,31 @@ public struct AppFeature: Reducer {
 
             case .pinnedTab(.delegate(let action)):
                 switch action {
-                case .showPremiumClub:
+                case .showPremiumClubPinned:
                     state.showPremiumClubOverlay(source: .pin)
+                    return .none
+                case .showPremiumClubFakeAdsBanner:
+                    state.showPremiumClubOverlay(source: .fakeAds)
                     return .none
                 }
 
             case .groups(.delegate(let action)):
                 switch action {
-                case .showPremiumClub:
+                case .showPremiumClubPinned:
                     state.showPremiumClubOverlay(source: .pin)
+                    return .none
+                case .showPremiumClubFakeAdsBanner:
+                    state.showPremiumClubOverlay(source: .fakeAds)
                     return .none
                 }
 
             case .lecturers(.delegate(let action)):
                 switch action {
-                case .showPremiumClub:
+                case .showPremiumClubPinned:
                     state.showPremiumClubOverlay(source: .pin)
+                    return .none
+                case .showPremiumClubFakeAdsBanner:
+                    state.showPremiumClubOverlay(source: .fakeAds)
                     return .none
                 }
 
