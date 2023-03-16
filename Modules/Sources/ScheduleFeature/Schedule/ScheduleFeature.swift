@@ -44,11 +44,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         public var isOnTop: Bool = true
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType = .continuous
-        var fakeAds = FakeAdsFeature.State(
-            label: TextState("FakeAD"),
-            title: TextState("Hello there my fake ad"),
-            description: TextState("This is description of my fake ad banner and it could be pretty long")
-        )
+        var fakeAds: FakeAdsFeature.State = .init()
 
         public init(title: String, source: ScheduleSource, value: Value) {
             self.title = title

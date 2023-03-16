@@ -4,14 +4,9 @@ import ComposableArchitecture
 import ComposableArchitectureUtils
 
 public struct FakeAdsView: View {
-    let image: Image
     let store: StoreOf<FakeAdsFeature>
 
-    public init(
-        image: Image,
-        store: StoreOf<FakeAdsFeature>
-    ) {
-        self.image = image
+    public init(store: StoreOf<FakeAdsFeature>) {
         self.store = store
     }
 
@@ -29,9 +24,18 @@ public struct FakeAdsView: View {
                         RoundedRectangle(cornerRadius: 6)
                             .fill(Color.gray)
                             .aspectRatio(1, contentMode: .fit)
-                            .overlay(image)
+                            .overlay {
+                                switch viewStore.image {
+                                case let .system(name):
+                                    Image(systemName: name)
+                                        .font(.system(size: 18))
+                                case let .predefined(name):
+                                    Image(name)
+                                        .resizable()
+                                        .scaledToFill()
+                                }
+                            }
                             .clipped()
-                            .font(.system(size: 18))
 
                         VStack(alignment: .leading) {
                             HStack(alignment: .center, spacing: 4) {
@@ -73,13 +77,8 @@ private struct BannerButtonStyle: ButtonStyle {
 struct FakeAdsView_Previews: PreviewProvider {
     static var previews: some View {
         let bannerPreview = FakeAdsView(
-            image: Image(systemName: "airplane.departure"),
             store: .init(
-                initialState: .init(
-                    label: TextState("FakeAD"),
-                    title: TextState("This is fake ads title"),
-                    description: TextState("Here goes ad description that could be multiline if needed")
-                ),
+                initialState: .init(),
                 reducer: FakeAdsFeature()
             )
         )

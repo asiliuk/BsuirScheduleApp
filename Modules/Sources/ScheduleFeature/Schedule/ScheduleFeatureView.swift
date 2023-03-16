@@ -47,7 +47,6 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             }
             .safeAreaInset(edge: .bottom) {
                 FakeAdsView(
-                    image: Image(systemName: "airplane.departure"),
                     store: store.scope(
                         state: \.fakeAds,
                         reducerAction: { .fakeAds($0) }
