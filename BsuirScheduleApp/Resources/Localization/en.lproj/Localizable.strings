@@ -123,6 +123,13 @@
 
 "screen.schedule.noMorePairs.title" = "No more pairs 🎉";
 
+// MARK: - Ads
+
+"view.fakeAd.label" = "FakeAD";
+
+"view.fakeAd.exams.title" = "Exams without effort?";
+"view.fakeAd.exams.description" = "To pass all the exams without study, you simply need to...";
+
 // MARK: - Loading
 
 "view.loadingState.title" = "Loading...";

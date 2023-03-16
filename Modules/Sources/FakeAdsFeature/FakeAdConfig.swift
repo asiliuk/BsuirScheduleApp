@@ -8,7 +8,7 @@ struct FakeAdConfig {
     }
 
     let image: AdImage
-    var label: LocalizedStringKey = "FakeAD"
+    var label: LocalizedStringKey = "view.fakeAd.label"
     var title: LocalizedStringKey
     var description: LocalizedStringKey
 }
@@ -17,9 +17,9 @@ struct FakeAdConfig {
 extension FakeAdConfig {
     static let all: [FakeAdConfig] = [
         FakeAdConfig(
-            image: .system("airplane.departure"),
-            title: "Hello there my fake ad",
-            description: "This is description of my fake ad banner and it could be pretty long"
-        )
+            image: .predefined("FakeAds/exams"),
+            title: "view.fakeAd.exams.title",
+            description: "view.fakeAd.exams.description"
+        ),
     ]
 }

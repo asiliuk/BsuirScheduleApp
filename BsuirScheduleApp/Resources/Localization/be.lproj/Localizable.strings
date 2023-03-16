@@ -124,6 +124,13 @@
 
 "screen.schedule.noMorePairs.title" = "Заняткаў больш няма 🎉";
 
+// MARK: - Ads
+
+"view.fakeAd.label" = "FakeAD";
+
+"view.fakeAd.exams.title" = "Сесія без праблем?";
+"view.fakeAd.exams.description" = "Каб здаць усе іспыты і не зубрыць, вам усяго толькі трэба ...";
+
 // MARK: - Loading
 
 "view.loadingState.title" = "Загрузка...";

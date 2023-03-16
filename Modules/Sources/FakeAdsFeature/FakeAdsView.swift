@@ -21,21 +21,21 @@ public struct FakeAdsView: View {
                         .shadow(color: .black.opacity(0.2), radius: 5)
 
                     HStack {
-                        RoundedRectangle(cornerRadius: 6)
-                            .fill(Color.gray)
-                            .aspectRatio(1, contentMode: .fit)
-                            .overlay {
-                                switch viewStore.image {
-                                case let .system(name):
-                                    Image(systemName: name)
-                                        .font(.system(size: 18))
-                                case let .predefined(name):
-                                    Image(name)
-                                        .resizable()
-                                        .scaledToFill()
-                                }
+                        ZStack {
+                            Color.gray
+
+                            switch viewStore.image {
+                            case let .system(name):
+                                Image(systemName: name)
+                                    .font(.system(size: 18))
+                            case let .predefined(name):
+                                Image(name)
+                                    .resizable()
+                                    .scaledToFill()
                             }
-                            .clipped()
+                        }
+                        .aspectRatio(1, contentMode: .fit)
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
 
                         VStack(alignment: .leading) {
                             HStack(alignment: .center, spacing: 4) {
