@@ -128,8 +128,14 @@
 
 "view.fakeAd.label" = "FakeAD";
 
+"view.fakeAd.placeholder.title" = "Шукаю ідэі для рэкламы";
+"view.fakeAd.placeholder.description" = "Хочаш, каб усё смяяўся над тваімі жартамі? Напішы мне...";
+
 "view.fakeAd.exams.title" = "Сесія без праблем?";
-"view.fakeAd.exams.description" = "Каб здаць усе іспыты і не зубрыць, вам усяго толькі трэба ...";
+"view.fakeAd.exams.description" = "Каб здаць усе іспыты і не зубрыць, вам усяго толькі трэба...";
+
+"view.fakeAd.party.title" = "Хочаш крута патусіць?";
+"view.fakeAd.party.description" = "Атрымай доступ да лепшых прагерскіх вечарынак, прама ў тваім уяўленні...";
 
 // MARK: - Loading
 

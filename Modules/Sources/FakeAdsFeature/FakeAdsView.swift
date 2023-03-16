@@ -25,15 +25,17 @@ public struct FakeAdsView: View {
                             Color.gray
 
                             switch viewStore.image {
+                            case let .text(text):
+                                Text(text)
                             case let .system(name):
                                 Image(systemName: name)
-                                    .font(.system(size: 18))
                             case let .predefined(name):
                                 Image(name)
                                     .resizable()
                                     .scaledToFill()
                             }
                         }
+                        .font(.system(size: 20))
                         .aspectRatio(1, contentMode: .fit)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
 

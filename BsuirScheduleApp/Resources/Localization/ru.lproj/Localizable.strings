@@ -127,8 +127,14 @@
 
 "view.fakeAd.label" = "FakeAD";
 
+"view.fakeAd.placeholder.title" = "Ищу идеи для рекламы";
+"view.fakeAd.placeholder.description" = "Хочешь, чтобы все смеялся над твоими шутками? Напиши мне...";
+
 "view.fakeAd.exams.title" = "Сессия без проблем?";
-"view.fakeAd.exams.description" = "Чтобы сдать все экзамены и не зубрить, вам всего лишь нужно ...";
+"view.fakeAd.exams.description" = "Чтобы сдать все экзамены и не зубрить, вам всего лишь нужно...";
+
+"view.fakeAd.party.title" = "Хочешь круто потусить?";
+"view.fakeAd.party.description" = "Получи доступ к лучшим прогерским вечеринком, прямо в твоем воображении...";
 
 // MARK: - Loading
 

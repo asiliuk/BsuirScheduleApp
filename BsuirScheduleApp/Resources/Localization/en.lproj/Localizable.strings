@@ -127,8 +127,14 @@
 
 "view.fakeAd.label" = "FakeAD";
 
+"view.fakeAd.placeholder.title" = "This could be your ad";
+"view.fakeAd.placeholder.description" = "Want everybody laughing at your jokes? Text me...";
+
 "view.fakeAd.exams.title" = "Exams without effort?";
 "view.fakeAd.exams.description" = "To pass all the exams without study, you simply need to...";
+
+"view.fakeAd.party.title" = "Want to party hard?";
+"view.fakeAd.party.description" = "Get access to best programmers parties, all happening in your imagination...";
 
 // MARK: - Loading
 
