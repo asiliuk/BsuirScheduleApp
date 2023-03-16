@@ -109,7 +109,7 @@ let package = Package(
         ),
         .target(
             name: "FakeAdsFeature",
-            dependencies: ["BsuirUI", .tca]
+            dependencies: ["BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         // MARK: - Core
         .target(

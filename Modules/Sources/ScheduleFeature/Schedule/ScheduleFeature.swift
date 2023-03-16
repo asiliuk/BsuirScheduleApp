@@ -47,7 +47,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         var fakeAds = FakeAdsFeature.State(
             label: TextState("FakeAD"),
             title: TextState("Hello there my fake ad"),
-            description: TextState("This is description of my fake ad banner")
+            description: TextState("This is description of my fake ad banner and it could be pretty long")
         )
 
         public init(title: String, source: ScheduleSource, value: Value) {

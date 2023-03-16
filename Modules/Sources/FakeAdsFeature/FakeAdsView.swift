@@ -31,23 +31,24 @@ public struct FakeAdsView: View {
                             .aspectRatio(1, contentMode: .fit)
                             .overlay(image)
                             .clipped()
+                            .font(.system(size: 18))
 
                         VStack(alignment: .leading) {
                             HStack(alignment: .center, spacing: 4) {
                                 Text(viewStore.label)
                                     .padding(.horizontal, 2)
                                     .foregroundColor(Color(uiColor: .systemBackground))
-                                    .font(.caption2.monospaced()).fontWeight(.heavy)
                                     .background { RoundedRectangle(cornerRadius: 4).fill(Color.primary) }
+                                    .font(.system(size: 12, weight: .black))
 
                                 Text(viewStore.title)
                                     .lineLimit(1)
                             }
-                            .font(.headline)
+                            .font(.system(size: 16, weight: .semibold))
 
                             Text(viewStore.description)
                                 .lineLimit(2)
-                                .font(.subheadline)
+                                .font(.system(size: 14))
                         }
 
                         Spacer(minLength: 0)
@@ -57,7 +58,6 @@ public struct FakeAdsView: View {
             }
             .buttonStyle(BannerButtonStyle())
         }
-
         .frame(maxWidth: .infinity, maxHeight: 68)
     }
 }
