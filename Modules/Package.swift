@@ -89,7 +89,7 @@ let package = Package(
         ),
         .target(
             name: "ScheduleFeature",
-            dependencies: ["LoadableFeature", "Favorites", "FakeAdsFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["LoadableFeature", "Favorites", "FakeAdsFeature", "PremiumClubFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
         ),
         .target(
             name: "LoadableFeature",
