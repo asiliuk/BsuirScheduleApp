@@ -11,10 +11,7 @@ public struct GroupScheduleFeature: Reducer {
         public var id: String { schedule.value }
         public var schedule: ScheduleFeature<String>.State
         public let groupName: String
-
-        // Has to be wrapped in the box or fails to compile because
-        // of recursive state between group & lector schedule states
-        var lectorSchedule: Box<LectorScheduleFeature.State>?
+        @PresentationState var lectorSchedule: LectorScheduleFeature.State?
 
         public init(groupName: String) {
             self.schedule = .init(title: groupName, source: .group(name: groupName), value: groupName)
@@ -30,7 +27,7 @@ public struct GroupScheduleFeature: Reducer {
         
         public enum ReducerAction: Equatable {
             case schedule(ScheduleFeature<String>.Action)
-            indirect case lectorSchedule(LectorScheduleFeature.Action)
+            indirect case lectorSchedule(PresentationAction<LectorScheduleFeature.Action>)
         }
         
         public enum DelegateAction: Equatable {
@@ -70,7 +67,7 @@ public struct GroupScheduleFeature: Reducer {
                     return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
-            case let .reducer(.lectorSchedule(.delegate(action))):
+            case let .reducer(.lectorSchedule(.presented(.delegate(action)))):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -82,10 +79,8 @@ public struct GroupScheduleFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.lectorSchedule, reducerAction: /Action.ReducerAction.lectorSchedule) {
-            Scope(state: \.value, action: .self) {
-                LectorScheduleFeature()
-            }
+        .ifLet(\.$lectorSchedule, action: /Action.reducer .. /Action.ReducerAction.lectorSchedule) {
+            LectorScheduleFeature()
         }
         
         Scope(state: \.schedule, reducerAction: /Action.ReducerAction.schedule) {

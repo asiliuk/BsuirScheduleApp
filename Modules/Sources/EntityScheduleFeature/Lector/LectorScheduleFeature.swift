@@ -11,7 +11,7 @@ public struct LectorScheduleFeature: Reducer {
         public var id: String { schedule.value }
         public let lector: Employee
         public var schedule: ScheduleFeature<String>.State
-        var groupSchedule: GroupScheduleFeature.State?
+        @PresentationState var groupSchedule: GroupScheduleFeature.State?
 
         public init(lector: Employee) {
             self.schedule = .init(
@@ -31,7 +31,7 @@ public struct LectorScheduleFeature: Reducer {
         
         public enum ReducerAction: Equatable {
             case schedule(ScheduleFeature<String>.Action)
-            indirect case groupSchedule(GroupScheduleFeature.Action)
+            indirect case groupSchedule(PresentationAction<GroupScheduleFeature.Action>)
         }
         
         public enum DelegateAction: Equatable {
@@ -71,7 +71,7 @@ public struct LectorScheduleFeature: Reducer {
                     return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
-            case let .reducer(.groupSchedule(.delegate(action))):
+            case let .reducer(.groupSchedule(.presented(.delegate(action)))):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -83,7 +83,7 @@ public struct LectorScheduleFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.groupSchedule, reducerAction: /Action.ReducerAction.groupSchedule) {
+        .ifLet(\.$groupSchedule, action: /Action.reducer .. /Action.ReducerAction.groupSchedule) {
             GroupScheduleFeature()
         }
         
