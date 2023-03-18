@@ -45,6 +45,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType = .continuous
         var fakeAds: FakeAdsFeature.State = .init()
+        var showFakeAds: Bool { mark.isPremiumLocked }
 
         public init(title: String, source: ScheduleSource, value: Value) {
             self.title = title

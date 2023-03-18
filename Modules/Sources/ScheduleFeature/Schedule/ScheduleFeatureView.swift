@@ -9,10 +9,12 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
     struct ViewState: Equatable {
         let title: String
         let scheduleType: ScheduleDisplayType
+        let showFakeAds: Bool
 
         init(state: ScheduleFeature<Value>.State) {
             self.title = state.title
             self.scheduleType = state.scheduleType
+            self.showFakeAds = state.showFakeAds
         }
     }
 
@@ -46,14 +48,16 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 LoadingErrorView(store: store)
             }
             .safeAreaInset(edge: .bottom) {
-                FakeAdsView(
-                    store: store.scope(
-                        state: \.fakeAds,
-                        reducerAction: { .fakeAds($0) }
+                if viewStore.showFakeAds {
+                    FakeAdsView(
+                        store: store.scope(
+                            state: \.fakeAds,
+                            reducerAction: { .fakeAds($0) }
+                        )
                     )
-                )
-                .padding(.horizontal)
-                .padding(.vertical, 6)
+                    .padding(.horizontal)
+                    .padding(.vertical, 6)
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
