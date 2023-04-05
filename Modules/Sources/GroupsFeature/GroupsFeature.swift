@@ -107,12 +107,12 @@ public struct GroupsFeature: Reducer {
             case let .reducer(.favorites(.groupRow(rowId, .rowTapped))):
                 groupTapped(rowId: rowId, in: \.favorites, state: &state)
                 return .none
-                
+
             case .loading(.started(\.$loadedGroups)),
                  .loading(.finished(\.$loadedGroups)):
                 filteredGroups(state: &state)
                 return .none
-                
+
             case let .reducer(.favoritesUpdate(value)):
                 state.favorites = .favorites(Array(value))
                 return .none
@@ -152,8 +152,10 @@ public struct GroupsFeature: Reducer {
             GroupsSection()
         }
         .ifLet(\.sections, reducerAction: /Action.ReducerAction.groupSection) {
-            EmptyReducer()
-                .forEach(\.self, action: .self) { GroupsSection() }
+            EmptyReducer<IdentifiedArrayOf<GroupsSection.State>, _>()
+                .forEach(\.self, action: .self) {
+                    GroupsSection()
+                }
         }
         .load(\.$loadedGroups) { _, isRefresh in try await apiClient.groups(ignoreCache: isRefresh) }
         .ifLet(\.groupSchedule, reducerAction: /Action.ReducerAction.groupSchedule) {

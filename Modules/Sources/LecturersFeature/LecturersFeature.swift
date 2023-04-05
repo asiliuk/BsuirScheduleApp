@@ -85,13 +85,13 @@ public struct LecturersFeature: Reducer {
             LecturersRow()
         }
         .ifLet(\.favorites, reducerAction: /Action.ReducerAction.favorite) {
-            EmptyReducer()
+            EmptyReducer<IdentifiedArrayOf<LecturersRow.State>, _>()
                 .forEach(\.self, action: .self) {
                     LecturersRow()
                 }
         }
         .ifLet(\.lecturers, reducerAction: /Action.ReducerAction.lector) {
-            EmptyReducer()
+            EmptyReducer<IdentifiedArrayOf<LecturersRow.State>, _>()
                 .forEach(\.self, action: .self) {
                     LecturersRow()
                 }
