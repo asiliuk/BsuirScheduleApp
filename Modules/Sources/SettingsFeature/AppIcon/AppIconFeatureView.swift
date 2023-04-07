@@ -57,7 +57,12 @@ struct AppIconFeatureView: View {
                 ),
                 isPremiumLocked: viewStore.isPremiumLocked
             )
-            .alert(store.scope(state: \.alert), dismiss: .alertDismissed)
+            .alert(
+                store: store.scope(
+                    state: \.$alert,
+                    action: { .alert($0) }
+                )
+            )
             .navigationTitle("screen.settings.appIcon.navigation.title")
             .task { await viewStore.send(.task).finish() }
         }

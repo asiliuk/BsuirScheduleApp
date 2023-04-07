@@ -31,11 +31,10 @@ struct MarkedSchedulePickerView: View {
             .task { await ViewStore(store.stateless).send(.task).finish() }
             .accentColor(viewStore.tint)
             .alert(
-                store.scope(
-                    state: \.alert,
+                store: store.scope(
+                    state: \.$alert,
                     action: MarkedScheduleFeature.Action.alert
-                ),
-                dismiss: .dismissed
+                )
             )
         }
     }

@@ -51,6 +51,11 @@ private struct ClearCacheSectionView: View {
         Button("screen.settings.networkAndData.data.section.clearCache.button") {
             ViewStore(store.stateless).send(.clearCacheTapped)
         }
-        .alert(store.scope(state: \.cacheClearedAlert), dismiss: .cacheClearedAlertDismissed)
+        .alert(
+            store: store.scope(
+                state: \.$cacheClearedAlert,
+                action: { .alert($0) }
+            )
+        )
     }
 }

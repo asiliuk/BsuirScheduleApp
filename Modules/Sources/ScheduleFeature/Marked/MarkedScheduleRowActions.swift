@@ -29,11 +29,10 @@ struct MarkedScheduleRowActions: ViewModifier {
                     swipeButton(viewStore.isFavorite ? .removeFromFavorites : .addToFavorites, send: viewStore.send).tint(.yellow)
                 }
                 .alert(
-                    store.scope(
-                        state: \.alert,
+                    store: store.scope(
+                        state: \.$alert,
                         action: MarkedScheduleFeature.Action.alert
-                    ),
-                    dismiss: .dismissed
+                    )
                 )
         }
     }

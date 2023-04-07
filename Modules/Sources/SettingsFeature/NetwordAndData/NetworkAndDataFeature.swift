@@ -4,18 +4,17 @@ import ComposableArchitecture
 
 public struct NetworkAndDataFeature: Reducer {
     public struct State: Equatable {
-        // TODO: new navigation logic
-        var cacheClearedAlert: AlertState<Action>?
+        @PresentationState var cacheClearedAlert: AlertState<Action.AlertAction>?
         var iisReachability = ReachabilityFeature.State(host: URL.iisApi.host()!)
         var appleReachability = ReachabilityFeature.State(host: "apple.com")
     }
 
     public enum Action: Equatable {
+        public typealias AlertAction = Never
         case iisReachability(ReachabilityFeature.Action)
         case appleReachability(ReachabilityFeature.Action)
-
         case clearCacheTapped
-        case cacheClearedAlertDismissed
+        case alert(PresentationAction<AlertAction>)
     }
 
     @Dependency(\.apiClient.clearCache) var clearNetworkCache
@@ -34,14 +33,11 @@ public struct NetworkAndDataFeature: Reducer {
                     imageCache.clearCache()
                 }
 
-            case .cacheClearedAlertDismissed:
-                state.cacheClearedAlert = nil
-                return .none
-
-            case .iisReachability, .appleReachability:
+            case .iisReachability, .appleReachability, .alert:
                 return .none
             }
         }
+        .ifLet(\.$cacheClearedAlert, action: /Action.alert)
 
         Scope(state: \.iisReachability, action: /Action.iisReachability) {
             ReachabilityFeature()

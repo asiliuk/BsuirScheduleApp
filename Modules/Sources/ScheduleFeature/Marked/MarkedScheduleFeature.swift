@@ -9,8 +9,7 @@ import SwiftUINavigation
 
 public struct MarkedScheduleFeature: Reducer {
     public struct State: Equatable {
-        // TODO: new presentation logic
-        public var alert: AlertState<Action.AlertAction>?
+        @PresentationState public var alert: AlertState<Action.AlertAction>?
         public var isFavorite: Bool = false
         public var isPinned: Bool = false
         var isPremiumLocked: Bool
@@ -28,7 +27,6 @@ public struct MarkedScheduleFeature: Reducer {
     public enum Action: Equatable {
         public enum AlertAction: Equatable {
             case learnAboutPremiumClubButtonTapped
-            case dismissed
         }
 
         public enum DelegateAction: Equatable {
@@ -47,7 +45,7 @@ public struct MarkedScheduleFeature: Reducer {
         case _setIsPremiumLocked(Bool)
 
         case delegate(DelegateAction)
-        case alert(AlertAction)
+        case alert(PresentationAction<AlertAction>)
     }
 
     @Dependency(\.favorites) var favorites
@@ -56,60 +54,59 @@ public struct MarkedScheduleFeature: Reducer {
 
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .task:
-            return .merge(
-                observeIsPinned(source: state.source),
-                observeIsFavorite(source: state.source),
-                observeIsPremium()
-            )
+    public var body: some ReducerOf<Self> {
+        Reduce<State, Action> { state, action in
+            switch action {
+            case .task:
+                return .merge(
+                    observeIsPinned(source: state.source),
+                    observeIsFavorite(source: state.source),
+                    observeIsPremium()
+                )
 
-        case .favoriteButtonTapped:
-            return favorite(source: state.source)
+            case .favoriteButtonTapped:
+                return favorite(source: state.source)
 
-        case .unfavoriteButtonTapped:
-            return unfavorite(source: state.source)
+            case .unfavoriteButtonTapped:
+                return unfavorite(source: state.source)
 
-        case .pinButtonTapped:
-            if state.isPremiumLocked {
-                state.alert = .premiumLocked
+            case .pinButtonTapped:
+                if state.isPremiumLocked {
+                    state.alert = .premiumLocked
+                    return .none
+                } else {
+                    return pin(source: state.source)
+                }
+
+            case .unpinButtonTapped:
+                return favorite(source: state.source)
+
+            case .unsaveButtonTapped:
+                return .merge(
+                    unfavorite(source: state.source),
+                    unpin(source: state.source)
+                )
+
+            case let ._setIsFavorite(value):
+                state.isFavorite = value
                 return .none
-            } else {
-                return pin(source: state.source)
+
+            case let ._setIsPinned(value):
+                state.isPinned = value
+                return .none
+
+            case let ._setIsPremiumLocked(value):
+                state.isPremiumLocked = value
+                return .none
+
+            case .alert(.presented(.learnAboutPremiumClubButtonTapped)):
+                return .send(.delegate(.showPremiumClub))
+
+            case .alert, .delegate:
+                return .none
             }
-
-        case .unpinButtonTapped:
-            return favorite(source: state.source)
-
-        case .unsaveButtonTapped:
-            return .merge(
-                unfavorite(source: state.source),
-                unpin(source: state.source)
-            )
-
-        case let ._setIsFavorite(value):
-            state.isFavorite = value
-            return .none
-
-        case let ._setIsPinned(value):
-            state.isPinned = value
-            return .none
-
-        case let ._setIsPremiumLocked(value):
-            state.isPremiumLocked = value
-            return .none
-
-        case .alert(.dismissed):
-            state.alert = nil
-            return .none
-
-        case .alert(.learnAboutPremiumClubButtonTapped):
-            return .send(.delegate(.showPremiumClub))
-
-        case .delegate:
-            return .none
         }
+        .ifLet(\.$alert, action: /Action.alert)
     }
 
     private func favorite(source: ScheduleSource) -> Effect<Action> {
