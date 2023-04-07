@@ -2,7 +2,6 @@ import Foundation
 import BsuirUI
 import SwiftUI
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public struct PairFormsColorPicker: Reducer {
     public struct State: Equatable {
@@ -15,20 +14,10 @@ public struct PairFormsColorPicker: Reducer {
         }
     }
 
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case resetButtonTapped
-        }
+    public enum Action: Equatable {
+        case pairFormColorPickers(id: String, action: PairFormColorPicker.Action)
 
-        public enum ReducerAction: Equatable {
-            case pairFormColorPickers(id: String, action: PairFormColorPicker.Action)
-        }
-
-        public typealias DelegateAction = Never
-
-        case view(ViewAction)
-        case reducer(ReducerAction)
-        case delegate(DelegateAction)
+        case resetButtonTapped
     }
 
     @Dependency(\.pairFormColorService) var pairFormColorService
@@ -36,20 +25,20 @@ public struct PairFormsColorPicker: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .view(.resetButtonTapped):
+            case .resetButtonTapped:
                 pairFormColorService.reset()
                 state.update(service: pairFormColorService)
                 return .none
-            case .reducer(.pairFormColorPickers(let id, .delegate(.colorDidChange))):
+            case .pairFormColorPickers(let id, .delegate(.colorDidChange)):
                 guard let formState = state.pairFormColorPickers[id: id] else { return .none }
                 pairFormColorService[formState.form] = formState.color
                 state.updateHasChanges(service: pairFormColorService)
                 return .none
-            case .reducer:
+            case .pairFormColorPickers:
                 return .none
             }
         }
-        .forEach(\.pairFormColorPickers, reducerAction: /Action.ReducerAction.pairFormColorPickers) {
+        .forEach(\.pairFormColorPickers, action: /Action.pairFormColorPickers) {
             PairFormColorPicker()
         }
     }
@@ -81,17 +70,12 @@ public struct PairFormColorPicker: Reducer {
         @BindingState var color: PairFormColor
     }
 
-    public enum Action: Equatable, FeatureAction, BindableAction {
-        public typealias ViewAction = Never
-        public typealias ReducerAction = Never
-
+    public enum Action: Equatable, BindableAction {
         public enum DelegateAction: Equatable {
             case colorDidChange
         }
 
         case binding(BindingAction<State>)
-        case view(ViewAction)
-        case reducer(ReducerAction)
         case delegate(DelegateAction)
     }
 

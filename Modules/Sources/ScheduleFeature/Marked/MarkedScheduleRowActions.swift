@@ -41,7 +41,7 @@ struct MarkedScheduleRowActions: ViewModifier {
 
     private func swipeButton(
         _ config: SwipeButtonConfig,
-        send: @escaping (MarkedScheduleFeature.Action.ViewAction, Animation?
+        send: @escaping (MarkedScheduleFeature.Action, Animation?
     ) -> ViewStoreTask) -> some View {
         Button {
             _ = send(config.action, Animation.default)
@@ -52,7 +52,7 @@ struct MarkedScheduleRowActions: ViewModifier {
 }
 
 private struct SwipeButtonConfig {
-    var action: MarkedScheduleFeature.Action.ViewAction
+    var action: MarkedScheduleFeature.Action
     var title: LocalizedStringKey
     var systemImage: String
 

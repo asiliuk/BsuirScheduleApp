@@ -37,14 +37,13 @@ where Action: LoadableAction, State == Action.State {
     let fetch: @Sendable (State, _ isRefresh: Bool) async throws -> Value
 
     var body: some Reducer<State, Action> {
-        Scope(state: \.self, action: .loading(keyPath: keyPath)) {
-            Scope(state: keyPath, action: /LoadingAction<State>.Action.view) {
-                EmptyReducer()
-                    .ifCaseLet(/LoadableState.error, action: /LoadingAction<State>.Action.ViewAction.loadingError) {
-                        LoadingError()
-                    }
+        Scope(state: keyPath, action: .loading(keyPath: keyPath)) {
+            Scope(state: /LoadableState.error, action: /LoadingAction<State>.Action.loadingError) {
+                LoadingError()
             }
+        }
 
+        Scope(state: \.self, action: .loading(keyPath: keyPath)) {
             CoreLoadingReducer(keyPath: keyPath, fetch: fetch)
         }
     }
@@ -66,32 +65,32 @@ private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
         }
 
         switch action {
-        case .view(.onAppear) where valueState.isInitial:
+        case .onAppear where valueState.isInitial:
             valueState = .loading
             return .merge(
                 load(state, isRefresh: false),
                 loadingStarted()
             )
 
-        case .view(.loadingError(.reload)) where valueState.isError:
+        case .loadingError(.reload) where valueState.isError:
             valueState = .loading
             return .merge(
                 load(state, isRefresh: true),
                 loadingStarted()
             )
 
-        case .view(.refresh) where valueState.isError || valueState.isSome:
+        case .refresh where valueState.isError || valueState.isSome:
             return load(state, isRefresh: true)
 
-        case let .reducer(.loaded(value, _)):
+        case let ._loaded(value, _):
             valueState = .some(value as! Value)
             return loadingFinished()
 
-        case let .reducer(.loadingFailed(error)):
+        case let ._loadingFailed(error):
             valueState = .error(.init(error))
             return loadingFinished()
             
-        case .delegate, .view(.loadingError), .view(.onAppear), .view(.refresh):
+        case .delegate, .loadingError, .onAppear, .refresh:
             return .none
         }
     }
@@ -114,10 +113,10 @@ private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
                     try await clock.sleep(for: .milliseconds(200))
                 }
                 let value = try await fetch(state, isRefresh)
-                return .reducer(.loaded(value, isEqualTo: { $0 as? Value == value }))
+                return ._loaded(value, isEqualTo: { $0 as? Value == value })
             }
         } catch: { error in
-            .reducer(.loadingFailed(error))
+            ._loadingFailed(error)
         }
         .animation()
         .cancellable(id: LoadingCancelId.self, cancelInFlight: true)

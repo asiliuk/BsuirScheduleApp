@@ -27,19 +27,19 @@ public struct GroupsFeatureView: View {
         WithViewStore(store, observe: ViewState.init) { viewStore in
             LoadingGroupsView(
                 store: store,
-                isOnTop: viewStore.binding(get: \.isOnTop, send: { .view(.setIsOnTop($0)) })
+                isOnTop: viewStore.binding(get: \.isOnTop, send: { .setIsOnTop($0) })
             )
             .navigationTitle("screen.groups.navigation.title")
             .task { await viewStore.send(.task).finish() }
             .navigationDestination(
                 unwrapping: viewStore.binding(
                     get: \.groupScheduleName,
-                    send: { .view(.setGroupScheduleName($0)) }
+                    send: { .setGroupScheduleName($0) }
                 )
             ) { _ in
                 IfLetStore(
                     store
-                        .scope(state: \.groupSchedule, reducerAction: { .groupSchedule($0) })
+                        .scope(state: \.groupSchedule, action: { .groupSchedule($0) })
                         .returningLastNonNilState()
                 ) { store in
                     GroupScheduleView(store: store)
@@ -58,14 +58,14 @@ private struct LoadingGroupsView: View {
             store,
             state: \.$sections,
             loading: \.$loadedGroups,
-            action: { .reducer(.groupSection(id: $0, action: $1)) }
+            action: GroupsFeature.Action.groupSection
         ) { store in
             ScrollableToTopList(isOnTop: $isOnTop) {
-                IfLetStore(self.store.scope(state: \.pinned, reducerAction: { .pinned($0) })) { store in
+                IfLetStore(self.store.scope(state: \.pinned, action: { .pinned($0) })) { store in
                     GroupsSectionView(store: store)
                 }
 
-                IfLetStore(self.store.scope(state: \.favorites, reducerAction: { .favorites($0) })) { store in
+                IfLetStore(self.store.scope(state: \.favorites, action: { .favorites($0) })) { store in
                     GroupsSectionView(store: store)
                 }
 
@@ -75,7 +75,7 @@ private struct LoadingGroupsView: View {
             }
             .listStyle(.insetGrouped)
             .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
-            .groupsSearchable(store: self.store.scope(state: \.search, reducerAction: { .search($0) }))
+            .groupsSearchable(store: self.store.scope(state: \.search, action: { .search($0) }))
         } loading: {
             GroupsLoadingPlaceholder(store: store)
         } error: { store in

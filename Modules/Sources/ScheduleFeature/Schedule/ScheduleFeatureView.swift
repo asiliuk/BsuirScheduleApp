@@ -37,7 +37,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                     store: store.loaded(),
                     scheduleType: viewStore.binding(
                         get: \.scheduleType,
-                        send: { .view(.setScheduleType($0)) }
+                        send: { .setScheduleType($0) }
                     ),
                     schedulePairDetails: schedulePairDetails
                 )
@@ -52,7 +52,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                     FakeAdsView(
                         store: store.scope(
                             state: \.fakeAds,
-                            reducerAction: { .fakeAds($0) }
+                            action: { .fakeAds($0) }
                         )
                     )
                     .padding(.horizontal)
@@ -61,20 +61,20 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                        ScheduleDisplayTypePicker(
-                            scheduleType: viewStore
-                                .binding(get: \.scheduleType, send: { .view(.setScheduleType($0)) })
-                                .animation(.default)
-                        )
-                        .pickerStyle(.segmented)
-                        .frame(width: 200)
+                    ScheduleDisplayTypePicker(
+                        scheduleType: viewStore
+                            .binding(get: \.scheduleType, send: { .setScheduleType($0) })
+                            .animation(.default)
+                    )
+                    .pickerStyle(.segmented)
+                    .frame(width: 200)
                 }
 
                 ToolbarItem {
                     MarkedSchedulePickerView(
                         store: store.scope(
                             state: \.mark,
-                            action: { .reducer(.mark($0)) }
+                            action: { .mark($0) }
                         )
                     )
                 }

@@ -46,31 +46,26 @@ public struct LecturersFeature: Reducer {
         public init() {}
     }
     
-    public enum Action: Equatable, FeatureAction, LoadableAction {
-        public enum ViewAction: Equatable {
-            case task
-            case setIsOnTop(Bool)
-            case setLectorScheduleId(Int?)
-        }
-        
-        public enum ReducerAction: Equatable {
-            case favoritesUpdate(OrderedSet<Int>)
-            case pinnedUpdate(Employee?)
-            case lectorSchedule(LectorScheduleFeature.Action)
-            case search(LecturersSearch.Action)
-            case pinned(LecturersRow.Action)
-            case favorite(id: LecturersRow.State.ID, action: LecturersRow.Action)
-            case lector(id: LecturersRow.State.ID, action: LecturersRow.Action)
-        }
-        
+    public enum Action: Equatable, LoadableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
             case showPremiumClubFakeAdsBanner
         }
+
+        case lectorSchedule(LectorScheduleFeature.Action)
+        case search(LecturersSearch.Action)
+        case pinned(LecturersRow.Action)
+        case favorite(id: LecturersRow.State.ID, action: LecturersRow.Action)
+        case lector(id: LecturersRow.State.ID, action: LecturersRow.Action)
+
+        case task
+        case setIsOnTop(Bool)
+        case setLectorScheduleId(Int?)
+        
+        case _favoritesUpdate(OrderedSet<Int>)
+        case _pinnedUpdate(Employee?)
         
         case loading(LoadingAction<State>)
-        case view(ViewAction)
-        case reducer(ReducerAction)
         case delegate(DelegateAction)
     }
     
@@ -81,16 +76,16 @@ public struct LecturersFeature: Reducer {
     
     public var body: some ReducerOf<Self> {
         Reduce { coreReduce(into: &$0, action: $1) }
-        .ifLet(\.pinned, reducerAction: /Action.ReducerAction.pinned) {
+        .ifLet(\.pinned, action: /Action.pinned) {
             LecturersRow()
         }
-        .ifLet(\.favorites, reducerAction: /Action.ReducerAction.favorite) {
+        .ifLet(\.favorites, action: /Action.favorite) {
             EmptyReducer<IdentifiedArrayOf<LecturersRow.State>, _>()
                 .forEach(\.self, action: .self) {
                     LecturersRow()
                 }
         }
-        .ifLet(\.lecturers, reducerAction: /Action.ReducerAction.lector) {
+        .ifLet(\.lecturers, action: /Action.lector) {
             EmptyReducer<IdentifiedArrayOf<LecturersRow.State>, _>()
                 .forEach(\.self, action: .self) {
                     LecturersRow()
@@ -99,46 +94,46 @@ public struct LecturersFeature: Reducer {
         .load(\.$loadedLecturers) { _, isRefresh in
             try await IdentifiedArray(uniqueElements: apiClient.lecturers(ignoreCache: isRefresh))
         }
-        .ifLet(\.lectorSchedule, reducerAction: /Action.ReducerAction.lectorSchedule) {
+        .ifLet(\.lectorSchedule, action: /Action.lectorSchedule) {
             LectorScheduleFeature()
         }
 
-        Scope(state: \.search, reducerAction: /Action.ReducerAction.search) {
+        Scope(state: \.search, action: /Action.search) {
             LecturersSearch()
         }
     }
 
     private func coreReduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
-        case .view(.task):
+        case .task:
             return .merge(
                 listenToFavoriteUpdates(),
                 listenToPinnedUpdates()
             )
 
-        case let .view(.setIsOnTop(value)):
+        case let .setIsOnTop(value):
             state.isOnTop = value
             return .none
 
-        case .view(.setLectorScheduleId(nil)):
+        case .setLectorScheduleId(nil):
             state.lectorSchedule = nil
             return .none
 
-        case .view(.setLectorScheduleId(.some)):
+        case .setLectorScheduleId(.some):
             assertionFailure("Not really expecting this to happen")
             return .none
 
-        case .reducer(.pinned(.rowTapped)):
+        case .pinned(.rowTapped):
             let lector = state.pinned?.lector
             state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
             return .none
 
-        case let .reducer(.favorite(id, .rowTapped)):
+        case let .favorite(id, .rowTapped):
             let lector = state.favorites?[id: id]?.lector
             state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
             return .none
 
-        case let .reducer(.lector(id, .rowTapped)):
+        case let .lector(id, .rowTapped):
             let lector = state.loadedLecturers?[id: id]
             state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
             return .none
@@ -152,26 +147,26 @@ public struct LecturersFeature: Reducer {
             state.openLectorIfNeeded()
             return .none
 
-        case .reducer(.search(.delegate(.didUpdateImportantState))):
+        case .search(.delegate(.didUpdateImportantState)):
             filteredLecturers(state: &state)
             return .none
 
-        case let .reducer(.favoritesUpdate(value)):
+        case let ._favoritesUpdate(value):
             state.favoriteIds = value
             return .none
 
-        case let .reducer(.pinnedUpdate(value)):
+        case let ._pinnedUpdate(value):
             state.pinned = value.map(LecturersRow.State.init(lector:))
             return .none
 
-        case .reducer(.favorite(_, .mark(.delegate(let action)))),
-             .reducer(.lector(_, .mark(.delegate(let action)))):
+        case .favorite(_, .mark(.delegate(let action))),
+             .lector(_, .mark(.delegate(let action))):
             switch action {
             case .showPremiumClub:
                 return .send(.delegate(.showPremiumClubPinned))
             }
 
-        case .reducer(.lectorSchedule(.delegate(let action))):
+        case .lectorSchedule(.delegate(let action)):
             switch action {
             case .showPremiumClubPinned:
                 return .send(.delegate(.showPremiumClubPinned))
@@ -179,7 +174,7 @@ public struct LecturersFeature: Reducer {
                 return .send(.delegate(.showPremiumClubFakeAdsBanner))
             }
 
-        case .reducer, .loading, .delegate:
+        case .lectorSchedule, .search, .pinned, .favorite, .lector, .loading, .delegate:
             return .none
         }
     }
@@ -198,7 +193,7 @@ public struct LecturersFeature: Reducer {
     private func listenToFavoriteUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.lecturerIds.values {
-                await send(.reducer(.favoritesUpdate(value)), animation: .default)
+                await send(._favoritesUpdate(value), animation: .default)
             }
         }
     }
@@ -206,7 +201,7 @@ public struct LecturersFeature: Reducer {
     private func listenToPinnedUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.pinnedSchedule.map(\.?.lector).removeDuplicates().values {
-                await send(.reducer(.pinnedUpdate(value)), animation: .default)
+                await send(._pinnedUpdate(value), animation: .default)
             }
         }
     }

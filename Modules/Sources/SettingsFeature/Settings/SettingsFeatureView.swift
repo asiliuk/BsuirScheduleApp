@@ -28,7 +28,7 @@ public struct SettingsFeatureView: View {
             ScrollableToTopList(
                 isOnTop: viewStore.binding(
                     get: { $0 },
-                    send: { .view(.setIsOnTop($0)) }
+                    send: { .setIsOnTop($0) }
                 )
             ) {
                 Section {
@@ -36,7 +36,7 @@ public struct SettingsFeatureView: View {
                         PremiumClubLabel(
                             store: store.scope(
                                 state: \.premiumClub,
-                                reducerAction: { .premiumClub($0) }
+                                action: { .premiumClub($0) }
                             )
                         )
                     }
@@ -47,7 +47,7 @@ public struct SettingsFeatureView: View {
                         value: .appIcon,
                         store: store.scope(
                             state: \.appIcon,
-                            reducerAction: { .appIcon($0) }
+                            action: { .appIcon($0) }
                         )
                     )
 
@@ -72,7 +72,7 @@ public struct SettingsFeatureView: View {
                     DebugPremiumClubRowView(
                         store: store.scope(
                             state: \.debugPremiumClubRow,
-                            reducerAction: { .debugPremiumClubRow($0) }
+                            action: { .debugPremiumClubRow($0) }
                         )
                     )
                 }
@@ -84,7 +84,7 @@ public struct SettingsFeatureView: View {
                     PremiumClubFeatureView(
                         store: store.scope(
                             state: \.premiumClub,
-                            reducerAction: { .premiumClub($0) }
+                            action: { .premiumClub($0) }
                         )
                     )
 
@@ -92,7 +92,7 @@ public struct SettingsFeatureView: View {
                     AppIconFeatureView(
                         store: store.scope(
                             state: \.appIcon,
-                            reducerAction: { .appIcon($0) }
+                            action: { .appIcon($0) }
                         )
                     )
 
@@ -100,7 +100,7 @@ public struct SettingsFeatureView: View {
                     AppearanceFeatureView(
                         store: store.scope(
                             state: \.appearance,
-                            reducerAction: { .appearance($0) }
+                            action: { .appearance($0) }
                         )
                     )
 
@@ -108,7 +108,7 @@ public struct SettingsFeatureView: View {
                     NetworkAndDataFeatureView(
                         store: store.scope(
                             state: \.networkAndData,
-                            reducerAction: { .networkAndData($0) }
+                            action: { .networkAndData($0) }
                         )
                     )
 
@@ -116,7 +116,7 @@ public struct SettingsFeatureView: View {
                     AboutFeatureView(
                         store: store.scope(
                             state: \.about,
-                            reducerAction: { .about($0) }
+                            action: { .about($0) }
                         )
                     )
                 }

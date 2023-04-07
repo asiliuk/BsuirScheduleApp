@@ -30,14 +30,14 @@ private struct ReachabilitySectionView: View {
         ReachabilityView(
             store: store.scope(
                 state: \.iisReachability,
-                reducerAction: { .iisReachability($0) }
+                action: { .iisReachability($0) }
             )
         )
 
         ReachabilityView(
             store: store.scope(
                 state: \.appleReachability,
-                reducerAction: { .appleReachability($0) }
+                action: { .appleReachability($0) }
             )
         )
     }
@@ -52,6 +52,6 @@ private struct ClearCacheSectionView: View {
         Button("screen.settings.networkAndData.data.section.clearCache.button") {
             ViewStore(store.stateless).send(.clearCacheTapped)
         }
-        .alert(store.scope(state: \.cacheClearedAlert), dismiss: .view(.cacheClearedAlertDismissed))
+        .alert(store.scope(state: \.cacheClearedAlert), dismiss: .cacheClearedAlertDismissed)
     }
 }

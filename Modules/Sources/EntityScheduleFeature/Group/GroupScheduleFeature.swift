@@ -19,24 +19,18 @@ public struct GroupScheduleFeature: Reducer {
         }
     }
     
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case lectorTapped(Employee)
-            case setLectorScheduleId(Int?)
-        }
-        
-        public enum ReducerAction: Equatable {
-            case schedule(ScheduleFeature<String>.Action)
-            indirect case lectorSchedule(PresentationAction<LectorScheduleFeature.Action>)
-        }
-        
+    public enum Action: Equatable {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
             case showPremiumClubFakeAdsBanner
         }
 
-        case view(ViewAction)
-        case reducer(ReducerAction)
+        case schedule(ScheduleFeature<String>.Action)
+        indirect case lectorSchedule(PresentationAction<LectorScheduleFeature.Action>)
+
+        case lectorTapped(Employee)
+        case setLectorScheduleId(Int?)
+
         case delegate(DelegateAction)
     }
 
@@ -47,19 +41,19 @@ public struct GroupScheduleFeature: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case let .view(.lectorTapped(lector)):
+            case let .lectorTapped(lector):
                 state.lectorSchedule = .init(.init(lector: lector))
                 return .none
 
-            case .view(.setLectorScheduleId(nil)):
+            case .setLectorScheduleId(nil):
                 state.lectorSchedule = nil
                 return .none
 
-            case .view(.setLectorScheduleId(.some)):
+            case .setLectorScheduleId(.some):
                 assertionFailure("Not suppose to happen")
                 return .none
 
-            case let .reducer(.schedule(.delegate(action))):
+            case let .schedule(.delegate(action)):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -67,7 +61,7 @@ public struct GroupScheduleFeature: Reducer {
                     return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
-            case let .reducer(.lectorSchedule(.presented(.delegate(action)))):
+            case let .lectorSchedule(.presented(.delegate(action))):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -75,15 +69,15 @@ public struct GroupScheduleFeature: Reducer {
                     return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
-            case .reducer, .delegate:
+            case .schedule, .lectorSchedule, .delegate:
                 return .none
             }
         }
-        .ifLet(\.$lectorSchedule, action: /Action.reducer .. /Action.ReducerAction.lectorSchedule) {
+        .ifLet(\.$lectorSchedule, action: /Action.lectorSchedule) {
             LectorScheduleFeature()
         }
         
-        Scope(state: \.schedule, reducerAction: /Action.ReducerAction.schedule) {
+        Scope(state: \.schedule, action: /Action.schedule) {
             ScheduleFeature { name, isRefresh in
                 try await ScheduleRequestResponse(response: apiClient.groupSchedule(name: name, ignoreCache: isRefresh))
             }

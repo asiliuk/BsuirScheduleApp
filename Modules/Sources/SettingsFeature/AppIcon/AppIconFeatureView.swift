@@ -54,7 +54,7 @@ struct AppIconFeatureView: View {
             AppIconPickerView(
                 selection: viewStore.binding(
                     get: \.currentIcon,
-                    send: { .view(.iconPicked($0)) }
+                    send: { .iconPicked($0) }
                 ),
                 isPremiumLocked: viewStore.isPremiumLocked
             )

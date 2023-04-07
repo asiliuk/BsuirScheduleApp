@@ -30,7 +30,7 @@ struct ContiniousScheduleView: View {
                     pairShowWeeks: false,
                     isOnTop: viewStore.binding(
                         get: \.isOnTop,
-                        send: { .view(.setIsOnTop($0)) }
+                        send: { .setIsOnTop($0) }
                     )
                 )
             }

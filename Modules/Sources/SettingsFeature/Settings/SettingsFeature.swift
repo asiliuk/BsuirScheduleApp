@@ -25,30 +25,23 @@ public struct SettingsFeature: Reducer {
         public init() {}
     }
     
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case setIsOnTop(Bool)
-            case setPath(NavigationPath)
-        }
-        
-        public enum ReducerAction: Equatable {
-            case premiumClub(PremiumClubFeature.Action)
-            #if DEBUG
-            case debugPremiumClubRow(DebugPremiumClubRow.Action)
-            #endif
-
-            case appIcon(AppIconFeature.Action)
-            case appearance(AppearanceFeature.Action)
-            case networkAndData(NetworkAndDataFeature.Action)
-            case about(AboutFeature.Action)
-        }
-        
+    public enum Action: Equatable {
         public enum DelegateAction: Equatable {
             case showPremiumClub(source: PremiumClubFeature.Source?)
         }
 
-        case view(ViewAction)
-        case reducer(ReducerAction)
+        case premiumClub(PremiumClubFeature.Action)
+        #if DEBUG
+        case debugPremiumClubRow(DebugPremiumClubRow.Action)
+        #endif
+        case appIcon(AppIconFeature.Action)
+        case appearance(AppearanceFeature.Action)
+        case networkAndData(NetworkAndDataFeature.Action)
+        case about(AboutFeature.Action)
+
+        case setIsOnTop(Bool)
+        case setPath(NavigationPath)
+
         case delegate(DelegateAction)
     }
 
@@ -57,48 +50,53 @@ public struct SettingsFeature: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case let .view(.setIsOnTop(value)):
+            case let .setIsOnTop(value):
                 state.isOnTop = value
                 return .none
 
-            case let .view(.setPath(value)):
+            case let .setPath(value):
                 state.path = value
                 return .none
 
-            case .reducer(.appIcon(.delegate(let action))):
+            case .appIcon(.delegate(let action)):
                 switch action {
                 case .showPremiumClub:
                     return .send(.delegate(.showPremiumClub(source: .appIcon)))
                 }
 
-            case .reducer, .delegate:
+#if DEBUG
+            case .debugPremiumClubRow:
+                return .none
+#endif
+
+            case .premiumClub, .appIcon, .appearance, .networkAndData, .about, .delegate:
                 return .none
             }
         }
 
-        Scope(state: \.premiumClub, reducerAction: /Action.ReducerAction.premiumClub) {
+        Scope(state: \.premiumClub, action: /Action.premiumClub) {
             PremiumClubFeature()
         }
 
         #if DEBUG
-        Scope(state: \.debugPremiumClubRow, reducerAction: /Action.ReducerAction.debugPremiumClubRow) {
+        Scope(state: \.debugPremiumClubRow, action: /Action.debugPremiumClubRow) {
             DebugPremiumClubRow()
         }
         #endif
 
-        Scope(state: \.appIcon, reducerAction: /Action.ReducerAction.appIcon) {
+        Scope(state: \.appIcon, action: /Action.appIcon) {
             AppIconFeature()
         }
 
-        Scope(state: \.appearance, reducerAction: /Action.ReducerAction.appearance) {
+        Scope(state: \.appearance, action: /Action.appearance) {
             AppearanceFeature()
         }
 
-        Scope(state: \.networkAndData, reducerAction: /Action.ReducerAction.networkAndData) {
+        Scope(state: \.networkAndData, action: /Action.networkAndData) {
             NetworkAndDataFeature()
         }
 
-        Scope(state: \.about, reducerAction: /Action.ReducerAction.about) {
+        Scope(state: \.about, action: /Action.about) {
             AboutFeature()
         }
     }

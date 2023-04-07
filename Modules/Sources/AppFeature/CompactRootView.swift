@@ -107,7 +107,7 @@ private struct SettingsFeatureTab: View {
 
     var body: some View {
         WithViewStore(store, observe: \.path) { viewStore in
-            NavigationStack(path: viewStore.binding(send: { .view(.setPath($0)) })) {
+            NavigationStack(path: viewStore.binding(send: { .setPath($0) })) {
                 SettingsFeatureView(store: store)
                     .navigationBarTitleDisplayMode(.inline)
             }

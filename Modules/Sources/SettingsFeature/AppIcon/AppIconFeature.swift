@@ -7,6 +7,7 @@ import ComposableArchitectureUtils
 
 public struct AppIconFeature: Reducer {
     public struct State: Equatable {
+        // TODO: new navigation logic
         var alert: AlertState<Action>?
 
         var supportsIconPicking: Bool = {
@@ -22,27 +23,21 @@ public struct AppIconFeature: Reducer {
         var isPremiumLocked: Bool = false
     }
     
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case task
-            case alertDismissed
-            case learnAboutPremiumClubButtonTapped
-            case iconPicked(AppIcon?)
-        }
-        
-        public enum ReducerAction: Equatable {
-            case iconChanged(AppIcon?)
-            case iconChangeFailed
-            case setIsPremiumLocked(Bool)
-        }
-        
+    public enum Action: Equatable {
         public enum DelegateAction: Equatable {
             case showPremiumClub
         }
+
+        case task
+        case alertDismissed
+        case learnAboutPremiumClubButtonTapped
+        case iconPicked(AppIcon?)
         
-        case view(ViewAction)
+        case _iconChanged(AppIcon?)
+        case _iconChangeFailed
+        case _setIsPremiumLocked(Bool)
+
         case delegate(DelegateAction)
-        case reducer(ReducerAction)
     }
 
     @Dependency(\.application.setAlternateIconName) var setAlternateIconName
@@ -51,21 +46,21 @@ public struct AppIconFeature: Reducer {
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
-        case .view(.task):
+        case .task:
             state.isPremiumLocked = !premiumService.isCurrentlyPremium
             return .run { send in
                 for await value in premiumService.isPremium.removeDuplicates().values {
-                    await send(.reducer(.setIsPremiumLocked(!value)))
+                    await send(._setIsPremiumLocked(!value))
                 }
             }
-        case .view(.alertDismissed):
+        case .alertDismissed:
             state.alert = nil
             return .none
 
-        case .view(.learnAboutPremiumClubButtonTapped):
+        case .learnAboutPremiumClubButtonTapped:
             return .send(.delegate(.showPremiumClub))
             
-        case let .view(.iconPicked(icon)):
+        case let .iconPicked(icon):
             guard icon != state.currentIcon else {
                 return .none
             }
@@ -78,23 +73,23 @@ public struct AppIconFeature: Reducer {
             return .task {
                 try await setAlternateIconName(icon?.iconName)
                 await reviewRequestService.madeMeaningfulEvent(.appIconChanged)
-                return .reducer(.iconChanged(icon))
+                return ._iconChanged(icon)
             } catch: { _ in
-                .reducer(.iconChangeFailed)
+                ._iconChangeFailed
             }
             
-        case let .reducer(.iconChanged(newIcon)):
+        case let ._iconChanged(newIcon):
             state.currentIcon = newIcon
             if let newIcon, newIcon.showNiceChoiceAlert {
                 state.alert = .goodIconChoice
             }
             return .none
             
-        case .reducer(.iconChangeFailed):
+        case ._iconChangeFailed:
             state.alert = .iconUpdateFailed
             return .none
 
-        case .reducer(.setIsPremiumLocked(let value)):
+        case ._setIsPremiumLocked(let value):
             state.isPremiumLocked = value
             return .none
 
@@ -113,7 +108,7 @@ private extension AlertState where Action == AppIconFeature.Action {
         buttons: [
             .default(
                 TextState("Join Premium Club..."),
-                action: .send(.view(.learnAboutPremiumClubButtonTapped))),
+                action: .send(.learnAboutPremiumClubButtonTapped)),
             .cancel(TextState("Cancel"))
         ]
     )

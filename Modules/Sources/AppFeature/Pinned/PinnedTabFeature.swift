@@ -10,32 +10,24 @@ public struct PinnedTabFeature: Reducer {
         var schedule: PinnedScheduleFeature.State?
     }
 
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case learnAboutPremiumClubTapped
-        }
-
-        public enum ReducerAction: Equatable {
-            case schedule(PinnedScheduleFeature.Action)
-        }
-
+    public enum Action: Equatable {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
             case showPremiumClubFakeAdsBanner
         }
 
-        case view(ViewAction)
-        case reducer(ReducerAction)
+        case schedule(PinnedScheduleFeature.Action)
+        case learnAboutPremiumClubTapped
         case delegate(DelegateAction)
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .view(.learnAboutPremiumClubTapped):
+            case .learnAboutPremiumClubTapped:
                 return .send(.delegate(.showPremiumClubPinned))
 
-            case .reducer(.schedule(.delegate(let action))):
+            case .schedule(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -43,11 +35,11 @@ public struct PinnedTabFeature: Reducer {
                     return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
-            case .reducer, .delegate:
+            case .schedule, .delegate:
                 return .none
             }
         }
-        .ifLet(\.schedule, reducerAction: /Action.ReducerAction.schedule) {
+        .ifLet(\.schedule, action: /Action.schedule) {
             PinnedScheduleFeature()
         }
     }

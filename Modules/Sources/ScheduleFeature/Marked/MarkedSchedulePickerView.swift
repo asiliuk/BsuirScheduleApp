@@ -79,13 +79,13 @@ private extension MarkedScheduleFeature.Action {
     init(_ action: MarkedSchedulePickerView.ViewAction) {
         switch action {
         case .task:
-            self = .view(.task)
+            self = .task
         case .setSelection(.pinned):
-            self = .view(.pinButtonTapped)
+            self = .pinButtonTapped
         case .setSelection(.favorite):
-            self = .view(.favoriteButtonTapped)
+            self = .favoriteButtonTapped
         case .setSelection(.nothing):
-            self = .view(.unsaveButtonTapped)
+            self = .unsaveButtonTapped
         }
     }
 }

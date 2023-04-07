@@ -88,10 +88,10 @@ struct FakeAdsView_Previews: PreviewProvider {
         TabView {
             NavigationStack {
                 List {
-                        ForEach(0..<10, id: \.self) { _ in
-                            Color.clear.frame(height: 100)
-                        }
-
+                    ForEach(0..<10, id: \.self) { _ in
+                        Color.clear.frame(height: 100)
+                    }
+                    
                 }
                 .safeAreaInset(edge: .bottom) {
                     bannerPreview

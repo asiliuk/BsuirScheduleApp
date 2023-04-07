@@ -27,17 +27,17 @@ public struct LecturersFeatureView: View {
         WithViewStore(store, observe: ViewState.init) { viewStore in
             LoadingLecturersView(
                 store: store,
-                isOnTop: viewStore.binding(get: \.isOnTop, send: { .view(.setIsOnTop($0)) })
+                isOnTop: viewStore.binding(get: \.isOnTop, send: { .setIsOnTop($0) })
             )
             .navigationDestination(
                 unwrapping: viewStore.binding(
                     get: \.lectorScheduleId,
-                    send: { .view(.setLectorScheduleId($0)) }
+                    send: { .setLectorScheduleId($0) }
                 )
             ) { _ in
                 IfLetStore(
                     store
-                        .scope(state: \.lectorSchedule, reducerAction: { .lectorSchedule($0) })
+                        .scope(state: \.lectorSchedule, action: { .lectorSchedule($0) })
                         .returningLastNonNilState()
                 ) { store in
                     LectorScheduleView(store: store)
@@ -58,13 +58,13 @@ private struct LoadingLecturersView: View {
             store,
             state: \.$lecturers,
             loading: \.$loadedLecturers,
-            action: { .reducer(.lector(id: $0, action: $1)) }
+            action: LecturersFeature.Action.lector
         ) { store in
             ScrollableToTopList(isOnTop: $isOnTop) {
                 IfLetStore(
                     self.store.scope(
                         state: \.pinned,
-                        reducerAction: { .pinned($0) }
+                        action: { .pinned($0) }
                     )
                 ) { store in
                     Section("screen.lecturers.pinned.section.header") {
@@ -77,7 +77,7 @@ private struct LoadingLecturersView: View {
                         ForEachStore(
                             store.scope(
                                 state: { $0 },
-                                reducerAction: { .favorite(id: $0, action: $1) }
+                                action: LecturersFeature.Action.favorite
                             )
                         ) { store in
                             LecturersRowView(store: store)
@@ -93,7 +93,7 @@ private struct LoadingLecturersView: View {
             }
             .listStyle(.insetGrouped)
             .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
-            .lecturersSearchable(store: self.store.scope(state: \.search, reducerAction: { .search($0) }))
+            .lecturersSearchable(store: self.store.scope(state: \.search, action: { .search($0) }))
         } loading: {
             LecturersLoadingPlaceholder(store: store)
         } error: { store in

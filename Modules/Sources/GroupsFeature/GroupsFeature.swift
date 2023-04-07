@@ -42,31 +42,27 @@ public struct GroupsFeature: Reducer {
         public init() {}
     }
     
-    public enum Action: Equatable, FeatureAction, LoadableAction {
-        public enum ViewAction: Equatable {
-            case task
-            case setIsOnTop(Bool)
-            case setGroupScheduleName(String?)
-        }
-        
-        public enum ReducerAction: Equatable {
-            case favoritesUpdate(OrderedSet<String>)
-            case pinnedUpdate(String?)
-            case groupSchedule(GroupScheduleFeature.Action)
-            case pinned(GroupsSection.Action)
-            case favorites(GroupsSection.Action)
-            case search(GroupsSearch.Action)
-            case groupSection(id: GroupsSection.State.ID, action: GroupsSection.Action)
-        }
-
+    public enum Action: Equatable, LoadableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
             case showPremiumClubFakeAdsBanner
         }
+
+        case groupSchedule(GroupScheduleFeature.Action)
+        case pinned(GroupsSection.Action)
+        case favorites(GroupsSection.Action)
+        case search(GroupsSearch.Action)
+        case groupSection(id: GroupsSection.State.ID, action: GroupsSection.Action)
+
+        case task
+        case setIsOnTop(Bool)
+        case setGroupScheduleName(String?)
+
+        
+        case _favoritesUpdate(OrderedSet<String>)
+        case _pinnedUpdate(String?)
         
         case loading(LoadingAction<State>)
-        case view(ViewAction)
-        case reducer(ReducerAction)
         case delegate(DelegateAction)
     }
 
@@ -78,33 +74,33 @@ public struct GroupsFeature: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .view(.task):
+            case .task:
                 return .merge(
                     listenToFavoriteUpdates(),
                     listenToPinnedUpdates()
                 )
 
-            case .view(.setIsOnTop(let value)):
+            case .setIsOnTop(let value):
                 state.isOnTop = value
                 return .none
 
-            case .view(.setGroupScheduleName(nil)):
+            case .setGroupScheduleName(nil):
                 state.groupSchedule = nil
                 return .none
 
-            case .view(.setGroupScheduleName(.some)):
+            case .setGroupScheduleName(.some):
                 assertionFailure("Not really expecting this to happen")
                 return .none
 
-            case let .reducer(.groupSection(sectionId, action: .groupRow(rowId, action: .rowTapped))):
+            case let .groupSection(sectionId, action: .groupRow(rowId, action: .rowTapped)):
                 groupTapped(rowId: rowId, in: \.sections?[id: sectionId], state: &state)
                 return .none
 
-            case let .reducer(.pinned(.groupRow(rowId, .rowTapped))):
+            case let .pinned(.groupRow(rowId, .rowTapped)):
                 groupTapped(rowId: rowId, in: \.pinned, state: &state)
                 return .none
 
-            case let .reducer(.favorites(.groupRow(rowId, .rowTapped))):
+            case let .favorites(.groupRow(rowId, .rowTapped)):
                 groupTapped(rowId: rowId, in: \.favorites, state: &state)
                 return .none
 
@@ -113,27 +109,27 @@ public struct GroupsFeature: Reducer {
                 filteredGroups(state: &state)
                 return .none
 
-            case let .reducer(.favoritesUpdate(value)):
+            case let ._favoritesUpdate(value):
                 state.favorites = .favorites(Array(value))
                 return .none
 
-            case let .reducer(.pinnedUpdate(value)):
+            case let ._pinnedUpdate(value):
                 state.pinned = value.flatMap(GroupsSection.State.pinned)
                 return .none
 
-            case .reducer(.search(.delegate(.didUpdateImportantState))):
+            case .search(.delegate(.didUpdateImportantState)):
                 filteredGroups(state: &state)
                 return .none
 
-            case .reducer(.pinned(.groupRow(_, .mark(.delegate(let action))))),
-                 .reducer(.favorites(.groupRow(_, .mark(.delegate(let action))))),
-                 .reducer(.groupSection(_, .groupRow(_, action: .mark(.delegate(let action))))):
+            case .pinned(.groupRow(_, .mark(.delegate(let action)))),
+                 .favorites(.groupRow(_, .mark(.delegate(let action)))),
+                 .groupSection(_, .groupRow(_, action: .mark(.delegate(let action)))):
                 switch action {
                 case .showPremiumClub:
                     return .send(.delegate(.showPremiumClubPinned))
                 }
 
-            case .reducer(.groupSchedule(.delegate(let action))):
+            case .groupSchedule(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -141,28 +137,28 @@ public struct GroupsFeature: Reducer {
                     return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
-            case .reducer, .loading, .delegate:
+            case .groupSchedule, .pinned, .favorites, .search, .groupSection, .loading, .delegate:
                 return .none
             }
         }
-        .ifLet(\.pinned, reducerAction: /Action.ReducerAction.pinned) {
+        .ifLet(\.pinned, action: /Action.pinned) {
             GroupsSection()
         }
-        .ifLet(\.favorites, reducerAction: /Action.ReducerAction.favorites) {
+        .ifLet(\.favorites, action: /Action.favorites) {
             GroupsSection()
         }
-        .ifLet(\.sections, reducerAction: /Action.ReducerAction.groupSection) {
+        .ifLet(\.sections, action: /Action.groupSection) {
             EmptyReducer<IdentifiedArrayOf<GroupsSection.State>, _>()
                 .forEach(\.self, action: .self) {
                     GroupsSection()
                 }
         }
         .load(\.$loadedGroups) { _, isRefresh in try await apiClient.groups(ignoreCache: isRefresh) }
-        .ifLet(\.groupSchedule, reducerAction: /Action.ReducerAction.groupSchedule) {
+        .ifLet(\.groupSchedule, action: /Action.groupSchedule) {
             GroupScheduleFeature()
         }
 
-        Scope(state: \.search, reducerAction: /Action.ReducerAction.search) {
+        Scope(state: \.search, action: /Action.search) {
             GroupsSearch()
         }
     }
@@ -187,7 +183,7 @@ public struct GroupsFeature: Reducer {
     private func listenToFavoriteUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.groupNames.values {
-                await send(.reducer(.favoritesUpdate(value)), animation: .default)
+                await send(._favoritesUpdate(value), animation: .default)
             }
         }
     }
@@ -195,7 +191,7 @@ public struct GroupsFeature: Reducer {
     private func listenToPinnedUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.pinnedSchedule.map(\.?.groupName).removeDuplicates().values {
-                await send(.reducer(.pinnedUpdate(value)), animation: .default)
+                await send(._pinnedUpdate(value), animation: .default)
             }
         }
     }

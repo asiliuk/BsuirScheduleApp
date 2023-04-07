@@ -1,7 +1,6 @@
 import Foundation
 import BsuirApi
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public struct LecturersSearch: Reducer {
     public struct State: Equatable {
@@ -9,20 +8,12 @@ public struct LecturersSearch: Reducer {
         fileprivate(set) var dismiss: Bool = false
     }
 
-    public enum Action: Equatable, BindableAction, FeatureAction {
-        public enum ViewAction: Equatable {
-            case filter
-        }
-
-        public typealias ReducerAction = Never
-
+    public enum Action: Equatable, BindableAction {
         public enum DelegateAction: Equatable {
             case didUpdateImportantState
         }
-
+        case filter
         case binding(BindingAction<State>)
-        case view(ViewAction)
-        case reducer(ReducerAction)
         case delegate(DelegateAction)
     }
 
@@ -37,7 +28,7 @@ public struct LecturersSearch: Reducer {
                 }
                 return .none
 
-            case .view(.filter):
+            case .filter:
                 return .send(.delegate(.didUpdateImportantState))
 
             case .binding, .delegate:

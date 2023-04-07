@@ -5,27 +5,18 @@ import ComposableArchitectureUtils
 
 public struct NetworkAndDataFeature: Reducer {
     public struct State: Equatable {
+        // TODO: new navigation logic
         var cacheClearedAlert: AlertState<Action>?
         var iisReachability = ReachabilityFeature.State(host: URL.iisApi.host()!)
         var appleReachability = ReachabilityFeature.State(host: "apple.com")
     }
 
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case clearCacheTapped
-            case cacheClearedAlertDismissed
-        }
+    public enum Action: Equatable {
+        case iisReachability(ReachabilityFeature.Action)
+        case appleReachability(ReachabilityFeature.Action)
 
-        public enum ReducerAction: Equatable {
-            case iisReachability(ReachabilityFeature.Action)
-            case appleReachability(ReachabilityFeature.Action)
-        }
-
-        public typealias DelegateAction = Never
-
-        case view(ViewAction)
-        case reducer(ReducerAction)
-        case delegate(DelegateAction)
+        case clearCacheTapped
+        case cacheClearedAlertDismissed
     }
 
     @Dependency(\.apiClient.clearCache) var clearNetworkCache
@@ -34,7 +25,7 @@ public struct NetworkAndDataFeature: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .view(.clearCacheTapped):
+            case .clearCacheTapped:
                 state.cacheClearedAlert = AlertState(
                     title: TextState("alert.clearCache.title"),
                     message: TextState("alert.clearCache.message")
@@ -44,20 +35,20 @@ public struct NetworkAndDataFeature: Reducer {
                     imageCache.clearCache()
                 }
 
-            case .view(.cacheClearedAlertDismissed):
+            case .cacheClearedAlertDismissed:
                 state.cacheClearedAlert = nil
                 return .none
 
-            case .reducer:
+            case .iisReachability, .appleReachability:
                 return .none
             }
         }
 
-        Scope(state: \.iisReachability, reducerAction: /Action.ReducerAction.iisReachability) {
+        Scope(state: \.iisReachability, action: /Action.iisReachability) {
             ReachabilityFeature()
         }
 
-        Scope(state: \.appleReachability, reducerAction: /Action.ReducerAction.appleReachability) {
+        Scope(state: \.appleReachability, action: /Action.appleReachability) {
             ReachabilityFeature()
         }
     }

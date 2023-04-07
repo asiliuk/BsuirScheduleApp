@@ -44,7 +44,7 @@ public struct LoadingStore<
         }
         
         func fromViewAction(_ viewAction: ViewAction) -> Action {
-            let wrapping = { Action.loading(.init(keyPath: loadingKeyPath, action: .view($0))) }
+            let wrapping = { Action.loading(.init(keyPath: loadingKeyPath, action: $0)) }
             switch viewAction {
             case .loading(.onAppear):
                 return wrapping(.onAppear)

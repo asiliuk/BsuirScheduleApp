@@ -58,21 +58,11 @@ public struct ContiniousScheduleFeature: Reducer {
         }
     }
     
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case loadMoreIndicatorAppear
-            case setIsOnTop(Bool)
-        }
+    public enum Action: Equatable {
+        case loadMoreIndicatorAppear
+        case setIsOnTop(Bool)
         
-        public enum ReducerAction {
-            case loadMoreDays
-        }
-        
-        public typealias DelegateAction = Never
-        
-        case view(ViewAction)
-        case reducer(ReducerAction)
-        case delegate(DelegateAction)
+        case _loadMoreDays
     }
     
     @Dependency(\.reviewRequestService) var reviewRequestService
@@ -82,26 +72,23 @@ public struct ContiniousScheduleFeature: Reducer {
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
-        case .view(.setIsOnTop(let value)):
+        case .setIsOnTop(let value):
             state.isOnTop = value
             return .none
-        case .view(.loadMoreIndicatorAppear):
+        case .loadMoreIndicatorAppear:
             enum TaskID {}
             return .task {
                 try await withTaskCancellation(id: TaskID.self, cancelInFlight: true) {
                     try await clock.sleep(for: .milliseconds(300))
-                    return .reducer(.loadMoreDays)
+                    return ._loadMoreDays
                 }
             }
 
-        case .reducer(.loadMoreDays):
+        case ._loadMoreDays:
             state.load(count: 10)
             return .fireAndForget {
                 await reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
             }
-
-        case .delegate:
-            return .none
         }
     }
 }

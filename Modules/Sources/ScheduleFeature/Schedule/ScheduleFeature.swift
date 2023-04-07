@@ -54,25 +54,19 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         }
     }
 
-    public enum Action: Equatable, FeatureAction, LoadableAction {
-        public enum ViewAction: Equatable {
-            case setScheduleType(ScheduleDisplayType)
-        }
-
-        public enum ReducerAction: Equatable {
-            case mark(MarkedScheduleFeature.Action)
-            case fakeAds(FakeAdsFeature.Action)
-        }
-
+    public enum Action: Equatable, LoadableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
             case showPremiumClubFakeAdsBanner
         }
 
-        case loading(LoadingAction<State>)
+        case mark(MarkedScheduleFeature.Action)
+        case fakeAds(FakeAdsFeature.Action)
         case schedule(LoadedScheduleReducer.Action)
-        case view(ViewAction)
-        case reducer(ReducerAction)
+
+        case setScheduleType(ScheduleDisplayType)
+
+        case loading(LoadingAction<State>)
         case delegate(DelegateAction)
     }
 
@@ -86,7 +80,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case let .view(.setScheduleType(value)):
+            case let .setScheduleType(value):
                 defer { state.scheduleType = value }
                 guard state.scheduleType != value else { return .none }
                 return .fireAndForget {
@@ -101,19 +95,19 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                     await reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
                 }
 
-            case let .reducer(.mark(.delegate(action))):
+            case let .mark(.delegate(action)):
                 switch action {
                 case .showPremiumClub:
                     return .send(.delegate(.showPremiumClubPinned))
                 }
 
-            case .reducer(.fakeAds(.delegate(let action))):
+            case .fakeAds(.delegate(let action)):
                 switch action {
                 case .showPremiumClub:
                     return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
-            case .schedule, .delegate, .loading, .reducer:
+            case .schedule, .fakeAds, .mark, .delegate, .loading:
                 return .none
             }
         }
@@ -123,11 +117,11 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
             try await LoadedScheduleReducer.State(response: fetch(state.value, isRefresh))
         }
 
-        Scope(state: \State.mark, reducerAction: /Action.ReducerAction.mark) {
+        Scope(state: \State.mark, action: /Action.mark) {
             MarkedScheduleFeature()
         }
 
-        Scope(state: \State.fakeAds, reducerAction: /Action.ReducerAction.fakeAds) {
+        Scope(state: \State.fakeAds, action: /Action.fakeAds) {
             FakeAdsFeature()
         }
     }

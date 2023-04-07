@@ -14,7 +14,7 @@ public struct GroupScheduleView: View {
     
     public var body: some View {
         ScheduleFeatureView(
-            store: store.scope(state: \.schedule, reducerAction: { .schedule($0) }),
+            store: store.scope(state: \.schedule, action: { .schedule($0) }),
             schedulePairDetails: .lecturers {
                 ViewStore(store.stateless).send(.lectorTapped($0))
             }
@@ -22,7 +22,7 @@ public struct GroupScheduleView: View {
         .sheet(
             store: store.scope(
                 state: \.$lectorSchedule,
-                action: { .reducer(.lectorSchedule($0)) }
+                action: { .lectorSchedule($0) }
             )
         ) { store in
             ModalNavigationStack {

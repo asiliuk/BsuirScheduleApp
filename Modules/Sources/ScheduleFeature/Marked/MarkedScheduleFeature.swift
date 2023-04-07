@@ -10,6 +10,7 @@ import SwiftUINavigation
 
 public struct MarkedScheduleFeature: Reducer {
     public struct State: Equatable {
+        // TODO: new presentation logic
         public var alert: AlertState<Action.AlertAction>?
         public var isFavorite: Bool = false
         public var isPinned: Bool = false
@@ -25,22 +26,7 @@ public struct MarkedScheduleFeature: Reducer {
         }
     }
 
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case task
-            case favoriteButtonTapped
-            case unfavoriteButtonTapped
-            case pinButtonTapped
-            case unpinButtonTapped
-            case unsaveButtonTapped
-        }
-
-        public enum ReducerAction: Equatable {
-            case setIsFavorite(Bool)
-            case setIsPinned(Bool)
-            case setIsPremiumLocked(Bool)
-        }
-
+    public enum Action: Equatable {
         public enum AlertAction: Equatable {
             case learnAboutPremiumClubButtonTapped
             case dismissed
@@ -50,8 +36,17 @@ public struct MarkedScheduleFeature: Reducer {
             case showPremiumClub
         }
 
-        case view(ViewAction)
-        case reducer(ReducerAction)
+        case task
+        case favoriteButtonTapped
+        case unfavoriteButtonTapped
+        case pinButtonTapped
+        case unpinButtonTapped
+        case unsaveButtonTapped
+
+        case _setIsFavorite(Bool)
+        case _setIsPinned(Bool)
+        case _setIsPremiumLocked(Bool)
+
         case delegate(DelegateAction)
         case alert(AlertAction)
     }
@@ -64,20 +59,20 @@ public struct MarkedScheduleFeature: Reducer {
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
-        case .view(.task):
+        case .task:
             return .merge(
                 observeIsPinned(source: state.source),
                 observeIsFavorite(source: state.source),
                 observeIsPremium()
             )
 
-        case .view(.favoriteButtonTapped):
+        case .favoriteButtonTapped:
             return favorite(source: state.source)
 
-        case .view(.unfavoriteButtonTapped):
+        case .unfavoriteButtonTapped:
             return unfavorite(source: state.source)
 
-        case .view(.pinButtonTapped):
+        case .pinButtonTapped:
             if state.isPremiumLocked {
                 state.alert = .premiumLocked
                 return .none
@@ -85,24 +80,24 @@ public struct MarkedScheduleFeature: Reducer {
                 return pin(source: state.source)
             }
 
-        case .view(.unpinButtonTapped):
+        case .unpinButtonTapped:
             return favorite(source: state.source)
 
-        case .view(.unsaveButtonTapped):
+        case .unsaveButtonTapped:
             return .merge(
                 unfavorite(source: state.source),
                 unpin(source: state.source)
             )
 
-        case let .reducer(.setIsFavorite(value)):
+        case let ._setIsFavorite(value):
             state.isFavorite = value
             return .none
 
-        case let .reducer(.setIsPinned(value)):
+        case let ._setIsPinned(value):
             state.isPinned = value
             return .none
 
-        case let .reducer(.setIsPremiumLocked(value)):
+        case let ._setIsPremiumLocked(value):
             state.isPremiumLocked = value
             return .none
 
@@ -169,7 +164,7 @@ public struct MarkedScheduleFeature: Reducer {
     private func observeIsPinned(source: ScheduleSource) -> Effect<Action> {
         .run { send in
             for await value in favorites.pinnedSchedule.map({ $0 == source }).removeDuplicates().values {
-                await send(.reducer(.setIsPinned(value)))
+                await send(._setIsPinned(value))
             }
         }
     }
@@ -186,7 +181,7 @@ public struct MarkedScheduleFeature: Reducer {
     private func observeIsFavorite(source: some Publisher<Bool, Never>) -> Effect<Action> {
         return .run { send in
             for await value in source.removeDuplicates().values {
-                await send(.reducer(.setIsFavorite(value)))
+                await send(._setIsFavorite(value))
             }
         }
     }
@@ -194,7 +189,7 @@ public struct MarkedScheduleFeature: Reducer {
     private func observeIsPremium() -> Effect<Action> {
         return .run { send in
             for await value in premiumService.isPremium.removeDuplicates().values {
-                await send(.reducer(.setIsPremiumLocked(!value)))
+                await send(._setIsPremiumLocked(!value))
             }
         }
     }

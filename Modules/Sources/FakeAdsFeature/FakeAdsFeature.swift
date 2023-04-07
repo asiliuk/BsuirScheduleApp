@@ -14,19 +14,12 @@ public struct FakeAdsFeature: Reducer {
         public init() {}
     }
 
-    public enum Action: Equatable, FeatureAction {
-        public enum ViewAction: Equatable {
-            case bannerTapped
-        }
-
-        public enum ReducerAction: Equatable {}
-
+    public enum Action: Equatable {
         public enum DelegateAction: Equatable {
             case showPremiumClub
         }
 
-        case view(ViewAction)
-        case reducer(ReducerAction)
+        case bannerTapped
         case delegate(DelegateAction)
     }
 
@@ -34,9 +27,9 @@ public struct FakeAdsFeature: Reducer {
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
-        case .view(.bannerTapped):
+        case .bannerTapped:
             return .send(.delegate(.showPremiumClub))
-        case .reducer, .delegate:
+        case .delegate:
             return .none
         }
     }
