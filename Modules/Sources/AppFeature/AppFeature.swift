@@ -11,11 +11,16 @@ import EntityScheduleFeature
 
 public struct AppFeature: Reducer {
     public struct State: Equatable {
+        enum Destination: Equatable {
+            case settings(SettingsFeature.State)
+            case premiumClub(PremiumClubFeature.State)
+        }
+
+        @PresentationState var destination: Destination?
+
         var selection: CurrentSelection = .groups
-        var overlay: CurrentOverlay?
 
         var premiumClub = PremiumClubFeature.State()
-
         var pinnedTab: PinnedTabFeature.State
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
@@ -29,16 +34,21 @@ public struct AppFeature: Reducer {
     }
 
     public enum Action {
+        public enum DestinationAction {
+            case settings(SettingsFeature.Action)
+            case premiumClub(PremiumClubFeature.Action)
+        }
+
+        case destination(PresentationAction<DestinationAction>)
+
         case task
 
         case handleDeeplink(URL)
         case setSelection(CurrentSelection)
-        case setOverlay(CurrentOverlay?)
         case setPinnedSchedule(ScheduleSource?)
         case showSettingsButtonTapped
 
         case premiumClub(PremiumClubFeature.Action)
-
         case pinnedTab(PinnedTabFeature.Action)
         case groups(GroupsFeature.Action)
         case lecturers(LecturersFeature.Action)
@@ -66,10 +76,6 @@ public struct AppFeature: Reducer {
                 state.updateSelection(value)
                 return .none
 
-            case let .setOverlay(value):
-                state.overlay = value
-                return .none
-
             case .setPinnedSchedule(nil):
                 state.pinnedTab.resetPinned()
                 return .none
@@ -79,7 +85,7 @@ public struct AppFeature: Reducer {
                 return .none
 
             case .showSettingsButtonTapped:
-                state.overlay = .settings
+                state.destination = .settings(state.settings)
                 return .none
 
             case let .handleDeeplink(url):
@@ -98,42 +104,51 @@ public struct AppFeature: Reducer {
             case .pinnedTab(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
-                    state.showPremiumClubOverlay(source: .pin)
+                    state.showPremiumClub(source: .pin)
                     return .none
                 case .showPremiumClubFakeAdsBanner:
-                    state.showPremiumClubOverlay(source: .fakeAds)
+                    state.showPremiumClub(source: .fakeAds)
                     return .none
                 }
 
             case .groups(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
-                    state.showPremiumClubOverlay(source: .pin)
+                    state.showPremiumClub(source: .pin)
                     return .none
                 case .showPremiumClubFakeAdsBanner:
-                    state.showPremiumClubOverlay(source: .fakeAds)
+                    state.showPremiumClub(source: .fakeAds)
                     return .none
                 }
 
             case .lecturers(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
-                    state.showPremiumClubOverlay(source: .pin)
+                    state.showPremiumClub(source: .pin)
                     return .none
                 case .showPremiumClubFakeAdsBanner:
-                    state.showPremiumClubOverlay(source: .fakeAds)
+                    state.showPremiumClub(source: .fakeAds)
                     return .none
                 }
 
             case .settings(.delegate(let action)):
                 switch action {
                 case let .showPremiumClub(source):
-                    state.showPremiumClubOverlay(source: source)
+                    state.showPremiumClub(source: source)
                     return .none
                 }
 
-            case .groups, .lecturers, .settings, .pinnedTab, .premiumClub:
+            case .groups, .lecturers, .settings, .pinnedTab, .premiumClub, .destination:
                 return .none
+            }
+        }
+        .ifLet(\.$destination, action: /Action.destination) {
+            Scope(state: /State.Destination.settings, action: /Action.DestinationAction.settings) {
+                SettingsFeature()
+            }
+
+            Scope(state: /State.Destination.premiumClub, action: /Action.DestinationAction.premiumClub) {
+                PremiumClubFeature()
             }
         }
 
@@ -252,9 +267,9 @@ private extension AppFeature.State {
 // MARK: - Premium Club
 
 private extension AppFeature.State {
-    mutating func showPremiumClubOverlay(source: PremiumClubFeature.Source?) {
+    mutating func showPremiumClub(source: PremiumClubFeature.Source?) {
         premiumClub.source = source
-        overlay = .premiumClub
+        destination = .premiumClub(premiumClub)
     }
 }
 

@@ -10,20 +10,10 @@ import SwiftUINavigation
 struct RegularRootView: View {
     let store: StoreOf<AppFeature>
 
-    struct ViewState: Equatable {
-        var selection: CurrentSelection
-        var overlay: CurrentOverlay?
-
-        init(state: AppFeature.State) {
-            self.selection = state.selection
-            self.overlay = state.overlay
-        }
-    }
-
     var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
+        WithViewStore(store, observe: \.selection) { viewStore in
             NavigationView {
-                TabView(selection: viewStore.binding(get: \.selection, send: AppFeature.Action.setSelection)) {
+                TabView(selection: viewStore.binding(send: AppFeature.Action.setSelection)) {
                     // Placeholder
                     // When in NavigationView first tab is not visible on iPad
                     Text("Oops").opacity(0)
@@ -57,30 +47,21 @@ struct RegularRootView: View {
                 SchedulePlaceholder()
             }
             .sheet(
-                unwrapping: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay),
-                case: /CurrentOverlay.settings
-            ) { _ in
-                NavigationView {
-                    SettingsFeatureView(
-                        store: store.scope(
-                            state: \.settings,
-                            action: AppFeature.Action.settings
-                        )
-                    )
+                store: store.scope(state: \.$destination, action: { .destination($0) }),
+                state: /AppFeature.State.Destination.settings,
+                action: AppFeature.Action.DestinationAction.settings
+            ) { store in
+                ModalNavigationStack {
+                    SettingsFeatureView(store: store)
                 }
             }
             .sheet(
-                unwrapping: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay),
-                case: /CurrentOverlay.premiumClub
-            ) { _ in
+                store: store.scope(state: \.$destination, action: { .destination($0) }),
+                state: /AppFeature.State.Destination.premiumClub,
+                action: AppFeature.Action.DestinationAction.premiumClub
+            ) { store in
                 ModalNavigationStack {
-                    PremiumClubFeatureView(
-                        store: store.scope(
-                            state: \.premiumClub,
-                            action: AppFeature.Action.premiumClub
-                        )
-                    )
-                    .navigationBarTitleDisplayMode(.inline)
+                    PremiumClubFeatureView(store: store)
                 }
             }
         }

@@ -9,24 +9,11 @@ import PremiumClubFeature
 import ComposableArchitecture
 
 struct CompactRootView: View {
-    struct ViewState: Equatable {
-        var selection: CurrentSelection
-        var overlay: CurrentOverlay?
-
-        init(_ state: AppFeature.State) {
-            self.selection = state.selection
-            // TODO: Make sure TCA navigation solves it
-            // Because of this thing it retriggers whole TabView body
-            // every time overlay is presented, because technically view state changed
-            self.overlay = state.overlay
-        }
-    }
-
     let store: StoreOf<AppFeature>
 
     var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
-            TabView(selection: viewStore.binding(get: \.selection, send: AppFeature.Action.setSelection)) {
+        WithViewStore(store, observe: \.selection) { viewStore in
+            TabView(selection: viewStore.binding(send: AppFeature.Action.setSelection)) {
                 PinnedTabView(
                     store: store.scope(
                         state: \.pinnedTab,
@@ -60,17 +47,13 @@ struct CompactRootView: View {
                 .tag(CurrentSelection.settings)
             }
             .sheet(
-                unwrapping: viewStore.binding(get: \.overlay, send: AppFeature.Action.setOverlay),
-                case: /CurrentOverlay.premiumClub
-            ) { _ in
+                store: store.scope(state: \.$destination, action: { .destination($0) }),
+                state: /AppFeature.State.Destination.premiumClub,
+                action: AppFeature.Action.DestinationAction.premiumClub
+            ) { store in
                 ModalNavigationStack {
-                    PremiumClubFeatureView(
-                        store: store.scope(
-                            state: \.premiumClub,
-                            action: AppFeature.Action.premiumClub
-                        )
-                    )
-                    .navigationBarTitleDisplayMode(.inline)
+                    PremiumClubFeatureView(store: store)
+                        .navigationBarTitleDisplayMode(.inline)
                 }
             }
         }

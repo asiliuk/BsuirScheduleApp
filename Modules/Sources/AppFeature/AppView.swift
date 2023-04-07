@@ -9,12 +9,6 @@ public enum CurrentSelection: Hashable {
     case settings
 }
 
-public enum CurrentOverlay: Identifiable {
-    public var id: Self { self }
-    case settings
-    case premiumClub
-}
-
 public struct AppView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     let store: StoreOf<AppFeature>
