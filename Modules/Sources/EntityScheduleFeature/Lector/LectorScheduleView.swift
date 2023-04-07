@@ -18,15 +18,12 @@ public struct LectorScheduleView: View {
                 ViewStore(store.stateless).send(.groupTapped($0))
             }
         )
-        .sheet(
+        .navigationDestination(
             store: store.scope(
                 state: \.$groupSchedule,
                 action: { .groupSchedule($0) }
-            )
-        ) { store in
-            ModalNavigationStack {
-                GroupScheduleView(store: store)
-            }
-        }
+            ),
+            destination: GroupScheduleView.init
+        )
     }
 }
