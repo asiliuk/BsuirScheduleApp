@@ -24,7 +24,7 @@ public struct GroupsFeature: Reducer {
         @LoadableState var sections: IdentifiedArrayOf<GroupsSection.State>?
         var search: GroupsSearch.State = .init()
         var isOnTop: Bool = true
-        var groupSchedule: GroupScheduleFeature.State?
+        @PresentationState var groupSchedule: GroupScheduleFeature.State?
 
         fileprivate(set) var pinned: GroupsSection.State? = {
             @Dependency(\.favorites.currentPinnedSchedule) var pinned
@@ -47,7 +47,7 @@ public struct GroupsFeature: Reducer {
             case showPremiumClubFakeAdsBanner
         }
 
-        case groupSchedule(GroupScheduleFeature.Action)
+        case groupSchedule(PresentationAction<GroupScheduleFeature.Action>)
         case pinned(GroupsSection.Action)
         case favorites(GroupsSection.Action)
         case search(GroupsSearch.Action)
@@ -128,7 +128,7 @@ public struct GroupsFeature: Reducer {
                     return .send(.delegate(.showPremiumClubPinned))
                 }
 
-            case .groupSchedule(.delegate(let action)):
+            case .groupSchedule(.presented(.delegate(let action))):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -153,7 +153,7 @@ public struct GroupsFeature: Reducer {
                 }
         }
         .load(\.$loadedGroups) { _, isRefresh in try await apiClient.groups(ignoreCache: isRefresh) }
-        .ifLet(\.groupSchedule, action: /Action.groupSchedule) {
+        .ifLet(\.$groupSchedule, action: /Action.groupSchedule) {
             GroupScheduleFeature()
         }
 

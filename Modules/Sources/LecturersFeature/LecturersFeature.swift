@@ -12,7 +12,7 @@ public struct LecturersFeature: Reducer {
         var search: LecturersSearch.State = .init()
         @LoadableState var lecturers: IdentifiedArrayOf<LecturersRow.State>?
         fileprivate(set) var isOnTop: Bool = true
-        fileprivate(set) var lectorSchedule: LectorScheduleFeature.State?
+        @PresentationState var lectorSchedule: LectorScheduleFeature.State?
 
         var favorites: IdentifiedArrayOf<LecturersRow.State>? {
             get {
@@ -51,7 +51,7 @@ public struct LecturersFeature: Reducer {
             case showPremiumClubFakeAdsBanner
         }
 
-        case lectorSchedule(LectorScheduleFeature.Action)
+        case lectorSchedule(PresentationAction<LectorScheduleFeature.Action>)
         case search(LecturersSearch.Action)
         case pinned(LecturersRow.Action)
         case favorite(id: LecturersRow.State.ID, action: LecturersRow.Action)
@@ -63,7 +63,7 @@ public struct LecturersFeature: Reducer {
         
         case _favoritesUpdate(OrderedSet<Int>)
         case _pinnedUpdate(Employee?)
-        
+
         case loading(LoadingAction<State>)
         case delegate(DelegateAction)
     }
@@ -93,7 +93,7 @@ public struct LecturersFeature: Reducer {
         .load(\.$loadedLecturers) { _, isRefresh in
             try await IdentifiedArray(uniqueElements: apiClient.lecturers(ignoreCache: isRefresh))
         }
-        .ifLet(\.lectorSchedule, action: /Action.lectorSchedule) {
+        .ifLet(\.$lectorSchedule, action: /Action.lectorSchedule) {
             LectorScheduleFeature()
         }
 
@@ -165,7 +165,7 @@ public struct LecturersFeature: Reducer {
                 return .send(.delegate(.showPremiumClubPinned))
             }
 
-        case .lectorSchedule(.delegate(let action)):
+        case .lectorSchedule(.presented(.delegate(let action))):
             switch action {
             case .showPremiumClubPinned:
                 return .send(.delegate(.showPremiumClubPinned))

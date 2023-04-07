@@ -12,52 +12,19 @@ public struct LecturersFeatureView: View {
     public init(store: StoreOf<LecturersFeature>) {
         self.store = store
     }
-
-    struct ViewState: Equatable {
-        let isOnTop: Bool
-        let lectorScheduleId: Int?
-
-        init(_ state: LecturersFeature.State) {
-            self.isOnTop = state.isOnTop
-            self.lectorScheduleId = state.lectorSchedule?.lector.id
-        }
-    }
     
     public var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
+        WithViewStore(store, observe: \.isOnTop) { viewStore in
             LoadingLecturersView(
                 store: store,
-                isOnTop: viewStore.binding(get: \.isOnTop, send: { .setIsOnTop($0) })
+                isOnTop: viewStore.binding(send: { .setIsOnTop($0) })
             )
             .navigationDestination(
-                unwrapping: viewStore.binding(
-                    get: \.lectorScheduleId,
-                    send: { .setLectorScheduleId($0) }
-                )
-            ) { _ in
-                // TODO: new navigation API
-                IfLetStore(
-                    store
-                        .scope(state: \.lectorSchedule, action: { .lectorSchedule($0) })
-                        .returningLastNonNilState()
-                ) { store in
-                    LectorScheduleView(store: store)
-                }
-            }
+                store: store.scope(state: \.$lectorSchedule, action: { .lectorSchedule($0) }),
+                destination: LectorScheduleView.init
+            )
             .navigationTitle("screen.lecturers.navigation.title")
             .task { await viewStore.send(.task).finish() }
-        }
-    }
-}
-
-private extension Store {
-    func returningLastNonNilState<Wrapped>() -> Store<State, Action> where State == Wrapped? {
-        var lastWrapped: Wrapped?
-        return scope { state in
-            if let wrapped = state {
-                lastWrapped = wrapped
-            }
-            return lastWrapped
         }
     }
 }
