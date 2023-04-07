@@ -3,7 +3,6 @@ import UIKit
 import BsuirCore
 import BsuirUI
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public struct AppIconFeature: Reducer {
     public struct State: Equatable {

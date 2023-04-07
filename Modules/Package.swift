@@ -62,38 +62,38 @@ let package = Package(
             name: "AppFeature",
             dependencies: [
                 "GroupsFeature", "LecturersFeature", "SettingsFeature",
-                "Deeplinking", "Favorites", "ComposableArchitectureUtils",
+                "Deeplinking", "Favorites",
                 "ScheduleCore", "BsuirApi", "BsuirUI",
                 .tca, .swiftUINavigation
             ]
         ),
         .target(
             name: "SettingsFeature",
-            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .dependencies, .swiftUINavigation]
+            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies, .swiftUINavigation]
         ),
         .target(
             name: "PremiumClubFeature",
-            dependencies: ["BsuirUI", "ComposableArchitectureUtils", .tca, .dependencies, .swiftUINavigation]
+            dependencies: ["BsuirUI", .tca, .dependencies, .swiftUINavigation]
         ),
         .target(
             name: "GroupsFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .swiftUINavigation]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", .tca, .swiftUINavigation]
         ),
         .target(
             name: "LecturersFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca, .swiftUINavigation]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", .tca, .swiftUINavigation]
         ),
         .target(
             name: "EntityScheduleFeature",
-            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", .tca]
         ),
         .target(
             name: "ScheduleFeature",
-            dependencies: ["LoadableFeature", "Favorites", "FakeAdsFeature", "PremiumClubFeature", "ScheduleCore", "BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["LoadableFeature", "Favorites", "FakeAdsFeature", "PremiumClubFeature", "ScheduleCore", "BsuirUI", .tca]
         ),
         .target(
             name: "LoadableFeature",
-            dependencies: ["BsuirCore", "BsuirUI", "ReachabilityFeature", "ComposableArchitectureUtils", .tca, .urlRouting]
+            dependencies: ["BsuirCore", "BsuirUI", "ReachabilityFeature", .tca, .urlRouting]
         ),
         .target(
             name: "Favorites",
@@ -109,12 +109,9 @@ let package = Package(
         ),
         .target(
             name: "FakeAdsFeature",
-            dependencies: ["BsuirUI", "ComposableArchitectureUtils", .tca]
+            dependencies: ["BsuirUI", .tca]
         ),
         // MARK: - Core
-        .target(
-            name: "ComposableArchitectureUtils",
-            dependencies: [.tca]),
         .target(
             name: "BsuirUI",
             dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .dependencies, .introspect]),

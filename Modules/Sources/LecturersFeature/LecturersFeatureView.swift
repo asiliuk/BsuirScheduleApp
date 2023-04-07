@@ -35,6 +35,7 @@ public struct LecturersFeatureView: View {
                     send: { .setLectorScheduleId($0) }
                 )
             ) { _ in
+                // TODO: new navigation API
                 IfLetStore(
                     store
                         .scope(state: \.lectorSchedule, action: { .lectorSchedule($0) })
@@ -45,6 +46,18 @@ public struct LecturersFeatureView: View {
             }
             .navigationTitle("screen.lecturers.navigation.title")
             .task { await viewStore.send(.task).finish() }
+        }
+    }
+}
+
+private extension Store {
+    func returningLastNonNilState<Wrapped>() -> Store<State, Action> where State == Wrapped? {
+        var lastWrapped: Wrapped?
+        return scope { state in
+            if let wrapped = state {
+                lastWrapped = wrapped
+            }
+            return lastWrapped
         }
     }
 }

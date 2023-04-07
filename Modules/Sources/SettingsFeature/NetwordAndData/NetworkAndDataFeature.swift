@@ -1,7 +1,6 @@
 import Foundation
 import ReachabilityFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public struct NetworkAndDataFeature: Reducer {
     public struct State: Equatable {

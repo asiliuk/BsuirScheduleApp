@@ -3,7 +3,6 @@ import BsuirCore
 import BsuirApi
 import ScheduleCore
 import ComposableArchitecture
-import ComposableArchitectureUtils
 import Dependencies
 
 public struct ExamsScheduleFeature: Reducer {

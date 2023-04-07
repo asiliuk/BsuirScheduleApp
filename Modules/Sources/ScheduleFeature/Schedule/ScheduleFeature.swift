@@ -6,7 +6,6 @@ import ScheduleCore
 import LoadableFeature
 import FakeAdsFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 import Dependencies
 
 public struct ScheduleRequestResponse {

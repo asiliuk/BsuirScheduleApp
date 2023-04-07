@@ -1,7 +1,6 @@
 import Foundation
 import BsuirCore
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public struct AboutFeature: Reducer {
     public struct State: Equatable {

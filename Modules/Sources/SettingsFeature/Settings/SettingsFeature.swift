@@ -3,7 +3,6 @@ import BsuirCore
 import BsuirUI
 import PremiumClubFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 import Dependencies
 import SwiftUI
 

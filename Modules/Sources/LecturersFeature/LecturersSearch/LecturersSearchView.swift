@@ -1,7 +1,6 @@
 import SwiftUI
 import BsuirUI
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 extension View {
     func lecturersSearchable(store: StoreOf<LecturersSearch>) -> some View {

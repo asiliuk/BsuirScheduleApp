@@ -7,7 +7,6 @@ import Favorites
 import ScheduleCore
 import PremiumClubFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 import EntityScheduleFeature
 
 public struct AppFeature: Reducer {

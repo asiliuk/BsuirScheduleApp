@@ -4,7 +4,6 @@ import BsuirCore
 import LoadableFeature
 import EntityScheduleFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 import Favorites
 import Collections
 

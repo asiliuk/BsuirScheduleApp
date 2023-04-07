@@ -5,7 +5,6 @@ import BsuirCore
 import EntityScheduleFeature
 import LoadableFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 import Favorites
 import ScheduleFeature
 import Collections

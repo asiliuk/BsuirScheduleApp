@@ -2,7 +2,6 @@ import PremiumClubFeature
 import EntityScheduleFeature
 import ScheduleCore
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public struct PinnedTabFeature: Reducer {
     public struct State: Equatable {

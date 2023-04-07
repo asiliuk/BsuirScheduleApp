@@ -1,7 +1,6 @@
 import SwiftUI
 import BsuirUI
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public struct FakeAdsView: View {
     let store: StoreOf<FakeAdsFeature>
@@ -91,7 +90,7 @@ struct FakeAdsView_Previews: PreviewProvider {
                     ForEach(0..<10, id: \.self) { _ in
                         Color.clear.frame(height: 100)
                     }
-                    
+
                 }
                 .safeAreaInset(edge: .bottom) {
                     bannerPreview

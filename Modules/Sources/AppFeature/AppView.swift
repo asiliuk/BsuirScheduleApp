@@ -1,7 +1,6 @@
 import SwiftUI
 import SettingsFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public enum CurrentSelection: Hashable {
     case pinned

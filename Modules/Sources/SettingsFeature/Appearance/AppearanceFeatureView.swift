@@ -2,7 +2,6 @@ import SwiftUI
 import BsuirUI
 import ScheduleCore
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 struct AppearanceFeatureView: View {
     let store: StoreOf<AppearanceFeature>

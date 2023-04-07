@@ -4,7 +4,6 @@ import BsuirApi
 import ScheduleFeature
 import Favorites
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public struct GroupScheduleFeature: Reducer {
     public struct State: Equatable, Identifiable {

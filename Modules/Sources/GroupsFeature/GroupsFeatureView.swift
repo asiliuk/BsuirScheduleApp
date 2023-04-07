@@ -37,6 +37,7 @@ public struct GroupsFeatureView: View {
                     send: { .setGroupScheduleName($0) }
                 )
             ) { _ in
+                // TODO: new navigation API
                 IfLetStore(
                     store
                         .scope(state: \.groupSchedule, action: { .groupSchedule($0) })
@@ -45,6 +46,18 @@ public struct GroupsFeatureView: View {
                     GroupScheduleView(store: store)
                 }
             }
+        }
+    }
+}
+
+private extension Store {
+    func returningLastNonNilState<Wrapped>() -> Store<State, Action> where State == Wrapped? {
+        var lastWrapped: Wrapped?
+        return scope { state in
+            if let wrapped = state {
+                lastWrapped = wrapped
+            }
+            return lastWrapped
         }
     }
 }

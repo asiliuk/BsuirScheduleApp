@@ -2,7 +2,6 @@ import SwiftUI
 import BsuirUI
 import BsuirApi
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 struct DayScheduleView: View {
     struct ViewState: Equatable {

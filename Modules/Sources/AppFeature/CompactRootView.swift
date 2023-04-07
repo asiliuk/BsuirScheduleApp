@@ -7,7 +7,6 @@ import LecturersFeature
 import EntityScheduleFeature
 import PremiumClubFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 struct CompactRootView: View {
     struct ViewState: Equatable {

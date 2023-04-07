@@ -2,7 +2,6 @@ import SwiftUI
 import BsuirUI
 import SwiftUINavigation
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 struct AppIconFeatureNavigationLink: View {
     struct ViewState: Equatable {

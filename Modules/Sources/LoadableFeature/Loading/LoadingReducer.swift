@@ -1,6 +1,5 @@
 import Foundation
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 extension ReducerProtocol where Action: LoadableAction, Action.State == State {
     public func load<Value: Equatable>(

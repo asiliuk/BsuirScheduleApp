@@ -5,7 +5,6 @@ import ScheduleCore
 import ReachabilityFeature
 import PremiumClubFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 enum SettingsFeatureDestination: Hashable {
     case premiumClub

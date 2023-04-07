@@ -3,7 +3,6 @@ import BsuirCore
 import LoadableFeature
 import FakeAdsFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public struct ScheduleFeatureView<Value: Equatable>: View {
     struct ViewState: Equatable {

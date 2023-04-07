@@ -1,7 +1,6 @@
 import SwiftUI
 import BsuirUI
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 extension View {
     func groupsSearchable(store: StoreOf<GroupsSearch>) -> some View {

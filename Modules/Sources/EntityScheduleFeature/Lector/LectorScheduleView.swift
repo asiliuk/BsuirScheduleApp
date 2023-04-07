@@ -2,7 +2,6 @@ import SwiftUI
 import ScheduleFeature
 import BsuirUI
 import ComposableArchitecture
-import ComposableArchitectureUtils
 import SwiftUINavigation
 
 public struct LectorScheduleView: View {

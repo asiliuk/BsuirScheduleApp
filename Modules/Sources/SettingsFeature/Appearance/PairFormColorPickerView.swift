@@ -1,7 +1,6 @@
 import SwiftUI
 import BsuirUI
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 public struct PairFormsColorPickerView: View {
     let store: StoreOf<PairFormsColorPicker>

@@ -1,6 +1,5 @@
 import SwiftUI
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 struct ContiniousScheduleView: View {
     struct ViewState: Equatable {

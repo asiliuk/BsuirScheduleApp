@@ -1,7 +1,6 @@
 import SwiftUI
 import ReachabilityFeature
 import ComposableArchitecture
-import ComposableArchitectureUtils
 
 struct NetworkAndDataFeatureView: View {
     let store: StoreOf<NetworkAndDataFeature>
