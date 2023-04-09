@@ -25,10 +25,6 @@
 		E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */ = {isa = PBXBuildFile; productRef = E6611ABC293A8B59006E322B /* ScheduleCore */; };
 		E6972D1A287B4A550003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D19287B4A550003506F /* BsuirApi */; };
 		E6972D1C287B4A550003506F /* BsuirUI in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1B287B4A550003506F /* BsuirUI */; };
-		E6972D1E287B4A5A0003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1D287B4A5A0003506F /* BsuirApi */; };
-		E6A6D1C325D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */; };
-		E6A6D1C425D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */; };
-		E6A6D1C525D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */; };
 		E6A93FB628C923E80093691F /* ScheduleWidgetEntryAccessoryRectangularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A93FB528C923E80093691F /* ScheduleWidgetEntryAccessoryRectangularView.swift */; };
 		E6A93FB828C92FF70093691F /* ScheduleWidgetEntryAccessoryInlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A93FB728C92FF70093691F /* ScheduleWidgetEntryAccessoryInlineView.swift */; };
 		E6A93FBA28C930250093691F /* BsuirImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A93FB928C930250093691F /* BsuirImage.swift */; };
@@ -37,14 +33,11 @@
 		E6AA8D1625162F1A00788A02 /* ScheduleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */; };
 		E6AA8D1925162F1B00788A02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6AA8D1825162F1B00788A02 /* Assets.xcassets */; };
 		E6AA8D1F25162F1B00788A02 /* ScheduleWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		E6AA8D2D2516301500788A02 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D2C2516301500788A02 /* IntentHandler.swift */; };
-		E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E6B33E7C29A2B7DE0034AD63 /* Favorites in Frameworks */ = {isa = PBXBuildFile; productRef = E6B33E7B29A2B7DE0034AD63 /* Favorites */; };
 		E6B33E7F29A2BAA10034AD63 /* PinnedScheduleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */; };
 		E6B33E8329A2BB6E0034AD63 /* MostRelevantScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */; };
 		E6B33E8729A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */; };
 		E6B33E8929A2C2200034AD63 /* NoPinnedScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8829A2C2200034AD63 /* NoPinnedScheduleView.swift */; };
-		E6EDC2E42522101900C8A73C /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EDC2DC25220F9800C8A73C /* Provider.swift */; };
 		E6F931BF22F8B1C20038FC43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931BE22F8B1C20038FC43 /* Assets.xcassets */; };
 		E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C122F8B1C20038FC43 /* Preview Assets.xcassets */; };
 		E6F931C522F8B1C20038FC43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */; };
@@ -58,13 +51,6 @@
 			remoteGlobalIDString = E6AA8D0E25162F1A00788A02;
 			remoteInfo = ScheduleWidgetExtension;
 		};
-		E6AA8D2F2516301500788A02 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E6AA8D292516301500788A02;
-			remoteInfo = ScheduleWidgetIntentHandler;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -74,7 +60,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				E6AA8D312516301500788A02 /* ScheduleWidgetIntentHandler.appex in Embed Foundation Extensions */,
 				E6AA8D1F25162F1B00788A02 /* ScheduleWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -97,10 +82,6 @@
 		6992A5E928B0026A007FFF0F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		699CEC0A28B13EA100508D10 /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
 		699CEC0C28B1403200508D10 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
-		E619BF7E28B6AC35006ADB39 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
-		E619BF8028B6AC35006ADB39 /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
-		E619BF8228B6AC38006ADB39 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
-		E619BF8428B6AC39006ADB39 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/ScheduleWidget.strings; sourceTree = "<group>"; };
 		E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntry.swift; sourceTree = "<group>"; };
 		E627877028B6B37400F61D9B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E627877328B6B50A00F61D9B /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -117,7 +98,6 @@
 		E64FE06D28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryAccessoryCircularView.swift; sourceTree = "<group>"; };
 		E651C88C28C7D01900CAFBEC /* ScheduleWidgetEntryLargeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryLargeView.swift; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
-		E6A6D1C625D5C1CC00204A79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/ScheduleWidget.intentdefinition; sourceTree = "<group>"; };
 		E6A93FB528C923E80093691F /* ScheduleWidgetEntryAccessoryRectangularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryAccessoryRectangularView.swift; sourceTree = "<group>"; };
 		E6A93FB728C92FF70093691F /* ScheduleWidgetEntryAccessoryInlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetEntryAccessoryInlineView.swift; sourceTree = "<group>"; };
 		E6A93FB928C930250093691F /* BsuirImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsuirImage.swift; sourceTree = "<group>"; };
@@ -127,16 +107,11 @@
 		E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidget.swift; sourceTree = "<group>"; };
 		E6AA8D1825162F1B00788A02 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E6AA8D1A25162F1B00788A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetIntentHandler.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		E6AA8D2C2516301500788A02 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
-		E6AA8D2E2516301500788A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedScheduleProvider.swift; sourceTree = "<group>"; };
 		E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostRelevantScheduleResponse.swift; sourceTree = "<group>"; };
 		E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleEntry+MostRelevant.swift"; sourceTree = "<group>"; };
 		E6B33E8829A2C2200034AD63 /* NoPinnedScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPinnedScheduleView.swift; sourceTree = "<group>"; };
 		E6CCA27A2917EF900079D815 /* ScheduleWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScheduleWidgetExtension.entitlements; sourceTree = "<group>"; };
-		E6CCA27B2917EF9B0079D815 /* ScheduleWidgetIntentHandler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScheduleWidgetIntentHandler.entitlements; sourceTree = "<group>"; };
-		E6EDC2DC25220F9800C8A73C /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		E6F4A836287B4A24001AB915 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 		E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BsuirScheduleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6F931BE22F8B1C20038FC43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -157,14 +132,6 @@
 				E6B33E7C29A2B7DE0034AD63 /* Favorites in Frameworks */,
 				E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */,
 				E6AA8D1125162F1A00788A02 /* WidgetKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E6AA8D272516301500788A02 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E6972D1E287B4A5A0003506F /* BsuirApi in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,22 +217,11 @@
 				E6B33E8029A2BAD80034AD63 /* Provider */,
 				E64FE05B28C7D0850045D790 /* Views */,
 				E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */,
-				E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */,
 				E6AA8D1825162F1B00788A02 /* Assets.xcassets */,
 				E6AA8D1A25162F1B00788A02 /* Info.plist */,
 				E627876D28B6B36E00F61D9B /* Localizable.strings */,
 			);
 			path = ScheduleWidget;
-			sourceTree = "<group>";
-		};
-		E6AA8D2B2516301500788A02 /* ScheduleWidgetIntentHandler */ = {
-			isa = PBXGroup;
-			children = (
-				E6CCA27B2917EF9B0079D815 /* ScheduleWidgetIntentHandler.entitlements */,
-				E6AA8D2C2516301500788A02 /* IntentHandler.swift */,
-				E6AA8D2E2516301500788A02 /* Info.plist */,
-			);
-			path = ScheduleWidgetIntentHandler;
 			sourceTree = "<group>";
 		};
 		E6B33E8029A2BAD80034AD63 /* Provider */ = {
@@ -274,7 +230,6 @@
 				E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */,
 				E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */,
 				E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */,
-				E6EDC2DC25220F9800C8A73C /* Provider.swift */,
 				E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */,
 			);
 			path = Provider;
@@ -286,7 +241,6 @@
 				E6CCA27A2917EF900079D815 /* ScheduleWidgetExtension.entitlements */,
 				E6F931B422F8B1C10038FC43 /* BsuirScheduleApp */,
 				E6AA8D1425162F1A00788A02 /* ScheduleWidget */,
-				E6AA8D2B2516301500788A02 /* ScheduleWidgetIntentHandler */,
 				E6F4A836287B4A24001AB915 /* Modules */,
 				E6F931B322F8B1C10038FC43 /* Products */,
 				E633E7F822F8B75F00E109E2 /* Frameworks */,
@@ -298,7 +252,6 @@
 			children = (
 				E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */,
 				E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */,
-				E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -348,26 +301,6 @@
 			productReference = E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		E6AA8D292516301500788A02 /* ScheduleWidgetIntentHandler */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E6AA8D322516301500788A02 /* Build configuration list for PBXNativeTarget "ScheduleWidgetIntentHandler" */;
-			buildPhases = (
-				E6AA8D262516301500788A02 /* Sources */,
-				E6AA8D272516301500788A02 /* Frameworks */,
-				E6AA8D282516301500788A02 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ScheduleWidgetIntentHandler;
-			packageProductDependencies = (
-				E6972D1D287B4A5A0003506F /* BsuirApi */,
-			);
-			productName = ScheduleWidgetIntentHandler;
-			productReference = E6AA8D2A2516301500788A02 /* ScheduleWidgetIntentHandler.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		E6F931B122F8B1C10038FC43 /* BsuirScheduleApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E6F931C922F8B1C20038FC43 /* Build configuration list for PBXNativeTarget "BsuirScheduleApp" */;
@@ -382,7 +315,6 @@
 			);
 			dependencies = (
 				E6AA8D1E25162F1B00788A02 /* PBXTargetDependency */,
-				E6AA8D302516301500788A02 /* PBXTargetDependency */,
 			);
 			name = BsuirScheduleApp;
 			packageProductDependencies = (
@@ -403,9 +335,6 @@
 				ORGANIZATIONNAME = Saute;
 				TargetAttributes = {
 					E6AA8D0E25162F1A00788A02 = {
-						CreatedOnToolsVersion = 12.0;
-					};
-					E6AA8D292516301500788A02 = {
 						CreatedOnToolsVersion = 12.0;
 					};
 					E6F931B122F8B1C10038FC43 = {
@@ -433,7 +362,6 @@
 			targets = (
 				E6F931B122F8B1C10038FC43 /* BsuirScheduleApp */,
 				E6AA8D0E25162F1A00788A02 /* ScheduleWidgetExtension */,
-				E6AA8D292516301500788A02 /* ScheduleWidgetIntentHandler */,
 			);
 		};
 /* End PBXProject section */
@@ -445,13 +373,6 @@
 			files = (
 				E6AA8D1925162F1B00788A02 /* Assets.xcassets in Resources */,
 				E627876F28B6B36E00F61D9B /* Localizable.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E6AA8D282516301500788A02 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,19 +410,8 @@
 				E64FE06E28C7D31C0045D790 /* ScheduleWidgetEntryAccessoryCircularView.swift in Sources */,
 				E64FE06C28C7D1950045D790 /* RemainingPairsView.swift in Sources */,
 				E64FE06A28C7D1420045D790 /* ScheduleWidgetEntrySmallView.swift in Sources */,
-				E6EDC2E42522101900C8A73C /* Provider.swift in Sources */,
 				E6B33E8729A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift in Sources */,
-				E6A6D1C425D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */,
 				E651C88E28C7D02400CAFBEC /* ScheduleWidgetEntryLargeView.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E6AA8D262516301500788A02 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E6AA8D2D2516301500788A02 /* IntentHandler.swift in Sources */,
-				E6A6D1C525D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,7 +420,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6310E31292C02A10013A103 /* App.swift in Sources */,
-				E6A6D1C325D5C1CC00204A79 /* ScheduleWidget.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,11 +430,6 @@
 			isa = PBXTargetDependency;
 			target = E6AA8D0E25162F1A00788A02 /* ScheduleWidgetExtension */;
 			targetProxy = E6AA8D1D25162F1B00788A02 /* PBXContainerItemProxy */;
-		};
-		E6AA8D302516301500788A02 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E6AA8D292516301500788A02 /* ScheduleWidgetIntentHandler */;
-			targetProxy = E6AA8D2F2516301500788A02 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -550,18 +454,6 @@
 				E627877528B6B50F00F61D9B /* uk */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		E6A6D1C725D5C1CC00204A79 /* ScheduleWidget.intentdefinition */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E6A6D1C625D5C1CC00204A79 /* Base */,
-				E619BF7E28B6AC35006ADB39 /* ru */,
-				E619BF8028B6AC35006ADB39 /* be */,
-				E619BF8228B6AC38006ADB39 /* en */,
-				E619BF8428B6AC39006ADB39 /* uk */,
-			);
-			name = ScheduleWidget.intentdefinition;
 			sourceTree = "<group>";
 		};
 		E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */ = {
@@ -612,44 +504,6 @@
 					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saute.Bsuir-Schedule.ScheduleWidget";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		E6AA8D332516301500788A02 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CODE_SIGN_ENTITLEMENTS = ScheduleWidgetIntentHandler/ScheduleWidgetIntentHandler.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 636FUHDF2R;
-				INFOPLIST_FILE = ScheduleWidgetIntentHandler/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.saute.Bsuir-Schedule.ScheduleWidgetIntentHandler";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		E6AA8D342516301500788A02 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CODE_SIGN_ENTITLEMENTS = ScheduleWidgetIntentHandler/ScheduleWidgetIntentHandler.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 636FUHDF2R;
-				INFOPLIST_FILE = ScheduleWidgetIntentHandler/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.saute.Bsuir-Schedule.ScheduleWidgetIntentHandler";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -838,15 +692,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E6AA8D322516301500788A02 /* Build configuration list for PBXNativeTarget "ScheduleWidgetIntentHandler" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E6AA8D332516301500788A02 /* Debug */,
-				E6AA8D342516301500788A02 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		E6F931AD22F8B1C10038FC43 /* Build configuration list for PBXProject "BsuirScheduleApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -887,10 +732,6 @@
 		E6972D1B287B4A550003506F /* BsuirUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BsuirUI;
-		};
-		E6972D1D287B4A5A0003506F /* BsuirApi */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BsuirApi;
 		};
 		E6B33E7B29A2B7DE0034AD63 /* Favorites */ = {
 			isa = XCSwiftPackageProductDependency;

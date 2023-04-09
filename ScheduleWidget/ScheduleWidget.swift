@@ -11,32 +11,8 @@ import StoreKit
 @main
 struct ScheduleWidgetBundle: WidgetBundle {
     var body: some Widget {
-        ScheduleWidget()
         PinnedScheduleWidget()
     }
-}
-
-struct ScheduleWidget: Widget {
-    let kind: String = "ScheduleWidget"
-    @StateObject var provider = Provider()
-
-    var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: provider) { entry in
-            ScheduleWidgetEntryView(entry: entry)
-                .environmentObject(PairFormColorService(storage: .asiliukShared))
-        }
-        .configurationDisplayName("widget.displayName")
-        .supportedFamilies(supportedFamilies)
-        .description("widget.description")
-    }
-    
-    private let supportedFamilies: [WidgetFamily] = [
-        .systemSmall,
-        .systemMedium,
-        .systemLarge,
-        .accessoryCircular,
-        .accessoryRectangular,
-    ]
 }
 
 struct PinnedScheduleWidget: Widget {
@@ -64,7 +40,7 @@ struct PinnedScheduleWidget: Widget {
 }
 
 struct ScheduleWidgetEntryView: View {
-    let entry: Provider.Entry
+    let entry: ScheduleEntry
     @Environment(\.widgetFamily) var size
 
     var body: some View {

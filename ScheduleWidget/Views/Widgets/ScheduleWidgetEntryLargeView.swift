@@ -4,7 +4,7 @@ import BsuirCore
 import ScheduleCore
 
 struct ScheduleWidgetEntryLargeView : View {
-    var entry: Provider.Entry
+    var entry: ScheduleEntry
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {

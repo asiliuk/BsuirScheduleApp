@@ -12,7 +12,7 @@ import BsuirCore
 import ScheduleCore
 
 struct ScheduleWidgetEntrySmallView : View {
-    var entry: Provider.Entry
+    var entry: ScheduleEntry
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {

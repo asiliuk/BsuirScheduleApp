@@ -3,7 +3,7 @@ import BsuirCore
 import ScheduleCore
 
 struct ScheduleWidgetEntryAccessoryCircularView: View {
-    var entry: Provider.Entry
+    var entry: ScheduleEntry
     
     var body: some View {
         switch entry.content {

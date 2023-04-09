@@ -4,7 +4,7 @@ import BsuirUI
 import ScheduleCore
 
 struct ScheduleWidgetEntryAccessoryInlineView: View {
-    var entry: Provider.Entry
+    var entry: ScheduleEntry
     
     var body: some View {
         switch entry.content {
