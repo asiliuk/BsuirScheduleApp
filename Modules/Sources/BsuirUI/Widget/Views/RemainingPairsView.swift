@@ -33,7 +33,7 @@ struct RemainingPairsView: View {
             .compactMap(\.subject)
             .formatted(
                 visibleCount: visibleCount,
-                placeholder: { String(localized: "widget.schedule.more.\($0)") }
+                placeholder: { String(localized: "widget.schedule.more.\($0)", bundle: .module) }
             )
     }
 
@@ -48,4 +48,3 @@ struct RemainingPairsView: View {
         }
     }
 }
-

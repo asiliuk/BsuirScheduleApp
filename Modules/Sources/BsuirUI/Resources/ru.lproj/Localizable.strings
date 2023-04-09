@@ -1,0 +1,11 @@
+"widget.schedule.empty" = "🤩 Нет занятий";
+"widget.schedule.more.%lld" = "еще %lld";
+"widget.needsConfiguration.selectSchedule" = "Выберите расписание";
+"widget.noPinned.title" = "Нет закрепленного расписания";
+
+"view.pairView.form.name.short.lecture" = "ЛК";
+"view.pairView.form.name.short.lab" = "ЛР";
+"view.pairView.form.name.short.practice" = "ПЗ";
+"view.pairView.form.name.short.consultation" = "КО";
+"view.pairView.form.name.short.exam" = "ЭК";
+"view.pairView.form.name.short.unknown" = "ХЗ";

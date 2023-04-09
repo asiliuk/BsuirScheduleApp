@@ -39,7 +39,7 @@ extension PairViewForm {
         }
     }
 
-    public var shortName: LocalizedStringKey {
+    var shortName: LocalizedStringKey {
         switch self {
         case .lecture: return "view.pairView.form.name.short.lecture"
         case .lab: return "view.pairView.form.name.short.lab"

@@ -27,7 +27,7 @@ public struct ScheduleWidgetEntryAccessoryInlineView: View {
             )
 
             if let pair = pairs.visible.last {
-                let form = Text(PairViewForm(pair.form).shortName)
+                let form = Text(PairViewForm(pair.form).shortName, bundle: .module)
                 InlineView(text: "\(pair.from) \(form) \(pair.subject ?? "")")
             }
         }
@@ -38,7 +38,7 @@ private struct InlineView: View {
     let text: LocalizedStringKey
 
     var body: some View {
-        Text("\(Image.bsuirLogo) \(Text(text))")
+        Text("\(Image.bsuirLogo) \(Text(text, bundle: .module))")
     }
 }
 

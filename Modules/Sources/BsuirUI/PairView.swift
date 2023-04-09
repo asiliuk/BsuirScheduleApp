@@ -180,7 +180,7 @@ public struct PairView<Details: View>: View {
     
     private var formText: Text? {
         if spellForm || differentiateWithoutColor {
-            return Text(form.shortName)
+            return Text(form.shortName, bundle: .module)
         } else {
             return nil
         }

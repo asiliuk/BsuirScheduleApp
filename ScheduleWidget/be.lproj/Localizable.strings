@@ -1,17 +1,2 @@
-"widget.displayName" = "Расклад";
-"widget.description" = "Найбольш актуальны расклад для групы або выкладчыка.";
-
 "widget.pinned.displayName" = "📌 Замацаваны Расклад";
 "widget.pinned.description" = "Найбольш актуальны расклад для замацаванай групы або выкладчыка.";
-
-"widget.schedule.empty" = "🤩 Няма заняткаў";
-"widget.schedule.more.%lld" = "яшчэ %lld";
-"widget.needsConfiguration.selectSchedule" = "Абярыце расклад";
-"widget.noPinned.title" = "Няма замацаванага раскладу";
-
-"view.pairView.form.name.short.lecture" = "ЛК";
-"view.pairView.form.name.short.lab" = "ЛР";
-"view.pairView.form.name.short.practice" = "ПЗ";
-"view.pairView.form.name.short.consultation" = "КА";
-"view.pairView.form.name.short.exam" = "ІС";
-"view.pairView.form.name.short.unknown" = "ХВ";
