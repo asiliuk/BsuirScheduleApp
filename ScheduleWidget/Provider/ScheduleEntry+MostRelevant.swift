@@ -1,5 +1,6 @@
 import WidgetKit
 import BsuirCore
+import BsuirUI
 import ScheduleCore
 import Foundation
 import Deeplinking
@@ -28,11 +29,13 @@ extension ScheduleEntry {
         self.init(
             date: date,
             relevance: relevance,
-            deeplink: deeplinkRouter.url(for: response.deeplink),
-            title: response.title,
-            content: .pairs(
-                passed: passedPairs.map { PairViewModel(pair: $0, date: date) },
-                upcoming: upcomingPairs.map { PairViewModel(pair: $0, date: date) }
+            config: ScheduleWidgetConfiguration(
+                deeplink: deeplinkRouter.url(for: response.deeplink),
+                title: response.title,
+                content: .pairs(
+                    passed: passedPairs.map { PairViewModel(pair: $0, date: date) },
+                    upcoming: upcomingPairs.map { PairViewModel(pair: $0, date: date) }
+                )
             )
         )
     }

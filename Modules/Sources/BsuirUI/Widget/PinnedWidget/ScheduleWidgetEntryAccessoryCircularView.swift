@@ -2,11 +2,15 @@ import SwiftUI
 import BsuirCore
 import ScheduleCore
 
-struct ScheduleWidgetEntryAccessoryCircularView: View {
-    var entry: ScheduleEntry
+public struct ScheduleWidgetEntryAccessoryCircularView: View {
+    var config: ScheduleWidgetConfiguration
+
+    public init(config: ScheduleWidgetConfiguration) {
+        self.config = config
+    }
     
-    var body: some View {
-        switch entry.content {
+    public var body: some View {
+        switch config.content {
         case .noPinned:
             NoPinSymbol()
         case .needsConfiguration:

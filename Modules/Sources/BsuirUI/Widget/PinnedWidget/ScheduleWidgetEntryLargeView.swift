@@ -1,20 +1,25 @@
 import SwiftUI
-import BsuirUI
 import BsuirCore
 import ScheduleCore
 
-struct ScheduleWidgetEntryLargeView : View {
-    var entry: ScheduleEntry
+public struct ScheduleWidgetEntryLargeView : View {
+    var config: ScheduleWidgetConfiguration
+    var date: Date
 
-    var body: some View {
+    public init(config: ScheduleWidgetConfiguration, date: Date) {
+        self.config = config
+        self.date = date
+    }
+
+    public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
-                WidgetDateTitle(date: entry.date)
+                WidgetDateTitle(date: date)
                 Spacer()
-                ScheduleIdentifierTitle(title: entry.title)
+                ScheduleIdentifierTitle(title: config.title)
             }
 
-            switch entry.content {
+            switch config.content {
             case .noPinned:
                 NoPinnedScheduleView()
             case .needsConfiguration:

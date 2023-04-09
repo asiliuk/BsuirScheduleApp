@@ -1,28 +1,25 @@
-//
-//  ScheduleWidgetEntryMediumView.swift
-//  ScheduleWidgetExtension
-//
-//  Created by Anton Siliuk on 06/09/2022.
-//  Copyright © 2022 Saute. All rights reserved.
-//
-
 import SwiftUI
-import BsuirUI
 import BsuirCore
 import ScheduleCore
 
-struct ScheduleWidgetEntryMediumView : View {
-    var entry: ScheduleEntry
+public struct ScheduleWidgetEntryMediumView : View {
+    var config: ScheduleWidgetConfiguration
+    var date: Date
 
-    var body: some View {
+    public init(config: ScheduleWidgetConfiguration, date: Date) {
+        self.config = config
+        self.date = date
+    }
+
+    public var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
-                WidgetDateTitle(date: entry.date)
+                WidgetDateTitle(date: date)
                 Spacer()
-                ScheduleIdentifierTitle(title: entry.title)
+                ScheduleIdentifierTitle(title: config.title)
             }
 
-            switch entry.content {
+            switch config.content {
             case .noPinned:
                 NoPinnedScheduleView()
             case .needsConfiguration:

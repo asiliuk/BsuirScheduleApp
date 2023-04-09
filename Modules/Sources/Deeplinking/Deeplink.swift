@@ -1,5 +1,6 @@
 import Foundation
 import URLRouting
+import CasePaths
 
 public enum PremiumClubDeeplinkSource: String {
     case pin = "pin"

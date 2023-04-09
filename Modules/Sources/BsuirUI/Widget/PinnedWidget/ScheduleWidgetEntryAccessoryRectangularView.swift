@@ -1,12 +1,15 @@
 import SwiftUI
-import BsuirUI
 import ScheduleCore
 
-struct ScheduleWidgetEntryAccessoryRectangularView: View {
-    var entry: ScheduleEntry
-    
-    var body: some View {
-        switch entry.content {
+public struct ScheduleWidgetEntryAccessoryRectangularView: View {
+    var config: ScheduleWidgetConfiguration
+
+    public init(config: ScheduleWidgetConfiguration) {
+        self.config = config
+    }
+
+    public var body: some View {
+        switch config.content {
         case .noPinned:
             NoPinnedScheduleView()
         case .needsConfiguration:
