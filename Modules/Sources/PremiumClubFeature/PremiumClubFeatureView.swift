@@ -43,7 +43,7 @@ public struct PremiumClubFeatureView: View {
                         case .widgets:
                             WidgetsSectionView()
                         case .appIcons:
-                            AppIconsSection()
+                            AppIconsSectionView()
                         case .tips:
                             TipsSection()
                         }
@@ -66,22 +66,6 @@ public struct PremiumClubFeatureView: View {
             ToolbarItem(placement: .primaryAction) {
                 Button("Restore") {}
             }
-        }
-    }
-}
-
-private struct AppIconsSection: View {
-    var body: some View {
-        GroupBox {
-            HStack(alignment: .top) {
-                Text("Unlock stunning new icons, I've spent a lot of time designing them, more to come...").font(.body)
-                Spacer()
-                PremiumAppIconGrid()
-                    .frame(width: 80)
-            }
-        } label: {
-            Label("Custom App Icons", systemImage: "app.gift.fill")
-                .settingsRowAccent(.orange)
         }
     }
 }
