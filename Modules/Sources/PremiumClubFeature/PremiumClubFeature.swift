@@ -39,6 +39,7 @@ public struct PremiumClubFeature: Reducer {
         }
 
         var fakeAds = FakeAdsSection.State()
+        var tips = TipsSection.State()
 
         #if DEBUG
         var debugRow = DebugPremiumClubRow.State()
@@ -61,6 +62,7 @@ public struct PremiumClubFeature: Reducer {
         case debugRow(DebugPremiumClubRow.Action)
         #endif
         case fakeAds(FakeAdsSection.Action)
+        case tips(TipsSection.Action)
     }
 
     @Dependency(\.premiumService) var premiumService
@@ -88,6 +90,10 @@ public struct PremiumClubFeature: Reducer {
 
         Scope(state: \.fakeAds, action: /Action.fakeAds) {
             FakeAdsSection()
+        }
+
+        Scope(state: \.tips, action: /Action.tips) {
+            TipsSection()
         }
     }
 

@@ -45,7 +45,12 @@ public struct PremiumClubFeatureView: View {
                         case .appIcons:
                             AppIconsSectionView()
                         case .tips:
-                            TipsSection()
+                            TipsSectionView(
+                                store: store.scope(
+                                    state: \.tips,
+                                    action: { .tips($0) }
+                                )
+                            )
                         }
                     }
                 }
@@ -66,39 +71,6 @@ public struct PremiumClubFeatureView: View {
             ToolbarItem(placement: .primaryAction) {
                 Button("Restore") {}
             }
-        }
-    }
-}
-
-private struct TipsSection: View {
-    var body: some View {
-        GroupBox {
-            VStack(alignment: .leading) {
-                LabeledContent {
-                    Button("1.99$", action: {})
-                } label: {
-                    Text("☕️ Small tip")
-                }
-
-                LabeledContent {
-                    Button("5.00$", action: {})
-                } label: {
-                    Text("🥐 Medium tip")
-                }
-
-                LabeledContent {
-                    Button("10.00$", action: {})
-                } label: {
-                    Text("🥙 Big tip")
-                }
-
-                Text("* Any tips amount removes fake ads banner")
-                    .font(.footnote)
-            }
-            .buttonStyle(.borderedProminent)
-        } label: {
-            Label("Leave tips", systemImage: "heart.square.fill")
-                .settingsRowAccent(.pink)
         }
     }
 }
