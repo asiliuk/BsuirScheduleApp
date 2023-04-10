@@ -6,6 +6,7 @@ struct PremiumAppIconGrid: View {
     @State private var gridRows: [[AppIcon]]
     @State private var isAnimating = false
     private let animationSpeed: CGFloat
+    @Environment(\.accessibilityReduceMotion) var accessibilityReduceMotion
 
     init() {
         let premiumIcons = AppIcon.allCases.filter(\.isPremium)
@@ -28,11 +29,14 @@ struct PremiumAppIconGrid: View {
         )
         .aspectRatio(1, contentMode: .fit)
         .task {
+            guard !accessibilityReduceMotion else { return }
             withAnimation(.linear.speed(animationSpeed).repeatForever(autoreverses: false)) {
                 isAnimating.toggle()
             }
         }
         .mask { SlightlyBluredEdgesMask() }
+        // Recreate view on setting change to reset animation
+        .id(accessibilityReduceMotion)
     }
 }
 
