@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirUI
 import ComposableArchitecture
+import FakeAdsFeature
 
 public struct PremiumClubFeatureView: View {
     let store: StoreOf<PremiumClubFeature>
@@ -32,7 +33,12 @@ public struct PremiumClubFeatureView: View {
                     ForEach(viewStore.state) { section in
                         switch section {
                         case .fakeAds:
-                            FakeAdsSection()
+                            FakeAdsSectionView(
+                                store: store.scope(
+                                    state: \.fakeAds,
+                                    action: { .fakeAds($0) }
+                                )
+                            )
                         case .pinnedSchedule:
                             PinnedScheduleSection()
                         case .widgets:
@@ -137,18 +143,6 @@ private struct WidgetsSection: View {
             .clipShape(RoundedRectangle(cornerRadius: size.height * 0.11, style: .continuous))
             .scaleEffect(x: scale, y: scale)
             .frame(width: targetSize.width, height: targetSize.height)
-    }
-}
-
-private struct FakeAdsSection: View {
-    var body: some View {
-        GroupBox {
-            Color.clear
-                .frame(height: 100)
-        } label: {
-            Label("No Fake Ads", systemImage: "hand.raised.square.fill")
-                .settingsRowAccent(.purple)
-        }
     }
 }
 

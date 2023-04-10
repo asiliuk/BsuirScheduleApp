@@ -3,14 +3,17 @@ import ComposableArchitecture
 
 public struct FakeAdsFeature: Reducer {
     public struct State: Equatable {
-        static let config = FakeAdConfig.all.randomElement()!
+        public static let oneTimeConfig = FakeAdConfig.all.randomElement()!
 
-        var image: FakeAdConfig.AdImage { Self.config.image }
-        var label: TextState { TextState(Self.config.label) }
-        var title: TextState { TextState(Self.config.title) }
-        var description: TextState { TextState(Self.config.description) }
+        var config: FakeAdConfig
+        var image: FakeAdConfig.AdImage { config.image }
+        var label: TextState { TextState(config.label) }
+        var title: TextState { TextState(config.title) }
+        var description: TextState { TextState(config.description) }
 
-        public init() {}
+        public init(config: FakeAdConfig = oneTimeConfig) {
+            self.config = config
+        }
     }
 
     public enum Action: Equatable {

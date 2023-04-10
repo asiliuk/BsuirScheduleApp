@@ -38,6 +38,8 @@ public struct PremiumClubFeature: Reducer {
             return hasPremium ? [.tips] + sections : sections + [.tips]
         }
 
+        var fakeAds = FakeAdsSection.State()
+
         #if DEBUG
         var debugRow = DebugPremiumClubRow.State()
         #endif
@@ -58,6 +60,7 @@ public struct PremiumClubFeature: Reducer {
         #if DEBUG
         case debugRow(DebugPremiumClubRow.Action)
         #endif
+        case fakeAds(FakeAdsSection.Action)
     }
 
     @Dependency(\.premiumService) var premiumService
@@ -82,6 +85,10 @@ public struct PremiumClubFeature: Reducer {
             DebugPremiumClubRow()
         }
         #endif
+
+        Scope(state: \.fakeAds, action: /Action.fakeAds) {
+            FakeAdsSection()
+        }
     }
 
     private func listenToPremiumUpdates() -> Effect<Action> {

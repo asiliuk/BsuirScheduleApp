@@ -77,7 +77,7 @@ let package = Package(
         ),
         .target(
             name: "PremiumClubFeature",
-            dependencies: ["BsuirUI", .tca, .dependencies, .swiftUINavigation]
+            dependencies: ["FakeAdsFeature", "BsuirUI", .tca, .dependencies, .swiftUINavigation]
         ),
         .target(
             name: "GroupsFeature",
