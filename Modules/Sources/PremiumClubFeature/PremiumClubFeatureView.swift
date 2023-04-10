@@ -39,7 +39,7 @@ public struct PremiumClubFeatureView: View {
                                 )
                             )
                         case .pinnedSchedule:
-                            PinnedScheduleSection()
+                            PinnedScheduleSectionView()
                         case .widgets:
                             WidgetsSectionView()
                         case .appIcons:
@@ -66,18 +66,6 @@ public struct PremiumClubFeatureView: View {
             ToolbarItem(placement: .primaryAction) {
                 Button("Restore") {}
             }
-        }
-    }
-}
-
-private struct PinnedScheduleSection: View {
-    var body: some View {
-        GroupBox {
-            Color.clear
-                .frame(height: 100)
-        } label: {
-            Label("Pinned Schedule", systemImage: "pin.square.fill")
-                .settingsRowAccent(.red)
         }
     }
 }

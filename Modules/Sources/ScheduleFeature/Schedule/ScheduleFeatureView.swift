@@ -1,5 +1,6 @@
 import SwiftUI
 import BsuirCore
+import BsuirUI
 import LoadableFeature
 import FakeAdsFeature
 import ComposableArchitecture
