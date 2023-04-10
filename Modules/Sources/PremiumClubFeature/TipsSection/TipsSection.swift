@@ -44,18 +44,30 @@ public struct TipsSection: Reducer {
 
 public struct FreeLove: Reducer {
     public struct State: Equatable {
-        var showCounter: Bool { counter > 0 }
         var counter: Int = 0
     }
 
     public enum Action: Equatable {
         case loveButtonTapped
+        case _resetCounter
     }
+
+    @Dependency(\.continuousClock) var clock
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .loveButtonTapped:
+            enum CancelID: Hashable {}
             state.counter += 1
+            return .task {
+                try await clock.sleep(for: .seconds(1))
+                return ._resetCounter
+            }
+            .animation(.easeIn)
+            .cancellable(id: CancelID.self, cancelInFlight: true)
+
+        case ._resetCounter:
+            state.counter = 0
             return .none
         }
     }

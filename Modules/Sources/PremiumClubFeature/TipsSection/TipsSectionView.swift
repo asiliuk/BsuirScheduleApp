@@ -60,11 +60,29 @@ private struct FreeLoveView: View {
                 Button {
                     viewStore.send(.loveButtonTapped)
                 } label: {
-                    Text("\(viewStore.showCounter ? "\(viewStore.counter) " : "")\(Image(systemName: "heart.fill"))")
+                    HStack {
+                        AnimatableFreeLoveText(counter: Double(viewStore.counter))
+                        Text("\(Image(systemName: "heart.fill"))")
+                    }
                 }
             } label: {
                 Text("💋 Free love")
             }
+        }
+    }
+}
+
+private struct AnimatableFreeLoveText: View, Animatable {
+    var counter: Double
+
+    var animatableData: Double {
+        get { counter }
+        set { counter = newValue }
+    }
+
+    var body: some View {
+        if counter > 0 {
+            Text("\(Int(counter.rounded(.up)))").monospaced()
         }
     }
 }
