@@ -59,7 +59,6 @@ public struct LecturersFeature: Reducer {
 
         case task
         case setIsOnTop(Bool)
-        case setLectorScheduleId(Int?)
         
         case _favoritesUpdate(OrderedSet<Int>)
         case _pinnedUpdate(Employee?)
@@ -112,14 +111,6 @@ public struct LecturersFeature: Reducer {
 
         case let .setIsOnTop(value):
             state.isOnTop = value
-            return .none
-
-        case .setLectorScheduleId(nil):
-            state.lectorSchedule = nil
-            return .none
-
-        case .setLectorScheduleId(.some):
-            assertionFailure("Not really expecting this to happen")
             return .none
 
         case .pinned(.rowTapped):

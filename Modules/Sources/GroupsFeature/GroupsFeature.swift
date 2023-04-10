@@ -55,9 +55,7 @@ public struct GroupsFeature: Reducer {
 
         case task
         case setIsOnTop(Bool)
-        case setGroupScheduleName(String?)
 
-        
         case _favoritesUpdate(OrderedSet<String>)
         case _pinnedUpdate(String?)
         
@@ -81,14 +79,6 @@ public struct GroupsFeature: Reducer {
 
             case .setIsOnTop(let value):
                 state.isOnTop = value
-                return .none
-
-            case .setGroupScheduleName(nil):
-                state.groupSchedule = nil
-                return .none
-
-            case .setGroupScheduleName(.some):
-                assertionFailure("Not really expecting this to happen")
                 return .none
 
             case let .groupSection(sectionId, action: .groupRow(rowId, action: .rowTapped)):

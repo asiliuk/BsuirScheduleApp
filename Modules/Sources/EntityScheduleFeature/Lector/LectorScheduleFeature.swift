@@ -32,7 +32,6 @@ public struct LectorScheduleFeature: Reducer {
         indirect case groupSchedule(PresentationAction<GroupScheduleFeature.Action>)
 
         case groupTapped(String)
-        case setGroupScheduleName(String?)
 
         case delegate(DelegateAction)
     }
@@ -46,14 +45,6 @@ public struct LectorScheduleFeature: Reducer {
             switch action {
             case let .groupTapped(groupName):
                 state.groupSchedule = .init(groupName: groupName)
-                return .none
-
-            case .setGroupScheduleName(nil):
-                state.groupSchedule = nil
-                return .none
-
-            case .setGroupScheduleName(.some):
-                assertionFailure("Unexpected")
                 return .none
 
             case let .schedule(.delegate(action)):

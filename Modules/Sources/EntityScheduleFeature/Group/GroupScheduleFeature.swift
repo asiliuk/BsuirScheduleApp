@@ -28,7 +28,6 @@ public struct GroupScheduleFeature: Reducer {
         indirect case lectorSchedule(PresentationAction<LectorScheduleFeature.Action>)
 
         case lectorTapped(Employee)
-        case setLectorScheduleId(Int?)
 
         case delegate(DelegateAction)
     }
@@ -42,14 +41,6 @@ public struct GroupScheduleFeature: Reducer {
             switch action {
             case let .lectorTapped(lector):
                 state.lectorSchedule = .init(.init(lector: lector))
-                return .none
-
-            case .setLectorScheduleId(nil):
-                state.lectorSchedule = nil
-                return .none
-
-            case .setLectorScheduleId(.some):
-                assertionFailure("Not suppose to happen")
                 return .none
 
             case let .schedule(.delegate(action)):
