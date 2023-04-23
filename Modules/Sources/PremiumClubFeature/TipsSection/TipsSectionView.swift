@@ -67,6 +67,9 @@ private struct FreeLoveView: View {
                 }
             } label: {
                 Text("💋 Free love")
+                if viewStore.highScore > 0 {
+                    Text("max love \(viewStore.highScore)")
+                }
             }
         }
     }

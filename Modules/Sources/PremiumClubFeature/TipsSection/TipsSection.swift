@@ -2,6 +2,7 @@ import Foundation
 import ComposableArchitecture
 import IdentifiedCollections
 import SwiftUI
+import Favorites
 
 public struct TipsSection: Reducer {
     public struct State: Equatable {
@@ -44,6 +45,10 @@ public struct TipsSection: Reducer {
 
 public struct FreeLove: Reducer {
     public struct State: Equatable {
+        var highScore: Int = {
+            @Dependency(\.favorites.freeLoveHighScore) var freeLoveHighScore
+            return freeLoveHighScore
+        }()
         var counter: Int = 0
     }
 
@@ -53,6 +58,7 @@ public struct FreeLove: Reducer {
     }
 
     @Dependency(\.continuousClock) var clock
+    @Dependency(\.favorites) var favorites
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
@@ -67,8 +73,14 @@ public struct FreeLove: Reducer {
             .cancellable(id: CancelID.self, cancelInFlight: true)
 
         case ._resetCounter:
+            let highScore = max(state.highScore, state.counter)
+            state.highScore = highScore
             state.counter = 0
-            return .none
+            return .fireAndForget {
+                if favorites.freeLoveHighScore < highScore {
+                    favorites.freeLoveHighScore = highScore
+                }
+            }
         }
     }
 }

@@ -43,6 +43,9 @@ public final class FavoritesService {
         .codable(ScheduleSource.self)
         .withPublisher()
 
+    private lazy var freeLoveHighScoreStorage = storage
+        .persistedInteger(forKey: "free-love-hich-score")
+
     init(storage: UserDefaults, legacyStorage: UserDefaults, widgetCenter: WidgetCenter) {
         self.storage = storage
         self.legacyStorage = legacyStorage
@@ -104,6 +107,11 @@ extension FavoritesService {
 
     public var pinnedSchedule: AnyPublisher<ScheduleSource?, Never> {
         pinnedScheduleStorage.publisher
+    }
+
+    public var freeLoveHighScore: Int {
+        get { freeLoveHighScoreStorage.value }
+        set { freeLoveHighScoreStorage.value = newValue }
     }
 }
 
