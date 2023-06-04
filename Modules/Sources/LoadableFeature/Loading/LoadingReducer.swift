@@ -102,8 +102,6 @@ private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
         return .send(.delegate(.loadingFinished))
     }
 
-    private enum LoadingCancelId {}
-
     private func load(_ state: State, isRefresh: Bool) -> Effect<Action> {
         return .task {
             try await withTaskCancellation(id: #function, cancelInFlight: true) {
@@ -118,7 +116,11 @@ private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
             ._loadingFailed(error)
         }
         .animation()
-        .cancellable(id: LoadingCancelId.self, cancelInFlight: true)
+        .cancellable(id: CancelID.loading, cancelInFlight: true)
+    }
+
+    private enum CancelID {
+        case loading
     }
 }
 

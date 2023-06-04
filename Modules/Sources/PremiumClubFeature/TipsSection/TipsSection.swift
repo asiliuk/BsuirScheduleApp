@@ -63,14 +63,13 @@ public struct FreeLove: Reducer {
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .loveButtonTapped:
-            enum CancelID: Hashable {}
             state.counter += 1
             return .task {
                 try await clock.sleep(for: .seconds(1))
                 return ._resetCounter
             }
             .animation(.easeIn)
-            .cancellable(id: CancelID.self, cancelInFlight: true)
+            .cancellable(id: CancelID.reset, cancelInFlight: true)
 
         case ._resetCounter:
             let highScore = max(state.highScore, state.counter)
@@ -82,6 +81,10 @@ public struct FreeLove: Reducer {
                 }
             }
         }
+    }
+
+    private enum CancelID {
+        case reset
     }
 }
 
