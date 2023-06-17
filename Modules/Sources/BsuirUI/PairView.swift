@@ -107,7 +107,7 @@ public struct PairView<Details: View>: View {
             case (.vertical, _), (.horizontal, true):
                 VStack(alignment: .leading) {
                     HStack(spacing: 8) {
-                        PairFormIndicator(form: form, progress: progress.value, differentiateWithoutColor: differentiateWithoutColor)
+                        PairFormIndicator(form: form, progress: progress.value)
 
                         VStack(alignment: .leading) {
                             Text(interval).font(.system(.footnote, design: .monospaced))
@@ -127,7 +127,7 @@ public struct PairView<Details: View>: View {
                     Text(to).font(.system(isCompact ? .caption2 : .footnote, design: .monospaced))
                 }
 
-                PairFormIndicator(form: form, progress: progress.value, differentiateWithoutColor: differentiateWithoutColor)
+                PairFormIndicator(form: form, progress: progress.value)
 
                 VStack(alignment: .leading) {
                     title
@@ -180,7 +180,7 @@ public struct PairView<Details: View>: View {
     
     private var formText: Text? {
         if spellForm || differentiateWithoutColor {
-            return Text(form.shortName, bundle: .module)
+            return Text("\(Image(systemName: form.symbolName))")
         } else {
             return nil
         }

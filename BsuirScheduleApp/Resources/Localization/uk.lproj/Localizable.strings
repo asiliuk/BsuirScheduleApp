@@ -43,6 +43,7 @@
 "screen.settings.appearance.navigation.title" = "Зовнішній вигляд";
 
 "screen.settings.appearance.colors.section.header" = "Кольори";
+"screen.settings.appearance.icons.section.header" = "Іконки";
 "screen.settings.appearance.colors.reset.title" = "Скинути";
 
 "screen.settings.appearance.pairPreview.section.header" = "Як виглядає пара";

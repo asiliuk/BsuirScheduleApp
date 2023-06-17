@@ -7,6 +7,7 @@ public struct PairFormsColorPicker: Reducer {
     public struct State: Equatable {
         var hasChanges: Bool = false
         var pairFormColorPickers: IdentifiedArrayOf<PairFormColorPicker.State> = []
+        var pairFormIcons: IdentifiedArrayOf<PairFormIcon.State> = []
 
         public init() {
             @Dependency(\.pairFormColorService) var pairFormColorService
@@ -16,6 +17,7 @@ public struct PairFormsColorPicker: Reducer {
 
     public enum Action: Equatable {
         case pairFormColorPickers(id: String, action: PairFormColorPicker.Action)
+        case pairFormIcon(id: String, action: PairFormIcon.Action)
 
         case resetButtonTapped
     }
@@ -41,6 +43,9 @@ public struct PairFormsColorPicker: Reducer {
         .forEach(\.pairFormColorPickers, action: /Action.pairFormColorPickers) {
             PairFormColorPicker()
         }
+        .forEach(\.pairFormIcons, action: /Action.pairFormIcon) {
+            PairFormIcon()
+        }
     }
 }
 
@@ -55,10 +60,29 @@ private extension PairFormsColorPicker.State {
                 )
             }
         )
+        pairFormIcons = IdentifiedArray(
+            uncheckedUniqueElements: PairViewForm.allCases
+                .map(PairFormIcon.State.init(form:))
+        )
     }
 
     mutating func updateHasChanges(service: PairFormColorService) {
         hasChanges = !service.areDefaultColors
+    }
+}
+
+public struct PairFormIcon: Reducer {
+    public struct State: Equatable, Identifiable {
+        public var id: String { form.rawValue }
+        var name: LocalizedStringKey { form.name }
+        var icon: String { form.symbolName }
+        let form: PairViewForm
+    }
+
+    public enum Action: Equatable {}
+
+    public var body: some ReducerOf<Self> {
+        EmptyReducer()
     }
 }
 

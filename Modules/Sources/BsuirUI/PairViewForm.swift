@@ -50,6 +50,17 @@ extension PairViewForm {
         }
     }
 
+    public var symbolName: String {
+        switch self {
+        case .lecture: return "person.bust"
+        case .lab: return "chart.xyaxis.line"
+        case .practice: return "hammer"
+        case .consultation: return "case"
+        case .exam: return "graduationcap"
+        case .unknown: return "questionmark"
+        }
+    }
+
     @ViewBuilder public var shape: some View {
         switch self {
         case .lecture: Circle()

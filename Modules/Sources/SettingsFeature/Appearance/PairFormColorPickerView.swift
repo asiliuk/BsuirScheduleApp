@@ -19,6 +19,34 @@ public struct PairFormsColorPickerView: View {
                     }
                 }
             }
+
+            Section(header: Text("screen.settings.appearance.icons.section.header")) {
+                ForEachStore(
+                    store.scope(
+                        state: \.pairFormIcons,
+                        action: { .pairFormIcon(id: $0, action: $1) }
+                    ),
+                    content: PairFormIconView.init(store:)
+                )
+
+                if viewStore.state {
+                    Button("screen.settings.appearance.colors.reset.title") {
+                        viewStore.send(.resetButtonTapped, animation: .default)
+                    }
+                }
+            }
+        }
+    }
+}
+
+private struct PairFormIconView: View {
+    let store: StoreOf<PairFormIcon>
+
+    var body: some View {
+        WithViewStore(store, observe: { $0 }) { viewStore in
+            LabeledContent(viewStore.name) {
+                Image(systemName: viewStore.icon).foregroundColor(.primary)
+            }
         }
     }
 }

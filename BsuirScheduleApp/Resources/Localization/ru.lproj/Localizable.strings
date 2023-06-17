@@ -43,6 +43,7 @@
 "screen.settings.appearance.navigation.title" = "Внешний вид";
 
 "screen.settings.appearance.colors.section.header" = "Цвета";
+"screen.settings.appearance.icons.section.header" = "Иконки";
 "screen.settings.appearance.colors.reset.title" = "Сбросить";
 
 "screen.settings.appearance.pairPreview.section.header" = "Как выглядит пара";
