@@ -7,13 +7,34 @@ struct TipsSectionView: View {
     var body: some View {
         GroupBox {
             VStack(alignment: .leading) {
-                ForEachStore(
-                    store.scope(
-                        state: \.tipsAmounts,
-                        action: TipsSection.Action.tipsAmount
-                    ),
-                    content: TipsAmountRow.init
-                )
+                WithViewStore(
+                    store,
+                    observe: { (failedToFetchProducts: $0.failedToFetchProducts, isLoadingProducts: $0.isLoadingProducts) },
+                    removeDuplicates: ==
+                ) { viewStore in
+                    if viewStore.isLoadingProducts {
+                        VStack {
+                            LabeledContent("Small tip") { Button("X.XX", action: {}) }
+                            LabeledContent("Medium tip") { Button("X.XX", action: {}) }
+                            LabeledContent("Large tip") { Button("X.XX", action: {}) }
+                        }
+                        .redacted(reason: .placeholder)
+                    } else if viewStore.failedToFetchProducts {
+                        LabeledContent("⚠️ Failed to fetch tips...") {
+                            Button("Retry") {
+                                viewStore.send(.reloadTips)
+                            }
+                        }
+                    } else {
+                        ForEachStore(
+                            store.scope(
+                                state: \.tipsAmounts,
+                                action: TipsSection.Action.tipsAmount
+                            ),
+                            content: TipsAmountRow.init
+                        )
+                    }
+                }
 
                 FreeLoveView(
                     store: store.scope(
@@ -29,6 +50,9 @@ struct TipsSectionView: View {
         } label: {
             Label("Leave tips", systemImage: "heart.square.fill")
                 .settingsRowAccent(.pink)
+        }
+        .task {
+            await ViewStore(store.stateless).send(.task).finish()
         }
     }
 }

@@ -3,30 +3,63 @@ import ComposableArchitecture
 import IdentifiedCollections
 import SwiftUI
 import Favorites
+import StoreKit
+
+private enum TipsProductIdentifier: String, CaseIterable {
+    case small = "com.saute.bsuir_schedule.tips.small"
+    case medium = "com.saute.bsuir_schedule.tips.medium"
+    case large = "com.saute.bsuir_schedule.tips.large"
+}
 
 public struct TipsSection: Reducer {
     public struct State: Equatable {
-        var tipsAmounts: IdentifiedArrayOf<TipsAmount.State> = [
-            .init(title: TextState("☕️ Small tip"), amount: 0.99, currencyCode: "EUR"),
-            .init(title: TextState("🥐 Medium tip"), amount: 2.99, currencyCode: "EUR"),
-            .init(title: TextState("🥙 Big tip"), amount: 6.99, currencyCode: "EUR"),
-        ]
+        // TODO: Try to use @LoadableState here
+        var failedToFetchProducts: Bool = false
+        var isLoadingProducts: Bool = false
+        var tipsAmounts: IdentifiedArrayOf<TipsAmount.State> = []
         var freeLove: FreeLove.State = .init()
     }
 
     public enum Action: Equatable {
+        case task
+        case reloadTips
         case tipsAmount(id: TipsAmount.State.ID, action: TipsAmount.Action)
         case freeLove(FreeLove.Action)
+
+        case _failedToGetProducts
+        case _receivedProducts([Product])
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .task:
+                return loadTipsProducts(state: &state)
+            case .reloadTips:
+                return loadTipsProducts(state: &state)
             case let .tipsAmount(id, action: .buyButtonTapped):
                 guard let tipsAmount = state.tipsAmounts[id: id] else {
                     return .none
                 }
                 print("Purchasing tips with amount \(tipsAmount.amount)")
+                return .none
+
+            case let ._receivedProducts(products):
+                state.isLoadingProducts = false
+                state.failedToFetchProducts = false
+                state.tipsAmounts = []
+                for product in products where product.type == .consumable {
+                    let tipsAmount = TipsAmount.State(
+                        title: TextState(product.displayName),
+                        amount: TextState(product.displayPrice)
+                    )
+                    state.tipsAmounts.append(tipsAmount)
+                }
+                return .none
+
+            case ._failedToGetProducts:
+                state.isLoadingProducts = false
+                state.failedToFetchProducts = true
                 return .none
 
             case .freeLove:
@@ -39,6 +72,17 @@ public struct TipsSection: Reducer {
 
         Scope(state: \.freeLove, action: /Action.freeLove) {
             FreeLove()
+        }
+    }
+
+    private func loadTipsProducts(state: inout State) -> Effect<Action> {
+        state.isLoadingProducts = true
+        state.failedToFetchProducts = false
+        return .task {
+            let products = try await Product.products(for: TipsProductIdentifier.allCases.map(\.rawValue))
+            return ._receivedProducts(products)
+        } catch: { _ in
+            ._failedToGetProducts
         }
     }
 }
