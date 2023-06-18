@@ -28,6 +28,11 @@ public struct TipsSection: Reducer {
 
         case _failedToGetProducts
         case _receivedProducts([Product])
+
+        case _failedToPurchase(Product)
+        case _purchaseProductCancelled
+        case _purchaseProductPending
+        case _purchaseProductSucceed(Product, VerificationResult<StoreKit.Transaction>)
     }
 
     public var body: some ReducerOf<Self> {
@@ -38,21 +43,23 @@ public struct TipsSection: Reducer {
             case .reloadTips:
                 return loadTipsProducts(state: &state)
             case let .tipsAmount(id, action: .buyButtonTapped):
-                guard let tipsAmount = state.tipsAmounts[id: id] else {
+                guard let product = state.tipsAmounts[id: id]?.product else {
                     return .none
                 }
-                print("Purchasing tips with amount \(tipsAmount.amount)")
-                return .none
+                return .task {
+                    // TODO: Listen for transaction updates to not miss purchase
+                    let result = try await product.purchase()
+                    return .purchased(product: product, result: result)
+                } catch: { error in
+                    return ._failedToPurchase(product)
+                }
 
             case let ._receivedProducts(products):
                 state.isLoadingProducts = false
                 state.failedToFetchProducts = false
                 state.tipsAmounts = []
                 for product in products where product.type == .consumable {
-                    let tipsAmount = TipsAmount.State(
-                        title: TextState(product.displayName),
-                        amount: TextState(product.displayPrice)
-                    )
+                    let tipsAmount = TipsAmount.State(product: product)
                     state.tipsAmounts.append(tipsAmount)
                 }
                 return .none
@@ -60,6 +67,25 @@ public struct TipsSection: Reducer {
             case ._failedToGetProducts:
                 state.isLoadingProducts = false
                 state.failedToFetchProducts = true
+                return .none
+
+            case let ._failedToPurchase(product):
+                print("Failed to purchase product \(product.id)")
+                return .none
+
+            case ._purchaseProductCancelled:
+                return .none
+
+            case ._purchaseProductPending:
+                return .none
+
+            case let ._purchaseProductSucceed(product, result):
+                switch result {
+                case .unverified:
+                    print("Failed to verify tip signature....")
+                case .verified:
+                    print("Successfully purchased product: \(product.id)")
+                }
                 return .none
 
             case .freeLove:
@@ -134,9 +160,10 @@ public struct FreeLove: Reducer {
 
 public struct TipsAmount: Reducer {
     public struct State: Equatable, Identifiable {
-        public var id: TextState { title }
-        var title: TextState
-        var amount: TextState
+        public var id: String { product.id }
+        var product: Product
+        var title: TextState { TextState(product.displayName) }
+        var amount: TextState { TextState(product.displayPrice) }
     }
 
     public enum Action: Equatable {
@@ -148,9 +175,17 @@ public struct TipsAmount: Reducer {
     }
 }
 
-private extension TipsAmount.State {
-    init(title: TextState, amount: Decimal, currencyCode: String) {
-        self.title = title
-        self.amount = TextState(amount.formatted(.currency(code: currencyCode)))
+private extension TipsSection.Action {
+    static func purchased(product: Product, result: Product.PurchaseResult) -> Self {
+        switch result {
+        case .userCancelled:
+            return ._purchaseProductCancelled
+        case .pending:
+            return ._purchaseProductPending
+        case let .success(result):
+            return ._purchaseProductSucceed(product, result)
+        @unknown default:
+            return ._failedToPurchase(product)
+        }
     }
 }
