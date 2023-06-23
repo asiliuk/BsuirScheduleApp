@@ -3,7 +3,7 @@ import Favorites
 import ScheduleCore
 import ComposableArchitecture
 
-public struct PinnedScheduleFeature: Reducer {
+public struct PinnedScheduleFeature: ReducerProtocol {
     public enum State: Equatable {
         case group(GroupScheduleFeature.State)
         case lector(LectorScheduleFeature.State)
@@ -31,7 +31,7 @@ public struct PinnedScheduleFeature: Reducer {
 
     public init() {}
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case .group(.delegate(let action)):

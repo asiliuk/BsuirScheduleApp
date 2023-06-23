@@ -1,7 +1,7 @@
 import Foundation
 import ComposableArchitecture
 
-public struct FakeAdsSection: Reducer {
+public struct FakeAdsSection: ReducerProtocol {
     public struct State: Equatable {
         @PresentationState var alert: AlertState<Action.AlertAction>?
     }
@@ -13,7 +13,7 @@ public struct FakeAdsSection: Reducer {
         case alert(PresentationAction<AlertAction>)
     }
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case .whyNotRealAdsTapped:

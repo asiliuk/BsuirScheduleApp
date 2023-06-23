@@ -7,7 +7,7 @@ import PremiumClubFeature
 import ComposableArchitecture
 import SwiftUINavigation
 
-public struct MarkedScheduleFeature: Reducer {
+public struct MarkedScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
         @PresentationState public var alert: AlertState<Action.AlertAction>?
         public var isFavorite: Bool = false
@@ -54,7 +54,7 @@ public struct MarkedScheduleFeature: Reducer {
 
     public init() {}
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce<State, Action> { state, action in
             switch action {
             case .task:
@@ -109,7 +109,7 @@ public struct MarkedScheduleFeature: Reducer {
         .ifLet(\.$alert, action: /Action.alert)
     }
 
-    private func favorite(source: ScheduleSource) -> Effect<Action> {
+    private func favorite(source: ScheduleSource) -> EffectTask<Action> {
         return .merge(
             .fireAndForget {
                 switch source {
@@ -126,7 +126,7 @@ public struct MarkedScheduleFeature: Reducer {
         )
     }
 
-    private func unfavorite(source: ScheduleSource) -> Effect<Action> {
+    private func unfavorite(source: ScheduleSource) -> EffectTask<Action> {
         return .fireAndForget {
             switch source {
             case .group(let name):
@@ -137,7 +137,7 @@ public struct MarkedScheduleFeature: Reducer {
         }
     }
 
-    private func pin(source: ScheduleSource) -> Effect<Action> {
+    private func pin(source: ScheduleSource) -> EffectTask<Action> {
         return .merge(
             // Move currently pinned schedule to favorites
             favorites.currentPinnedSchedule.map(favorite(source:)) ?? .none,
@@ -149,7 +149,7 @@ public struct MarkedScheduleFeature: Reducer {
         )
     }
 
-    private func unpin(source: ScheduleSource) -> Effect<Action> {
+    private func unpin(source: ScheduleSource) -> EffectTask<Action> {
         return .fireAndForget {
             if favorites.currentPinnedSchedule == source {
                 favorites.currentPinnedSchedule = nil
@@ -157,7 +157,7 @@ public struct MarkedScheduleFeature: Reducer {
         }
     }
 
-    private func observeIsPinned(source: ScheduleSource) -> Effect<Action> {
+    private func observeIsPinned(source: ScheduleSource) -> EffectTask<Action> {
         .run { send in
             for await value in favorites.pinnedSchedule.map({ $0 == source }).removeDuplicates().values {
                 await send(._setIsPinned(value))
@@ -165,7 +165,7 @@ public struct MarkedScheduleFeature: Reducer {
         }
     }
 
-    private func observeIsFavorite(source: ScheduleSource) -> Effect<Action> {
+    private func observeIsFavorite(source: ScheduleSource) -> EffectTask<Action> {
         switch source {
         case let .group(name):
             return observeIsFavorite(source: favorites.groupNames.map { $0.contains(name) })
@@ -174,7 +174,7 @@ public struct MarkedScheduleFeature: Reducer {
         }
     }
 
-    private func observeIsFavorite(source: some Publisher<Bool, Never>) -> Effect<Action> {
+    private func observeIsFavorite(source: some Publisher<Bool, Never>) -> EffectTask<Action> {
         return .run { send in
             for await value in source.removeDuplicates().values {
                 await send(._setIsFavorite(value))
@@ -182,7 +182,7 @@ public struct MarkedScheduleFeature: Reducer {
         }
     }
 
-    private func observeIsPremium() -> Effect<Action> {
+    private func observeIsPremium() -> EffectTask<Action> {
         return .run { send in
             for await value in premiumService.isPremium.removeDuplicates().values {
                 await send(._setIsPremiumLocked(!value))

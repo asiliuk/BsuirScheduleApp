@@ -3,7 +3,7 @@ import EntityScheduleFeature
 import ScheduleCore
 import ComposableArchitecture
 
-public struct PinnedTabFeature: Reducer {
+public struct PinnedTabFeature: ReducerProtocol {
     public struct State: Equatable {
         var isPremiumLocked: Bool
         var schedule: PinnedScheduleFeature.State?
@@ -20,7 +20,7 @@ public struct PinnedTabFeature: Reducer {
         case delegate(DelegateAction)
     }
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case .learnAboutPremiumClubTapped:

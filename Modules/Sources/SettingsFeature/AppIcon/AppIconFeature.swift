@@ -4,7 +4,7 @@ import BsuirCore
 import BsuirUI
 import ComposableArchitecture
 
-public struct AppIconFeature: Reducer {
+public struct AppIconFeature: ReducerProtocol {
     public struct State: Equatable {
         @PresentationState var alert: AlertState<Action.AlertAction>?
 
@@ -45,7 +45,7 @@ public struct AppIconFeature: Reducer {
     @Dependency(\.reviewRequestService) var reviewRequestService
     @Dependency(\.premiumService) var premiumService
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case .task:

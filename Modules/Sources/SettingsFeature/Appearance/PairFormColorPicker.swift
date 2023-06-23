@@ -3,7 +3,7 @@ import BsuirUI
 import SwiftUI
 import ComposableArchitecture
 
-public struct PairFormsColorPicker: Reducer {
+public struct PairFormsColorPicker: ReducerProtocol {
     public struct State: Equatable {
         var hasChanges: Bool = false
         var pairFormColorPickers: IdentifiedArrayOf<PairFormColorPicker.State> = []
@@ -24,7 +24,7 @@ public struct PairFormsColorPicker: Reducer {
 
     @Dependency(\.pairFormColorService) var pairFormColorService
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case .resetButtonTapped:
@@ -71,7 +71,7 @@ private extension PairFormsColorPicker.State {
     }
 }
 
-public struct PairFormIcon: Reducer {
+public struct PairFormIcon: ReducerProtocol {
     public struct State: Equatable, Identifiable {
         public var id: String { form.rawValue }
         var name: LocalizedStringKey { form.name }
@@ -81,12 +81,12 @@ public struct PairFormIcon: Reducer {
 
     public enum Action: Equatable {}
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         EmptyReducer()
     }
 }
 
-public struct PairFormColorPicker: Reducer {
+public struct PairFormColorPicker: ReducerProtocol {
     public struct State: Equatable, Identifiable {
         public var id: String { form.rawValue }
         var name: LocalizedStringKey { form.name }
@@ -103,7 +103,7 @@ public struct PairFormColorPicker: Reducer {
         case delegate(DelegateAction)
     }
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case .binding(\.$color):

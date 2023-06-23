@@ -35,7 +35,7 @@ public struct ScheduleRequestResponse {
     }
 }
 
-public struct ScheduleFeature<Value: Equatable>: Reducer {
+public struct ScheduleFeature<Value: Equatable>: ReducerProtocol {
     public struct State: Equatable {
         public var title: String
         public var value: Value
@@ -76,7 +76,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         self.fetch = fetch
     }
     
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case let .setScheduleType(value):
@@ -126,7 +126,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
     }
 }
 
-public struct LoadedScheduleReducer: Reducer {
+public struct LoadedScheduleReducer: ReducerProtocol {
     public struct State: Equatable {
         var compact: DayScheduleFeature.State
         var continious: ContiniousScheduleFeature.State
@@ -157,7 +157,7 @@ public struct LoadedScheduleReducer: Reducer {
         case exams(ExamsScheduleFeature.Action)
     }
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Scope(state: \.compact, action: /Action.day) {
             DayScheduleFeature()
         }

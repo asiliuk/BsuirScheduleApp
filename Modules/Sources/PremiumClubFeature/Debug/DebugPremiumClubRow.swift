@@ -3,7 +3,7 @@ import Dependencies
 import ComposableArchitecture
 
 #if DEBUG
-public struct DebugPremiumClubRow: Reducer {
+public struct DebugPremiumClubRow: ReducerProtocol {
     public struct State: Equatable {
         var isPremium: Bool = false
         public init() {}
@@ -18,7 +18,7 @@ public struct DebugPremiumClubRow: Reducer {
 
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .task:
             return .run { send in

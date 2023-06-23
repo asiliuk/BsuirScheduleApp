@@ -5,7 +5,7 @@ import ScheduleFeature
 import Favorites
 import ComposableArchitecture
 
-public struct GroupScheduleFeature: Reducer {
+public struct GroupScheduleFeature: ReducerProtocol {
     public struct State: Equatable, Identifiable {
         public var id: String { schedule.value }
         public var schedule: ScheduleFeature<String>.State
@@ -36,7 +36,7 @@ public struct GroupScheduleFeature: Reducer {
 
     public init() {}
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case let .lectorTapped(lector):

@@ -11,7 +11,7 @@ private enum TipsProductIdentifier: String, CaseIterable {
     case large = "com.saute.bsuir_schedule.tips.large"
 }
 
-public struct TipsSection: Reducer {
+public struct TipsSection: ReducerProtocol {
     public struct State: Equatable {
         // TODO: Try to use @LoadableState here
         var failedToFetchProducts: Bool = false
@@ -35,7 +35,7 @@ public struct TipsSection: Reducer {
         case _purchaseProductSucceed(Product, VerificationResult<StoreKit.Transaction>)
     }
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case .task:
@@ -101,7 +101,7 @@ public struct TipsSection: Reducer {
         }
     }
 
-    private func loadTipsProducts(state: inout State) -> Effect<Action> {
+    private func loadTipsProducts(state: inout State) -> EffectTask<Action> {
         state.isLoadingProducts = true
         state.failedToFetchProducts = false
         return .task {
@@ -113,7 +113,7 @@ public struct TipsSection: Reducer {
     }
 }
 
-public struct FreeLove: Reducer {
+public struct FreeLove: ReducerProtocol {
     public struct State: Equatable {
         var highScore: Int = {
             @Dependency(\.favorites.freeLoveHighScore) var freeLoveHighScore
@@ -130,7 +130,7 @@ public struct FreeLove: Reducer {
     @Dependency(\.continuousClock) var clock
     @Dependency(\.favorites) var favorites
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .loveButtonTapped:
             state.counter += 1
@@ -158,7 +158,7 @@ public struct FreeLove: Reducer {
     }
 }
 
-public struct TipsAmount: Reducer {
+public struct TipsAmount: ReducerProtocol {
     public struct State: Equatable, Identifiable {
         public var id: String { product.id }
         var product: Product
@@ -170,7 +170,7 @@ public struct TipsAmount: Reducer {
         case buyButtonTapped
     }
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         EmptyReducer()
     }
 }

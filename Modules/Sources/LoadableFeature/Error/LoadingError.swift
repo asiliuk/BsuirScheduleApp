@@ -4,7 +4,7 @@ import BsuirUI
 import ComposableArchitecture
 import URLRouting
 
-public struct LoadingError: Reducer {
+public struct LoadingError: ReducerProtocol {
     public enum State: Equatable {
         case unknown
         case notConnectedToInternet
@@ -20,7 +20,7 @@ public struct LoadingError: Reducer {
         case somethingWrongWithBsuir(LoadingErrorSomethingWrongWithBsuir.Action)
     }
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case .somethingWrongWithBsuir(.reloadButtonTapped),

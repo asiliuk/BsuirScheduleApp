@@ -24,7 +24,7 @@ private extension ScheduleDayViewModel {
     static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 }
 
-public struct ContiniousScheduleFeature: Reducer {
+public struct ContiniousScheduleFeature: ReducerProtocol {
     public struct State {
         public var isOnTop: Bool = true
         public var isEmpty: Bool { days.isEmpty }
@@ -69,7 +69,7 @@ public struct ContiniousScheduleFeature: Reducer {
     
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .setIsOnTop(let value):
             state.isOnTop = value

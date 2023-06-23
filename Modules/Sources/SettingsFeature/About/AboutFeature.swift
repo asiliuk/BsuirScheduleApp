@@ -2,7 +2,7 @@ import Foundation
 import BsuirCore
 import ComposableArchitecture
 
-public struct AboutFeature: Reducer {
+public struct AboutFeature: ReducerProtocol {
     public struct State: Equatable {
         var appVersion: String = {
             @Dependency(\.appInfo.version.description) var appVersion
@@ -20,7 +20,7 @@ public struct AboutFeature: Reducer {
     @Dependency(\.openURL) var openUrl
     @Dependency(\.reviewRequestService) var reviewRequestService
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .githubButtonTapped:
             return .fireAndForget {

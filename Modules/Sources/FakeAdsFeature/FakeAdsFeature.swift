@@ -1,7 +1,7 @@
 import Foundation
 import ComposableArchitecture
 
-public struct FakeAdsFeature: Reducer {
+public struct FakeAdsFeature: ReducerProtocol {
     public struct State: Equatable {
         public static let oneTimeConfig = FakeAdConfig.all.randomElement()!
 
@@ -27,7 +27,7 @@ public struct FakeAdsFeature: Reducer {
 
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .bannerTapped:
             return .send(.delegate(.showPremiumClub))

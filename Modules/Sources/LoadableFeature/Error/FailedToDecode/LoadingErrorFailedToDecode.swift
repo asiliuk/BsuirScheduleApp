@@ -1,7 +1,7 @@
 import Foundation
 import ComposableArchitecture
 
-public struct LoadingErrorFailedToDecode: Reducer {
+public struct LoadingErrorFailedToDecode: ReducerProtocol {
     public struct State: Equatable {
         var address: String
         var message: String
@@ -18,7 +18,7 @@ public struct LoadingErrorFailedToDecode: Reducer {
 
     @Dependency(\.openURL) var openUrl
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .openIssueTapped:
             let url = issueUrl(state)

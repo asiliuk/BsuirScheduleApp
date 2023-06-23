@@ -4,7 +4,7 @@ import BsuirApi
 import ComposableArchitecture
 import IdentifiedCollections
 
-public struct GroupsSection: Reducer {
+public struct GroupsSection: ReducerProtocol {
     public struct State: Identifiable, Equatable {
         public var id: String { title }
         public let title: String
@@ -21,7 +21,7 @@ public struct GroupsSection: Reducer {
         case groupRow(id: GroupsRow.State.ID, action: GroupsRow.Action)
     }
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         EmptyReducer()
             .forEach(\.groupRows, action: /Action.groupRow) {
                 GroupsRow()

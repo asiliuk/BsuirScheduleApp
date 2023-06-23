@@ -2,7 +2,7 @@ import Foundation
 import BsuirApi
 import ComposableArchitecture
 
-public struct GroupsSearch: Reducer {
+public struct GroupsSearch: ReducerProtocol {
     public struct State: Equatable {
         @BindingState var tokens: [StrudentGroupSearchToken] = []
         @BindingState var suggestedTokens: [StrudentGroupSearchToken] = []
@@ -20,7 +20,7 @@ public struct GroupsSearch: Reducer {
         case delegate(DelegateAction)
     }
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         BindingReducer()
 
         Reduce { state, action in

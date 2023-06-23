@@ -9,7 +9,7 @@ import PremiumClubFeature
 import ComposableArchitecture
 import EntityScheduleFeature
 
-public struct AppFeature: Reducer {
+public struct AppFeature: ReducerProtocol {
     public struct State: Equatable {
         enum Destination: Equatable {
             case settings(SettingsFeature.State)
@@ -59,7 +59,7 @@ public struct AppFeature: Reducer {
 
     public init() {}
 
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case .task:

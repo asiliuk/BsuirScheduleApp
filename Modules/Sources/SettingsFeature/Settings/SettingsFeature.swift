@@ -6,7 +6,7 @@ import ComposableArchitecture
 import Dependencies
 import SwiftUI
 
-public struct SettingsFeature: Reducer {
+public struct SettingsFeature: ReducerProtocol {
     public struct State: Equatable {
         public var path = NavigationPath()
         var isOnTop: Bool = true
@@ -46,7 +46,7 @@ public struct SettingsFeature: Reducer {
 
     public init() {}
     
-    public var body: some ReducerOf<Self> {
+    public var body: some ReducerProtocolOf<Self> {
         Reduce { state, action in
             switch action {
             case let .setIsOnTop(value):

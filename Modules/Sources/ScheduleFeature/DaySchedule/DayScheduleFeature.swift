@@ -4,7 +4,7 @@ import ScheduleCore
 import ComposableArchitecture
 import Dependencies
 
-public struct DayScheduleFeature: Reducer {
+public struct DayScheduleFeature: ReducerProtocol {
     public struct State: Equatable {
         public var isOnTop: Bool = true
         var days: [ScheduleDayViewModel] = []
@@ -29,7 +29,7 @@ public struct DayScheduleFeature: Reducer {
 
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .setIsOnTop(let value):
             state.isOnTop = value

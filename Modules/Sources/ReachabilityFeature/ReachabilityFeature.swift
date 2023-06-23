@@ -2,7 +2,7 @@ import Foundation
 import BsuirApi
 import ComposableArchitecture
 
-public struct ReachabilityFeature: Reducer {
+public struct ReachabilityFeature: ReducerProtocol {
     public struct State: Equatable {
         public var status: NetworkReachabilityStatus
         public var host: String
@@ -22,7 +22,7 @@ public struct ReachabilityFeature: Reducer {
 
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .task:
             let tracker = networkReachabilityTracker.track(state.host)

@@ -35,7 +35,7 @@ where Action: LoadableAction, State == Action.State {
     let keyPath: WritableKeyPath<State, LoadableState<Value>>
     let fetch: @Sendable (State, _ isRefresh: Bool) async throws -> Value
 
-    var body: some Reducer<State, Action> {
+    var body: some ReducerProtocol<State, Action> {
         Scope(state: keyPath, action: .loading(keyPath: keyPath)) {
             Scope(state: /LoadableState.error, action: /LoadingAction<State>.Action.loadingError) {
                 LoadingError()
@@ -48,7 +48,7 @@ where Action: LoadableAction, State == Action.State {
     }
 }
 
-private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
+private struct CoreLoadingReducer<State, Value: Equatable>: ReducerProtocol {
 
     typealias Action = LoadingAction<State>.Action
 
@@ -57,7 +57,7 @@ private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
 
     @Dependency(\.continuousClock) var clock
 
-    func reduce(into state: inout State, action: Action) -> Effect<Action> {
+    func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         var valueState: LoadableState<Value> {
             get { state[keyPath: keyPath] }
             set { state[keyPath: keyPath] = newValue }
@@ -94,15 +94,15 @@ private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
         }
     }
 
-    private func loadingStarted() -> Effect<Action> {
+    private func loadingStarted() -> EffectTask<Action> {
         return .send(.delegate(.loadingStarted))
     }
 
-    private func loadingFinished() -> Effect<Action> {
+    private func loadingFinished() -> EffectTask<Action> {
         return .send(.delegate(.loadingFinished))
     }
 
-    private func load(_ state: State, isRefresh: Bool) -> Effect<Action> {
+    private func load(_ state: State, isRefresh: Bool) -> EffectTask<Action> {
         return .task {
             try await withTaskCancellation(id: #function, cancelInFlight: true) {
                 if isRefresh {
