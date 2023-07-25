@@ -33,7 +33,3 @@ final class LivePremiumService: PremiumService {
     var isCurrentlyPremium: Bool { false }
     var isPremium: AnyPublisher<Bool, Never> { Empty().eraseToAnyPublisher() }
 }
-
-// MARK: - Debug
-
-

@@ -51,7 +51,7 @@
     }
   ],
   "settings" : {
-
+    "_askToBuyEnabled" : true
   },
   "subscriptionGroups" : [
     {
@@ -68,14 +68,15 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "5.99",
+          "displayPrice" : "3.99",
           "familyShareable" : true,
           "groupNumber" : 1,
           "internalID" : "532E2A98",
           "introductoryOffer" : {
+            "displayPrice" : "0.99",
             "internalID" : "9CA09D76",
             "paymentMode" : "free",
-            "subscriptionPeriod" : "P1M"
+            "subscriptionPeriod" : "P2M"
           },
           "localizations" : [
             {
@@ -87,36 +88,6 @@
           "productID" : "com.saute.bsuir_schedule.premium_club.yearly",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "PremiumClub Yearly",
-          "subscriptionGroupID" : "290E0A54",
-          "type" : "RecurringSubscription"
-        },
-        {
-          "adHocOffers" : [
-
-          ],
-          "codeOffers" : [
-
-          ],
-          "displayPrice" : "0.8",
-          "familyShareable" : true,
-          "groupNumber" : 1,
-          "internalID" : "A68ACD40",
-          "introductoryOffer" : {
-            "displayPrice" : "0.99",
-            "internalID" : "39FDA088",
-            "paymentMode" : "free",
-            "subscriptionPeriod" : "P1W"
-          },
-          "localizations" : [
-            {
-              "description" : "",
-              "displayName" : "",
-              "locale" : "en_US"
-            }
-          ],
-          "productID" : "com.saute.bsuir_schedule.premium_club.monthly",
-          "recurringSubscriptionPeriod" : "P1M",
-          "referenceName" : "PremiumClub Montly",
           "subscriptionGroupID" : "290E0A54",
           "type" : "RecurringSubscription"
         }

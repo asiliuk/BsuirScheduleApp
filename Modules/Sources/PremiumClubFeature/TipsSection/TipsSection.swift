@@ -5,12 +5,6 @@ import SwiftUI
 import Favorites
 import StoreKit
 
-private enum TipsProductIdentifier: String, CaseIterable {
-    case small = "com.saute.bsuir_schedule.tips.small"
-    case medium = "com.saute.bsuir_schedule.tips.medium"
-    case large = "com.saute.bsuir_schedule.tips.large"
-}
-
 public struct TipsSection: Reducer {
     public struct State: Equatable {
         // TODO: Try to use @LoadableState here
@@ -35,6 +29,8 @@ public struct TipsSection: Reducer {
         case _purchaseProductSucceed(Product, VerificationResult<StoreKit.Transaction>)
     }
 
+    @Dependency(\.productsService) var productsService
+
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -47,7 +43,6 @@ public struct TipsSection: Reducer {
                     return .none
                 }
                 return .task {
-                    // TODO: Listen for transaction updates to not miss purchase
                     let result = try await product.purchase()
                     return .purchased(product: product, result: result)
                 } catch: { error in
@@ -105,7 +100,7 @@ public struct TipsSection: Reducer {
         state.isLoadingProducts = true
         state.failedToFetchProducts = false
         return .task {
-            let products = try await Product.products(for: TipsProductIdentifier.allCases.map(\.rawValue))
+            let products = try await productsService.tips()
             return ._receivedProducts(products)
         } catch: { _ in
             ._failedToGetProducts

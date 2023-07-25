@@ -56,6 +56,7 @@ public struct AppFeature: Reducer {
     }
 
     @Dependency(\.favorites) var favorites
+    @Dependency(\.productsService) var productsService
 
     public init() {}
 
@@ -69,6 +70,9 @@ public struct AppFeature: Reducer {
                         for await pinnedSchedule in favorites.pinnedSchedule.values {
                             await send(.setPinnedSchedule(pinnedSchedule))
                         }
+                    },
+                    .run { _ in
+                        await productsService.listenToUpdates()
                     }
                 )
 
