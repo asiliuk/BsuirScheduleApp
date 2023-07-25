@@ -12,7 +12,6 @@ public struct PinnedTabFeature: Reducer {
     public enum Action: Equatable {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
-            case showPremiumClubFakeAdsBanner
         }
 
         case schedule(PinnedScheduleFeature.Action)
@@ -30,8 +29,6 @@ public struct PinnedTabFeature: Reducer {
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
-                case .showPremiumClubFakeAdsBanner:
-                    return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
             case .schedule, .delegate:

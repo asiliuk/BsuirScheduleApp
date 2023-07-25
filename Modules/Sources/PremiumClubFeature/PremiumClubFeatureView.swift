@@ -31,13 +31,6 @@ public struct PremiumClubFeatureView: View {
                 WithViewStore(store, observe: \.sections) { viewStore in
                     ForEach(viewStore.state) { section in
                         switch section {
-                        case .fakeAds:
-                            FakeAdsSectionView(
-                                store: store.scope(
-                                    state: \.fakeAds,
-                                    action: { .fakeAds($0) }
-                                )
-                            )
                         case .pinnedSchedule:
                             PinnedScheduleSectionView()
                         case .widgets:

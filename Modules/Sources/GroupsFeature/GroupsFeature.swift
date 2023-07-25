@@ -44,7 +44,6 @@ public struct GroupsFeature: Reducer {
     public enum Action: Equatable, LoadableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
-            case showPremiumClubFakeAdsBanner
         }
 
         case groupSchedule(PresentationAction<GroupScheduleFeature.Action>)
@@ -122,8 +121,6 @@ public struct GroupsFeature: Reducer {
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
-                case .showPremiumClubFakeAdsBanner:
-                    return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
             case .groupSchedule, .pinned, .favorites, .search, .groupSection, .loading, .delegate:

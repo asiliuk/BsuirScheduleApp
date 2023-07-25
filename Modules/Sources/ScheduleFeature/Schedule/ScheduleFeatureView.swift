@@ -2,19 +2,16 @@ import SwiftUI
 import BsuirCore
 import BsuirUI
 import LoadableFeature
-import FakeAdsFeature
 import ComposableArchitecture
 
 public struct ScheduleFeatureView<Value: Equatable>: View {
     struct ViewState: Equatable {
         let title: String
         let scheduleType: ScheduleDisplayType
-        let showFakeAds: Bool
 
         init(state: ScheduleFeature<Value>.State) {
             self.title = state.title
             self.scheduleType = state.scheduleType
-            self.showFakeAds = state.showFakeAds
         }
     }
 
@@ -46,18 +43,6 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 ScheduleGridPlaceholder()
             } error: { store in
                 LoadingErrorView(store: store)
-            }
-            .safeAreaInset(edge: .bottom) {
-                if viewStore.showFakeAds {
-                    FakeAdsView(
-                        store: store.scope(
-                            state: \.fakeAds,
-                            action: { .fakeAds($0) }
-                        )
-                    )
-                    .padding(.horizontal)
-                    .padding(.vertical, 6)
-                }
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {

@@ -21,7 +21,6 @@ public struct PinnedScheduleFeature: Reducer {
     public enum Action: Equatable {
         public enum Delegate: Equatable {
             case showPremiumClubPinned
-            case showPremiumClubFakeAdsBanner
         }
 
         case group(GroupScheduleFeature.Action)
@@ -38,16 +37,12 @@ public struct PinnedScheduleFeature: Reducer {
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
-                case .showPremiumClubFakeAdsBanner:
-                    return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
             case .lector(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
-                case .showPremiumClubFakeAdsBanner:
-                    return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
             case .delegate, .group, .lector:

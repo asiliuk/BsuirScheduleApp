@@ -25,7 +25,6 @@ public struct LectorScheduleFeature: Reducer {
     public enum Action: Equatable {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
-            case showPremiumClubFakeAdsBanner
         }
 
         case schedule(ScheduleFeature<String>.Action)
@@ -51,16 +50,12 @@ public struct LectorScheduleFeature: Reducer {
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
-                case .showPremiumClubFakeAdsBanner:
-                    return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
             case let .groupSchedule(.presented(.delegate(action))):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
-                case .showPremiumClubFakeAdsBanner:
-                    return .send(.delegate(.showPremiumClubFakeAdsBanner))
                 }
 
             case .schedule, .groupSchedule, .delegate:

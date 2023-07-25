@@ -45,9 +45,6 @@ let package = Package(
             name: "Deeplinking",
             targets: ["Deeplinking"]),
         .library(
-            name: "FakeAdsFeature",
-            targets: ["FakeAdsFeature"]),
-        .library(
             name: "Favorites",
             targets: ["Favorites"]),
     ],
@@ -77,7 +74,7 @@ let package = Package(
         ),
         .target(
             name: "PremiumClubFeature",
-            dependencies: ["FakeAdsFeature", "BsuirUI", "Favorites", .tca, .dependencies, .swiftUINavigation]
+            dependencies: ["BsuirUI", "Favorites", .tca, .dependencies, .swiftUINavigation]
         ),
         .target(
             name: "GroupsFeature",
@@ -93,7 +90,7 @@ let package = Package(
         ),
         .target(
             name: "ScheduleFeature",
-            dependencies: ["LoadableFeature", "Favorites", "FakeAdsFeature", "PremiumClubFeature", "ScheduleCore", "BsuirUI", .tca]
+            dependencies: ["LoadableFeature", "Favorites", "PremiumClubFeature", "ScheduleCore", "BsuirUI", .tca]
         ),
         .target(
             name: "LoadableFeature",
@@ -110,10 +107,6 @@ let package = Package(
         .target(
             name: "ReachabilityFeature",
             dependencies: ["BsuirApi", .tca]
-        ),
-        .target(
-            name: "FakeAdsFeature",
-            dependencies: ["BsuirUI", .tca]
         ),
         // MARK: - Core
         .target(

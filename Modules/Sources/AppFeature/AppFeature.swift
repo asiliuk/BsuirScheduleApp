@@ -106,9 +106,6 @@ public struct AppFeature: Reducer {
                 case .showPremiumClubPinned:
                     state.showPremiumClub(source: .pin)
                     return .none
-                case .showPremiumClubFakeAdsBanner:
-                    state.showPremiumClub(source: .fakeAds)
-                    return .none
                 }
 
             case .groups(.delegate(let action)):
@@ -116,18 +113,12 @@ public struct AppFeature: Reducer {
                 case .showPremiumClubPinned:
                     state.showPremiumClub(source: .pin)
                     return .none
-                case .showPremiumClubFakeAdsBanner:
-                    state.showPremiumClub(source: .fakeAds)
-                    return .none
                 }
 
             case .lecturers(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
                     state.showPremiumClub(source: .pin)
-                    return .none
-                case .showPremiumClubFakeAdsBanner:
-                    state.showPremiumClub(source: .fakeAds)
                     return .none
                 }
 

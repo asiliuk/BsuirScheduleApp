@@ -4,7 +4,6 @@ import BsuirApi
 import BsuirUI
 import ScheduleCore
 import LoadableFeature
-import FakeAdsFeature
 import ComposableArchitecture
 import Dependencies
 
@@ -43,8 +42,6 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         public var isOnTop: Bool = true
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType = .continuous
-        var fakeAds: FakeAdsFeature.State = .init()
-        var showFakeAds: Bool { mark.isPremiumLocked }
 
         public init(title: String, source: ScheduleSource, value: Value) {
             self.title = title
@@ -56,11 +53,9 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
     public enum Action: Equatable, LoadableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
-            case showPremiumClubFakeAdsBanner
         }
 
         case mark(MarkedScheduleFeature.Action)
-        case fakeAds(FakeAdsFeature.Action)
         case schedule(LoadedScheduleReducer.Action)
 
         case setScheduleType(ScheduleDisplayType)
@@ -100,13 +95,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                     return .send(.delegate(.showPremiumClubPinned))
                 }
 
-            case .fakeAds(.delegate(let action)):
-                switch action {
-                case .showPremiumClub:
-                    return .send(.delegate(.showPremiumClubFakeAdsBanner))
-                }
-
-            case .schedule, .fakeAds, .mark, .delegate, .loading:
+            case .schedule, .mark, .delegate, .loading:
                 return .none
             }
         }
@@ -118,10 +107,6 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
 
         Scope(state: \State.mark, action: /Action.mark) {
             MarkedScheduleFeature()
-        }
-
-        Scope(state: \State.fakeAds, action: /Action.fakeAds) {
-            FakeAdsFeature()
         }
     }
 }

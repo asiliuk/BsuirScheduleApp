@@ -5,13 +5,11 @@ public struct PremiumClubFeature: Reducer {
     public enum Source {
         case pin
         case appIcon
-        case fakeAds
     }
 
     enum Section: Hashable, Identifiable {
         var id: Self { self }
 
-        case fakeAds
         case pinnedSchedule
         case widgets
         case appIcons
@@ -26,19 +24,16 @@ public struct PremiumClubFeature: Reducer {
             let sections: [Section]
             switch source {
             case nil:
-                sections = [.fakeAds, .pinnedSchedule, .widgets, .appIcons]
+                sections = [.pinnedSchedule, .widgets, .appIcons]
             case .appIcon:
-                sections = [.appIcons, .pinnedSchedule, .fakeAds, .widgets]
+                sections = [.appIcons, .pinnedSchedule, .widgets]
             case .pin:
-                sections = [.pinnedSchedule, .fakeAds, .widgets, .appIcons]
-            case .fakeAds:
-                sections = [.fakeAds, .pinnedSchedule, .widgets, .appIcons]
+                sections = [.pinnedSchedule, .widgets, .appIcons]
             }
 
             return hasPremium ? [.tips] + sections : sections + [.tips]
         }
 
-        var fakeAds = FakeAdsSection.State()
         var tips = TipsSection.State()
 
         #if DEBUG
@@ -61,7 +56,6 @@ public struct PremiumClubFeature: Reducer {
         #if DEBUG
         case debugRow(DebugPremiumClubRow.Action)
         #endif
-        case fakeAds(FakeAdsSection.Action)
         case tips(TipsSection.Action)
     }
 
@@ -87,10 +81,6 @@ public struct PremiumClubFeature: Reducer {
             DebugPremiumClubRow()
         }
         #endif
-
-        Scope(state: \.fakeAds, action: /Action.fakeAds) {
-            FakeAdsSection()
-        }
 
         Scope(state: \.tips, action: /Action.tips) {
             TipsSection()
