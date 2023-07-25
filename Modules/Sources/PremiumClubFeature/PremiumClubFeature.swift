@@ -35,6 +35,7 @@ public struct PremiumClubFeature: Reducer {
         }
 
         var tips = TipsSection.State()
+        var subsctiptionFooter = SubscriptionFooter.State()
 
         #if DEBUG
         var debugRow = DebugPremiumClubRow.State()
@@ -57,6 +58,7 @@ public struct PremiumClubFeature: Reducer {
         case debugRow(DebugPremiumClubRow.Action)
         #endif
         case tips(TipsSection.Action)
+        case subsctiptionFooter(SubscriptionFooter.Action)
     }
 
     @Dependency(\.premiumService) var premiumService
@@ -84,6 +86,10 @@ public struct PremiumClubFeature: Reducer {
 
         Scope(state: \.tips, action: /Action.tips) {
             TipsSection()
+        }
+
+        Scope(state: \.subsctiptionFooter, action: /Action.subsctiptionFooter) {
+            SubscriptionFooter()
         }
     }
 

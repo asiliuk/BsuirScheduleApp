@@ -52,12 +52,14 @@ public struct PremiumClubFeatureView: View {
         }
         .labelStyle(PremiumGroupTitleLabelStyle())
         .safeAreaInset(edge: .bottom) {
-                Button {} label: { Text("Buy premium pass").frame(maxWidth: .infinity) }
-                    .controlSize(.large)
-                    .buttonStyle(.borderedProminent)
-                    .tint(.indigo)
-                    .padding()
-                    .background(.thickMaterial)
+            SubscriptionFooterView(
+                store: store.scope(
+                    state: \.subsctiptionFooter,
+                    action: { .subsctiptionFooter($0) }
+                )
+            )
+            .padding()
+            .background(.thickMaterial)
         }
         .navigationTitle("Premium Club")
         .toolbar {
