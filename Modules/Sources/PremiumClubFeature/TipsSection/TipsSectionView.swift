@@ -42,9 +42,6 @@ struct TipsSectionView: View {
                         action: TipsSection.Action.freeLove
                     )
                 )
-
-                Text("**Any tips amount removes fake ads banner*")
-                    .font(.footnote)
             }
             .buttonStyle(.borderedProminent)
         } label: {
