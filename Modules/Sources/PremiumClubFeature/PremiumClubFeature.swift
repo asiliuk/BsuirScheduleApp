@@ -21,17 +21,12 @@ public struct PremiumClubFeature: Reducer {
         public var hasPremium: Bool
 
         var sections: [Section] {
-            let sections: [Section]
             switch source {
-            case nil:
-                sections = [.pinnedSchedule, .widgets, .appIcons]
+            case nil, .pin:
+                return [.pinnedSchedule, .widgets, .appIcons, .tips]
             case .appIcon:
-                sections = [.appIcons, .pinnedSchedule, .widgets]
-            case .pin:
-                sections = [.pinnedSchedule, .widgets, .appIcons]
+                return [.appIcons, .pinnedSchedule, .widgets, .tips]
             }
-
-            return hasPremium ? [.tips] + sections : sections + [.tips]
         }
 
         var tips = TipsSection.State()
