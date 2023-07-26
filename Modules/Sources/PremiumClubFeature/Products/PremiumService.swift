@@ -23,13 +23,6 @@ private enum PremiumServiceKey: DependencyKey {
         return debugPremiumService
     }()
 #else
-    static let liveValue: any PremiumService = LivePremiumService()
+    static let liveValue: any PremiumService = ProductsServiceKey.liveValue
 #endif
-}
-
-// MARK: - Live
-
-final class LivePremiumService: PremiumService {
-    var isCurrentlyPremium: Bool { false }
-    var isPremium: AnyPublisher<Bool, Never> { Empty().eraseToAnyPublisher() }
 }

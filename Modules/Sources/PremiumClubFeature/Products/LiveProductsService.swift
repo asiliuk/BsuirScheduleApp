@@ -2,14 +2,15 @@ import Foundation
 import StoreKit
 import os.log
 import BsuirCore
+import Combine
 
-final class LiveProductsService {
+final class LiveProductsService: ObservableObject {
     private enum SubscriptionError: Error {
         case noSubscriptionLoaded
     }
 
+    @Published private var purchasedProductIds: Set<String> = []
     private var updatesTask: Task<Void, Never>?
-    private var purchasedProductIds: Set<String> = []
     private var _tips: [Product] = []
     private var _subscriptions: [Product] = []
 
@@ -106,6 +107,20 @@ extension LiveProductsService: ProductsService {
         @unknown default:
             break
         }
+    }
+}
+
+// MARK: - PremiumService
+
+extension LiveProductsService: PremiumService {
+    var isCurrentlyPremium: Bool {
+        purchasedProductIds.contains(SubscriptionID.yearly.rawValue)
+    }
+
+    var isPremium: AnyPublisher<Bool, Never> {
+        $purchasedProductIds
+            .map { $0.contains(SubscriptionID.yearly.rawValue) }
+            .eraseToAnyPublisher()
     }
 }
 

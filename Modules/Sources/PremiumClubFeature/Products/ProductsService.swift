@@ -1,8 +1,9 @@
 import Foundation
 import StoreKit
 import Dependencies
+import Combine
 
-public protocol ProductsService {
+public protocol ProductsService: PremiumService {
     var tips: [Product] { get async }
     var subscription: Product { get async throws }
     func load() async
@@ -19,5 +20,5 @@ extension DependencyValues {
 }
 
 enum ProductsServiceKey: DependencyKey {
-    public static let liveValue: ProductsService = LiveProductsService()
+    public static let liveValue: any ProductsService = LiveProductsService()
 }
