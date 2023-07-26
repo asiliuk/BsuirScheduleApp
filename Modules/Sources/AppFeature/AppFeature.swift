@@ -71,9 +71,7 @@ public struct AppFeature: Reducer {
                             await send(.setPinnedSchedule(pinnedSchedule))
                         }
                     },
-                    .run { _ in
-                        await productsService.listenToUpdates()
-                    }
+                    .run { _ in await productsService.load() }
                 )
 
             case let .setSelection(value):

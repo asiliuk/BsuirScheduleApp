@@ -22,11 +22,6 @@ public struct TipsSection: Reducer {
 
         case _failedToGetProducts
         case _receivedProducts([Product])
-
-        case _failedToPurchase(Product)
-        case _purchaseProductCancelled
-        case _purchaseProductPending
-        case _purchaseProductSucceed(Product, VerificationResult<StoreKit.Transaction>)
     }
 
     @Dependency(\.productsService) var productsService
@@ -42,11 +37,8 @@ public struct TipsSection: Reducer {
                 guard let product = state.tipsAmounts[id: id]?.product else {
                     return .none
                 }
-                return .task {
-                    let result = try await product.purchase()
-                    return .purchased(product: product, result: result)
-                } catch: { error in
-                    return ._failedToPurchase(product)
+                return .fireAndForget {
+                    try await productsService.purchase(product)
                 }
 
             case let ._receivedProducts(products):
@@ -62,25 +54,6 @@ public struct TipsSection: Reducer {
             case ._failedToGetProducts:
                 state.isLoadingProducts = false
                 state.failedToFetchProducts = true
-                return .none
-
-            case let ._failedToPurchase(product):
-                print("Failed to purchase product \(product.id)")
-                return .none
-
-            case ._purchaseProductCancelled:
-                return .none
-
-            case ._purchaseProductPending:
-                return .none
-
-            case let ._purchaseProductSucceed(product, result):
-                switch result {
-                case .unverified:
-                    print("Failed to verify tip signature....")
-                case .verified:
-                    print("Successfully purchased product: \(product.id)")
-                }
                 return .none
 
             case .freeLove:
@@ -100,7 +73,7 @@ public struct TipsSection: Reducer {
         state.isLoadingProducts = true
         state.failedToFetchProducts = false
         return .task {
-            let products = try await productsService.tips()
+            let products = await productsService.tips
             return ._receivedProducts(products)
         } catch: { _ in
             ._failedToGetProducts
@@ -167,20 +140,5 @@ public struct TipsAmount: Reducer {
 
     public var body: some ReducerOf<Self> {
         EmptyReducer()
-    }
-}
-
-private extension TipsSection.Action {
-    static func purchased(product: Product, result: Product.PurchaseResult) -> Self {
-        switch result {
-        case .userCancelled:
-            return ._purchaseProductCancelled
-        case .pending:
-            return ._purchaseProductPending
-        case let .success(result):
-            return ._purchaseProductSucceed(product, result)
-        @unknown default:
-            return ._failedToPurchase(product)
-        }
     }
 }

@@ -50,9 +50,7 @@ public struct SubscriptionFooter: Reducer {
     private func loadSubscriptionProducts(state: inout State) -> Effect<Action> {
         state.product = nil
         return .task {
-            guard let subscription = try await productsService.subscription() else {
-                return ._failedToGetProduct
-            }
+            let subscription = try await productsService.subscription
             return ._receivedProduct(subscription)
         } catch: { _ in
             ._failedToGetProduct
