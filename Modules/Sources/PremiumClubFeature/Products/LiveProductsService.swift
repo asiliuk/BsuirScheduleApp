@@ -101,7 +101,6 @@ extension LiveProductsService: ProductsService {
             os_log(.info, log: .products, "Purchase failed: \(transaction.productID) \(error.localizedDescription)")
         case .pending:
             os_log(.info, log: .products, "Purchase pending: \(product.id)")
-            break
         case .userCancelled:
             break
         @unknown default:

@@ -25,6 +25,7 @@ public struct SubscriptionFooter: Reducer {
 
     public enum Action: Equatable {
         case task
+        case buttonTapped
 
         case _failedToGetProduct
         case _receivedProduct(Product)
@@ -37,11 +38,13 @@ public struct SubscriptionFooter: Reducer {
             switch action {
             case .task:
                 return loadSubscriptionProducts(state: &state)
+            case .buttonTapped:
+                guard let product = state.product else { return .none }
+                return .fireAndForget { try await productsService.purchase(product) }
             case ._receivedProduct(let subscription):
                 state.product = subscription
                 return .none
             case ._failedToGetProduct:
-                print("Failed to fetch subscription")
                 return .none
             }
         }
@@ -54,39 +57,6 @@ public struct SubscriptionFooter: Reducer {
             return ._receivedProduct(subscription)
         } catch: { _ in
             ._failedToGetProduct
-        }
-    }
-}
-
-import SwiftUI
-
-struct SubscriptionFooterView: View {
-    let store: StoreOf<SubscriptionFooter>
-
-    var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
-            Button {
-
-            } label: {
-                if let offer = viewStore.offer {
-                    VStack {
-                        Text("Buy premium pass")
-                            .font(.subheadline)
-                        Text(offer)
-                            .font(.headline)
-                    }
-                    .frame(maxWidth: .infinity)
-                } else {
-                    ProgressView()
-                        .frame(maxWidth: .infinity)
-                        .progressViewStyle(.circular)
-                }
-            }
-            .controlSize(.large)
-            .buttonStyle(.borderedProminent)
-            .tint(.indigo)
-            .disabled(!viewStore.isEnabled)
-            .task { await viewStore.send(.task).finish() }
         }
     }
 }
