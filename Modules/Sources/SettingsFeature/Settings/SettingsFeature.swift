@@ -12,9 +12,6 @@ public struct SettingsFeature: Reducer {
         var isOnTop: Bool = true
 
         var premiumClub = PremiumClubFeature.State()
-        #if DEBUG
-        var debugPremiumClubRow = DebugPremiumClubRow.State()
-        #endif
 
         var appIcon = AppIconFeature.State()
         var appearance = AppearanceFeature.State()
@@ -30,9 +27,6 @@ public struct SettingsFeature: Reducer {
         }
 
         case premiumClub(PremiumClubFeature.Action)
-        #if DEBUG
-        case debugPremiumClubRow(DebugPremiumClubRow.Action)
-        #endif
         case appIcon(AppIconFeature.Action)
         case appearance(AppearanceFeature.Action)
         case networkAndData(NetworkAndDataFeature.Action)
@@ -63,11 +57,6 @@ public struct SettingsFeature: Reducer {
                     return .send(.delegate(.showPremiumClub(source: .appIcon)))
                 }
 
-#if DEBUG
-            case .debugPremiumClubRow:
-                return .none
-#endif
-
             case .premiumClub, .appIcon, .appearance, .networkAndData, .about, .delegate:
                 return .none
             }
@@ -76,12 +65,6 @@ public struct SettingsFeature: Reducer {
         Scope(state: \.premiumClub, action: /Action.premiumClub) {
             PremiumClubFeature()
         }
-
-        #if DEBUG
-        Scope(state: \.debugPremiumClubRow, action: /Action.debugPremiumClubRow) {
-            DebugPremiumClubRow()
-        }
-        #endif
 
         Scope(state: \.appIcon, action: /Action.appIcon) {
             AppIconFeature()

@@ -107,11 +107,7 @@ extension LiveProductsService: ProductsService {
             break
         }
     }
-}
 
-// MARK: - PremiumService
-
-extension LiveProductsService: PremiumService {
     var isCurrentlyPremium: Bool {
         purchasedProductIds.contains(SubscriptionID.yearly.rawValue)
     }

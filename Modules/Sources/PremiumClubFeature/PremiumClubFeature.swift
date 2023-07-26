@@ -37,31 +37,24 @@ public struct PremiumClubFeature: Reducer {
         var tips = TipsSection.State()
         var subsctiptionFooter = SubscriptionFooter.State()
 
-        #if DEBUG
-        var debugRow = DebugPremiumClubRow.State()
-        #endif
-
         public init(
             source: Source? = nil,
             hasPremium: Bool? = nil
         ) {
             self.source = source
-            @Dependency(\.premiumService) var premiumService
-            self.hasPremium = hasPremium ?? premiumService.isCurrentlyPremium
+            @Dependency(\.productsService) var productsService
+            self.hasPremium = hasPremium ?? productsService.isCurrentlyPremium
         }
     }
 
     public enum Action: Equatable {
         case task
         case _setIsPremium(Bool)
-        #if DEBUG
-        case debugRow(DebugPremiumClubRow.Action)
-        #endif
         case tips(TipsSection.Action)
         case subsctiptionFooter(SubscriptionFooter.Action)
     }
 
-    @Dependency(\.premiumService) var premiumService
+    @Dependency(\.productsService) var productsService
 
     public init() {}
 
@@ -78,12 +71,6 @@ public struct PremiumClubFeature: Reducer {
             }
         }
 
-        #if DEBUG
-        Scope(state: \.debugRow, action: /Action.debugRow) {
-            DebugPremiumClubRow()
-        }
-        #endif
-
         Scope(state: \.tips, action: /Action.tips) {
             TipsSection()
         }
@@ -95,7 +82,7 @@ public struct PremiumClubFeature: Reducer {
 
     private func listenToPremiumUpdates() -> Effect<Action> {
         return .run { send in
-            for await value in premiumService.isPremium.removeDuplicates().values {
+            for await value in productsService.isPremium.removeDuplicates().values {
                 await send(._setIsPremium(value))
             }
         }

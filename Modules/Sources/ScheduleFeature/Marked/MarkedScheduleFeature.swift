@@ -17,8 +17,8 @@ public struct MarkedScheduleFeature: Reducer {
 
         public init(source: ScheduleSource) {
             self.source = source
-            @Dependency(\.premiumService) var premiumService
-            self.isPremiumLocked = !premiumService.isCurrentlyPremium
+            @Dependency(\.productsService) var productsService
+            self.isPremiumLocked = !productsService.isCurrentlyPremium
             @Dependency(\.favorites) var favorites
             self.update(favorites: favorites)
         }
@@ -50,7 +50,7 @@ public struct MarkedScheduleFeature: Reducer {
 
     @Dependency(\.favorites) var favorites
     @Dependency(\.reviewRequestService) var reviewRequestService
-    @Dependency(\.premiumService) var premiumService
+    @Dependency(\.productsService) var productsService
 
     public init() {}
 
@@ -184,7 +184,7 @@ public struct MarkedScheduleFeature: Reducer {
 
     private func observeIsPremium() -> Effect<Action> {
         return .run { send in
-            for await value in premiumService.isPremium.removeDuplicates().values {
+            for await value in productsService.isPremium.removeDuplicates().values {
                 await send(._setIsPremiumLocked(!value))
             }
         }

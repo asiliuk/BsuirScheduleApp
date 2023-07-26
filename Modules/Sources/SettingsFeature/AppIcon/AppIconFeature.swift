@@ -43,15 +43,15 @@ public struct AppIconFeature: Reducer {
 
     @Dependency(\.application.setAlternateIconName) var setAlternateIconName
     @Dependency(\.reviewRequestService) var reviewRequestService
-    @Dependency(\.premiumService) var premiumService
+    @Dependency(\.productsService) var productsService
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .task:
-                state.isPremiumLocked = !premiumService.isCurrentlyPremium
+                state.isPremiumLocked = !productsService.isCurrentlyPremium
                 return .run { send in
-                    for await value in premiumService.isPremium.removeDuplicates().values {
+                    for await value in productsService.isPremium.removeDuplicates().values {
                         await send(._setIsPremiumLocked(!value))
                     }
                 }

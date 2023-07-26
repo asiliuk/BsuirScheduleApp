@@ -11,40 +11,22 @@ public struct PremiumClubFeatureView: View {
 
     public var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
-#if DEBUG
-                VStack(alignment: .leading) {
-                    DebugPremiumClubRowView(
-                        store: store.scope(
-                            state: \.debugRow,
-                            action: PremiumClubFeature.Action.debugRow
-                        )
-                    )
-
-                    WithViewStore(store, observe: \.source) { viewStore in
-                        let source = Text("\(viewStore.state.map(String.init(describing:)) ?? "No source")").bold()
-                        Text("Source: \(source)")
-                    }
-                }
-#endif
-
-                WithViewStore(store, observe: \.sections) { viewStore in
-                    ForEach(viewStore.state) { section in
-                        switch section {
-                        case .pinnedSchedule:
-                            PinnedScheduleSectionView()
-                        case .widgets:
-                            WidgetsSectionView()
-                        case .appIcons:
-                            AppIconsSectionView()
-                        case .tips:
-                            TipsSectionView(
-                                store: store.scope(
-                                    state: \.tips,
-                                    action: { .tips($0) }
-                                )
+            WithViewStore(store, observe: \.sections) { viewStore in
+                ForEach(viewStore.state) { section in
+                    switch section {
+                    case .pinnedSchedule:
+                        PinnedScheduleSectionView()
+                    case .widgets:
+                        WidgetsSectionView()
+                    case .appIcons:
+                        AppIconsSectionView()
+                    case .tips:
+                        TipsSectionView(
+                            store: store.scope(
+                                state: \.tips,
+                                action: { .tips($0) }
                             )
-                        }
+                        )
                     }
                 }
             }
