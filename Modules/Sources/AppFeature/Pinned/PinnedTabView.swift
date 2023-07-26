@@ -9,7 +9,11 @@ struct PinnedTabView: View {
 
     var body: some View {
         NavigationStack {
-            PinnedTabContentView(store: store)
+            // Wrapped in ZStack to fix some SwiftUI glitch when premium
+            // flag is updated very fast on app launch
+            ZStack { PinnedTabContentView(store: store) }
+                // Reset navigation title left from schedule screen
+                .navigationTitle("")
         }
         .tabItem {
             PinnedTabItem(store: store)
@@ -36,8 +40,6 @@ private struct PinnedTabContentView: View {
                     PinnedScheduleView(store: store)
                 } else: {
                     PinnedScheduleEmptyView()
-                    // Reset navigation title left from schedule screen
-                        .navigationTitle("")
                 }
             }
         }

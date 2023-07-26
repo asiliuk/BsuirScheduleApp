@@ -23,6 +23,6 @@ extension DependencyValues {
     }
 }
 
-enum ProductsServiceKey: DependencyKey {
+private enum ProductsServiceKey: DependencyKey {
     public static let liveValue: any ProductsService = LiveProductsService()
 }

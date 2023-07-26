@@ -115,6 +115,7 @@ extension LiveProductsService: ProductsService {
     var isPremium: AnyPublisher<Bool, Never> {
         $purchasedProductIds
             .map { $0.contains(SubscriptionID.yearly.rawValue) }
+            .removeDuplicates()
             .eraseToAnyPublisher()
     }
 }
