@@ -48,6 +48,16 @@
                ReferencedContainer = "container:Modules">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "PremiumClubFeatureTests"
+               BuildableName = "PremiumClubFeatureTests"
+               BlueprintName = "PremiumClubFeatureTests"
+               ReferencedContainer = "container:Modules">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

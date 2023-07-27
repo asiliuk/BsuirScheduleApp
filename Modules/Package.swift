@@ -125,6 +125,9 @@ let package = Package(
             name: "ScheduleCoreTests",
             dependencies: ["ScheduleCore"]),
         .testTarget(
+            name: "PremiumClubFeatureTests",
+            dependencies: ["PremiumClubFeature"]),
+        .testTarget(
             name: "BsuirApiTests",
             dependencies: ["BsuirApi"],
             resources: [.process("jsons")]),

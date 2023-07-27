@@ -1,5 +1,5 @@
-@testable import BsuirApi
 import XCTest
+@testable import BsuirApi
 
 final class StudentGroupTests: XCTestCase {
 

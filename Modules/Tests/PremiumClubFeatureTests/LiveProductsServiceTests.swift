@@ -1,8 +1,15 @@
-//
-//  File.swift
-//  
-//
-//  Created by Anton Siliuk on 27/07/2023.
-//
+import XCTest
+@testable import PremiumClubFeature
 
-import Foundation
+// TODO: Write tests
+final class LiveProductsServiceTests: XCTestCase {
+    var sut: LiveProductsService!
+
+    override func setUp() {
+        sut = LiveProductsService()
+    }
+
+    override func tearDown() {
+        sut = nil
+    }
+}
