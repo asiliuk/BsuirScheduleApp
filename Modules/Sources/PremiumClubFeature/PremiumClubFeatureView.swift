@@ -41,14 +41,18 @@ public struct PremiumClubFeatureView: View {
         }
         .labelStyle(PremiumGroupTitleLabelStyle())
         .safeAreaInset(edge: .bottom) {
-            SubscriptionFooterView(
-                store: store.scope(
-                    state: \.subsctiptionFooter,
-                    action: { .subsctiptionFooter($0) }
-                )
-            )
-            .padding()
-            .background(.thickMaterial)
+            WithViewStore(store, observe: \.hasPremium) { viewStore in
+                if !viewStore.state {
+                    SubscriptionFooterView(
+                        store: store.scope(
+                            state: \.subsctiptionFooter,
+                            action: { .subsctiptionFooter($0) }
+                        )
+                    )
+                    .padding()
+                    .background(.thickMaterial)
+                }
+            }
         }
         .navigationTitle("Premium Club")
         .toolbar {
@@ -58,6 +62,7 @@ public struct PremiumClubFeatureView: View {
                 }
             }
         }
+        .task { await ViewStore(store.stateless).send(.task).finish() }
     }
 }
 

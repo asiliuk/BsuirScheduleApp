@@ -3,24 +3,14 @@ import ComposableArchitecture
 import StoreKit
 
 public struct SubscriptionFooter: Reducer {
-    public struct State: Equatable {
-        var isEnabled: Bool { product != nil }
-        var offer: String? {
-            guard let product, let subscription = product.subscription else { return nil }
-            let price = product.displayPrice
-            let periodName: String = {
-                switch subscription.subscriptionPeriod.unit {
-                case .day: return "Day"
-                case .week: return "Week"
-                case .month: return "Month"
-                case .year: return "Year"
-                @unknown default: return "--"
-                }
-            }()
-            let period = "\(subscription.subscriptionPeriod.value) \(periodName)"
-            return "\(price)\\\(period)"
+    public enum State: Equatable {
+        case loading
+        case failed
+        case available(Product, Product.SubscriptionInfo)
+
+        init() {
+            self = .loading
         }
-        var product: Product?
     }
 
     public enum Action: Equatable {
@@ -38,20 +28,29 @@ public struct SubscriptionFooter: Reducer {
             switch action {
             case .task:
                 return loadSubscriptionProducts(state: &state)
+
             case .buttonTapped:
-                guard let product = state.product else { return .none }
+                guard case let .available(product, _) = state else { return .none }
                 return .fireAndForget { try await productsService.purchase(product) }
-            case ._receivedProduct(let subscription):
-                state.product = subscription
-                return .none
+
+            case ._receivedProduct(let product):
+                if let subscription = product.subscription {
+                    state = .available(product, subscription)
+                    return .none
+                } else {
+                    state = .failed
+                    return .none
+                }
+
             case ._failedToGetProduct:
+                state = .failed
                 return .none
             }
         }
     }
 
     private func loadSubscriptionProducts(state: inout State) -> Effect<Action> {
-        state.product = nil
+        state = .loading
         return .task {
             let subscription = try await productsService.subscription
             return ._receivedProduct(subscription)
