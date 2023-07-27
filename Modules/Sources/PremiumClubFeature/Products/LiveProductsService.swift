@@ -4,15 +4,20 @@ import os.log
 import BsuirCore
 import Combine
 
-final class LiveProductsService: ObservableObject {
+final class LiveProductsService {
     private enum SubscriptionError: Error {
         case noSubscriptionLoaded
     }
 
-    @Published private var purchasedProductIds: Set<String> = []
+    private var purchasedProductIds: Set<String> = []
     private var updatesTask: Task<Void, Never>?
     private var _tips: [Product] = []
     private var _subscriptions: [Product] = []
+    private let premiumService: PremiumService
+
+    init(premiumService: PremiumService) {
+        self.premiumService = premiumService
+    }
 
     deinit {
         updatesTask?.cancel()
@@ -52,6 +57,7 @@ final class LiveProductsService: ObservableObject {
             guard case let .verified(transaction) = result else { continue }
             updatePurchasedProducts(for: transaction)
         }
+        updatePremiumStateIfNeeded()
     }
 
     private func updatePurchasedProducts(for transaction: Transaction) {
@@ -61,6 +67,14 @@ final class LiveProductsService: ObservableObject {
         } else {
             os_log(.info, log: .products, "Removing product from purchased: \(transaction.productID)")
             purchasedProductIds.remove(transaction.productID)
+        }
+        updatePremiumStateIfNeeded()
+    }
+
+    private func updatePremiumStateIfNeeded() {
+        let isCurrentlyPremium = purchasedProductIds.contains(SubscriptionID.yearly.rawValue)
+        if premiumService.isCurrentlyPremium != isCurrentlyPremium {
+            premiumService.isCurrentlyPremium = isCurrentlyPremium
         }
     }
 }
@@ -114,17 +128,6 @@ extension LiveProductsService: ProductsService {
         } catch {
             os_log(.error, log: .products, "Failed to restore purchases: \(error.localizedDescription)")
         }
-    }
-
-    var isCurrentlyPremium: Bool {
-        purchasedProductIds.contains(SubscriptionID.yearly.rawValue)
-    }
-
-    var isPremium: AnyPublisher<Bool, Never> {
-        $purchasedProductIds
-            .map { $0.contains(SubscriptionID.yearly.rawValue) }
-            .removeDuplicates()
-            .eraseToAnyPublisher()
     }
 }
 

@@ -4,9 +4,6 @@ import Dependencies
 import Combine
 
 public protocol ProductsService {
-    var isCurrentlyPremium: Bool { get }
-    var isPremium: AnyPublisher<Bool, Never> { get }
-
     var tips: [Product] { get async }
     var subscription: Product { get async throws }
 
@@ -25,5 +22,8 @@ extension DependencyValues {
 }
 
 private enum ProductsServiceKey: DependencyKey {
-    public static let liveValue: any ProductsService = LiveProductsService()
+    public static let liveValue: any ProductsService = {
+        @Dependency(\.premiumService) var premiumService
+        return LiveProductsService(premiumService: premiumService)
+    }()
 }

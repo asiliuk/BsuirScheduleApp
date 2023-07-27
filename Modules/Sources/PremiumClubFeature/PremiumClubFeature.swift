@@ -37,8 +37,8 @@ public struct PremiumClubFeature: Reducer {
             hasPremium: Bool? = nil
         ) {
             self.source = source
-            @Dependency(\.productsService) var productsService
-            self.hasPremium = hasPremium ?? productsService.isCurrentlyPremium
+            @Dependency(\.premiumService) var premiumService
+            self.hasPremium = hasPremium ?? premiumService.isCurrentlyPremium
         }
     }
 
@@ -51,6 +51,7 @@ public struct PremiumClubFeature: Reducer {
     }
 
     @Dependency(\.productsService) var productsService
+    @Dependency(\.premiumService) var premiumService
 
     public init() {}
 
@@ -82,7 +83,7 @@ public struct PremiumClubFeature: Reducer {
 
     private func listenToPremiumUpdates() -> Effect<Action> {
         return .run { send in
-            for await value in productsService.isPremium.removeDuplicates().values {
+            for await value in premiumService.isPremium.removeDuplicates().values {
                 await send(._setIsPremium(value))
             }
         }
