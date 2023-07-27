@@ -27,6 +27,13 @@ public struct PremiumClubFeatureView: View {
                                 action: { .tips($0) }
                             )
                         )
+                    case .clubExpiration:
+                        ClubExpirationSectionView(
+                            store: store.scope(
+                                state: \.clubExpiration,
+                                action: { .clubExpiration($0) }
+                            )
+                        )
                     }
                 }
             }

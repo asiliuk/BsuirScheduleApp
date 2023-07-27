@@ -14,6 +14,7 @@ public struct PremiumClubFeature: Reducer {
         case widgets
         case appIcons
         case tips
+        case clubExpiration
     }
 
     public struct State: Equatable {
@@ -21,15 +22,19 @@ public struct PremiumClubFeature: Reducer {
         public var hasPremium: Bool
 
         var sections: [Section] {
+            let sections: [Section]
             switch source {
             case nil, .pin:
-                return [.pinnedSchedule, .widgets, .appIcons, .tips]
+                sections = [.pinnedSchedule, .widgets, .appIcons, .tips]
             case .appIcon:
-                return [.appIcons, .pinnedSchedule, .widgets, .tips]
+                sections = [.appIcons, .pinnedSchedule, .widgets, .tips]
             }
+
+            return hasPremium ? [.clubExpiration] + sections : sections
         }
 
         var tips = TipsSection.State()
+        var clubExpiration: ClubExpirationSection.State
         var subsctiptionFooter = SubscriptionFooter.State()
 
         public init(
@@ -39,6 +44,7 @@ public struct PremiumClubFeature: Reducer {
             self.source = source
             @Dependency(\.premiumService) var premiumService
             self.hasPremium = hasPremium ?? premiumService.isCurrentlyPremium
+            self.clubExpiration = .init(expiration: premiumService.premiumExpirationDate)
         }
     }
 
@@ -47,6 +53,7 @@ public struct PremiumClubFeature: Reducer {
         case restoreButtonTapped
         case _setIsPremium(Bool)
         case tips(TipsSection.Action)
+        case clubExpiration(ClubExpirationSection.Action)
         case subsctiptionFooter(SubscriptionFooter.Action)
     }
 
@@ -60,13 +67,15 @@ public struct PremiumClubFeature: Reducer {
             switch action {
             case .task:
                 return listenToPremiumUpdates()
+                
             case .restoreButtonTapped:
-                return .fireAndForget {
-                    await productsService.restore()
-                }
+                return .fireAndForget { await productsService.restore() }
+
             case let ._setIsPremium(value):
                 state.hasPremium = value
+                state.clubExpiration.expiration = premiumService.premiumExpirationDate
                 return .none
+
             default:
                 return .none
             }
@@ -74,6 +83,10 @@ public struct PremiumClubFeature: Reducer {
 
         Scope(state: \.tips, action: /Action.tips) {
             TipsSection()
+        }
+
+        Scope(state: \.clubExpiration, action: /Action.clubExpiration) {
+            ClubExpirationSection()
         }
 
         Scope(state: \.subsctiptionFooter, action: /Action.subsctiptionFooter) {
