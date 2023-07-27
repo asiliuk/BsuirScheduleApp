@@ -12,6 +12,7 @@ public protocol ProductsService {
 
     func load() async
     func purchase(_ product: Product) async throws
+    func restore() async
 }
 
 // MARK: - Dependency

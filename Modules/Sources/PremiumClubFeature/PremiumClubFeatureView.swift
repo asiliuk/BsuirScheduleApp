@@ -46,7 +46,9 @@ public struct PremiumClubFeatureView: View {
         .navigationTitle("Premium Club")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Restore") {}
+                Button("Restore") {
+                    ViewStore(store.stateless).send(.restoreButtonTapped)
+                }
             }
         }
     }

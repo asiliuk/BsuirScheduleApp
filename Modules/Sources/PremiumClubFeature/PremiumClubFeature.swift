@@ -44,6 +44,7 @@ public struct PremiumClubFeature: Reducer {
 
     public enum Action: Equatable {
         case task
+        case restoreButtonTapped
         case _setIsPremium(Bool)
         case tips(TipsSection.Action)
         case subsctiptionFooter(SubscriptionFooter.Action)
@@ -58,6 +59,10 @@ public struct PremiumClubFeature: Reducer {
             switch action {
             case .task:
                 return listenToPremiumUpdates()
+            case .restoreButtonTapped:
+                return .fireAndForget {
+                    await productsService.restore()
+                }
             case let ._setIsPremium(value):
                 state.hasPremium = value
                 return .none

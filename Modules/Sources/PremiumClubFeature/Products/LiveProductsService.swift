@@ -108,6 +108,14 @@ extension LiveProductsService: ProductsService {
         }
     }
 
+    func restore() async {
+        do {
+            try await AppStore.sync()
+        } catch {
+            os_log(.error, log: .products, "Failed to restore purchases: \(error.localizedDescription)")
+        }
+    }
+
     var isCurrentlyPremium: Bool {
         purchasedProductIds.contains(SubscriptionID.yearly.rawValue)
     }
