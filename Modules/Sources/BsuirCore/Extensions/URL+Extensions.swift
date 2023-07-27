@@ -7,6 +7,8 @@ extension URL {
     public static let github = URL(string: "https://github.com/asiliuk/BsuirScheduleApp")!
     public static let telegram = URL(string: "https://t.me/bsuirschedule")!
     public static let appStoreReview = URL(string: "https://apps.apple.com/us/app/bsuir-schedule/id944151090?action=write-review")!
+    public static let appStoreSubscriptions = URL(string: "https://apps.apple.com/account/subscriptions")!
+
 }
 
 // MARK: - Github

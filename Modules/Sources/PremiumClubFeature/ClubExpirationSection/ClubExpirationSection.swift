@@ -10,9 +10,18 @@ public struct ClubExpirationSection: Reducer {
         var expiration: Date?
     }
 
-    public typealias Action = Never
+    public enum Action: Equatable {
+        case manageButtonTapped
+    }
+
+    @Dependency(\.openURL) var openUrl
 
     public var body: some ReducerOf<Self> {
-        EmptyReducer()
+        Reduce { state, action in
+            switch action {
+            case .manageButtonTapped:
+                return .fireAndForget { await openUrl(.appStoreSubscriptions) }
+            }
+        }
     }
 }
