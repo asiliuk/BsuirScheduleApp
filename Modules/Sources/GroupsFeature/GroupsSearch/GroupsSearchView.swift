@@ -17,21 +17,7 @@ struct GroupsSearchViewModifier: ViewModifier {
                 .dismissSearch(viewStore.dismiss)
                 .searchable(
                     text: viewStore.binding(\.$query),
-                    tokens: viewStore.binding(\.$tokens),
-                    suggestedTokens: viewStore.binding(\.$suggestedTokens),
-                    prompt: Text("screen.groups.search.placeholder"),
-                    token: { token in
-                        switch token {
-                        case let .faculty(value):
-                            Text(value)
-                        case let .speciality(value):
-                            Text(value)
-                        case let .course(value?):
-                            Text("screen.groups.search.suggested.course.\(String(value))")
-                        case .course(nil):
-                            Text("screen.groups.search.suggested.noCourse")
-                        }
-                    }
+                    prompt: Text("screen.groups.search.placeholder")
                 )
                 .task(id: viewStore.query, throttleFor: .milliseconds(300)) {
                     await viewStore.send(.filter, animation: .default).finish()
