@@ -47,4 +47,11 @@ extension UserDefaults {
             set: { self.set($0, forKey: key) }
         )
     }
+
+    public func persistedDate(forKey key: String) -> PersistedValue<Date?> {
+        PersistedValue(
+            get: { self.object(forKey: key) as? Date },
+            set: { self.set($0, forKey: key) }
+        )
+    }
 }

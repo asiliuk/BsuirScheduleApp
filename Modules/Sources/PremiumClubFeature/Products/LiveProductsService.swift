@@ -9,7 +9,7 @@ final class LiveProductsService {
         case noSubscriptionLoaded
     }
 
-    private var purchasedProductIds: Set<String> = []
+    private var purchasedProducts: [String: Transaction] = [:]
     private var updatesTask: Task<Void, Never>?
     private var _tips: [Product] = []
     private var _subscriptions: [Product] = []
@@ -63,18 +63,18 @@ final class LiveProductsService {
     private func updatePurchasedProducts(for transaction: Transaction) {
         if transaction.revocationDate == nil {
             os_log(.info, log: .products, "Adding product to purchased: \(transaction.productID)")
-            purchasedProductIds.insert(transaction.productID)
+            purchasedProducts[transaction.productID] = transaction
         } else {
             os_log(.info, log: .products, "Removing product from purchased: \(transaction.productID)")
-            purchasedProductIds.remove(transaction.productID)
+            purchasedProducts.removeValue(forKey: transaction.productID)
         }
         updatePremiumStateIfNeeded()
     }
 
     private func updatePremiumStateIfNeeded() {
-        let isCurrentlyPremium = purchasedProductIds.contains(SubscriptionID.yearly.rawValue)
-        if premiumService.isCurrentlyPremium != isCurrentlyPremium {
-            premiumService.isCurrentlyPremium = isCurrentlyPremium
+        let premiumExpirationDate = purchasedProducts[SubscriptionID.yearly.rawValue]?.expirationDate
+        if premiumExpirationDate != premiumService.premiumExpirationDate {
+            premiumService.premiumExpirationDate = premiumExpirationDate
         }
     }
 }

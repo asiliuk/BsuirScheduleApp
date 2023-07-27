@@ -3,7 +3,8 @@ import Combine
 import Dependencies
 
 public protocol PremiumService: AnyObject {
-    var isCurrentlyPremium: Bool { get set }
+    var premiumExpirationDate: Date? { get set }
+    var isCurrentlyPremium: Bool { get }
     var isPremium: AnyPublisher<Bool, Never> { get }
 }
 
@@ -25,6 +26,8 @@ private enum PremiumServiceKey: DependencyKey {
 
 #if DEBUG
 public final class PremiumServiceMock: PremiumService {
+    public var premiumExpirationDate: Date?
+
     public let _isPremium: CurrentValueSubject<Bool, Never>
 
     public var isCurrentlyPremium: Bool {
