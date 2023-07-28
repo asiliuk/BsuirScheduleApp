@@ -21,6 +21,10 @@ final class PinnedScheduleProvider: TimelineProvider, ObservableObject {
                 return completion(.preview)
             }
 
+            guard premiumService.isCurrentlyPremium else {
+                return completion(.premiumLocked)
+            }
+
             guard let pinnedSchedule = favoritesService.currentPinnedSchedule else {
                 return completion(.noPinned)
             }
@@ -38,6 +42,10 @@ final class PinnedScheduleProvider: TimelineProvider, ObservableObject {
     func getTimeline(in context: Context, completion: @escaping (Timeline<ScheduleEntry>) -> Void) {
         guard !context.isPreview else {
             return completion(.init(entries: [.preview], policy: .never))
+        }
+
+        guard premiumService.isCurrentlyPremium else {
+            return completion(.init(entries: [.premiumLocked], policy: .never))
         }
 
         guard let pinnedSchedule = favoritesService.currentPinnedSchedule else {
@@ -83,6 +91,7 @@ final class PinnedScheduleProvider: TimelineProvider, ObservableObject {
 
     private let apiClient = ApiClient.live
     private let favoritesService = FavoritesService.live
+    private let premiumService = PremiumServiceKey.liveValue
 
     private let calendar = Calendar.current
     private var requestSnapshot: Task<Void, Never>? {

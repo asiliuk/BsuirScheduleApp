@@ -22,8 +22,11 @@ public struct ScheduleWidgetConfiguration {
 extension ScheduleWidgetConfiguration {
     public static let placeholder = Self(title: "---", content: .pairs())
     public static let needsConfiguration = Self(title: "---", content: .needsConfiguration)
-    public static let noPinned = Self(title: "---", content: .noPinned)
     public static let preview = Self(title: "000001", content: .previewPairs)
+
+    public static func noPinned(deeplink: URL? = nil) -> Self {
+        Self(deeplink: deeplink, title: "---", content: .noPinned)
+    }
 }
 
 // MARK: - Preview

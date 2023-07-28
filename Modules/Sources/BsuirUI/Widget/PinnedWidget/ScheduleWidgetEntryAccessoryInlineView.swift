@@ -45,7 +45,7 @@ private struct InlineView: View {
 struct Previews_ScheduleWidgetEntryAccessoryInlineView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ScheduleWidgetEntryAccessoryInlineView(config: .noPinned)
+            ScheduleWidgetEntryAccessoryInlineView(config: .noPinned())
                 .previewDisplayName("No Pinned")
             ScheduleWidgetEntryAccessoryInlineView(config: .placeholder)
                 .previewDisplayName("Placeholder")
