@@ -8,6 +8,7 @@ public enum PremiumClubDeeplinkSource: String {
 }
 
 public enum Deeplink {
+    case pinned
     case groups
     case group(name: String)
     case lecturers
@@ -17,6 +18,12 @@ public enum Deeplink {
 }
 
 public let deeplinkRouter = OneOf {
+    //pinned
+    Route(.case(Deeplink.pinned)) {
+        bsuirScheduleScheme
+        Path { "pinned" }
+    }
+
     //groups
     Route(.case(Deeplink.groups)) {
         bsuirScheduleScheme

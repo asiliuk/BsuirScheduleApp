@@ -174,6 +174,8 @@ private extension AppFeature {
 
     func handleDeeplink(state: inout State, deeplink: Deeplink) {
         switch deeplink {
+        case .pinned:
+            state.selection = .pinned
         case .groups:
             state.selection = .groups
             state.groups.reset()
