@@ -1,8 +1,8 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct ClubExpirationSectionView: View {
-    let store: StoreOf<ClubExpirationSection>
+struct PremiumClubMembershipSectionView: View {
+    let store: StoreOf<PremiumClubMembershipSection>
 
     var body: some View {
         GroupBox {

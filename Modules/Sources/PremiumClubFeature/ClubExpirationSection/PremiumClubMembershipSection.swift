@@ -1,7 +1,7 @@
 import Foundation
 import ComposableArchitecture
 
-public struct ClubExpirationSection: Reducer {
+public struct PremiumClubMembershipSection: Reducer {
     public struct State: Equatable {
         var expirationText: TextState {
             let formattedExpiration = expiration?.formatted(date: .long, time: .omitted)
