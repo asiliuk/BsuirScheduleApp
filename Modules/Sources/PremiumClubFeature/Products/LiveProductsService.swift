@@ -74,6 +74,7 @@ final class LiveProductsService {
     private func updatePremiumStateIfNeeded() {
         let premiumExpirationDate = purchasedProducts[SubscriptionID.yearly.rawValue]?.expirationDate
         if premiumExpirationDate != premiumService.premiumExpirationDate {
+            os_log(.info, log: .products, "Updating expiration oremium date: \(premiumExpirationDate?.formatted() ?? "-")")
             premiumService.premiumExpirationDate = premiumExpirationDate
         }
     }

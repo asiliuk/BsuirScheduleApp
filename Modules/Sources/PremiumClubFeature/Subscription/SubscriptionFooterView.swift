@@ -9,30 +9,30 @@ struct SubscriptionFooterView: View {
             switch viewStore.state {
             case .loading:
                 ProgressView()
-                    .frame(maxWidth: .infinity)
                     .progressViewStyle(.circular)
             case .failed:
                 Text("Something went wrong...")
             case let .available(product, subscription):
-                Button {
-                    viewStore.send(.buttonTapped)
-                } label: {
-                        VStack {
-                            Text("Join Premium Club!").bold()
-                            let offer = "\(product.displayPrice)/\(subscription.subscriptionPeriod.makeName())"
-                            if let introductoryOffer = subscription.introductoryOffer {
-                                Text("\(introductoryOffer.makeName()) then \(offer)")
-                            } else {
-                                Text(offer)
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
+                VStack {
+                    if let introductoryOffer = subscription.introductoryOffer {
+                        Text("Start with \(introductoryOffer.makeName())")
+                    }
+
+                    Button {
+                        viewStore.send(.buttonTapped)
+                    } label: {
+                        let offer = "\(product.displayPrice) / \(subscription.subscriptionPeriod.makeName())"
+                        Text("Join Club for \(offer)")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                    }
+                    .controlSize(.large)
+                    .buttonStyle(.borderedProminent)
+                    .tint(.indigo)
                 }
-                .controlSize(.large)
-                .buttonStyle(.borderedProminent)
-                .tint(.indigo)
             }
         }
+        .frame(maxWidth: .infinity)
         .task { await ViewStore(store.stateless).send(.task).finish() }
     }
 }
@@ -43,7 +43,7 @@ extension Product.SubscriptionOffer {
     func makeName() -> String {
         let period = period.makeName()
         let price = price == 0 ? "free" : displayPrice
-        return "\(price) \(period) trial"
+        return "\(period) \(price) trial"
     }
 }
 
@@ -51,14 +51,14 @@ extension Product.SubscriptionPeriod {
     func makeName() -> String {
         let unitName: String = {
             switch unit {
-            case .day: return "day"
-            case .week: return "week"
-            case .month: return "month"
-            case .year: return "year"
+            case .day: return "Day"
+            case .week: return "Week"
+            case .month: return "Month"
+            case .year: return "Year"
             @unknown default: return "--"
             }
         }()
         guard value > 1 else { return unitName }
-        return "\(value)-\(unitName)"
+        return "\(value) \(unitName)"
     }
 }
