@@ -22,19 +22,16 @@ public struct PremiumClubFeature: Reducer {
         public var hasPremium: Bool
 
         var sections: [Section] {
-            let sections: [Section]
             switch source {
             case nil, .pin:
-                sections = [.pinnedSchedule, .widgets, .appIcons, .tips]
+                return [.premiumClubMembership, .pinnedSchedule, .widgets, .appIcons, .tips]
             case .appIcon:
-                sections = [.appIcons, .pinnedSchedule, .widgets, .tips]
+                return [.premiumClubMembership, .appIcons, .pinnedSchedule, .widgets, .tips]
             }
-
-            return hasPremium ? [.premiumClubMembership] + sections : sections
         }
 
         var tips = TipsSection.State()
-        var premiumClubMembership: PremiumClubMembershipSection.State
+        var premiumClubMembership = PremiumClubMembershipSection.State()
         var subsctiptionFooter = SubscriptionFooter.State()
 
         public init(
@@ -44,7 +41,6 @@ public struct PremiumClubFeature: Reducer {
             self.source = source
             @Dependency(\.premiumService) var premiumService
             self.hasPremium = hasPremium ?? premiumService.isCurrentlyPremium
-            self.premiumClubMembership = .init(expiration: premiumService.premiumExpirationDate)
         }
     }
 
@@ -73,7 +69,6 @@ public struct PremiumClubFeature: Reducer {
 
             case let ._setIsPremium(value):
                 state.hasPremium = value
-                state.premiumClubMembership.expiration = premiumService.premiumExpirationDate
                 return .none
 
             default:

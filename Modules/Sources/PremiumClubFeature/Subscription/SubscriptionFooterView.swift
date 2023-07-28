@@ -14,8 +14,11 @@ struct SubscriptionFooterView: View {
                 Text("Something went wrong...")
             case let .available(product, subscription):
                 VStack {
+                    // TODO: Check `subscription.isEligibleForIntroOffer`
+                    // Maybe move this logic to its own reducer
                     if let introductoryOffer = subscription.introductoryOffer {
                         Text("Start with \(introductoryOffer.makeName())")
+                            .font(.subheadline)
                     }
 
                     Button {

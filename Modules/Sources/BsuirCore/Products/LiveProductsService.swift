@@ -1,7 +1,6 @@
 import Foundation
 import StoreKit
 import os.log
-import BsuirCore
 import Combine
 
 final class LiveProductsService {
@@ -44,6 +43,7 @@ final class LiveProductsService {
         updatesTask = Task(priority: .background) { [weak self] in
             for await result in Transaction.updates {
                 guard case let .verified(transaction) = result else { continue }
+                os_log(.info, log: .products, "Received transaction update")
                 self?.updatePurchasedProducts(for: transaction)
             }
         }
