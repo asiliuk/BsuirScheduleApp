@@ -17,8 +17,12 @@ extension DependencyValues {
     }
 }
 
-private enum PremiumServiceKey: DependencyKey {
-    public static let liveValue: any PremiumService = LivePremiumService()
+public enum PremiumServiceKey: DependencyKey {
+    public static let liveValue: any PremiumService = {
+        @Dependency(\.widgetService) var widgetService
+        return LivePremiumService(widgetService: widgetService)
+    }()
+
     public static let testValue: any PremiumService = PremiumServiceMock()
 }
 
