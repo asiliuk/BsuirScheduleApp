@@ -13,7 +13,7 @@ struct PremiumClubMembershipSectionView: View {
                         .progressViewStyle(.circular)
                         .frame(maxWidth: .infinity)
                 case .noSubscription:
-                    Text("Join Premium Club to get access to all cool features!")
+                    Text("Being a part of the Premium Club gives you access to all cool features and helps me further develop this application!")
                 case let .subscribed(expiration, willAutoRenew):
                     VStack(alignment: .leading, spacing: 8) {
                         let formattedExpiration = expiration?.formatted(date: .long, time: .omitted) ?? "-/-"
