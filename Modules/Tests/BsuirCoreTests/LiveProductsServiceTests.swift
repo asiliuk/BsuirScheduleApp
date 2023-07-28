@@ -1,6 +1,6 @@
 import XCTest
 import Combine
-@testable import PremiumClubFeature
+@testable import BsuirCore
 
 // TODO: Write tests
 final class LiveProductsServiceTests: XCTestCase {

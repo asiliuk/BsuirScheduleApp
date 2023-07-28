@@ -52,9 +52,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PremiumClubFeatureTests"
-               BuildableName = "PremiumClubFeatureTests"
-               BlueprintName = "PremiumClubFeatureTests"
+               BlueprintIdentifier = "BsuirCoreTests"
+               BuildableName = "BsuirCoreTests"
+               BlueprintName = "BsuirCoreTests"
                ReferencedContainer = "container:Modules">
             </BuildableReference>
          </TestableReference>
