@@ -16,13 +16,16 @@ struct ScheduleWidgetBundle: WidgetBundle {
 }
 
 struct PinnedScheduleWidget: Widget {
-    let kind: String = "PinnedScheduleWidget"
+    let kind: String = WidgetService.Timeline.pinnedSchedule.rawValue
     @StateObject var provider = PinnedScheduleProvider()
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: provider) { entry in
             ScheduleWidgetEntryView(entry: entry)
-                .environmentObject(PairFormColorService(storage: .asiliukShared))
+                .environmentObject(PairFormColorService(
+                    storage: .asiliukShared,
+                    widgetService: .liveValue
+                ))
         }
         .configurationDisplayName("widget.pinned.displayName")
         .supportedFamilies(supportedFamilies)

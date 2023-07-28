@@ -30,5 +30,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         super.init()
     }
 
-    private(set) lazy var pairFormColorService = PairFormColorService(storage: .asiliukShared)
+    private(set) lazy var pairFormColorService = PairFormColorService(
+        storage: .asiliukShared,
+        widgetService: .liveValue
+    )
 }

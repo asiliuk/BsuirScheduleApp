@@ -1,10 +1,11 @@
 import SwiftUI
+import BsuirCore
 import WidgetKit
 
 public class PairFormColorService: ObservableObject {
-    public init(storage: UserDefaults, widgetCenter: WidgetCenter = .shared) {
+    public init(storage: UserDefaults, widgetService: WidgetService) {
         self.storage = storage
-        self.widgetCenter = widgetCenter
+        self.widgetService = widgetService
         storage.register(
             defaults: Dictionary(
                 uniqueKeysWithValues: PairViewForm.allCases.map { form in
@@ -54,11 +55,11 @@ public class PairFormColorService: ObservableObject {
         objectWillChange.send()
         update()
         // Make sure widget UI is also updated
-        widgetCenter.reloadTimelines(ofKind: "ScheduleWidget")
+        widgetService.reload(.pinnedSchedule)
     }
         
     private let storage: UserDefaults
-    private let widgetCenter: WidgetCenter
+    private let widgetService: WidgetService
 }
 
 private extension PairViewForm {

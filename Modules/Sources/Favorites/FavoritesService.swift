@@ -5,10 +5,9 @@ import ScheduleCore
 import Collections
 import Combine
 import Dependencies
-import WidgetKit
 
 public final class FavoritesService {
-    private let widgetCenter: WidgetCenter
+    private let widgetService: WidgetService
     private let storage: UserDefaults
     private let legacyStorage: UserDefaults
 
@@ -46,10 +45,10 @@ public final class FavoritesService {
     private lazy var freeLoveHighScoreStorage = storage
         .persistedInteger(forKey: "free-love-hich-score")
 
-    init(storage: UserDefaults, legacyStorage: UserDefaults, widgetCenter: WidgetCenter) {
+    init(storage: UserDefaults, legacyStorage: UserDefaults, widgetService: WidgetService) {
         self.storage = storage
         self.legacyStorage = legacyStorage
-        self.widgetCenter = widgetCenter
+        self.widgetService = widgetService
         migrateIfNeeded()
     }
 
@@ -101,7 +100,7 @@ extension FavoritesService {
         set {
             pinnedScheduleStorage.persisted.value = newValue
             // Make sure widget UI is also updated
-            widgetCenter.reloadTimelines(ofKind: "PinnedScheduleWidget")
+            widgetService.reload(.pinnedSchedule)
         }
     }
 
@@ -118,11 +117,14 @@ extension FavoritesService {
 // MARK: - Dependency
 
 extension FavoritesService {
-    public static let live = FavoritesService(
-        storage: .asiliukShared,
-        legacyStorage: .standard,
-        widgetCenter: .shared
-    )
+    public static let live: FavoritesService = {
+        @Dependency(\.widgetService) var widgetService
+        return FavoritesService(
+            storage: .asiliukShared,
+            legacyStorage: .standard,
+            widgetService: widgetService
+        )
+    }()
 }
 
 extension DependencyValues {

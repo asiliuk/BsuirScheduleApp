@@ -9,5 +9,11 @@ extension DependencyValues {
 }
 
 private enum PairFormColorServiceKey: DependencyKey {
-    static let liveValue = PairFormColorService(storage: .asiliukShared)
+    static let liveValue: PairFormColorService = {
+        @Dependency(\.widgetService) var widgetService
+        return PairFormColorService(
+            storage: .asiliukShared,
+            widgetService: widgetService
+        )
+    }()
 }
