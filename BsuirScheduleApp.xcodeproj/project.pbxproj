@@ -410,6 +410,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = ScheduleWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 636FUHDF2R;
 				INFOPLIST_FILE = ScheduleWidget/Info.plist;
@@ -420,6 +421,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saute.Bsuir-Schedule.ScheduleWidget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -431,6 +433,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = ScheduleWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 636FUHDF2R;
 				INFOPLIST_FILE = ScheduleWidget/Info.plist;
@@ -441,6 +444,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saute.Bsuir-Schedule.ScheduleWidget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -580,6 +584,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconStandart;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = BsuirScheduleApp/BsuirScheduleApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "BsuirScheduleApp/Resources/Preview\\ Content";
 				DEVELOPMENT_TEAM = 636FUHDF2R;
@@ -591,6 +596,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saute.Bsuir-Schedule";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -601,6 +607,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconStandart;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = BsuirScheduleApp/BsuirScheduleApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "BsuirScheduleApp/Resources/Preview\\ Content";
 				DEVELOPMENT_TEAM = 636FUHDF2R;
@@ -612,6 +619,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saute.Bsuir-Schedule";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
