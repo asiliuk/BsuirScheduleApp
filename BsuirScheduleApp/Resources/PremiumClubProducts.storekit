@@ -1,17 +1,47 @@
 {
-  "identifier" : "8709103F",
+  "identifier" : "807A9105",
   "nonRenewingSubscriptions" : [
 
   ],
   "products" : [
     {
-      "displayPrice" : "0.99",
+      "displayPrice" : "4.99",
       "familyShareable" : false,
-      "internalID" : "2C6C3FF0",
+      "internalID" : "6458593296",
       "localizations" : [
         {
-          "description" : "",
-          "displayName" : "☕️ Small tip",
+          "description" : "🥙 Large tip",
+          "displayName" : "Large Tip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.saute.bsuir_schedule.tips.large",
+      "referenceName" : "Large Tip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "6458593167",
+      "localizations" : [
+        {
+          "description" : "🥐 Medium tip",
+          "displayName" : "Medium Tip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.saute.bsuir_schedule.tips.medium",
+      "referenceName" : "Medium Tip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "6458593265",
+      "localizations" : [
+        {
+          "description" : "☕️ Small tip",
+          "displayName" : "Small tip",
           "locale" : "en_US"
         }
       ],
@@ -22,40 +52,52 @@
     {
       "displayPrice" : "2.99",
       "familyShareable" : false,
-      "internalID" : "212E5EDC",
+      "internalID" : "974238913",
       "localizations" : [
         {
-          "description" : "",
-          "displayName" : "🥐 Medium tip",
+          "description" : "Сделай денежный дождь, поддержи разработчика",
+          "displayName" : "Super supporter",
+          "locale" : "ru"
+        },
+        {
+          "description" : "Make it rain, support developer",
+          "displayName" : "Super supporter",
           "locale" : "en_US"
         }
       ],
-      "productID" : "com.saute.bsuir_schedule.tips.medium",
-      "referenceName" : "Medium Tip",
-      "type" : "Consumable"
+      "productID" : "com.saute.BsuirSchedule.supersupporter",
+      "referenceName" : "Super supporter",
+      "type" : "NonConsumable"
     },
     {
-      "displayPrice" : "9.99",
+      "displayPrice" : "0.99",
       "familyShareable" : false,
-      "internalID" : "ADBC33D7",
+      "internalID" : "974238047",
       "localizations" : [
         {
-          "description" : "",
-          "displayName" : "🥙 Large tip",
+          "description" : "Support developer",
+          "displayName" : "Supporter",
           "locale" : "en_US"
+        },
+        {
+          "description" : "Поддержи разработчика",
+          "displayName" : "Supporter",
+          "locale" : "ru"
         }
       ],
-      "productID" : "com.saute.bsuir_schedule.tips.large",
-      "referenceName" : "Large Tip",
-      "type" : "Consumable"
+      "productID" : "com.saute.BsuirSchedule.supporter",
+      "referenceName" : "Supporter",
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {
-    "_askToBuyEnabled" : true
+    "_applicationInternalID" : "944151090",
+    "_developerTeamID" : "636FUHDF2R",
+    "_lastSynchronizedDate" : 713044940.64047801
   },
   "subscriptionGroups" : [
     {
-      "id" : "290E0A54",
+      "id" : "21370540",
       "localizations" : [
 
       ],
@@ -68,27 +110,27 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "3.99",
+          "displayPrice" : "2.99",
           "familyShareable" : true,
           "groupNumber" : 1,
-          "internalID" : "532E2A98",
+          "internalID" : "6458593163",
           "introductoryOffer" : {
-            "displayPrice" : "0.99",
-            "internalID" : "9CA09D76",
+            "internalID" : "793342E7",
+            "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P2M"
           },
           "localizations" : [
             {
-              "description" : "",
-              "displayName" : "",
-              "locale" : "en_US"
+              "description" : "Yearly membership in the Premium Club",
+              "displayName" : "Premium Club Yearly",
+              "locale" : "ru"
             }
           ],
           "productID" : "com.saute.bsuir_schedule.premium_club.yearly",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "PremiumClub Yearly",
-          "subscriptionGroupID" : "290E0A54",
+          "subscriptionGroupID" : "21370540",
           "type" : "RecurringSubscription"
         }
       ]

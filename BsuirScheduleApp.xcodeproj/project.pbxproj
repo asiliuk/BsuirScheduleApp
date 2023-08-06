@@ -16,7 +16,6 @@
 		E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */ = {isa = PBXBuildFile; productRef = E6611ABC293A8B59006E322B /* ScheduleCore */; };
 		E6972D1A287B4A550003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D19287B4A550003506F /* BsuirApi */; };
 		E6972D1C287B4A550003506F /* BsuirUI in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1B287B4A550003506F /* BsuirUI */; };
-		E69885622A3F39B40039A653 /* PremiumClubProducts.storekit in Resources */ = {isa = PBXBuildFile; fileRef = E69885612A3F39B40039A653 /* PremiumClubProducts.storekit */; };
 		E6AA8D1125162F1A00788A02 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA8D1025162F1A00788A02 /* WidgetKit.framework */; };
 		E6AA8D1325162F1A00788A02 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA8D1225162F1A00788A02 /* SwiftUI.framework */; };
 		E6AA8D1625162F1A00788A02 /* ScheduleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */; };
@@ -77,7 +76,6 @@
 		E627877528B6B50F00F61D9B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E6310E30292C02A10013A103 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
-		E69885612A3F39B40039A653 /* PremiumClubProducts.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = PremiumClubProducts.storekit; sourceTree = "<group>"; };
 		E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D1025162F1A00788A02 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E6AA8D1225162F1A00788A02 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -88,6 +86,7 @@
 		E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostRelevantScheduleResponse.swift; sourceTree = "<group>"; };
 		E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleEntry+MostRelevant.swift"; sourceTree = "<group>"; };
 		E6CCA27A2917EF900079D815 /* ScheduleWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScheduleWidgetExtension.entitlements; sourceTree = "<group>"; };
+		E6E1882D2A80309800658AA8 /* PremiumClubProducts.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = PremiumClubProducts.storekit; sourceTree = "<group>"; };
 		E6F4A836287B4A24001AB915 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 		E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BsuirScheduleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6F931BE22F8B1C20038FC43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,7 +146,7 @@
 				E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */,
 				E6F931C622F8B1C20038FC43 /* Info.plist */,
 				E6F931C022F8B1C20038FC43 /* Preview Content */,
-				E69885612A3F39B40039A653 /* PremiumClubProducts.storekit */,
+				E6E1882D2A80309800658AA8 /* PremiumClubProducts.storekit */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -329,7 +328,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6F931C522F8B1C20038FC43 /* LaunchScreen.storyboard in Resources */,
-				E69885622A3F39B40039A653 /* PremiumClubProducts.storekit in Resources */,
 				E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */,
 				E627877628B93AD500F61D9B /* Localizable.strings in Resources */,
 				E6F931BF22F8B1C20038FC43 /* Assets.xcassets in Resources */,
