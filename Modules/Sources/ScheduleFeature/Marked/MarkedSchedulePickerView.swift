@@ -27,7 +27,7 @@ struct MarkedSchedulePickerView: View {
             ) {
                 ForEach(ViewState.allCases) { $0.label(selected: $0 == viewStore.state) }
             }
-            .task { await ViewStore(store.stateless).send(.task).finish() }
+            .task { await store.send(.task).finish() }
             .accentColor(viewStore.tint)
             .alert(
                 store: store.scope(

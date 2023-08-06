@@ -57,12 +57,10 @@ public struct PremiumClubFeatureView: View {
         .navigationTitle("Premium Club")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Restore") {
-                    ViewStore(store.stateless).send(.restoreButtonTapped)
-                }
+                Button("Restore") { store.send(.restoreButtonTapped) }
             }
         }
-        .task { await ViewStore(store.stateless).send(.task).finish() }
+        .task { await store.send(.task).finish() }
     }
 }
 

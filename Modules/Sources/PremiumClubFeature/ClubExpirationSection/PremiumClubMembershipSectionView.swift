@@ -28,6 +28,6 @@ struct PremiumClubMembershipSectionView: View {
             Label("Membership", systemImage: "checkmark.seal.fill")
                 .settingsRowAccent(.premiumGradient)
         }
-        .task { await ViewStore(store.stateless).send(.task).finish() }
+        .task { await store.send(.task).finish() }
     }
 }

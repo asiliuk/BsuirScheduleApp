@@ -38,7 +38,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                     ),
                     schedulePairDetails: schedulePairDetails
                 )
-                .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
+                .refreshable { await store.send(.refresh).finish() }
             } loading: {
                 ScheduleGridPlaceholder()
             } error: { store in

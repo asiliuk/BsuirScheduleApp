@@ -49,7 +49,7 @@ struct TipsSectionView: View {
                 .settingsRowAccent(.pink)
         }
         .task {
-            await ViewStore(store.stateless).send(.task).finish()
+            await store.send(.task).finish()
         }
     }
 }

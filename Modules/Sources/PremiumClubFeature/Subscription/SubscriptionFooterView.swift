@@ -36,7 +36,7 @@ struct SubscriptionFooterView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .task { await ViewStore(store.stateless).send(.task).finish() }
+        .task { await store.send(.task).finish() }
     }
 }
 

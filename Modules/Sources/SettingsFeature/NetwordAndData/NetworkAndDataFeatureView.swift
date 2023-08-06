@@ -49,7 +49,7 @@ private struct ClearCacheSectionView: View {
 
     var body: some View {
         Button("screen.settings.networkAndData.data.section.clearCache.button") {
-            ViewStore(store.stateless).send(.clearCacheTapped)
+            store.send(.clearCacheTapped)
         }
         .alert(
             store: store.scope(
