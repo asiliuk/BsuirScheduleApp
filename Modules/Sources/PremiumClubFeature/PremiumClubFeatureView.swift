@@ -1,5 +1,6 @@
 import SwiftUI
 import BsuirUI
+import ConfettiSwiftUI
 import ComposableArchitecture
 
 public struct PremiumClubFeatureView: View {
@@ -39,6 +40,9 @@ public struct PremiumClubFeatureView: View {
             }
             .padding()
         }
+        .overlay(alignment: .top) {
+            ConfettiView(store: store)
+        }
         .labelStyle(PremiumGroupTitleLabelStyle())
         .safeAreaInset(edge: .bottom) {
             WithViewStore(store, observe: \.hasPremium) { viewStore in
@@ -49,7 +53,8 @@ public struct PremiumClubFeatureView: View {
                             action: { .subsctiptionFooter($0) }
                         )
                     )
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
                     .background(.thickMaterial)
                 }
             }
@@ -61,6 +66,28 @@ public struct PremiumClubFeatureView: View {
             }
         }
         .task { await store.send(.task).finish() }
+    }
+}
+
+private struct ConfettiView: View {
+    let store: StoreOf<PremiumClubFeature>
+
+    var body: some View {
+        WithViewStore(store, observe: \.confettiCounter) { viewStore in
+            Color.clear
+                .frame(height: 10)
+                .confettiCannon(
+                    counter: viewStore.binding(send: { .setConfettiCounter($0) }),
+                    num: 40,
+                    confettis: [.text("🎉"), .text("🎊"), .text("🎈"), .text("🪅"), .text("🥳"), .text("🍾"), .text("💸")],
+                    confettiSize: 20,
+                    openingAngle: Angle(degrees: 150),
+                    closingAngle: Angle(degrees: 30),
+                    radius: 200,
+                    repetitions: 2,
+                    repetitionInterval: 0.8
+                )
+        }
     }
 }
 

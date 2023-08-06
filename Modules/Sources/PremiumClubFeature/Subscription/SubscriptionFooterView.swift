@@ -13,7 +13,7 @@ struct SubscriptionFooterView: View {
             case .failed:
                 Text("Something went wrong...")
             case let .available(product, subscription):
-                VStack {
+                VStack(spacing: 8) {
                     // TODO: Check `subscription.isEligibleForIntroOffer`
                     // Maybe move this logic to its own reducer
                     if let introductoryOffer = subscription.introductoryOffer {

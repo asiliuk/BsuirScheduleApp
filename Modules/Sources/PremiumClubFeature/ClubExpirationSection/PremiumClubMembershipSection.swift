@@ -38,7 +38,7 @@ public struct PremiumClubMembershipSection: Reducer {
             case .manageButtonTapped:
                 return .run { _ in await openUrl(.appStoreSubscriptions) }
             case ._premiumStateChanged:
-                return loadSubscriptionDetails(state: &state)
+                return loadSubscriptionDetails(state: &state).animation()
             case ._failedToGetDetails:
                 state = .noSubscription
                 return .none

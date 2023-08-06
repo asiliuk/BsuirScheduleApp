@@ -55,6 +55,7 @@ let package = Package(
          .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
          .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.10.0"),
          .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "1.0.0"),
+         .package(url: "https://github.com/simibac/ConfettiSwiftUI.git", from: "1.1.0"),
     ],
     targets: [
         // MARK: - Features
@@ -73,7 +74,7 @@ let package = Package(
         ),
         .target(
             name: "PremiumClubFeature",
-            dependencies: ["BsuirUI", "Favorites", .tca, .dependencies]
+            dependencies: ["BsuirUI", "Favorites", .tca, .dependencies, .confetti]
         ),
         .target(
             name: "GroupsFeature",
@@ -139,4 +140,5 @@ private extension Target.Dependency {
     static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
     static let swiftCollections: Self = .product(name: "Collections", package: "swift-collections")
     static let introspect: Self = .product(name: "SwiftUIIntrospect", package: "SwiftUI-Introspect")
+    static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
 }
