@@ -52,15 +52,18 @@ private struct LoadingLecturersView: View {
                     }
                 }
 
-                IfLetStore(self.store.scope(state: \.favorites)) { store in
-                    Section("screen.lecturers.favorites.section.header") {
-                        ForEachStore(
-                            store.scope(
-                                state: { $0 },
-                                action: LecturersFeature.Action.favorite
-                            )
-                        ) { store in
-                            LecturersRowView(store: store)
+                WithViewStore(self.store, observe: { $0.favorites.isEmpty }) { viewStore in
+                    // show only if have some favorites
+                    if !viewStore.state {
+                        Section("screen.lecturers.favorites.section.header") {
+                            ForEachStore(
+                                self.store.scope(
+                                    state: \.favorites,
+                                    action: LecturersFeature.Action.favorite
+                                )
+                            ) { store in
+                                LecturersRowView(store: store)
+                            }
                         }
                     }
                 }

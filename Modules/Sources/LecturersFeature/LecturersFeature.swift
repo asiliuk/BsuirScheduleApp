@@ -14,16 +14,14 @@ public struct LecturersFeature: Reducer {
         fileprivate(set) var isOnTop: Bool = true
         @PresentationState var lectorSchedule: LectorScheduleFeature.State?
 
-        var favorites: IdentifiedArrayOf<LecturersRow.State>? {
+        var favorites: IdentifiedArrayOf<LecturersRow.State> {
             get {
-                guard
-                    let favorites = lecturers?.filter({ favoriteIds.contains($0.id) }),
-                    !favorites.isEmpty
-                else { return nil }
+                guard let favorites = lecturers?.filter({ favoriteIds.contains($0.id) })
+                else { return [] }
                 return favorites
             }
             set {
-                favoriteIds = newValue?.ids ?? []
+                favoriteIds = newValue.ids
             }
         }
 
@@ -76,11 +74,9 @@ public struct LecturersFeature: Reducer {
         .ifLet(\.pinned, action: /Action.pinned) {
             LecturersRow()
         }
-        .ifLet(\.favorites, action: /Action.favorite) {
-            EmptyReducer<IdentifiedArrayOf<LecturersRow.State>, _>()
-                .forEach(\.self, action: .self) {
-                    LecturersRow()
-                }
+        .forEach(\.favorites, action: /Action.favorite) {
+            LecturersRow()
+
         }
         .ifLet(\.lecturers, action: /Action.lector) {
             EmptyReducer<IdentifiedArrayOf<LecturersRow.State>, _>()
@@ -118,7 +114,7 @@ public struct LecturersFeature: Reducer {
             return .none
 
         case let .favorite(id, .rowTapped):
-            let lector = state.favorites?[id: id]?.lector
+            let lector = state.favorites[id: id]?.lector
             state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
             return .none
 
