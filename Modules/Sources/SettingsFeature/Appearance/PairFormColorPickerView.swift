@@ -20,6 +20,7 @@ public struct PairFormsColorPickerView: View {
                 }
             }
 
+            // TODO: add a footer explaining where this could be seen
             Section(header: Text("screen.settings.appearance.icons.section.header")) {
                 ForEachStore(
                     store.scope(
