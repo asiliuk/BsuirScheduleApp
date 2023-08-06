@@ -4,7 +4,6 @@ import BsuirApi
 import LoadableFeature
 import EntityScheduleFeature
 import ComposableArchitecture
-import SwiftUINavigation
 
 public struct LecturersFeatureView: View {
     public let store: StoreOf<LecturersFeature>

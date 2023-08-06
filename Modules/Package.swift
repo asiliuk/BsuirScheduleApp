@@ -54,7 +54,6 @@ let package = Package(
          .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.4.0"),
          .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
          .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.1.4"),
-         .package(url: "https://github.com/pointfreeco/swiftui-navigation.git", from: "0.5.0"),
          .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "0.1.1"),
     ],
     targets: [
@@ -65,24 +64,24 @@ let package = Package(
                 "GroupsFeature", "LecturersFeature", "SettingsFeature",
                 "Deeplinking", "Favorites",
                 "ScheduleCore", "BsuirApi", "BsuirUI",
-                .tca, .swiftUINavigation
+                .tca
             ]
         ),
         .target(
             name: "SettingsFeature",
-            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies, .swiftUINavigation]
+            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies]
         ),
         .target(
             name: "PremiumClubFeature",
-            dependencies: ["BsuirUI", "Favorites", .tca, .dependencies, .swiftUINavigation]
+            dependencies: ["BsuirUI", "Favorites", .tca, .dependencies]
         ),
         .target(
             name: "GroupsFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", .tca, .swiftUINavigation]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", .tca]
         ),
         .target(
             name: "LecturersFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", .tca, .swiftUINavigation]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", .tca]
         ),
         .target(
             name: "EntityScheduleFeature",
@@ -140,5 +139,4 @@ private extension Target.Dependency {
     static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
     static let swiftCollections: Self = .product(name: "Collections", package: "swift-collections")
     static let introspect: Self = .product(name: "Introspect", package: "SwiftUI-Introspect")
-    static let swiftUINavigation: Self = .product(name: "SwiftUINavigation", package: "swiftui-navigation")
 }

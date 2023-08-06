@@ -1,6 +1,5 @@
 import SwiftUI
 import BsuirUI
-import SwiftUINavigation
 import ComposableArchitecture
 
 struct AppIconFeatureNavigationLink: View {

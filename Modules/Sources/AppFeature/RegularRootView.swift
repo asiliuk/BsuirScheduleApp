@@ -5,7 +5,6 @@ import LecturersFeature
 import SettingsFeature
 import PremiumClubFeature
 import ComposableArchitecture
-import SwiftUINavigation
 
 struct RegularRootView: View {
     let store: StoreOf<AppFeature>

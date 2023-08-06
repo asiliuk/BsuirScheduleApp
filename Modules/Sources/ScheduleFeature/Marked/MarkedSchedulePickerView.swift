@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftUINavigation
 import ComposableArchitecture
 
 struct MarkedSchedulePickerView: View {

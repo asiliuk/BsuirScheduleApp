@@ -2,7 +2,6 @@ import SwiftUI
 import ScheduleFeature
 import BsuirUI
 import ComposableArchitecture
-import SwiftUINavigation
 
 public struct GroupScheduleView: View {
     let store: StoreOf<GroupScheduleFeature>

@@ -5,7 +5,6 @@ import ScheduleCore
 import Favorites
 import PremiumClubFeature
 import ComposableArchitecture
-import SwiftUINavigation
 
 public struct MarkedScheduleFeature: Reducer {
     public struct State: Equatable {
