@@ -19,7 +19,7 @@ public struct AppView: View {
 
     public var body: some View {
         content
-            .onOpenURL(perform: { ViewStore(store.stateless).send(.handleDeeplink($0)) })
+            .onOpenURL(perform: { store.send(.handleDeeplink($0)) })
     }
 
     @ViewBuilder private var content: some View {

@@ -25,7 +25,7 @@ public struct LoadingErrorNotConnectedToInternetView: View, Animatable {
             .multilineTextAlignment(.center)
 
             Button {
-                ViewStore(store.stateless).send(.reloadButtonTapped)
+                store.send(.reloadButtonTapped)
             } label: {
                 Image(systemName: "repeat")
                 Text("view.errorState.noInternet.button.label")

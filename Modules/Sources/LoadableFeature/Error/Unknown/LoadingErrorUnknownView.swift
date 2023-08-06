@@ -13,7 +13,7 @@ public struct LoadingErrorUnknownView: View {
             Spacer()
             Text("view.errorState.title").font(.title)
             Button {
-                ViewStore(store.stateless).send(.reloadButtonTapped)
+                store.send(.reloadButtonTapped)
             } label: {
                 Text("view.errorState.button.label")
             }

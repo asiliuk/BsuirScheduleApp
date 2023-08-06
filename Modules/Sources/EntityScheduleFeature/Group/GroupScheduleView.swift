@@ -15,7 +15,7 @@ public struct GroupScheduleView: View {
         ScheduleFeatureView(
             store: store.scope(state: \.schedule, action: { .schedule($0) }),
             schedulePairDetails: .lecturers {
-                ViewStore(store.stateless).send(.lectorTapped($0))
+                store.send(.lectorTapped($0))
             }
         )
         .navigationDestination(

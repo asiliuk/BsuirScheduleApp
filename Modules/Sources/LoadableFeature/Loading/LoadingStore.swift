@@ -70,7 +70,7 @@ public struct LoadingStore<
                 case .loading:
                     CaseLet(/ViewState.loading, action: ViewAction.loading) { store in
                         loading
-                            .onAppear { ViewStore(store).send(.onAppear) }
+                            .onAppear { store.send(.onAppear) }
                     }
 
                 case .error:

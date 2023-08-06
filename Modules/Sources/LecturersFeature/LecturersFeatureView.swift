@@ -72,7 +72,7 @@ private struct LoadingLecturersView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .refreshable { await ViewStore(store.stateless).send(.refresh).finish() }
+            .refreshable { await store.send(.refresh).finish() }
             .lecturersSearchable(store: self.store.scope(state: \.search, action: { .search($0) }))
         } loading: {
             LecturersLoadingPlaceholder(store: store)
