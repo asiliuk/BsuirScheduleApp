@@ -44,6 +44,7 @@ final class LiveProductsService {
             for await result in Transaction.updates {
                 guard case let .verified(transaction) = result else { continue }
                 os_log(.info, log: .products, "Received transaction update")
+                await transaction.finish()
                 self?.updatePurchasedProducts(for: transaction)
             }
         }
