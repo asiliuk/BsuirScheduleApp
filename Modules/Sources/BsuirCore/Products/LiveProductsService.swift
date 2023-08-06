@@ -27,12 +27,12 @@ final class LiveProductsService {
             return
         }
 
-        let tipsIds = Set(TipID.allCases.map(\.rawValue))
-        let subscriptionIds = Set(SubscriptionID.allCases.map(\.rawValue))
+        let tipsIds = TipID.allCases.map(\.rawValue)
+        let subscriptionIds = SubscriptionID.allCases.map(\.rawValue)
         do {
-            let products = try await Product.products(for: tipsIds.union(subscriptionIds))
-            _tips = products.filter { tipsIds.contains($0.id) }
-            _subscriptions = products.filter { subscriptionIds.contains($0.id) }
+            let products = try await Product.products(for: tipsIds + subscriptionIds)
+            _tips = tipsIds.compactMap { id in products.first(where: { $0.id == id }) }
+            _subscriptions = subscriptionIds.compactMap { id in products.first(where: { $0.id == id }) }
         } catch {
             os_log(.error, log: .products, "Failed to fetch products: \(error.localizedDescription)")
         }
