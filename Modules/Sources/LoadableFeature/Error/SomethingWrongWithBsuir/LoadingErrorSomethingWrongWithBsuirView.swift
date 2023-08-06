@@ -82,15 +82,14 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
 
 struct LoadingErrorSomethingWrongWithBsuirView_Previews: PreviewProvider {
     static var previews: some View {
+        let initialState = mutating(LoadingErrorSomethingWrongWithBsuir.State(
+            url: URL(string: "https://bsuir.api.by/some/path/for/something"),
+            description: "This is test message\nfrom backend...\nmaybe with formatting",
+            statusCode: 500
+        )) { $0.reachability?.status = .notReachable }
+
         LoadingErrorSomethingWrongWithBsuirView(
-            store: Store(
-                initialState: mutating(.init(
-                    url: URL(string: "https://bsuir.api.by/some/path/for/something"),
-                    description: "This is test message\nfrom backend...\nmaybe with formatting",
-                    statusCode: 500
-                )) { $0.reachability?.status = .notReachable },
-                reducer: EmptyReducer()
-            )
+            store: Store(initialState: initialState) {}
         )
     }
 }

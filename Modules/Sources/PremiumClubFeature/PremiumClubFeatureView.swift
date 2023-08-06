@@ -84,10 +84,9 @@ struct PremiumClubFeatureView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             PremiumClubFeatureView(
-                store: .init(
-                    initialState: .init(),
-                    reducer: PremiumClubFeature()
-                )
+                store: Store(initialState: .init()) {
+                    PremiumClubFeature()
+                }
             )
         }
     }

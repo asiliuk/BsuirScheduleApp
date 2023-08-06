@@ -19,12 +19,11 @@ struct App: SwiftUI.App {
 }
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
-    private(set) lazy var store = Store(
-        initialState: .init(),
-        reducer: AppFeature()
+    private(set) lazy var store = Store(initialState: .init()) {
+        AppFeature()
             .dependency(\.imageCache, .default)
             .dependency(\.pairFormColorService, pairFormColorService)
-    )
+    }
 
     override init() {
         super.init()

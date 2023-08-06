@@ -55,14 +55,13 @@ public struct LoadingErrorFailedToDecodeView: View, Animatable {
 
 struct LoadingErrorFailedToDecodeView_Previews: PreviewProvider {
     static var previews: some View {
+        let initialState = LoadingErrorFailedToDecode.State(
+            url: URL(string: "https://bsuir.api.by/some/path/for/something"),
+            description: "This is test message\n from backend...\n maybe with formatting"
+        )
+
         LoadingErrorFailedToDecodeView(
-            store: Store(
-                initialState: .init(
-                    url: URL(string: "https://bsuir.api.by/some/path/for/something"),
-                    description: "This is test message\n from backend...\n maybe with formatting"
-                ),
-                reducer: EmptyReducer()
-            )
+            store: Store(initialState: initialState) {}
         )
     }
 }

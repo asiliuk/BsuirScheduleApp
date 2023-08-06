@@ -26,7 +26,7 @@ public struct LoadingErrorUnknownView: View {
 struct LoadingErrorUnknownView_Previews: PreviewProvider {
     static var previews: some View {
         LoadingErrorUnknownView(
-            store: Store(initialState: (), reducer: EmptyReducer())
+            store: Store(initialState: ()) {}
         )
     }
 }

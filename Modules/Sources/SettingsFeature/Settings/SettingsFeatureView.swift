@@ -121,8 +121,12 @@ public struct SettingsFeatureView: View {
 struct SettingsFeatureView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            SettingsFeatureView(store: Store(initialState: .init(), reducer: SettingsFeature()))
-                .navigationBarTitleDisplayMode(.inline)
+            SettingsFeatureView(
+                store: Store(initialState: .init()) {
+                    SettingsFeature()
+                }
+            )
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
