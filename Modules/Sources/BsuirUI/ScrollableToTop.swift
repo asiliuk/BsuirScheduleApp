@@ -1,5 +1,5 @@
 import SwiftUI
-import Introspect
+import SwiftUIIntrospect
 
 public struct ScrollableToTopList<Content: View>: View {
     let content: Content
@@ -19,7 +19,13 @@ public struct ScrollableToTopList<Content: View>: View {
                     .id(InitialPositionID())
 
                 content
-                    .introspectScrollView(customize: scrollModel.bind(to:))
+                    // TODO: use new iOS 17 API for scroll position here
+                    .introspect(
+                        .scrollView,
+                        on: .iOS(.v16, .v17),
+                        scope: .ancestor,
+                        customize: scrollModel.bind(to:)
+                    )
             }
             .onChange(of: isOnTop) { needsToScroll in
                 guard needsToScroll, !scrollModel.isDragging else { return }

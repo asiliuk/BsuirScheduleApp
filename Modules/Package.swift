@@ -53,7 +53,7 @@ let package = Package(
          .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.0.0"),
          .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.6.0"),
          .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
-         .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.1.4"),
+         .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.10.0"),
          .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "1.0.0"),
     ],
     targets: [
@@ -138,5 +138,5 @@ private extension Target.Dependency {
     static let tca: Self = .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
     static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
     static let swiftCollections: Self = .product(name: "Collections", package: "swift-collections")
-    static let introspect: Self = .product(name: "Introspect", package: "SwiftUI-Introspect")
+    static let introspect: Self = .product(name: "SwiftUIIntrospect", package: "SwiftUI-Introspect")
 }
