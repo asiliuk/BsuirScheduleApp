@@ -77,7 +77,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
             case let .setScheduleType(value):
                 defer { state.scheduleType = value }
                 guard state.scheduleType != value else { return .none }
-                return .fireAndForget {
+                return .run { _ in
                     await reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
                 }
                 
@@ -85,7 +85,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                 if state.schedule?.continious.isEmpty == true {
                     state.scheduleType = .exams
                 }
-                return .fireAndForget {
+                return .run { _ in
                     await reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
                 }
 

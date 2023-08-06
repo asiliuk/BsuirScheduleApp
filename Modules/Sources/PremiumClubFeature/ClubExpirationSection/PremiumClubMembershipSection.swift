@@ -36,7 +36,7 @@ public struct PremiumClubMembershipSection: Reducer {
                     listenForPremiumStateUpdates()
                 )
             case .manageButtonTapped:
-                return .fireAndForget { await openUrl(.appStoreSubscriptions) }
+                return .run { _ in await openUrl(.appStoreSubscriptions) }
             case ._premiumStateChanged:
                 return loadSubscriptionDetails(state: &state)
             case ._failedToGetDetails:
@@ -65,18 +65,19 @@ public struct PremiumClubMembershipSection: Reducer {
 
     private func loadSubscriptionDetails(state: inout State) -> Effect<Action> {
         state = .loading
-        return .task {
+        return .run { send in
             let subscription = try await productsService.subscription
             guard
                 let subscriptionInfo = subscription.subscription,
                 let status = try await subscriptionInfo.status.last
             else {
-                return ._receivedNoSubscription
+                await send(._receivedNoSubscription)
+                return
             }
 
-            return ._receivedStatus(status)
-        } catch: { _ in
-            ._failedToGetDetails
+            await send( ._receivedStatus(status))
+        } catch: { _, send in
+            await send(._failedToGetDetails)
         }
     }
 

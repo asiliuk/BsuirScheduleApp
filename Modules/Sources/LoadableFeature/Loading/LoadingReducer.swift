@@ -103,17 +103,15 @@ private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
     }
 
     private func load(_ state: State, isRefresh: Bool) -> Effect<Action> {
-        return .task {
-            try await withTaskCancellation(id: #function, cancelInFlight: true) {
-                if isRefresh {
-                    // Make sure loading UI is shown for some time before requesting
-                    try await clock.sleep(for: .milliseconds(200))
-                }
-                let value = try await fetch(state, isRefresh)
-                return ._loaded(value, isEqualTo: { $0 as? Value == value })
+        return .run { send in
+            if isRefresh {
+                try await clock.sleep(for: .milliseconds(200))
             }
-        } catch: { error in
-            ._loadingFailed(error)
+
+            let value = try await fetch(state, isRefresh)
+            await send(._loaded(value, isEqualTo: { $0 as? Value == value }))
+        } catch: { error, send in
+            await send(._loadingFailed(error))
         }
         .animation()
         .cancellable(id: CancelID.loading, cancelInFlight: true)

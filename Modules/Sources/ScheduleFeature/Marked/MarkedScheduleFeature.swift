@@ -110,7 +110,7 @@ public struct MarkedScheduleFeature: Reducer {
 
     private func favorite(source: ScheduleSource) -> Effect<Action> {
         return .merge(
-            .fireAndForget {
+            .run { _ in
                 switch source {
                 case .group(let name):
                     favorites.currentGroupNames.append(name)
@@ -126,7 +126,7 @@ public struct MarkedScheduleFeature: Reducer {
     }
 
     private func unfavorite(source: ScheduleSource) -> Effect<Action> {
-        return .fireAndForget {
+        return .run { _ in
             switch source {
             case .group(let name):
                 favorites.currentGroupNames.remove(name)
@@ -141,7 +141,7 @@ public struct MarkedScheduleFeature: Reducer {
             // Move currently pinned schedule to favorites
             favorites.currentPinnedSchedule.map(favorite(source:)) ?? .none,
             unfavorite(source: source),
-            .fireAndForget {
+            .run { _ in
                 favorites.currentPinnedSchedule = source
                 await reviewRequestService.madeMeaningfulEvent(.pin)
             }
@@ -149,7 +149,7 @@ public struct MarkedScheduleFeature: Reducer {
     }
 
     private func unpin(source: ScheduleSource) -> Effect<Action> {
-        return .fireAndForget {
+        return .run { _ in
             if favorites.currentPinnedSchedule == source {
                 favorites.currentPinnedSchedule = nil
             }

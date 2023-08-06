@@ -23,19 +23,19 @@ public struct AboutFeature: Reducer {
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .githubButtonTapped:
-            return .fireAndForget {
+            return .run { _ in
                 await reviewRequestService.madeMeaningfulEvent(.githubOpened)
                 await openUrl(.github)
             }
 
         case .telegramButtonTapped:
-            return .fireAndForget {
+            return .run { _ in
                 await reviewRequestService.madeMeaningfulEvent(.telegramOpened)
                 await openUrl(.telegram)
             }
 
         case .reviewButtonTapped:
-            return .fireAndForget {
+            return .run { _ in
                 await openUrl(.appStoreReview)
             }
         }

@@ -31,7 +31,7 @@ public struct LoadingErrorSomethingWrongWithBsuir: Reducer {
             switch action {
             case .openIssueTapped:
                 let url = issueUrl(state)
-                return .fireAndForget { await openUrl(url) }
+                return .run { _ in await openUrl(url) }
 
             case .reachability, .reloadButtonTapped:
                 return .none

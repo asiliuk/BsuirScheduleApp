@@ -37,7 +37,7 @@ public struct TipsSection: Reducer {
                 guard let product = state.tipsAmounts[id: id]?.product else {
                     return .none
                 }
-                return .fireAndForget {
+                return .run { _ in
                     try await productsService.purchase(product)
                 }
 
@@ -72,11 +72,11 @@ public struct TipsSection: Reducer {
     private func loadTipsProducts(state: inout State) -> Effect<Action> {
         state.isLoadingProducts = true
         state.failedToFetchProducts = false
-        return .task {
+        return .run { send in
             let products = await productsService.tips
-            return ._receivedProducts(products)
-        } catch: { _ in
-            ._failedToGetProducts
+            await send(._receivedProducts(products))
+        } catch: { _, send in
+            await send(._failedToGetProducts)
         }
     }
 }
@@ -102,9 +102,9 @@ public struct FreeLove: Reducer {
         switch action {
         case .loveButtonTapped:
             state.counter += 1
-            return .task {
+            return .run { send in
                 try await clock.sleep(for: .seconds(1))
-                return ._resetCounter
+                await send(._resetCounter)
             }
             .animation(.easeIn)
             .cancellable(id: CancelID.reset, cancelInFlight: true)
@@ -113,7 +113,7 @@ public struct FreeLove: Reducer {
             let highScore = max(state.highScore, state.counter)
             state.highScore = highScore
             state.counter = 0
-            return .fireAndForget {
+            return .run { _ in
                 if favorites.freeLoveHighScore < highScore {
                     favorites.freeLoveHighScore = highScore
                 }

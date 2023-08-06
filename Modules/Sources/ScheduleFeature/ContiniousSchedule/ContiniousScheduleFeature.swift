@@ -75,16 +75,15 @@ public struct ContiniousScheduleFeature: Reducer {
             state.isOnTop = value
             return .none
         case .loadMoreIndicatorAppear:
-            return .task {
-                try await withTaskCancellation(id: CancelID.loadDays, cancelInFlight: true) {
-                    try await clock.sleep(for: .milliseconds(300))
-                    return ._loadMoreDays
-                }
+            return .run { send in
+                try await clock.sleep(for: .milliseconds(300))
+                await send(._loadMoreDays)
             }
+            .cancellable(id: CancelID.loadDays, cancelInFlight: true)
 
         case ._loadMoreDays:
             state.load(count: 10)
-            return .fireAndForget {
+            return .run { _ in
                 await reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
             }
         }

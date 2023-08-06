@@ -69,12 +69,12 @@ public struct AppIconFeature: Reducer {
                     return .none
                 }
 
-                return .task {
+                return .run { send in
                     try await setAlternateIconName(icon?.iconName)
                     await reviewRequestService.madeMeaningfulEvent(.appIconChanged)
-                    return ._iconChanged(icon)
-                } catch: { _ in
-                    ._iconChangeFailed
+                    await send(._iconChanged(icon))
+                } catch: { _, send in
+                    await send(._iconChangeFailed)
                 }
 
             case let ._iconChanged(newIcon):

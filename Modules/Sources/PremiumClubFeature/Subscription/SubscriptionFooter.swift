@@ -31,7 +31,7 @@ public struct SubscriptionFooter: Reducer {
 
             case .buttonTapped:
                 guard case let .available(product, _) = state else { return .none }
-                return .fireAndForget { try await productsService.purchase(product) }
+                return .run { _ in try await productsService.purchase(product) }
 
             case ._receivedProduct(let product):
                 if let subscription = product.subscription {
@@ -51,11 +51,11 @@ public struct SubscriptionFooter: Reducer {
 
     private func loadSubscriptionProducts(state: inout State) -> Effect<Action> {
         state = .loading
-        return .task {
+        return .run { send in
             let subscription = try await productsService.subscription
-            return ._receivedProduct(subscription)
-        } catch: { _ in
-            ._failedToGetProduct
+            await send(._receivedProduct(subscription))
+        } catch: { _, send in
+            await send(._failedToGetProduct)
         }
     }
 }

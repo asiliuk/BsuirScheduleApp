@@ -65,7 +65,7 @@ public struct PremiumClubFeature: Reducer {
                 return listenToPremiumUpdates()
 
             case .restoreButtonTapped:
-                return .fireAndForget { await productsService.restore() }
+                return .run { _ in await productsService.restore() }
 
             case let ._setIsPremium(value):
                 state.hasPremium = value
