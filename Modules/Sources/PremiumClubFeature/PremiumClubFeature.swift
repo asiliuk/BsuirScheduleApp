@@ -20,6 +20,7 @@ public struct PremiumClubFeature: Reducer {
     public struct State: Equatable {
         public var source: Source?
         public var hasPremium: Bool
+        var isModal: Bool
         var confettiCounter: Int = 0
 
         var sections: [Section] {
@@ -36,9 +37,11 @@ public struct PremiumClubFeature: Reducer {
         var subsctiptionFooter = SubscriptionFooter.State()
 
         public init(
+            isModal: Bool,
             source: Source? = nil,
             hasPremium: Bool? = nil
         ) {
+            self.isModal = isModal
             self.source = source
             @Dependency(\.premiumService) var premiumService
             self.hasPremium = hasPremium ?? premiumService.isCurrentlyPremium
@@ -57,6 +60,9 @@ public struct PremiumClubFeature: Reducer {
 
     @Dependency(\.productsService) var productsService
     @Dependency(\.premiumService) var premiumService
+    @Dependency(\.isPresented) var isPresented
+    @Dependency(\.dismiss) var dismiss
+    @Dependency(\.continuousClock) var clock
 
     public init() {}
 
@@ -70,12 +76,15 @@ public struct PremiumClubFeature: Reducer {
                 return .run { _ in await productsService.restore() }
 
             case let ._setIsPremium(value):
-                if value, value != state.hasPremium {
-                    state.confettiCounter += 1
-                }
-
+                guard value != state.hasPremium else { return .none }
                 state.hasPremium = value
-                return .none
+                guard value else { return .none }
+                state.confettiCounter += 1
+                guard isPresented, state.isModal else { return .none }
+                return .run { _ in
+                    try await clock.sleep(for: .seconds(3))
+                    await dismiss()
+                }
 
             case .setConfettiCounter(let value):
                 state.confettiCounter = value

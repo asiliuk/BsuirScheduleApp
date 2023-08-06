@@ -111,7 +111,7 @@ struct PremiumClubFeatureView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             PremiumClubFeatureView(
-                store: Store(initialState: .init()) {
+                store: Store(initialState: .init(isModal: true)) {
                     PremiumClubFeature()
                 }
             )

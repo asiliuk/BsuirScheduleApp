@@ -44,13 +44,13 @@ struct PremiumClubLabel_Previews: PreviewProvider {
     static var previews: some View {
         List {
             PremiumClubLabel(
-                store: Store(initialState: .init()) {
+                store: Store(initialState: .init(isModal: false)) {
                     PremiumClubFeature()
                 }
             )
 
             PremiumClubLabel(
-                store: Store(initialState: .init(hasPremium: true)) {
+                store: Store(initialState: .init(isModal: false, hasPremium: true)) {
                     PremiumClubFeature()
                 }
             )

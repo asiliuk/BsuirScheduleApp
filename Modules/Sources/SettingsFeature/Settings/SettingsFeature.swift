@@ -11,7 +11,7 @@ public struct SettingsFeature: Reducer {
         public var path = NavigationPath()
         var isOnTop: Bool = true
 
-        var premiumClub = PremiumClubFeature.State()
+        var premiumClub = PremiumClubFeature.State(isModal: false)
 
         var appIcon = AppIconFeature.State()
         var appearance = AppearanceFeature.State()

@@ -20,7 +20,7 @@ public struct AppFeature: Reducer {
 
         var selection: CurrentSelection = .groups
 
-        var premiumClub = PremiumClubFeature.State()
+        var premiumClub = PremiumClubFeature.State(isModal: true)
         var pinnedTab: PinnedTabFeature.State
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
