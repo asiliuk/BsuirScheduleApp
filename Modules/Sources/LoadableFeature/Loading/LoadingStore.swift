@@ -65,18 +65,23 @@ public struct LoadingStore<
 
     public var body: some View {
         ZStack {
-            SwitchStore(store) {
-                CaseLet(state: /ViewState.loading, action: ViewAction.loading) { store in
-                    loading
-                        .onAppear { ViewStore(store).send(.onAppear) }
-                }
+            SwitchStore(store) { state in
+                switch state {
+                case .loading:
+                    CaseLet(/ViewState.loading, action: ViewAction.loading) { store in
+                        loading
+                            .onAppear { ViewStore(store).send(.onAppear) }
+                    }
 
-                CaseLet(state: /ViewState.error, action: ViewAction.error) { store in
-                    error(store)
-                }
+                case .error:
+                    CaseLet(/ViewState.error, action: ViewAction.error) { store in
+                        error(store)
+                    }
 
-                CaseLet(state: /ViewState.loaded, action: ViewAction.loaded) { store in
-                    value(store)
+                case .loaded:
+                    CaseLet(/ViewState.loaded, action: ViewAction.loaded) { store in
+                        value(store)
+                    }
                 }
             }
         }

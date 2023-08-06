@@ -9,13 +9,23 @@ public struct PinnedScheduleView: View {
     }
 
     public var body: some View {
-        SwitchStore(store) {
-            CaseLet(state: /PinnedScheduleFeature.State.group, action: PinnedScheduleFeature.Action.group) { store in
-                GroupScheduleView(store: store)
-            }
+        SwitchStore(store) { state in
+            switch state {
+            case .group:
+                CaseLet(
+                    /PinnedScheduleFeature.State.group,
+                     action: PinnedScheduleFeature.Action.group
+                ) { store in
+                    GroupScheduleView(store: store)
+                }
 
-            CaseLet(state: /PinnedScheduleFeature.State.lector, action: PinnedScheduleFeature.Action.lector) { store in
-                LectorScheduleView(store: store)
+            case .lector:
+                CaseLet(
+                    /PinnedScheduleFeature.State.lector,
+                     action: PinnedScheduleFeature.Action.lector
+                ) { store in
+                    LectorScheduleView(store: store)
+                }
             }
         }
     }
