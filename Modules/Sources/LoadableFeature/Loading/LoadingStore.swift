@@ -152,7 +152,7 @@ extension LoadingStore {
 
 // MARK: - Store + Helpers
 
-public typealias LoadedStoreOf<Reducer: ReducerProtocol> = Store<Reducer.State, LoadingStoreViewAction<Reducer.Action>.LoadedAction>
+public typealias LoadedStoreOf<R: Reducer> = Store<R.State, LoadingStoreViewAction<R.Action>.LoadedAction>
 
 extension Store {
     public func loaded<ValueAction>() -> Store<State, ValueAction> where Action == LoadingStoreViewAction<ValueAction>.LoadedAction {

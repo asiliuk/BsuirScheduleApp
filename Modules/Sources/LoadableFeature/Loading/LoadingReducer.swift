@@ -1,11 +1,11 @@
 import Foundation
 import ComposableArchitecture
 
-extension ReducerProtocol where Action: LoadableAction, Action.State == State {
+extension Reducer where Action: LoadableAction, Action.State == State {
     public func load<Value: Equatable>(
         _ keyPath: WritableKeyPath<State, LoadableState<Value>>,
         fetch: @Sendable @escaping (State, _ isRefresh: Bool) async throws -> Value
-    ) -> some ReducerProtocol<State, Action> {
+    ) -> some Reducer<State, Action> {
         CombineReducers {
             LoadingReducer(keyPath: keyPath, fetch: fetch)
             self
@@ -15,9 +15,9 @@ extension ReducerProtocol where Action: LoadableAction, Action.State == State {
     public func load<ValueState: Equatable, ValueAction>(
         _ keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
         action: CasePath<Action, ValueAction>,
-        @ReducerBuilder<ValueState, ValueAction> _ valueReducer: () -> some ReducerProtocol<ValueState, ValueAction>,
+        @ReducerBuilder<ValueState, ValueAction> _ valueReducer: () -> some Reducer<ValueState, ValueAction>,
         fetch: @Sendable @escaping (State, _ isRefresh: Bool) async throws -> ValueState
-    ) -> some ReducerProtocol<State, Action> {
+    ) -> some Reducer<State, Action> {
         load(keyPath, fetch: fetch)
             .ifLet(
                 keyPath.appending(path: \.wrappedValue),
@@ -29,7 +29,7 @@ extension ReducerProtocol where Action: LoadableAction, Action.State == State {
 
 // MARK: - LoadingReducer
 
-struct LoadingReducer<State, Action, Value: Equatable>: ReducerProtocol
+struct LoadingReducer<State, Action, Value: Equatable>: Reducer
 where Action: LoadableAction, State == Action.State {
 
     let keyPath: WritableKeyPath<State, LoadableState<Value>>

@@ -35,7 +35,7 @@ public struct LoadingErrorFailedToDecode: Reducer {
     }
 }
 
-extension ReducerProtocol {
+extension Reducer {
     func requestIssueUrl(title: String, address: String, message: String) -> URL {
         return .githubIssue(
             title: title,
