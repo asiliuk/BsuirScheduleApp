@@ -16,7 +16,7 @@ struct LecturersSearchViewModifier: ViewModifier {
             content
                 .dismissSearch(viewStore.dismiss)
                 .searchable(
-                    text: viewStore.binding(\.$query),
+                    text: viewStore.$query,
                     prompt: Text("screen.lecturers.search.placeholder")
                 )
                 .task(id: viewStore.query, throttleFor: .milliseconds(300)) {
