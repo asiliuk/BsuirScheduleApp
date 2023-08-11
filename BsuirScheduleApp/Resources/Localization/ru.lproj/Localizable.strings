@@ -11,6 +11,12 @@
 "screen.pinned.empty.title" = "Нет закрепленного расписания";
 "screen.pinned.empty.message" = "Пожалуйста, закрепите расписание, чтобы оно отображалось в этой вкладке";
 
+// MARK: - Premium Locked Pinned
+
+"screen.pinned.premiumLocked.title" = "Это премиум-функция";
+"screen.pinned.premiumLocked.message" = "Пожалуйста, присоединитесь к Premium Club, чтобы иметь возможность закреплять и быстро просматривать свое расписанию";
+"screen.pinned.premiumLocked.button.title" = "Вступить в Premium Club...";
+
 // MARK: - Row
 
 "row.markedSchedule.actions.removeFromFavorites.title" = "Убрать из избранного";

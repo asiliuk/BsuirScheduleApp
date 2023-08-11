@@ -11,6 +11,12 @@
 "screen.pinned.empty.title" = "Няма замацаванага раскладу";
 "screen.pinned.empty.message" = "Калі ласка, замацуйце расклад, каб ён адлюстроўваўся ў гэтай укладцы";
 
+// MARK: - Premium Locked Pinned
+
+"screen.pinned.premiumLocked.title" = "Гэта прэміум-функцыя";
+"screen.pinned.premiumLocked.message" = "Калі ласка, далучыцеся да Premium Club, каб мець магчымасць замацоўваць і хутка праглядаць свой расклад";
+"screen.pinned.premiumLocked.button.title" = "Уступіць у Premium Club...";
+
 // MARK: - Row
 
 "row.markedSchedule.actions.removeFromFavorites.title" = "Прыбраць з абранага";

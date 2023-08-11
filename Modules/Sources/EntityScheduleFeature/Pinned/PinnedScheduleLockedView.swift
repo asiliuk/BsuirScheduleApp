@@ -17,12 +17,12 @@ public struct PinnedScheduleLockedView: View {
                 .font(.system(size: 50))
 
             VStack(spacing: 12) {
-                Text("This is premium feature")
+                Text("screen.pinned.premiumLocked.title")
                     .font(.title2)
                     .bold()
                     .multilineTextAlignment(.center)
 
-                Text("Please become a member of the Premium Club to be able to pin your schedule")
+                Text("screen.pinned.premiumLocked.message")
                     .font(.body)
                     .foregroundColor(.secondary)
 
@@ -31,7 +31,7 @@ public struct PinnedScheduleLockedView: View {
                 Button {
                     onLearnMoreTapped()
                 } label: {
-                    Text("Join Premium Club...")
+                    Text("screen.pinned.premiumLocked.button.title")
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.regular)

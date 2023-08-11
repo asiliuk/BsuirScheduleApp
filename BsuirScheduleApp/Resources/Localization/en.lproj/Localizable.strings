@@ -11,6 +11,12 @@
 "screen.pinned.empty.title" = "There's no pinned schedule";
 "screen.pinned.empty.message" = "Please, pin any schedule and it will appear in this tab";
 
+// MARK: - Premium Locked Pinned
+
+"screen.pinned.premiumLocked.title" = "This is premium feature";
+"screen.pinned.premiumLocked.message" = "Please join Premium Club to be able to pin and have a quick access to your schedule";
+"screen.pinned.premiumLocked.button.title" = "Join Premium Club...";
+
 // MARK: - Row
 
 "row.markedSchedule.actions.removeFromFavorites.title" = "Remove from favorites";

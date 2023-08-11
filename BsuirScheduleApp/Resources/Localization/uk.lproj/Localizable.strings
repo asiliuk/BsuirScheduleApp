@@ -11,6 +11,12 @@
 "screen.pinned.empty.title" = "Немає закріпленого розкладу";
 "screen.pinned.empty.message" = "Будь ласка, закріпіть розклад, щоб він відображався у цій вкладці";
 
+// MARK: - Premium Locked Pinned
+
+"screen.pinned.premiumLocked.title" = "Це преміум-функція";
+"screen.pinned.premiumLocked.message" = "Будь ласка, приєднайтесь до Premium Club, щоб мати можливість закріплювати та швидко переглядати свій розклад";
+"screen.pinned.premiumLocked.button.title" = "Вступити до Premium Club...";
+
 // MARK: - Row
 
 "row.markedSchedule.actions.removeFromFavorites.title" = "Прибрати з вибраного";
