@@ -55,9 +55,10 @@ private struct PinnedTabItem: View {
             observe: { $0.isPremiumLocked ? nil : $0.schedule?.title }
         ) { viewStore in
             if let title = viewStore.state {
-                PinnedLabel(title: title)
+                Label(title, systemImage: "pin")
             } else {
-                EmptyPinnedLabel()
+                Label("view.tabBar.pinned.empty.title", systemImage: "pin")
+                    .environment(\.symbolVariants, .none)
             }
         }
     }

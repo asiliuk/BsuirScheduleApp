@@ -32,7 +32,7 @@ public struct PremiumClubLabel: View {
                         }
                     }
                     .font(.footnote)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                 }
             }
             .task { await viewStore.send(.task).finish() }

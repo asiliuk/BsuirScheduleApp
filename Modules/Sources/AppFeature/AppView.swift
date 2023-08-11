@@ -1,5 +1,11 @@
 import SwiftUI
+import BsuirCore
+import BsuirUI
 import SettingsFeature
+import GroupsFeature
+import LecturersFeature
+import EntityScheduleFeature
+import PremiumClubFeature
 import ComposableArchitecture
 
 public enum CurrentSelection: Hashable {
@@ -18,45 +24,97 @@ public struct AppView: View {
     }
 
     public var body: some View {
-        content
-            .onOpenURL(perform: { store.send(.handleDeeplink($0)) })
-    }
+        WithViewStore(store, observe: \.selection) { viewStore in
+            TabView(selection: viewStore.binding(send: AppFeature.Action.setSelection)) {
+                PinnedTabView(
+                    store: store.scope(
+                        state: \.pinnedTab,
+                        action: AppFeature.Action.pinnedTab
+                    )
+                )
+                .tag(CurrentSelection.pinned)
 
-    @ViewBuilder private var content: some View {
-        switch horizontalSizeClass {
-        case nil, .compact?:
-            CompactRootView(store: store)
-        case .regular?:
-            RegularRootView(store: store)
-        case .some:
-            EmptyView().onAppear { assertionFailure("Unexpected horizontalSizeClass") }
+                GroupsFeatureTab(
+                    store: store.scope(
+                        state: \.groups,
+                        action: AppFeature.Action.groups
+                    )
+                )
+                .tag(CurrentSelection.groups)
+
+                LecturersFeatureTab(
+                    store: store.scope(
+                        state: \.lecturers,
+                        action: AppFeature.Action.lecturers
+                    )
+                )
+                .tag(CurrentSelection.lecturers)
+
+                SettingsFeatureTab(
+                    store: store.scope(
+                        state: \.settings,
+                        action: AppFeature.Action.settings
+                    )
+                )
+                .tag(CurrentSelection.settings)
+            }
+            .sheet(
+                store: store.scope(state: \.$destination, action: { .destination($0) }),
+                state: /AppFeature.State.Destination.premiumClub,
+                action: AppFeature.Action.DestinationAction.premiumClub
+            ) { store in
+                ModalNavigationStack {
+                    PremiumClubFeatureView(store: store)
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+            }
+        }
+        .onOpenURL(perform: { store.send(.handleDeeplink($0)) })
+    }
+}
+
+// MARK: - Tabs
+
+private struct GroupsFeatureTab: View {
+    let store: StoreOf<GroupsFeature>
+
+    var body: some View {
+        NavigationStack {
+            GroupsFeatureView(store: store)
+                .navigationBarTitleDisplayMode(.inline)
+        }
+        .tabItem {
+            Label("view.tabBar.groups.title", systemImage: "person.2")
         }
     }
 }
 
-struct PinnedLabel: View {
-    let title: String
+private struct LecturersFeatureTab: View {
+    let store: StoreOf<LecturersFeature>
 
     var body: some View {
-        Label(title, systemImage: "pin")
+        NavigationStack {
+            LecturersFeatureView(store: store)
+                .navigationBarTitleDisplayMode(.inline)
+        }
+        .tabItem {
+            Label("view.tabBar.lecturers.title", systemImage: "person.text.rectangle")
+        }
     }
 }
 
-struct EmptyPinnedLabel: View {
+private struct SettingsFeatureTab: View {
+    let store: StoreOf<SettingsFeature>
+
     var body: some View {
-        Label("view.tabBar.pinned.empty.title", systemImage: "pin")
-            .environment(\.symbolVariants, .none)
+        WithViewStore(store, observe: \.path) { viewStore in
+            NavigationStack(path: viewStore.binding(send: { .setPath($0) })) {
+                SettingsFeatureView(store: store)
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+        }
+        .tabItem {
+            Label("view.tabBar.settings.title", systemImage: "gearshape")
+        }
     }
-}
-
-struct GroupsLabel: View {
-    let body = Label("view.tabBar.groups.title", systemImage: "person.2")
-}
-
-struct LecturersLabel: View {
-    let body = Label("view.tabBar.lecturers.title", systemImage: "person.text.rectangle")
-}
-
-struct SettingsLabel: View {
-    let body = Label("view.tabBar.settings.title", systemImage: "gearshape")
 }
