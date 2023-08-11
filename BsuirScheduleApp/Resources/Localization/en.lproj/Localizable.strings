@@ -50,6 +50,14 @@
 "screen.premiumClub.navigation.member.message" = "You're part of the club!";
 "screen.premiumClub.navigation.notMember.message" = "Become a member of the club";
 
+"screen.premiumClub.button.restore" = "Restore";
+
+"screen.premiumClub.section.tips.title" = "Leave tips";
+"screen.premiumClub.section.tips.failed.message" = "⚠️ Failed to fetch tips...";
+"screen.premiumClub.section.tips.failed.button.retry" = "Retry";
+"screen.premiumClub.section.tips.freeLove.title" = "💋 Free love";
+"screen.premiumClub.section.tips.freeLove.count%@" = "max love: %@";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Appearance";

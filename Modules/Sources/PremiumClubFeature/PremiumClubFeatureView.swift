@@ -59,10 +59,10 @@ public struct PremiumClubFeatureView: View {
                 }
             }
         }
-        .navigationTitle("Premium Club")
+        .navigationTitle("screen.premiumClub.navigation.title")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Restore") { store.send(.restoreButtonTapped) }
+                Button("screen.premiumClub.button.restore") { store.send(.restoreButtonTapped) }
             }
         }
         .task { await store.send(.task).finish() }

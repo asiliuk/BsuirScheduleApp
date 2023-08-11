@@ -20,8 +20,8 @@ struct TipsSectionView: View {
                         }
                         .redacted(reason: .placeholder)
                     } else if viewStore.failedToFetchProducts {
-                        LabeledContent("⚠️ Failed to fetch tips...") {
-                            Button("Retry") {
+                        LabeledContent("screen.premiumClub.section.tips.failed.message") {
+                            Button("screen.premiumClub.section.tips.failed.button.retry") {
                                 viewStore.send(.reloadTips)
                             }
                         }
@@ -45,7 +45,7 @@ struct TipsSectionView: View {
             }
             .buttonStyle(.borderedProminent)
         } label: {
-            Label("Leave tips", systemImage: "heart.square.fill")
+            Label("screen.premiumClub.section.tips.title", systemImage: "heart.square.fill")
                 .settingsRowAccent(.pink)
         }
         .task {
@@ -87,9 +87,9 @@ private struct FreeLoveView: View {
                     }
                 }
             } label: {
-                Text("💋 Free love")
+                Text("screen.premiumClub.section.tips.freeLove.title")
                 if viewStore.highScore > 0 {
-                    Text("max love \(viewStore.highScore)")
+                    Text("screen.premiumClub.section.tips.freeLove.count\(String(viewStore.highScore))")
                 }
             }
         }

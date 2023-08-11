@@ -50,6 +50,14 @@
 "screen.premiumClub.navigation.member.message" = "Ви є членом клубу!";
 "screen.premiumClub.navigation.notMember.message" = "Приєднуйтесь до клубу";
 
+"screen.premiumClub.button.restore" = "Відновити";
+
+"screen.premiumClub.section.tips.title" = "Чайові";
+"screen.premiumClub.section.tips.failed.message" = "⚠️ Не вдалося завантажити чайові...";
+"screen.premiumClub.section.tips.failed.button.retry" = "Повторити";
+"screen.premiumClub.section.tips.freeLove.title" = "💋 Безкоштовне кохання";
+"screen.premiumClub.section.tips.freeLove.count%@" = "макс. кохання: %@";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Зовнішній вигляд";

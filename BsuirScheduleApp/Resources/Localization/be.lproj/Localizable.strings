@@ -50,6 +50,14 @@
 "screen.premiumClub.navigation.member.message" = "Вы знаходзіцеся ў клубе!";
 "screen.premiumClub.navigation.notMember.message" = "Далучайцеся да клуба";
 
+"screen.premiumClub.button.restore" = "Аднавіць";
+
+"screen.premiumClub.section.tips.title" = "Чаявыя";
+"screen.premiumClub.section.tips.failed.message" = "⚠️ Немагчыма загрузіць чаявыя...";
+"screen.premiumClub.section.tips.failed.button.retry" = "Паўтарыць";
+"screen.premiumClub.section.tips.freeLove.title" = "💋 Бясплатнае каханне";
+"screen.premiumClub.section.tips.freeLove.count%@" = "макс. каханне: %@";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Вонкавы выгляд";
