@@ -194,6 +194,16 @@
 "alert.clearCache.title" = "Кэш паспяхова вычышчаны";
 "alert.clearCache.message" = "Быў выдалены кэш запампаванага раскладу і фатаграфій выкладчыкаў";
 
+"alert.premiumClub.pinnedSchedule.title" = "Гэта прэміум-функцыя";
+"alert.premiumClub.pinnedSchedule.message" = "Калі ласка, далучыцеся да **Premium Club**, каб мець магчымасць замацоўваць свой расклад";
+"alert.premiumClub.pinnedSchedule.button" = "Уступіць у Premium Club...";
+"alert.premiumClub.pinnedSchedule.cancel" = "Адмена";
+
+"alert.premiumClub.appIconChange.title" = "Гэта прэміум-абразок";
+"alert.premiumClub.appIconChange.message" = "Калі ласка, далучыцеся да **Premium Club**, каб разблакаваць усе абразкі дадатку";
+"alert.premiumClub.appIconChange.button" = "Уступіць у Premium Club...";
+"alert.premiumClub.appIconChange.cancel" = "Адмена";
+
 // MARK: - Color Names
 
 "color.red" = "Чырвоны";

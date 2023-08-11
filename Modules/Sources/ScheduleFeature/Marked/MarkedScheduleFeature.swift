@@ -217,13 +217,14 @@ private extension MeaningfulEvent {
 
 private extension AlertState where Action == MarkedScheduleFeature.Action.AlertAction {
     static let premiumLocked = AlertState(
-        title: TextState("Premium Club only"),
-        message: TextState("Pinning of the schedule is available only for **Premium Club** members"),
+        title: TextState("alert.premiumClub.pinnedSchedule.title"),
+        message: TextState("alert.premiumClub.pinnedSchedule.message"),
         buttons: [
             .default(
-                TextState("Join Premium Club..."),
-                action: .send(.learnAboutPremiumClubButtonTapped)),
-            .cancel(TextState("Cancel"))
+                TextState("alert.premiumClub.pinnedSchedule.button"),
+                action: .send(.learnAboutPremiumClubButtonTapped)
+            ),
+            .cancel(TextState("alert.premiumClub.pinnedSchedule.cancel"))
         ]
     )
 }

@@ -104,13 +104,14 @@ public struct AppIconFeature: Reducer {
 
 private extension AlertState where Action == AppIconFeature.Action.AlertAction {
     static let premiumLocked = AlertState(
-        title: TextState("Premium Club only"),
-        message: TextState("Icon that you're trying to set is available only for **Premium Club** members"),
+        title: TextState("alert.premiumClub.appIconChange.title"),
+        message: TextState("alert.premiumClub.appIconChange.message"),
         buttons: [
             .default(
-                TextState("Join Premium Club..."),
-                action: .send(.learnAboutPremiumClubButtonTapped)),
-            .cancel(TextState("Cancel"))
+                TextState("alert.premiumClub.appIconChange.button"),
+                action: .send(.learnAboutPremiumClubButtonTapped)
+            ),
+            .cancel(TextState("alert.premiumClub.appIconChange.cancel"))
         ]
     )
 

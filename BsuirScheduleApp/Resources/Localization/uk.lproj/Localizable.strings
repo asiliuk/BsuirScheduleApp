@@ -193,6 +193,16 @@
 "alert.clearCache.title" = "Кеш успішно очищений";
 "alert.clearCache.message" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";
 
+"alert.premiumClub.pinnedSchedule.title" = "Це преміум-функція";
+"alert.premiumClub.pinnedSchedule.message" = "Будь ласка, приєднайтесь до **Premium Club**, щоб мати можливість закріплювати свій розклад";
+"alert.premiumClub.pinnedSchedule.button" = "Вступити до Premium Club...";
+"alert.premiumClub.pinnedSchedule.cancel" = "Скасувати";
+
+"alert.premiumClub.appIconChange.title" = "Це преміум-іконка";
+"alert.premiumClub.appIconChange.message" = "Будь ласка, приєднайтесь до **Premium Club**, щоб розблокувати всі іконки програми";
+"alert.premiumClub.appIconChange.button" = "Вступити до Premium Club...";
+"alert.premiumClub.appIconChange.cancel" = "Скасувати";
+
 // MARK: - Color Names
 
 "color.red" = "Червоний";

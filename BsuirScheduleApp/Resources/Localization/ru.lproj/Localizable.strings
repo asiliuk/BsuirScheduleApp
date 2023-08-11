@@ -193,6 +193,16 @@
 "alert.clearCache.title" = "Кэш успешно очищен";
 "alert.clearCache.message" = "Был удален кэш скачанного расписания и фотографий преподавателей";
 
+"alert.premiumClub.pinnedSchedule.title" = "Это премиум-функция";
+"alert.premiumClub.pinnedSchedule.message" = "Пожалуйста, присоединитесь к **Premium Club**, чтобы иметь возможность закреплять свое расписанию";
+"alert.premiumClub.pinnedSchedule.button" = "Вступить в Premium Club...";
+"alert.premiumClub.pinnedSchedule.cancel" = "Отмена";
+
+"alert.premiumClub.appIconChange.title" = "Это премиум-иконка";
+"alert.premiumClub.appIconChange.message" = "Пожалуйста, присоединитесь к **Premium Club**, чтобы разблокировать все иконки приложения";
+"alert.premiumClub.appIconChange.button" = "Вступить в Premium Club...";
+"alert.premiumClub.appIconChange.cancel" = "Отмена";
+
 // MARK: - Color Names
 
 "color.red" = "Красный";

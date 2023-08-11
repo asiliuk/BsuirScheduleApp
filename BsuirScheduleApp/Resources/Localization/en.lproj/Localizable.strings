@@ -193,6 +193,16 @@
 "alert.clearCache.title" = "Cache successfully cleared";
 "alert.clearCache.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";
 
+"alert.premiumClub.pinnedSchedule.title" = "This is premium feature";
+"alert.premiumClub.pinnedSchedule.message" = "Please join **Premium Club** to be able to pin your schedule";
+"alert.premiumClub.pinnedSchedule.button" = "Join Premium Club...";
+"alert.premiumClub.pinnedSchedule.cancel" = "Cancel";
+
+"alert.premiumClub.appIconChange.title" = "This is premium icon";
+"alert.premiumClub.appIconChange.message" = "Please join **Premium Club** to unlock all app icons";
+"alert.premiumClub.appIconChange.button" = "Join Premium Club...";
+"alert.premiumClub.appIconChange.cancel" = "Cancel";
+
 // MARK: - Color Names
 
 "color.red" = "Red";
