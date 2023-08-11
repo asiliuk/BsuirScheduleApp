@@ -19,16 +19,17 @@ public struct PremiumClubLabel: View {
 
                 VStack(alignment: .leading) {
                     let statusText = Text(" \(Image(systemName: "checkmark.seal.fill"))")
+                        // Make it clear to keep space in layout and prevent jumping
                         .foregroundColor(viewStore.state ? .indigo : .clear)
 
-                    Text("Premium Club\(statusText)")
+                    (Text("screen.premiumClub.navigation.title") + statusText)
                         .font(.headline)
 
                     Group {
                         if viewStore.state {
-                            Text("You're part of the club now")
+                            Text("screen.premiumClub.navigation.member.message")
                         } else {
-                            Text("Become a member of the club")
+                            Text("screen.premiumClub.navigation.notMember.message")
                         }
                     }
                     .font(.footnote)

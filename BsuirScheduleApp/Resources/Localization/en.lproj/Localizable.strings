@@ -44,6 +44,12 @@
 
 "screen.settings.navigation.title" = "Settings";
 
+// MARK: - Premium Club
+
+"screen.premiumClub.navigation.title" = "Premium Club";
+"screen.premiumClub.navigation.member.message" = "You're part of the club!";
+"screen.premiumClub.navigation.notMember.message" = "Become a member of the club";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Appearance";
