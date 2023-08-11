@@ -5,7 +5,7 @@ struct PinnedScheduleSectionView: View {
     var body: some View {
         GroupBox {
             HStack {
-                Text("Get fast access to your schedule, right in the pinned tab")
+                Text("screen.premiumClub.section.pinned.message")
                 Spacer()
                 List {
                     ScheduleGridSectionPlaceholder(
@@ -30,7 +30,7 @@ struct PinnedScheduleSectionView: View {
                 }
             }
         } label: {
-            Label("Pinned Schedule", systemImage: "pin.square.fill")
+            Label("screen.premiumClub.section.pinned.title", systemImage: "pin.square.fill")
                 .settingsRowAccent(.red)
         }
     }

@@ -4,13 +4,13 @@ struct AppIconsSectionView: View {
     var body: some View {
         GroupBox {
             HStack(alignment: .top) {
-                Text("Unlock stunning new icons, I've spent a lot of time designing them, more to come...").font(.body)
+                Text("screen.premiumClub.section.appIcons.message").font(.body)
                 Spacer()
                 PremiumAppIconGrid()
                     .frame(width: 80)
             }
         } label: {
-            Label("Custom App Icons", systemImage: "app.gift.fill")
+            Label("screen.premiumClub.section.appIcons.title", systemImage: "app.gift.fill")
                 .settingsRowAccent(.orange)
         }
     }

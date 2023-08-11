@@ -7,7 +7,7 @@ struct WidgetsSectionView: View {
     var body: some View {
         GroupBox {
             HStack(alignment: .top) {
-                Text("Checked your pinned schedule right at the home or lock screen").font(.body)
+                Text("screen.premiumClub.section.widgets.message").font(.body)
                 Spacer()
                 VStack(spacing: 4) {
                     HStack(spacing: 4) {
@@ -33,7 +33,7 @@ struct WidgetsSectionView: View {
                 .frame(width: widgetPreviewSize, height: widgetPreviewSize)
             }
         } label: {
-            Label("Widgets", systemImage: "square.text.square.fill")
+            Label("screen.premiumClub.section.widgets.title", systemImage: "square.text.square.fill")
                 .settingsRowAccent(.blue)
         }
     }

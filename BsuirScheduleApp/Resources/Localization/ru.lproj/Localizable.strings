@@ -58,6 +58,15 @@
 "screen.premiumClub.section.tips.freeLove.title" = "💋 Бесплатная любовь";
 "screen.premiumClub.section.tips.freeLove.count%@" = "макс. любовь: %@";
 
+"screen.premiumClub.section.appIcons.title" = "Новые иконки";
+"screen.premiumClub.section.appIcons.message" = "Разблокируйте потрясающие новые иконки, я потратил много времени на их дизайн, дальше больше...";
+
+"screen.premiumClub.section.widgets.title" = "Виджеты";
+"screen.premiumClub.section.widgets.message" = "Смотрите закрепленное расписание прямо на главном экране или экране блокировки";
+
+"screen.premiumClub.section.pinned.title" = "Закрепленное расписание";
+"screen.premiumClub.section.pinned.message" = "Быстрый доступ к расписанию прямо на закрепленной вкладке";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Внешний вид";

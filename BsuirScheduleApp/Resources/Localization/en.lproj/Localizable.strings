@@ -58,6 +58,15 @@
 "screen.premiumClub.section.tips.freeLove.title" = "💋 Free love";
 "screen.premiumClub.section.tips.freeLove.count%@" = "max love: %@";
 
+"screen.premiumClub.section.appIcons.title" = "Custom app icons";
+"screen.premiumClub.section.appIcons.message" = "Unlock stunning new icons, I've spent a lot of time designing them, more to come...";
+
+"screen.premiumClub.section.widgets.title" = "Widgets";
+"screen.premiumClub.section.widgets.message" = "Checked your pinned schedule right at the home or lock screen";
+
+"screen.premiumClub.section.pinned.title" = "Pinned schedule";
+"screen.premiumClub.section.pinned.message" = "Fast access to your schedule, right in the pinned tab";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Appearance";

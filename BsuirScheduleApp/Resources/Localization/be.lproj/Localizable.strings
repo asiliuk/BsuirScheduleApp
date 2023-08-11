@@ -58,6 +58,15 @@
 "screen.premiumClub.section.tips.freeLove.title" = "💋 Бясплатнае каханне";
 "screen.premiumClub.section.tips.freeLove.count%@" = "макс. каханне: %@";
 
+"screen.premiumClub.section.appIcons.title" = "Новыя значкі";
+"screen.premiumClub.section.appIcons.message" = "Разблакуйце патрасаючыя новыя значкі, я патраціў шмат часу на іх дызайн, далей больш...";
+
+"screen.premiumClub.section.widgets.title" = "Віджэты";
+"screen.premiumClub.section.widgets.message" = "Паглядзіце замацаванае распісанне прама на галоўным экране або блакіроўцы экрана";
+
+"screen.premiumClub.section.pinned.title" = "Замацаванае распісанне";
+"screen.premiumClub.section.pinned.message" = "Быстры доступ да распісання прама на замацаванай укладцы";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Вонкавы выгляд";
