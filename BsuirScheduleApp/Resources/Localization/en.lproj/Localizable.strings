@@ -67,6 +67,12 @@
 "screen.premiumClub.section.pinned.title" = "Pinned schedule";
 "screen.premiumClub.section.pinned.message" = "Fast access to your schedule, right in the pinned tab";
 
+"screen.premiumClub.section.membership.title" = "Membership";
+"screen.premiumClub.section.membership.message" = "By joining to the Premium Club you'll get access to all cool features and help me further develop this application!";
+"screen.premiumClub.section.membership.renew%@" = "Your subscription will renew %@";
+"screen.premiumClub.section.membership.expire%@" = "Your subscription will expire %@";
+"screen.premiumClub.section.membership.button.manage" = "Manage";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Appearance";

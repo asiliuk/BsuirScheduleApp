@@ -67,6 +67,12 @@
 "screen.premiumClub.section.pinned.title" = "Закрепленное расписание";
 "screen.premiumClub.section.pinned.message" = "Быстрый доступ к расписанию прямо на закрепленной вкладке";
 
+"screen.premiumClub.section.membership.title" = "Клуб";
+"screen.premiumClub.section.membership.message" = "Вступив в Premium Club, вы получите доступ ко всем крутым функциям и поможете мне в дальнейшем разрабатывать это приложение!";
+"screen.premiumClub.section.membership.renew%@" = "Ваша подписка будет продлена %@";
+"screen.premiumClub.section.membership.expire%@" = "Срок действия вашей подписки истечет %@";
+"screen.premiumClub.section.membership.button.manage" = "Управлять";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Внешний вид";

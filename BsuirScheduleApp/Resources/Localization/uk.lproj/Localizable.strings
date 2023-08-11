@@ -67,6 +67,12 @@
 "screen.premiumClub.section.pinned.title" = "Закріплене розписання";
 "screen.premiumClub.section.pinned.message" = "Швидкий доступ до розпису прямо на закріпленій вкладці";
 
+"screen.premiumClub.section.membership.title" = "Клуб";
+"screen.premiumClub.section.membership.message" = "Увійшовши в Premium Club, ви отримаєте доступ до всіх крутих функцій і допоможете мені в подальшому розробляти це додаток!";
+"screen.premiumClub.section.membership.renew%@" = "Ваша підписка буде продлена %@";
+"screen.premiumClub.section.membership.expire%@" = "Срок дії вашої підписки істечет %@";
+"screen.premiumClub.section.membership.button.manage" = "Управляти";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Зовнішній вигляд";
