@@ -6,7 +6,7 @@ public struct SubscriptionFooter: Reducer {
     public enum State: Equatable {
         case loading
         case failed
-        case available(Product, Product.SubscriptionInfo)
+        case available(Product, Product.SubscriptionInfo, isEligibleForIntroOffer: Bool)
 
         init() {
             self = .loading
@@ -18,7 +18,7 @@ public struct SubscriptionFooter: Reducer {
         case buttonTapped
 
         case _failedToGetProduct
-        case _receivedProduct(Product)
+        case _received(product: Product, subscription: Product.SubscriptionInfo, isEligibleForIntroOffer: Bool)
     }
 
     @Dependency(\.productsService) var productsService
@@ -30,17 +30,12 @@ public struct SubscriptionFooter: Reducer {
                 return loadSubscriptionProducts(state: &state)
 
             case .buttonTapped:
-                guard case let .available(product, _) = state else { return .none }
+                guard case let .available(product, _, _) = state else { return .none }
                 return .run { _ in try await productsService.purchase(product) }
 
-            case ._receivedProduct(let product):
-                if let subscription = product.subscription {
-                    state = .available(product, subscription)
-                    return .none
-                } else {
-                    state = .failed
-                    return .none
-                }
+            case let ._received(product, subscription, isEligibleForIntroOffer):
+                state = .available(product, subscription, isEligibleForIntroOffer: isEligibleForIntroOffer)
+                return .none
 
             case ._failedToGetProduct:
                 state = .failed
@@ -52,8 +47,18 @@ public struct SubscriptionFooter: Reducer {
     private func loadSubscriptionProducts(state: inout State) -> Effect<Action> {
         state = .loading
         return .run { send in
-            let subscription = try await productsService.subscription
-            await send(._receivedProduct(subscription))
+            let product = try await productsService.subscription
+            guard let subscription = product.subscription else {
+                await send(._failedToGetProduct)
+                return
+            }
+
+            let isEligibleForIntroOffer = await subscription.isEligibleForIntroOffer
+            await send(._received(
+                product: product,
+                subscription: subscription,
+                isEligibleForIntroOffer: isEligibleForIntroOffer
+            ))
         } catch: { _, send in
             await send(._failedToGetProduct)
         }

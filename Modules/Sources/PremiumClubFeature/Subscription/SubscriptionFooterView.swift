@@ -12,11 +12,9 @@ struct SubscriptionFooterView: View {
                     .progressViewStyle(.circular)
             case .failed:
                 Text("screen.premiumClub.subscribe.failed.title")
-            case let .available(product, subscription):
+            case let .available(product, subscription, isEligibleForIntroOffer):
                 VStack(spacing: 8) {
-                    // TODO: Check `subscription.isEligibleForIntroOffer`
-                    // Maybe move this logic to its own reducer
-                    if let introductoryOffer = subscription.introductoryOffer {
+                    if isEligibleForIntroOffer, let introductoryOffer = subscription.introductoryOffer {
                         Text(introductoryOffer.makeName())
                             .font(.subheadline)
                     }
