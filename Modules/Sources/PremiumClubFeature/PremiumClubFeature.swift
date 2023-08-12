@@ -25,10 +25,12 @@ public struct PremiumClubFeature: Reducer {
 
         var sections: [Section] {
             switch source {
-            case nil, .pin:
+            case nil:
                 return [.premiumClubMembership, .pinnedSchedule, .widgets, .appIcons, .tips]
+            case .pin:
+                return [.pinnedSchedule, .premiumClubMembership, .widgets, .appIcons, .tips]
             case .appIcon:
-                return [.premiumClubMembership, .appIcons, .pinnedSchedule, .widgets, .tips]
+                return [.appIcons, .premiumClubMembership, .pinnedSchedule, .widgets, .tips]
             }
         }
 
