@@ -69,8 +69,8 @@
 
 "screen.premiumClub.section.membership.title" = "Клуб";
 "screen.premiumClub.section.membership.message" = "Уступіўшы ў Premium Club, вы атрымаеце доступ да ўсіх крутых функцый і дапаможаце мне ў далейшым распрацоўваць гэты дадатак!";
-"screen.premiumClub.section.membership.renew%@" = "Ваша падпіска будзе працягнута &@";
-"screen.premiumClub.section.membership.expire%@" = "Срок дзеяння вашай падпісак істечет &@";
+"screen.premiumClub.section.membership.renew%@" = "Ваша падпіска будзе працягнута %@";
+"screen.premiumClub.section.membership.expire%@" = "Срок дзеяння вашай падпісак істечет %@";
 "screen.premiumClub.section.membership.button.manage" = "Упраўляць";
 
 "screen.premiumClub.subscribe.failed.title" = "Нешта пайшло не так...";
