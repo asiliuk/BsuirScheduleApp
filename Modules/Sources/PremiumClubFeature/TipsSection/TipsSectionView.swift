@@ -83,7 +83,11 @@ private struct FreeLoveView: View {
                 } label: {
                     HStack {
                         AnimatableFreeLoveText(counter: Double(viewStore.counter))
-                        Text("\(Image(systemName: "heart.fill"))")
+                        if viewStore.counter > 0 {
+                            Text("\(Image(systemName: "heart.fill"))")
+                        } else {
+                            Text("\(Image(systemName: "heart"))")
+                        }
                     }
                 }
             } label: {
