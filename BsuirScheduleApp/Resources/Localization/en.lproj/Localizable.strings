@@ -73,6 +73,11 @@
 "screen.premiumClub.section.membership.expire%@" = "Your subscription will expire %@";
 "screen.premiumClub.section.membership.button.manage" = "Manage";
 
+"screen.premiumClub.subscribe.failed.title" = "Something went wrong...";
+"screen.premiumClub.subscribe.button.title%@%@" = "Join Club for %@ / %@";
+"screen.premiumClub.subscribe.offer.free" = "free";
+"screen.premiumClub.subscribe.offer.trial%@%@" = "Start with %@ %@ trial";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Appearance";

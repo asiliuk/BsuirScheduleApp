@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>screen.premiumClub.subscribe.period.day%lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>День</string>
+			<key>one</key>
+			<string>%lld День</string>
+			<key>few</key>
+			<string>%lld Дня</string>
+			<key>other</key>
+			<string>%lld Дней</string>
+		</dict>
+	</dict>
+	<key>screen.premiumClub.subscribe.period.week%lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>Неделя</string>
+			<key>one</key>
+			<string>%lld Неделя</string>
+			<key>few</key>
+			<string>%lld Недели</string>
+			<key>other</key>
+			<string>%lld Недель</string>
+		</dict>
+	</dict>
+	<key>screen.premiumClub.subscribe.period.month%lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>Месяц</string>
+			<key>one</key>
+			<string>%lld Месяц</string>
+			<key>few</key>
+			<string>%lld Месяца</string>
+			<key>other</key>
+			<string>%lld Месяцев</string>
+		</dict>
+	</dict>
+	<key>screen.premiumClub.subscribe.period.year%lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>Год</string>
+			<key>one</key>
+			<string>%lld Год</string>
+			<key>few</key>
+			<string>%lld Года</string>
+			<key>other</key>
+			<string>%lld Лет</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

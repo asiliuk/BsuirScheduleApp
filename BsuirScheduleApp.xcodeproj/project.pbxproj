@@ -25,6 +25,7 @@
 		E6B33E7F29A2BAA10034AD63 /* PinnedScheduleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */; };
 		E6B33E8329A2BB6E0034AD63 /* MostRelevantScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */; };
 		E6B33E8729A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */; };
+		E6E188302A86DB9800658AA8 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = E6E188322A86DB9800658AA8 /* Localizable.stringsdict */; };
 		E6F931BF22F8B1C20038FC43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931BE22F8B1C20038FC43 /* Assets.xcassets */; };
 		E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C122F8B1C20038FC43 /* Preview Assets.xcassets */; };
 		E6F931C522F8B1C20038FC43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */; };
@@ -87,6 +88,10 @@
 		E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleEntry+MostRelevant.swift"; sourceTree = "<group>"; };
 		E6CCA27A2917EF900079D815 /* ScheduleWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScheduleWidgetExtension.entitlements; sourceTree = "<group>"; };
 		E6E1882D2A80309800658AA8 /* PremiumClubProducts.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = PremiumClubProducts.storekit; sourceTree = "<group>"; };
+		E6E188312A86DB9800658AA8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		E6E188332A86DB9C00658AA8 /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = be; path = be.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		E6E188342A86DB9C00658AA8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		E6E188352A86DB9D00658AA8 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = uk; path = uk.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		E6F4A836287B4A24001AB915 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 		E6F931B222F8B1C10038FC43 /* BsuirScheduleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BsuirScheduleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6F931BE22F8B1C20038FC43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -125,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				6992A5E828B0025D007FFF0F /* Localizable.strings */,
+				E6E188322A86DB9800658AA8 /* Localizable.stringsdict */,
 			);
 			path = Localization;
 			sourceTree = "<group>";
@@ -330,6 +336,7 @@
 				E6F931C522F8B1C20038FC43 /* LaunchScreen.storyboard in Resources */,
 				E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */,
 				E627877628B93AD500F61D9B /* Localizable.strings in Resources */,
+				E6E188302A86DB9800658AA8 /* Localizable.stringsdict in Resources */,
 				E6F931BF22F8B1C20038FC43 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,6 +395,17 @@
 				E627877528B6B50F00F61D9B /* uk */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		E6E188322A86DB9800658AA8 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E6E188312A86DB9800658AA8 /* en */,
+				E6E188332A86DB9C00658AA8 /* be */,
+				E6E188342A86DB9C00658AA8 /* ru */,
+				E6E188352A86DB9D00658AA8 /* uk */,
+			);
+			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
 		E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */ = {

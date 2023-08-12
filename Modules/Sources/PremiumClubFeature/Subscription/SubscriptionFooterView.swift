@@ -11,21 +11,22 @@ struct SubscriptionFooterView: View {
                 ProgressView()
                     .progressViewStyle(.circular)
             case .failed:
-                Text("Something went wrong...")
+                Text("screen.premiumClub.subscribe.failed.title")
             case let .available(product, subscription):
                 VStack(spacing: 8) {
                     // TODO: Check `subscription.isEligibleForIntroOffer`
                     // Maybe move this logic to its own reducer
                     if let introductoryOffer = subscription.introductoryOffer {
-                        Text("Start with \(introductoryOffer.makeName())")
+                        Text(introductoryOffer.makeName())
                             .font(.subheadline)
                     }
 
                     Button {
                         viewStore.send(.buttonTapped)
                     } label: {
-                        let offer = "\(product.displayPrice) / \(subscription.subscriptionPeriod.makeName())"
-                        Text("Join Club for \(offer)")
+                        let period = String(localized: subscription.subscriptionPeriod.makeName())
+                        let offer = product.displayPrice
+                        Text("screen.premiumClub.subscribe.button.title\(offer)\(period)")
                             .bold()
                             .frame(maxWidth: .infinity)
                     }
@@ -43,25 +44,25 @@ struct SubscriptionFooterView: View {
 import StoreKit
 
 extension Product.SubscriptionOffer {
-    func makeName() -> String {
-        let period = period.makeName()
-        let price = price == 0 ? "free" : displayPrice
-        return "\(period) \(price) trial"
+    func makeName() -> LocalizedStringResource {
+        let period = String(localized: period.makeName())
+        let price = price == 0
+            ? String(localized: "screen.premiumClub.subscribe.offer.free")
+            : displayPrice
+        return "screen.premiumClub.subscribe.offer.trial\(period)\(price)"
     }
 }
 
 extension Product.SubscriptionPeriod {
-    func makeName() -> String {
-        let unitName: String = {
-            switch unit {
-            case .day: return "Day"
-            case .week: return "Week"
-            case .month: return "Month"
-            case .year: return "Year"
-            @unknown default: return "--"
-            }
-        }()
-        guard value > 1 else { return unitName }
-        return "\(value) \(unitName)"
+    func makeName() -> LocalizedStringResource {
+        // Use zero-based localization variant that don't have digit in it when value is 1
+        let value = value <= 1 ? 0 : value
+        switch unit {
+        case .day: return "screen.premiumClub.subscribe.period.day\(value)"
+        case .week: return "screen.premiumClub.subscribe.period.week\(value)"
+        case .month: return "screen.premiumClub.subscribe.period.month\(value)"
+        case .year: return "screen.premiumClub.subscribe.period.year\(value)"
+        @unknown default: return "--"
+        }
     }
 }

@@ -73,6 +73,11 @@
 "screen.premiumClub.section.membership.expire%@" = "Срок дзеяння вашай падпісак істечет &@";
 "screen.premiumClub.section.membership.button.manage" = "Упраўляць";
 
+"screen.premiumClub.subscribe.failed.title" = "Нешта пайшло не так...";
+"screen.premiumClub.subscribe.button.title%@%@" = "Уступіць у клуб за %@ / %@";
+"screen.premiumClub.subscribe.offer.free" = "бясплатна";
+"screen.premiumClub.subscribe.offer.trial%@%@" = "Пробны перыяд %@ %@";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Вонкавы выгляд";

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>screen.premiumClub.subscribe.period.day%lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>Day</string>
+			<key>one</key>
+			<string>%lld Day</string>
+			<key>other</key>
+			<string>%lld Days</string>
+		</dict>
+	</dict>
+	<key>screen.premiumClub.subscribe.period.week%lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>Week</string>
+			<key>one</key>
+			<string>%lld Week</string>
+			<key>other</key>
+			<string>%lld Weeks</string>
+		</dict>
+	</dict>
+	<key>screen.premiumClub.subscribe.period.month%lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>Month</string>
+			<key>one</key>
+			<string>%lld Month</string>
+			<key>other</key>
+			<string>%lld Months</string>
+		</dict>
+	</dict>
+	<key>screen.premiumClub.subscribe.period.year%lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>Year</string>
+			<key>one</key>
+			<string>%lld Year</string>
+			<key>other</key>
+			<string>%lld Years</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
