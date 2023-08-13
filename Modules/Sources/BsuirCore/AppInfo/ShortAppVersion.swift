@@ -5,6 +5,12 @@ public struct ShortAppVersion: Hashable {
     public let minor: Int
     public let patch: Int
 
+    public init(major: Int, minor: Int, patch: Int) {
+        self.major = major
+        self.minor = minor
+        self.patch = patch
+    }
+
     public var description: String {
         "\(major).\(minor).\(patch)"
     }
