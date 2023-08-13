@@ -1,42 +1,46 @@
 import Foundation
 import Dependencies
+import XCTestDynamicOverlay
 @preconcurrency import URLRouting
 
 public struct ApiClient: Sendable {
+    public var groups: @Sendable (_ ignoreCache: Bool) async throws -> [StudentGroup]
+    public var lecturers: @Sendable (_ ignoreCache: Bool) async throws -> [Employee]
+    public var groupSchedule: @Sendable (_ name: String, _ ignoreCache: Bool) async throws -> StudentGroup.Schedule
+    public var lecturerSchedule: @Sendable (_ urlId: String, _ ignoreCache: Bool) async throws -> Employee.Schedule
+    public var week: @Sendable () async throws -> Int
     public var clearCache: @Sendable () async -> Void
-    private var client: URLRoutingClient<CachingRoute<IISRoute>>
-
-    init(client: URLRoutingClient<CachingRoute<IISRoute>>, clearCache: @Sendable @escaping () -> Void) {
-        self.client = client
-        self.clearCache = clearCache
-    }
 }
 
-// MARK: - API
+// MARK: - Live
 
 extension ApiClient {
-    public func groups(ignoreCache: Bool = false) async throws -> [StudentGroup] {
-        try await request(route: .studentGroups, ignoreCache: ignoreCache)
-    }
+    static func live(
+        client: URLRoutingClient<CachingRoute<IISRoute>>,
+        clearCache: @Sendable @escaping () -> Void
+    ) -> ApiClient {
+        @Sendable func request<Value: Decodable>(route: IISRoute, ignoreCache: Bool) async throws -> Value {
+            try await client.decodedResponse(for: .init(ignoreCache: ignoreCache, base: route)).value
+        }
 
-    public func lecturers(ignoreCache: Bool = false) async throws -> [Employee] {
-        try await request(route: .employees, ignoreCache: ignoreCache)
-    }
-
-    public func groupSchedule(name: String, ignoreCache: Bool = false) async throws -> StudentGroup.Schedule {
-        try await request(route: .groupSchedule(groupName: name), ignoreCache: ignoreCache)
-    }
-
-    public func lecturerSchedule(urlId: String, ignoreCache: Bool = false) async throws -> Employee.Schedule {
-        try await request(route: .employeeSchedule(urlId: urlId), ignoreCache: ignoreCache)
-    }
-
-    public func week() async throws -> Int {
-        try await request(route: .week, ignoreCache: true)
-    }
-
-    private func request<Value: Decodable>(route: IISRoute, ignoreCache: Bool) async throws -> Value {
-        try await client.decodedResponse(for: .init(ignoreCache: ignoreCache, base: route)).value
+        return ApiClient(
+            groups: { ignoreCache in
+                try await request(route: .studentGroups, ignoreCache: ignoreCache)
+            },
+            lecturers: { ignoreCache in
+                try await request(route: .employees, ignoreCache: ignoreCache)
+            },
+            groupSchedule: { name, ignoreCache in
+                try await request(route: .groupSchedule(groupName: name), ignoreCache: ignoreCache)
+            },
+            lecturerSchedule: { urlId, ignoreCache in
+                try await request(route: .employeeSchedule(urlId: urlId), ignoreCache: ignoreCache)
+            },
+            week: {
+                try await request(route: .week, ignoreCache: true)
+            },
+            clearCache: clearCache
+        )
     }
 }
 
@@ -55,7 +59,7 @@ extension ApiClient {
             diskPath: cachePath
         )
 
-        return ApiClient(
+        return ApiClient.live(
             client: .liveCaching(
                 in: cache,
                 router: iisRouter.baseURL(URL.iisApi.absoluteString),
@@ -77,5 +81,25 @@ extension DependencyValues {
 
 private enum ApiClientKey: DependencyKey {
     static let liveValue = ApiClient.live
-    static let testValue = ApiClient(client: .failing, clearCache: {})
+    static let previewValue = ApiClient(
+        groups: { _ in
+            let url = Bundle.main.url(forResource: "groups", withExtension: "json")
+            let data = try Data(contentsOf: url!)
+            return try JSONDecoder.bsuirDecoder.decode([StudentGroup].self, from: data)
+        },
+        lecturers: { _ in
+            let url = Bundle.main.url(forResource: "employees", withExtension: "json")
+            let data = try Data(contentsOf: url!)
+            return try JSONDecoder.bsuirDecoder.decode([Employee].self, from: data)
+        },
+        groupSchedule: { name, _ in
+            guard name == "151004" else { fatalError("Unexpected group") }
+            let url = Bundle.main.url(forResource: "151004", withExtension: "json")
+            let data = try Data(contentsOf: url!)
+            return try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
+        },
+        lecturerSchedule: unimplemented("ApiClient.lecturerSchedule"),
+        week: unimplemented("ApiClient.week"),
+        clearCache: unimplemented("ApiClient.clearCache")
+    )
 }

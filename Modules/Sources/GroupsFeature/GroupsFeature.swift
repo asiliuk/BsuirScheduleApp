@@ -139,7 +139,7 @@ public struct GroupsFeature: Reducer {
                     GroupsSection()
                 }
         }
-        .load(\.$loadedGroups) { _, isRefresh in try await apiClient.groups(ignoreCache: isRefresh) }
+        .load(\.$loadedGroups) { _, isRefresh in try await apiClient.groups(isRefresh) }
         .ifLet(\.$groupSchedule, action: /Action.groupSchedule) {
             GroupScheduleFeature()
         }

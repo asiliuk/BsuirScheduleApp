@@ -64,7 +64,7 @@ public struct GroupScheduleFeature: Reducer {
         
         Scope(state: \.schedule, action: /Action.schedule) {
             ScheduleFeature { name, isRefresh in
-                try await ScheduleRequestResponse(response: apiClient.groupSchedule(name: name, ignoreCache: isRefresh))
+                try await ScheduleRequestResponse(response: apiClient.groupSchedule(name, isRefresh))
             }
         }
     }

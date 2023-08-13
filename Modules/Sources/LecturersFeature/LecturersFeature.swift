@@ -83,7 +83,7 @@ public struct LecturersFeature: Reducer {
                 }
         }
         .load(\.$loadedLecturers) { _, isRefresh in
-            try await IdentifiedArray(uniqueElements: apiClient.lecturers(ignoreCache: isRefresh))
+            try await IdentifiedArray(uniqueElements: apiClient.lecturers(isRefresh))
         }
         .ifLet(\.$lectorSchedule, action: /Action.lectorSchedule) {
             LectorScheduleFeature()

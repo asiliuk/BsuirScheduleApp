@@ -68,7 +68,7 @@ public struct LectorScheduleFeature: Reducer {
         
         Scope(state: \.schedule, action: /Action.schedule) {
             ScheduleFeature { urlId, isRefresh in
-                try await ScheduleRequestResponse(response: apiClient.lecturerSchedule(urlId: urlId, ignoreCache: isRefresh))
+                try await ScheduleRequestResponse(response: apiClient.lecturerSchedule(urlId, isRefresh))
             }
         }        
     }

@@ -64,7 +64,7 @@ final class PinnedScheduleProvider: TimelineProvider, ObservableObject {
     private func mostRelevantSchedule(for source: ScheduleSource) async throws -> MostRelevantScheduleResponse? {
         switch source {
         case let .group(name):
-            let schedule = try await apiClient.groupSchedule(name: name)
+            let schedule = try await apiClient.groupSchedule(name, false)
             return MostRelevantScheduleResponse(
                 deeplink: .group(name: schedule.studentGroup.name),
                 title: schedule.studentGroup.name,
@@ -73,7 +73,7 @@ final class PinnedScheduleProvider: TimelineProvider, ObservableObject {
                 schedule: schedule.schedules
             )
         case let .lector(lector):
-            let schedule = try await apiClient.lecturerSchedule(urlId: lector.urlId)
+            let schedule = try await apiClient.lecturerSchedule(lector.urlId, false)
             return MostRelevantScheduleResponse(
                 deeplink: .lector(id: schedule.employee.id),
                 title: schedule.employee.compactFio,
