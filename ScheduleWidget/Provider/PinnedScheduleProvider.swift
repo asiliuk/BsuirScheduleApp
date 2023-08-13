@@ -90,7 +90,7 @@ final class PinnedScheduleProvider: TimelineProvider, ObservableObject {
     }
 
     private let apiClient = ApiClient.live
-    private let favoritesService = FavoritesService.live
+    private let favoritesService = LiveFavoritesService.shared
     private let premiumService = PremiumServiceKey.liveValue
 
     private let calendar = Calendar.current
