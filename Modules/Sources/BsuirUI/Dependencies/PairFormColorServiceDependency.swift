@@ -8,7 +8,7 @@ extension DependencyValues {
     }
 }
 
-private enum PairFormColorServiceKey: DependencyKey {
+enum PairFormColorServiceKey: DependencyKey {
     static let liveValue: PairFormColorService = {
         @Dependency(\.widgetService) var widgetService
         return PairFormColorService(
@@ -16,4 +16,9 @@ private enum PairFormColorServiceKey: DependencyKey {
             widgetService: widgetService
         )
     }()
+
+    static let testValue = PairFormColorService(
+        storage: .mock(suiteName: "PairFormColorService"),
+        widgetService: .testValue
+    )
 }

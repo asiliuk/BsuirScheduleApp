@@ -31,5 +31,11 @@ extension DependencyValues {
 
 private enum AppInfoKey: DependencyKey {
     static let liveValue = AppInfo(bundle: .main)
+    static let testValue = AppInfo(
+        version: FullAppVersion(
+            short: ShortAppVersion(major: 1, minor: 0, patch: 0),
+            build: 100
+        ),
+        iconName: nil)
 }
 

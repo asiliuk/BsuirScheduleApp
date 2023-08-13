@@ -136,6 +136,11 @@ extension DependencyValues {
 
 private enum FavoritesServiceKey: DependencyKey {
     static let liveValue = FavoritesService.live
+    static let testValue = FavoritesService(
+        storage: .mock(suiteName: "favorites"),
+        legacyStorage: .mock(suiteName: "favorites_legacy"),
+        widgetService: .testValue
+    )
 }
 
 // MARK: - Helpers

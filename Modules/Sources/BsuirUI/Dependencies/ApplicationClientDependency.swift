@@ -10,4 +10,9 @@ extension DependencyValues {
 
 private enum ApplicationClientKey: DependencyKey {
     static let liveValue = ApplicationClient(application: .shared)
+    static let testValue = ApplicationClient(
+        alternateIconName: { nil },
+        supportsAlternateIcons: { false },
+        setAlternateIconName: { _ in }
+    )
 }

@@ -27,4 +27,5 @@ extension WidgetService: DependencyKey {
     )
 
     public static let previewValue = WidgetService(reload: { _ in })
+    public static let testValue: WidgetService = WidgetService(reload: { _ in })
 }
