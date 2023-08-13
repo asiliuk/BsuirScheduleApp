@@ -2,24 +2,45 @@ import XCTest
 import BsuirCore
 import Dependencies
 
+@MainActor
 final class AppStoreSnapshotsUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = true
     }
 
-    func testAppStoreSnapshots() throws {
+    func testAppStoreSnapshots() async throws {
         let app = XCUIApplication()
 
         // Pretent we're running for previews to use `previewValue` dependencies
         // could not find other way to reliably override dependences for UI tests
-        app.launchEnvironment["XCODE_RUNNING_FOR_PREVIEWS"] = "1"
+        app.launchEnvironment["SWIFT_DEPENDENCIES_CONTEXT"] = "preview"
         app.launch()
 
-        app.tabBars["Панель вкладок"].buttons["Настройки"].tap()
-        app.collectionViews/*@START_MENU_TOKEN@*/.buttons["О приложении"]/*[[".cells.buttons[\"О приложении\"]",".buttons[\"О приложении\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        // Snapshot pinned
+        app.tabBars.firstMatch.buttons.element(boundBy: 0).tap()
+        takeScreenshot(named: "Pinned")
 
-        takeScreenshot(named: "About")
+        // Snapshot pinned in dark mode
+        XCUIDevice.shared.appearance = .dark
+        try await Task.sleep(for: .seconds(1))
+        takeScreenshot(named: "Pinned-Dark")
+        XCUIDevice.shared.appearance = .light
+        try await Task.sleep(for: .seconds(1))
+
+        // Snapshot groups
+        app.tabBars.firstMatch.buttons.element(boundBy: 1).tap()
+        try await Task.sleep(for: .seconds(1))
+        takeScreenshot(named: "Groups")
+
+        // Snapshot lecturers
+        app.tabBars.firstMatch.buttons.element(boundBy: 2).tap()
+        try await Task.sleep(for: .seconds(1))
+        takeScreenshot(named: "Lecturers")
+
+        // Snapshot settings
+        app.tabBars.firstMatch.buttons.element(boundBy: 3).tap()
+        takeScreenshot(named: "Settings")
     }
 }
 

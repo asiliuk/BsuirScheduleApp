@@ -29,7 +29,7 @@ private enum FavoritesServiceKey: DependencyKey {
     static let liveValue: any FavoritesService = LiveFavoritesService.shared
     static let previewValue: any FavoritesService = FavoriteServiceMock(
         groupNames: ["151003", "151005"],
-        lecturerIds: [1, 2, 3],
+        lecturerIds: [504394, 500570],
         pinnedSchedule: .group(name: "151004"),
         freeLoveHighScore: 69
     )
