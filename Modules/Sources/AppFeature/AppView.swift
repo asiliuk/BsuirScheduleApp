@@ -16,7 +16,6 @@ public enum CurrentSelection: Hashable {
 }
 
 public struct AppView: View {
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     let store: StoreOf<AppFeature>
 
     public init(store: StoreOf<AppFeature>) {
