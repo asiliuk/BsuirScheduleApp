@@ -16,9 +16,7 @@ public struct LecturersFeature: Reducer {
 
         var favorites: IdentifiedArrayOf<LecturersRow.State> {
             get {
-                guard let favorites = lecturers?.filter({ favoriteIds.contains($0.id) })
-                else { return [] }
-                return favorites
+                IdentifiedArray(uniqueElements: favoriteIds.compactMap({ lecturers?[id: $0] }))
             }
             set {
                 favoriteIds = newValue.ids
