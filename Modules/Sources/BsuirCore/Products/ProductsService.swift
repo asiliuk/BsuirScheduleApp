@@ -26,4 +26,26 @@ private enum ProductsServiceKey: DependencyKey {
         @Dependency(\.premiumService) var premiumService
         return LiveProductsService(premiumService: premiumService)
     }()
+
+    public static let previewValue: any ProductsService = ProductsServiceMock()
 }
+
+#if DEBUG
+final class ProductsServiceMock: ProductsService {
+    enum Failure: Error {
+        case notImplemented
+    }
+
+    var tips: [Product] {
+        get async { [] }
+    }
+
+    var subscription: Product {
+        get async throws { throw Failure.notImplemented }
+    }
+
+    func load() async {}
+    func purchase(_ product: Product) async throws {}
+    func restore() async {}
+}
+#endif
