@@ -5,19 +5,7 @@ import Combine
 import SwiftUI
 import Dependencies
 
-public struct MeaningfulEvent {
-    public let score: Int
-    public init(score: Int) {
-        self.score = score
-    }
-}
-
-public final class ReviewRequestService {
-
-    public func madeMeaningfulEvent(_ event: MeaningfulEvent) async {
-        reviewScore.persisted.value += event.score
-    }
-
+final class LiveReviewRequestService {
     init(storage: UserDefaults) {
         self.storage = storage
 
@@ -56,6 +44,16 @@ public final class ReviewRequestService {
         .withPublisher()
 }
 
+// MARK: -
+
+extension LiveReviewRequestService: ReviewRequestService {
+    func madeMeaningfulEvent(_ event: MeaningfulEvent) async {
+        reviewScore.persisted.value += event.score
+    }
+}
+
+// MARK: - Helpers
+
 private extension UIApplication {
     var activeWindowScene: UIWindowScene? {
         connectedScenes.lazy
@@ -75,26 +73,4 @@ private struct ReviewRequestTracking: Equatable, Codable {
     var meaningfulEventsScore: Int
     let date: Date
     let version: ShortAppVersion
-}
-
-// MARK: - Events
-
-extension MeaningfulEvent {
-    static let addToFavorites = Self(score: 5)
-    static let scheduleModeSwitched = Self(score: 3)
-    static let scheduleRequested = Self(score: 2)
-    static let moreScheduleRequested = Self(score: 1)
-}
-
-// MARK: - Dependency
-
-extension DependencyValues {
-    public var reviewRequestService: ReviewRequestService {
-        get { self[ReviewRequestServiceKey.self] }
-        set { self[ReviewRequestServiceKey.self] = newValue }
-    }
-}
-
-private enum ReviewRequestServiceKey: DependencyKey {
-    static let liveValue = ReviewRequestService(storage: .standard)
 }
