@@ -7,8 +7,9 @@ import ScheduleCore
 import Deeplinking
 import Favorites
 import Combine
+import Dependencies
 
-final class PinnedScheduleProvider: TimelineProvider, ObservableObject {
+final class PinnedScheduleProvider: TimelineProvider {
     typealias Entry = ScheduleEntry
 
     func placeholder(in context: Context) -> ScheduleEntry {
@@ -89,9 +90,9 @@ final class PinnedScheduleProvider: TimelineProvider, ObservableObject {
         requestTimeline?.cancel()
     }
 
-    private let apiClient = ApiClient.live
-    private let favoritesService = LiveFavoritesService.shared
-    private let premiumService = PremiumServiceKey.liveValue
+    @Dependency(\.apiClient) private var apiClient
+    @Dependency(\.favorites) private var favoritesService
+    @Dependency(\.premiumService) private var premiumService
 
     private let calendar = Calendar.current
     private var requestSnapshot: Task<Void, Never>? {

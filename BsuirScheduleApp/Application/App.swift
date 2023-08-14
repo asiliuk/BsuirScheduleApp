@@ -13,7 +13,10 @@ struct App: SwiftUI.App {
         WindowGroup {
             AppView(store: appDelegate.store)
                 .task { await appDelegate.store.send(.task).finish() }
-                .environmentObject(appDelegate.pairFormColorService)
+                .environmentObject({ () -> PairFormColorService in
+                    @Dependency(\.pairFormColorService) var pairFormColorService
+                    return pairFormColorService
+                }())
         }
     }
 }
@@ -22,13 +25,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     private(set) lazy var store = Store(initialState: .init()) {
         AppFeature()
             .dependency(\.imageCache, .default)
-            .dependency(\.pairFormColorService, pairFormColorService)
     }
-
-    private(set) lazy var pairFormColorService = PairFormColorService(
-        storage: .asiliukShared,
-        widgetService: .liveValue
-    )
 
     override init() {
         super.init()

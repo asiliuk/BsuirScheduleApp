@@ -38,6 +38,6 @@ struct PairPlaceholder_Previews: PreviewProvider {
         }
         .previewLayout(.sizeThatFits)
         .background(Color.gray)
-        .environmentObject(PairFormColorService(storage: .standard, widgetService: .previewValue))
+        .environmentObject(PairFormColorService(storage: .standard, widgetService: .noop))
     }
 }

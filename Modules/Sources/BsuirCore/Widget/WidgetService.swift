@@ -10,22 +10,26 @@ public struct WidgetService {
     public let reload: (Timeline) -> Void
 }
 
+extension WidgetService {
+    public static let noop = WidgetService { _ in }
+}
+
 // MARK: - Dependecy
 
 extension DependencyValues {
     public var widgetService: WidgetService {
-        get { self[WidgetService.self] }
-        set { self[WidgetService.self] = newValue }
+        get { self[WidgetServiceKey.self] }
+        set { self[WidgetServiceKey.self] = newValue }
     }
 }
 
-extension WidgetService: DependencyKey {
-    public static let liveValue = WidgetService(
+private enum WidgetServiceKey: DependencyKey {
+    static let liveValue = WidgetService(
         reload: { timeline in
             WidgetCenter.shared.reloadTimelines(ofKind: timeline.rawValue)
         }
     )
 
-    public static let previewValue = WidgetService(reload: { _ in })
-    public static let testValue: WidgetService = WidgetService(reload: { _ in })
+    static let previewValue = WidgetService.noop
+    static let testValue = WidgetService.noop
 }

@@ -7,6 +7,7 @@ import BsuirCore
 import ScheduleCore
 import Combine
 import StoreKit
+import Dependencies
 
 @main
 struct ScheduleWidgetBundle: WidgetBundle {
@@ -16,16 +17,16 @@ struct ScheduleWidgetBundle: WidgetBundle {
 }
 
 struct PinnedScheduleWidget: Widget {
-    let kind: String = WidgetService.Timeline.pinnedSchedule.rawValue
-    @StateObject var provider = PinnedScheduleProvider()
-
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: provider) { entry in
+        StaticConfiguration(
+            kind: WidgetService.Timeline.pinnedSchedule.rawValue,
+            provider: PinnedScheduleProvider()
+        ) { entry in
             ScheduleWidgetEntryView(entry: entry)
-                .environmentObject(PairFormColorService(
-                    storage: .asiliukShared,
-                    widgetService: .liveValue
-                ))
+                .environmentObject({
+                    @Dependency(\.pairFormColorService) var pairFormColorService
+                    return pairFormColorService
+                }())
         }
         .configurationDisplayName("widget.pinned.displayName")
         .supportedFamilies(supportedFamilies)

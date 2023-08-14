@@ -26,7 +26,15 @@ extension DependencyValues {
 }
 
 private enum FavoritesServiceKey: DependencyKey {
-    static let liveValue: any FavoritesService = LiveFavoritesService.shared
+    static let liveValue: any FavoritesService = {
+        @Dependency(\.widgetService) var widgetService
+        return LiveFavoritesService(
+            storage: .asiliukShared,
+            legacyStorage: .standard,
+            widgetService: widgetService
+        )
+    }()
+
     static let previewValue: any FavoritesService = FavoriteServiceMock(
         groupNames: ["151003", "151005"],
         lecturerIds: [504394, 500570],

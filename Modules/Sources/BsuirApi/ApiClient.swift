@@ -46,8 +46,8 @@ extension ApiClient {
 
 // MARK: - Live
 
-extension ApiClient {
-    public static let live = {
+private extension ApiClient {
+    static let live = {
         let cachePath = FileManager.default
             .containerURL(forSecurityApplicationGroupIdentifier: "group.asiliuk.shared.schedule")?
             .path

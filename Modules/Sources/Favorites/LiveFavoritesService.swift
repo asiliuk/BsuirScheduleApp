@@ -125,16 +125,3 @@ private extension PersistedValue {
         }
     }
 }
-
-// MARK: - Shared
-
-extension LiveFavoritesService {
-    public static let shared: LiveFavoritesService = {
-        @Dependency(\.widgetService) var widgetService
-        return LiveFavoritesService(
-            storage: .asiliukShared,
-            legacyStorage: .standard,
-            widgetService: widgetService
-        )
-    }()
-}
