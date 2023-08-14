@@ -1,7 +1,7 @@
 import Foundation
 import Dependencies
 import XCTestDynamicOverlay
-@preconcurrency import URLRouting
+import URLRouting
 
 public struct ApiClient: Sendable {
     public var groups: @Sendable (_ ignoreCache: Bool) async throws -> [StudentGroup]
