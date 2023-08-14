@@ -1,0 +1,1815 @@
+{
+    "startDate": "04.09.2023",
+    "endDate": "21.12.2023",
+    "startExamsDate": null,
+    "endExamsDate": null,
+    "employeeDto": null,
+    "studentGroupDto": {
+        "name": "010101",
+        "facultyId": 20017,
+        "facultyAbbrev": "ФКП",
+        "specialityDepartmentEducationFormId": 20011,
+        "specialityName": "Информационные системы и технологии (по направлениям)",
+        "specialityAbbrev": "ИСиТ(в ОПБ)",
+        "course": 4,
+        "id": 23277,
+        "calendarId": "j7v9s1pqj8e82t57gg1i8fvo4s@group.calendar.google.com",
+        "educationDegree": 1
+    },
+    "schedules": {
+        "Четверг": [
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "13:45",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "12:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СПО",
+                "subjectFullName": "Системное программное обеспечение",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 505741,
+                        "firstName": "Ирина",
+                        "middleName": "Федоровна",
+                        "lastName": "Киринович",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/505741",
+                        "degree": "кандидат физико-математических наук",
+                        "degreeAbbrev": "к.ф.-м.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "i-kirinovich",
+                        "calendarId": "rejmbfk39np1oh8v0hb0dlk1vk@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "07.09.2023",
+                "endLessonDate": "14.12.2023",
+                "announcement": false,
+                "split": true
+            },
+            {
+                "auditories": [
+                    "613-2 к."
+                ],
+                "endLessonTime": "13:45",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "12:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    1,
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 541834,
+                        "firstName": "Анастасия",
+                        "middleName": "Николаевна",
+                        "lastName": "Василькова",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/541834",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "a-vasilkova",
+                        "calendarId": "3hpae60d06n0b77r34u8esc5sg@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "14.09.2023",
+                "endLessonDate": "21.12.2023",
+                "announcement": false,
+                "split": true
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "15:20",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "14:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СПО",
+                "subjectFullName": "Системное программное обеспечение",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 505741,
+                        "firstName": "Ирина",
+                        "middleName": "Федоровна",
+                        "lastName": "Киринович",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/505741",
+                        "degree": "кандидат физико-математических наук",
+                        "degreeAbbrev": "к.ф.-м.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "i-kirinovich",
+                        "calendarId": "rejmbfk39np1oh8v0hb0dlk1vk@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "07.09.2023",
+                "endLessonDate": "14.12.2023",
+                "announcement": false,
+                "split": true
+            },
+            {
+                "auditories": [
+                    "613-2 к."
+                ],
+                "endLessonTime": "15:20",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "14:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    1,
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 541834,
+                        "firstName": "Анастасия",
+                        "middleName": "Николаевна",
+                        "lastName": "Василькова",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/541834",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "a-vasilkova",
+                        "calendarId": "3hpae60d06n0b77r34u8esc5sg@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "14.09.2023",
+                "endLessonDate": "21.12.2023",
+                "announcement": false,
+                "split": true
+            },
+            {
+                "auditories": [
+                    "604-2 к."
+                ],
+                "endLessonTime": "17:10",
+                "lessonTypeAbbrev": "ПЗ",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "15:50",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "БПП",
+                "subjectFullName": "Безопасность промышленных производств",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 536117,
+                        "firstName": "Алексей",
+                        "middleName": "Сергеевич",
+                        "lastName": "Бушик",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/536117",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "a-bushik",
+                        "calendarId": "ci126qc1jtcbcv7tnb2kfc1k08@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "07.09.2023",
+                "endLessonDate": "14.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "17:10",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 2,
+                "startLessonTime": "15:50",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СПО",
+                "subjectFullName": "Системное программное обеспечение",
+                "weekNumber": [
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 505741,
+                        "firstName": "Ирина",
+                        "middleName": "Федоровна",
+                        "lastName": "Киринович",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/505741",
+                        "degree": "кандидат физико-математических наук",
+                        "degreeAbbrev": "к.ф.-м.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "i-kirinovich",
+                        "calendarId": "rejmbfk39np1oh8v0hb0dlk1vk@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "14.09.2023",
+                "endLessonDate": "07.12.2023",
+                "announcement": false,
+                "split": true
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "17:10",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 1,
+                "startLessonTime": "15:50",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СПО",
+                "subjectFullName": "Системное программное обеспечение",
+                "weekNumber": [
+                    1
+                ],
+                "employees": [
+                    {
+                        "id": 505741,
+                        "firstName": "Ирина",
+                        "middleName": "Федоровна",
+                        "lastName": "Киринович",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/505741",
+                        "degree": "кандидат физико-математических наук",
+                        "degreeAbbrev": "к.ф.-м.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "i-kirinovich",
+                        "calendarId": "rejmbfk39np1oh8v0hb0dlk1vk@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "28.09.2023",
+                "endLessonDate": "21.12.2023",
+                "announcement": false,
+                "split": true
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "18:45",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 2,
+                "startLessonTime": "17:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СПО",
+                "subjectFullName": "Системное программное обеспечение",
+                "weekNumber": [
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 505741,
+                        "firstName": "Ирина",
+                        "middleName": "Федоровна",
+                        "lastName": "Киринович",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/505741",
+                        "degree": "кандидат физико-математических наук",
+                        "degreeAbbrev": "к.ф.-м.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "i-kirinovich",
+                        "calendarId": "rejmbfk39np1oh8v0hb0dlk1vk@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "14.09.2023",
+                "endLessonDate": "07.12.2023",
+                "announcement": false,
+                "split": true
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "18:45",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 1,
+                "startLessonTime": "17:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СПО",
+                "subjectFullName": "Системное программное обеспечение",
+                "weekNumber": [
+                    1
+                ],
+                "employees": [
+                    {
+                        "id": 505741,
+                        "firstName": "Ирина",
+                        "middleName": "Федоровна",
+                        "lastName": "Киринович",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/505741",
+                        "degree": "кандидат физико-математических наук",
+                        "degreeAbbrev": "к.ф.-м.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "i-kirinovich",
+                        "calendarId": "rejmbfk39np1oh8v0hb0dlk1vk@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "28.09.2023",
+                "endLessonDate": "21.12.2023",
+                "announcement": false,
+                "split": true
+            }
+        ],
+        "Пятница": [
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "13:45",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 1,
+                "startLessonTime": "12:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    2
+                ],
+                "employees": [
+                    {
+                        "id": 537438,
+                        "firstName": "Виктор",
+                        "middleName": "Александрович",
+                        "lastName": "Кабариха",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/537438",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-kabarikha",
+                        "calendarId": "t6qpbbr6o0arjihd3qdbqlma7s@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "08.09.2023",
+                "endLessonDate": "01.12.2023",
+                "announcement": false,
+                "split": true
+            },
+            {
+                "auditories": [
+                    "604-2 к."
+                ],
+                "endLessonTime": "13:45",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "12:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 537438,
+                        "firstName": "Виктор",
+                        "middleName": "Александрович",
+                        "lastName": "Кабариха",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/537438",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-kabarikha",
+                        "calendarId": "t6qpbbr6o0arjihd3qdbqlma7s@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "15.09.2023",
+                "endLessonDate": "08.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "13:45",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 2,
+                "startLessonTime": "12:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 537438,
+                        "firstName": "Виктор",
+                        "middleName": "Александрович",
+                        "lastName": "Кабариха",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/537438",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-kabarikha",
+                        "calendarId": "t6qpbbr6o0arjihd3qdbqlma7s@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "22.09.2023",
+                "endLessonDate": "15.12.2023",
+                "announcement": false,
+                "split": true
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "15:20",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 1,
+                "startLessonTime": "14:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    2
+                ],
+                "employees": [
+                    {
+                        "id": 537438,
+                        "firstName": "Виктор",
+                        "middleName": "Александрович",
+                        "lastName": "Кабариха",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/537438",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-kabarikha",
+                        "calendarId": "t6qpbbr6o0arjihd3qdbqlma7s@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "08.09.2023",
+                "endLessonDate": "01.12.2023",
+                "announcement": false,
+                "split": true
+            },
+            {
+                "auditories": [
+                    "604-2 к."
+                ],
+                "endLessonTime": "15:20",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "14:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "БПП",
+                "subjectFullName": "Безопасность промышленных производств",
+                "weekNumber": [
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 536117,
+                        "firstName": "Алексей",
+                        "middleName": "Сергеевич",
+                        "lastName": "Бушик",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/536117",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "a-bushik",
+                        "calendarId": "ci126qc1jtcbcv7tnb2kfc1k08@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "15.09.2023",
+                "endLessonDate": "08.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "15:20",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 2,
+                "startLessonTime": "14:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 537438,
+                        "firstName": "Виктор",
+                        "middleName": "Александрович",
+                        "lastName": "Кабариха",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/537438",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-kabarikha",
+                        "calendarId": "t6qpbbr6o0arjihd3qdbqlma7s@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "22.09.2023",
+                "endLessonDate": "15.12.2023",
+                "announcement": false,
+                "split": true
+            }
+        ],
+        "Вторник": [
+            {
+                "auditories": [
+                    "603-2 к."
+                ],
+                "endLessonTime": "15:20",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "14:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 537438,
+                        "firstName": "Виктор",
+                        "middleName": "Александрович",
+                        "lastName": "Кабариха",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/537438",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-kabarikha",
+                        "calendarId": "t6qpbbr6o0arjihd3qdbqlma7s@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "05.09.2023",
+                "endLessonDate": "12.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "601-2 к."
+                ],
+                "endLessonTime": "17:10",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "15:50",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ПИСПБ",
+                "subjectFullName": "Проектирование информационных систем промышленной безопасности",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 502176,
+                        "firstName": "Владислав",
+                        "middleName": "Владимирович",
+                        "lastName": "Егоров",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/502176",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-egorov",
+                        "calendarId": "00jkboa68kt6ncduccugndbv1c@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "05.09.2023",
+                "endLessonDate": "12.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "615-2 к."
+                ],
+                "endLessonTime": "17:10",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "15:50",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ИнИС",
+                "subjectFullName": "Интерфейсы информационных систем",
+                "weekNumber": [
+                    1,
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 500206,
+                        "firstName": "Александр",
+                        "middleName": "Михайлович",
+                        "lastName": "Прудник",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500206",
+                        "degree": "кандидат технических наук",
+                        "degreeAbbrev": "к.т.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "a-prudnik",
+                        "calendarId": "of6jkktr8kba4tnkif00hes430@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "12.09.2023",
+                "endLessonDate": "19.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "604-2 к."
+                ],
+                "endLessonTime": "18:45",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "17:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ИнИС",
+                "subjectFullName": "Интерфейсы информационных систем",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 536117,
+                        "firstName": "Алексей",
+                        "middleName": "Сергеевич",
+                        "lastName": "Бушик",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/536117",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "a-bushik",
+                        "calendarId": "ci126qc1jtcbcv7tnb2kfc1k08@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "05.09.2023",
+                "endLessonDate": "12.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "613-2 к."
+                ],
+                "endLessonTime": "18:45",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "17:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ПИСПБ",
+                "subjectFullName": "Проектирование информационных систем промышленной безопасности",
+                "weekNumber": [
+                    1,
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 502176,
+                        "firstName": "Владислав",
+                        "middleName": "Владимирович",
+                        "lastName": "Егоров",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/502176",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-egorov",
+                        "calendarId": "00jkboa68kt6ncduccugndbv1c@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "12.09.2023",
+                "endLessonDate": "19.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "601-2 к."
+                ],
+                "endLessonTime": "20:20",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 2,
+                "startLessonTime": "19:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ПИСПБ",
+                "subjectFullName": "Проектирование информационных систем промышленной безопасности",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 502176,
+                        "firstName": "Владислав",
+                        "middleName": "Владимирович",
+                        "lastName": "Егоров",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/502176",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-egorov",
+                        "calendarId": "00jkboa68kt6ncduccugndbv1c@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "05.09.2023",
+                "endLessonDate": "12.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "604-2 к."
+                ],
+                "endLessonTime": "20:20",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 1,
+                "startLessonTime": "19:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ИнИС",
+                "subjectFullName": "Интерфейсы информационных систем",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 536117,
+                        "firstName": "Алексей",
+                        "middleName": "Сергеевич",
+                        "lastName": "Бушик",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/536117",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "a-bushik",
+                        "calendarId": "ci126qc1jtcbcv7tnb2kfc1k08@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "05.09.2023",
+                "endLessonDate": "12.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "601-2 к."
+                ],
+                "endLessonTime": "20:20",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 1,
+                "startLessonTime": "19:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ПИСПБ",
+                "subjectFullName": "Проектирование информационных систем промышленной безопасности",
+                "weekNumber": [
+                    1,
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 502176,
+                        "firstName": "Владислав",
+                        "middleName": "Владимирович",
+                        "lastName": "Егоров",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/502176",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-egorov",
+                        "calendarId": "00jkboa68kt6ncduccugndbv1c@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "12.09.2023",
+                "endLessonDate": "19.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "604-2 к."
+                ],
+                "endLessonTime": "20:20",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 2,
+                "startLessonTime": "19:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ИнИС",
+                "subjectFullName": "Интерфейсы информационных систем",
+                "weekNumber": [
+                    1,
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 536117,
+                        "firstName": "Алексей",
+                        "middleName": "Сергеевич",
+                        "lastName": "Бушик",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/536117",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "a-bushik",
+                        "calendarId": "ci126qc1jtcbcv7tnb2kfc1k08@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "12.09.2023",
+                "endLessonDate": "19.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "604-2 к."
+                ],
+                "endLessonTime": "22:00",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 2,
+                "startLessonTime": "20:40",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "БПП",
+                "subjectFullName": "Безопасность промышленных производств",
+                "weekNumber": [
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 536117,
+                        "firstName": "Алексей",
+                        "middleName": "Сергеевич",
+                        "lastName": "Бушик",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/536117",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "a-bushik",
+                        "calendarId": "ci126qc1jtcbcv7tnb2kfc1k08@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "12.09.2023",
+                "endLessonDate": "05.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "604-2 к."
+                ],
+                "endLessonTime": "22:00",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 1,
+                "startLessonTime": "20:40",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "БПП",
+                "subjectFullName": "Безопасность промышленных производств",
+                "weekNumber": [
+                    1
+                ],
+                "employees": [
+                    {
+                        "id": 536117,
+                        "firstName": "Алексей",
+                        "middleName": "Сергеевич",
+                        "lastName": "Бушик",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/536117",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "a-bushik",
+                        "calendarId": "ci126qc1jtcbcv7tnb2kfc1k08@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "26.09.2023",
+                "endLessonDate": "19.12.2023",
+                "announcement": false,
+                "split": false
+            }
+        ],
+        "Понедельник": [
+            {
+                "auditories": [
+                    "601-2 к."
+                ],
+                "endLessonTime": "15:20",
+                "lessonTypeAbbrev": "ПЗ",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "14:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ПИСПБ",
+                "subjectFullName": "Проектирование информационных систем промышленной безопасности",
+                "weekNumber": [
+                    1,
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 502176,
+                        "firstName": "Владислав",
+                        "middleName": "Владимирович",
+                        "lastName": "Егоров",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/502176",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-egorov",
+                        "calendarId": "00jkboa68kt6ncduccugndbv1c@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "11.09.2023",
+                "endLessonDate": "18.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "613-2 к."
+                ],
+                "endLessonTime": "17:10",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "15:50",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ПИСПБ",
+                "subjectFullName": "Проектирование информационных систем промышленной безопасности",
+                "weekNumber": [
+                    1,
+                    2,
+                    3,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 502176,
+                        "firstName": "Владислав",
+                        "middleName": "Владимирович",
+                        "lastName": "Егоров",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/502176",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-egorov",
+                        "calendarId": "00jkboa68kt6ncduccugndbv1c@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "04.09.2023",
+                "endLessonDate": "18.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "615-2 к."
+                ],
+                "endLessonTime": "18:45",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "17:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "БПП",
+                "subjectFullName": "Безопасность промышленных производств",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 500179,
+                        "firstName": "Леонид",
+                        "middleName": "Петрович",
+                        "lastName": "Пилиневич",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500179",
+                        "degree": "доктор технических наук",
+                        "degreeAbbrev": "д.т.н.",
+                        "rank": "профессор",
+                        "email": null,
+                        "urlId": "l-pilinevich",
+                        "calendarId": "4560igs5bj0pj85ecgfo7nv554@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "04.09.2023",
+                "endLessonDate": "11.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "18:45",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "17:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СПО",
+                "subjectFullName": "Системное программное обеспечение",
+                "weekNumber": [
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 505741,
+                        "firstName": "Ирина",
+                        "middleName": "Федоровна",
+                        "lastName": "Киринович",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/505741",
+                        "degree": "кандидат физико-математических наук",
+                        "degreeAbbrev": "к.ф.-м.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "i-kirinovich",
+                        "calendarId": "rejmbfk39np1oh8v0hb0dlk1vk@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "11.09.2023",
+                "endLessonDate": "04.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "615-2 к."
+                ],
+                "endLessonTime": "20:20",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "19:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "БПП",
+                "subjectFullName": "Безопасность промышленных производств",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 500179,
+                        "firstName": "Леонид",
+                        "middleName": "Петрович",
+                        "lastName": "Пилиневич",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500179",
+                        "degree": "доктор технических наук",
+                        "degreeAbbrev": "д.т.н.",
+                        "rank": "профессор",
+                        "email": null,
+                        "urlId": "l-pilinevich",
+                        "calendarId": "4560igs5bj0pj85ecgfo7nv554@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "04.09.2023",
+                "endLessonDate": "11.12.2023",
+                "announcement": false,
+                "split": false
+            }
+        ],
+        "Среда": [
+            {
+                "auditories": [
+                    "601-2 к."
+                ],
+                "endLessonTime": "13:45",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 2,
+                "startLessonTime": "12:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 537438,
+                        "firstName": "Виктор",
+                        "middleName": "Александрович",
+                        "lastName": "Кабариха",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/537438",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-kabarikha",
+                        "calendarId": "t6qpbbr6o0arjihd3qdbqlma7s@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "13.09.2023",
+                "endLessonDate": "06.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "601-2 к."
+                ],
+                "endLessonTime": "13:45",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 1,
+                "startLessonTime": "12:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    1
+                ],
+                "employees": [
+                    {
+                        "id": 537438,
+                        "firstName": "Виктор",
+                        "middleName": "Александрович",
+                        "lastName": "Кабариха",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/537438",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-kabarikha",
+                        "calendarId": "t6qpbbr6o0arjihd3qdbqlma7s@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "27.09.2023",
+                "endLessonDate": "20.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "112-3 к."
+                ],
+                "endLessonTime": "15:20",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "14:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ИнИС",
+                "subjectFullName": "Интерфейсы информационных систем",
+                "weekNumber": [
+                    1,
+                    2,
+                    3,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 500206,
+                        "firstName": "Александр",
+                        "middleName": "Михайлович",
+                        "lastName": "Прудник",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/500206",
+                        "degree": "кандидат технических наук",
+                        "degreeAbbrev": "к.т.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "a-prudnik",
+                        "calendarId": "of6jkktr8kba4tnkif00hes430@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "06.09.2023",
+                "endLessonDate": "20.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "613-2 к."
+                ],
+                "endLessonTime": "17:10",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "15:50",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СЯП",
+                "subjectFullName": "Современные языки программирования",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 541834,
+                        "firstName": "Анастасия",
+                        "middleName": "Николаевна",
+                        "lastName": "Василькова",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/541834",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "a-vasilkova",
+                        "calendarId": "3hpae60d06n0b77r34u8esc5sg@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "06.09.2023",
+                "endLessonDate": "13.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "17:10",
+                "lessonTypeAbbrev": "ПЗ",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "15:50",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СПО",
+                "subjectFullName": "Системное программное обеспечение",
+                "weekNumber": [
+                    1,
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 505741,
+                        "firstName": "Ирина",
+                        "middleName": "Федоровна",
+                        "lastName": "Киринович",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/505741",
+                        "degree": "кандидат физико-математических наук",
+                        "degreeAbbrev": "к.ф.-м.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "i-kirinovich",
+                        "calendarId": "rejmbfk39np1oh8v0hb0dlk1vk@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "13.09.2023",
+                "endLessonDate": "20.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "601-2 к."
+                ],
+                "endLessonTime": "18:45",
+                "lessonTypeAbbrev": "ПЗ",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "17:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ПИСПБ",
+                "subjectFullName": "Проектирование информационных систем промышленной безопасности",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 502176,
+                        "firstName": "Владислав",
+                        "middleName": "Владимирович",
+                        "lastName": "Егоров",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/502176",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-egorov",
+                        "calendarId": "00jkboa68kt6ncduccugndbv1c@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "06.09.2023",
+                "endLessonDate": "13.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "502-2 к."
+                ],
+                "endLessonTime": "18:45",
+                "lessonTypeAbbrev": "ЛР",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "17:25",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "СПО",
+                "subjectFullName": "Системное программное обеспечение",
+                "weekNumber": [
+                    1,
+                    3
+                ],
+                "employees": [
+                    {
+                        "id": 505741,
+                        "firstName": "Ирина",
+                        "middleName": "Федоровна",
+                        "lastName": "Киринович",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/505741",
+                        "degree": "кандидат физико-математических наук",
+                        "degreeAbbrev": "к.ф.-м.н.",
+                        "rank": "доцент",
+                        "email": null,
+                        "urlId": "i-kirinovich",
+                        "calendarId": "rejmbfk39np1oh8v0hb0dlk1vk@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "13.09.2023",
+                "endLessonDate": "20.12.2023",
+                "announcement": false,
+                "split": false
+            },
+            {
+                "auditories": [
+                    "613-2 к."
+                ],
+                "endLessonTime": "20:20",
+                "lessonTypeAbbrev": "ЛК",
+                "note": null,
+                "numSubgroup": 0,
+                "startLessonTime": "19:00",
+                "studentGroups": [
+                    {
+                        "specialityName": "Информационные системы и технологии (по направлениям)",
+                        "specialityCode": "1-40 05 01-09",
+                        "numberOfStudents": 27,
+                        "name": "010101",
+                        "educationDegree": 1
+                    }
+                ],
+                "subject": "ПИСПБ",
+                "subjectFullName": "Проектирование информационных систем промышленной безопасности",
+                "weekNumber": [
+                    2,
+                    4
+                ],
+                "employees": [
+                    {
+                        "id": 502176,
+                        "firstName": "Владислав",
+                        "middleName": "Владимирович",
+                        "lastName": "Егоров",
+                        "photoLink": "https://iis.bsuir.by/api/v1/employees/photo/502176",
+                        "degree": "",
+                        "degreeAbbrev": "",
+                        "rank": null,
+                        "email": null,
+                        "urlId": "v-egorov",
+                        "calendarId": "00jkboa68kt6ncduccugndbv1c@group.calendar.google.com",
+                        "jobPositions": null
+                    }
+                ],
+                "dateLesson": null,
+                "startLessonDate": "06.09.2023",
+                "endLessonDate": "13.12.2023",
+                "announcement": false,
+                "split": false
+            }
+        ]
+    },
+    "exams": []
+}

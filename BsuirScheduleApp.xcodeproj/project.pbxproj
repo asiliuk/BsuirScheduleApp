@@ -17,6 +17,7 @@
 		E6648AEE2A8A076800D8736D /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6648AED2A8A076800D8736D /* SnapshotHelper.swift */; };
 		E6972D1A287B4A550003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D19287B4A550003506F /* BsuirApi */; };
 		E6972D1C287B4A550003506F /* BsuirUI in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1B287B4A550003506F /* BsuirUI */; };
+		E69C56552A8A791D004C71D2 /* 010101.json in Resources */ = {isa = PBXBuildFile; fileRef = E69C56542A8A791D004C71D2 /* 010101.json */; };
 		E6AA8D1125162F1A00788A02 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA8D1025162F1A00788A02 /* WidgetKit.framework */; };
 		E6AA8D1325162F1A00788A02 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA8D1225162F1A00788A02 /* SwiftUI.framework */; };
 		E6AA8D1625162F1A00788A02 /* ScheduleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AA8D1525162F1A00788A02 /* ScheduleWidget.swift */; };
@@ -90,6 +91,7 @@
 		E6310E30292C02A10013A103 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
 		E6648AED2A8A076800D8736D /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
+		E69C56542A8A791D004C71D2 /* 010101.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 010101.json; sourceTree = "<group>"; };
 		E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D1025162F1A00788A02 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E6AA8D1225162F1A00788A02 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -262,6 +264,7 @@
 				E6E188692A896AEA00658AA8 /* 151004.json */,
 				E6E1886B2A896B0500658AA8 /* groups.json */,
 				E6E188712A896E7C00658AA8 /* employees.json */,
+				E69C56542A8A791D004C71D2 /* 010101.json */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6E1886A2A896AEA00658AA8 /* 151004.json in Resources */,
+				E69C56552A8A791D004C71D2 /* 010101.json in Resources */,
 				E6E188722A896E7C00658AA8 /* employees.json in Resources */,
 				E6F931C522F8B1C20038FC43 /* LaunchScreen.storyboard in Resources */,
 				E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */,

@@ -93,8 +93,7 @@ private enum ApiClientKey: DependencyKey {
             return try JSONDecoder.bsuirDecoder.decode([Employee].self, from: data)
         },
         groupSchedule: { name, _ in
-            guard name == "151004" else { fatalError("Unexpected group") }
-            let url = Bundle.main.url(forResource: "151004", withExtension: "json")
+            let url = Bundle.main.url(forResource: name, withExtension: "json")
             let data = try Data(contentsOf: url!)
             return try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
         },

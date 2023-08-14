@@ -4,12 +4,12 @@ import Dependencies
 
 final class AppStoreSnapshotsUITests: XCTestCase {
 
+    private var app: XCUIApplication!
+
     override func setUpWithError() throws {
         continueAfterFailure = false
-    }
 
-    func testAppStoreSnapshots() throws {
-        let app = XCUIApplication()
+        app = XCUIApplication()
 
         // Setup snapshot
         setupSnapshot(app)
@@ -20,32 +20,64 @@ final class AppStoreSnapshotsUITests: XCTestCase {
         // Pretent we're running for previews to use `previewValue` dependencies
         // could not find other way to reliably override dependences for UI tests
         app.launchEnvironment["SWIFT_DEPENDENCIES_CONTEXT"] = "preview"
+    }
 
+    override func tearDownWithError() throws {
+        XCUIDevice.shared.appearance = .light
+        app.terminate()
+        app = nil
+    }
+
+    func testAppStoreSnapshots() throws {
         // Start the app
         app.launch()
 
         // Snapshot pinned
         app.tabBars.firstMatch.buttons.element(boundBy: 0).tap()
         _ = app.staticTexts["151004"].waitForExistence(timeout: 5)
-        snapshot("0Pinned-Light")
+        snapshot("0_Pinned-Light")
 
-        // Snapshot pinned in dark mode
-        XCUIDevice.shared.appearance = .dark
-        snapshot("1Pinned-Dark")
-        XCUIDevice.shared.appearance = .light
+        // Schedule accessibility snapshot is in separate test
+        // snapshot("1_Schedule-Dark-XXL")
 
         // Snapshot groups
         app.tabBars.firstMatch.buttons.element(boundBy: 1).tap()
         _ = app.collectionViews.cells.buttons["151004"].waitForExistence(timeout: 5)
-        snapshot("2Groups")
+        snapshot("2_Groups")
 
         // Snapshot lecturers
         app.tabBars.firstMatch.buttons.element(boundBy: 2).tap()
         _ = app.collectionViews.cells.buttons["Куликов Святослав Святославович"].waitForExistence(timeout: 5)
-        snapshot("3Lecturers")
+        snapshot("3_Lecturers")
 
         // Snapshot settings
         app.tabBars.firstMatch.buttons.element(boundBy: 3).tap()
-        snapshot("4Settings")
+        snapshot("4_Settings")
+    }
+
+    func testDynamicTypeAppStoreSnapshot() {
+        // Set dark mode
+        XCUIDevice.shared.appearance = .dark
+
+        // Set dynamic type to accessibility medium
+        app.launchArguments += [
+            "-UIPreferredContentSizeCategoryName",
+            "\(UIContentSizeCategory.accessibilityMedium.rawValue)"
+        ]
+
+        // Start the app
+        app.launch()
+
+        // Open groups screen
+        app.tabBars.firstMatch.buttons.element(boundBy: 1).tap()
+        let groupRow = app.collectionViews.cells.buttons["010101"]
+        _ = groupRow.waitForExistence(timeout: 5)
+
+        // Open group schedule
+        groupRow.tap()
+        _ = app.staticTexts["151001"].waitForExistence(timeout: 5)
+
+        // Snapshot schedule
+        snapshot("1_Schedule-Dark-XXL")
     }
 }
