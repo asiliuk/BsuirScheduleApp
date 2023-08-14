@@ -1,0 +1,53 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Generate new localized screenshots"
+  lane :screenshots do
+    derived_data_path = "/tmp/BsuirDerivedData/"
+    scheme = "AppStoreSnapshotsUITests"
+
+    devices = [
+      "iPhone 8 Plus", # 5.5" Display
+      "iPhone 11 Pro Max", # 6.5" Display
+      "iPhone 14 Pro Max", # 6.7" Display
+      "iPad Pro (12.9-inch) (6th generation)",
+    ]
+
+    run_tests(
+      build_for_testing: true,
+      code_coverage: false,
+      skip_package_dependencies_resolution: true,
+      derived_data_path: derived_data_path,
+      devices: devices,
+      scheme: scheme
+    )
+
+    capture_screenshots(
+      devices: devices,
+      derived_data_path: derived_data_path,
+      languages: [
+        "en-US",
+        "ru-RU",
+        "be-BY",
+        "uk-UA",
+      ],
+      scheme: scheme,
+      test_without_building: true
+    )
+  end
+end
