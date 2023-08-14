@@ -14,6 +14,7 @@
 		E6310E33292C02D20013A103 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = E6310E32292C02D20013A103 /* AppFeature */; };
 		E654467829296CF000881956 /* Deeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = E654467729296CF000881956 /* Deeplinking */; };
 		E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */ = {isa = PBXBuildFile; productRef = E6611ABC293A8B59006E322B /* ScheduleCore */; };
+		E6648AEE2A8A076800D8736D /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6648AED2A8A076800D8736D /* SnapshotHelper.swift */; };
 		E6972D1A287B4A550003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D19287B4A550003506F /* BsuirApi */; };
 		E6972D1C287B4A550003506F /* BsuirUI in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1B287B4A550003506F /* BsuirUI */; };
 		E6AA8D1125162F1A00788A02 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6AA8D1025162F1A00788A02 /* WidgetKit.framework */; };
@@ -88,6 +89,7 @@
 		E627877528B6B50F00F61D9B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E6310E30292C02A10013A103 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
+		E6648AED2A8A076800D8736D /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D1025162F1A00788A02 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E6AA8D1225162F1A00788A02 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -214,6 +216,7 @@
 		E6E1885A2A894EF200658AA8 /* AppStoreSnapshotsUITests */ = {
 			isa = PBXGroup;
 			children = (
+				E6648AED2A8A076800D8736D /* SnapshotHelper.swift */,
 				E6E1885B2A894EF200658AA8 /* AppStoreSnapshotsUITests.swift */,
 			);
 			path = AppStoreSnapshotsUITests;
@@ -432,6 +435,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6E1885C2A894EF200658AA8 /* AppStoreSnapshotsUITests.swift in Sources */,
+				E6648AEE2A8A076800D8736D /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
