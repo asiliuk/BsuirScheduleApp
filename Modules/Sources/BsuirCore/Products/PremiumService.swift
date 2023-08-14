@@ -22,6 +22,8 @@ public enum PremiumServiceKey: DependencyKey {
         return LivePremiumService(widgetService: widgetService)
     }()
 
+    public static let previewValue: any PremiumService = PremiumServiceMock(isPremium: true)
+
     public static let testValue: any PremiumService = PremiumServiceMock()
 }
 
