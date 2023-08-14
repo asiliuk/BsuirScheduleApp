@@ -12,6 +12,9 @@ final class AppStoreSnapshotsUITests: XCTestCase {
     func testAppStoreSnapshots() async throws {
         let app = XCUIApplication()
 
+        // Pass flag to disable animations and other things not needed for tests
+        app.launchArguments += ["enable-testing"]
+
         // Pretent we're running for previews to use `previewValue` dependencies
         // could not find other way to reliably override dependences for UI tests
         app.launchEnvironment["SWIFT_DEPENDENCIES_CONTEXT"] = "preview"
