@@ -19,11 +19,11 @@ private enum ReviewRequestServiceKey: DependencyKey {
     static let previewValue: any ReviewRequestService = ReviewRequestServiceMock()
 }
 
-#if DEBUG
+// MARK: - Mock
+
 final class ReviewRequestServiceMock: ReviewRequestService {
     private(set) var events: [MeaningfulEvent] = []
     func madeMeaningfulEvent(_ event: MeaningfulEvent) async {
         events.append(event)
     }
 }
-#endif

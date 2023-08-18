@@ -3,7 +3,7 @@ import Combine
 import ScheduleCore
 import Collections
 
-#if DEBUG
+
 final class FavoriteServiceMock {
     let _groupNames: CurrentValueSubject<OrderedSet<String>, Never>
     let _lecturerIds: CurrentValueSubject<OrderedSet<Int>, Never>
@@ -58,4 +58,3 @@ extension FavoriteServiceMock: FavoritesService {
         set { _freeLoveHighScore = newValue }
     }
 }
-#endif

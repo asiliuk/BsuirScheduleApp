@@ -28,21 +28,19 @@ private enum PremiumServiceKey: DependencyKey {
 
 // MARK: - Mock
 
-#if DEBUG
-public final class PremiumServiceMock: PremiumService {
-    public let _isPremium: CurrentValueSubject<Bool, Never>
+final class PremiumServiceMock: PremiumService {
+    let _isPremium: CurrentValueSubject<Bool, Never>
 
-    public var isCurrentlyPremium: Bool {
+    var isCurrentlyPremium: Bool {
         get { _isPremium.value }
         set { _isPremium.value = newValue }
     }
 
-    public var isPremium: AnyPublisher<Bool, Never> {
+    var isPremium: AnyPublisher<Bool, Never> {
         _isPremium.eraseToAnyPublisher()
     }
 
-    public init(isPremium: Bool = false) {
+    init(isPremium: Bool = false) {
         self._isPremium = CurrentValueSubject(isPremium)
     }
 }
-#endif

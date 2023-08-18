@@ -30,7 +30,8 @@ private enum ProductsServiceKey: DependencyKey {
     public static let previewValue: any ProductsService = ProductsServiceMock()
 }
 
-#if DEBUG
+// MARK: - Mock
+
 final class ProductsServiceMock: ProductsService {
     enum Failure: Error {
         case notImplemented
@@ -48,4 +49,3 @@ final class ProductsServiceMock: ProductsService {
     func purchase(_ product: Product) async throws {}
     func restore() async {}
 }
-#endif

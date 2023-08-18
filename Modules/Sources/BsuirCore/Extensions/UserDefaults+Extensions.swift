@@ -4,7 +4,6 @@ extension UserDefaults {
     public static let asiliukShared = UserDefaults(suiteName: "group.asiliuk.shared.schedule")!
 }
 
-#if DEBUG
 extension UserDefaults {
     public static func mock(suiteName: String) -> UserDefaults {
         let userDefaults = UserDefaults(suiteName: suiteName)
@@ -12,4 +11,3 @@ extension UserDefaults {
         return userDefaults!
     }
 }
-#endif
