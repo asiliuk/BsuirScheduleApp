@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "frameup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ryanlintott/FrameUp.git",
+      "state" : {
+        "revision" : "2d7ad27eb7f04073cfd652f77d5c39f98394a92e",
+        "version" : "0.5.0"
+      }
+    },
+    {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",

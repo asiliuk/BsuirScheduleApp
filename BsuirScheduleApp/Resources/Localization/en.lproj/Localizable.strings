@@ -164,6 +164,11 @@
 
 "screen.schedule.noMorePairs.title" = "No more pairs 🎉";
 
+// MARK: - Widget Previews
+
+"screen.widgetPreview.message%@" = "Beautiful %@ on your home screen!";
+"screen.widgetPreview.widgets" = "Widgets";
+
 // MARK: - Loading
 
 "view.loadingState.title" = "Loading...";

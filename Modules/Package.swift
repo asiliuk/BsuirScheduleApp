@@ -56,6 +56,7 @@ let package = Package(
          .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.10.0"),
          .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "1.0.0"),
          .package(url: "https://github.com/simibac/ConfettiSwiftUI.git", from: "1.1.0"),
+         .package(url: "https://github.com/ryanlintott/FrameUp.git", from: "0.5.0")
     ],
     targets: [
         // MARK: - Features
@@ -111,7 +112,7 @@ let package = Package(
         // MARK: - Core
         .target(
             name: "BsuirUI",
-            dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .dependencies, .introspect]),
+            dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .dependencies, .introspect, .frameUp]),
         .target(
             name: "ScheduleCore",
             dependencies: ["BsuirApi", .dependencies]),
@@ -141,4 +142,5 @@ private extension Target.Dependency {
     static let swiftCollections: Self = .product(name: "Collections", package: "swift-collections")
     static let introspect: Self = .product(name: "SwiftUIIntrospect", package: "SwiftUI-Introspect")
     static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
+    static let frameUp: Self = .product(name: "FrameUp", package: "FrameUp")
 }

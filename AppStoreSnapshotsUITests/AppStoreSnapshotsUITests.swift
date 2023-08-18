@@ -7,7 +7,7 @@ final class AppStoreSnapshotsUITests: XCTestCase {
     private var app: XCUIApplication!
 
     override func setUpWithError() throws {
-        continueAfterFailure = false
+        continueAfterFailure = true
 
         app = XCUIApplication()
 
@@ -35,24 +35,24 @@ final class AppStoreSnapshotsUITests: XCTestCase {
         // Snapshot pinned
         app.tabBars.firstMatch.buttons.element(boundBy: 0).tap()
         _ = app.staticTexts["151004"].waitForExistence(timeout: 5)
-        snapshot("0_Pinned-Light")
+        snapshot("1_Pinned-Light")
 
         // Schedule accessibility snapshot is in separate test
-        // snapshot("1_Schedule-Dark-XXL")
+        // snapshot("2_Schedule-Dark-XXL")
 
         // Snapshot groups
         app.tabBars.firstMatch.buttons.element(boundBy: 1).tap()
         _ = app.collectionViews.cells.buttons["151004"].waitForExistence(timeout: 5)
-        snapshot("2_Groups")
+        snapshot("3_Groups")
 
         // Snapshot lecturers
         app.tabBars.firstMatch.buttons.element(boundBy: 2).tap()
         _ = app.collectionViews.cells.buttons["Куликов Святослав Святославович"].waitForExistence(timeout: 5)
-        snapshot("3_Lecturers")
+        snapshot("4_Lecturers")
 
         // Snapshot settings
         app.tabBars.firstMatch.buttons.element(boundBy: 3).tap()
-        snapshot("4_Settings")
+        snapshot("5_Settings")
     }
 
     func testDynamicTypeAppStoreSnapshot() {
@@ -78,6 +78,20 @@ final class AppStoreSnapshotsUITests: XCTestCase {
         _ = app.staticTexts["151001"].waitForExistence(timeout: 5)
 
         // Snapshot schedule
-        snapshot("1_Schedule-Dark-XXL")
+        snapshot("2_Schedule-Dark-XXL")
+    }
+
+    func testWidgetsPreviewSnapshot() {
+        // Pass flag to open widget preview UI
+        app.launchArguments += ["enable-widget-preview"]
+
+        // Set dark mode
+        XCUIDevice.shared.appearance = .dark
+
+        // Start the app
+        app.launch()
+
+        // Snapshot widgets preview
+        snapshot("0_Widgets")
     }
 }

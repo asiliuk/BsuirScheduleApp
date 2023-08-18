@@ -164,6 +164,11 @@
 
 "screen.schedule.noMorePairs.title" = "Занятий больше нет 🎉";
 
+// MARK: - Widget Previews
+
+"screen.widgetPreview.message%@" = "Прекрасные %@ на вашем рабочем столе!";
+"screen.widgetPreview.widgets" = "Виджеты";
+
 // MARK: - Loading
 
 "view.loadingState.title" = "Загрузка...";

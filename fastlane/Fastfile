@@ -31,7 +31,7 @@ platform :ios do
     run_tests(
       build_for_testing: true,
       code_coverage: false,
-      skip_package_dependencies_resolution: true,
+      output_files: "./test_output",
       derived_data_path: derived_data_path,
       devices: devices,
       scheme: scheme

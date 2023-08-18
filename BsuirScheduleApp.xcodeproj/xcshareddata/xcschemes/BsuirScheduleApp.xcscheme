@@ -80,6 +80,12 @@
             ReferencedContainer = "container:BsuirScheduleApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "enable-widget-preview"
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <StoreKitConfigurationFileReference
          identifier = "../../BsuirScheduleApp/Resources/PremiumClubProducts.storekit">
       </StoreKitConfigurationFileReference>

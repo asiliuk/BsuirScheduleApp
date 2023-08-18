@@ -38,19 +38,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E69C56692A8ABB21004C71D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6F931B122F8B1C10038FC43;
+			remoteInfo = BsuirScheduleApp;
+		};
 		E6AA8D1D25162F1B00788A02 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = E6AA8D0E25162F1A00788A02;
 			remoteInfo = ScheduleWidgetExtension;
-		};
-		E6E1885F2A894EF200658AA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E6F931AA22F8B1C10038FC43 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E6F931B122F8B1C10038FC43;
-			remoteInfo = BsuirScheduleApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -307,7 +307,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				E6E188602A894EF200658AA8 /* PBXTargetDependency */,
+				E69C566A2A8ABB21004C71D2 /* PBXTargetDependency */,
 			);
 			name = AppStoreSnapshotsUITests;
 			packageProductDependencies = (
@@ -454,15 +454,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E69C566A2A8ABB21004C71D2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6F931B122F8B1C10038FC43 /* BsuirScheduleApp */;
+			targetProxy = E69C56692A8ABB21004C71D2 /* PBXContainerItemProxy */;
+		};
 		E6AA8D1E25162F1B00788A02 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E6AA8D0E25162F1A00788A02 /* ScheduleWidgetExtension */;
 			targetProxy = E6AA8D1D25162F1B00788A02 /* PBXContainerItemProxy */;
-		};
-		E6E188602A894EF200658AA8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E6F931B122F8B1C10038FC43 /* BsuirScheduleApp */;
-			targetProxy = E6E1885F2A894EF200658AA8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

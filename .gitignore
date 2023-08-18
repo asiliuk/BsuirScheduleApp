@@ -39,3 +39,7 @@ playground.xcworkspace
 /.build
 /Packages
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+
+# Fastlane
+fastlane/test_output
+fastlane/report.xml

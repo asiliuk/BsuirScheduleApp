@@ -69,6 +69,11 @@ public struct AppView: View {
             }
         }
         .onOpenURL(perform: { store.send(.handleDeeplink($0)) })
+        .task { await store.send(.task).finish() }
+        .environmentObject({ () -> PairFormColorService in
+            @Dependency(\.pairFormColorService) var pairFormColorService
+            return pairFormColorService
+        }())
     }
 }
 
