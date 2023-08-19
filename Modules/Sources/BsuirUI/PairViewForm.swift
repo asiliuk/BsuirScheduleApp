@@ -1,7 +1,8 @@
 import SwiftUI
 import ScheduleCore
 
-public enum PairViewForm: String, CaseIterable {
+public enum PairViewForm: String, CaseIterable, Identifiable {
+    public var id: Self { self }
     case lecture
     case practice
     case lab

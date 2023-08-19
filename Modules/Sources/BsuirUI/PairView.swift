@@ -184,7 +184,7 @@ public struct PairView<Details: View>: View {
     }
     
     private var formText: Text? {
-        if spellForm || differentiateWithoutColor {
+        if spellForm || differentiateWithoutColor || pairFormDisplayService.alwaysShowFormIcon {
             return Text("\(Image(systemName: form.symbolName))")
         } else {
             return nil

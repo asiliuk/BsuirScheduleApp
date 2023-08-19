@@ -83,9 +83,12 @@
 "screen.settings.appearance.navigation.title" = "Appearance";
 
 "screen.settings.appearance.colors.section.header" = "Colors";
+"screen.settings.appearance.colors.reset.title" = "Reset";
+
 "screen.settings.appearance.icons.section.header" = "Icons";
 "screen.settings.appearance.icons.section.footer" = "These icons are used to identify the type of the pair when color might not be enough";
-"screen.settings.appearance.colors.reset.title" = "Reset";
+"screen.settings.appearance.icons.section.alwaysShowToggle.title" = "Always show icons";
+"screen.settings.appearance.icons.section.alwaysShowToggle.footer" = "Show the pair type icon regardless of the context";
 
 "screen.settings.appearance.pairPreview.section.header" = "What a lesson looks like";
 "screen.settings.appearance.pairPreview.from" = "start";

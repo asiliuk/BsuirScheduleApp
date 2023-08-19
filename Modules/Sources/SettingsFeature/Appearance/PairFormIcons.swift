@@ -5,39 +5,33 @@ import ComposableArchitecture
 
 public struct PairFormIcons: Reducer {
     public struct State: Equatable {
-        var pairFormIcons: IdentifiedArrayOf<PairFormIcon.State>
+        @BindingState var alwaysShowIcon: Bool
+        var pairForms: IdentifiedArrayOf<PairViewForm>
 
         public init() {
-            pairFormIcons = IdentifiedArray(
-                uncheckedUniqueElements: PairViewForm.allCases
-                    .map(PairFormIcon.State.init(form:))
-            )
+            pairForms = IdentifiedArray(uncheckedUniqueElements: PairViewForm.allCases)
+            @Dependency(\.pairFormDisplayService) var pairFormDisplayService
+            alwaysShowIcon = pairFormDisplayService.alwaysShowFormIcon
         }
     }
 
-    public enum Action: Equatable {
-        case pairFormIcon(id: String, action: PairFormIcon.Action)
+    public enum Action: Equatable, BindableAction {
+        case binding(BindingAction<State>)
     }
 
+    @Dependency(\.pairFormDisplayService) var pairFormDisplayService
+
     public var body: some ReducerOf<Self> {
-        EmptyReducer()
-        .forEach(\.pairFormIcons, action: /Action.pairFormIcon) {
-            PairFormIcon()
+        BindingReducer()
+
+        Reduce { state, action in
+            switch action {
+            case .binding(\.$alwaysShowIcon):
+                pairFormDisplayService.alwaysShowFormIcon = state.alwaysShowIcon
+                return .none
+            case .binding:
+                return .none
+            }
         }
-    }
-}
-
-public struct PairFormIcon: Reducer {
-    public struct State: Equatable, Identifiable {
-        public var id: String { form.rawValue }
-        var name: LocalizedStringKey { form.name }
-        var icon: String { form.symbolName }
-        let form: PairViewForm
-    }
-
-    public enum Action: Equatable {}
-
-    public var body: some ReducerOf<Self> {
-        EmptyReducer()
     }
 }

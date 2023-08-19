@@ -83,9 +83,12 @@
 "screen.settings.appearance.navigation.title" = "Вонкавы выгляд";
 
 "screen.settings.appearance.colors.section.header" = "Колеры";
+"screen.settings.appearance.colors.reset.title" = "Скінуць";
+
 "screen.settings.appearance.icons.section.header" = "Іконкі";
 "screen.settings.appearance.icons.section.footer" = "Гэтыя абразкі выкарыстоўваюцца для ідэнтыфікацыі тыпу пары, калі колеры можа быць недастаткова";
-"screen.settings.appearance.colors.reset.title" = "Скінуць";
+"screen.settings.appearance.icons.section.alwaysShowToggle.title" = "Заўсёды паказваць абразкі";
+"screen.settings.appearance.icons.section.alwaysShowToggle.footer" = "Адлюстроўваць абразок тыпу пары незалежна ад кантэксту";
 
 "screen.settings.appearance.pairPreview.section.header" = "Як выглядае пара";
 "screen.settings.appearance.pairPreview.from" = "пачатак";

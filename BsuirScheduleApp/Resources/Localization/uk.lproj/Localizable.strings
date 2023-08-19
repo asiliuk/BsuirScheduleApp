@@ -83,9 +83,12 @@
 "screen.settings.appearance.navigation.title" = "Зовнішній вигляд";
 
 "screen.settings.appearance.colors.section.header" = "Кольори";
+"screen.settings.appearance.colors.reset.title" = "Скинути";
+
 "screen.settings.appearance.icons.section.header" = "Іконки";
 "screen.settings.appearance.icons.section.footer" = "Ці іконки використовуються для ідентифікації типу пари, коли кольору може бути недостатньо";
-"screen.settings.appearance.colors.reset.title" = "Скинути";
+"screen.settings.appearance.icons.section.alwaysShowToggle.title" = "Завжди показувати іконки";
+"screen.settings.appearance.icons.section.alwaysShowToggle.footer" = "Відображати іконку типу пари незалежно від контексту";
 
 "screen.settings.appearance.pairPreview.section.header" = "Як виглядає пара";
 "screen.settings.appearance.pairPreview.from" = "початок";

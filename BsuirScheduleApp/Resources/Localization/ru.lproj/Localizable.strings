@@ -83,9 +83,13 @@
 "screen.settings.appearance.navigation.title" = "Внешний вид";
 
 "screen.settings.appearance.colors.section.header" = "Цвета";
+"screen.settings.appearance.colors.reset.title" = "Сбросить";
+
 "screen.settings.appearance.icons.section.header" = "Иконки";
 "screen.settings.appearance.icons.section.footer" = "Эти иконки используются для идентификации типа пары, когда цвета может быть недостаточно";
-"screen.settings.appearance.colors.reset.title" = "Сбросить";
+
+"screen.settings.appearance.icons.section.alwaysShowToggle.title" = "Всегда показывать иконки";
+"screen.settings.appearance.icons.section.alwaysShowToggle.footer" = "Отображать иконку типа пары независимо от контекста";
 
 "screen.settings.appearance.pairPreview.section.header" = "Как выглядит пара";
 "screen.settings.appearance.pairPreview.from" = "начало";
