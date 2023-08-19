@@ -25,7 +25,7 @@ struct AboutFeatureView: View {
                     }
 
                     Button {
-                        viewStore.send(.telegramButtonTapped)
+                        viewStore.send(.reviewButtonTapped)
                     } label: {
                         Label("screen.settings.about.links.rate.title", systemImage: "star")
                     }
