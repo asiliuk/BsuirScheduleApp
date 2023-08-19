@@ -18,6 +18,13 @@ struct AppearanceFeatureView: View {
                     action: { .pairFormsColorPicker($0) }
                 )
             )
+
+            PairFormIconsView(
+                store: store.scope(
+                    state: \.pairFormIcons,
+                    action: { .pairFormIcons($0) }
+                )
+            )
         }
         .navigationTitle("screen.settings.appearance.navigation.title")
     }
