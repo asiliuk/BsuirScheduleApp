@@ -84,6 +84,7 @@
 
 "screen.settings.appearance.colors.section.header" = "Colors";
 "screen.settings.appearance.icons.section.header" = "Icons";
+"screen.settings.appearance.icons.section.footer" = "These icons are used to identify the type of the pair when color might not be enough";
 "screen.settings.appearance.colors.reset.title" = "Reset";
 
 "screen.settings.appearance.pairPreview.section.header" = "What a lesson looks like";

@@ -84,6 +84,7 @@
 
 "screen.settings.appearance.colors.section.header" = "Колеры";
 "screen.settings.appearance.icons.section.header" = "Іконкі";
+"screen.settings.appearance.icons.section.footer" = "Гэтыя абразкі выкарыстоўваюцца для ідэнтыфікацыі тыпу пары, калі колеры можа быць недастаткова";
 "screen.settings.appearance.colors.reset.title" = "Скінуць";
 
 "screen.settings.appearance.pairPreview.section.header" = "Як выглядае пара";

@@ -5,8 +5,7 @@ struct PairFormIconsView: View {
     let store: StoreOf<PairFormIcons>
 
     var body: some View {
-        // TODO: add a footer explaining where this could be seen
-        Section(header: Text("screen.settings.appearance.icons.section.header")) {
+        Section {
             ForEachStore(
                 store.scope(
                     state: \.pairFormIcons,
@@ -14,6 +13,10 @@ struct PairFormIconsView: View {
                 ),
                 content: PairFormIconView.init(store:)
             )
+        } header: {
+            Text("screen.settings.appearance.icons.section.header")
+        } footer: {
+            Text("screen.settings.appearance.icons.section.footer")
         }
     }
 }
