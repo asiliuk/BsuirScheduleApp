@@ -67,6 +67,7 @@ public struct PairView<Details: View>: View {
     public let details: Details
     @Environment(\.sizeCategory) var sizeCategory
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
+    @EnvironmentObject private var pairFormColorService: PairFormColorService
 
     public init(
         from: String,
@@ -107,7 +108,7 @@ public struct PairView<Details: View>: View {
             case (.vertical, _), (.horizontal, true):
                 VStack(alignment: .leading) {
                     HStack(spacing: 8) {
-                        PairFormIndicator(form: form, progress: progress.value)
+                        pairForm
 
                         VStack(alignment: .leading) {
                             Text(interval).font(.system(.footnote, design: .monospaced))
@@ -127,7 +128,7 @@ public struct PairView<Details: View>: View {
                     Text(to).font(.system(isCompact ? .caption2 : .footnote, design: .monospaced))
                 }
 
-                PairFormIndicator(form: form, progress: progress.value)
+                pairForm
 
                 VStack(alignment: .leading) {
                     title
@@ -150,6 +151,10 @@ public struct PairView<Details: View>: View {
             auditory.map { "view.pairView.accessibility.auditory.\($0)" },
             note.map { "\($0)" }
         ))
+    }
+
+    private var pairForm: some View {
+        PairFormIndicator(color: pairFormColorService[form].color, progress: progress.value)
     }
 
     private var title: some View {

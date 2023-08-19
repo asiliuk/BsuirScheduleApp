@@ -1,11 +1,10 @@
 import SwiftUI
 
 struct PairFormIndicator: View {
-    var form: PairViewForm
+    var color: Color
     var progress: Double
     @ScaledMetric(relativeTo: .body) private var formIndicatorWidth: CGFloat = 8
     @Environment(\.colorScheme) private var colorScheme
-    @EnvironmentObject private var pairFormColorService: PairFormColorService
 
     var body: some View {
         GeometryReader { proxy in
@@ -15,7 +14,7 @@ struct PairFormIndicator: View {
                 passedOpacity: passedOpacity
             )
         }
-        .foregroundColor(pairFormColorService[form].color)
+        .foregroundColor(color)
         .frame(width: formIndicatorWidth)
     }
 
@@ -68,11 +67,11 @@ struct PairFormIndicator_Previews: PreviewProvider {
 
     private static func indicators(differentiateWithoutColor: Bool = false) -> some View {
         HStack {
-            PairFormIndicator(form: .lecture, progress: 0)
-            PairFormIndicator(form: .lab, progress: 0.3)
-            PairFormIndicator(form: .practice, progress: 0.5)
-            PairFormIndicator(form: .exam, progress: 1)
-            PairFormIndicator(form: .unknown, progress: 0.9)
+            PairFormIndicator(color: .green, progress: 0)
+            PairFormIndicator(color: .yellow, progress: 0.3)
+            PairFormIndicator(color: .red, progress: 0.5)
+            PairFormIndicator(color: .purple, progress: 1)
+            PairFormIndicator(color: .gray, progress: 0.9)
         }
     }
 }
