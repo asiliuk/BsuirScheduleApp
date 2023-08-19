@@ -50,4 +50,20 @@ platform :ios do
       test_without_building: true
     )
   end
+
+  desc "Upload screenshots to app store"
+  lane :upload_screenshots do
+    api_key = app_store_connect_api_key(
+      key_id: "F663NPYK73",
+      issuer_id: "69a6de7c-f7df-47e3-e053-5b8c7c11a4d1",
+      key_filepath: "./fastlane/AuthKey_F663NPYK73.p8",
+      duration: 1200, # optional (maximum 1200)
+      in_house: false # optional but may be required if using match/sigh
+    )
+
+    upload_to_app_store(
+      screenshots_path: "./img/snapshots_to_upload",
+      overwrite_screenshots: true
+    )
+  end
 end

@@ -43,3 +43,4 @@ playground.xcworkspace
 # Fastlane
 fastlane/test_output
 fastlane/report.xml
+fastlane/AuthKey_*
