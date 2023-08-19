@@ -2,22 +2,22 @@ import Foundation
 import Dependencies
 
 extension DependencyValues {
-    public var pairFormColorService: PairFormColorService {
-        get { self[PairFormColorServiceKey.self] }
-        set { self[PairFormColorServiceKey.self] = newValue }
+    public var pairFormDisplayService: PairFormDisplayService {
+        get { self[PairFormDisplayServiceKey.self] }
+        set { self[PairFormDisplayServiceKey.self] = newValue }
     }
 }
 
-private enum PairFormColorServiceKey: DependencyKey {
-    static let liveValue: PairFormColorService = {
+private enum PairFormDisplayServiceKey: DependencyKey {
+    static let liveValue: PairFormDisplayService = {
         @Dependency(\.widgetService) var widgetService
-        return PairFormColorService(
+        return PairFormDisplayService(
             storage: .asiliukShared,
             widgetService: widgetService
         )
     }()
 
-    static let testValue = PairFormColorService(
+    static let testValue = PairFormDisplayService(
         storage: .mock(suiteName: "PairFormColorService"),
         widgetService: .noop
     )

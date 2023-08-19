@@ -24,8 +24,8 @@ struct PinnedScheduleWidget: Widget {
         ) { entry in
             ScheduleWidgetEntryView(entry: entry)
                 .environmentObject({
-                    @Dependency(\.pairFormColorService) var pairFormColorService
-                    return pairFormColorService
+                    @Dependency(\.pairFormDisplayService) var pairFormDisplayService
+                    return pairFormDisplayService
                 }())
         }
         .configurationDisplayName("widget.pinned.displayName")

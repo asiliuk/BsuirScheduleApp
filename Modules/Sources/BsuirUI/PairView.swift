@@ -67,7 +67,7 @@ public struct PairView<Details: View>: View {
     public let details: Details
     @Environment(\.sizeCategory) var sizeCategory
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
-    @EnvironmentObject private var pairFormColorService: PairFormColorService
+    @EnvironmentObject private var pairFormDisplayService: PairFormDisplayService
 
     public init(
         from: String,
@@ -154,7 +154,7 @@ public struct PairView<Details: View>: View {
     }
 
     private var pairForm: some View {
-        PairFormIndicator(color: pairFormColorService[form].color, progress: progress.value)
+        PairFormIndicator(color: pairFormDisplayService.color(for: form).color, progress: progress.value)
     }
 
     private var title: some View {
@@ -297,7 +297,7 @@ struct PairView_Previews: PreviewProvider {
         }
         .previewLayout(.sizeThatFits)
         .background(Color.gray)
-        .environmentObject(PairFormColorService(storage: .standard, widgetService: .noop))
+        .environmentObject(PairFormDisplayService(storage: .standard, widgetService: .noop))
     }
 
     static let pair = PairCell(

@@ -70,7 +70,7 @@ public struct ScheduleWidgetPreviews: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background { BackgroundGradient() }
-            .environmentObject(PairFormColorService(
+            .environmentObject(PairFormDisplayService(
                 storage: .mock(suiteName: "ScheduleWidgetPreviews"),
                 widgetService: .noop
             ))

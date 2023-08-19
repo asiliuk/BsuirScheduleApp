@@ -2,7 +2,10 @@ import SwiftUI
 import BsuirCore
 import WidgetKit
 
-public class PairFormColorService: ObservableObject {
+public class PairFormDisplayService: ObservableObject {
+    private let storage: UserDefaults
+    private let widgetService: WidgetService
+
     public init(storage: UserDefaults, widgetService: WidgetService) {
         self.storage = storage
         self.widgetService = widgetService
@@ -15,9 +18,24 @@ public class PairFormColorService: ObservableObject {
         )
     }
 
-    public subscript(form: PairViewForm) -> PairFormColor {
-        get { color(for: form) }
-        set(newColor) { updatingColors { setColor(newColor, for: form) } }
+    public func color(for form: PairViewForm) -> PairFormColor {
+        guard let color = storage.string(forKey: form.colorDefaultsKey) else {
+            assertionFailure("Failed to get color for \(form)")
+            return .gray
+        }
+
+        guard let formColor = PairFormColor(rawValue: color) else {
+            assertionFailure("Failed to decode pair form color \(color)")
+            return .gray
+        }
+
+        return formColor
+    }
+
+    public func setColor(_ color: PairFormColor?, for form: PairViewForm) {
+        updatingColors {
+            storage.set(color?.rawValue, forKey: form.colorDefaultsKey)
+        }
     }
     
     public var areDefaultColors: Bool {
@@ -25,41 +43,24 @@ public class PairFormColorService: ObservableObject {
             .allSatisfy { color(for: $0) == $0.defaultColor }
     }
     
-    public func reset() {
+    public func resetColors() {
         updatingColors {
             for form in PairViewForm.allCases {
                 self.setColor(nil, for: form)
             }
         }
     }
-    
-    private func color(for form: PairViewForm) -> PairFormColor {
-        guard let color = storage.string(forKey: form.colorDefaultsKey) else {
-            assertionFailure("Failed to get color for \(form)")
-            return .gray
-        }
-        
-        guard let formColor = PairFormColor(rawValue: color) else {
-            assertionFailure("Failed to decode pair form color \(color)")
-            return .gray
-        }
-        
-        return formColor
-    }
-    
-    private func setColor(_ color: PairFormColor?, for form: PairViewForm) {
-        storage.set(color?.rawValue, forKey: form.colorDefaultsKey)
-    }
-    
-    private func updatingColors(_ update: () -> Void) {
+}
+
+// MARK: - Helpers
+
+private extension PairFormDisplayService {
+    func updatingColors(_ update: () -> Void) {
         objectWillChange.send()
         update()
         // Make sure widget UI is also updated
         widgetService.reload(.pinnedSchedule)
     }
-        
-    private let storage: UserDefaults
-    private let widgetService: WidgetService
 }
 
 private extension PairViewForm {

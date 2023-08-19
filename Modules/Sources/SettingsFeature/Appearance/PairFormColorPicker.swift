@@ -9,8 +9,8 @@ public struct PairFormsColorPicker: Reducer {
         var pairFormColorPickers: IdentifiedArrayOf<PairFormColorPicker.State> = []
 
         public init() {
-            @Dependency(\.pairFormColorService) var pairFormColorService
-            self.update(service: pairFormColorService)
+            @Dependency(\.pairFormDisplayService) var pairFormDisplayService
+            self.update(service: pairFormDisplayService)
         }
     }
 
@@ -19,19 +19,19 @@ public struct PairFormsColorPicker: Reducer {
         case resetButtonTapped
     }
 
-    @Dependency(\.pairFormColorService) var pairFormColorService
+    @Dependency(\.pairFormDisplayService) var pairFormDisplayService
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .resetButtonTapped:
-                pairFormColorService.reset()
-                state.update(service: pairFormColorService)
+                pairFormDisplayService.resetColors()
+                state.update(service: pairFormDisplayService)
                 return .none
             case .pairFormColorPickers(let id, .delegate(.colorDidChange)):
                 guard let formState = state.pairFormColorPickers[id: id] else { return .none }
-                pairFormColorService[formState.form] = formState.color
-                state.updateHasChanges(service: pairFormColorService)
+                pairFormDisplayService.setColor(formState.color, for: formState.form)
+                state.updateHasChanges(service: pairFormDisplayService)
                 return .none
             case .pairFormColorPickers:
                 return .none
@@ -45,19 +45,19 @@ public struct PairFormsColorPicker: Reducer {
 }
 
 private extension PairFormsColorPicker.State {
-    mutating func update(service: PairFormColorService) {
+    mutating func update(service: PairFormDisplayService) {
         updateHasChanges(service: service)
         pairFormColorPickers = IdentifiedArray(
             uncheckedUniqueElements: PairViewForm.allCases.map { form in
                 PairFormColorPicker.State(
                     form: form,
-                    color: service[form]
+                    color: service.color(for: form)
                 )
             }
         )
     }
 
-    mutating func updateHasChanges(service: PairFormColorService) {
+    mutating func updateHasChanges(service: PairFormDisplayService) {
         hasChanges = !service.areDefaultColors
     }
 }
