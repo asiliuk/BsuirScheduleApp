@@ -55,7 +55,7 @@ public struct PremiumClubFeatureView: View {
                     )
                     .padding(.horizontal)
                     .padding(.vertical, 8)
-                    .background(.thickMaterial)
+                    .background(.regularMaterial)
                 }
             }
         }
