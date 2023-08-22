@@ -13,17 +13,18 @@ public struct GroupsFeatureView: View {
     }
     
     public var body: some View {
-        WithViewStore(store, observe: \.isOnTop) { viewStore in
-            LoadingGroupsView(
-                store: store,
-                isOnTop: viewStore.binding(send: { .setIsOnTop($0) })
-            )
-            .navigationDestination(
-                store: store.scope(state: \.$groupSchedule, action: { .groupSchedule($0) }),
-                destination: GroupScheduleView.init
-            )
-            .navigationTitle("screen.groups.navigation.title")
-            .task { await viewStore.send(.task).finish() }
+        NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
+            WithViewStore(store, observe: \.isOnTop) { viewStore in
+                LoadingGroupsView(
+                    store: store,
+                    isOnTop: viewStore.binding(send: { .setIsOnTop($0) })
+                )
+                .navigationTitle("screen.groups.navigation.title")
+                .navigationBarTitleDisplayMode(.inline)
+                .task { await viewStore.send(.task).finish() }
+            }
+        } destination: { state in
+            EntityScheduleView(state: state)
         }
     }
 }

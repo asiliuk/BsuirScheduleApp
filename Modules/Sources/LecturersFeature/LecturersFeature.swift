@@ -9,10 +9,10 @@ import Collections
 
 public struct LecturersFeature: Reducer {
     public struct State: Equatable {
+        var path = StackState<EntityScheduleFeature.State>()
         var search: LecturersSearch.State = .init()
         @LoadableState var lecturers: IdentifiedArrayOf<LecturersRow.State>?
         fileprivate(set) var isOnTop: Bool = true
-        @PresentationState var lectorSchedule: LectorScheduleFeature.State?
 
         var favorites: IdentifiedArrayOf<LecturersRow.State> {
             get {
@@ -46,7 +46,7 @@ public struct LecturersFeature: Reducer {
             case showPremiumClubPinned
         }
 
-        case lectorSchedule(PresentationAction<LectorScheduleFeature.Action>)
+        case path(StackAction<EntityScheduleFeature.State, EntityScheduleFeature.Action>)
         case search(LecturersSearch.Action)
         case pinned(LecturersRow.Action)
         case favorite(id: LecturersRow.State.ID, action: LecturersRow.Action)
@@ -85,8 +85,8 @@ public struct LecturersFeature: Reducer {
         .load(\.$loadedLecturers) { _, isRefresh in
             try await IdentifiedArray(uniqueElements: apiClient.lecturers(isRefresh))
         }
-        .ifLet(\.$lectorSchedule, action: /Action.lectorSchedule) {
-            LectorScheduleFeature()
+        .forEach(\.path, action: /Action.path) {
+            EntityScheduleFeature()
         }
 
         Scope(state: \.search, action: /Action.search) {
@@ -108,17 +108,17 @@ public struct LecturersFeature: Reducer {
 
         case .pinned(.rowTapped):
             let lector = state.pinned?.lector
-            state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+            state.presentLector(lector)
             return .none
 
         case let .favorite(id, .rowTapped):
             let lector = state.favorites[id: id]?.lector
-            state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+            state.presentLector(lector)
             return .none
 
         case let .lector(id, .rowTapped):
             let lector = state.loadedLecturers?[id: id]
-            state.lectorSchedule = lector.map(LectorScheduleFeature.State.init(lector:))
+            state.presentLector(lector)
             return .none
 
         case .loading(.started(\.$loadedLecturers)):
@@ -149,13 +149,19 @@ public struct LecturersFeature: Reducer {
                 return .send(.delegate(.showPremiumClubPinned))
             }
 
-        case .lectorSchedule(.presented(.delegate(let action))):
+        case .path(.element(_, .delegate(let action))):
             switch action {
             case .showPremiumClubPinned:
                 return .send(.delegate(.showPremiumClubPinned))
+            case .showLectorSchedule(let employee):
+                state.path.append(.lector(.init(lector: employee)))
+                return .none
+            case .showGroupSchedule(let groupName):
+                state.path.append(.group(.init(groupName: groupName)))
+                return .none
             }
 
-        case .lectorSchedule, .search, .pinned, .favorite, .lector, .loading, .delegate:
+        case .search, .pinned, .favorite, .lector, .loading, .delegate, .path:
             return .none
         }
     }
@@ -193,8 +199,8 @@ public struct LecturersFeature: Reducer {
 extension LecturersFeature.State {
     /// Reset navigation and inner state
     public mutating func reset() {
-        if lectorSchedule != nil {
-            return lectorSchedule = nil
+        if !path.isEmpty {
+            return path = StackState()
         }
 
         if search.reset() {
@@ -208,10 +214,12 @@ extension LecturersFeature.State {
 
     /// Open shcedule screen for lector.
     public mutating func openLector(_ lector: Employee) {
-        guard lectorSchedule?.lector != lector else { return }
-
+        if path.count == 1,
+           case let .lector(state) = path.last,
+           state.lector == lector
+        { return }
         search.reset()
-        lectorSchedule = LectorScheduleFeature.State(lector: lector)
+        presentLector(lector)
         lectorIdToOpen = nil
     }
 
@@ -228,5 +236,10 @@ extension LecturersFeature.State {
     fileprivate mutating func openLectorIfNeeded() {
         guard let lectorIdToOpen else { return }
         openLector(id: lectorIdToOpen)
+    }
+
+    fileprivate mutating func presentLector(_ lector: Employee?) {
+        guard let lector else { return }
+        path = StackState([.lector(.init(lector: lector))])
     }
 }

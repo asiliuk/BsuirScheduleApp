@@ -21,10 +21,10 @@ enum StrudentGroupSearchToken: Hashable, Identifiable {
 
 public struct GroupsFeature: Reducer {
     public struct State: Equatable {
+        var path = StackState<EntityScheduleFeature.State>()
         @LoadableState var sections: IdentifiedArrayOf<GroupsSection.State>?
         var search: GroupsSearch.State = .init()
         var isOnTop: Bool = true
-        @PresentationState var groupSchedule: GroupScheduleFeature.State?
 
         fileprivate(set) var pinned: GroupsSection.State? = {
             @Dependency(\.favorites.currentPinnedSchedule) var pinned
@@ -46,7 +46,7 @@ public struct GroupsFeature: Reducer {
             case showPremiumClubPinned
         }
 
-        case groupSchedule(PresentationAction<GroupScheduleFeature.Action>)
+        case path(StackAction<EntityScheduleFeature.State, EntityScheduleFeature.Action>)
         case pinned(GroupsSection.Action)
         case favorites(GroupsSection.Action)
         case search(GroupsSearch.Action)
@@ -81,15 +81,18 @@ public struct GroupsFeature: Reducer {
                 return .none
 
             case let .groupSection(sectionId, action: .groupRow(rowId, action: .rowTapped)):
-                groupTapped(rowId: rowId, in: \.sections?[id: sectionId], state: &state)
+                let groupName = state.sections?[id: sectionId]?.groupRows[id: rowId]?.groupName
+                state.presentGroup(groupName)
                 return .none
 
             case let .pinned(.groupRow(rowId, .rowTapped)):
-                groupTapped(rowId: rowId, in: \.pinned, state: &state)
+                let groupName = state.pinned?.groupRows[id: rowId]?.groupName
+                state.presentGroup(groupName)
                 return .none
 
             case let .favorites(.groupRow(rowId, .rowTapped)):
-                groupTapped(rowId: rowId, in: \.favorites, state: &state)
+                let groupName = state.favorites?.groupRows[id: rowId]?.groupName
+                state.presentGroup(groupName)
                 return .none
 
             case .loading(.started(\.$loadedGroups)),
@@ -117,13 +120,19 @@ public struct GroupsFeature: Reducer {
                     return .send(.delegate(.showPremiumClubPinned))
                 }
 
-            case .groupSchedule(.presented(.delegate(let action))):
+            case .path(.element(_ , action: .delegate(let action))):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
+                case .showLectorSchedule(let employee):
+                    state.path.append(.lector(.init(lector: employee)))
+                    return .none
+                case .showGroupSchedule(let name):
+                    state.path.append(.group(.init(groupName: name)))
+                    return .none
                 }
 
-            case .groupSchedule, .pinned, .favorites, .search, .groupSection, .loading, .delegate:
+            case .pinned, .favorites, .search, .groupSection, .loading, .delegate, .path:
                 return .none
             }
         }
@@ -140,18 +149,13 @@ public struct GroupsFeature: Reducer {
                 }
         }
         .load(\.$loadedGroups) { _, isRefresh in try await apiClient.groups(isRefresh) }
-        .ifLet(\.$groupSchedule, action: /Action.groupSchedule) {
-            GroupScheduleFeature()
+        .forEach(\.path, action: /Action.path) {
+            EntityScheduleFeature()
         }
 
         Scope(state: \.search, action: /Action.search) {
             GroupsSearch()
         }
-    }
-
-    private func groupTapped(rowId: String, in keyPath: KeyPath<State, GroupsSection.State?>, state: inout State) {
-        let groupName = state[keyPath: keyPath]?.groupRows[id: rowId]?.groupName
-        state.groupSchedule = groupName.map(GroupScheduleFeature.State.init(groupName:))
     }
     
     private func filteredGroups(state: inout State) {
@@ -215,8 +219,8 @@ private extension GroupsSection.State {
 extension GroupsFeature.State {
     /// Reset navigation and inner state
     public mutating func reset() {
-        if groupSchedule != nil {
-            return groupSchedule = nil
+        if !path.isEmpty {
+            return path = StackState()
         }
 
         if search.reset() {
@@ -230,8 +234,16 @@ extension GroupsFeature.State {
 
     /// Open shcedule screen for group.
     mutating public func openGroup(named name: String) {
-        guard groupSchedule?.groupName != name else { return }
+        if path.count == 1,
+           case let .group(state) = path.last,
+           state.groupName == name
+        { return }
         search.reset()
-        groupSchedule = GroupScheduleFeature.State(groupName: name)
+        presentGroup(name)
+    }
+
+    fileprivate mutating func presentGroup(_ groupName: String?) {
+        guard let groupName else { return }
+        path = StackState([.group(.init(groupName: groupName))])
     }
 }

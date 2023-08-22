@@ -13,17 +13,18 @@ public struct LecturersFeatureView: View {
     }
     
     public var body: some View {
-        WithViewStore(store, observe: \.isOnTop) { viewStore in
-            LoadingLecturersView(
-                store: store,
-                isOnTop: viewStore.binding(send: { .setIsOnTop($0) })
-            )
-            .navigationDestination(
-                store: store.scope(state: \.$lectorSchedule, action: { .lectorSchedule($0) }),
-                destination: LectorScheduleView.init
-            )
-            .navigationTitle("screen.lecturers.navigation.title")
-            .task { await viewStore.send(.task).finish() }
+        NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
+            WithViewStore(store, observe: \.isOnTop) { viewStore in
+                LoadingLecturersView(
+                    store: store,
+                    isOnTop: viewStore.binding(send: { .setIsOnTop($0) })
+                )
+                .navigationTitle("screen.lecturers.navigation.title")
+                .navigationBarTitleDisplayMode(.inline)
+                .task { await viewStore.send(.task).finish() }
+            }
+        } destination: { state in
+            EntityScheduleView(state: state)
         }
     }
 }

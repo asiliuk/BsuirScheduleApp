@@ -8,12 +8,14 @@ struct PinnedTabView: View {
     let store: StoreOf<PinnedTabFeature>
 
     var body: some View {
-        NavigationStack {
+        NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
             // Wrapped in ZStack to fix some SwiftUI glitch when premium
             // flag is updated very fast on app launch
             ZStack { PinnedTabContentView(store: store) }
                 // Reset navigation title left from schedule screen
                 .navigationTitle("")
+        } destination: { state in
+            EntityScheduleView(state: state)
         }
         .tabItem {
             PinnedTabItem(store: store)
@@ -37,7 +39,9 @@ private struct PinnedTabContentView: View {
                         action: PinnedTabFeature.Action.schedule
                     )
                 ) { store in
-                    PinnedScheduleView(store: store)
+                    SwitchStore(store) { state in
+                        EntityScheduleView(state: state)
+                    }
                 } else: {
                     PinnedScheduleEmptyView()
                 }

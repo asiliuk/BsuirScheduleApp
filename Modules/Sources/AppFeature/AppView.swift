@@ -83,10 +83,9 @@ private struct GroupsFeatureTab: View {
     let store: StoreOf<GroupsFeature>
 
     var body: some View {
-        NavigationStack {
-            GroupsFeatureView(store: store)
-                .navigationBarTitleDisplayMode(.inline)
-        }
+        GroupsFeatureView(
+            store: store
+        )
         .tabItem {
             Label("view.tabBar.groups.title", systemImage: "person.2")
         }
@@ -97,10 +96,9 @@ private struct LecturersFeatureTab: View {
     let store: StoreOf<LecturersFeature>
 
     var body: some View {
-        NavigationStack {
-            LecturersFeatureView(store: store)
-                .navigationBarTitleDisplayMode(.inline)
-        }
+        LecturersFeatureView(
+            store: store
+        )
         .tabItem {
             Label("view.tabBar.lecturers.title", systemImage: "person.text.rectangle")
         }

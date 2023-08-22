@@ -10,7 +10,6 @@ public struct GroupScheduleFeature: Reducer {
         public var id: String { schedule.value }
         public var schedule: ScheduleFeature<String>.State
         public let groupName: String
-        @PresentationState var lectorSchedule: LectorScheduleFeature.State?
 
         public init(groupName: String) {
             self.schedule = .init(title: groupName, source: .group(name: groupName), value: groupName)
@@ -19,16 +18,14 @@ public struct GroupScheduleFeature: Reducer {
     }
     
     public enum Action: Equatable {
-        public enum DelegateAction: Equatable {
+        public enum Delegate: Equatable {
             case showPremiumClubPinned
+            case showLectorSchedule(Employee)
         }
 
-        case schedule(ScheduleFeature<String>.Action)
-        indirect case lectorSchedule(PresentationAction<LectorScheduleFeature.Action>)
-
         case lectorTapped(Employee)
-
-        case delegate(DelegateAction)
+        case schedule(ScheduleFeature<String>.Action)
+        case delegate(Delegate)
     }
 
     @Dependency(\.apiClient) var apiClient
@@ -38,28 +35,18 @@ public struct GroupScheduleFeature: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case let .lectorTapped(lector):
-                state.lectorSchedule = .init(.init(lector: lector))
-                return .none
-
             case let .schedule(.delegate(action)):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
                 }
 
-            case let .lectorSchedule(.presented(.delegate(action))):
-                switch action {
-                case .showPremiumClubPinned:
-                    return .send(.delegate(.showPremiumClubPinned))
-                }
+            case .lectorTapped(let employee):
+                return .send(.delegate(.showLectorSchedule(employee)))
 
-            case .schedule, .lectorSchedule, .delegate:
+            case .schedule, .delegate:
                 return .none
             }
-        }
-        .ifLet(\.$lectorSchedule, action: /Action.lectorSchedule) {
-            LectorScheduleFeature()
         }
         
         Scope(state: \.schedule, action: /Action.schedule) {

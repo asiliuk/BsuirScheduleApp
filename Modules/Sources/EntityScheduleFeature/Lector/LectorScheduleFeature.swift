@@ -10,7 +10,6 @@ public struct LectorScheduleFeature: Reducer {
         public var id: String { schedule.value }
         public let lector: Employee
         public var schedule: ScheduleFeature<String>.State
-        @PresentationState var groupSchedule: GroupScheduleFeature.State?
 
         public init(lector: Employee) {
             self.schedule = .init(
@@ -23,16 +22,14 @@ public struct LectorScheduleFeature: Reducer {
     }
     
     public enum Action: Equatable {
-        public enum DelegateAction: Equatable {
+        public enum Delegate: Equatable {
             case showPremiumClubPinned
+            case showGroupSchedule(String)
         }
 
-        case schedule(ScheduleFeature<String>.Action)
-        indirect case groupSchedule(PresentationAction<GroupScheduleFeature.Action>)
-
         case groupTapped(String)
-
-        case delegate(DelegateAction)
+        case schedule(ScheduleFeature<String>.Action)
+        case delegate(Delegate)
     }
 
     @Dependency(\.apiClient) var apiClient
@@ -42,28 +39,18 @@ public struct LectorScheduleFeature: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case let .groupTapped(groupName):
-                state.groupSchedule = .init(groupName: groupName)
-                return .none
-
             case let .schedule(.delegate(action)):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
                 }
 
-            case let .groupSchedule(.presented(.delegate(action))):
-                switch action {
-                case .showPremiumClubPinned:
-                    return .send(.delegate(.showPremiumClubPinned))
-                }
+            case .groupTapped(let name):
+                return .send(.delegate(.showGroupSchedule(name)))
 
-            case .schedule, .groupSchedule, .delegate:
+            case .schedule, .delegate:
                 return .none
             }
-        }
-        .ifLet(\.$groupSchedule, action: /Action.groupSchedule) {
-            GroupScheduleFeature()
         }
         
         Scope(state: \.schedule, action: /Action.schedule) {

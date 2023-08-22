@@ -1,26 +1,20 @@
 import Foundation
 import Favorites
 import ScheduleCore
+import BsuirApi
 import ComposableArchitecture
 
-public struct PinnedScheduleFeature: Reducer {
+public struct EntityScheduleFeature: Reducer {
     public enum State: Equatable {
         case group(GroupScheduleFeature.State)
         case lector(LectorScheduleFeature.State)
-
-        public init(pinned: ScheduleSource) {
-            switch pinned {
-            case let .group(groupName):
-                self = .group(.init(groupName: groupName))
-            case let .lector(lector):
-                self = .lector(.init(lector: lector))
-            }
-        }
     }
 
     public enum Action: Equatable {
         public enum Delegate: Equatable {
             case showPremiumClubPinned
+            case showLectorSchedule(Employee)
+            case showGroupSchedule(String)
         }
 
         case group(GroupScheduleFeature.Action)
@@ -37,28 +31,34 @@ public struct PinnedScheduleFeature: Reducer {
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
+                case .showLectorSchedule(let employee):
+                    return .send(.delegate(.showLectorSchedule(employee)))
                 }
 
             case .lector(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
+                case .showGroupSchedule(let name):
+                    return .send(.delegate(.showGroupSchedule(name)))
                 }
 
             case .delegate, .group, .lector:
                 return .none
             }
         }
-        .ifCaseLet(/State.group, action: /Action.group) {
+
+        Scope(state: /State.group, action: /Action.group) {
             GroupScheduleFeature()
         }
-        .ifCaseLet(/State.lector, action: /Action.lector) {
+
+        Scope(state: /State.lector, action: /Action.lector) {
             LectorScheduleFeature()
         }
     }
 }
 
-extension PinnedScheduleFeature.State {
+extension EntityScheduleFeature.State {
     public var title: String {
         switch self {
         case let .group(schedule):
@@ -69,7 +69,7 @@ extension PinnedScheduleFeature.State {
     }
 }
 
-extension PinnedScheduleFeature.State {
+extension EntityScheduleFeature.State {
     public mutating func reset() {
         try? (/Self.group).modify(&self) { $0.schedule.reset() }
         try? (/Self.lector).modify(&self) { $0.schedule.reset() }

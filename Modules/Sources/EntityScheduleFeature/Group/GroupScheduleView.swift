@@ -17,12 +17,5 @@ public struct GroupScheduleView: View {
                 store.send(.lectorTapped($0))
             }
         )
-        .navigationDestination(
-            store: store.scope(
-                state: \.$lectorSchedule,
-                action: { .lectorSchedule($0) }
-            ),
-            destination: LectorScheduleView.init
-        )
     }
 }
