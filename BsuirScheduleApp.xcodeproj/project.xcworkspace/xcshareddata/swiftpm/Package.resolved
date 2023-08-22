@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture.git",
       "state" : {
-        "revision" : "195284b94b799b326729640453f547f08892293a",
-        "version" : "1.0.0"
+        "revision" : "f62ba37cc0c51acb89f6dd1f552f6a1f9c58027c",
+        "version" : "1.1.0"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/siteline/SwiftUI-Introspect.git",
       "state" : {
-        "revision" : "ccb973cfff703cba53fb88197413485c060eb26b",
-        "version" : "0.10.0"
+        "revision" : "1136c9a348329887844de9353107c787becc675b",
+        "version" : "0.11.0"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
       "state" : {
-        "revision" : "302891700c7fa3b92ebde9fe7b42933f8349f3c7",
-        "version" : "1.0.0"
+        "revision" : "23cbf2294e350076ea4dbd7d5d047c1e76b03631",
+        "version" : "1.0.2"
       }
     }
   ],
