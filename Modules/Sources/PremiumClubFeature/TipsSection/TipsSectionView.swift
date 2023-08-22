@@ -1,4 +1,5 @@
 import SwiftUI
+import BsuirUI
 import ComposableArchitecture
 
 struct TipsSectionView: View {
@@ -60,8 +61,8 @@ private struct TipsAmountRow: View {
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             LabeledContent {
-                Button {
-                    viewStore.send(.buyButtonTapped)
+                AsyncButton {
+                    await viewStore.send(.buyButtonTapped).finish()
                 } label: {
                     Text(viewStore.amount)
                 }

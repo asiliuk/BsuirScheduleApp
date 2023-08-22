@@ -1,4 +1,5 @@
 import SwiftUI
+import BsuirUI
 import ComposableArchitecture
 
 struct SubscriptionFooterView: View {
@@ -19,8 +20,8 @@ struct SubscriptionFooterView: View {
                             .font(.subheadline)
                     }
 
-                    Button {
-                        viewStore.send(.buttonTapped)
+                    AsyncButton {
+                        await viewStore.send(.buttonTapped).finish()
                     } label: {
                         let period = String(localized: subscription.subscriptionPeriod.makeName())
                         let offer = product.displayPrice
