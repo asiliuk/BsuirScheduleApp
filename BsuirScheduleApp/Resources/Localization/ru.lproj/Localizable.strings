@@ -207,13 +207,6 @@
 "view.pairView.form.name.exam" = "Экзамен";
 "view.pairView.form.name.unknown" = "Неизвестно";
 
-"view.pairView.form.name.short.lecture" = "ЛК";
-"view.pairView.form.name.short.lab" = "ЛР";
-"view.pairView.form.name.short.practice" = "ПЗ";
-"view.pairView.form.name.short.consultation" = "КО";
-"view.pairView.form.name.short.exam" = "ЭК";
-"view.pairView.form.name.short.unknown" = "ХЗ";
-
 "view.pairView.accessibility.label" = "Идет сейчас";
 "view.pairView.accessibility.from.%@.to.%@" = "с %@ по %@";
 "view.pairView.accessibility.weeks.%@" = "Недели: %@";

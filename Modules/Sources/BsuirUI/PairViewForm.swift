@@ -40,17 +40,6 @@ extension PairViewForm {
         }
     }
 
-    var shortName: LocalizedStringKey {
-        switch self {
-        case .lecture: return "view.pairView.form.name.short.lecture"
-        case .lab: return "view.pairView.form.name.short.lab"
-        case .practice: return "view.pairView.form.name.short.practice"
-        case .consultation: return "view.pairView.form.name.short.consultation"
-        case .exam: return "view.pairView.form.name.short.exam"
-        case .unknown: return "view.pairView.form.name.short.unknown"
-        }
-    }
-
     public var symbolName: String {
         switch self {
         case .lecture: return "person.bust"
