@@ -65,7 +65,6 @@ public struct AppFeature: Reducer {
             switch action {
             case .task:
                 return .merge(
-                    .run { _ in await productsService.load() },
                     .send(.premiumClub(.task)),
                     .run { send in
                         for await pinnedSchedule in favorites.pinnedSchedule.values {

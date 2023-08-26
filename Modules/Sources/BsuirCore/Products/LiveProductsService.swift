@@ -9,6 +9,7 @@ final class LiveProductsService {
     }
 
     private var purchasedProductIds: Set<String> = []
+    private var loadTask: Task<Void, Never>?
     private var updatesTask: Task<Void, Never>?
     private var _tips: [Product] = []
     private var _subscriptions: [Product] = []
@@ -20,6 +21,14 @@ final class LiveProductsService {
 
     deinit {
         updatesTask?.cancel()
+        loadTask?.cancel()
+    }
+
+    private func loadInitialData() {
+        Task(priority: .userInitiated) {
+            await loadProductsIfNeeded()
+            await updatePurchasedProductsWithCurrentEntitlements()
+        }
     }
 
     private func loadProductsIfNeeded() async {
@@ -99,9 +108,8 @@ extension LiveProductsService: ProductsService {
         }
     }
 
-    func load() async {
-        await loadProductsIfNeeded()
-        await updatePurchasedProductsWithCurrentEntitlements()
+    func load() {
+        loadInitialData()
         listenForUpdates()
     }
 

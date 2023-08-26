@@ -7,7 +7,7 @@ public protocol ProductsService {
     var tips: [Product] { get async }
     var subscription: Product { get async throws }
 
-    func load() async
+    func load()
     func purchase(_ product: Product) async throws -> Bool
     func restore() async
 }
@@ -45,7 +45,7 @@ final class ProductsServiceMock: ProductsService {
         get async throws { throw Failure.notImplemented }
     }
 
-    func load() async {}
+    func load() {}
     func purchase(_ product: Product) async throws -> Bool { false }
     func restore() async {}
 }
