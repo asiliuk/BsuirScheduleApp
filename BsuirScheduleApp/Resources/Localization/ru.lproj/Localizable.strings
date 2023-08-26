@@ -78,6 +78,12 @@
 "screen.premiumClub.subscribe.offer.free" = "бесплатно";
 "screen.premiumClub.subscribe.offer.trial%@%@" = "Пробный период %@ %@";
 
+// MARK: - Tips
+
+"com.saute.bsuir_schedule.tips.small" = "☕️ Небольшие чаевые";
+"com.saute.bsuir_schedule.tips.medium" = "🥐 Средние чаевые";
+"com.saute.bsuir_schedule.tips.large" = "🥙 Большие чаевые";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Внешний вид";

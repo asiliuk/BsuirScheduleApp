@@ -78,6 +78,12 @@
 "screen.premiumClub.subscribe.offer.free" = "free";
 "screen.premiumClub.subscribe.offer.trial%@%@" = "Start with %@ %@ trial";
 
+// MARK: - Tips
+
+"com.saute.bsuir_schedule.tips.small" = "☕️ Small tip";
+"com.saute.bsuir_schedule.tips.medium" = "🥐 Medium tip";
+"com.saute.bsuir_schedule.tips.large" = "🥙 Large tip";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Appearance";

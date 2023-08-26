@@ -130,7 +130,7 @@ public struct TipsAmount: Reducer {
     public struct State: Equatable, Identifiable {
         public var id: String { product.id }
         var product: Product
-        var title: TextState { TextState(product.description) }
+        var title: TextState { TextState(LocalizedStringKey(product.id)) }
         var amount: TextState { TextState(product.displayPrice) }
     }
 
