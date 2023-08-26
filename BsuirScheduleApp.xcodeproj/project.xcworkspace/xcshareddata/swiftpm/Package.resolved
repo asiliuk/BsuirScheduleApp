@@ -127,6 +127,15 @@
       }
     },
     {
+      "identity" : "swiftclient",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/TelemetryDeck/SwiftClient.git",
+      "state" : {
+        "revision" : "3f8bd438c8681ce7ccdf035b529cb5c4cd82cd7b",
+        "version" : "1.4.4"
+      }
+    },
+    {
       "identity" : "swiftui-introspect",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/siteline/SwiftUI-Introspect.git",

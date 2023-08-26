@@ -56,7 +56,8 @@ let package = Package(
          .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.10.0"),
          .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "1.0.0"),
          .package(url: "https://github.com/simibac/ConfettiSwiftUI.git", from: "1.1.0"),
-         .package(url: "https://github.com/ryanlintott/FrameUp.git", from: "0.5.0")
+         .package(url: "https://github.com/ryanlintott/FrameUp.git", from: "0.5.0"),
+         .package(url: "https://github.com/TelemetryDeck/SwiftClient.git", from: "1.4.0"),
     ],
     targets: [
         // MARK: - Features
@@ -121,7 +122,7 @@ let package = Package(
             dependencies: ["BsuirCore", .urlRouting, .dependencies]),
         .target(
             name: "BsuirCore",
-            dependencies: [.dependencies, .swiftCollections]),
+            dependencies: [.dependencies, .swiftCollections, .telemetryClient]),
         .testTarget(
             name: "ScheduleCoreTests",
             dependencies: ["ScheduleCore"]),
@@ -143,4 +144,5 @@ private extension Target.Dependency {
     static let introspect: Self = .product(name: "SwiftUIIntrospect", package: "SwiftUI-Introspect")
     static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
     static let frameUp: Self = .product(name: "FrameUp", package: "FrameUp")
+    static let telemetryClient: Self = .product(name: "TelemetryClient", package: "SwiftClient")
 }

@@ -35,6 +35,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 
         @Dependency(\.productsService) var productsService
         productsService.load()
+
+        @Dependency(\.telemetryService) var telemetryService
+        telemetryService.setup()
+        telemetryService.sendAppDidFinishLaunching()
     }
 }
 
@@ -79,6 +83,5 @@ private extension UIApplication {
             // Finally, keep only the key window
             .first(where: \.isKeyWindow)
     }
-
 }
 #endif
