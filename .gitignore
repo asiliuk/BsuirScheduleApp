@@ -47,3 +47,7 @@ fastlane/AuthKey_*
 
 # App Store
 img/snapshots_to_upload
+
+# Config
+.env-vars.sh
+Modules/Sources/BsuirCore/EnvVariables.swift

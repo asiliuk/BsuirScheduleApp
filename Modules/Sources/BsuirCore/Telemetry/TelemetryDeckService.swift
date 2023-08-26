@@ -9,7 +9,7 @@ final class TelemetryDeckService {
 
 extension TelemetryDeckService: TelemetryService {
     func setup() {
-        let configuration = TelemetryManagerConfiguration(appID: "xxxx")
+        let configuration = TelemetryManagerConfiguration(appID: EnvVariables.generated.telemetryDeckAppId)
         telemetryManager.initialize(with: configuration)
     }
 

@@ -320,6 +320,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E6F931C922F8B1C20038FC43 /* Build configuration list for PBXNativeTarget "BsuirScheduleApp" */;
 			buildPhases = (
+				E68285BD2A9A8E4100933A96 /* Generate Env Variables */,
 				E6F931AE22F8B1C10038FC43 /* Sources */,
 				E6F931AF22F8B1C10038FC43 /* Frameworks */,
 				E6F931B022F8B1C10038FC43 /* Resources */,
@@ -420,6 +421,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E68285BD2A9A8E4100933A96 /* Generate Env Variables */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.env-vars.sh",
+				"$(SRCROOT)/scripts/generate_env_vars.sh",
+			);
+			name = "Generate Env Variables";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Modules/Sources/BsuirCore/EnvVariables.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#check if env-vars.sh exists\nif [ -f ./.env-vars.sh ]\nthen\nsource ./.env-vars.sh\nfi\n#no `else` case needed if the CI works as expected\nscripts/generate_env_vars.sh Modules/Sources/BsuirCore/EnvVariables.swift\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E6AA8D0B25162F1A00788A02 /* Sources */ = {
