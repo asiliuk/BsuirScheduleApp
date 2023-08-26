@@ -31,15 +31,9 @@ public struct TipsSection: Reducer {
             switch action {
             case .task:
                 return loadTipsProducts(state: &state)
+
             case .reloadTips:
                 return loadTipsProducts(state: &state)
-            case let .tipsAmount(id, action: .buyButtonTapped):
-                guard let product = state.tipsAmounts[id: id]?.product else {
-                    return .none
-                }
-                return .run { _ in
-                    try await productsService.purchase(product)
-                }
 
             case let ._receivedProducts(products):
                 state.isLoadingProducts = false
@@ -56,7 +50,7 @@ public struct TipsSection: Reducer {
                 state.failedToFetchProducts = true
                 return .none
 
-            case .freeLove:
+            case .freeLove, .tipsAmount:
                 return .none
             }
         }
@@ -88,35 +82,41 @@ public struct FreeLove: Reducer {
             return freeLoveHighScore
         }()
         var counter: Int = 0
+        @BindingState var confettiCounter: Int = 0
     }
 
-    public enum Action: Equatable {
+    public enum Action: Equatable, BindableAction {
         case loveButtonTapped
         case _resetCounter
+        case binding(BindingAction<State>)
     }
 
     @Dependency(\.continuousClock) var clock
     @Dependency(\.favorites) var favorites
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .loveButtonTapped:
-            state.counter += 1
-            return .run { send in
-                try await clock.sleep(for: .seconds(1))
-                await send(._resetCounter)
-            }
-            .animation(.easeIn)
-            .cancellable(id: CancelID.reset, cancelInFlight: true)
+    public var body: some ReducerOf<Self> {
+        BindingReducer()
 
-        case ._resetCounter:
-            let highScore = max(state.highScore, state.counter)
-            state.highScore = highScore
-            state.counter = 0
-            return .run { _ in
-                if favorites.freeLoveHighScore < highScore {
-                    favorites.freeLoveHighScore = highScore
+        Reduce { state, action in
+            switch action {
+            case .loveButtonTapped:
+                state.counter += 1
+                return .run { send in
+                    try await clock.sleep(for: .seconds(1))
+                    await send(._resetCounter)
                 }
+                .animation(.easeIn)
+                .cancellable(id: CancelID.reset, cancelInFlight: true)
+
+            case ._resetCounter:
+                let score = state.counter
+                state.counter = 0
+                guard score > state.highScore else { return .none }
+                state.highScore = score
+                state.confettiCounter += 1
+                return .run { _ in favorites.freeLoveHighScore = score }
+            case .binding:
+                return .none
             }
         }
     }
@@ -129,16 +129,36 @@ public struct FreeLove: Reducer {
 public struct TipsAmount: Reducer {
     public struct State: Equatable, Identifiable {
         public var id: String { product.id }
+        @BindingState var confettiCounter: Int = 0
         var product: Product
         var title: TextState { TextState(LocalizedStringKey(product.id)) }
         var amount: TextState { TextState(product.displayPrice) }
     }
 
-    public enum Action: Equatable {
+    public enum Action: Equatable, BindableAction {
         case buyButtonTapped
+        case _productPurchased(success: Bool)
+        case binding(BindingAction<State>)
     }
 
+    @Dependency(\.productsService) var productsService
+
     public var body: some ReducerOf<Self> {
-        EmptyReducer()
+        BindingReducer()
+
+        Reduce { state, action in
+            switch action {
+            case .buyButtonTapped:
+                return .run { [product = state.product] send in
+                    let success = try await productsService.purchase(product)
+                    await send(._productPurchased(success: success))
+                }
+            case ._productPurchased(true):
+                state.confettiCounter += 1
+                return .none
+            case .binding, ._productPurchased(false):
+                return .none
+            }
+        }
     }
 }

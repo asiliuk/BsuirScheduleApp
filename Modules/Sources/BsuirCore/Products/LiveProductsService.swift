@@ -105,7 +105,7 @@ extension LiveProductsService: ProductsService {
         listenForUpdates()
     }
 
-    func purchase(_ product: Product) async throws {
+    func purchase(_ product: Product) async throws -> Bool {
         let result = try await product.purchase()
 
         switch result {
@@ -113,14 +113,17 @@ extension LiveProductsService: ProductsService {
             os_log(.info, log: .products, "Purchase succeed: \(transaction.productID)")
             await transaction.finish()
             updatePurchasedProducts(for: transaction)
+            return true
         case let .success(.unverified(transaction, error)):
             os_log(.info, log: .products, "Purchase failed: \(transaction.productID) \(error.localizedDescription)")
+            return false
         case .pending:
             os_log(.info, log: .products, "Purchase pending: \(product.id)")
+            return false
         case .userCancelled:
-            break
+            return false
         @unknown default:
-            break
+            return false
         }
     }
 

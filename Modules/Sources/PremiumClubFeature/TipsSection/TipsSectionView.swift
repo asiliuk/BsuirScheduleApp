@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirUI
 import ComposableArchitecture
+import ConfettiSwiftUI
 
 struct TipsSectionView: View {
     let store: StoreOf<TipsSection>
@@ -66,6 +67,7 @@ private struct TipsAmountRow: View {
                 } label: {
                     Text(viewStore.amount)
                 }
+                .tipsConfettiCannon(counter: viewStore.$confettiCounter)
             } label: {
                 Text(viewStore.title)
             }
@@ -91,6 +93,7 @@ private struct FreeLoveView: View {
                         }
                     }
                 }
+                .freeLoveConfettiCannon(counter: viewStore.$confettiCounter)
             } label: {
                 Text("screen.premiumClub.section.tips.freeLove.title")
                 if viewStore.highScore > 0 {
@@ -98,6 +101,36 @@ private struct FreeLoveView: View {
                 }
             }
         }
+    }
+}
+
+private extension View {
+    func tipsConfettiCannon(counter: Binding<Int>) -> some View {
+        tipsSectionConfettiCannon(
+            counter: counter,
+            confettis: [.text("💸"), .text("💵"), .text("💶"), .text("💷"), .text("💴"), .text("💰")]
+        )
+    }
+
+    func freeLoveConfettiCannon(counter: Binding<Int>) -> some View {
+        tipsSectionConfettiCannon(
+            counter: counter,
+            confettis: [.text("♥️"), .text("💛"), .text("💜"), .text("🖤"), .text("🩷"), .text("💙")]
+        )
+    }
+
+    func tipsSectionConfettiCannon(counter: Binding<Int>, confettis: [ConfettiType]) -> some View {
+        confettiCannon(
+            counter: counter,
+            num: 10,
+            confettis: confettis,
+            rainHeight: 150,
+            openingAngle: .degrees(70),
+            closingAngle: .degrees(110),
+            radius: 250,
+            repetitions: 4,
+            repetitionInterval: 0.1
+        )
     }
 }
 
