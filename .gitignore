@@ -44,3 +44,6 @@ playground.xcworkspace
 fastlane/test_output
 fastlane/report.xml
 fastlane/AuthKey_*
+
+# App Store
+img/snapshots_to_upload
