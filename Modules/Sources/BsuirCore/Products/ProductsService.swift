@@ -8,6 +8,7 @@ public protocol ProductsService {
     var subscription: Product { get async throws }
 
     func load()
+    @discardableResult
     func purchase(_ product: Product) async throws -> Bool
     func restore() async
 }
