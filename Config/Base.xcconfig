@@ -1,1 +1,3 @@
+// Import local-only config with secrets
+// CI exports secrets through Env variables
 #include? "Secret.xcconfig"
