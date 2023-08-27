@@ -30,6 +30,7 @@ public struct SettingsFeatureView: View {
                     send: { .setIsOnTop($0) }
                 )
             ) {
+
                 Section {
                     NavigationLink(value: SettingsFeatureDestination.premiumClub) {
                         PremiumClubLabel(

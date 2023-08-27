@@ -89,6 +89,7 @@
 		E627877428B6B50C00F61D9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E627877528B6B50F00F61D9B /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E6310E30292C02A10013A103 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		E64AF1732A9B6DD2002C8419 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
 		E6648AED2A8A076800D8736D /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		E69C56542A8A791D004C71D2 /* 010101.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 010101.json; sourceTree = "<group>"; };
@@ -171,6 +172,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E64AF1712A9B6DD2002C8419 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				E64AF1732A9B6DD2002C8419 /* Base.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		E695524A22F9D0E000EEFA72 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +236,7 @@
 		E6F931A922F8B1C10038FC43 = {
 			isa = PBXGroup;
 			children = (
+				E64AF1712A9B6DD2002C8419 /* Config */,
 				E6CCA27A2917EF900079D815 /* ScheduleWidgetExtension.entitlements */,
 				E6F931B422F8B1C10038FC43 /* BsuirScheduleApp */,
 				E6AA8D1425162F1A00788A02 /* ScheduleWidget */,
@@ -320,7 +330,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E6F931C922F8B1C20038FC43 /* Build configuration list for PBXNativeTarget "BsuirScheduleApp" */;
 			buildPhases = (
-				E68285BD2A9A8E4100933A96 /* Generate Env Variables */,
 				E6F931AE22F8B1C10038FC43 /* Sources */,
 				E6F931AF22F8B1C10038FC43 /* Frameworks */,
 				E6F931B022F8B1C10038FC43 /* Resources */,
@@ -421,31 +430,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		E68285BD2A9A8E4100933A96 /* Generate Env Variables */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/.env-vars.sh",
-				"$(SRCROOT)/scripts/generate_env_vars.sh",
-			);
-			name = "Generate Env Variables";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Modules/Sources/BsuirCore/EnvVariables.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#check if env-vars.sh exists\nif [ -f ./.env-vars.sh ]\nthen\nsource ./.env-vars.sh\nfi\n#no `else` case needed if the CI works as expected\nscripts/generate_env_vars.sh Modules/Sources/BsuirCore/EnvVariables.swift\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E6AA8D0B25162F1A00788A02 /* Sources */ = {
@@ -625,6 +609,7 @@
 		};
 		E6F931C722F8B1C20038FC43 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E64AF1732A9B6DD2002C8419 /* Base.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -692,6 +677,7 @@
 		};
 		E6F931C822F8B1C20038FC43 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E64AF1732A9B6DD2002C8419 /* Base.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;

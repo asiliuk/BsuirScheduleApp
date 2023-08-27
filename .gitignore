@@ -49,5 +49,5 @@ fastlane/AuthKey_*
 img/snapshots_to_upload
 
 # Config
-.env-vars.sh
+Config/Secret.xcconfig
 Modules/Sources/BsuirCore/EnvVariables.swift

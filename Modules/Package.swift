@@ -12,27 +12,6 @@ let package = Package(
             name: "AppFeature",
             targets: ["AppFeature"]),
         .library(
-            name: "SettingsFeature",
-            targets: ["SettingsFeature"]),
-        .library(
-            name: "PremiumClubFeature",
-            targets: ["PremiumClubFeature"]),
-        .library(
-            name: "GroupsFeature",
-            targets: ["GroupsFeature"]),
-        .library(
-            name: "LecturersFeature",
-            targets: ["LecturersFeature"]),
-        .library(
-            name: "EntityScheduleFeature",
-            targets: ["ScheduleFeature"]),
-        .library(
-            name: "ScheduleFeature",
-            targets: ["ScheduleFeature"]),
-        .library(
-            name: "LoadableFeature",
-            targets: ["LoadableFeature"]),
-        .library(
             name: "BsuirUI",
             targets: ["BsuirUI"]),
         .library(

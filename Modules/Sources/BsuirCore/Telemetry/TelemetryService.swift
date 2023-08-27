@@ -16,7 +16,15 @@ extension DependencyValues {
 }
 
 private enum TelemetryServiceKey: DependencyKey {
-    static let liveValue: any TelemetryService = TelemetryDeckService()
+    static let liveValue: any TelemetryService = {
+        @Dependency(\.appConfiguration) var appConfiguration
+        guard let appId = appConfiguration.telemetryDeckAppId else {
+            assertionFailure("Failed to get telemetry app ID. Make sure it is setup correctly in .xcconfig files")
+            return TelemetryServiceMock()
+        }
+        return TelemetryDeckService(appId: appId)
+    }()
+
     static let previewValue: any TelemetryService = TelemetryServiceMock()
 }
 
