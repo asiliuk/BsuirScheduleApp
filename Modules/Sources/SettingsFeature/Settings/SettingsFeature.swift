@@ -18,11 +18,6 @@ public struct SettingsFeature: Reducer {
         var networkAndData = NetworkAndDataFeature.State()
         var about = AboutFeature.State()
 
-        var appConfiguration: AppConfiguration {
-            @Dependency(\.appConfiguration) var appConfiguration
-            return appConfiguration
-        }
-        
         public init() {}
     }
     

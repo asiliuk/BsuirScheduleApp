@@ -31,16 +31,6 @@ public struct SettingsFeatureView: View {
                 )
             ) {
 
-                WithViewStore(store, observe: \.appConfiguration) { viewStore in
-                    Section("Source") {
-                        Text(viewStore.testSource)
-                    }
-
-                    Section("Telemetry app id") {
-                        Text(viewStore.telemetryDeckAppId ?? "Unknown")
-                    }
-                }
-
                 Section {
                     NavigationLink(value: SettingsFeatureDestination.premiumClub) {
                         PremiumClubLabel(
