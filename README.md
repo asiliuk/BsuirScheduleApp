@@ -1,4 +1,4 @@
-# BsuirScheduleApp
+# Bsuir Schedule
 A new version of famous [Bsuir Schedule app](https://apps.apple.com/us/app/bsuir-schedule/id944151090), rewritten in Swift/SwiftUI
 
 > :warning: Main purpose of this application is for me to use and learn new tools, features and technologies.
