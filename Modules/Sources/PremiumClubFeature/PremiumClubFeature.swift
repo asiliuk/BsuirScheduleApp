@@ -22,6 +22,7 @@ public struct PremiumClubFeature: Reducer {
         public var hasPremium: Bool
         var isModal: Bool
         var confettiCounter: Int = 0
+        var redeemCodePresent = false
 
         var sections: [Section] {
             switch source {
@@ -53,7 +54,9 @@ public struct PremiumClubFeature: Reducer {
     public enum Action: Equatable {
         case task
         case restoreButtonTapped
+        case redeemCodeButtonTapped
         case setConfettiCounter(Int)
+        case setRedeemCodePresent(Bool)
         case _setIsPremium(Bool)
         case tips(TipsSection.Action)
         case premiumClubMembership(PremiumClubMembershipSection.Action)
@@ -77,6 +80,10 @@ public struct PremiumClubFeature: Reducer {
             case .restoreButtonTapped:
                 return .run { _ in await productsService.restore() }
 
+            case .redeemCodeButtonTapped:
+                state.redeemCodePresent = true
+                return .none
+
             case let ._setIsPremium(value):
                 guard value != state.hasPremium else { return .none }
                 state.hasPremium = value
@@ -92,7 +99,11 @@ public struct PremiumClubFeature: Reducer {
                 state.confettiCounter = value
                 return .none
 
-            default:
+            case .setRedeemCodePresent(let value):
+                state.redeemCodePresent = value
+                return .none
+
+            case .tips, .premiumClubMembership, .subsctiptionFooter:
                 return .none
             }
         }

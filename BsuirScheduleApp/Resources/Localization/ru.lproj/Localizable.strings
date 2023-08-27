@@ -50,7 +50,9 @@
 "screen.premiumClub.navigation.member.message" = "Вы состоите в клубе!";
 "screen.premiumClub.navigation.notMember.message" = "Присоединяйтесь к клубу";
 
-"screen.premiumClub.button.restore" = "Восстановить";
+"screen.premiumClub.button.options" = "Опции";
+"screen.premiumClub.button.restore" = "Восстановить покупки";
+"screen.premiumClub.button.redeemCode" = "Активировать код";
 
 "screen.premiumClub.section.tips.title" = "Чаевые";
 "screen.premiumClub.section.tips.failed.message" = "⚠️ Не удалост загрузить чаевые...";
