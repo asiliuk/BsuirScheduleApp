@@ -15,6 +15,8 @@ public struct AboutFeature: Reducer {
         case githubButtonTapped
         case telegramButtonTapped
         case reviewButtonTapped
+        case privacyPolicyTapped
+        case termsAndConditionsTapped
     }
 
     @Dependency(\.openURL) var openUrl
@@ -37,6 +39,16 @@ public struct AboutFeature: Reducer {
         case .reviewButtonTapped:
             return .run { _ in
                 await openUrl(.appStoreReview)
+            }
+
+        case .privacyPolicyTapped:
+            return .run { _ in
+                await openUrl(.privacyPolicy)
+            }
+
+        case .termsAndConditionsTapped:
+            return .run { _ in
+                await openUrl(.termsAndConditions)
             }
         }
     }

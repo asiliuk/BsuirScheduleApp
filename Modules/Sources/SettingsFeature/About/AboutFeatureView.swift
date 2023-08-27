@@ -30,6 +30,20 @@ struct AboutFeatureView: View {
                         Label("screen.settings.about.links.rate.title", systemImage: "star")
                     }
                 }
+
+                Section("screen.settings.docs.links.section.header") {
+                    Button {
+                        viewStore.send(.privacyPolicyTapped)
+                    } label: {
+                        Label("screen.settings.docs.links.privacy.title", systemImage: "person.badge.shield.checkmark")
+                    }
+
+                    Button {
+                        viewStore.send(.termsAndConditionsTapped)
+                    } label: {
+                        Label("screen.settings.docs.links.terms.title", systemImage: "doc.plaintext")
+                    }
+                }
             }
             .listStyle(.insetGrouped)
             .navigationTitle("screen.settings.about.navigation.title")
