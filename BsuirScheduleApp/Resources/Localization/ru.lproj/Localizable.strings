@@ -72,6 +72,9 @@
 "screen.premiumClub.section.membership.renew%@" = "Ваша подписка будет продлена %@";
 "screen.premiumClub.section.membership.expire%@" = "Срок действия вашей подписки истечет %@";
 "screen.premiumClub.section.membership.button.manage" = "Управлять";
+"screen.premiumClub.section.membership.legal.privacy" = "Политика конфиденциальности";
+"screen.premiumClub.section.membership.legal.terms" = "Правила & Условия";
+"screen.premiumClub.section.membership.legal%@%@" = "%@ и %@";
 
 "screen.premiumClub.subscribe.failed.title" = "Что-то пошло не так...";
 "screen.premiumClub.subscribe.button.title%@%@" = "Вступить в клуб за %@ / %@";

@@ -14,6 +14,7 @@ struct PremiumClubMembershipSectionView: View {
                         .frame(maxWidth: .infinity)
                 case .noSubscription:
                     Text("screen.premiumClub.section.membership.message")
+                    LegalInfoView()
                 case let .subscribed(expiration, willAutoRenew):
                     VStack(alignment: .leading, spacing: 8) {
                         let formattedExpiration = expiration?.formatted(date: .long, time: .omitted) ?? "-/-"
@@ -33,5 +34,23 @@ struct PremiumClubMembershipSectionView: View {
                 .settingsRowAccent(.premiumGradient)
         }
         .task { await store.send(.task).finish() }
+    }
+}
+
+private struct LegalInfoView: View {
+
+    var body: some View {
+        let privacyPolicy = link(label: "screen.premiumClub.section.membership.legal.privacy", url: .privacyPolicy)
+        let termsAndConditions = link(label: "screen.premiumClub.section.membership.legal.terms", url: .termsAndConditions)
+
+        Text("screen.premiumClub.section.membership.legal\(privacyPolicy)\(termsAndConditions)")
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+    }
+
+    private func link(label: LocalizedStringResource, url: URL) -> AttributedString {
+        var attributes = AttributeContainer()
+        attributes.link = url
+        return AttributedString(String(localized: label), attributes: attributes)
     }
 }

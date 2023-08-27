@@ -72,6 +72,9 @@
 "screen.premiumClub.section.membership.renew%@" = "Your subscription will renew %@";
 "screen.premiumClub.section.membership.expire%@" = "Your subscription will expire %@";
 "screen.premiumClub.section.membership.button.manage" = "Manage";
+"screen.premiumClub.section.membership.legal.privacy" = "Privacy policy";
+"screen.premiumClub.section.membership.legal.terms" = "Terms & Conditions";
+"screen.premiumClub.section.membership.legal%@%@" = "%@ and %@";
 
 "screen.premiumClub.subscribe.failed.title" = "Something went wrong...";
 "screen.premiumClub.subscribe.button.title%@%@" = "Join Club for %@ / %@";
