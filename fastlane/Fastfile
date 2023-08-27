@@ -62,7 +62,7 @@ platform :ios do
     )
 
     upload_to_app_store(
-      screenshots_path: "./img/snapshots_to_upload",
+      screenshots_path: "./info/snapshots_to_upload",
       overwrite_screenshots: true
     )
   end

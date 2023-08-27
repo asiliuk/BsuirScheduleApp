@@ -17,9 +17,9 @@ If You found a bug or want to make a feture request, please create [New Issue](h
 
 | Widgets | Pinned | DarkMode & DynamicType |
 | ------- | ------------ | -------- |
-| <img src="img/snapshots/ru-RU/iPad Pro (12.9-inch) (6th generation)-0_Widgets.png"> | <img src="img/snapshots/ru-RU/iPad Pro (12.9-inch) (6th generation)-1_Pinned-Light.png"> | <img src="img/snapshots/ru-RU/iPad Pro (12.9-inch) (6th generation)-2_Schedule-Dark-XXL.png"> |
+| <img src="info/snapshots/ru-RU/iPad Pro (12.9-inch) (6th generation)-0_Widgets.png"> | <img src="info/snapshots/ru-RU/iPad Pro (12.9-inch) (6th generation)-1_Pinned-Light.png"> | <img src="info/snapshots/ru-RU/iPad Pro (12.9-inch) (6th generation)-2_Schedule-Dark-XXL.png"> |
 
 ## iPhone
 | Widgets | Pinned | DarkMode & DynamicType |
 | ------- | ------------ | -------- |
-| <img src="img/snapshots/ru-RU/iPhone 11 Pro Max-0_Widgets.png"> | <img src="img/snapshots/ru-RU/iPhone 11 Pro Max-1_Pinned-Light.png"> | <img src="img/snapshots/ru-RU/iPhone 11 Pro Max-2_Schedule-Dark-XXL.png"> |
+| <img src="info/snapshots/ru-RU/iPhone 11 Pro Max-0_Widgets.png"> | <img src="info/snapshots/ru-RU/iPhone 11 Pro Max-1_Pinned-Light.png"> | <img src="info/snapshots/ru-RU/iPhone 11 Pro Max-2_Schedule-Dark-XXL.png"> |
