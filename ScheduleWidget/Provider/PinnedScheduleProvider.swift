@@ -18,17 +18,18 @@ final class PinnedScheduleProvider: TimelineProvider {
 
     func getSnapshot(in context: Context, completion: @escaping (ScheduleEntry) -> Void) {
         requestSnapshot = Task {
-            guard !context.isPreview else {
-                return completion(.preview)
+            func completeCheckingPreview(with entry: ScheduleEntry) {
+                completion(context.isPreview ? .preview : entry)
             }
 
             guard premiumService.isCurrentlyPremium else {
-                return completion(.premiumLocked)
+                return completeCheckingPreview(with: .premiumLocked)
             }
 
             guard let pinnedSchedule = favoritesService.currentPinnedSchedule else {
-                return completion(.noPinned)
+                return completeCheckingPreview(with: .noPinned)
             }
+
             guard
                 let schedule = try? await mostRelevantSchedule(for: pinnedSchedule),
                 let entry = Entry(schedule, at: Date())
@@ -41,16 +42,16 @@ final class PinnedScheduleProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<ScheduleEntry>) -> Void) {
-        guard !context.isPreview else {
-            return completion(.init(entries: [.preview], policy: .never))
+        func completeCheckingPreview(with entry: ScheduleEntry) {
+            completion(.init(entries: [context.isPreview ? .preview : entry], policy: .never))
         }
 
         guard premiumService.isCurrentlyPremium else {
-            return completion(.init(entries: [.premiumLocked], policy: .never))
+            return completeCheckingPreview(with: .premiumLocked)
         }
 
         guard let pinnedSchedule = favoritesService.currentPinnedSchedule else {
-            return completion(.init(entries: [.noPinned], policy: .never))
+            return completeCheckingPreview(with: .noPinned)
         }
 
         requestTimeline = Task {
