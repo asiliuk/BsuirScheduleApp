@@ -14,8 +14,10 @@ struct PremiumClubMembershipSectionView: View {
                         .progressViewStyle(.circular)
                         .frame(maxWidth: .infinity)
                 case .noSubscription:
-                    Text("screen.premiumClub.section.membership.message")
-                    LegalInfoView()
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("screen.premiumClub.section.membership.message")
+                        LegalInfoView()
+                    }
                 case .subscribed:
                     CaseLet(
                         /PremiumClubMembershipSection.State.subscribed,
