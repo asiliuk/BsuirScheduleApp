@@ -6,7 +6,7 @@ public struct PremiumClubMembershipSection: Reducer {
     public enum State: Equatable {
         case loading
         case noSubscription
-        case subscribed(expiration: Date?, willAutoRenew: Bool)
+        case subscribed(PremiumClubMembershipSubscribed.State)
 
         init() {
             self = .loading
@@ -15,15 +15,15 @@ public struct PremiumClubMembershipSection: Reducer {
 
     public enum Action: Equatable {
         case task
-        case manageButtonTapped
 
         case _premiumStateChanged
         case _failedToGetDetails
         case _receivedNoSubscription
         case _receivedStatus(Product.SubscriptionInfo.Status)
+
+        case subscribed(PremiumClubMembershipSubscribed.Action)
     }
 
-    @Dependency(\.openURL) var openUrl
     @Dependency(\.productsService) var productsService
     @Dependency(\.premiumService) var premiumService
 
@@ -35,8 +35,6 @@ public struct PremiumClubMembershipSection: Reducer {
                     loadSubscriptionDetails(state: &state),
                     listenForPremiumStateUpdates()
                 )
-            case .manageButtonTapped:
-                return .run { _ in await openUrl(.appStoreSubscriptions) }
             case ._premiumStateChanged:
                 return loadSubscriptionDetails(state: &state).animation()
             case ._failedToGetDetails:
@@ -54,12 +52,19 @@ public struct PremiumClubMembershipSection: Reducer {
                     state = .noSubscription
                     return .none
                 }
-                state = .subscribed(
+                state = .subscribed(.init(
                     expiration: transaction.expirationDate,
                     willAutoRenew: renewalInfo.willAutoRenew
-                )
+                ))
+                return .none
+
+            case .subscribed:
                 return .none
             }
+        }
+
+        Scope(state: /State.subscribed, action: /Action.subscribed) {
+            PremiumClubMembershipSubscribed()
         }
     }
 
@@ -85,6 +90,34 @@ public struct PremiumClubMembershipSection: Reducer {
         return .run { send in
             for await _ in premiumService.isPremium.removeDuplicates().dropFirst().values {
                 await send(._premiumStateChanged)
+            }
+        }
+    }
+}
+
+public struct PremiumClubMembershipSubscribed: Reducer {
+    public struct State: Equatable {
+        var formattedExpiration: String { expiration?.formatted(date: .long, time: .omitted) ?? "-/-" }
+        var expiration: Date?
+        var willAutoRenew: Bool
+        @BindingState var manageSubscriptionPresented: Bool = false
+    }
+
+    public enum Action: Equatable, BindableAction {
+        case manageButtonTapped
+        case binding(BindingAction<State>)
+    }
+
+    public var body: some ReducerOf<Self> {
+        BindingReducer()
+
+        Reduce { state, action in
+            switch action {
+            case .manageButtonTapped:
+                state.manageSubscriptionPresented = true
+                return .none
+            case .binding:
+                return .none
             }
         }
     }

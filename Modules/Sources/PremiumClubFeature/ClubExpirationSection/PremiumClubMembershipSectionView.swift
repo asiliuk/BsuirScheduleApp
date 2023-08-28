@@ -1,13 +1,14 @@
 import SwiftUI
+import StoreKit
 import ComposableArchitecture
 
 struct PremiumClubMembershipSectionView: View {
     let store: StoreOf<PremiumClubMembershipSection>
-
+    @State var manageSubscriptionShown = false
     var body: some View {
         GroupBox {
-            WithViewStore(store, observe: { $0 }) { viewStore in
-                switch viewStore.state {
+            SwitchStore(store) { state in
+                switch state {
                 case .loading:
                     ProgressView()
                         .progressViewStyle(.circular)
@@ -15,25 +16,42 @@ struct PremiumClubMembershipSectionView: View {
                 case .noSubscription:
                     Text("screen.premiumClub.section.membership.message")
                     LegalInfoView()
-                case let .subscribed(expiration, willAutoRenew):
-                    VStack(alignment: .leading, spacing: 8) {
-                        let formattedExpiration = expiration?.formatted(date: .long, time: .omitted) ?? "-/-"
-                        if willAutoRenew {
-                            Text("screen.premiumClub.section.membership.renew\(formattedExpiration)")
-                        } else {
-                            Text("screen.premiumClub.section.membership.expire\(formattedExpiration)")
-                        }
-                        Button("screen.premiumClub.section.membership.button.manage") { viewStore.send(.manageButtonTapped) }
-                    }
+                case .subscribed:
+                    CaseLet(
+                        /PremiumClubMembershipSection.State.subscribed,
+                         action: PremiumClubMembershipSection.Action.subscribed,
+                         then: PremiumClubMembershipSubscribedView.init
+                    )
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
             .padding(.vertical, 4)
         } label: {
             Label("screen.premiumClub.section.membership.title", systemImage: "checkmark.seal.fill")
                 .settingsRowAccent(.premiumGradient)
         }
         .task { await store.send(.task).finish() }
+    }
+}
+
+private struct PremiumClubMembershipSubscribedView: View {
+    let store: StoreOf<PremiumClubMembershipSubscribed>
+
+    var body: some View {
+        WithViewStore(store, observe: { $0 }) { viewStore in
+            VStack(alignment: .leading, spacing: 8) {
+                if viewStore.willAutoRenew {
+                    Text("screen.premiumClub.section.membership.renew\(viewStore.formattedExpiration)")
+                } else {
+                    Text("screen.premiumClub.section.membership.expire\(viewStore.formattedExpiration)")
+                }
+                Button("screen.premiumClub.section.membership.button.manage") {
+                    viewStore.send(.manageButtonTapped)
+                }
+            }
+            // TODO: make sure this is called on main queue
+            .manageSubscriptionsSheet(isPresented: viewStore.$manageSubscriptionPresented)
+        }
     }
 }
 
