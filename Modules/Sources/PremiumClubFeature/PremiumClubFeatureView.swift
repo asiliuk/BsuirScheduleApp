@@ -51,11 +51,11 @@ public struct PremiumClubFeatureView: View {
                 )
             )
             .offerCodeRedemption(
-                // TODO: Find a way to call on main thread
                 isPresented: viewStore.binding(
                     get: \.redeemCodePresent,
                     send: { .setRedeemCodePresent($0) }
                 )
+                ._onMainQueue()
             )
         }
         .navigationTitle("screen.premiumClub.navigation.title")

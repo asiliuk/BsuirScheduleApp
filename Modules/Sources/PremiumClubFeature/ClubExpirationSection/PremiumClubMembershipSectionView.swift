@@ -49,8 +49,7 @@ private struct PremiumClubMembershipSubscribedView: View {
                     viewStore.send(.manageButtonTapped)
                 }
             }
-            // TODO: make sure this is called on main queue
-            .manageSubscriptionsSheet(isPresented: viewStore.$manageSubscriptionPresented)
+            .manageSubscriptionsSheet(isPresented: viewStore.$manageSubscriptionPresented._onMainQueue())
         }
     }
 }
