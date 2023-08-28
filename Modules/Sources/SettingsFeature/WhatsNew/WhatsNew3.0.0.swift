@@ -32,6 +32,6 @@ extension WhatsNew {
                 localizedSubtitle: "screen.settings.whatsNew.3_0.meta.subtitle"
             ),
         ],
-        primaryAction: .init(title: "Got it")
+        primaryAction: .init(localizedTitle: "screen.settings.whatsNew.button.gotIt")
     )
 }

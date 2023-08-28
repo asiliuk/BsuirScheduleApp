@@ -92,6 +92,7 @@
 // MARK: - Whats new
 
 "screen.settings.whatsNew.navigation.title" = "Што новага";
+"screen.settings.whatsNew.button.gotIt" = "Зразумела";
 
 "screen.settings.whatsNew.3_0.freshStart.title" = "Новы пачатак!";
 "screen.settings.whatsNew.3_0.freshStart.subtitle" = "Унутраная архітэктура была перапісана для лягчэйшых паляпшэнняў і мадыфікацый. Гэта дазволіць мне значна прасцей дадаваць новыя функцыі";
