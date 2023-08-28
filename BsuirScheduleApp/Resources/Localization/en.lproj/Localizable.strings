@@ -89,6 +89,25 @@
 "com.saute.bsuir_schedule.tips.medium" = "🥐 Medium tip";
 "com.saute.bsuir_schedule.tips.large" = "🥙 Large tip";
 
+// MARK: - Whats new
+
+"screen.settings.whatsNew.navigation.title" = "What's new";
+
+"screen.settings.whatsNew.3_0.freshStart.title" = "Fresh start!";
+"screen.settings.whatsNew.3_0.freshStart.subtitle" = "Internal architecture was rewritten to support easier extensions and modifications. This will allow me to add new features much more easily";
+
+"screen.settings.whatsNew.3_0.pin.title" = "Pinned schedule";
+"screen.settings.whatsNew.3_0.pin.subtitle" = "Pin schedule and it will be the MAIN one. It will be displayed in widget without any configuration!";
+
+"screen.settings.whatsNew.3_0.subscription.title" = "Sustainable development";
+"screen.settings.whatsNew.3_0.subscription.subtitle" = "Support developer by subscribing to Premium Club or leaving a tip!";
+
+"screen.settings.whatsNew.3_0.appIcons.title" = "New app icons";
+"screen.settings.whatsNew.3_0.appIcons.subtitle" = "Multiple new app icons, come and get your favorite";
+
+"screen.settings.whatsNew.3_0.meta.title" = "Very meta";
+"screen.settings.whatsNew.3_0.meta.subtitle" = "This screen was added to make sure I could notify you about important new features coming to the app";
+
 // MARK: - Appearance
 
 "screen.settings.appearance.navigation.title" = "Appearance";

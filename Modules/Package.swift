@@ -37,6 +37,7 @@ let package = Package(
          .package(url: "https://github.com/simibac/ConfettiSwiftUI.git", from: "1.1.0"),
          .package(url: "https://github.com/ryanlintott/FrameUp.git", from: "0.5.0"),
          .package(url: "https://github.com/TelemetryDeck/SwiftClient.git", from: "1.4.0"),
+         .package(url: "https://github.com/SvenTiigi/WhatsNewKit.git", from: "2.1.0"),
     ],
     targets: [
         // MARK: - Features
@@ -51,7 +52,7 @@ let package = Package(
         ),
         .target(
             name: "SettingsFeature",
-            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies]
+            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies, .whatsNewKit]
         ),
         .target(
             name: "PremiumClubFeature",
@@ -124,4 +125,5 @@ private extension Target.Dependency {
     static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
     static let frameUp: Self = .product(name: "FrameUp", package: "FrameUp")
     static let telemetryClient: Self = .product(name: "TelemetryClient", package: "SwiftClient")
+    static let whatsNewKit: Self = .product(name: "WhatsNewKit", package: "WhatsNewKit")
 }

@@ -42,6 +42,10 @@ public struct SettingsFeatureView: View {
                     }
                 }
 
+                IfLetStore(store.scope(state: \.whatsNew, action: { .whatsNew($0) })) { store in
+                    WhatsNewSectionView(store: store)
+                }
+
                 Section {
                     AppIconFeatureNavigationLink(
                         value: .appIcon,

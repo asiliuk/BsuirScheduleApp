@@ -13,6 +13,9 @@ public struct SettingsFeature: Reducer {
 
         var premiumClub = PremiumClubFeature.State(isModal: false)
 
+        public var hasWhatsNew: Bool { whatsNew != nil }
+        var whatsNew = WhatsNewFeature.State()
+
         var appIcon = AppIconFeature.State()
         var appearance = AppearanceFeature.State()
         var networkAndData = NetworkAndDataFeature.State()
@@ -27,6 +30,7 @@ public struct SettingsFeature: Reducer {
         }
 
         case premiumClub(PremiumClubFeature.Action)
+        case whatsNew(WhatsNewFeature.Action)
         case appIcon(AppIconFeature.Action)
         case appearance(AppearanceFeature.Action)
         case networkAndData(NetworkAndDataFeature.Action)
@@ -57,9 +61,19 @@ public struct SettingsFeature: Reducer {
                     return .send(.delegate(.showPremiumClub(source: .appIcon)))
                 }
 
-            case .premiumClub, .appIcon, .appearance, .networkAndData, .about, .delegate:
+            case .whatsNew(.delegate(let action)):
+                switch action {
+                case .whatsNewDismissed:
+                    state.whatsNew = nil
+                    return .none
+                }
+
+            case .premiumClub, .whatsNew, .appIcon, .appearance, .networkAndData, .about, .delegate:
                 return .none
             }
+        }
+        .ifLet(\.whatsNew, action: /Action.whatsNew) {
+            WhatsNewFeature()
         }
 
         Scope(state: \.premiumClub, action: /Action.premiumClub) {
