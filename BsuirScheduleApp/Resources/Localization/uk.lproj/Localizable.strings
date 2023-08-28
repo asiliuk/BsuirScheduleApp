@@ -182,6 +182,7 @@
 "screen.settings.networkAndData.reachability.section.header" = "Досяжність";
 "screen.settings.networkAndData.data.section.header" = "Дані";
 "screen.settings.networkAndData.data.section.clearCache.button" = "Очистити кеш";
+"screen.settings.networkAndData.data.section.clearWhatsNew.button" = "Очистити кеш \"Що нового\"";
 
 // MARK: - Schedule
 
@@ -258,6 +259,9 @@
 
 "alert.clearCache.title" = "Кеш успішно очищений";
 "alert.clearCache.message" = "Було видалено кеш завантаженого розкладу і фотографій викладачів";
+
+"alert.clearWhatsNewCache.title" = "Кеш успішно очищений";
+"alert.clearWhatsNewCache.message" = "Кеш версій програми, для яких відображався екран \"Що нового\", був очищений. Він може з'явитися знову.";
 
 "alert.premiumClub.pinnedSchedule.title" = "Це преміум-функція";
 "alert.premiumClub.pinnedSchedule.message" = "Будь ласка, приєднайтесь до **Premium Club**, щоб мати можливість закріплювати свій розклад";

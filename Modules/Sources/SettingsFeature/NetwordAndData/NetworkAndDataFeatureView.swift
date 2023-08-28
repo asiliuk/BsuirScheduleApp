@@ -12,9 +12,21 @@ struct NetworkAndDataFeatureView: View {
             }
 
             Section("screen.settings.networkAndData.data.section.header") {
-                ClearCacheSectionView(store: store)
+                Button("screen.settings.networkAndData.data.section.clearCache.button") {
+                    store.send(.clearCacheTapped)
+                }
+
+                Button("screen.settings.networkAndData.data.section.clearWhatsNew.button") {
+                    store.send(.clearWhatsNewTapped)
+                }
             }
         }
+        .alert(
+            store: store.scope(
+                state: \.$alert,
+                action: { .alert($0) }
+            )
+        )
         .listStyle(.insetGrouped)
         .navigationTitle("screen.settings.networkAndData.navigation.title")
     }
@@ -37,24 +49,6 @@ private struct ReachabilitySectionView: View {
             store: store.scope(
                 state: \.appleReachability,
                 action: { .appleReachability($0) }
-            )
-        )
-    }
-}
-
-// MARK: - Clear Cache Section
-
-private struct ClearCacheSectionView: View {
-    let store: StoreOf<NetworkAndDataFeature>
-
-    var body: some View {
-        Button("screen.settings.networkAndData.data.section.clearCache.button") {
-            store.send(.clearCacheTapped)
-        }
-        .alert(
-            store: store.scope(
-                state: \.$cacheClearedAlert,
-                action: { .alert($0) }
             )
         )
     }

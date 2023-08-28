@@ -183,6 +183,7 @@
 "screen.settings.networkAndData.reachability.section.header" = "Доступность";
 "screen.settings.networkAndData.data.section.header" = "Данные";
 "screen.settings.networkAndData.data.section.clearCache.button" = "Очистить кэш";
+"screen.settings.networkAndData.data.section.clearWhatsNew.button" = "Очистить кэш \"Что нового\"";
 
 // MARK: - Schedule
 
@@ -259,6 +260,9 @@
 
 "alert.clearCache.title" = "Кэш успешно очищен";
 "alert.clearCache.message" = "Был удален кэш скачанного расписания и фотографий преподавателей";
+
+"alert.clearWhatsNewCache.title" = "Кэш успешно очищен";
+"alert.clearWhatsNewCache.message" = "Кэш версий приложения, для которых отображался экран \"Что нового\", был очищен. Он может появиться снова.";
 
 "alert.premiumClub.pinnedSchedule.title" = "Это премиум-функция";
 "alert.premiumClub.pinnedSchedule.message" = "Пожалуйста, присоединитесь к **Premium Club**, чтобы иметь возможность закреплять свое расписанию";

@@ -183,6 +183,7 @@
 "screen.settings.networkAndData.reachability.section.header" = "Дасяжнасць";
 "screen.settings.networkAndData.data.section.header" = "Звесткі";
 "screen.settings.networkAndData.data.section.clearCache.button" = "Ачысціць кэш";
+"screen.settings.networkAndData.data.section.clearWhatsNew.button" = "Ачысціць кэш \"Што новага\"";
 
 // MARK: - Schedule
 
@@ -259,6 +260,9 @@
 
 "alert.clearCache.title" = "Кэш паспяхова вычышчаны";
 "alert.clearCache.message" = "Быў выдалены кэш запампаванага раскладу і фатаграфій выкладчыкаў";
+
+"alert.clearWhatsNewCache.title" = "Кэш паспяхова вычышчаны";
+"alert.clearWhatsNewCache.message" = "Кэш версій прыкладання, для якіх адлюстроўваўся экран \"Што новага\", быў ачышчаны. Ён можа з'явіцца зноў.";
 
 "alert.premiumClub.pinnedSchedule.title" = "Гэта прэміум-функцыя";
 "alert.premiumClub.pinnedSchedule.message" = "Калі ласка, далучыцеся да **Premium Club**, каб мець магчымасць замацоўваць свой расклад";

@@ -4,13 +4,38 @@ import Dependencies
 public protocol WhatsNewService {
     func whatsNew() -> WhatsNew?
     func markWhatsNewPresented(version: WhatsNew.Version)
+    func removeAllPresentationMarks()
 }
 
-// MARK: WhatsNewEnvironment
+// MARK: LiveWhatsNewService
 
-extension WhatsNewEnvironment: WhatsNewService {
-    public func markWhatsNewPresented(version: WhatsNew.Version) {
-        whatsNewVersionStore.save(presentedVersion: version)
+final class LiveWhatsNewService {
+    private let versionStore: NSUbiquitousKeyValueWhatsNewVersionStore
+    private let whatsNewEnvironment: WhatsNewEnvironment
+
+    init(
+        versionStore: NSUbiquitousKeyValueWhatsNewVersionStore = .init(),
+        whatsNewCollection: WhatsNewCollection
+    ) {
+        self.versionStore = versionStore
+        self.whatsNewEnvironment = WhatsNewEnvironment(
+            versionStore: versionStore,
+            whatsNewCollection: whatsNewCollection
+        )
+    }
+}
+
+extension LiveWhatsNewService: WhatsNewService {
+    func whatsNew() -> WhatsNew? {
+        whatsNewEnvironment.whatsNew()
+    }
+
+    func markWhatsNewPresented(version: WhatsNew.Version) {
+        versionStore.save(presentedVersion: version)
+    }
+
+    func removeAllPresentationMarks() {
+        versionStore.removeAll()
     }
 }
 
@@ -24,9 +49,9 @@ extension DependencyValues {
 }
 
 private enum WhatsNewServiceKey: DependencyKey {
-    static let liveValue: any WhatsNewService = WhatsNewEnvironment {
-        WhatsNew.version300
-    }
+    static let liveValue: any WhatsNewService = LiveWhatsNewService(whatsNewCollection: [
+        .version300,
+    ])
     static let previewValue: any WhatsNewService = WhatsNewServiceMock()
 }
 
@@ -35,4 +60,5 @@ private enum WhatsNewServiceKey: DependencyKey {
 final class WhatsNewServiceMock: WhatsNewService {
     func whatsNew() -> WhatsNew? { nil }
     func markWhatsNewPresented(version: WhatsNew.Version) {}
+    func removeAllPresentationMarks() {}
 }

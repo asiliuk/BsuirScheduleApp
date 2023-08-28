@@ -68,6 +68,13 @@ public struct SettingsFeature: Reducer {
                     return .none
                 }
 
+            case .networkAndData(.delegate(let action)):
+                switch action {
+                case .whatsNewCacheCleared:
+                    state.whatsNew = WhatsNewFeature.State()
+                    return .none
+                }
+
             case .premiumClub, .whatsNew, .appIcon, .appearance, .networkAndData, .about, .delegate:
                 return .none
             }

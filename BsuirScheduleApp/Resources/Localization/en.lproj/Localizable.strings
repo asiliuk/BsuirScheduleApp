@@ -182,6 +182,7 @@
 "screen.settings.networkAndData.reachability.section.header" = "Reachability";
 "screen.settings.networkAndData.data.section.header" = "Data";
 "screen.settings.networkAndData.data.section.clearCache.button" = "Clear cache";
+"screen.settings.networkAndData.data.section.clearWhatsNew.button" = "Clear \"What's new\" cache";
 
 // MARK: - Schedule
 
@@ -258,6 +259,9 @@
 
 "alert.clearCache.title" = "Cache successfully cleared";
 "alert.clearCache.message" = "The cache of the downloaded schedule and lecturers photos has been deleted";
+
+"alert.clearWhatsNewCache.title" = "Cache successfully cleared";
+"alert.clearWhatsNewCache.message" = "The cache of app versions for which \"What's new\" screen was shown was cleared. It may appear again.";
 
 "alert.premiumClub.pinnedSchedule.title" = "This is premium feature";
 "alert.premiumClub.pinnedSchedule.message" = "Please join **Premium Club** to be able to pin your schedule";
