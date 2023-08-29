@@ -21,6 +21,18 @@ enum StrudentGroupSearchToken: Hashable, Identifiable {
 
 public struct GroupsFeature: Reducer {
     public struct State: Equatable {
+        /// Designed to defer group presentation to the moment when component was presented
+        enum GroupPresentationMode: Equatable {
+            /// initial state, attempts to present group in this mode would end up deferred
+            case initial
+            /// deferred, means that there were attempt to present group before component appeared
+            case deferred(String)
+            /// immediate, meaning component was presented and all attempts to present group should not be deferred
+            case immediate
+        }
+
+        var groupPresentationMode: GroupPresentationMode = .initial
+
         var path = StackState<EntityScheduleFeature.State>()
         @LoadableState var sections: IdentifiedArrayOf<GroupsSection.State>?
         var search: GroupsSearch.State = .init()
@@ -71,6 +83,7 @@ public struct GroupsFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .task:
+                state.presentDeferredGroupIfNeeded()
                 return .merge(
                     listenToFavoriteUpdates(),
                     listenToPinnedUpdates()
@@ -232,14 +245,30 @@ extension GroupsFeature.State {
         }
     }
 
-    /// Open shcedule screen for group.
+    /// Open schedule screen for group.
     mutating public func openGroup(named name: String) {
+        // Proceed only if component was presented and we could present groups immediately
+        // otherwise defer group presentation til moment component was loaded
+        guard groupPresentationMode == .immediate else {
+            groupPresentationMode = .deferred(name)
+            return
+        }
+
         if path.count == 1,
            case let .group(state) = path.last,
            state.groupName == name
         { return }
         search.reset()
         presentGroup(name)
+    }
+
+
+    /// Checks if presentation mode has deferred group and presents it and switch mode to immediate
+    fileprivate mutating func presentDeferredGroupIfNeeded() {
+        if case let .deferred(groupName) = groupPresentationMode {
+            presentGroup(groupName)
+        }
+        groupPresentationMode = .immediate
     }
 
     fileprivate mutating func presentGroup(_ groupName: String?) {
