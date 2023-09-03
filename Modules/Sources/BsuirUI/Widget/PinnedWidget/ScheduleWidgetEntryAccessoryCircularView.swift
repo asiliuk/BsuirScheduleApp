@@ -10,28 +10,31 @@ public struct ScheduleWidgetEntryAccessoryCircularView: View {
     }
     
     public var body: some View {
-        switch config.content {
-        case .noPinned:
-            NoPinSymbol()
-        case .needsConfiguration:
-            Text("⚙️")
-        case .pairs(_, []):
-            NoPairsView()
-        case let .pairs(passed, upcoming):
-            let pairs = PairsToDisplay(
-                passed: passed,
-                upcoming: upcoming,
-                maxVisibleCount: 1
-            )
-            
-            ForEach(pairs.visible) { pair in
-                PairDetailsView(progress: pair.progress) {
-                    pair.subject.map(Text.init(verbatim:))
-                } label: {
-                    pair.auditory.map(Text.init(verbatim:))
+        Group {
+            switch config.content {
+            case .noPinned:
+                NoPinSymbol()
+            case .needsConfiguration:
+                Text("⚙️")
+            case .pairs(_, []):
+                NoPairsView()
+            case let .pairs(passed, upcoming):
+                let pairs = PairsToDisplay(
+                    passed: passed,
+                    upcoming: upcoming,
+                    maxVisibleCount: 1
+                )
+
+                ForEach(pairs.visible) { pair in
+                    PairDetailsView(progress: pair.progress) {
+                        pair.subject.map(Text.init(verbatim:))
+                    } label: {
+                        pair.auditory.map(Text.init(verbatim:))
+                    }
                 }
             }
         }
+        .widgetBackground(.clear)
     }
 }
 

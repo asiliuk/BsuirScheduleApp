@@ -45,7 +45,7 @@ public struct ScheduleWidgetEntryMediumView : View {
                 RemainingPairsView(pairs: pairs.upcomingInvisible, visibleCount: 3, showTime: .first)
             }
         }
-        .padding()
-        .background(Color(.systemBackground))
+        .widgetPadding()
+        .widgetBackground(Color(.systemBackground))
     }
 }

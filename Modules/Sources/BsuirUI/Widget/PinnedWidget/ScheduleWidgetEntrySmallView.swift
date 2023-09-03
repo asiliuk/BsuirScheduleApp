@@ -6,6 +6,9 @@ public struct ScheduleWidgetEntrySmallView: View {
     var config: ScheduleWidgetConfiguration
     var date: Date
 
+    @Environment(\.widgetRenderingMode) var renderingMode
+    @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
+
     public init(config: ScheduleWidgetConfiguration, date: Date) {
         self.config = config
         self.date = date
@@ -18,7 +21,7 @@ public struct ScheduleWidgetEntrySmallView: View {
                 Spacer(minLength: 0)
             }
 
-            WidgetDateTitle(date: date, isSmall: true)
+            WidgetDateTitle(date: date, isSmall: showsWidgetBackground)
 
             switch config.content {
             case .noPinned:
@@ -36,15 +39,22 @@ public struct ScheduleWidgetEntrySmallView: View {
 
                 Spacer(minLength: 0)
                 ForEach(pairs.visible) { pair in
-                    PairView(pair: pair, distribution: .vertical, isCompact: true, showWeeks: false)
+                    PairView(
+                        pair: pair,
+                        distribution: .vertical,
+                        isCompact: showsWidgetBackground,
+                        spellForm: renderingMode == .vibrant,
+                        showWeeks: false
+                    )
                 }
                 Spacer(minLength: 0)
 
                 RemainingPairsView(pairs: pairs.upcomingInvisible, visibleCount: 1, showTime: .hide)
             }
         }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 12)
-        .background(Color(.systemBackground))
+        .widgetPadding()
+        .padding(.horizontal, showsWidgetBackground ? -4 : 0)
+        .padding(.vertical, showsWidgetBackground ? -6 : 0)
+        .widgetBackground(Color(.systemBackground))
     }
 }

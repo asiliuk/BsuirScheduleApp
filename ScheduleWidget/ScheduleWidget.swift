@@ -76,21 +76,24 @@ struct ScheduleWidgetEntryView: View {
 
 struct ScheduleWidget_Previews: PreviewProvider {
     static var previews: some View {
-        ScheduleWidgetEntryView(entry: entry)
-            .previewDisplayName("Schedule")
-            .previewContext(WidgetPreviewContext(family: family))
-        
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.config.content = .pairs() })
-            .previewContext(WidgetPreviewContext(family: family))
-            .previewDisplayName("No Pairs")
-        
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.config.content = .needsConfiguration })
-            .previewContext(WidgetPreviewContext(family: family))
-            .previewDisplayName("No Configuration")
+        Group {
+            ScheduleWidgetEntryView(entry: entry)
+                .previewDisplayName("Schedule")
+                .previewContext(WidgetPreviewContext(family: family))
 
-        ScheduleWidgetEntryView(entry: mutating(entry) { $0.config.content = .noPinned })
-            .previewContext(WidgetPreviewContext(family: family))
-            .previewDisplayName("No Pinned")
+            ScheduleWidgetEntryView(entry: mutating(entry) { $0.config.content = .pairs() })
+                .previewContext(WidgetPreviewContext(family: family))
+                .previewDisplayName("No Pairs")
+
+            ScheduleWidgetEntryView(entry: mutating(entry) { $0.config.content = .needsConfiguration })
+                .previewContext(WidgetPreviewContext(family: family))
+                .previewDisplayName("No Configuration")
+
+            ScheduleWidgetEntryView(entry: mutating(entry) { $0.config.content = .noPinned })
+                .previewContext(WidgetPreviewContext(family: family))
+                .previewDisplayName("No Pinned")
+        }
+        .environmentObject(PairFormDisplayService(storage: .standard, widgetService: .noop))
     }
     
     static var family: WidgetFamily {

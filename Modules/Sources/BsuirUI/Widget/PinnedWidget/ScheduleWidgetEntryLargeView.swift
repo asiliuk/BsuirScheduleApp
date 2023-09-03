@@ -54,7 +54,7 @@ public struct ScheduleWidgetEntryLargeView : View {
                 .padding(.top, 8)
             }
         }
-        .padding()
-        .background(Color(.systemBackground))
+        .widgetPadding()
+        .widgetBackground(Color(.systemBackground))
     }
 }
