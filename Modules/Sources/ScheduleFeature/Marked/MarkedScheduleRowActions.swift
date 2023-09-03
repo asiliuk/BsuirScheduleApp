@@ -2,6 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 
 extension View {
+    // TODO: Remove
     public func markedScheduleRowActions(store: StoreOf<MarkedScheduleFeature>) -> some View {
         modifier(MarkedScheduleRowActions(store: store))
     }
@@ -17,23 +18,24 @@ struct MarkedScheduleRowActions: ViewModifier {
             removeDuplicates: ==
         ) { viewStore in
             content
-                // This triggers listening for favorites & pinned updates
-                // since we have correct initial value it is *ok* to wait some time before triggering this
-                // otherwise it is very heavy load when list is scrolled
-                .task(throttleFor: .seconds(2)) { await viewStore.send(.task).finish() }
                 .swipeActions(edge: .leading) {
                     swipeButton(viewStore.isPinned ? .unpin : .pin, send: viewStore.send).tint(.red)
                 }
                 .swipeActions(edge: .trailing) {
                     swipeButton(viewStore.isFavorite ? .removeFromFavorites : .addToFavorites, send: viewStore.send).tint(.yellow)
                 }
-                .alert(
-                    store: store.scope(
-                        state: \.$alert,
-                        action: MarkedScheduleFeature.Action.alert
-                    )
-                )
+
         }
+        // This triggers listening for favorites & pinned updates
+        // since we have correct initial value it is *ok* to wait some time before triggering this
+        // otherwise it is very heavy load when list is scrolled
+        .task(throttleFor: .seconds(2) - .milliseconds(Int.random(in: 0..<10) * 50)) { await store.send(.task).finish() }
+        .alert(
+            store: store.scope(
+                state: \.$alert,
+                action: MarkedScheduleFeature.Action.alert
+            )
+        )
     }
 
     private func swipeButton(

@@ -109,43 +109,37 @@ public struct MarkedScheduleFeature: Reducer {
     }
 
     private func favorite(source: ScheduleSource) -> Effect<Action> {
-        return .merge(
-            .run { _ in
-                switch source {
-                case .group(let name):
-                    favorites.currentGroupNames.append(name)
-                case .lector(let lector):
-                    favorites.currentLectorIds.append(lector.id)
-                }
-
-                await reviewRequestService.madeMeaningfulEvent(.addToFavorites)
-            },
-            // Unpin if currently pinned
-            unpin(source: source)
-        )
+        return .run { _ in
+            // Remove schedule from pinned if needed
+            if favorites.currentPinnedSchedule == source {
+                favorites.currentPinnedSchedule = nil
+            }
+            // Add schedule to favorites
+            favorites.addToFavorites(source: source)
+            // Log meaningful event
+            await reviewRequestService.madeMeaningfulEvent(.addToFavorites)
+        }
     }
 
     private func unfavorite(source: ScheduleSource) -> Effect<Action> {
         return .run { _ in
-            switch source {
-            case .group(let name):
-                favorites.currentGroupNames.remove(name)
-            case .lector(let lector):
-                favorites.currentLectorIds.remove(lector.id)
-            }
+            favorites.removeFromFavorites(source: source)
         }
     }
 
     private func pin(source: ScheduleSource) -> Effect<Action> {
-        return .merge(
-            // Move currently pinned schedule to favorites
-            favorites.currentPinnedSchedule.map(favorite(source:)) ?? .none,
-            unfavorite(source: source),
-            .run { _ in
-                favorites.currentPinnedSchedule = source
-                await reviewRequestService.madeMeaningfulEvent(.pin)
+        return .run { _ in
+            // Move previously pinned schedule to favorites
+            if let pinned = favorites.currentPinnedSchedule {
+                favorites.addToFavorites(source: pinned)
             }
-        )
+            // Remove newly pinned schedule from favorites
+            favorites.removeFromFavorites(source: source)
+            // Make new schedule as pinned
+            favorites.currentPinnedSchedule = source
+            // Log meaningful event
+            await reviewRequestService.madeMeaningfulEvent(.pin)
+        }
     }
 
     private func unpin(source: ScheduleSource) -> Effect<Action> {

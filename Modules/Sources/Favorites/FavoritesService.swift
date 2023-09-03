@@ -16,6 +16,28 @@ public protocol FavoritesService: AnyObject {
     var freeLoveHighScore: Int { get set }
 }
 
+// MARK: - Favorites + Schedule Source
+
+extension FavoritesService {
+    public func addToFavorites(source: ScheduleSource) {
+        switch source {
+        case .group(let name):
+            currentGroupNames.append(name)
+        case .lector(let lector):
+            currentLectorIds.append(lector.id)
+        }
+    }
+
+    public func removeFromFavorites(source: ScheduleSource) {
+        switch source {
+        case .group(let name):
+            currentGroupNames.remove(name)
+        case .lector(let lector):
+            currentLectorIds.remove(lector.id)
+        }
+    }
+}
+
 // MARK: - Dependency
 
 extension DependencyValues {
