@@ -93,7 +93,9 @@ let package = Package(
         // MARK: - Core
         .target(
             name: "BsuirUI",
-            dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .dependencies, .introspect, .frameUp]),
+            dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .dependencies, .introspect, .frameUp],
+            resources: [.process("Resources")]
+        ),
         .target(
             name: "ScheduleCore",
             dependencies: ["BsuirApi", .dependencies]),

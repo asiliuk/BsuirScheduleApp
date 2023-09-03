@@ -1,0 +1,62 @@
+{
+  "sourceLanguage" : "ru",
+  "strings" : {
+    "widget.pinned.description" : {
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найбольш актуальны расклад для замацаванай групы або выкладчыка."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The most up-to-date schedule for the pinned group or lecturer."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наиболее актуальное расписание для закрепленной группы или преподавателя."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найактуальніший розклад для закріпленої групи або викладача."
+          }
+        }
+      }
+    },
+    "widget.pinned.displayName" : {
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📌 Замацаваны Расклад"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📌 Pinned Schedule"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📌 Закрепленное Расписание"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📌 Закріплений Розклад"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
