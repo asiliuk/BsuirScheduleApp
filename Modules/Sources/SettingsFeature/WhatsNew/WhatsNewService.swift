@@ -7,14 +7,24 @@ public protocol WhatsNewService {
     func removeAllPresentationMarks()
 }
 
+// MARK: - RemovableWhatsNewVersionStore
+
+protocol RemovableWhatsNewVersionStore {
+    func removeAll()
+}
+
+extension InMemoryWhatsNewVersionStore: RemovableWhatsNewVersionStore {}
+extension NSUbiquitousKeyValueWhatsNewVersionStore: RemovableWhatsNewVersionStore {}
+extension UserDefaultsWhatsNewVersionStore: RemovableWhatsNewVersionStore {}
+
 // MARK: LiveWhatsNewService
 
 final class LiveWhatsNewService {
-    private let versionStore: NSUbiquitousKeyValueWhatsNewVersionStore
+    private let versionStore: RemovableWhatsNewVersionStore & WhatsNewVersionStore
     private let whatsNewEnvironment: WhatsNewEnvironment
 
     init(
-        versionStore: NSUbiquitousKeyValueWhatsNewVersionStore = .init(),
+        versionStore: RemovableWhatsNewVersionStore & WhatsNewVersionStore,
         whatsNewCollection: WhatsNewCollection
     ) {
         self.versionStore = versionStore
@@ -49,16 +59,22 @@ extension DependencyValues {
 }
 
 private enum WhatsNewServiceKey: DependencyKey {
-    static let liveValue: any WhatsNewService = LiveWhatsNewService(whatsNewCollection: [
-        .version300,
-    ])
-    static let previewValue: any WhatsNewService = WhatsNewServiceMock()
-}
+    static let liveValue: any WhatsNewService = LiveWhatsNewService(
+        versionStore: {
+            #if DEBUG
+            InMemoryWhatsNewVersionStore()
+            #else
+            CloudKitWhatsNewVersionStore()
+            #endif
+        }(),
+        whatsNewCollection: [
+            .version310,
+            .version300,
+        ]
+    )
 
-// MARK: - Mock
-
-final class WhatsNewServiceMock: WhatsNewService {
-    func whatsNew() -> WhatsNew? { nil }
-    func markWhatsNewPresented(version: WhatsNew.Version) {}
-    func removeAllPresentationMarks() {}
+    static let previewValue: any WhatsNewService = LiveWhatsNewService(
+        versionStore: InMemoryWhatsNewVersionStore(),
+        whatsNewCollection: []
+    )
 }

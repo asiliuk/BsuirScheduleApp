@@ -10,8 +10,8 @@ extension WhatsNew.Feature {
     ) {
         self.init(
             image: image,
-            title: WhatsNew.Text(String(localized: localizedTitle)),
-            subtitle: WhatsNew.Text(String(localized: localizedSubtitle))
+            title: WhatsNew.Text(AttributedString(localized: localizedTitle)),
+            subtitle: WhatsNew.Text(AttributedString(localized: localizedSubtitle))
         )
     }
 }
@@ -25,7 +25,7 @@ extension WhatsNew.PrimaryAction {
         onDismiss: (() -> Void)? = nil
     ) {
         self.init(
-            title: WhatsNew.Text(String(localized: localizedTitle)),
+            title: WhatsNew.Text(AttributedString(localized: localizedTitle)),
             backgroundColor: backgroundColor,
             foregroundColor: foregroundColor,
             hapticFeedback: hapticFeedback,

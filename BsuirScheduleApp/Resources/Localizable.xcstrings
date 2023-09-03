@@ -4987,6 +4987,64 @@
         }
       }
     },
+    "screen.settings.whatsNew.3_1.widgets.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віджэты абноўлены для падтрымкі новых канфігурацый **StandBy** і **экрана блакіроўкі iPad**."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets were updated to support new **StandBy** and **iPad lock screen** configurations"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виджеты обновлены для поддержки новых конфигураций **StandBy** и **экрана блокировки iPad**."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віджети оновлено для підтримки нових конфігурацій **StandBy** та **екрану блокування iPad**."
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_1.widgets.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віджэты + iOS 17"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets + iOS 17"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виджеты + iOS 17"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віджети + iOS 17"
+          }
+        }
+      }
+    },
     "screen.settings.whatsNew.button.gotIt" : {
       "extractionState" : "manual",
       "localizations" : {

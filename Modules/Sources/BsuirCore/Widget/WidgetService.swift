@@ -14,7 +14,7 @@ extension WidgetService {
     public static let noop = WidgetService { _ in }
 }
 
-// MARK: - Dependecy
+// MARK: - Dependency
 
 extension DependencyValues {
     public var widgetService: WidgetService {
