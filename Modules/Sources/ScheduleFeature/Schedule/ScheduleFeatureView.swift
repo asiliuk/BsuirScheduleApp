@@ -16,11 +16,9 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
     }
 
     public let store: StoreOf<ScheduleFeature<Value>>
-    public let schedulePairDetails: ScheduleGridViewPairDetails
     
-    public init(store: StoreOf<ScheduleFeature<Value>>, schedulePairDetails: ScheduleGridViewPairDetails) {
+    public init(store: StoreOf<ScheduleFeature<Value>>) {
         self.store = store
-        self.schedulePairDetails = schedulePairDetails
     }
 
     public var body: some View {
@@ -32,11 +30,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
             ) { store in
                 LoadedScheduleView(
                     store: store.loaded(),
-                    scheduleType: viewStore.binding(
-                        get: \.scheduleType,
-                        send: { .setScheduleType($0) }
-                    ),
-                    schedulePairDetails: schedulePairDetails
+                    scheduleType: viewStore.scheduleType
                 )
                 .refreshable { await store.send(.refresh).finish() }
             } loading: {
@@ -72,15 +66,13 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
 
 private struct LoadedScheduleView: View {
     let store: StoreOf<LoadedScheduleReducer>
-    @Binding var scheduleType: ScheduleDisplayType
-    let schedulePairDetails: ScheduleGridViewPairDetails
+    let scheduleType: ScheduleDisplayType
 
     var body: some View {
         switch scheduleType {
         case .continuous:
-            ContiniousScheduleView(
-                store: store.scope(state: \.continious, action: { .continious($0) }),
-                pairDetails: schedulePairDetails
+            ContinuousScheduleView(
+                store: store.scope(state: \.continuous, action: { .continuous($0) })
             )
         case .compact:
             DayScheduleView(
@@ -88,8 +80,7 @@ private struct LoadedScheduleView: View {
             )
         case .exams:
             ExamsScheduleView(
-                store: store.scope(state: \.exams, action: { .exams($0) }),
-                pairDetails: schedulePairDetails
+                store: store.scope(state: \.exams, action: { .exams($0) })
             )
         }
     }

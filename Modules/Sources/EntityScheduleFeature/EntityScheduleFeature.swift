@@ -27,20 +27,15 @@ public struct EntityScheduleFeature: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .group(.delegate(let action)):
-                switch action {
-                case .showPremiumClubPinned:
-                    return .send(.delegate(.showPremiumClubPinned))
-                case .showLectorSchedule(let employee):
-                    return .send(.delegate(.showLectorSchedule(employee)))
-                }
-
-            case .lector(.delegate(let action)):
+            case .group(.schedule(.delegate(let action))),
+                 .lector(.schedule(.delegate(let action))):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
                 case .showGroupSchedule(let name):
                     return .send(.delegate(.showGroupSchedule(name)))
+                case .showLectorSchedule(let employee):
+                    return .send(.delegate(.showLectorSchedule(employee)))
                 }
 
             case .delegate, .group, .lector:

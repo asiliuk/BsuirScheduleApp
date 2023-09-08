@@ -7,14 +7,15 @@ import Dependencies
 
 public struct ExamsScheduleFeature: Reducer {
     public struct State: Equatable {
-        public var isOnTop: Bool = true
-        var days: [ScheduleDayViewModel] = []
-        fileprivate let startDate: Date?
-        fileprivate let endDate: Date?
-        
-        init(exams: [Pair], startDate: Date?, endDate: Date?) {
+        var scheduleList = ScheduleListFeature.State(days: [], loading: .never)
+        private let startDate: Date?
+        private let endDate: Date?
+        private var pairRowDetails: PairRowDetails?
+
+        init(exams: [Pair], startDate: Date?, endDate: Date?, pairRowDetails: PairRowDetails?) {
             self.startDate = startDate
             self.endDate = endDate
+            self.pairRowDetails = pairRowDetails
 
             @Dependency(\.calendar) var calendar
             @Dependency(\.date.now) var now
@@ -30,17 +31,21 @@ public struct ExamsScheduleFeature: Reducer {
     }
 
     public enum Action: Equatable {
-        case setIsOnTop(Bool)
+        case scheduleList(ScheduleListFeature.Action)
     }
 
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .setIsOnTop(let value):
-            state.isOnTop = value
-            return .none
+    public var body: some ReducerOf<Self> {
+        Scope(state: \.scheduleList, action: /Action.scheduleList) {
+            ScheduleListFeature()
         }
+    }
+}
+
+extension ExamsScheduleFeature.State {
+    public mutating func reset() {
+        scheduleList.isOnTop = true
     }
 }
 
@@ -51,14 +56,24 @@ private extension ExamsScheduleFeature.State {
         now: Date,
         uuid: UUIDGenerator
     ) {
-        days = Dictionary(grouping: exams, by: \.dateLesson)
+        let days = Dictionary(grouping: exams, by: \.dateLesson)
             .sorted(by: optionalSort(\.key))
-            .map { ScheduleDayViewModel(id: uuid(), date: $0, now: now, pairs: $1, calendar: calendar) }
+            .map { 
+                DaySectionFeature.State(
+                    id: uuid(),
+                    date: $0,
+                    now: now,
+                    pairs: $1,
+                    pairRowDetails: pairRowDetails ,
+                    calendar: calendar
+                )
+            }
+        scheduleList.days = IdentifiedArray(uniqueElements: days)
     }
 }
 
-private extension ScheduleDayViewModel {
-    init(id: UUID, date: Date?, now: Date, pairs: [Pair], calendar: Calendar) {
+private extension DaySectionFeature.State {
+    init(id: UUID, date: Date?, now: Date, pairs: [Pair], pairRowDetails: PairRowDetails?, calendar: Calendar) {
         assert(date != nil, "Not really expecting days without date")
 
         self.init(
@@ -70,7 +85,8 @@ private extension ScheduleDayViewModel {
                 return (start, end, pair)
             }
             .sorted(by: optionalSort(\.0))
-            .map { PairViewModel(start: $0, end: $1, pair: $2) }
+            .map { PairViewModel(start: $0, end: $1, pair: $2) },
+            pairRowDetails: pairRowDetails
         )
     }
 }

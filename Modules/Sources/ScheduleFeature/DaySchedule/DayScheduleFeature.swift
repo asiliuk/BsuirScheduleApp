@@ -6,8 +6,7 @@ import Dependencies
 
 public struct DayScheduleFeature: Reducer {
     public struct State: Equatable {
-        public var isOnTop: Bool = true
-        var days: [ScheduleDayViewModel] = []
+        var scheduleList = ScheduleListFeature.State(days: [], loading: .never)
 
         init(schedule: DaySchedule) {
             @Dependency(\.calendar) var calendar
@@ -24,17 +23,21 @@ public struct DayScheduleFeature: Reducer {
     }
 
     public enum Action: Equatable {
-        case setIsOnTop(Bool)
+        case scheduleList(ScheduleListFeature.Action)
     }
 
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .setIsOnTop(let value):
-            state.isOnTop = value
-            return .none
+    public var body: some ReducerOf<Self> {
+        Scope(state: \.scheduleList, action: /Action.scheduleList) {
+            ScheduleListFeature()
         }
+    }
+}
+
+extension DayScheduleFeature.State {
+    public mutating func reset() {
+        scheduleList.isOnTop = true
     }
 }
 
@@ -45,19 +48,22 @@ private extension DayScheduleFeature.State {
         now: Date,
         uuid: UUIDGenerator
     ) {
-        days = DaySchedule.WeekDay.allCases
-            .compactMap { (weekday: DaySchedule.WeekDay) -> ScheduleDayViewModel? in
+        let days = DaySchedule.WeekDay.allCases
+            .compactMap { (weekday: DaySchedule.WeekDay) -> DaySectionFeature.State? in
                 guard
                     let pairs = schedule[weekday],
                     !pairs.isEmpty
                 else { return nil }
 
-                return ScheduleDayViewModel(
+                return DaySectionFeature.State(
                     id: uuid(),
                     title: weekday.localizedName(in: calendar).capitalized,
-                    pairs: pairViewModels(pairs, calendar: calendar, now: now)
+                    showWeeks: true, 
+                    pairs: pairViewModels(pairs, calendar: calendar, now: now),
+                    pairRowDetails: nil
                 )
             }
+        scheduleList.days = IdentifiedArray(uniqueElements: days)
     }
 
     func pairViewModels(

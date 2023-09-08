@@ -12,20 +12,18 @@ public struct GroupScheduleFeature: Reducer {
         public let groupName: String
 
         public init(groupName: String) {
-            self.schedule = .init(title: groupName, source: .group(name: groupName), value: groupName)
+            self.schedule = .init(
+                title: groupName,
+                source: .group(name: groupName),
+                value: groupName,
+                pairRowDetails: .lecturers
+            )
             self.groupName = groupName
         }
     }
     
     public enum Action: Equatable {
-        public enum Delegate: Equatable {
-            case showPremiumClubPinned
-            case showLectorSchedule(Employee)
-        }
-
-        case lectorTapped(Employee)
         case schedule(ScheduleFeature<String>.Action)
-        case delegate(Delegate)
     }
 
     @Dependency(\.apiClient) var apiClient
@@ -33,22 +31,6 @@ public struct GroupScheduleFeature: Reducer {
     public init() {}
 
     public var body: some ReducerOf<Self> {
-        Reduce { state, action in
-            switch action {
-            case let .schedule(.delegate(action)):
-                switch action {
-                case .showPremiumClubPinned:
-                    return .send(.delegate(.showPremiumClubPinned))
-                }
-
-            case .lectorTapped(let employee):
-                return .send(.delegate(.showLectorSchedule(employee)))
-
-            case .schedule, .delegate:
-                return .none
-            }
-        }
-        
         Scope(state: \.schedule, action: /Action.schedule) {
             ScheduleFeature { name, isRefresh in
                 try await ScheduleRequestResponse(response: apiClient.groupSchedule(name, isRefresh))

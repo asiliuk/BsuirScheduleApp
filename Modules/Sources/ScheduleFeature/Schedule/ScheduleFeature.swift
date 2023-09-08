@@ -42,17 +42,21 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         public var isOnTop: Bool = true
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType = .continuous
+        fileprivate var pairRowDetails: PairRowDetails?
 
-        public init(title: String, source: ScheduleSource, value: Value) {
+        public init(title: String, source: ScheduleSource, value: Value, pairRowDetails: PairRowDetails?) {
             self.title = title
             self.value = value
             self.mark = .init(source: source)
+            self.pairRowDetails = pairRowDetails
         }
     }
 
     public enum Action: Equatable, LoadableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
+            case showLectorSchedule(Employee)
+            case showGroupSchedule(String)
         }
 
         case mark(MarkedScheduleFeature.Action)
@@ -82,7 +86,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                 }
                 
             case .loading(.finished(\.$schedule)):
-                if state.schedule?.continious.isEmpty == true {
+                if state.schedule?.continuous.hasSchedule == false {
                     state.scheduleType = .exams
                 }
                 return .run { _ in
@@ -95,6 +99,18 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                     return .send(.delegate(.showPremiumClubPinned))
                 }
 
+            case .schedule(.continuous(.scheduleList(.delegate(let action)))),
+                 .schedule(.day(.scheduleList(.delegate(let action)))),
+                 .schedule(.exams(.scheduleList(.delegate(let action)))):
+                switch action {
+                case .loadMore:
+                    return .none
+                case .showGroupSchedule(let groupName):
+                    return .send(.delegate(.showGroupSchedule(groupName)))
+                case .showLectorSchedule(let employee):
+                    return .send(.delegate(.showLectorSchedule(employee)))
+                }
+
             case .schedule, .mark, .delegate, .loading:
                 return .none
             }
@@ -102,7 +118,10 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         .load(\.$schedule, action: /Action.schedule) {
             LoadedScheduleReducer()
         } fetch: { state, isRefresh in
-            try await LoadedScheduleReducer.State(response: fetch(state.value, isRefresh))
+            try await LoadedScheduleReducer.State(
+                response: fetch(state.value, isRefresh),
+                pairRowDetails: state.pairRowDetails
+            )
         }
 
         Scope(state: \State.mark, action: /Action.mark) {
@@ -114,31 +133,33 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
 public struct LoadedScheduleReducer: Reducer {
     public struct State: Equatable {
         var compact: DayScheduleFeature.State
-        var continious: ContiniousScheduleFeature.State
+        var continuous: ContinuousScheduleFeature.State
         var exams: ExamsScheduleFeature.State
 
-        init(response: ScheduleRequestResponse) {
+        init(response: ScheduleRequestResponse, pairRowDetails: PairRowDetails?) {
             self.compact = DayScheduleFeature.State(
                 schedule: response.schedule
             )
 
-            self.continious = ContiniousScheduleFeature.State(
+            self.continuous = ContinuousScheduleFeature.State(
                 schedule: response.schedule,
                 startDate: response.startDate,
-                endDate: response.endDate
+                endDate: response.endDate,
+                pairRowDetails: pairRowDetails
             )
 
             self.exams = ExamsScheduleFeature.State(
                 exams: response.exams,
                 startDate: response.startExamsDate,
-                endDate: response.endExamsDate
+                endDate: response.endExamsDate,
+                pairRowDetails: pairRowDetails
             )
         }
     }
 
     public enum Action: Equatable {
         case day(DayScheduleFeature.Action)
-        case continious(ContiniousScheduleFeature.Action)
+        case continuous(ContinuousScheduleFeature.Action)
         case exams(ExamsScheduleFeature.Action)
     }
 
@@ -147,8 +168,8 @@ public struct LoadedScheduleReducer: Reducer {
             DayScheduleFeature()
         }
 
-        Scope(state: \.continious, action: /Action.continious) {
-            ContiniousScheduleFeature()
+        Scope(state: \.continuous, action: /Action.continuous) {
+            ContinuousScheduleFeature()
         }
 
         Scope(state: \.exams, action: /Action.exams) {
@@ -166,11 +187,11 @@ extension ScheduleFeature.State {
     public mutating func reset() {
         switch scheduleType {
         case .compact:
-            schedule?.compact.isOnTop = true
+            schedule?.compact.reset()
         case .exams:
-            schedule?.exams.isOnTop = true
+            schedule?.exams.reset()
         case .continuous:
-            schedule?.continious.isOnTop = true
+            schedule?.continuous.reset()
         }
     }
 }

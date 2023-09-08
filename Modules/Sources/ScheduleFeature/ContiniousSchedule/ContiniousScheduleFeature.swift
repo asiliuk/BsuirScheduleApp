@@ -5,46 +5,29 @@ import ScheduleCore
 import ComposableArchitecture
 import Dependencies
 
-private extension ScheduleDayViewModel {
-    init(
-        element: WeekSchedule.ScheduleElement,
-        uuid: UUIDGenerator,
-        calendar: Calendar,
-        now: Date
-    ) {
-        self.init(
-            id: uuid(),
-            title: String(localized: "screen.schedule.day.title.\(element.date.formatted(.scheduleDay)).\(element.weekNumber)"),
-            subtitle: Self.relativeFormatter.relativeName(for: element.date, now: now),
-            pairs: element.pairs.map(PairViewModel.init(pair:)),
-            isToday: calendar.isDateInToday(element.date)
-        )
-    }
+public struct ContinuousScheduleFeature: Reducer {
+    public struct State: Equatable {
+        public var hasSchedule: Bool { scheduleList.hasSchedule }
 
-    static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
-}
-
-public struct ContiniousScheduleFeature: Reducer {
-    public struct State {
-        public var isOnTop: Bool = true
-        public var isEmpty: Bool { days.isEmpty }
-
-        private(set) var days: [ScheduleDayViewModel] = []
-        private(set) var doneLoading: Bool = false
+        var scheduleList = ScheduleListFeature.State(days: [], loading: .loadMore)
 
         private var offset: Date?
         private var weekSchedule: WeekSchedule?
+        private var pairRowDetails: PairRowDetails?
 
-        @Dependency(\.calendar) private var calendar
-        @Dependency(\.date.now) private var now
-        @Dependency(\.uuid) private var uuid
-        
-        init(schedule: DaySchedule, startDate: Date?, endDate: Date?) {
+        init(
+            schedule: DaySchedule,
+            startDate: Date?,
+            endDate: Date?,
+            pairRowDetails: PairRowDetails?
+        ) {
             @Dependency(\.calendar) var calendar
             @Dependency(\.date.now) var now
             @Dependency(\.uuid) var uuid
 
             self.offset = calendar.date(byAdding: .day, value: -1, to: now)
+            self.pairRowDetails = pairRowDetails
+
             if let startDate, let endDate {
                 self.weekSchedule = WeekSchedule(
                     schedule: schedule,
@@ -53,39 +36,46 @@ public struct ContiniousScheduleFeature: Reducer {
                 )
             }
 
-            load(count: 12)
+            load(count: 12, calendar: calendar, now: now, uuid: uuid)
         }
     }
     
     public enum Action: Equatable {
-        case loadMoreIndicatorAppear
-        case setIsOnTop(Bool)
-        
         case _loadMoreDays
+        case scheduleList(ScheduleListFeature.Action)
     }
     
     @Dependency(\.reviewRequestService) var reviewRequestService
     @Dependency(\.continuousClock) var clock
-    
+    @Dependency(\.calendar) var calendar
+    @Dependency(\.date.now) var now
+    @Dependency(\.uuid) var uuid
+
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .setIsOnTop(let value):
-            state.isOnTop = value
-            return .none
-        case .loadMoreIndicatorAppear:
-            return .run { send in
-                try await clock.sleep(for: .milliseconds(300))
-                await send(._loadMoreDays)
-            }
-            .cancellable(id: CancelID.loadDays, cancelInFlight: true)
+    public var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .scheduleList(.loadingIndicatorAppeared):
+                return .run { send in
+                    try await clock.sleep(for: .milliseconds(300))
+                    await send(._loadMoreDays)
+                }
+                .cancellable(id: CancelID.loadDays, cancelInFlight: true)
 
-        case ._loadMoreDays:
-            state.load(count: 10)
-            return .run { _ in
-                await reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
+            case ._loadMoreDays:
+                state.load(count: 10, calendar: calendar, now: now, uuid: uuid)
+                return .run { _ in
+                    await reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
+                }
+
+            case .scheduleList:
+                return .none
             }
+        }
+
+        Scope(state: \.scheduleList, action: /Action.scheduleList) {
+            ScheduleListFeature()
         }
     }
 
@@ -94,24 +84,20 @@ public struct ContiniousScheduleFeature: Reducer {
     }
 }
 
+extension ContinuousScheduleFeature.State {
+    public mutating func reset() {
+        scheduleList.isOnTop = true
+    }
+}
+
 private extension MeaningfulEvent {
     static let moreScheduleRequested = Self(score: 1)
 }
 
-// MARK: - Equatable
-
-extension ContiniousScheduleFeature.State: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.days == rhs.days
-            && lhs.doneLoading == rhs.doneLoading
-            && lhs.offset == rhs.offset
-    }
-}
-
 // MARK: - Load More
 
-extension ContiniousScheduleFeature.State {
-    mutating func load(count: Int) {
+extension ContinuousScheduleFeature.State {
+    mutating func load(count: Int, calendar: Calendar, now: Date, uuid: UUIDGenerator) {
         guard
             let weekSchedule = weekSchedule,
             let offset = offset,
@@ -119,18 +105,42 @@ extension ContiniousScheduleFeature.State {
         else { return }
 
         let days = Array(weekSchedule.schedule(starting: start, now: now, calendar: calendar).prefix(count))
-        doneLoading = days.count < count
+        scheduleList.loading = (days.count < count) ? .never : .loadMore
 
         self.offset = days.last?.date
-        self.days.append(
+        scheduleList.days.append(
             contentsOf: days.map { element in
-                ScheduleDayViewModel(
+                DaySectionFeature.State(
                     element: element,
                     uuid: uuid,
                     calendar: calendar,
-                    now: now
+                    now: now,
+                    pairRowDetails: pairRowDetails
                 )
             }
         )
     }
+}
+
+// MARK: - DaySectionFeature
+
+private extension DaySectionFeature.State {
+    init(
+        element: WeekSchedule.ScheduleElement,
+        uuid: UUIDGenerator,
+        calendar: Calendar,
+        now: Date,
+        pairRowDetails: PairRowDetails?
+    ) {
+        self.init(
+            id: uuid(),
+            title: String(localized: "screen.schedule.day.title.\(element.date.formatted(.scheduleDay)).\(element.weekNumber)"),
+            subtitle: Self.relativeFormatter.relativeName(for: element.date, now: now),
+            isToday: calendar.isDateInToday(element.date),
+            pairs: element.pairs.map(PairViewModel.init(pair:)),
+            pairRowDetails: pairRowDetails
+        )
+    }
+
+    static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 }

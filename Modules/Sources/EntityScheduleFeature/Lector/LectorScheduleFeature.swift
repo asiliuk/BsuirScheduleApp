@@ -15,21 +15,15 @@ public struct LectorScheduleFeature: Reducer {
             self.schedule = .init(
                 title: lector.compactFio,
                 source: .lector(lector),
-                value: lector.urlId
+                value: lector.urlId,
+                pairRowDetails: .groups
             )
             self.lector = lector
         }
     }
     
     public enum Action: Equatable {
-        public enum Delegate: Equatable {
-            case showPremiumClubPinned
-            case showGroupSchedule(String)
-        }
-
-        case groupTapped(String)
         case schedule(ScheduleFeature<String>.Action)
-        case delegate(Delegate)
     }
 
     @Dependency(\.apiClient) var apiClient
@@ -37,22 +31,6 @@ public struct LectorScheduleFeature: Reducer {
     public init() {}
 
     public var body: some ReducerOf<Self> {
-        Reduce { state, action in
-            switch action {
-            case let .schedule(.delegate(action)):
-                switch action {
-                case .showPremiumClubPinned:
-                    return .send(.delegate(.showPremiumClubPinned))
-                }
-
-            case .groupTapped(let name):
-                return .send(.delegate(.showGroupSchedule(name)))
-
-            case .schedule, .delegate:
-                return .none
-            }
-        }
-        
         Scope(state: \.schedule, action: /Action.schedule) {
             ScheduleFeature { urlId, isRefresh in
                 try await ScheduleRequestResponse(response: apiClient.lecturerSchedule(urlId, isRefresh))

@@ -12,10 +12,10 @@ public struct LectorScheduleView: View {
     
     public var body: some View {
         ScheduleFeatureView(
-            store: store.scope(state: \.schedule, action: { .schedule($0) }),
-            schedulePairDetails: .groups {
-                store.send(.groupTapped($0))
-            }
+            store: store.scope(
+                state: \.schedule,
+                action: { .schedule($0) }
+            )
         )
     }
 }

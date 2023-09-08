@@ -1,38 +1,15 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct ContiniousScheduleView: View {
-    struct ViewState: Equatable {
-        var isOnTop: Bool
-        var days: [ScheduleDayViewModel]
-        var doneLoading: Bool
-    }
-
-    let store: StoreOf<ContiniousScheduleFeature>
-    let pairDetails: ScheduleGridViewPairDetails
+struct ContinuousScheduleView: View {
+    let store: StoreOf<ContinuousScheduleFeature>
 
     var body: some View {
-        WithViewStore(
-            store,
-            observe: { ViewState(isOnTop: $0.isOnTop, days: $0.days, doneLoading: $0.doneLoading) }
-        ) { viewStore in
-            switch viewStore.days {
-            case []:
-                ScheduleEmptyView()
-            case let days:
-                ScheduleGridView(
-                    days: days,
-                    loading: viewStore.doneLoading
-                        ? .finished
-                        : .loadMore { viewStore.send(.loadMoreIndicatorAppear) },
-                    pairDetails: pairDetails,
-                    pairShowWeeks: false,
-                    isOnTop: viewStore.binding(
-                        get: \.isOnTop,
-                        send: { .setIsOnTop($0) }
-                    )
-                )
-            }
-        }
+        ScheduleListView(
+            store: store.scope(
+                state: \.scheduleList,
+                action: { .scheduleList($0) }
+            )
+        )
     }
 }
