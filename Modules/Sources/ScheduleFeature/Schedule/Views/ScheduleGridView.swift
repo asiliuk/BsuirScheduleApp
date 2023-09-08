@@ -73,17 +73,16 @@ struct ScheduleDay: View {
     let details: ScheduleGridViewPairDetails
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
-
-            ForEach(pairs.prefix(100)) { pair in
+        Section {
+            ForEach(pairs, id: \.id) { pair in
                 PairCell(
                     pair: pair,
                     showWeeks: showWeeks,
                     details: detailsView(pair: pair)
                 )
-                .frame(minWidth: 10, minHeight: 10)
             }
+        } header: {
+            ScheduleDateTitle(date: title, relativeDate: subtitle, isToday: isToday)
         }
     }
 
@@ -95,14 +94,6 @@ struct ScheduleDay: View {
             GroupPairDetails(groups: pair.groups, showDetails: show)
         case .nothing:
             EmptyView()
-        }
-    }
-
-    @ViewBuilder private var titleText: some View {
-        if let subtitle = subtitle {
-            Text("\(Text(subtitle).foregroundColor(isToday ? .blue : .red)), \(title)")
-        } else {
-            Text(title)
         }
     }
 }

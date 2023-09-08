@@ -11,10 +11,8 @@ public struct ScheduleGridSectionPlaceholder: View {
 
     public var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: 10) {
-                ForEach(0..<numberOfPairs, id: \.self) { _ in
-                    PairPlaceholder()
-                }
+            ForEach(0..<numberOfPairs, id: \.self) { _ in
+                PairPlaceholder()
             }
         } header: {
             ScheduleDateTitle(

@@ -12,14 +12,15 @@ public struct ScheduleDateTitle: View {
     }
 
     public var body: some View {
-        Group {
-                if let relativeDate = relativeDate {
-                    Text("\(Text(relativeDate).foregroundColor(isToday ? .blue : .red)), \(date)")
-                } else {
-                    Text(date)
-                }
+        ZStack {
+            if let relativeDate = relativeDate {
+                Text("\(Text(relativeDate).foregroundColor(isToday ? .blue : .red)), \(date)")
+            } else {
+                Text(date)
             }
-            .font(.headline)
-            .accessibility(addTraits: .isHeader)
+        }
+        .font(.headline)
+        .accessibility(addTraits: .isHeader)
+        .foregroundStyle(.primary)
     }
 }

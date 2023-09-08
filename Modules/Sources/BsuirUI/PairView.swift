@@ -42,6 +42,7 @@ public struct PairCell<Details: View>: View {
                 RoundedRectangle(cornerRadius: 8)
                     .foregroundColor(Color(.secondarySystemBackground))
             )
+            .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
     }
 }
 
@@ -169,7 +170,7 @@ public struct PairView<Details: View>: View {
     }
     
     private var subtitle: some View {
-        Group {
+        ZStack {
             if isCompact {
                 combineTexts(auditoryText, noteText).lineLimit(distribution == .vertical ? 2 : 1)
             } else {

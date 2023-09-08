@@ -25,7 +25,7 @@ public struct PremiumClubLabel: View {
                     (Text("screen.premiumClub.navigation.title") + statusText)
                         .font(.headline)
 
-                    Group {
+                    ZStack {
                         if viewStore.state {
                             Text("screen.premiumClub.navigation.member.message")
                         } else {
