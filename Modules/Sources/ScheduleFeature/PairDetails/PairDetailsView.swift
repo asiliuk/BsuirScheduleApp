@@ -132,14 +132,14 @@ private struct LecturerCell: View {
     var body: some View {
         Button(action: onTap) {
             HStack {
-//                Button(action: onPhotoTap) {
-                    Avatar(url: photo, baseSize: 60)
-//                        .overlay(alignment: .bottomTrailing) {
-//                            Image(systemName: "magnifyingglass.circle.fill")
-//                                .font(.title3)
-//                                .foregroundStyle(Color.primary, Color(uiColor: .secondarySystemGroupedBackground))
-//                        }
-//                }
+                // TODO: https://github.com/asiliuk/BsuirScheduleApp/issues/155
+                // Button(action: onPhotoTap) { <avatar> }
+                // .overlay(alignment: .bottomTrailing) {
+                //    Image(systemName: "magnifyingglass.circle.fill")
+                //        .font(.title3)
+                //        .foregroundStyle(Color.primary, Color(uiColor: .secondarySystemGroupedBackground))
+                //}
+                Avatar(url: photo, baseSize: 60)
 
                 Text(name)
 
