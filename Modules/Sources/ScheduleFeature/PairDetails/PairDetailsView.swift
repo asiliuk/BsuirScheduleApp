@@ -12,7 +12,6 @@ struct PairDetailsView: View {
         var lecturers: [Employee]
         var groups: [String]
 
-        var showDetailsHeader: Bool { !(lecturers.isEmpty && groups.isEmpty) }
         var fullName: String?
         var timeInterval: String
         var date: String
@@ -52,7 +51,7 @@ struct PairDetailsView: View {
             WithViewStore(store, observe: ViewState.init) { viewStore in
                 List {
                     if !viewStore.lecturers.isEmpty {
-                        Section("Преподаватели") {
+                        Section("screen.pairDetails.lecturers.section.title") {
                             ForEach(viewStore.lecturers, id: \.id) { employee in
                                 LecturerCell(
                                     photo: employee.photoLink,
@@ -66,7 +65,7 @@ struct PairDetailsView: View {
                     }
 
                     if !viewStore.groups.isEmpty {
-                        Section("Группы") {
+                        Section("screen.pairDetails.groups.section.title") {
                             ForEach(viewStore.groups, id: \.self) { group in
                                 GroupCell(name: group) { viewStore.send(.groupTapped(group)) }
                             }
@@ -79,23 +78,33 @@ struct PairDetailsView: View {
                             Text(fullName).font(.title3.bold())
                         }
 
-                        LabeledContent("Время") { Text(viewStore.timeInterval) }
-                        LabeledContent("День") { Text(viewStore.date) }
-                        LabeledContent("Тип") { Text(viewStore.formName) }
-                        LabeledContent("Подгруппа") { Text(viewStore.subgroup) }
-                        LabeledContent("Аудитории") { Text(viewStore.auditory) }
-                        LabeledContent("Недели") { Text(viewStore.weeks) }
+                        LabeledContent("screen.pairDetails.details.time.title") {
+                            Text(viewStore.timeInterval)
+                        }
+                        LabeledContent("screen.pairDetails.details.day.title") {
+                            Text(viewStore.date)
+                        }
+                        LabeledContent("screen.pairDetails.details.type.title") {
+                            Text(viewStore.formName)
+                        }
+                        LabeledContent("screen.pairDetails.details.subgroup.title") {
+                            Text(viewStore.subgroup)
+                        }
+                        LabeledContent("screen.pairDetails.details.auditory.title") {
+                            Text(viewStore.auditory)
+                        }
+                        LabeledContent("screen.pairDetails.details.weeks.title") {
+                            Text(viewStore.weeks)
+                        }
 
                         if let notes = viewStore.notes {
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Заметки")
+                                Text("screen.pairDetails.details.notes.title")
                                 Text(notes).foregroundColor(.secondary)
                             }
                         }
                     } header: {
-                        if viewStore.showDetailsHeader {
-                            Text("Детали")
-                        }
+                        Text("Детали")
                     }
                 }
                 .navigationTitle(viewStore.title)
