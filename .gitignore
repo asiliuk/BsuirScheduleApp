@@ -46,7 +46,7 @@ fastlane/report.xml
 fastlane/AuthKey_*
 
 # App Store
-img/snapshots_to_upload
+static/snapshots_to_upload
 
 # Config
 Config/Secret.xcconfig

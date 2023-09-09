@@ -9,8 +9,8 @@ extension URL {
     public static let appStoreReview = URL(string: "https://apps.apple.com/us/app/bsuir-schedule/id944151090?action=write-review")!
     public static let appStoreSubscriptions = URL(string: "https://apps.apple.com/account/subscriptions")!
 
-    public static let privacyPolicy = URL(string: "https://asiliuk.github.io/BsuirScheduleApp/info/privacy-policy")!
-    public static let termsAndConditions = URL(string: "https://asiliuk.github.io/BsuirScheduleApp/info/terms-and-conditions")!
+    public static let privacyPolicy = URL(string: "https://asiliuk.github.io/BsuirScheduleApp/static/privacy-policy")!
+    public static let termsAndConditions = URL(string: "https://asiliuk.github.io/BsuirScheduleApp/static/terms-and-conditions")!
 }
 
 // MARK: - Github
