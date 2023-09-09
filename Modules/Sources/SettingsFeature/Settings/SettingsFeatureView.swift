@@ -12,6 +12,7 @@ enum SettingsFeatureDestination: Hashable {
     case appearance
     case networkAndData
     case about
+    case roadmap
 }
 
 public struct SettingsFeatureView: View {
@@ -54,6 +55,11 @@ public struct SettingsFeatureView: View {
                             action: { .appIcon($0) }
                         )
                     )
+
+                    NavigationLink(value: SettingsFeatureDestination.roadmap) {
+                        Label("Roadmap", systemImage: "list.bullet")
+                            .settingsRowAccent(Color.purple)
+                    }
 
                     NavigationLink(value: SettingsFeatureDestination.appearance) {
                         Label("screen.settings.appearance.navigation.title", systemImage: "circle.lefthalf.filled")
@@ -110,6 +116,14 @@ public struct SettingsFeatureView: View {
                         store: store.scope(
                             state: \.about,
                             action: { .about($0) }
+                        )
+                    )
+
+                case .roadmap:
+                    RoadmapFeatureView(
+                        store: store.scope(
+                            state: \.roadmap,
+                            action: { .roadmap($0) }
                         )
                     )
                 }

@@ -29,6 +29,9 @@ let package = Package(
         .library(
             name: "ScheduleFeature",
             targets: ["ScheduleFeature"]),
+        .library(
+            name: "SettingsFeature",
+            targets: ["SettingsFeature"]),
     ],
     dependencies: [
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.9.0"),
@@ -41,6 +44,7 @@ let package = Package(
          .package(url: "https://github.com/ryanlintott/FrameUp.git", from: "0.5.0"),
          .package(url: "https://github.com/TelemetryDeck/SwiftClient.git", from: "1.4.0"),
          .package(url: "https://github.com/SvenTiigi/WhatsNewKit.git", from: "2.1.0"),
+         .package(url: "https://github.com/AvdLee/Roadmap.git", branch: "main"),
     ],
     targets: [
         // MARK: - Features
@@ -55,7 +59,7 @@ let package = Package(
         ),
         .target(
             name: "SettingsFeature",
-            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies, .whatsNewKit]
+            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies, .whatsNewKit, .roadmap]
         ),
         .target(
             name: "PremiumClubFeature",
@@ -131,4 +135,5 @@ private extension Target.Dependency {
     static let frameUp: Self = .product(name: "FrameUp", package: "FrameUp")
     static let telemetryClient: Self = .product(name: "TelemetryClient", package: "SwiftClient")
     static let whatsNewKit: Self = .product(name: "WhatsNewKit", package: "WhatsNewKit")
+    static let roadmap: Self = .product(name: "Roadmap", package: "Roadmap")
 }

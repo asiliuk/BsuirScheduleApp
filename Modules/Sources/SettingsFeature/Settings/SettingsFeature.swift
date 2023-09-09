@@ -20,6 +20,7 @@ public struct SettingsFeature: Reducer {
         var appearance = AppearanceFeature.State()
         var networkAndData = NetworkAndDataFeature.State()
         var about = AboutFeature.State()
+        var roadmap = RoadmapFeature.State()
 
         public init() {}
     }
@@ -35,6 +36,7 @@ public struct SettingsFeature: Reducer {
         case appearance(AppearanceFeature.Action)
         case networkAndData(NetworkAndDataFeature.Action)
         case about(AboutFeature.Action)
+        case roadmap(RoadmapFeature.Action)
 
         case setIsOnTop(Bool)
         case setPath(NavigationPath)
@@ -101,6 +103,10 @@ public struct SettingsFeature: Reducer {
 
         Scope(state: \.about, action: /Action.about) {
             AboutFeature()
+        }
+
+        Scope(state: \.roadmap, action: /Action.roadmap) {
+            RoadmapFeature()
         }
     }
 }

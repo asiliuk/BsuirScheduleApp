@@ -11,6 +11,8 @@ extension URL {
 
     public static let privacyPolicy = URL(string: "https://asiliuk.github.io/BsuirScheduleApp/static/privacy-policy")!
     public static let termsAndConditions = URL(string: "https://asiliuk.github.io/BsuirScheduleApp/static/terms-and-conditions")!
+
+    public static let roadmapJSONURL = URL(string: "https://asiliuk.github.io/BsuirScheduleApp/static/roadmap.json")!
 }
 
 // MARK: - Github
