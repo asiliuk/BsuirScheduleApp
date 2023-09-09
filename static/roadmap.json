@@ -1,0 +1,182 @@
+[
+    {
+      "id": "0",
+      "title": "Exams Widget",
+      "localizedTitle": [
+        {
+          "language": "ru",
+          "value": "Виджет для экзаменов"
+        },
+        {
+          "language": "en",
+          "value": "Exams Widget"
+        },
+        {
+          "language": "be",
+          "value": "Віджэт для іспытаў"
+        },
+        {
+          "language": "uk",
+          "value": "Віджет для іспитів"
+        }
+      ],
+      "status": "planned",
+      "localizedStatus": [
+        {
+          "language": "ru",
+          "value": "Запланировано"
+        },
+        {
+          "language": "en",
+          "value": "Planned"
+        },
+        {
+          "language": "be",
+          "value": "Запланавана"
+        },
+        {
+          "language": "uk",
+          "value": "Заплановано"
+        }
+      ],
+      "description": "some description",
+      "localizedDescription": [
+        {
+          "language": "ru",
+          "value": "Добавить Виджет для рабочего стола отображающий расписание экзаменов"
+        },
+        {
+          "language": "en",
+          "value": "Add Widget for Home Screen showing exams schedule"
+        },
+        {
+          "language": "be",
+          "value": "Дадаць Віджэт для працоўнага стала які адлюстроўвае расклад іспытаў"
+        },
+        {
+          "language": "uk",
+          "value": "Додати Віджет для робочого столу, що відображає розклад іспитів"
+        }
+      ]
+    },
+    {
+        "id": "1",
+        "title": "Sync with CloudKit",
+        "localizedTitle": [
+          {
+            "language": "ru",
+            "value": "Синхронизация с CloudKit"
+          },
+          {
+            "language": "en",
+            "value": "Sync with CloudKit"
+          },
+          {
+            "language": "be",
+            "value": "Сінхранізацыя з CloudKit"
+          },
+          {
+            "language": "uk",
+            "value": "Синхронізація з CloudKit"
+          }
+        ],
+        "status": "planned",
+        "localizedStatus": [
+          {
+            "language": "ru",
+            "value": "Запланировано"
+          },
+          {
+            "language": "en",
+            "value": "Planned"
+          },
+          {
+            "language": "be",
+            "value": "Запланавана"
+          },
+          {
+            "language": "uk",
+            "value": "Заплановано"
+          }
+        ],
+        "description": "some description",
+        "localizedDescription": [
+          {
+            "language": "ru",
+            "value": "Синхронизировать \"Избранные\" и \"Закрепленное\" расписание через CloudKit с другими девайсами"
+          },
+          {
+            "language": "en",
+            "value": "Sync \"Favorites\" and \"Pinned\" schedules with other devices over CloudKit"
+          },
+          {
+            "language": "be",
+            "value": "Сінхранізаваць \"Выбраныя\" і \"Замацаванае\" расклад праз CloudKit з іншымі дэвайсамі"
+          },
+          {
+            "language": "uk",
+            "value": "Синхронізувати \"Вибрані\" та \"Закріплене\" розклад через CloudKit з іншими девайсами"
+          }
+        ]
+    },
+    {
+        "id": "2",
+        "title": "Shortcuts integration",
+        "localizedTitle": [
+          {
+            "language": "ru",
+            "value": "Интеграция команд"
+          },
+          {
+            "language": "en",
+            "value": "Shortcuts integration"
+          },
+          {
+            "language": "be",
+            "value": "Інтэграцыя каманд"
+          },
+          {
+            "language": "uk",
+            "value": "Інтеграція команд"
+          }
+        ],
+        "status": "planned",
+        "localizedStatus": [
+          {
+            "language": "ru",
+            "value": "Запланировано"
+          },
+          {
+            "language": "en",
+            "value": "Planned"
+          },
+          {
+            "language": "be",
+            "value": "Запланавана"
+          },
+          {
+            "language": "uk",
+            "value": "Заплановано"
+          }
+        ],
+        "description": "some description",
+        "localizedDescription": [
+          {
+            "language": "ru",
+            "value": "Добавить быстрые команды в приложение и интегрироваться с приложением \"Команды\""
+          },
+          {
+            "language": "en",
+            "value": "Add shortcuts to the app and integrate with the \"Shortcuts\" app"
+          },
+          {
+            "language": "be",
+            "value": "Дадаць хуткія каманды ў дадатак і інтэгравацца з дадаткам \"Каманды\""
+          },
+          {
+            "language": "uk",
+            "value": "Додати швидкі команди до програми та інтегруватися з додатком \"Команди\""
+          }
+        ]
+      }
+]
