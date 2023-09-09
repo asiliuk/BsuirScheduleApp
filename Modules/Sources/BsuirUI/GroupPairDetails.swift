@@ -1,52 +1,30 @@
-//
-//  GroupPairDetails.swift
-//  BsuirUI
-//
-//  Created by Anton Siliuk on 17.10.21.
-//  Copyright © 2021 Saute. All rights reserved.
-//
-
 import SwiftUI
 
 public struct GroupPairDetails: View {
     let groups: [String]
-    let showDetails: (String) -> Void
     @ScaledMetric(relativeTo: .body) private var overlap: CGFloat = 10
     private let maxGroupsToShow = 2
 
-    public init(groups: [String], showDetails: @escaping (String) -> Void) {
+    public init(groups: [String]) {
         self.groups = groups
-        self.showDetails = showDetails
     }
 
     public var body: some View {
-        if groups.isEmpty {
-            EmptyView()
-        } else {
-            Menu {
-                ForEach(groups, id: \.self) { group in
-                    Button {
-                        showDetails(group)
-                    } label: {
-                        Text(group)
-                    }
+        if !groups.isEmpty {
+            HStack(spacing: -overlap) {
+                ForEach(groups.prefix(maxGroupsToShow), id: \.self) { group in
+                    GroupAvatar(group: group)
                 }
-            } label: {
-                HStack(spacing: -overlap) {
-                    ForEach(groups.prefix(maxGroupsToShow), id: \.self) { group in
-                        GroupAvatar(group: group)
-                    }
-                    
-                    if groups.count > maxGroupsToShow {
-                        Text("+")
-                            .foregroundColor(.primary)
-                            .font(.headline.monospacedDigit())
-                            .padding(2)
-                            .modifier(GroupBackgroud())
-                    }
+
+                if groups.count > maxGroupsToShow {
+                    Text("+")
+                        .foregroundColor(.primary)
+                        .font(.headline.monospacedDigit())
+                        .padding(2)
+                        .modifier(GroupBackgroud())
                 }
-                .padding(.horizontal, 4)
             }
+            .padding(.horizontal, 4)
         }
     }
 }
@@ -97,29 +75,17 @@ private extension String {
 struct GroupPairDetails_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            GroupPairDetails(
-                groups: ["101001", "101002"],
-                showDetails: { _ in }
-            )
+            GroupPairDetails(groups: ["101001", "101002"])
             
-            GroupPairDetails(
-                groups: ["020605", "020604", "020603", "020602", "020601"],
-                showDetails: { _ in }
-            )
+            GroupPairDetails(groups: ["020605", "020604", "020603", "020602", "020601"])
 
-            GroupPairDetails(
-                groups: ["101001", "101002"],
-                showDetails: { _ in }
-            )
-            .environment(\.sizeCategory, .extraExtraLarge)
-            .environment(\.colorScheme, .dark)
+            GroupPairDetails(groups: ["101001", "101002"])
+                .environment(\.sizeCategory, .extraExtraLarge)
+                .environment(\.colorScheme, .dark)
             
-            GroupPairDetails(
-                groups: ["020605", "020604", "020603", "020602", "020601"],
-                showDetails: { _ in }
-            )
-            .environment(\.sizeCategory, .extraExtraLarge)
-            .environment(\.colorScheme, .dark)
+            GroupPairDetails(groups: ["020605", "020604", "020603", "020602", "020601"])
+                .environment(\.sizeCategory, .extraExtraLarge)
+                .environment(\.colorScheme, .dark)
         }
         .previewLayout(.sizeThatFits)
         .padding(4)

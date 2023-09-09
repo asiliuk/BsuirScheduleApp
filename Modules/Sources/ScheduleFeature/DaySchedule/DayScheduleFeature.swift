@@ -60,7 +60,8 @@ private extension DayScheduleFeature.State {
                     title: weekday.localizedName(in: calendar).capitalized,
                     showWeeks: true, 
                     pairs: pairViewModels(pairs, calendar: calendar, now: now),
-                    pairRowDetails: nil
+                    pairRowDetails: nil,
+                    pairRowDay: .weekday(weekday)
                 )
             }
         scheduleList.days = IdentifiedArray(uniqueElements: days)

@@ -6,7 +6,14 @@ extension FormatStyle where Self == Date.FormatStyle {
             .hour(.twoDigits(amPM: .narrow))
             .minute(.twoDigits)
     }
-    
+
+    public static var pairDate: Self {
+        return .dateTime
+            .day()
+            .month(.wide)
+            .year()
+    }
+
     public static var scheduleDay: Self {
         return .dateTime
             .weekday()

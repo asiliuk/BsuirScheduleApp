@@ -42,7 +42,6 @@ public struct PairCell<Details: View>: View {
                 RoundedRectangle(cornerRadius: 8)
                     .foregroundColor(Color(.secondarySystemBackground))
             )
-            .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
     }
 }
 

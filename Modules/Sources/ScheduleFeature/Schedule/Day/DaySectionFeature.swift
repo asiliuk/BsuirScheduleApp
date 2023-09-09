@@ -17,7 +17,8 @@ public struct DaySectionFeature: Reducer {
             isToday: Bool = false,
             showWeeks: Bool = false,
             pairs: [PairViewModel],
-            pairRowDetails: PairRowDetails?
+            pairRowDetails: PairRowDetails?,
+            pairRowDay: PairRowDay
         ) {
             self.id = id
             self.title = title
@@ -28,7 +29,8 @@ public struct DaySectionFeature: Reducer {
                     PairRowFeature.State(
                         pair: pair,
                         showWeeks: showWeeks,
-                        details: pairRowDetails
+                        details: pairRowDetails,
+                        day: pairRowDay
                     )
                 }
             )

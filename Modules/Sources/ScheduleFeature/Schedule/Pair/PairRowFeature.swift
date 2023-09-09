@@ -8,21 +8,30 @@ public enum PairRowDetails {
     case groups
 }
 
+public enum PairRowDay: Equatable {
+    case date(Date?)
+    case weekday(DaySchedule.WeekDay)
+}
+
 public struct PairRowFeature: Reducer {
     public struct State: Equatable, Identifiable {
         public var id: UUID { pair.id }
         var pair: PairViewModel
         var showWeeks: Bool
         var details: PairRowDetails?
+        var day: PairRowDay
+        @PresentationState var pairDetails: PairDetailsFeature.State?
 
         public init(
             pair: PairViewModel,
             showWeeks: Bool,
-            details: PairRowDetails?
+            details: PairRowDetails?,
+            day: PairRowDay
         ) {
             self.pair = pair
             self.showWeeks = showWeeks
             self.details = details
+            self.day = day
         }
     }
 
@@ -32,21 +41,36 @@ public struct PairRowFeature: Reducer {
             case showLectorSchedule(Employee)
         }
 
-        case lecturerTapped(Employee)
-        case groupTapped(String)
+        case rowTapped
+        case pairDetails(PresentationAction<PairDetailsFeature.Action>)
         case delegate(Delegate)
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .groupTapped(let name):
-                return .send(.delegate(.showGroupSchedule(name)))
-            case .lecturerTapped(let employee):
-                return .send(.delegate(.showLectorSchedule(employee)))
-            case .delegate:
+            case .rowTapped:
+                state.pairDetails = PairDetailsFeature.State(
+                    pair: state.pair,
+                    rowDetails: state.details,
+                    rowDay: state.day
+                )
+                return .none
+            case .pairDetails(.presented(.delegate(let action))):
+                state.pairDetails = nil
+                switch action {
+                case .showGroupSchedule(let name):
+                    return .send(.delegate(.showGroupSchedule(name)))
+                case .showLectorSchedule(let employee):
+                    return .send(.delegate(.showLectorSchedule(employee)))
+                }
+
+            case .delegate, .pairDetails:
                 return .none
             }
+        }
+        .ifLet(\.$pairDetails, action: /Action.pairDetails) {
+            PairDetailsFeature()
         }
     }
 }

@@ -138,7 +138,8 @@ private extension DaySectionFeature.State {
             subtitle: Self.relativeFormatter.relativeName(for: element.date, now: now),
             isToday: calendar.isDateInToday(element.date),
             pairs: element.pairs.map(PairViewModel.init(pair:)),
-            pairRowDetails: pairRowDetails
+            pairRowDetails: pairRowDetails,
+            pairRowDay: .date(element.date)
         )
     }
 
