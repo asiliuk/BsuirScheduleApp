@@ -116,7 +116,7 @@ struct PairDetailsView: View {
                 }
             }
         }
-        .presentationDetents([.fraction(0.35), .large])
+        .presentationDetents([.fraction(0.4), .large])
         .presentationDragIndicator(.hidden)
         .scrollIndicators(.never)
         .frame(idealWidth: 400, idealHeight: 600)

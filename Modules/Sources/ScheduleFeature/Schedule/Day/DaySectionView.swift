@@ -12,7 +12,7 @@ struct DaySectionView: View {
                     state: \.pairRows,
                     action: { .pairRow(id: $0, action: $1) }
                 ),
-                content: PairRowView.init
+                content: { PairRowView(store: $0) }
             )
         } header: {
             WithViewStore(

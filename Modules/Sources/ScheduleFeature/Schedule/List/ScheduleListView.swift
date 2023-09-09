@@ -18,6 +18,7 @@ struct ScheduleListView: View {
 
 private struct ScheduleContentListView: View {
     let store: StoreOf<ScheduleListFeature>
+    @State var presentsPairDetailsPopover: Bool = false
 
     var body: some View {
         WithViewStore(store, observe: \.isOnTop) { viewStore in
@@ -47,6 +48,8 @@ private struct ScheduleContentListView: View {
                 .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
+            .onPreferenceChange(PresentsPairDetailsPopoverPreferenceKey.self) { presentsPairDetailsPopover = $0 }
+            .environment(\.presentsPairDetailsPopover, presentsPairDetailsPopover)
         }
     }
 }
