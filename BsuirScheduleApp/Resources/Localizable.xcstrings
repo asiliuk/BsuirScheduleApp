@@ -4987,6 +4987,35 @@
         }
       }
     },
+    "screen.settings.roadmap.navigation.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дарожная карта"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roadmap"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дорожная карта"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дорожня карта"
+          }
+        }
+      }
+    },
     "screen.settings.whatsNew.3_0.appIcons.subtitle" : {
       "extractionState" : "manual",
       "localizations" : {

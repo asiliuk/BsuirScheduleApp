@@ -16,6 +16,7 @@ struct RoadmapFeatureView: View {
 
             RoadmapView(configuration: configuration)
         }
+        .navigationTitle("screen.settings.roadmap.navigation.title")
     }
 }
 
