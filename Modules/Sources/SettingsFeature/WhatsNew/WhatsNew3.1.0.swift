@@ -11,7 +11,8 @@ extension WhatsNew {
                 localizedTitle: "screen.settings.whatsNew.3_1.widgets.title",
                 localizedSubtitle: "screen.settings.whatsNew.3_1.widgets.subtitle"
             ),
-
+            // TODO: Add pair details feature
+            // TODO: Add Roadmap feature
         ],
         primaryAction: .init(localizedTitle: "screen.settings.whatsNew.button.gotIt")
     )
