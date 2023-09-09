@@ -2,9 +2,13 @@ import SwiftUI
 import Kingfisher
 
 public struct Avatar: View {
+    @ScaledMetric private var size: CGFloat
     public let url: URL?
-    public init(url: URL?) { self.url = url }
-    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 50
+
+    public init(url: URL?, baseSize: CGFloat = 50) {
+        self.url = url
+        _size = ScaledMetric(wrappedValue: baseSize, relativeTo: .body)
+    }
 
     public var body: some View {
         KFImage(url)

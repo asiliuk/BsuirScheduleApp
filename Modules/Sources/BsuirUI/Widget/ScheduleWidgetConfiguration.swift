@@ -40,6 +40,7 @@ private extension ScheduleWidgetConfiguration.Content {
                 interval: "10:00-11:00",
                 form: .lab,
                 subject: "Лаба",
+                subjectFullName: "Лаба",
                 auditory: "101-1",
                 progress: .init(constant: 1)
             ),
@@ -51,6 +52,7 @@ private extension ScheduleWidgetConfiguration.Content {
                 interval: "11:00-12:00",
                 form: .lecture,
                 subject: "Лекция",
+                subjectFullName: "Лекция",
                 auditory: "102-2"
             ),
             PairViewModel(
@@ -59,6 +61,7 @@ private extension ScheduleWidgetConfiguration.Content {
                 interval: "12:00-13:00",
                 form: .practice,
                 subject: "ПЗ",
+                subjectFullName: "ПЗ",
                 auditory: "103-3"
             ),
             PairViewModel(
@@ -67,6 +70,7 @@ private extension ScheduleWidgetConfiguration.Content {
                 interval: "13:00-14:00",
                 form: .lab,
                 subject: "Другая Лаба",
+                subjectFullName: "Другая Лаба",
                 auditory: "104-4",
                 subgroup: "2"
             ),
@@ -76,6 +80,7 @@ private extension ScheduleWidgetConfiguration.Content {
                 interval: "13:00-14:00",
                 form: .practice,
                 subject: "Другое ПЗ",
+                subjectFullName: "Другое ПЗ",
                 auditory: "105-5",
                 subgroup: "1"
             )

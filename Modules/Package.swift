@@ -26,6 +26,9 @@ let package = Package(
         .library(
             name: "Favorites",
             targets: ["Favorites"]),
+        .library(
+            name: "ScheduleFeature",
+            targets: ["ScheduleFeature"]),
     ],
     dependencies: [
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.9.0"),

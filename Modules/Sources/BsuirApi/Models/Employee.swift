@@ -9,6 +9,22 @@ public struct Employee: Codable, Equatable, Identifiable, Hashable {
     public let lastName: String
     
     public let photoLink: URL?
+
+    public init(
+        id: Int,
+        urlId: String,
+        firstName: String,
+        middleName: String?,
+        lastName: String,
+        photoLink: URL?
+    ) {
+        self.id = id
+        self.urlId = urlId
+        self.firstName = firstName
+        self.middleName = middleName
+        self.lastName = lastName
+        self.photoLink = photoLink
+    }
 }
 
 extension Employee {

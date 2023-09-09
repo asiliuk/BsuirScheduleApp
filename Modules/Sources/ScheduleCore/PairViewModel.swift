@@ -10,7 +10,7 @@ public struct PairViewModel: Equatable, Identifiable {
         case exam
         case unknown(String?)
 
-        init(_ form: BsuirApi.Pair.Form?) {
+        public init(_ form: BsuirApi.Pair.Form?) {
             switch form {
             case .lecture: self = .lecture
             case .practice: self = .practice
@@ -29,6 +29,7 @@ public struct PairViewModel: Equatable, Identifiable {
     public var interval: String
     public var form: Form
     public var subject: String?
+    public var subjectFullName: String?
     public var auditory: String?
     public var note: String?
     public var weeks: String?
@@ -43,6 +44,7 @@ public struct PairViewModel: Equatable, Identifiable {
         interval: String,
         form: PairViewModel.Form,
         subject: String?,
+        subjectFullName: String?,
         auditory: String?,
         note: String? = nil,
         weeks: String? = nil,
@@ -56,6 +58,7 @@ public struct PairViewModel: Equatable, Identifiable {
         self.interval = interval
         self.form = form
         self.subject = subject
+        self.subjectFullName = subjectFullName
         self.auditory = auditory
         self.note = note
         self.weeks = weeks
@@ -79,6 +82,7 @@ extension PairViewModel {
             interval: Self.interval(from: start, to: end),
             form: Form(pair.lessonType),
             subject: Self.title(from: pair),
+            subjectFullName: pair.subjectFullName,
             auditory: Self.details(from: pair),
             note: Self.note(from: pair),
             weeks: Self.weeks(from: pair.weekNumber),

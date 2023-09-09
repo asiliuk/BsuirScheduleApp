@@ -146,6 +146,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "15:50-17:10",
                     form: .lecture,
                     subject: "ПИСПБ",
+                    subjectFullName: "ПИСПБ",
                     auditory: "613-2 к",
                     note: "(с 04.09-по 18.12)",
                     progress: .init(constant: 1)
@@ -158,6 +159,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "17:25-18:45",
                     form: .lecture,
                     subject: "БПП",
+                    subjectFullName: "БПП",
                     auditory: "615-2 к",
                     note: "(с 04.09-по 11.12)"
                 ),
@@ -167,6 +169,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "19:00-20:20",
                     form: .lecture,
                     subject: "БПП",
+                    subjectFullName: "БПП",
                     auditory: "615-2 к",
                     note: "(с 04.09-по 11.12)"
                 ),
@@ -184,6 +187,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "09:00-10:20",
                     form: .practice,
                     subject: "СпецП",
+                    subjectFullName: "СпецП",
                     auditory: nil,
                     note: "(с 01.09-по 15.12)",
                     progress: .init(constant: 1)
@@ -194,6 +198,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "10:35-11:55",
                     form: .practice,
                     subject: "СпецП",
+                    subjectFullName: "СпецП",
                     auditory: nil,
                     note: "(с 01.09-по 15.12)",
                     progress: .init(constant: 1)
@@ -206,6 +211,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "12:25-13:45",
                     form: .practice,
                     subject: "СпецП",
+                    subjectFullName: "СпецП",
                     auditory: nil,
                     note: "(с 01.09-по 15.12)",
                     progress: .init(constant: 0.5)
@@ -216,6 +222,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "14:00-15:20",
                     form: .practice,
                     subject: "СпецП",
+                    subjectFullName: "СпецП",
                     auditory: nil,
                     note: "(с 01.09-по 15.12)"
                 ),
@@ -233,6 +240,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "09:00-10:20",
                     form: .lecture,
                     subject: "РиАТ",
+                    subjectFullName: "РиАТ",
                     auditory: "209-4 к",
                     progress: .init(constant: 1)
                 ),
@@ -242,6 +250,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "10:35-11:55",
                     form: .lecture,
                     subject: "ВТ",
+                    subjectFullName: "ВТ",
                     auditory: "209-4 к",
                     progress: .init(constant: 1)
                 ),
@@ -253,6 +262,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "12:25-13:45",
                     form: .practice,
                     subject: "МиАПР",
+                    subjectFullName: "МиАПР",
                     auditory: "213б-4 к",
                     subgroup: "1",
                     progress: .init(constant: 0.5)
@@ -263,6 +273,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "12:25-13:45",
                     form: .practice,
                     subject: "ВТ",
+                    subjectFullName: "ВТ",
                     auditory: "316-5 к",
                     subgroup: "2",
                     progress: .init(constant: 0.5)
@@ -273,6 +284,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "14:00-15:20",
                     form: .practice,
                     subject: "МиАПР",
+                    subjectFullName: "МиАПР",
                     auditory: "213б-4 к",
                     subgroup: "2"
                 ),
@@ -282,6 +294,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "14:00-15:20",
                     form: .practice,
                     subject: "ВТ",
+                    subjectFullName: "ВТ",
                     auditory: "316-5 к",
                     subgroup: "1"
                 ),
@@ -299,6 +312,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "09:00-10:20",
                     form: .lab,
                     subject: "АиСД",
+                    subjectFullName: "АиСД",
                     auditory: "210-4 к",
                     note: "(с 04.09-по 25.12)",
                     progress: .init(constant: 1)
@@ -311,6 +325,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "12:25-13:45",
                     form: .lab,
                     subject: "МиАПР",
+                    subjectFullName: "МиАПР",
                     auditory: "213б-4 к",
                     note: "(с 04.09-по 11.12)",
                     subgroup: "1",
@@ -322,6 +337,7 @@ private extension ScheduleWidgetConfiguration {
                     interval: "14:00-15:20",
                     form: .lab,
                     subject: "МиАПР",
+                    subjectFullName: "МиАПР",
                     auditory: "213б-4 к",
                     note: "(с 04.09-по 11.12)",
                     subgroup: "2"
