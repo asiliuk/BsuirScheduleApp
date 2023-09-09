@@ -42,6 +42,7 @@ public struct AppFeature: Reducer {
         case destination(PresentationAction<DestinationAction>)
 
         case task
+        case closePremiumClubButtonTapped
 
         case handleDeeplink(URL)
         case setSelection(CurrentSelection)
@@ -72,6 +73,10 @@ public struct AppFeature: Reducer {
                         }
                     }
                 )
+
+            case .closePremiumClubButtonTapped:
+                state.destination = nil
+                return .none
 
             case let .setSelection(value):
                 state.updateSelection(value)

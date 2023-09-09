@@ -62,9 +62,14 @@ public struct AppView: View {
                 state: /AppFeature.State.Destination.premiumClub,
                 action: AppFeature.Action.DestinationAction.premiumClub
             ) { store in
-                ModalNavigationStack {
+                NavigationStack {
                     PremiumClubFeatureView(store: store)
                         .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            CloseModalToolbarItem {
+                                self.store.send(.closePremiumClubButtonTapped)
+                            }
+                        }
                 }
             }
         }
