@@ -32,7 +32,7 @@ extension FormatStyle where Self == Date.FormatStyle {
 
 extension FormatStyle where Self == Date.IntervalFormatStyle {
     public static var pairTime: Self {
-        return .interval
+        return .init(timeZone: .minsk)
             .hour(.defaultDigits(amPM: .narrow))
             .minute()
     }
