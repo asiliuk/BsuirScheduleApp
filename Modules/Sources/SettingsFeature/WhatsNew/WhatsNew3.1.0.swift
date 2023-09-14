@@ -11,8 +11,16 @@ extension WhatsNew {
                 localizedTitle: "screen.settings.whatsNew.3_1.widgets.title",
                 localizedSubtitle: "screen.settings.whatsNew.3_1.widgets.subtitle"
             ),
-            // TODO: Add pair details feature
-            // TODO: Add Roadmap feature
+            WhatsNew.Feature(
+                image: .init(systemName: "rectangle.portrait.bottomthird.inset.filled", foregroundColor: .primary),
+                localizedTitle: "screen.settings.whatsNew.3_1.pairDetails.title",
+                localizedSubtitle: "screen.settings.whatsNew.3_1.pairDetails.subtitle"
+            ),
+            WhatsNew.Feature(
+                image: .init(systemName: "road.lanes", foregroundColor: .purple),
+                localizedTitle: "screen.settings.whatsNew.3_1.roadmap.title",
+                localizedSubtitle: "screen.settings.whatsNew.3_1.roadmap.subtitle"
+            ),
         ],
         primaryAction: .init(localizedTitle: "screen.settings.whatsNew.button.gotIt")
     )

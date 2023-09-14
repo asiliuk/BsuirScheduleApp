@@ -5306,6 +5306,122 @@
         }
       }
     },
+    "screen.settings.whatsNew.3_1.pairDetails.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Даведайцеся больш падрабязнасцяў аб пары тапнуўшы на вочка ў раскладзе"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn more about the pair by tapping on the cell in the schedule"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Узнайте больше подробностей о паре тапнув на ячейку в расписании"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дізнайтесь більше подробиць про пару тапнувши на комірку в розкладі"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_1.pairDetails.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дэталі пары"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pair details"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Детали пары"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Деталі пари"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_1.roadmap.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прыміце ўдзел у планаванні будучых фічаў прыкладанне ў раздзеле \"Дарожная карта\""
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help to form future of the application on the \"Roadmap\""
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Примите участие в планировании будущих фичей приложение в разделе \"Дорожная карта\""
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Візьміть участь у плануванні майбутніх фічів додаток у розділі \"Дорожня карта\""
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_1.roadmap.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дарожная карта"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roadmap"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дорожная карта"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дорожня карта"
+          }
+        }
+      }
+    },
     "screen.settings.whatsNew.3_1.widgets.subtitle" : {
       "extractionState" : "manual",
       "localizations" : {
