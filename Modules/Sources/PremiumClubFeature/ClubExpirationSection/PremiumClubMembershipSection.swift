@@ -71,11 +71,7 @@ public struct PremiumClubMembershipSection: Reducer {
     private func loadSubscriptionDetails(state: inout State) -> Effect<Action> {
         state = .loading
         return .run { send in
-            let subscription = try await productsService.subscription
-            guard
-                let subscriptionInfo = subscription.subscription,
-                let status = try await subscriptionInfo.status.last
-            else {
+            guard let status = await productsService.subscriptionStatus else {
                 await send(._receivedNoSubscription)
                 return
             }

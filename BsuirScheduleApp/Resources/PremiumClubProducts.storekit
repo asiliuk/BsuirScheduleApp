@@ -10,9 +10,19 @@
       "internalID" : "6458593296",
       "localizations" : [
         {
-          "description" : "🥙 Large tip",
+          "description" : "Большие чаевые для поддержки разработчика",
+          "displayName" : "Большие чаевые",
+          "locale" : "ru"
+        },
+        {
+          "description" : "Large tip to support developer",
           "displayName" : "Large Tip",
           "locale" : "en_US"
+        },
+        {
+          "description" : "Великі чайові для підтримки розробника",
+          "displayName" : "Великі чайові",
+          "locale" : "uk"
         }
       ],
       "productID" : "com.saute.bsuir_schedule.tips.large",
@@ -25,7 +35,17 @@
       "internalID" : "6458593167",
       "localizations" : [
         {
-          "description" : "🥐 Medium tip",
+          "description" : "Средние чаевые для поддержки разработчика",
+          "displayName" : "Средние чаевые",
+          "locale" : "ru"
+        },
+        {
+          "description" : "Середні чайові для підтримки розробника",
+          "displayName" : "Середні чайові",
+          "locale" : "uk"
+        },
+        {
+          "description" : "Medium tip to support developer",
           "displayName" : "Medium Tip",
           "locale" : "en_US"
         }
@@ -40,7 +60,17 @@
       "internalID" : "6458593265",
       "localizations" : [
         {
-          "description" : "☕️ Small tip",
+          "description" : "Небольшие чаевые для поддержки разработчика",
+          "displayName" : "Небольшие чаевые",
+          "locale" : "ru"
+        },
+        {
+          "description" : "Невеликі чайові для підтримки розробника",
+          "displayName" : "Невеликі чайові",
+          "locale" : "uk"
+        },
+        {
+          "description" : "Small tip to support developer",
           "displayName" : "Small tip",
           "locale" : "en_US"
         }
@@ -93,7 +123,57 @@
   "settings" : {
     "_applicationInternalID" : "944151090",
     "_developerTeamID" : "636FUHDF2R",
-    "_lastSynchronizedDate" : 713044940.64047801
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 716411038.86652601,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
   },
   "subscriptionGroups" : [
     {
@@ -115,21 +195,31 @@
           "groupNumber" : 1,
           "internalID" : "6458593163",
           "introductoryOffer" : {
-            "internalID" : "793342E7",
+            "internalID" : "37D80106",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P2M"
           },
           "localizations" : [
             {
-              "description" : "Yearly membership in the Premium Club",
-              "displayName" : "Premium Club Yearly",
+              "description" : "Доступ к премиум-функциям на 12 месяцев",
+              "displayName" : "Premium Club (1 Год)",
               "locale" : "ru"
+            },
+            {
+              "description" : "Access to premium app features for 12 month",
+              "displayName" : "Premium Club (1 Year)",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "Доступ до преміум-функцій на 12 місяців",
+              "displayName" : "Premium Club (1 Рік)",
+              "locale" : "uk"
             }
           ],
           "productID" : "com.saute.bsuir_schedule.premium_club.yearly",
           "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "PremiumClub Yearly",
+          "referenceName" : "Premium Club Annual",
           "subscriptionGroupID" : "21370540",
           "type" : "RecurringSubscription"
         }
@@ -137,7 +227,7 @@
     }
   ],
   "version" : {
-    "major" : 2,
+    "major" : 3,
     "minor" : 0
   }
 }

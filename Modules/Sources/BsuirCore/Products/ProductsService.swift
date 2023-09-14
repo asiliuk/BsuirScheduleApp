@@ -6,6 +6,7 @@ import Combine
 public protocol ProductsService {
     var tips: [Product] { get async }
     var subscription: Product { get async throws }
+    var subscriptionStatus: Product.SubscriptionInfo.Status? { get async }
 
     func load()
     @discardableResult
@@ -44,6 +45,10 @@ final class ProductsServiceMock: ProductsService {
 
     var subscription: Product {
         get async throws { throw Failure.notImplemented }
+    }
+
+    var subscriptionStatus: Product.SubscriptionInfo.Status? {
+        get async { nil }
     }
 
     func load() {}

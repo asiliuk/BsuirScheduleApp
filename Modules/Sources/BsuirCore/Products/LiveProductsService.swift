@@ -108,6 +108,14 @@ extension LiveProductsService: ProductsService {
         }
     }
 
+    var subscriptionStatus: Product.SubscriptionInfo.Status? {
+        get async {
+            let result = await Transaction.currentEntitlement(for: SubscriptionID.yearly.rawValue)
+            guard case let .verified(transaction) = result else { return nil }
+            return await transaction.subscriptionStatus
+        }
+    }
+
     func load() {
         loadInitialData()
         listenForUpdates()
