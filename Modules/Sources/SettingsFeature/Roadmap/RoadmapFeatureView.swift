@@ -27,7 +27,14 @@ private extension RoadmapStyle {
         titleFont: .title3,
         numberFont: .callout,
         statusFont: .footnote,
-        statusTintColor: { _ in .secondary },
+        statusTintColor: { status in
+            switch status {
+            case "next_release": .green
+            case "planned": .blue
+            case "idea": .yellow
+            default: .secondary
+            }
+        },
         cornerRadius: 16,
         cellColor: Color(uiColor: .secondarySystemBackground),
         selectedColor: .white,

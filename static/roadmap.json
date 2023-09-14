@@ -178,5 +178,125 @@
             "value": "Додати швидкі команди до програми та інтегруватися з додатком \"Команди\""
           }
         ]
-      }
+    },
+    {
+      "id": "3",
+      "title": "Better iPad support",
+      "localizedTitle": [
+        {
+          "language": "ru",
+          "value": "Улучшенная поддержка iPad"
+        },
+        {
+          "language": "en",
+          "value": "Better iPad support"
+        },
+        {
+          "language": "be",
+          "value": "Палепшаная падтрымка iPad"
+        },
+        {
+          "language": "uk",
+          "value": "Поліпшена підтримка iPad"
+        }
+      ],
+      "status": "planned",
+      "localizedStatus": [
+        {
+          "language": "ru",
+          "value": "Запланировано"
+        },
+        {
+          "language": "en",
+          "value": "Planned"
+        },
+        {
+          "language": "be",
+          "value": "Запланавана"
+        },
+        {
+          "language": "uk",
+          "value": "Заплановано"
+        }
+      ],
+      "description": "some description",
+      "localizedDescription": [
+        {
+          "language": "ru",
+          "value": "Использовать потенциал большого экрана iPad и реализовать многооконность"
+        },
+        {
+          "language": "en",
+          "value": "Use full potential of iPad bigger screen and support multiwindow"
+        },
+        {
+          "language": "be",
+          "value": "Выкарыстоўваць патэнцыял вялікага экрана iPad і рэалізаваць шматаконнасць"
+        },
+        {
+          "language": "uk",
+          "value": "Використовувати потенціал великого екрану iPad і реалізувати багатовіконня"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Implement Live Activities",
+      "localizedTitle": [
+        {
+          "language": "ru",
+          "value": "Реализовать Live Activity"
+        },
+        {
+          "language": "en",
+          "value": "Imlement Live Activities"
+        },
+        {
+          "language": "be",
+          "value": "Рэалізаваць Live Activity"
+        },
+        {
+          "language": "uk",
+          "value": "Реалізувати Live Activity"
+        }
+      ],
+      "status": "idea",
+      "localizedStatus": [
+        {
+          "language": "ru",
+          "value": "Идея"
+        },
+        {
+          "language": "en",
+          "value": "Idea"
+        },
+        {
+          "language": "be",
+          "value": "Ідэя"
+        },
+        {
+          "language": "uk",
+          "value": "Ідея"
+        }
+      ],
+      "description": "some description",
+      "localizedDescription": [
+        {
+          "language": "ru",
+          "value": "Показывать сегодняшнее расписание в Live Activity в Dynamic Island и на экране блокировки"
+        },
+        {
+          "language": "en",
+          "value": "Show schedule for the day in the Live Activity in the Dynamic Island and on the lock screen"
+        },
+        {
+          "language": "be",
+          "value": "Паказваць сённяшні расклад у Live Activity у Dynamic Island і на экране блакавання"
+        },
+        {
+          "language": "uk",
+          "value": "Показувати сьогоднішній розклад у Live Activity у Dynamic Island та на екрані блокування"
+        }
+      ]
+  }
 ]
