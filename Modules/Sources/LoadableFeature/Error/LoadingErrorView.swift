@@ -36,6 +36,14 @@ public struct LoadingErrorView: View {
                     LoadingErrorFailedToDecodeView(store: store)
                 }
 
+            case .noSchedule:
+                CaseLet(
+                    /LoadingError.State.noSchedule,
+                     action: LoadingError.Action.noSchedule
+                ) { store in
+                    LoadingErrorNoScheduleView(store: store)
+                }
+
             case .somethingWrongWithBsuir:
                 CaseLet(
                     /LoadingError.State.somethingWrongWithBsuir,

@@ -9,6 +9,7 @@ public struct LoadingError: Reducer {
         case unknown
         case notConnectedToInternet
         case failedToDecode(LoadingErrorFailedToDecode.State)
+        case noSchedule
         case somethingWrongWithBsuir(LoadingErrorSomethingWrongWithBsuir.State)
     }
 
@@ -17,6 +18,7 @@ public struct LoadingError: Reducer {
         case unknown(LoadingErrorUnknown.Action)
         case notConnectedToInternet(LoadingErrorNotConnectedToInternet.Action)
         case failedToDecode(LoadingErrorFailedToDecode.Action)
+        case noSchedule(LoadingErrorNoSchedule.Action)
         case somethingWrongWithBsuir(LoadingErrorSomethingWrongWithBsuir.Action)
     }
 
@@ -25,6 +27,7 @@ public struct LoadingError: Reducer {
             switch action {
             case .somethingWrongWithBsuir(.reloadButtonTapped),
                  .notConnectedToInternet(.reloadButtonTapped),
+                 .noSchedule(.reloadButtonTapped),
                  .unknown(.reloadButtonTapped):
                 return .send(.reload)
             case .reload,
@@ -42,6 +45,9 @@ public struct LoadingError: Reducer {
         }
         .ifCaseLet(/State.somethingWrongWithBsuir, action: /Action.somethingWrongWithBsuir) {
             LoadingErrorSomethingWrongWithBsuir()
+        }
+        .ifCaseLet(/State.noSchedule, action: /Action.noSchedule) {
+            LoadingErrorNoSchedule()
         }
         .ifCaseLet(/State.notConnectedToInternet, action: /Action.notConnectedToInternet) {
             LoadingErrorNotConnectedToInternet()
@@ -69,6 +75,8 @@ extension LoadingError.State {
             switch (decodingError.response as? HTTPURLResponse)?.statusCode ?? 0 {
             case 200..<300:
                 self = .failedToDecode(.init(url: url, description: description))
+            case 404:
+                self = .noSchedule
             case let statusCode:
                 self = .somethingWrongWithBsuir(.init(url: url, description: description, statusCode: statusCode))
             }
