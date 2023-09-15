@@ -298,5 +298,65 @@
           "value": "Показувати сьогоднішній розклад у Live Activity у Dynamic Island та на екрані блокування"
         }
       ]
+    },
+    {
+      "id": "5",
+      "title": "Apple Watch App",
+      "localizedTitle": [
+        {
+          "language": "ru",
+          "value": "Приложение для Apple Watch"
+        },
+        {
+          "language": "en",
+          "value": "Apple Watch App"
+        },
+        {
+          "language": "be",
+          "value": "Прыкладанне для Apple Watch"
+        },
+        {
+          "language": "uk",
+          "value": "Додаток для Apple Watch"
+        }
+      ],
+      "status": "idea",
+      "localizedStatus": [
+        {
+          "language": "ru",
+          "value": "Идея"
+        },
+        {
+          "language": "en",
+          "value": "Idea"
+        },
+        {
+          "language": "be",
+          "value": "Ідэя"
+        },
+        {
+          "language": "uk",
+          "value": "Ідея"
+        }
+      ],
+      "description": "some description",
+      "localizedDescription": [
+        {
+          "language": "ru",
+          "value": "Разработать приложение для Apple Watch с возможностью просмотра закрепленного и избранных расписаний"
+        },
+        {
+          "language": "en",
+          "value": "Develop an app for Apple Watch to show pinned and favorites schedules"
+        },
+        {
+          "language": "be",
+          "value": "Распрацаваць прыкладанне для Apple Watch з магчымасцю прагляду замацаванага і абраных раскладаў"
+        },
+        {
+          "language": "uk",
+          "value": "Розробити додаток для Apple Watch з можливістю перегляду закріплених та обраних розкладів"
+        }
+      ]
   }
 ]
