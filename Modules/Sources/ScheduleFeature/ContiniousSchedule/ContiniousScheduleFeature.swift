@@ -105,7 +105,7 @@ extension ContinuousScheduleFeature.State {
         else { return }
 
         let days = Array(weekSchedule.schedule(starting: start, now: now, calendar: calendar).prefix(count))
-        scheduleList.loading = (days.count < count) ? .never : .loadMore
+        scheduleList.loading = (days.count < count) ? .finished : .loadMore
 
         self.offset = days.last?.date
         scheduleList.days.append(
