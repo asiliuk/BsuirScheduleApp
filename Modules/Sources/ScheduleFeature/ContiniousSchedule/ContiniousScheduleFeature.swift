@@ -130,14 +130,11 @@ private extension DaySectionFeature.State {
         pairRowDetails: PairRowDetails?
     ) {
         self.init(
-            title: String(localized: "screen.schedule.day.title.\(element.date.formatted(.scheduleDay)).\(element.weekNumber)"),
-            subtitle: Self.relativeFormatter.relativeName(for: element.date, now: now),
-            isToday: calendar.isDateInToday(element.date),
+            dayDate: .continuousDate(element.date, weekNumber: element.weekNumber),
             pairs: element.pairs.map(PairViewModel.init(pair:)),
             pairRowDetails: pairRowDetails,
             pairRowDay: .date(element.date)
         )
     }
 
-    static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 }

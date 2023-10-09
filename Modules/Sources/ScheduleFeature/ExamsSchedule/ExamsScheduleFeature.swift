@@ -73,14 +73,15 @@ private extension DaySectionFeature.State {
         assert(date != nil, "Not really expecting days without date")
 
         self.init(
-            title: date?.formatted(.examDay) ?? "-/-",
-            pairs: pairs.map { pair in
-                let start = calendar.date(bySetting: pair.startLessonTime, of: date ?? now)
-                let end = calendar.date(bySetting: pair.endLessonTime, of: date ?? now)
-                return (start, end, pair)
-            }
-            .sorted(by: optionalSort(\.0))
-            .map { PairViewModel(start: $0, end: $1, pair: $2) },
+            dayDate: .examDate(date),
+            pairs: pairs
+                .map { pair in
+                    let start = calendar.date(bySetting: pair.startLessonTime, of: date ?? now)
+                    let end = calendar.date(bySetting: pair.endLessonTime, of: date ?? now)
+                    return (start, end, pair)
+                }
+                .sorted(by: optionalSort(\.0))
+                .map { PairViewModel(start: $0, end: $1, pair: $2) },
             pairRowDetails: pairRowDetails,
             pairRowDay: .date(date)
         )

@@ -53,8 +53,7 @@ private extension DayScheduleFeature.State {
                 else { return nil }
 
                 return DaySectionFeature.State(
-                    title: weekday.localizedName(in: calendar).capitalized,
-                    showWeeks: true, 
+                    dayDate: .weekday(weekday),
                     pairs: pairViewModels(pairs, calendar: calendar, now: now),
                     pairRowDetails: nil,
                     pairRowDay: .weekday(weekday)

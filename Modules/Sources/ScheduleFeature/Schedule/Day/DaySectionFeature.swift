@@ -1,19 +1,56 @@
 import Foundation
 import ScheduleCore
 import ComposableArchitecture
+import BsuirApi
 
 public struct DaySectionFeature: Reducer {
     public struct State: Equatable, Identifiable {
+        public enum DayDate: Equatable {
+            case continuousDate(Date, weekNumber: Int)
+            case weekday(DaySchedule.WeekDay)
+            case examDate(Date?)
+        }
+
         public var id: UUID
-        var title: String
-        var subtitle: String?
-        var isToday: Bool
+        private var dayDate: DayDate
+        private static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
+
+        var title: String {
+            switch dayDate {
+            case .continuousDate(let date, let weekNumber):
+                return String(localized: "screen.schedule.day.title.\(date.formatted(.scheduleDay)).\(weekNumber)")
+            case .weekday(let weekday):
+                @Dependency(\.calendar) var calendar
+                return weekday.localizedName(in: calendar).capitalized
+            case .examDate(let date):
+                return date?.formatted(.examDay) ?? "-/-"
+            }
+        }
+
+        var subtitle: String? {
+            switch dayDate {
+            case .continuousDate(let date, _), .examDate(let date?):
+                @Dependency(\.date.now) var now
+                return Self.relativeFormatter.relativeName(for: date, now: now)
+            case .weekday, .examDate(nil):
+                return nil
+            }
+        }
+
+        var isToday: Bool {
+            switch dayDate {
+            case .continuousDate(let date, _), .examDate(let date?):
+                @Dependency(\.calendar) var calendar
+                return calendar.isDateInToday(date)
+            case .weekday, .examDate(nil):
+                return false
+            }
+        }
+
         var pairRows: IdentifiedArrayOf<PairRowFeature.State>
 
         init(
-            title: String,
-            subtitle: String? = nil,
-            isToday: Bool = false,
+            dayDate: DayDate,
             showWeeks: Bool = false,
             pairs: [PairViewModel],
             pairRowDetails: PairRowDetails?,
@@ -21,9 +58,7 @@ public struct DaySectionFeature: Reducer {
         ) {
             @Dependency(\.uuid) var uuid
             self.id = uuid()
-            self.title = title
-            self.subtitle = subtitle
-            self.isToday = isToday
+            self.dayDate = dayDate
             self.pairRows = IdentifiedArray(
                 uniqueElements: pairs.map { pair in
                     PairRowFeature.State(
