@@ -19,13 +19,11 @@ public struct ExamsScheduleFeature: Reducer {
 
             @Dependency(\.calendar) var calendar
             @Dependency(\.date.now) var now
-            @Dependency(\.uuid) var uuid
 
             self.loadDays(
                 exams: exams,
                 calendar: calendar,
-                now: now,
-                uuid: uuid
+                now: now
             )
         }
     }
@@ -53,14 +51,12 @@ private extension ExamsScheduleFeature.State {
     mutating func loadDays(
         exams: [Pair],
         calendar: Calendar,
-        now: Date,
-        uuid: UUIDGenerator
+        now: Date
     ) {
         let days = Dictionary(grouping: exams, by: \.dateLesson)
             .sorted(by: optionalSort(\.key))
             .map { 
                 DaySectionFeature.State(
-                    id: uuid(),
                     date: $0,
                     now: now,
                     pairs: $1,
@@ -73,11 +69,10 @@ private extension ExamsScheduleFeature.State {
 }
 
 private extension DaySectionFeature.State {
-    init(id: UUID, date: Date?, now: Date, pairs: [Pair], pairRowDetails: PairRowDetails?, calendar: Calendar) {
+    init(date: Date?, now: Date, pairs: [Pair], pairRowDetails: PairRowDetails?, calendar: Calendar) {
         assert(date != nil, "Not really expecting days without date")
 
         self.init(
-            id: id,
             title: date?.formatted(.examDay) ?? "-/-",
             pairs: pairs.map { pair in
                 let start = calendar.date(bySetting: pair.startLessonTime, of: date ?? now)

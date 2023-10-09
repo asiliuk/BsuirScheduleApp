@@ -36,7 +36,7 @@ public struct ContinuousScheduleFeature: Reducer {
                 )
             }
 
-            load(count: 12, calendar: calendar, now: now, uuid: uuid)
+            load(count: 12, calendar: calendar, now: now)
         }
     }
     
@@ -49,7 +49,6 @@ public struct ContinuousScheduleFeature: Reducer {
     @Dependency(\.continuousClock) var clock
     @Dependency(\.calendar) var calendar
     @Dependency(\.date.now) var now
-    @Dependency(\.uuid) var uuid
 
     public init() {}
 
@@ -64,7 +63,7 @@ public struct ContinuousScheduleFeature: Reducer {
                 .cancellable(id: CancelID.loadDays, cancelInFlight: true)
 
             case ._loadMoreDays:
-                state.load(count: 10, calendar: calendar, now: now, uuid: uuid)
+                state.load(count: 10, calendar: calendar, now: now)
                 return .run { _ in
                     await reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
                 }
@@ -97,7 +96,7 @@ private extension MeaningfulEvent {
 // MARK: - Load More
 
 extension ContinuousScheduleFeature.State {
-    mutating func load(count: Int, calendar: Calendar, now: Date, uuid: UUIDGenerator) {
+    mutating func load(count: Int, calendar: Calendar, now: Date) {
         guard
             let weekSchedule = weekSchedule,
             let offset = offset,
@@ -112,7 +111,6 @@ extension ContinuousScheduleFeature.State {
             contentsOf: days.map { element in
                 DaySectionFeature.State(
                     element: element,
-                    uuid: uuid,
                     calendar: calendar,
                     now: now,
                     pairRowDetails: pairRowDetails
@@ -127,13 +125,11 @@ extension ContinuousScheduleFeature.State {
 private extension DaySectionFeature.State {
     init(
         element: WeekSchedule.ScheduleElement,
-        uuid: UUIDGenerator,
         calendar: Calendar,
         now: Date,
         pairRowDetails: PairRowDetails?
     ) {
         self.init(
-            id: uuid(),
             title: String(localized: "screen.schedule.day.title.\(element.date.formatted(.scheduleDay)).\(element.weekNumber)"),
             subtitle: Self.relativeFormatter.relativeName(for: element.date, now: now),
             isToday: calendar.isDateInToday(element.date),

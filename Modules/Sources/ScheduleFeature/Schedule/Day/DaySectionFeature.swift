@@ -11,7 +11,6 @@ public struct DaySectionFeature: Reducer {
         var pairRows: IdentifiedArrayOf<PairRowFeature.State>
 
         init(
-            id: UUID,
             title: String,
             subtitle: String? = nil,
             isToday: Bool = false,
@@ -20,7 +19,8 @@ public struct DaySectionFeature: Reducer {
             pairRowDetails: PairRowDetails?,
             pairRowDay: PairRowDay
         ) {
-            self.id = id
+            @Dependency(\.uuid) var uuid
+            self.id = uuid()
             self.title = title
             self.subtitle = subtitle
             self.isToday = isToday

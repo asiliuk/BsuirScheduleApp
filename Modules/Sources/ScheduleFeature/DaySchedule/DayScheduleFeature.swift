@@ -11,13 +11,11 @@ public struct DayScheduleFeature: Reducer {
         init(schedule: DaySchedule) {
             @Dependency(\.calendar) var calendar
             @Dependency(\.date.now) var now
-            @Dependency(\.uuid) var uuid
 
             self.loadDays(
                 schedule: schedule,
                 calendar: calendar,
-                now: now,
-                uuid: uuid
+                now: now
             )
         }
     }
@@ -45,8 +43,7 @@ private extension DayScheduleFeature.State {
     mutating func loadDays(
         schedule: DaySchedule,
         calendar: Calendar,
-        now: Date,
-        uuid: UUIDGenerator
+        now: Date
     ) {
         let days = DaySchedule.WeekDay.allCases
             .compactMap { (weekday: DaySchedule.WeekDay) -> DaySectionFeature.State? in
@@ -56,7 +53,6 @@ private extension DayScheduleFeature.State {
                 else { return nil }
 
                 return DaySectionFeature.State(
-                    id: uuid(),
                     title: weekday.localizedName(in: calendar).capitalized,
                     showWeeks: true, 
                     pairs: pairViewModels(pairs, calendar: calendar, now: now),
