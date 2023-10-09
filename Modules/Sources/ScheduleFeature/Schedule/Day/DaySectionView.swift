@@ -25,6 +25,7 @@ struct DaySectionView: View {
                     relativeDate: viewStore.subtitle,
                     isToday: viewStore.isToday
                 )
+                .onAppear { viewStore.send(.onAppear) }
             }
         }
     }

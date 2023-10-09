@@ -11,5 +11,6 @@ struct ContinuousScheduleView: View {
                 action: { .scheduleList($0) }
             )
         )
+        .task { store.send(.task) }
     }
 }

@@ -12,41 +12,10 @@ public struct DaySectionFeature: Reducer {
         }
 
         public var id: UUID
-        private var dayDate: DayDate
-        private static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
-
-        var title: String {
-            switch dayDate {
-            case .continuousDate(let date, let weekNumber):
-                return String(localized: "screen.schedule.day.title.\(date.formatted(.scheduleDay)).\(weekNumber)")
-            case .weekday(let weekday):
-                @Dependency(\.calendar) var calendar
-                return weekday.localizedName(in: calendar).capitalized
-            case .examDate(let date):
-                return date?.formatted(.examDay) ?? "-/-"
-            }
-        }
-
-        var subtitle: String? {
-            switch dayDate {
-            case .continuousDate(let date, _), .examDate(let date?):
-                @Dependency(\.date.now) var now
-                return Self.relativeFormatter.relativeName(for: date, now: now)
-            case .weekday, .examDate(nil):
-                return nil
-            }
-        }
-
-        var isToday: Bool {
-            switch dayDate {
-            case .continuousDate(let date, _), .examDate(let date?):
-                @Dependency(\.calendar) var calendar
-                return calendar.isDateInToday(date)
-            case .weekday, .examDate(nil):
-                return false
-            }
-        }
-
+        var dayDate: DayDate
+        var title: String = ""
+        var subtitle: String? = nil
+        var isToday: Bool = false
         var pairRows: IdentifiedArrayOf<PairRowFeature.State>
 
         init(
@@ -73,13 +42,40 @@ public struct DaySectionFeature: Reducer {
     }
 
     public enum Action: Equatable {
+        case onAppear
         case pairRow(id: PairRowFeature.State.ID, action: PairRowFeature.Action)
     }
 
+    @Dependency(\.date.now) var now
+    @Dependency(\.calendar) var calendar
+
     public var body: some ReducerOf<Self> {
-        EmptyReducer()
-            .forEach(\.pairRows, action: /Action.pairRow) {
-                PairRowFeature()
+        Reduce { state, action in
+            switch action {
+            case .onAppear:
+                switch state.dayDate {
+                case .continuousDate(let date, let weekNumber):
+                    state.title = String(localized: "screen.schedule.day.title.\(date.formatted(.scheduleDay)).\(weekNumber)")
+                    state.subtitle = Self.relativeFormatter.relativeName(for: date, now: now)
+                    state.isToday = calendar.isDate(date, inSameDayAs: now)
+                case .weekday(let weekday):
+                    state.title = weekday.localizedName(in: calendar).capitalized
+                    state.subtitle = nil
+                    state.isToday = false
+                case .examDate(let date):
+                    state.title = date?.formatted(.examDay) ?? "-/-"
+                    state.subtitle = date.flatMap { Self.relativeFormatter.relativeName(for: $0, now: now) }
+                    state.isToday = date.map { calendar.isDate($0, inSameDayAs: now) } ?? false
+                }
+                return .none
+            case .pairRow:
+                return .none
             }
+        }
+        .forEach(\.pairRows, action: /Action.pairRow) {
+            PairRowFeature()
+        }
     }
+
+    private static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 }

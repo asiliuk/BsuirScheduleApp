@@ -23,7 +23,6 @@ public struct ContinuousScheduleFeature: Reducer {
         ) {
             @Dependency(\.calendar) var calendar
             @Dependency(\.date.now) var now
-            @Dependency(\.uuid) var uuid
 
             self.offset = calendar.date(byAdding: .day, value: -1, to: now)
             self.pairRowDetails = pairRowDetails
@@ -41,6 +40,7 @@ public struct ContinuousScheduleFeature: Reducer {
     }
     
     public enum Action: Equatable {
+        case task
         case _loadMoreDays
         case scheduleList(ScheduleListFeature.Action)
     }
@@ -55,6 +55,9 @@ public struct ContinuousScheduleFeature: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .task:
+                clipSchedule(upTo: now, state: &state)
+                return .none
             case .scheduleList(.loadingIndicatorAppeared):
                 return .run { send in
                     try await clock.sleep(for: .milliseconds(300))
@@ -93,9 +96,27 @@ private extension MeaningfulEvent {
     static let moreScheduleRequested = Self(score: 1)
 }
 
-// MARK: - Load More
+// MARK: - Helpers
 
-extension ContinuousScheduleFeature.State {
+private extension ContinuousScheduleFeature {
+    func clipSchedule(upTo clippingDate: Date, state: inout State) {
+        // Find index of a day who's date is today or in the future
+        guard let firstScheduleDayIndex = state.scheduleList.days.firstIndex(where: { state in
+            guard case .continuousDate(let date, _) = state.dayDate else { return false }
+            return calendar.isDate(date, inSameDayAs: clippingDate) || date > clippingDate
+        }) else { return }
+
+        // Remove all days that have passed
+        state.scheduleList.days.removeFirst(firstScheduleDayIndex)
+
+        // Load more schedule if clipping almost all
+        if state.scheduleList.days.count <= 4 {
+            state.load(count: 10, calendar: calendar, now: now)
+        }
+    }
+}
+
+private extension ContinuousScheduleFeature.State {
     mutating func load(count: Int, calendar: Calendar, now: Date) {
         guard
             let weekSchedule = weekSchedule,
@@ -111,8 +132,6 @@ extension ContinuousScheduleFeature.State {
             contentsOf: days.map { element in
                 DaySectionFeature.State(
                     element: element,
-                    calendar: calendar,
-                    now: now,
                     pairRowDetails: pairRowDetails
                 )
             }
@@ -125,8 +144,6 @@ extension ContinuousScheduleFeature.State {
 private extension DaySectionFeature.State {
     init(
         element: WeekSchedule.ScheduleElement,
-        calendar: Calendar,
-        now: Date,
         pairRowDetails: PairRowDetails?
     ) {
         self.init(
