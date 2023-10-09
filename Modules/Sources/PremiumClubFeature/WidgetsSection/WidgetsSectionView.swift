@@ -41,8 +41,12 @@ struct WidgetsSectionView: View {
     private func widgetPreview(for widget: some View, ofSize size: CGSize, targetSize: CGSize) -> some View {
         let scale = targetSize.height / size.height
         return widget
+            .padding()
             .frame(width: size.width, height: size.height)
-            .clipShape(RoundedRectangle(cornerRadius: size.height * 0.11, style: .continuous))
+            .background {
+                RoundedRectangle(cornerRadius: size.height * 0.11, style: .continuous)
+                    .fill(Color(uiColor: .systemBackground))
+            }
             .scaleEffect(x: scale, y: scale)
             .frame(width: targetSize.width, height: targetSize.height)
     }
