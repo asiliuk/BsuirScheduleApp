@@ -275,7 +275,7 @@ private extension PairProgress {
 struct PairView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            PairPlaceholder()
+            ShimmeringPairPlaceholder()
 
             pair
                 .previewDisplayName("Pair")

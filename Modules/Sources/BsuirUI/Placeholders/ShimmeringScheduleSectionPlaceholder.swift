@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct ScheduleGridSectionPlaceholder: View {
+public struct ShimmeringScheduleSectionPlaceholder: View {
     let titleLength: Int
     let numberOfPairs: Int
 
@@ -12,7 +12,7 @@ public struct ScheduleGridSectionPlaceholder: View {
     public var body: some View {
         Section {
             ForEach(0..<numberOfPairs, id: \.self) { _ in
-                PairPlaceholder()
+                ShimmeringPairPlaceholder()
             }
         } header: {
             ScheduleDateTitle(
@@ -20,8 +20,13 @@ public struct ScheduleGridSectionPlaceholder: View {
                 relativeDate: nil,
                 isToday: false
             )
+            .shimmeringPlaceholder()
         }
         .listRowSeparator(.hidden)
-        .redacted(reason: .placeholder)
     }
+}
+
+#Preview {
+    ShimmeringScheduleSectionPlaceholder(titleLength: 10, numberOfPairs: 10)
+        .environmentObject(PairFormDisplayService(storage: .standard, widgetService: .noop))
 }

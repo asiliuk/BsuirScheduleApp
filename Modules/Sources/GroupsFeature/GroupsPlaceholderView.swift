@@ -3,71 +3,49 @@ import BsuirUI
 
 struct GroupsPlaceholderView: View {
     private let hasPinned: Bool
-    private let favoriteOffsets: [Int]
+    private let numberOfFavorites: Int
 
     init(hasPinned: Bool, numberOfFavorites: Int) {
         self.hasPinned = hasPinned
-        favoriteOffsets = (0..<numberOfFavorites).map { _ in Int.random(in: 0..<4) }
+        self.numberOfFavorites = numberOfFavorites
     }
 
     var body: some View {
-        PlaceholderView(speed: 0.07) { iteration in
-            List {
-                pinnedSection(iteration: iteration)
-                favoritesSection(iteration: iteration)
-
-                Section("---") {
-                    Text(placeholderText(for: iteration, from: 4, to: 18))
-                    Text(placeholderText(for: iteration, from: 5, to: 19))
-                    Text(placeholderText(for: iteration, from: 1, to: 15))
-                    Text(placeholderText(for: iteration, from: 4, to: 18))
-                    Text(placeholderText(for: iteration, from: 5, to: 19))
-                    Text(placeholderText(for: iteration, from: 1, to: 15))
-                }
-
-                Section("---") {
-                    Text(placeholderText(for: iteration, from: 4, to: 18))
-                    Text(placeholderText(for: iteration, from: 5, to: 19))
-                }
-
-                Section("---") {
-                    Text(placeholderText(for: iteration, from: 4, to: 18))
-                }
-
-                Section("---") {
-                    Text(placeholderText(for: iteration, from: 4, to: 18))
-                    Text(placeholderText(for: iteration, from: 5, to: 19))
-                    Text(placeholderText(for: iteration, from: 1, to: 15))
-                    Text(placeholderText(for: iteration, from: 4, to: 18))
-                    Text(placeholderText(for: iteration, from: 5, to: 19))
-                    Text(placeholderText(for: iteration, from: 1, to: 15))
-                    Text(placeholderText(for: iteration, from: 4, to: 18))
-                    Text(placeholderText(for: iteration, from: 5, to: 19))
-                }
+        List {
+            if hasPinned {
+                groupsSection(title: "screen.groups.pinned.section.header", numberOfRows: 1)
             }
-            .listStyle(.insetGrouped)
-            .allowsHitTesting(false)
+
+            if numberOfFavorites > 0 {
+                groupsSection(title: "screen.groups.favorites.section.header", numberOfRows: numberOfFavorites)
+            }
+
+            groupsSection(title: "------", numberOfRows: 6)
+            groupsSection(title: "------", numberOfRows: 2)
+            groupsSection(title: "------", numberOfRows: 1)
+            groupsSection(title: "------", numberOfRows: 8)
+        }
+        .listStyle(.insetGrouped)
+        .allowsHitTesting(false)
+    }
+
+    func groupsSection(title: LocalizedStringKey, numberOfRows: Int) -> some View {
+        Section {
+            ForEach(0..<numberOfRows, id: \.self) { _ in
+                groupRowPlaceholder
+            }
+        } header: {
+            Text(title)
+                .shimmeringPlaceholder()
         }
     }
 
-    @ViewBuilder
-    private func pinnedSection(iteration: Int) -> some View {
-        if hasPinned {
-            Section("screen.groups.pinned.section.header") {
-                Text(placeholderText(for: iteration, from: 4, to: 18))
-            }
-        }
+    var groupRowPlaceholder: some View {
+        Text(placeholderText(length: 12))
+            .shimmeringPlaceholder()
     }
+}
 
-    @ViewBuilder
-    private func favoritesSection(iteration: Int) -> some View {
-        if !favoriteOffsets.isEmpty {
-            Section("screen.groups.favorites.section.header") {
-                ForEach(favoriteOffsets.indices, id: \.self) { idx in
-                    let offset = favoriteOffsets[idx]
-                    Text(placeholderText(for: iteration, from: 4 + offset, to: 18 + offset))
-                }
-            }
-        }
-    }
+#Preview {
+    GroupsPlaceholderView(hasPinned: true, numberOfFavorites: 3)
 }

@@ -35,7 +35,7 @@ private struct ScheduleContentListView: View {
                     WithViewStore(store, observe: \.loading) { viewStore in
                         switch viewStore.state {
                         case .loadMore:
-                            PairPlaceholder()
+                            ShimmeringPairPlaceholder()
                                 .frame(minWidth: 0, maxWidth: .infinity)
                                 .onAppear { viewStore.send(.loadingIndicatorAppeared) }
                         case .finished:

@@ -34,7 +34,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 )
                 .refreshable { await store.send(.refresh).finish() }
             } loading: {
-                ScheduleGridPlaceholder()
+                ShimmeringSchedulePlaceholder()
             } error: { store in
                 LoadingErrorView(store: store)
             }

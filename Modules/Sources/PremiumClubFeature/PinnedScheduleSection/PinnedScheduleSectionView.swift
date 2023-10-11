@@ -8,7 +8,7 @@ struct PinnedScheduleSectionView: View {
                 Text("screen.premiumClub.section.pinned.message")
                 Spacer()
                 List {
-                    ScheduleGridSectionPlaceholder(
+                    ShimmeringScheduleSectionPlaceholder(
                         titleLength: 12,
                         numberOfPairs: 3
                     )

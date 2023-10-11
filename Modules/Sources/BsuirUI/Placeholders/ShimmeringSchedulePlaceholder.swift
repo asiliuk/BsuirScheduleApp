@@ -1,21 +1,21 @@
 import SwiftUI
 
-public struct ScheduleGridPlaceholder: View {
+public struct ShimmeringSchedulePlaceholder: View {
     public init() {}
 
     public var body: some View {
         List {
-            ScheduleGridSectionPlaceholder(
+            ShimmeringScheduleSectionPlaceholder(
                 titleLength: 12,
                 numberOfPairs: 3
             )
 
-            ScheduleGridSectionPlaceholder(
+            ShimmeringScheduleSectionPlaceholder(
                 titleLength: 16,
                 numberOfPairs: 2
             )
 
-            ScheduleGridSectionPlaceholder(
+            ShimmeringScheduleSectionPlaceholder(
                 titleLength: 14,
                 numberOfPairs: 4
             )
@@ -23,4 +23,9 @@ public struct ScheduleGridPlaceholder: View {
         .listStyle(.plain)
         .allowsHitTesting(false)
     }
+}
+
+#Preview {
+    ShimmeringSchedulePlaceholder()
+        .environmentObject(PairFormDisplayService(storage: .standard, widgetService: .noop))
 }

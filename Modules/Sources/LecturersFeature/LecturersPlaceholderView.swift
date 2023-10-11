@@ -13,32 +13,45 @@ struct LecturersPlaceholderView: View {
     }
 
     var body: some View {
-        PlaceholderView(speed: 0.07) { iteration in
-            List {
-                if hasPinned {
-                    Section("screen.lecturers.pinned.section.header") {
-                        LecturerCellView(fullName: placeholderText(for: iteration, from: 5, to: 25), imageUrl: nil)
-                    }
-                }
-
-                if !favoriteOffsets.isEmpty {
-                    Section("screen.lecturers.favorites.section.header") {
-                        ForEach(favoriteOffsets.indices, id: \.self) { idx in
-                            let offset = favoriteOffsets[idx]
-                            LecturerCellView(fullName: placeholderText(for: iteration, from: 5 + offset, to: 25 + offset), imageUrl: nil)
-                        }
-                    }
-                }
-
-                Section {
-                    ForEach(lecturersOffsets.indices, id: \.self) { idx in
-                        let offset = lecturersOffsets[idx]
-                        LecturerCellView(fullName: placeholderText(for: iteration, from: 5 + offset, to: 25 + offset), imageUrl: nil)
-                    }
-                }
+        List {
+            if hasPinned {
+                lecturersSection(
+                    title: "screen.lecturers.pinned.section.header",
+                    nameLengthOffsets: [0]
+                )
             }
-            .listStyle(.insetGrouped)
-            .allowsHitTesting(false)
+
+            if !favoriteOffsets.isEmpty {
+                lecturersSection(
+                    title: "screen.lecturers.favorites.section.header",
+                    nameLengthOffsets: favoriteOffsets
+                )
+            }
+
+            lecturersSection(nameLengthOffsets: lecturersOffsets)
         }
+        .listStyle(.insetGrouped)
+        .allowsHitTesting(false)
+    }
+
+    func lecturersSection(title: LocalizedStringKey? = nil, nameLengthOffsets: [Int]) -> some View {
+        Section {
+            ForEach(nameLengthOffsets.indices, id: \.self) { idx in
+                lecturerRowPlaceholder(nameLengthOffset: nameLengthOffsets[idx])
+            }
+        } header: {
+            if let title {
+                Text(title)
+                    .shimmeringPlaceholder()
+            }
+        }
+    }
+
+    func lecturerRowPlaceholder(nameLengthOffset: Int = 0) -> some View {
+        LecturerCellView(
+            fullName: placeholderText(length: 15 + nameLengthOffset),
+            imageUrl: nil
+        )
+        .shimmeringPlaceholder()
     }
 }
