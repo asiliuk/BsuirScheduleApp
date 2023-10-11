@@ -54,6 +54,7 @@ private extension DayScheduleFeature.State {
 
                 return DaySectionFeature.State(
                     dayDate: .weekday(weekday),
+                    showWeeks: true,
                     pairs: pairViewModels(pairs, calendar: calendar, now: now),
                     pairRowDetails: nil,
                     pairRowDay: .weekday(weekday)
