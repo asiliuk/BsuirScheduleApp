@@ -8,18 +8,8 @@ struct PinnedTabView: View {
     let store: StoreOf<PinnedTabFeature>
 
     var body: some View {
-        NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
-            // Wrapped in ZStack to fix some SwiftUI glitch when premium
-            // flag is updated very fast on app launch
-            ZStack { PinnedTabContentView(store: store) }
-                // Reset navigation title left from schedule screen
-                .navigationTitle("")
-        } destination: { state in
-            EntityScheduleView(state: state)
-        }
-        .tabItem {
-            PinnedTabItem(store: store)
-        }
+        PinnedTabContentView(store: store)
+            .tabItem { PinnedTabItem(store: store) }
     }
 }
 
@@ -35,13 +25,11 @@ private struct PinnedTabContentView: View {
             } else {
                 IfLetStore(
                     store.scope(
-                        state: \.schedule,
-                        action: PinnedTabFeature.Action.schedule
+                        state: \.pinnedSchedule,
+                        action: { .pinnedSchedule($0) }
                     )
                 ) { store in
-                    SwitchStore(store) { state in
-                        EntityScheduleView(state: state)
-                    }
+                    PinnedScheduleFeatureView(store: store)
                 } else: {
                     PinnedScheduleEmptyView()
                 }
@@ -56,7 +44,7 @@ private struct PinnedTabItem: View {
     var body: some View {
         WithViewStore(
             store,
-            observe: { $0.isPremiumLocked ? nil : $0.schedule?.title }
+            observe: { $0.isPremiumLocked ? nil : $0.pinnedSchedule?.title }
         ) { viewStore in
             if let title = viewStore.state {
                 Label(title, systemImage: "pin")

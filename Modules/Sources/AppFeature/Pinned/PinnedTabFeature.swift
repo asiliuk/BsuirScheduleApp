@@ -6,8 +6,7 @@ import ComposableArchitecture
 public struct PinnedTabFeature: Reducer {
     public struct State: Equatable {
         var isPremiumLocked: Bool
-        var schedule: EntityScheduleFeature.State?
-        var path = StackState<EntityScheduleFeature.State>()
+        var pinnedSchedule: PinnedScheduleFeature.State?
     }
 
     public enum Action: Equatable {
@@ -15,8 +14,7 @@ public struct PinnedTabFeature: Reducer {
             case showPremiumClubPinned
         }
 
-        case schedule(EntityScheduleFeature.Action)
-        case path(StackAction<EntityScheduleFeature.State, EntityScheduleFeature.Action>)
+        case pinnedSchedule(PinnedScheduleFeature.Action)
         case learnAboutPremiumClubTapped
         case delegate(Delegate)
     }
@@ -27,27 +25,18 @@ public struct PinnedTabFeature: Reducer {
             case .learnAboutPremiumClubTapped:
                 return .send(.delegate(.showPremiumClubPinned))
 
-            case .schedule(.delegate(let action)), .path(.element(_, .delegate(let action))):
+            case .pinnedSchedule(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
-                case .showGroupSchedule(let name):
-                    state.path.append(.group(.init(groupName: name)))
-                    return .none
-                case .showLectorSchedule(let lector):
-                    state.path.append(.lector(.init(lector: lector)))
-                    return .none
                 }
 
-            case .schedule, .delegate, .path:
+            case .pinnedSchedule, .delegate:
                 return .none
             }
         }
-        .ifLet(\.schedule, action: /Action.schedule) {
-            EntityScheduleFeature()
-        }
-        .forEach(\.path, action: /Action.path) {
-            EntityScheduleFeature()
+        .ifLet(\.pinnedSchedule, action: /Action.pinnedSchedule) {
+            PinnedScheduleFeature()
         }
     }
 }
@@ -55,23 +44,15 @@ public struct PinnedTabFeature: Reducer {
 // MARK: - Selection
 
 extension PinnedTabFeature.State {
-    mutating func show(pinned pinnedSchedule: ScheduleSource) {
-        switch pinnedSchedule {
-        case .group(let name):
-            schedule = .group(.init(groupName: name))
-        case .lector(let employee):
-            schedule = .lector(.init(lector: employee))
-        }
-        path = StackState()
+    mutating func show(pinned: ScheduleSource) {
+        pinnedSchedule = .init(pinned: pinned)
     }
 
     mutating func resetPinned() {
-        schedule = nil
-        path = StackState()
+        pinnedSchedule = nil
     }
 
     mutating func reset() {
-        schedule?.reset()
-        path = StackState()
+        pinnedSchedule?.reset()
     }
 }

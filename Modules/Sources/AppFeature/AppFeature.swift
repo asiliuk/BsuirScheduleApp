@@ -69,6 +69,8 @@ public struct AppFeature: Reducer {
                     .send(.premiumClub(.task)),
                     .run { send in
                         for await pinnedSchedule in favorites.pinnedSchedule.values {
+                            // Give time for schedule feature to handle unpin before removing tab view
+                            await Task.yield()
                             await send(.setPinnedSchedule(pinnedSchedule))
                         }
                     }
