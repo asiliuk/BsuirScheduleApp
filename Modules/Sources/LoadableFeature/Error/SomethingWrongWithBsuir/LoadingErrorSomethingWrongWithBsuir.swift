@@ -25,6 +25,7 @@ public struct LoadingErrorSomethingWrongWithBsuir: Reducer {
     }
 
     @Dependency(\.openURL) var openUrl
+    @Dependency(\.appInfo) var appInfo
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -46,7 +47,8 @@ public struct LoadingErrorSomethingWrongWithBsuir: Reducer {
         return requestIssueUrl(
             title: "Failed to fetch API",
             address: state.address,
-            message: state.message
+            message: state.message,
+            appInfo: appInfo
         )
     }
 }

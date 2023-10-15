@@ -1,5 +1,6 @@
 import Foundation
 import ComposableArchitecture
+import BsuirCore
 
 public struct LoadingErrorFailedToDecode: Reducer {
     public struct State: Equatable {
@@ -17,6 +18,7 @@ public struct LoadingErrorFailedToDecode: Reducer {
     }
 
     @Dependency(\.openURL) var openUrl
+    @Dependency(\.appInfo) var appInfo
 
     public func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
@@ -30,21 +32,22 @@ public struct LoadingErrorFailedToDecode: Reducer {
         return requestIssueUrl(
             title: "Failed to parse",
             address: state.address,
-            message: state.message
+            message: state.message,
+            appInfo: appInfo
         )
     }
 }
 
 extension Reducer {
-    func requestIssueUrl(title: String, address: String, message: String) -> URL {
+    func requestIssueUrl(title: String, address: String, message: String, appInfo: AppInfo) -> URL {
         return .githubIssue(
             title: title,
-            body: issueBody(address: address, message: message),
+            body: issueBody(address: address, message: message, appInfo: appInfo),
             labels: "bug", "parsing"
         )
     }
 
-    private func issueBody(address: String, message: String) -> String {
+    private func issueBody(address: String, message: String, appInfo: AppInfo) -> String {
         return """
         ## While requesting
         \(address)
@@ -53,6 +56,9 @@ extension Reducer {
         ```
         \(message)
         ```
+
+        ## Context
+        Version: \(appInfo.version)
         """
     }
 }
