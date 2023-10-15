@@ -49,12 +49,22 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                     .frame(width: 200)
                 }
 
-                ToolbarItem {
+                ToolbarItem(placement: .topBarTrailing) {
                     MarkedSchedulePickerView(
                         store: store.scope(
                             state: \.mark,
                             action: { .mark($0) }
                         )
+                    )
+                }
+
+                ToolbarItem(placement: .topBarLeading) {
+                    IfLetStore(
+                        store.scope(
+                            state: \.subgroupPicker,
+                            action: { .subgroupPicker($0) }
+                        ),
+                        then: SubgroupPickerFeatureView.init
                     )
                 }
             }

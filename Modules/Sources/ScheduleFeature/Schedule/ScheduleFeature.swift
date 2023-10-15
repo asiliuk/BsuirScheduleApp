@@ -6,6 +6,7 @@ import ScheduleCore
 import LoadableFeature
 import ComposableArchitecture
 import Dependencies
+import Algorithms
 
 public struct ScheduleRequestResponse {
     public let startDate: Date?
@@ -42,13 +43,23 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         public var isOnTop: Bool = true
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType = .continuous
+        var subgroupPicker: SubgroupPickerFeature.State?
         fileprivate var pairRowDetails: PairRowDetails?
+        fileprivate var showSubgroupPicker: Bool
 
-        public init(title: String, source: ScheduleSource, value: Value, pairRowDetails: PairRowDetails?) {
+        public init(
+            title: String,
+            source: ScheduleSource,
+            value: Value,
+            pairRowDetails: PairRowDetails?,
+            showSubgroupPicker: Bool
+        ) {
             self.title = title
             self.value = value
             self.mark = .init(source: source)
             self.pairRowDetails = pairRowDetails
+            self.showSubgroupPicker = showSubgroupPicker
+            if showSubgroupPicker { subgroupPicker = .init(maxSubgroup: 2) }
         }
     }
 
@@ -61,6 +72,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
 
         case mark(MarkedScheduleFeature.Action)
         case schedule(LoadedScheduleReducer.Action)
+        case subgroupPicker(SubgroupPickerFeature.Action)
 
         case setScheduleType(ScheduleDisplayType)
 
@@ -76,6 +88,10 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
     }
     
     public var body: some ReducerOf<Self> {
+        Scope(state: \State.mark, action: /Action.mark) {
+            MarkedScheduleFeature()
+        }
+
         Reduce { state, action in
             switch action {
             case let .setScheduleType(value):
@@ -86,9 +102,18 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                 }
                 
             case .loading(.finished(\.$schedule)):
+                // Switch to exams if no regular schedule available
                 if state.schedule?.continuous.hasSchedule == false {
                     state.scheduleType = .exams
                 }
+
+                // Show subgroup picker if needed
+                if state.showSubgroupPicker, let maxSubgroup = state.schedule?.maxSubgroup {
+                    state.subgroupPicker = .init(maxSubgroup: maxSubgroup)
+                } else {
+                    state.subgroupPicker = nil
+                }
+
                 return .run { _ in
                     await reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
                 }
@@ -111,7 +136,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                     return .send(.delegate(.showLectorSchedule(employee)))
                 }
 
-            case .schedule, .mark, .delegate, .loading:
+            case .schedule, .mark, .delegate, .loading, .subgroupPicker:
                 return .none
             }
         }
@@ -123,15 +148,15 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                 pairRowDetails: state.pairRowDetails
             )
         }
-
-        Scope(state: \State.mark, action: /Action.mark) {
-            MarkedScheduleFeature()
+        .ifLet(\.subgroupPicker, action: /Action.subgroupPicker) {
+            SubgroupPickerFeature()
         }
     }
 }
 
 public struct LoadedScheduleReducer: Reducer {
     public struct State: Equatable {
+        public var maxSubgroup: Int?
         var compact: DayScheduleFeature.State
         var continuous: ContinuousScheduleFeature.State
         var exams: ExamsScheduleFeature.State
@@ -154,6 +179,18 @@ public struct LoadedScheduleReducer: Reducer {
                 endDate: response.endExamsDate,
                 pairRowDetails: pairRowDetails
             )
+
+            let allSchedulePairs = DaySchedule.WeekDay.allCases
+                .lazy
+                .compactMap { response.schedule[$0] }
+                .flatMap { $0 }
+
+            let allPairs = chain(allSchedulePairs, response.exams)
+
+            self.maxSubgroup = allPairs.lazy
+                .map(\.subgroup)
+                .filter { $0 != 0 }
+                .max()
         }
     }
 
