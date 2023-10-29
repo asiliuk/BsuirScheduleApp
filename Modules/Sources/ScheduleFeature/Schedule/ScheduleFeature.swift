@@ -121,6 +121,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                         maxSubgroup: maxSubgroup,
                         savedSelection: savedSubgroupSelection
                     )
+                    // TODO: (asiliuk) make sure this is properly working when pinning diferent schedule
                     state.schedule?.filter(keepingSubgroup: savedSubgroupSelection)
                 } else {
                     state.subgroupPicker = nil
