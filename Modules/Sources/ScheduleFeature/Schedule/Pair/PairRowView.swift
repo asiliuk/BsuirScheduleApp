@@ -9,12 +9,14 @@ struct PairRowView: View {
         let showWeeks: Bool
         let details: PairRowDetails?
         let showingDetails: Bool
+        let isFiltered: Bool
 
         init(_ state: PairRowFeature.State) {
             self.pair = state.pair
             self.showWeeks = state.showWeeks
             self.details = state.details
             self.showingDetails = state.pairDetails != nil
+            self.isFiltered = state.isFiltered
         }
     }
 
@@ -40,6 +42,7 @@ struct PairRowView: View {
                 store: store.scope(state: \.$pairDetails, action: { .pairDetails($0) }), 
                 content: PairDetailsView.init
             )
+            .opacity(viewStore.isFiltered ? 0.2 : 1)
         }
     }
 

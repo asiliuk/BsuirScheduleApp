@@ -96,6 +96,14 @@ private extension MeaningfulEvent {
     static let moreScheduleRequested = Self(score: 1)
 }
 
+// MARK: - Filter
+
+extension ContinuousScheduleFeature.State {
+    mutating func filter(keepingSubgroup subgroup: Int?) {
+        scheduleList.filter(keepingSubgroup: subgroup)
+    }
+}
+
 // MARK: - Helpers
 
 private extension ContinuousScheduleFeature {
@@ -153,5 +161,4 @@ private extension DaySectionFeature.State {
             pairRowDay: .date(element.date)
         )
     }
-
 }

@@ -79,3 +79,18 @@ public struct DaySectionFeature: Reducer {
 
     private static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 }
+
+// MARK: - Filter
+
+extension DaySectionFeature.State {
+    mutating func filter(keepingSubgroup: Int?) {
+        func isFiltered(subgroup: Int) -> Bool {
+            guard let keepingSubgroup, subgroup > 0 else { return false }
+            return subgroup != keepingSubgroup
+        }
+
+        for index in pairRows.indices {
+            pairRows[index].isFiltered = isFiltered(subgroup: pairRows[index].pair.subgroup)
+        }
+    }
+}

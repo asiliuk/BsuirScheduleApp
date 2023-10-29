@@ -77,3 +77,11 @@ private extension DayScheduleFeature.State {
         }
     }
 }
+
+// MARK: - Filter
+
+extension DayScheduleFeature.State {
+    mutating func filter(keepingSubgroup subgroup: Int?) {
+        scheduleList.filter(keepingSubgroup: subgroup)
+    }
+}

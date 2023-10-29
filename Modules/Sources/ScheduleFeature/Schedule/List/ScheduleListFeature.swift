@@ -57,3 +57,13 @@ public struct ScheduleListFeature: Reducer {
         }
     }
 }
+
+// MARK: - Filter
+
+extension ScheduleListFeature.State {
+    mutating func filter(keepingSubgroup subgroup: Int?) {
+        for index in days.indices {
+            days[index].filter(keepingSubgroup: subgroup)
+        }
+    }
+}

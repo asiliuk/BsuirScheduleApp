@@ -16,6 +16,7 @@ public enum PairRowDay: Equatable {
 public struct PairRowFeature: Reducer {
     public struct State: Equatable, Identifiable {
         public var id: UUID { pair.id }
+        var isFiltered: Bool = false
         var pair: PairViewModel
         var showWeeks: Bool
         var details: PairRowDetails?

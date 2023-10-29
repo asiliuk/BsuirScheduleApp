@@ -41,11 +41,23 @@ public struct ExamsScheduleFeature: Reducer {
     }
 }
 
+// MARK: - Filter
+
+extension ExamsScheduleFeature.State {
+    mutating func filter(keepingSubgroup subgroup: Int?) {
+        scheduleList.filter(keepingSubgroup: subgroup)
+    }
+}
+
+// MARK: - Reset
+
 extension ExamsScheduleFeature.State {
     public mutating func reset() {
         scheduleList.isOnTop = true
     }
 }
+
+// MARK: - Helpers
 
 private extension ExamsScheduleFeature.State {
     mutating func loadDays(

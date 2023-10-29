@@ -63,3 +63,13 @@ public struct LoadedScheduleReducer: Reducer {
         }
     }
 }
+
+// MARK: - Filter
+
+extension LoadedScheduleReducer.State {
+    mutating func filter(keepingSubgroup subgroup: Int?) {
+        compact.filter(keepingSubgroup: subgroup)
+        continuous.filter(keepingSubgroup: subgroup)
+        exams.filter(keepingSubgroup: subgroup)
+    }
+}

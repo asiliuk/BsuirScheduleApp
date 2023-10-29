@@ -150,9 +150,9 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         .ifLet(\.subgroupPicker, action: /Action.subgroupPicker) {
             SubgroupPickerFeature()
         }
-        .onChange(of: \.subgroupPicker?.selected) { oldValue, newValue in
+        .onChange(of: \.subgroupPicker?.selected) { _, newValue in
             Reduce { state, action in
-                print("Aaaaaa")
+                state.schedule?.filter(keepingSubgroup: newValue)
                 return .none
             }
         }
