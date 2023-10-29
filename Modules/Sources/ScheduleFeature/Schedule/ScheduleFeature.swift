@@ -116,10 +116,12 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
 
                 // Show subgroup picker if needed
                 if state.showSubgroupPicker, let maxSubgroup = state.schedule?.maxSubgroup {
+                    let savedSubgroupSelection = subgroupFilterService.preferredSubgroup(state.source).value
                     state.subgroupPicker = SubgroupPickerFeature.State(
                         maxSubgroup: maxSubgroup,
-                        savedSelection: subgroupFilterService.preferredSubgroup(state.source).value
+                        savedSelection: savedSubgroupSelection
                     )
+                    state.schedule?.filter(keepingSubgroup: savedSubgroupSelection)
                 } else {
                     state.subgroupPicker = nil
                 }
