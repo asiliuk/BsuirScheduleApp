@@ -64,7 +64,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
             if showSubgroupPicker {
                 @Dependency(\.subgroupFilterService) var subgroupFilterService
                 let savedSubgroupSelection = subgroupFilterService.preferredSubgroup(source).value
-                subgroupPicker = .init(maxSubgroup: 2, savedSelection: savedSubgroupSelection)
+                subgroupPicker = .init(maxSubgroup: 2, selected: savedSubgroupSelection)
             }
         }
     }
@@ -119,9 +119,9 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                     let savedSubgroupSelection = subgroupFilterService.preferredSubgroup(state.source).value
                     state.subgroupPicker = SubgroupPickerFeature.State(
                         maxSubgroup: maxSubgroup,
-                        savedSelection: savedSubgroupSelection
+                        selected: savedSubgroupSelection
                     )
-                    // TODO: (asiliuk) make sure this is properly working when pinning diferent schedule
+
                     state.schedule?.filter(keepingSubgroup: savedSubgroupSelection)
                 } else {
                     state.subgroupPicker = nil
@@ -168,7 +168,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
             Reduce { state, _ in
                 state.schedule?.filter(keepingSubgroup: newValue)
                 return .run { [source = state.source] _ in
-                    subgroupFilterService.preferredSubgroup(source).value = newValue ?? 0
+                    subgroupFilterService.preferredSubgroup(source).value = newValue
                 }
             }
         }

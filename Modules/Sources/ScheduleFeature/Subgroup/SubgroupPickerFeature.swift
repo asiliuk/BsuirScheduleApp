@@ -6,9 +6,9 @@ public struct SubgroupPickerFeature: Reducer {
         var selected: Int?
         var maxSubgroup: Int
 
-        init(maxSubgroup: Int, savedSelection: Int) {
+        init(maxSubgroup: Int, selected: Int?) {
             self.maxSubgroup = maxSubgroup
-            self.selected = savedSelection > 0 ? savedSelection : nil
+            self.selected = selected
         }
     }
 
