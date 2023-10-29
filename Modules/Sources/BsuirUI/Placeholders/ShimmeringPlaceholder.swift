@@ -10,7 +10,6 @@ extension View {
 
 private struct ShimmeringPlaceholderView<Content: View>: View {
     @State private var isAnimationAtStart = true
-    @State private var isAnimationRunning = false
     @ViewBuilder var content: Content
 
     var body: some View {

@@ -25,6 +25,7 @@ struct DaySectionView: View {
                     relativeDate: viewStore.subtitle,
                     isToday: viewStore.isToday
                 )
+                .transaction { $0.animation = nil }
                 .onAppear { viewStore.send(.onAppear) }
             }
         }
