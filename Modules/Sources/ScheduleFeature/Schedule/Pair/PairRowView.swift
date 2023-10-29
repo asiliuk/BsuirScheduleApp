@@ -28,11 +28,18 @@ struct PairRowView: View {
             Button {
                 viewStore.send(.rowTapped)
             } label: {
-                PairCell(
-                    pair: viewStore.pair,
-                    showWeeks: viewStore.showWeeks,
-                    details: detailsView(pair: viewStore.pair, details: viewStore.details)
-                )
+                if viewStore.isFiltered {
+                    FilteredPairCell(
+                        pair: viewStore.pair,
+                        showWeeks: viewStore.showWeeks
+                    )
+                } else {
+                    PairCell(
+                        pair: viewStore.pair,
+                        showWeeks: viewStore.showWeeks,
+                        details: detailsView(pair: viewStore.pair, details: viewStore.details)
+                    )
+                }
             }
             .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
             .buttonStyle(PairRowButtonStyle())
@@ -42,7 +49,6 @@ struct PairRowView: View {
                 store: store.scope(state: \.$pairDetails, action: { .pairDetails($0) }), 
                 content: PairDetailsView.init
             )
-            .opacity(viewStore.isFiltered ? 0.2 : 1)
         }
     }
 
@@ -57,6 +63,40 @@ struct PairRowView: View {
             EmptyView()
         }
     }
+}
+
+private struct FilteredPairCell: View {
+    let pair: PairViewModel
+    let showWeeks: Bool
+
+    var body: some View {
+        PairView(
+            pair: pair,
+            distribution: .oneLine,
+            isCompact: true,
+            showWeeks: showWeeks
+        )
+        .padding(.vertical, 4)
+        .padding(.horizontal, 8)
+        .background {
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(Color.secondary.opacity(0.5), style: .filteredPair)
+        }
+        .foregroundStyle(.secondary)
+    }
+}
+
+// MARK: - Stroke Style
+
+private extension StrokeStyle {
+    static let filteredPair = StrokeStyle(
+        lineWidth: 1,
+        lineCap: .butt,
+        lineJoin: .miter,
+        miterLimit: 0,
+        dash: [4, 4],
+        dashPhase: 0
+    )
 }
 
 // MARK: - Button Style

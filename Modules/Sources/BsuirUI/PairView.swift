@@ -49,6 +49,7 @@ public struct PairView<Details: View>: View {
     public enum Distribution {
         case vertical
         case horizontal
+        case oneLine
     }
 
     public var from: String
@@ -122,11 +123,14 @@ public struct PairView<Details: View>: View {
                     if !isCompact { details }
                 }
 
+            case (.oneLine, _):
+                timeInterval
+                Text("|")
+                title
+                Spacer(minLength: 0).layoutPriority(-1)
+
             case (.horizontal, false):
-                VStack(alignment: .trailing) {
-                    Text(from).font(.system(isCompact ? .footnote : .callout, design: .monospaced))
-                    Text(to).font(.system(isCompact ? .caption2 : .footnote, design: .monospaced))
-                }
+                timeInterval
 
                 pairForm
 
@@ -153,8 +157,18 @@ public struct PairView<Details: View>: View {
         ))
     }
 
+    private var timeInterval: some View {
+        VStack(alignment: .trailing) {
+            Text(from).font(.system(isCompact ? .footnote : .callout, design: .monospaced))
+            Text(to).font(.system(isCompact ? .caption2 : .footnote, design: .monospaced))
+        }
+    }
+
     private var pairForm: some View {
-        PairFormIndicator(color: pairFormDisplayService.color(for: form).color, progress: progress.value)
+        PairFormIndicator(
+            color: pairFormDisplayService.color(for: form).color,
+            progress: progress.value
+        )
     }
 
     private var title: some View {
@@ -190,7 +204,6 @@ public struct PairView<Details: View>: View {
             return nil
         }
     }
-
 
     private var subjectText: Text? {
         subject.map { Text($0).bold() }
