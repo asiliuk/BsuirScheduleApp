@@ -15,6 +15,10 @@ public struct ContinuousScheduleFeature: Reducer {
         private var weekSchedule: WeekSchedule?
         private var pairRowDetails: PairRowDetails?
 
+        // Keep track of currently applied subgroup filter
+        // to make sure we'll keep filtering newly added pairs to the list
+        fileprivate var keepingSubgroup: Int?
+
         init(
             schedule: DaySchedule,
             startDate: Date?,
@@ -100,6 +104,7 @@ private extension MeaningfulEvent {
 
 extension ContinuousScheduleFeature.State {
     mutating func filter(keepingSubgroup subgroup: Int?) {
+        keepingSubgroup = subgroup
         scheduleList.filter(keepingSubgroup: subgroup)
     }
 }
@@ -136,14 +141,17 @@ private extension ContinuousScheduleFeature.State {
         scheduleList.loading = (days.count < count) ? .finished : .loadMore
 
         self.offset = days.last?.date
-        scheduleList.days.append(
-            contentsOf: days.map { element in
-                DaySectionFeature.State(
-                    element: element,
-                    pairRowDetails: pairRowDetails
-                )
-            }
-        )
+        var newDays = days.map { element in
+            DaySectionFeature.State(
+                element: element,
+                pairRowDetails: pairRowDetails
+            )
+        }
+
+        // Make sure newly aded sections has pairs filtered out by subgroup
+        newDays.filter(keepingSubgroup: keepingSubgroup)
+
+        scheduleList.days.append(contentsOf: newDays)
     }
 }
 
