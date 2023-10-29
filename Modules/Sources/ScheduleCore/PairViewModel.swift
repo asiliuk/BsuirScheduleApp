@@ -33,7 +33,7 @@ public struct PairViewModel: Equatable, Identifiable {
     public var auditory: String?
     public var note: String?
     public var weeks: String?
-    public var subgroup: String?
+    public var subgroup: Int
     public var progress: PairProgress
     public var lecturers: [Employee]
     public var groups: [String]
@@ -48,7 +48,7 @@ public struct PairViewModel: Equatable, Identifiable {
         auditory: String?,
         note: String? = nil,
         weeks: String? = nil,
-        subgroup: String? = nil,
+        subgroup: Int = 0,
         progress: PairProgress = .init(constant: 0),
         lecturers: [Employee] = [],
         groups: [String] = []
@@ -86,7 +86,7 @@ extension PairViewModel {
             auditory: Self.details(from: pair),
             note: Self.note(from: pair),
             weeks: Self.weeks(from: pair.weekNumber),
-            subgroup: Self.subgroup(from: pair.subgroup),
+            subgroup: pair.subgroup,
             progress: progress,
             lecturers: pair.employees,
             groups: pair.studentGroups.map(\.name)
@@ -151,10 +151,6 @@ private extension PairViewModel {
     
     static func weeks(from weekNumber: WeekNum) -> String? {
         weekNumber.prettyName?.capitalized
-    }
-    
-    static func subgroup(from subgroup: Int) -> String? {
-        subgroup == 0 ? nil : "\(subgroup)"
     }
 }
 

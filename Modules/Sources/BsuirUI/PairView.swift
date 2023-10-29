@@ -234,7 +234,7 @@ extension PairView {
             interval: pair.interval,
             subject: pair.subject,
             weeks: showWeeks ? pair.weeks : nil,
-            subgroup: pair.subgroup,
+            subgroup: pair.subgroup == 0 ? nil : String(describing: pair.subgroup),
             auditory: pair.auditory,
             note: pair.note,
             form: PairViewForm(pair.form),

@@ -38,7 +38,7 @@ struct PairDetailsView: View {
             }
 
             self.formName = PairViewForm(state.pair.form).name
-            self.subgroup = state.pair.subgroup ?? "--"
+            self.subgroup = state.pair.subgroup == 0 ? "--" : String(describing: state.pair.subgroup)
             self.auditory = state.pair.auditory ?? "--"
             self.weeks = state.pair.weeks ?? "--"
             self.notes = state.pair.note
@@ -185,7 +185,7 @@ private extension PairViewModel {
         auditory: "157к 2",
         note: "Это какая-то совершенно не нужная, но очень длинная и важная заметка",
         weeks: "1,3",
-        subgroup: "2",
+        subgroup: 2,
         lecturers: [
             Employee(
                 id: 1,

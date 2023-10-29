@@ -264,7 +264,7 @@ private extension ScheduleWidgetConfiguration {
                     subject: "МиАПР",
                     subjectFullName: "МиАПР",
                     auditory: "213б-4 к",
-                    subgroup: "1",
+                    subgroup: 1,
                     progress: .init(constant: 0.5)
                 ),
                 PairViewModel(
@@ -275,7 +275,7 @@ private extension ScheduleWidgetConfiguration {
                     subject: "ВТ",
                     subjectFullName: "ВТ",
                     auditory: "316-5 к",
-                    subgroup: "2",
+                    subgroup: 2,
                     progress: .init(constant: 0.5)
                 ),
                 PairViewModel(
@@ -286,7 +286,7 @@ private extension ScheduleWidgetConfiguration {
                     subject: "МиАПР",
                     subjectFullName: "МиАПР",
                     auditory: "213б-4 к",
-                    subgroup: "2"
+                    subgroup: 2
                 ),
                 PairViewModel(
                     from: "14:00",
@@ -296,7 +296,7 @@ private extension ScheduleWidgetConfiguration {
                     subject: "ВТ",
                     subjectFullName: "ВТ",
                     auditory: "316-5 к",
-                    subgroup: "1"
+                    subgroup: 1
                 ),
             ]
         )
@@ -328,7 +328,7 @@ private extension ScheduleWidgetConfiguration {
                     subjectFullName: "МиАПР",
                     auditory: "213б-4 к",
                     note: "(с 04.09-по 11.12)",
-                    subgroup: "1",
+                    subgroup: 1,
                     progress: .init(constant: 0.5)
                 ),
                 PairViewModel(
@@ -340,7 +340,7 @@ private extension ScheduleWidgetConfiguration {
                     subjectFullName: "МиАПР",
                     auditory: "213б-4 к",
                     note: "(с 04.09-по 11.12)",
-                    subgroup: "2"
+                    subgroup: 2
                 ),
             ]
         )

@@ -72,7 +72,7 @@ private extension ScheduleWidgetConfiguration.Content {
                 subject: "Другая Лаба",
                 subjectFullName: "Другая Лаба",
                 auditory: "104-4",
-                subgroup: "2"
+                subgroup: 2
             ),
             PairViewModel(
                 from: "13:00",
@@ -82,7 +82,7 @@ private extension ScheduleWidgetConfiguration.Content {
                 subject: "Другое ПЗ",
                 subjectFullName: "Другое ПЗ",
                 auditory: "105-5",
-                subgroup: "1"
+                subgroup: 1
             )
         ]
     )
