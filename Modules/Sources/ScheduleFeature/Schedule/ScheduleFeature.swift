@@ -45,6 +45,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         var subgroupPicker: SubgroupPickerFeature.State?
         fileprivate var pairRowDetails: PairRowDetails?
         fileprivate var showSubgroupPicker: Bool
+        fileprivate var source: ScheduleSource
 
         public init(
             title: String,
@@ -53,12 +54,18 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
             pairRowDetails: PairRowDetails?,
             showSubgroupPicker: Bool
         ) {
+            self.source = source
             self.title = title
             self.value = value
             self.mark = .init(source: source)
             self.pairRowDetails = pairRowDetails
             self.showSubgroupPicker = showSubgroupPicker
-            if showSubgroupPicker { subgroupPicker = .init(maxSubgroup: 2) }
+
+            if showSubgroupPicker {
+                @Dependency(\.subgroupFilterService) var subgroupFilterService
+                let savedSubgroupSelection = subgroupFilterService.preferredSubgroup(source).value
+                subgroupPicker = .init(maxSubgroup: 2, savedSelection: savedSubgroupSelection)
+            }
         }
     }
 
@@ -81,7 +88,8 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
 
     let fetch: @Sendable (Value, _ ignoreCache: Bool) async throws -> ScheduleRequestResponse
     @Dependency(\.reviewRequestService) var reviewRequestService
-    
+    @Dependency(\.subgroupFilterService) var subgroupFilterService
+
     public init(fetch: @Sendable @escaping (Value, _ ignoreCache: Bool) async throws -> ScheduleRequestResponse) {
         self.fetch = fetch
     }
@@ -108,7 +116,10 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
 
                 // Show subgroup picker if needed
                 if state.showSubgroupPicker, let maxSubgroup = state.schedule?.maxSubgroup {
-                    state.subgroupPicker = .init(maxSubgroup: maxSubgroup)
+                    state.subgroupPicker = SubgroupPickerFeature.State(
+                        maxSubgroup: maxSubgroup,
+                        savedSelection: subgroupFilterService.preferredSubgroup(state.source).value
+                    )
                 } else {
                     state.subgroupPicker = nil
                 }
@@ -151,9 +162,11 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
             SubgroupPickerFeature()
         }
         .onChange(of: \.subgroupPicker?.selected) { _, newValue in
-            Reduce { state, action in
+            Reduce { state, _ in
                 state.schedule?.filter(keepingSubgroup: newValue)
-                return .none
+                return .run { [source = state.source] _ in
+                    subgroupFilterService.preferredSubgroup(source).value = newValue ?? 0
+                }
             }
         }
     }

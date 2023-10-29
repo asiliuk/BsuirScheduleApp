@@ -29,6 +29,10 @@ public struct PersistedValue<Value> {
 // MARK: - Operators
 
 extension PersistedValue {
+    public static func constant(_ value: Value) -> Self {
+        PersistedValue(get: { value }, set: { _ in })
+    }
+
     public func map<U>(
         fromValue: @escaping (Value) -> U,
         toValue: @escaping (U) -> Value
