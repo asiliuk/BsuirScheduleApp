@@ -16,9 +16,10 @@ public struct ScheduleWidgetEntrySmallView: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            HStack {
+            HStack(alignment: .lastTextBaseline) {
                 ScheduleIdentifierTitle(title: config.title)
                 Spacer(minLength: 0)
+                ScheduleSubgroupLabel(subgroup: config.subgroup)
             }
 
             WidgetDateTitle(date: date, isSmall: showsWidgetBackground)

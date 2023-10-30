@@ -16,7 +16,10 @@ public struct ScheduleWidgetEntryLargeView : View {
             HStack {
                 WidgetDateTitle(date: date)
                 Spacer()
-                ScheduleIdentifierTitle(title: config.title)
+                HStack(alignment: .lastTextBaseline, spacing: 4) {
+                    ScheduleIdentifierTitle(title: config.title)
+                    ScheduleSubgroupLabel(subgroup: config.subgroup)
+                }
             }
 
             switch config.content {

@@ -10,11 +10,18 @@ public struct ScheduleWidgetConfiguration {
 
     public var deeplink: URL? = nil
     public var title: String
+    public var subgroup: Int?
     public var content: Content
 
-    public init(deeplink: URL? = nil, title: String, content: Content) {
+    public init(
+        deeplink: URL? = nil,
+        title: String,
+        subgroup: Int? = nil,
+        content: Content
+    ) {
         self.deeplink = deeplink
         self.title = title
+        self.subgroup = subgroup
         self.content = content
     }
 }

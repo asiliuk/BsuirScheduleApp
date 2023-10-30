@@ -104,6 +104,7 @@ struct ScheduleWidget_Previews: PreviewProvider {
         date: Date().addingTimeInterval(3600 * 20),
         config: ScheduleWidgetConfiguration(
             title: "Иванов АН",
+            subgroup: 1,
             content: .pairs(
                 passed: [
                     .init(
