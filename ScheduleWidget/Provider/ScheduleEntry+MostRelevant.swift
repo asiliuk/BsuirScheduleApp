@@ -32,6 +32,7 @@ extension ScheduleEntry {
             config: ScheduleWidgetConfiguration(
                 deeplink: deeplinkRouter.url(for: response.deeplink),
                 title: response.title,
+                subgroup: response.subgroup,
                 content: .pairs(
                     passed: passedPairs.map { PairViewModel(pair: $0, date: date) },
                     upcoming: upcomingPairs.map { PairViewModel(pair: $0, date: date) }

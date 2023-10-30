@@ -6,6 +6,7 @@ import BsuirApi
 struct MostRelevantScheduleResponse {
     let deeplink: Deeplink
     let title: String
+    let subgroup: Int?
     let schedule: WeekSchedule.ScheduleElement
 }
 
@@ -13,6 +14,7 @@ extension MostRelevantScheduleResponse {
     init?(
         deeplink: Deeplink,
         title: String,
+        subgroup: Int?,
         startDate: Date?,
         endDate: Date?,
         schedule: DaySchedule,
@@ -34,6 +36,7 @@ extension MostRelevantScheduleResponse {
         self.init(
             deeplink: deeplink,
             title: title,
+            subgroup: subgroup,
             schedule: mostRelevantElement
         )
     }

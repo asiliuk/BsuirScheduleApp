@@ -70,6 +70,7 @@ final class PinnedScheduleProvider: TimelineProvider {
             return MostRelevantScheduleResponse(
                 deeplink: .group(name: schedule.studentGroup.name),
                 title: schedule.studentGroup.name,
+                subgroup: preferredSubgroup(for: source),
                 startDate: schedule.startDate,
                 endDate: schedule.endDate,
                 schedule: schedule.schedules
@@ -79,11 +80,16 @@ final class PinnedScheduleProvider: TimelineProvider {
             return MostRelevantScheduleResponse(
                 deeplink: .lector(id: schedule.employee.id),
                 title: schedule.employee.compactFio,
+                subgroup: preferredSubgroup(for: source),
                 startDate: schedule.startDate,
                 endDate: schedule.endDate,
                 schedule: schedule.schedules ?? DaySchedule()
             )
         }
+    }
+
+    private func preferredSubgroup(for source: ScheduleSource) -> Int? {
+        subgroupFilterService.preferredSubgroup(source).value
     }
 
     deinit {
@@ -94,6 +100,7 @@ final class PinnedScheduleProvider: TimelineProvider {
     @Dependency(\.apiClient) private var apiClient
     @Dependency(\.favorites) private var favoritesService
     @Dependency(\.premiumService) private var premiumService
+    @Dependency(\.subgroupFilterService) private var subgroupFilterService
 
     private let calendar = Calendar.current
     private var requestSnapshot: Task<Void, Never>? {
