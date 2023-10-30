@@ -7,9 +7,20 @@ import Deeplinking
 
 extension ScheduleEntry {
     init?(_ response: MostRelevantScheduleResponse, at date: Date) {
-        guard let index = response.schedule.pairs.firstIndex(where: { $0.end > date }) else { return nil }
-        let passedPairs = response.schedule.pairs[..<index]
-        let upcomingPairs = response.schedule.pairs[index...]
+        // Filter pairs based on subgroup
+        let pairs: [WeekSchedule.ScheduleElement.Pair]
+        if let subgroup = response.subgroup {
+            pairs = response.schedule.pairs.filter { pair in
+                pair.base.subgroup == 0 || pair.base.subgroup == subgroup
+            }
+        } else {
+            pairs = response.schedule.pairs
+        }
+
+        // Find and split array by pair that is now in progress
+        guard let index = pairs.firstIndex(where: { $0.end > date }) else { return nil }
+        let passedPairs = pairs[..<index]
+        let upcomingPairs = pairs[index...]
         guard let firstUpcomingPair = upcomingPairs.first else { return nil }
 
         var relevance: TimelineEntryRelevance?
