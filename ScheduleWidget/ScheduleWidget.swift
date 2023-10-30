@@ -93,7 +93,7 @@ struct ScheduleWidget_Previews: PreviewProvider {
                 .previewContext(WidgetPreviewContext(family: family))
                 .previewDisplayName("No Pinned")
         }
-        .environmentObject(PairFormDisplayService(storage: .standard, widgetService: .noop))
+        .environmentObject(PairFormDisplayService.noop)
     }
     
     static var family: WidgetFamily {

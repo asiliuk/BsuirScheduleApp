@@ -310,7 +310,7 @@ struct PairView_Previews: PreviewProvider {
         }
         .previewLayout(.sizeThatFits)
         .background(Color.gray)
-        .environmentObject(PairFormDisplayService(storage: .standard, widgetService: .noop))
+        .environmentObject(PairFormDisplayService.noop)
     }
 
     static let pair = PairCell(

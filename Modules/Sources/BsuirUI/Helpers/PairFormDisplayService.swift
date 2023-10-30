@@ -7,6 +7,8 @@ public class PairFormDisplayService: ObservableObject {
     private let widgetService: WidgetService
     private lazy var alwaysShowFormIconStorage = storage.persistedBool(forKey: "pair-form-always-show-icon")
 
+    public static let noop = PairFormDisplayService(storage: .standard, widgetService: .noop)
+
     public init(storage: UserDefaults, widgetService: WidgetService) {
         self.storage = storage
         self.widgetService = widgetService
