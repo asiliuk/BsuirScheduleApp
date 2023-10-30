@@ -46,13 +46,17 @@ extension PersistedValue {
     public func withPublisher() -> (persisted: PersistedValue, publisher:  AnyPublisher<Value, Never>) {
         let subject = CurrentValueSubject<Value, Never>(get())
         return (
-            persisted: PersistedValue(get: get, set: { subject.send($0); self.set($0) }),
+            persisted: onSet(subject.send),
             publisher: subject.eraseToAnyPublisher()
         )
     }
 
     public func unwrap<Wrapped>(withDefault default: Wrapped) -> PersistedValue<Wrapped> where Value == Wrapped? {
         map(fromValue: { $0 ?? `default` }, toValue: { .some($0) })
+    }
+
+    public func onSet(_ onSet: @escaping (Value) -> Void) -> PersistedValue {
+        PersistedValue(get: get, set: { onSet($0); self.set($0) })
     }
 }
 

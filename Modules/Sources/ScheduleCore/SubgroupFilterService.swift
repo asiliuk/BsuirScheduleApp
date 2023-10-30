@@ -14,16 +14,33 @@ public struct SubgroupFilterService {
 }
 
 private enum SubgroupFilterServiceKey: DependencyKey {
-    static let liveValue = SubgroupFilterService { source in
-        let key = switch source {
-        case .group(let name): "group_\(name)_preferredSubgroup"
-        case .lector(let employee): "lector_\(employee.id)_preferredSubgroup"
-        }
-        return UserDefaults.asiliukShared
-            .persistedInteger(forKey: key)
-            // Transform 0 subgroup to nil
-            .map(fromValue: { $0 == 0 ? nil : $0 }, toValue: { $0 ?? 0 })
-    }
-
+    static let liveValue: SubgroupFilterService = {
+        @Dependency(\.widgetService) var widgetService
+        return .live(storage: .asiliukShared, widgetService: widgetService)
+    }()
+    
     static let previewValue = SubgroupFilterService(preferredSubgroup: { _ in .constant(1) })
+}
+
+// MARK: - Live
+
+private extension SubgroupFilterService {
+    static func live(storage: UserDefaults, widgetService: WidgetService) -> Self {
+        return SubgroupFilterService { source in
+            return storage
+                .persistedInteger(forKey: source.preferredSubgroupKey)
+                // Transform 0 subgroup to nil
+                .map(fromValue: { $0 == 0 ? nil : $0 }, toValue: { $0 ?? 0 })
+                .onSet { _ in widgetService.reload(.pinnedSchedule) }
+        }
+    }
+}
+
+private extension ScheduleSource {
+    var preferredSubgroupKey: String {
+        switch self {
+        case .group(let name): "group-\(name)-preferred-subgroup"
+        case .lector(let employee): "lector-\(employee.id)-preferred-subgroup"
+        }
+    }
 }
