@@ -57,13 +57,19 @@ extension ScheduleEntry {
 
 extension Timeline where EntryType == ScheduleEntry {
     init(_ response: MostRelevantScheduleResponse) {
-        let dates = response.schedule.pairs.flatMap { pair in
+        // Generate snapshot for every 10 minutes interval in-between pairs start & end dates
+        // This will allow widget to show proper progress with 10 minutes precision
+        var dates = response.schedule.pairs.flatMap { pair in
             stride(
                 from: pair.start.timeIntervalSince1970,
                 through: pair.end.timeIntervalSince1970,
                 by: 10 * 60
             ).map { Date(timeIntervalSince1970: $0) }
         }
+
+        // Generate initial snapshot for now as well
+        // otherwise it could stuck in placeholder state until pairs start
+        dates.prepend(.now)
 
         self.init(
             entries: dates.compactMap { ScheduleEntry(response, at: $0) },
