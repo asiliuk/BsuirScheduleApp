@@ -10,6 +10,7 @@
 		E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */; };
 		E6310E31292C02A10013A103 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6310E30292C02A10013A103 /* App.swift */; };
 		E6310E33292C02D20013A103 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = E6310E32292C02D20013A103 /* AppFeature */; };
+		E633DC152AF2F1030059A250 /* PinnedScheduleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E633DC142AF2F1030059A250 /* PinnedScheduleWidget.swift */; };
 		E654467829296CF000881956 /* Deeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = E654467729296CF000881956 /* Deeplinking */; };
 		E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */ = {isa = PBXBuildFile; productRef = E6611ABC293A8B59006E322B /* ScheduleCore */; };
 		E6648AEE2A8A076800D8736D /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6648AED2A8A076800D8736D /* SnapshotHelper.swift */; };
@@ -80,6 +81,7 @@
 /* Begin PBXFileReference section */
 		E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntry.swift; sourceTree = "<group>"; };
 		E6310E30292C02A10013A103 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		E633DC142AF2F1030059A250 /* PinnedScheduleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedScheduleWidget.swift; sourceTree = "<group>"; };
 		E64AF1732A9B6DD2002C8419 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
 		E6648AED2A8A076800D8736D /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				E6AA8D1825162F1B00788A02 /* Assets.xcassets */,
 				E6AA8D1A25162F1B00788A02 /* Info.plist */,
 				E6DD610C2AA52011009558A6 /* Localizable.xcstrings */,
+				E633DC142AF2F1030059A250 /* PinnedScheduleWidget.swift */,
 			);
 			path = ScheduleWidget;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				E6AA8D1625162F1A00788A02 /* ScheduleWidget.swift in Sources */,
 				E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */,
 				E6B33E7F29A2BAA10034AD63 /* PinnedScheduleProvider.swift in Sources */,
+				E633DC152AF2F1030059A250 /* PinnedScheduleWidget.swift in Sources */,
 				E6B33E8729A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
