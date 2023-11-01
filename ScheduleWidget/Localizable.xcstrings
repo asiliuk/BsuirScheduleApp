@@ -1,6 +1,64 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
+    "widget.exams.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расклад іспытаў для замацаванай групы або выкладчыка."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exam schedule for an pinned group or teacher."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расписание экзаменов для закрепленной группы или преподавателя."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розклад іспитів для закріпленої групи чи викладача."
+          }
+        }
+      }
+    },
+    "widget.exams.displayName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расклад Экзаменаў"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exam Schedule"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расписание Экзаменов"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розклад Іспитів"
+          }
+        }
+      }
+    },
     "widget.pinned.description" : {
       "localizations" : {
         "be" : {
@@ -34,25 +92,25 @@
         "be" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "📌 Замацаваны Расклад"
+            "value" : "Замацаваны Расклад"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "📌 Pinned Schedule"
+            "value" : "Pinned Schedule"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "📌 Закрепленное Расписание"
+            "value" : "Закрепленное Расписание"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "📌 Закріплений Розклад"
+            "value" : "Закріплений Розклад"
           }
         }
       }

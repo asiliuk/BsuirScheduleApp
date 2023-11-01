@@ -5,6 +5,7 @@ import WidgetKit
 public struct WidgetService {
     public enum Timeline: String {
         case pinnedSchedule = "PinnedScheduleWidget"
+        case examsSchedule = "ExamsScheduleWidget"
     }
 
     public let reload: (Timeline) -> Void
