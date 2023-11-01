@@ -67,33 +67,21 @@ struct PinnedScheduleWidgetEntryView: View {
 
 // MARK: - Previews
 
-struct PinnedScheduleWidget_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            PinnedScheduleWidgetEntryView(entry: entry)
-                .previewDisplayName("Schedule")
-                .previewContext(WidgetPreviewContext(family: family))
+@available(iOS 17, *)
+#Preview("Pinned Schedule", as: .systemSmall) {
+    PinnedScheduleWidget()
+} timeline: {
+    let entry = ScheduleEntry.previewEntry
+    return [
+        entry,
+        mutating(entry) { $0.config.content = .pairs() },
+        mutating(entry) { $0.config.content = .needsConfiguration },
+        mutating(entry) { $0.config.content = .noPinned }
+    ]
+}
 
-            PinnedScheduleWidgetEntryView(entry: mutating(entry) { $0.config.content = .pairs() })
-                .previewContext(WidgetPreviewContext(family: family))
-                .previewDisplayName("No Pairs")
-
-            PinnedScheduleWidgetEntryView(entry: mutating(entry) { $0.config.content = .needsConfiguration })
-                .previewContext(WidgetPreviewContext(family: family))
-                .previewDisplayName("No Configuration")
-
-            PinnedScheduleWidgetEntryView(entry: mutating(entry) { $0.config.content = .noPinned })
-                .previewContext(WidgetPreviewContext(family: family))
-                .previewDisplayName("No Pinned")
-        }
-        .environmentObject(PairFormDisplayService.noop)
-    }
-
-    static var family: WidgetFamily {
-        return .systemSmall
-    }
-
-    static let entry = ScheduleEntry(
+private extension ScheduleEntry {
+    static let previewEntry = ScheduleEntry(
         date: Date().addingTimeInterval(3600 * 20),
         config: ScheduleWidgetConfiguration(
             title: "Иванов АН",
@@ -193,7 +181,6 @@ struct PinnedScheduleWidget_Previews: PreviewProvider {
                         subjectFullName: "Философ",
                         auditory: "101-2"
                     ),
-
                 ]
             )
         )
