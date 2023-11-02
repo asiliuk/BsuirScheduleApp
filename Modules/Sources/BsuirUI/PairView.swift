@@ -125,7 +125,7 @@ public struct PairView<Details: View>: View {
 
             case (.oneLine, _):
                 timeInterval
-                Text("|")
+                Text("|").bold().foregroundStyle(formColor)
                 title
                 Spacer(minLength: 0).layoutPriority(-1)
 
@@ -166,9 +166,13 @@ public struct PairView<Details: View>: View {
 
     private var pairForm: some View {
         PairFormIndicator(
-            color: pairFormDisplayService.color(for: form).color,
+            color: formColor,
             progress: progress.value
         )
+    }
+
+    private var formColor: Color {
+        pairFormDisplayService.color(for: form).color
     }
 
     private var title: some View {
