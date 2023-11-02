@@ -101,6 +101,7 @@ extension LiveFavoritesService: FavoritesService {
             pinnedScheduleStorage.persisted.value = newValue
             // Make sure widget UI is also updated
             widgetService.reload(.pinnedSchedule)
+            widgetService.reload(.examsSchedule)
         }
     }
 

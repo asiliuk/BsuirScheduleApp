@@ -31,7 +31,10 @@ private extension SubgroupFilterService {
                 .persistedInteger(forKey: source.preferredSubgroupKey)
                 // Transform 0 subgroup to nil
                 .map(fromValue: { $0 == 0 ? nil : $0 }, toValue: { $0 ?? 0 })
-                .onSet { _ in widgetService.reload(.pinnedSchedule) }
+                .onSet { _ in
+                    widgetService.reload(.pinnedSchedule)
+                    widgetService.reload(.examsSchedule)
+                }
         }
     }
 }

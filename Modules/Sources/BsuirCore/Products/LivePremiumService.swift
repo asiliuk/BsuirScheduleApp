@@ -8,6 +8,7 @@ final class LivePremiumService: PremiumService {
         didSet {
             guard oldValue != isCurrentlyPremium else { return }
             widgetService.reload(.pinnedSchedule)
+            widgetService.reload(.examsSchedule)
         }
     }
 
