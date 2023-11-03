@@ -47,6 +47,8 @@ struct ExamsScheduleWidgetEntryView: View {
             switch size {
             case .systemSmall:
                 ExamsWidgetEntrySmallView()
+            case .systemMedium:
+                ExamsWidgetEntryMediumView()
             default:
                 EmptyView()
             }
