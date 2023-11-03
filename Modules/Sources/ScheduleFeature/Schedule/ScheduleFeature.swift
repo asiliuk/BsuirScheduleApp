@@ -41,7 +41,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         public var mark: MarkedScheduleFeature.State
         public var isOnTop: Bool = true
         @LoadableState var schedule: LoadedScheduleReducer.State?
-        var scheduleType: ScheduleDisplayType = .continuous
+        var scheduleType: ScheduleDisplayType
         var subgroupPicker: SubgroupPickerFeature.State?
         fileprivate var pairRowDetails: PairRowDetails?
         fileprivate var showSubgroupPicker: Bool
@@ -52,7 +52,8 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
             source: ScheduleSource,
             value: Value,
             pairRowDetails: PairRowDetails?,
-            showSubgroupPicker: Bool
+            showSubgroupPicker: Bool,
+            scheduleDisplayType: ScheduleDisplayType = .continuous
         ) {
             self.source = source
             self.title = title
@@ -60,6 +61,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
             self.mark = .init(source: source)
             self.pairRowDetails = pairRowDetails
             self.showSubgroupPicker = showSubgroupPicker
+            self.scheduleType = scheduleDisplayType
 
             if showSubgroupPicker {
                 @Dependency(\.subgroupFilterService) var subgroupFilterService
@@ -181,6 +183,10 @@ private extension MeaningfulEvent {
 }
 
 extension ScheduleFeature.State {
+    public mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {
+        scheduleType = displayType
+    }
+
     public mutating func reset() {
         switch scheduleType {
         case .compact:

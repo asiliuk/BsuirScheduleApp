@@ -3,6 +3,7 @@ import BsuirApi
 import BsuirCore
 import LoadableFeature
 import EntityScheduleFeature
+import ScheduleFeature
 import ComposableArchitecture
 import Favorites
 import Collections
@@ -36,7 +37,11 @@ public struct LecturersFeature: Reducer {
         @LoadableState var loadedLecturers: IdentifiedArrayOf<Employee>?
 
         // When deeplink was opened but no lecturers yet loaded
-        fileprivate var lectorIdToOpen: Int?
+        fileprivate struct LectorScheduleDeferredDetails: Equatable {
+            let id: Int
+            let displayType: ScheduleDisplayType
+        }
+        fileprivate var lectorToOpen: LectorScheduleDeferredDetails?
 
         public init() {}
     }
@@ -213,33 +218,37 @@ extension LecturersFeature.State {
     }
 
     /// Open shcedule screen for lector.
-    public mutating func openLector(_ lector: Employee) {
+    public mutating func openLector(_ lector: Employee, displayType: ScheduleDisplayType) {
         if path.count == 1,
+           let id = path.ids.last,
            case let .lector(state) = path.last,
            state.lector == lector
-        { return }
+        {
+            path[id: id, case: /EntityScheduleFeature.State.lector]?.schedule.switchDisplayType(displayType)
+            return
+        }
         search.reset()
-        presentLector(lector)
-        lectorIdToOpen = nil
+        presentLector(lector, displayType: displayType)
+        lectorToOpen = nil
     }
 
     /// Open shcedule screen for lector.
-    public mutating func openLector(id: Int) {
+    public mutating func openLector(id: Int, displayType: ScheduleDisplayType = .continuous) {
         if let lector = loadedLecturers?[id: id] {
-            openLector(lector)
+            openLector(lector, displayType: displayType)
         } else {
-            lectorIdToOpen = id
+            lectorToOpen = .init(id: id, displayType: displayType)
         }
     }
 
     /// Check if we have model for lecror we were trying to open if so open its schedule.
     fileprivate mutating func openLectorIfNeeded() {
-        guard let lectorIdToOpen else { return }
-        openLector(id: lectorIdToOpen)
+        guard let lectorToOpen else { return }
+        openLector(id: lectorToOpen.id, displayType: lectorToOpen.displayType)
     }
 
-    fileprivate mutating func presentLector(_ lector: Employee?) {
+    fileprivate mutating func presentLector(_ lector: Employee?, displayType: ScheduleDisplayType = .continuous) {
         guard let lector else { return }
-        path = StackState([.lector(.init(lector: lector))])
+        path = StackState([.lector(.init(lector: lector, scheduleDisplayType: displayType))])
     }
 }

@@ -26,7 +26,7 @@ public struct GroupsFeature: Reducer {
             /// initial state, attempts to present group in this mode would end up deferred
             case initial
             /// deferred, means that there were attempt to present group before component appeared
-            case deferred(String)
+            case deferred(String, displayType: ScheduleDisplayType)
             /// immediate, meaning component was presented and all attempts to present group should not be deferred
             case immediate
         }
@@ -246,33 +246,37 @@ extension GroupsFeature.State {
     }
 
     /// Open schedule screen for group.
-    mutating public func openGroup(named name: String) {
+    mutating public func openGroup(named name: String, displayType: ScheduleDisplayType = .continuous) {
         // Proceed only if component was presented and we could present groups immediately
         // otherwise defer group presentation til moment component was loaded
         guard groupPresentationMode == .immediate else {
-            groupPresentationMode = .deferred(name)
+            groupPresentationMode = .deferred(name, displayType: displayType)
             return
         }
 
         if path.count == 1,
+           let id = path.ids.last,
            case let .group(state) = path.last,
            state.groupName == name
-        { return }
+        {
+            path[id: id, case: /EntityScheduleFeature.State.group]?.schedule.switchDisplayType(displayType)
+            return
+        }
         search.reset()
-        presentGroup(name)
+        presentGroup(name, displayType: displayType)
     }
 
 
     /// Checks if presentation mode has deferred group and presents it and switch mode to immediate
     fileprivate mutating func presentDeferredGroupIfNeeded() {
-        if case let .deferred(groupName) = groupPresentationMode {
-            presentGroup(groupName)
+        if case let .deferred(groupName, displayType) = groupPresentationMode {
+            presentGroup(groupName, displayType: displayType)
         }
         groupPresentationMode = .immediate
     }
 
-    fileprivate mutating func presentGroup(_ groupName: String?) {
+    fileprivate mutating func presentGroup(_ groupName: String?, displayType: ScheduleDisplayType = .continuous) {
         guard let groupName else { return }
-        path = StackState([.group(.init(groupName: groupName))])
+        path = StackState([.group(.init(groupName: groupName, scheduleDisplayType: displayType))])
     }
 }

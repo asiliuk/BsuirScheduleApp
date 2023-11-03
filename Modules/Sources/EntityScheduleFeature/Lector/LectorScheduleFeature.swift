@@ -11,13 +11,18 @@ public struct LectorScheduleFeature: Reducer {
         public let lector: Employee
         public var schedule: ScheduleFeature<String>.State
 
-        public init(lector: Employee, showSubgroupPicker: Bool = false) {
+        public init(
+            lector: Employee,
+            showSubgroupPicker: Bool = false,
+            scheduleDisplayType: ScheduleDisplayType = .continuous
+        ) {
             self.schedule = .init(
                 title: lector.compactFio,
                 source: .lector(lector),
                 value: lector.urlId,
                 pairRowDetails: .groups,
-                showSubgroupPicker: showSubgroupPicker
+                showSubgroupPicker: showSubgroupPicker,
+                scheduleDisplayType: scheduleDisplayType
             )
             self.lector = lector
         }

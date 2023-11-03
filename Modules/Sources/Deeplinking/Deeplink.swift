@@ -7,12 +7,18 @@ public enum PremiumClubDeeplinkSource: String {
     case appIcon = "app_icon"
 }
 
+public enum ScheduleDeeplinkDisplayType: String {
+    case continuous
+    case compact
+    case exams
+}
+
 public enum Deeplink {
-    case pinned
+    case pinned(displayType: ScheduleDeeplinkDisplayType? = nil)
     case groups
-    case group(name: String)
+    case group(name: String, displayType: ScheduleDeeplinkDisplayType? = nil)
     case lecturers
-    case lector(id: Int)
+    case lector(id: Int, displayType: ScheduleDeeplinkDisplayType? = nil)
     case settings
     case premiumClub(source: PremiumClubDeeplinkSource? = nil)
 }
@@ -22,6 +28,7 @@ public let deeplinkRouter = OneOf {
     Route(.case(Deeplink.pinned)) {
         bsuirScheduleScheme
         Path { "pinned" }
+        scheduleDisplayType
     }
 
     //groups
@@ -31,9 +38,10 @@ public let deeplinkRouter = OneOf {
     }
 
     //groups/:name
-    Route(.case(Deeplink.group(name:))) {
+    Route(.case(Deeplink.group(name:displayType:))) {
         bsuirScheduleScheme
         Path { "groups"; Rest().map(.string) }
+        scheduleDisplayType
     }
 
     //lecturers
@@ -43,9 +51,10 @@ public let deeplinkRouter = OneOf {
     }
 
     //lecturers/:id
-    Route(.case(Deeplink.lector(id:))) {
+    Route(.case(Deeplink.lector(id:displayType:))) {
         bsuirScheduleScheme
         Path { "lecturers"; Digits() }
+        scheduleDisplayType
     }
 
     //settings
@@ -63,6 +72,11 @@ public let deeplinkRouter = OneOf {
                 Field("source", .string.representing(PremiumClubDeeplinkSource.self))
             }
         }
+    }
+}
+private let scheduleDisplayType = Query {
+    Optionally {
+        Field("display_type", .string.representing(ScheduleDeeplinkDisplayType.self))
     }
 }
 

@@ -2,6 +2,7 @@ import PremiumClubFeature
 import EntityScheduleFeature
 import ScheduleCore
 import ComposableArchitecture
+import ScheduleFeature
 
 public struct PinnedTabFeature: Reducer {
     public struct State: Equatable {
@@ -44,6 +45,10 @@ public struct PinnedTabFeature: Reducer {
 // MARK: - Selection
 
 extension PinnedTabFeature.State {
+    mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {
+        pinnedSchedule?.switchDisplayType(displayType)
+    }
+
     mutating func show(pinned: ScheduleSource) {
         pinnedSchedule = .init(pinned: pinned)
     }

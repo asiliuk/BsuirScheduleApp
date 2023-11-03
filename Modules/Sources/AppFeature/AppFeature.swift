@@ -8,6 +8,7 @@ import ScheduleCore
 import PremiumClubFeature
 import ComposableArchitecture
 import EntityScheduleFeature
+import ScheduleFeature
 
 public struct AppFeature: Reducer {
     public struct State: Equatable {
@@ -180,18 +181,18 @@ private extension AppFeature {
 
     func handleDeeplink(state: inout State, deeplink: Deeplink) {
         switch deeplink {
-        case .pinned:
-            state.selection = .pinned
+        case let .pinned(displayType):
+            handlePinnedDeeplink(state: &state, deeplinkDisplayType: displayType)
         case .groups:
             state.selection = .groups
             state.groups.reset()
-        case let .group(name):
-            handleDeeplink(state: &state, groupName: name)
+        case let .group(name, displayType):
+            handleDeeplink(state: &state, groupName: name, deeplinkDisplayType: displayType)
         case .lecturers:
             state.selection = .lecturers
             state.lecturers.reset()
-        case let .lector(id):
-            handleDeeplink(state: &state, lectorId: id)
+        case let .lector(id, displayType):
+            handleDeeplink(state: &state, lectorId: id, deeplinkDisplayType: displayType)
         case .settings:
             state.selection = .settings
             state.settings.reset()
@@ -201,23 +202,47 @@ private extension AppFeature {
         }
     }
 
-    func handleDeeplink(state: inout State, groupName: String) {
+    func handleDeeplink(
+        state: inout State,
+        groupName: String,
+        deeplinkDisplayType: ScheduleDeeplinkDisplayType?
+    ) {
         switch favorites.currentPinnedSchedule {
         case .group(groupName):
-            state.selection = .pinned
+            handlePinnedDeeplink(state: &state, deeplinkDisplayType: deeplinkDisplayType)
         case .group, .lector, nil:
             state.selection = .groups
-            state.groups.openGroup(named: groupName)
+            state.groups.openGroup(named: groupName, displayType: displayType(for: deeplinkDisplayType))
         }
     }
 
-    func handleDeeplink(state: inout State, lectorId: Int) {
+    func handleDeeplink(
+        state: inout State,
+        lectorId: Int,
+        deeplinkDisplayType: ScheduleDeeplinkDisplayType?
+    ) {
         switch favorites.currentPinnedSchedule {
         case .lector(let lector) where lector.id == lectorId:
-            state.selection = .pinned
+            handlePinnedDeeplink(state: &state, deeplinkDisplayType: deeplinkDisplayType)
         case .lector, .group, nil:
             state.selection = .lecturers
-            state.lecturers.openLector(id: lectorId)
+            state.lecturers.openLector(id: lectorId, displayType: displayType(for: deeplinkDisplayType))
+        }
+    }
+
+    func handlePinnedDeeplink(
+        state: inout State,
+        deeplinkDisplayType: ScheduleDeeplinkDisplayType?
+    ) {
+        state.selection = .pinned
+        state.pinnedTab.switchDisplayType(displayType(for: deeplinkDisplayType))
+    }
+
+    func displayType(for deeplinkDisplayType: ScheduleDeeplinkDisplayType?) -> ScheduleDisplayType {
+        switch deeplinkDisplayType {
+        case .continuous, nil: .continuous
+        case .compact: .compact
+        case .exams: .exams
         }
     }
 }

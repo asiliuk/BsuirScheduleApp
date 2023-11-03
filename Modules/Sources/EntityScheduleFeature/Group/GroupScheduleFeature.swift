@@ -11,13 +11,18 @@ public struct GroupScheduleFeature: Reducer {
         public var schedule: ScheduleFeature<String>.State
         public let groupName: String
 
-        public init(groupName: String, showSubgroupPicker: Bool = false) {
+        public init(
+            groupName: String,
+            showSubgroupPicker: Bool = false,
+            scheduleDisplayType: ScheduleDisplayType = .continuous
+        ) {
             self.schedule = .init(
                 title: groupName,
                 source: .group(name: groupName),
                 value: groupName,
                 pairRowDetails: .lecturers,
-                showSubgroupPicker: showSubgroupPicker
+                showSubgroupPicker: showSubgroupPicker,
+                scheduleDisplayType: scheduleDisplayType
             )
             self.groupName = groupName
         }

@@ -2,6 +2,7 @@ import Foundation
 import ComposableArchitecture
 import EntityScheduleFeature
 import ScheduleCore
+import ScheduleFeature
 
 public struct PinnedScheduleFeature: Reducer {
     public struct State: Equatable {
@@ -60,6 +61,10 @@ public struct PinnedScheduleFeature: Reducer {
 // MARK: - Reset
 
 extension PinnedScheduleFeature.State {
+    mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {
+        entitySchedule.switchDisplayType(displayType)
+    }
+
     mutating func reset() {
         entitySchedule.reset()
         path = StackState()
