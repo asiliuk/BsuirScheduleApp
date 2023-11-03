@@ -24,6 +24,7 @@ struct ExamsScheduleWidget: Widget {
         .configurationDisplayName("widget.exams.displayName")
         .supportedFamilies(supportedFamilies)
         .description("widget.exams.description")
+        .contentMarginsDisabled()
     }
 
     private let supportedFamilies: [WidgetFamily] = [
@@ -39,10 +40,18 @@ struct ExamsScheduleWidget: Widget {
 struct ExamsScheduleWidgetEntryView: View {
     let entry: ScheduleEntry
     @Environment(\.widgetFamily) var size
+    @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
 
     var body: some View {
-        Text("Nothing to look for here")
-            .widgetURL(entry.config.deeplink)
+        Group {
+            switch size {
+            case .systemSmall:
+                ExamsWidgetEntrySmallView()
+            default:
+                EmptyView()
+            }
+        }
+        .widgetURL(entry.config.deeplink)
     }
 }
 
