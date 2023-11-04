@@ -3,17 +3,22 @@ import BsuirCore
 import ScheduleCore
 
 public struct ExamsScheduleWidgetMediumView : View {
+    var config: ExamsScheduleWidgetConfiguration
 
-    public init() {}
+    public init(config: ExamsScheduleWidgetConfiguration) {
+        self.config = config
+    }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(alignment: .lastTextBaseline) {
-                Text("23.10.2023").font(.headline)
+                if let mainDate {
+                    Text(mainDate).font(.headline)
+                }
                 Spacer()
                 HStack(alignment: .lastTextBaseline, spacing: 4) {
-                    ScheduleIdentifierTitle(title: "151004")
-                    ScheduleSubgroupLabel(subgroup: 2).contrast(2)
+                    ScheduleIdentifierTitle(title: config.title)
+                    ScheduleSubgroupLabel(subgroup: config.subgroup).contrast(2)
                 }
             }
             .padding(.top, 10)
@@ -24,72 +29,58 @@ public struct ExamsScheduleWidgetMediumView : View {
             }
             .foregroundStyle(Color.white)
 
-            VStack(alignment: .leading, spacing: 0) {
+            switch config.content {
+            case .noPinned:
+                NoPinnedScheduleView()
+                    .padding(.horizontal)
+            case .exams(days: []):
+                NoPairsView()
+                    .padding(.horizontal)
+            case let .exams(days):
+                VStack(alignment: .leading, spacing: 0) {
+                    let exams = ExamsToDisplay(
+                        days: days,
+                        maxVisiblePairsCount: 2,
+                        skipFirstPairDate: true
+                    )
 
-                PairView(
-                    from: "12:00",
-                    to: "14:00",
-                    interval: "12:00-13:00",
-                    subject: "POIT",
-                    weeks: nil,
-                    subgroup: nil,
-                    auditory: "145 2k",
-                    note: "До 15:00",
-                    form: .exam,
-                    progress: .init(constant: 0.5),
-                    isCompact: true,
-                    spellForm: false,
-                    details: EmptyView()
-                )
+                    ForEach(exams.visible, id: \.pair.id) { (date, pair) in
+                        LabeledContent {
+                            PairView<EmptyView>(
+                                pair: pair,
+                                isCompact: true,
+                                showWeeks: false
+                            )
+                        } label: {
+                            if let date {
+                                Text(date.formatted(.compactExamDay))
+                            }
+                        }
+                    }
 
-                LabeledContent("25.10.2023") {
-                    PairView(
-                        from: "12:00",
-                        to: "14:00",
-                        interval: "12:00-13:00",
-                        subject: "POIT",
-                        weeks: nil,
-                        subgroup: nil,
-                        auditory: "145 2k",
-                        note: "До 15:00",
-                        form: .exam,
-                        progress: .init(constant: 0.5),
-                        isCompact: true,
-                        spellForm: false,
-                        details: EmptyView()
+                    Spacer(minLength: 0)
+
+                    RemainingScheduleView(
+                        prefix: {
+                            guard let exam = exams.upcomingInvisible.first else { return nil }
+                            return exam.date?.formatted(.compactExamDay) ?? exam.pair.from
+                        }(),
+                        subjects: exams.upcomingInvisible.compactMap(\.pair.subject),
+                        visibleCount: 3
                     )
                 }
-
-                Spacer(minLength: 0)
-
-//                RemainingPairsView(
-//                    pairs: [
-//                        PairViewModel(
-//                            from: "14:00",
-//                            to: "15:00",
-//                            interval: "14",
-//                            form: .exam,
-//                            subject: "KSIS",
-//                            subjectFullName: "",
-//                            auditory: nil,
-//                            note: nil,
-//                            weeks: nil,
-//                            subgroup: 2,
-//                            progress: .init(constant: 1),
-//                            lecturers: [],
-//                            groups: []
-//                        )][...],
-//                    visibleCount: 1,
-//                    showTime: .first
-//                )
+                .padding(.leading, 12)
+                .padding(.trailing, 4)
+                .padding(.bottom, 8)
             }
-            .padding(.leading, 12)
-            .padding(.trailing, 4)
-            .padding(.top, 2)
-            .padding(.bottom, 8)
         }
         .labeledContentStyle(ExamsSectionLabeledContentStyle(font: .footnote.bold(), highlightTitle: true))
         .widgetPadding()
         .widgetBackground(Color(.systemBackground))
+    }
+
+    private var mainDate: String? {
+        guard case let .exams(days) = config.content else { return nil }
+        return days.first?.date.formatted(.compactExamDay)
     }
 }

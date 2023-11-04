@@ -48,7 +48,7 @@ struct ExamsScheduleWidgetEntryView: View {
             case .systemSmall:
                 ExamsScheduleWidgetSmallView(config: entry.config)
             case .systemMedium:
-                ExamsScheduleWidgetMediumView()
+                ExamsScheduleWidgetMediumView(config: entry.config)
             default:
                 EmptyView()
             }
