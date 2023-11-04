@@ -10,15 +10,15 @@ import Combine
 import Dependencies
 
 final class PinnedScheduleProvider: TimelineProvider {
-    typealias Entry = ScheduleEntry
+    typealias Entry = PinnedScheduleEntry
 
-    func placeholder(in context: Context) -> ScheduleEntry {
+    func placeholder(in context: Context) -> PinnedScheduleEntry {
         .placeholder
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (ScheduleEntry) -> Void) {
+    func getSnapshot(in context: Context, completion: @escaping (PinnedScheduleEntry) -> Void) {
         requestSnapshot = Task {
-            func completeCheckingPreview(with entry: ScheduleEntry) {
+            func completeCheckingPreview(with entry: PinnedScheduleEntry) {
                 completion(context.isPreview ? .preview : entry)
             }
 
@@ -41,8 +41,8 @@ final class PinnedScheduleProvider: TimelineProvider {
         }
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<ScheduleEntry>) -> Void) {
-        func completeCheckingPreview(with entry: ScheduleEntry) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<PinnedScheduleEntry>) -> Void) {
+        func completeCheckingPreview(with entry: PinnedScheduleEntry) {
             completion(.init(entries: [context.isPreview ? .preview : entry], policy: .never))
         }
 
@@ -63,11 +63,11 @@ final class PinnedScheduleProvider: TimelineProvider {
         }
     }
 
-    private func mostRelevantSchedule(for source: ScheduleSource) async throws -> MostRelevantScheduleResponse? {
+    private func mostRelevantSchedule(for source: ScheduleSource) async throws -> MostRelevantPinnedScheduleResponse? {
         switch source {
         case let .group(name):
             let schedule = try await apiClient.groupSchedule(name, false)
-            return MostRelevantScheduleResponse(
+            return MostRelevantPinnedScheduleResponse(
                 deeplink: .group(name: schedule.studentGroup.name),
                 title: schedule.studentGroup.name,
                 subgroup: preferredSubgroup(for: source),
@@ -77,7 +77,7 @@ final class PinnedScheduleProvider: TimelineProvider {
             )
         case let .lector(lector):
             let schedule = try await apiClient.lecturerSchedule(lector.urlId, false)
-            return MostRelevantScheduleResponse(
+            return MostRelevantPinnedScheduleResponse(
                 deeplink: .lector(id: schedule.employee.id),
                 title: schedule.employee.compactFio,
                 subgroup: preferredSubgroup(for: source),

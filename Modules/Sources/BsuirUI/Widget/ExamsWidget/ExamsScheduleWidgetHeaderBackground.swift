@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ExamsScheduleHeaderBackground: View {
+struct ExamsScheduleWidgetHeaderBackground: View {
     @EnvironmentObject private var pairFormDisplayService: PairFormDisplayService
 
     var body: some View {

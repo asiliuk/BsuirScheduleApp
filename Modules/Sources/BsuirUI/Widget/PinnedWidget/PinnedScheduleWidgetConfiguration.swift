@@ -1,7 +1,7 @@
 import Foundation
 import ScheduleCore
 
-public struct ScheduleWidgetConfiguration {
+public struct PinnedScheduleWidgetConfiguration {
     public enum Content {
         case pairs(passed: [PairViewModel] = [], upcoming: [PairViewModel] = [])
         case needsConfiguration
@@ -26,7 +26,7 @@ public struct ScheduleWidgetConfiguration {
     }
 }
 
-extension ScheduleWidgetConfiguration {
+extension PinnedScheduleWidgetConfiguration {
     public static let placeholder = Self(title: "---", content: .pairs())
     public static let needsConfiguration = Self(title: "---", content: .needsConfiguration)
     public static let preview = Self(title: "000001", content: .previewPairs)
@@ -38,7 +38,7 @@ extension ScheduleWidgetConfiguration {
 
 // MARK: - Preview
 
-private extension ScheduleWidgetConfiguration.Content {
+private extension PinnedScheduleWidgetConfiguration.Content {
     static let previewPairs = Self.pairs(
         passed: [
             PairViewModel(

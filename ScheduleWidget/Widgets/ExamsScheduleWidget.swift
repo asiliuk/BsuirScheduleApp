@@ -38,7 +38,7 @@ struct ExamsScheduleWidget: Widget {
 }
 
 struct ExamsScheduleWidgetEntryView: View {
-    let entry: ScheduleEntry
+    let entry: PinnedScheduleEntry
     @Environment(\.widgetFamily) var size
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
 
@@ -46,9 +46,9 @@ struct ExamsScheduleWidgetEntryView: View {
         Group {
             switch size {
             case .systemSmall:
-                ExamsWidgetEntrySmallView()
+                ExamsScheduleWidgetSmallView()
             case .systemMedium:
-                ExamsWidgetEntryMediumView()
+                ExamsScheduleWidgetMediumView()
             default:
                 EmptyView()
             }
@@ -63,7 +63,7 @@ struct ExamsScheduleWidgetEntryView: View {
 #Preview("Exams Schedule", as: .systemSmall) {
     ExamsScheduleWidget()
 } timeline: {
-    let entry = ScheduleEntry.widgetPreview
+    let entry = PinnedScheduleEntry.widgetPreview
     return [
         entry,
         mutating(entry) { $0.config.content = .pairs() },

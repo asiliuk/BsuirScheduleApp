@@ -37,26 +37,26 @@ struct PinnedScheduleWidget: Widget {
 }
 
 struct PinnedScheduleWidgetEntryView: View {
-    let entry: ScheduleEntry
+    let entry: PinnedScheduleEntry
     @Environment(\.widgetFamily) var size
 
     var body: some View {
         Group {
             switch size {
             case .systemSmall:
-                ScheduleWidgetEntrySmallView(config: entry.config, date: entry.date)
+                PinnedScheduleWidgetSmallView(config: entry.config, date: entry.date)
             case .systemMedium:
-                ScheduleWidgetEntryMediumView(config: entry.config, date: entry.date)
+                PinnedScheduleWidgetMediumView(config: entry.config, date: entry.date)
             case .systemLarge:
-                ScheduleWidgetEntryLargeView(config: entry.config, date: entry.date)
+                PinnedScheduleWidgetLargeView(config: entry.config, date: entry.date)
             case .systemExtraLarge:
                 EmptyView()
             case .accessoryCircular:
-                ScheduleWidgetEntryAccessoryCircularView(config: entry.config)
+                PinnedScheduleWidgetCircularView(config: entry.config)
             case .accessoryRectangular:
-                ScheduleWidgetEntryAccessoryRectangularView(config: entry.config)
+                PinnedScheduleWidgetRectangularView(config: entry.config)
             case .accessoryInline:
-                ScheduleWidgetEntryAccessoryInlineView(config: entry.config)
+                PinnedScheduleWidgetInlineView(config: entry.config)
             @unknown default:
                 EmptyView()
             }
@@ -71,7 +71,7 @@ struct PinnedScheduleWidgetEntryView: View {
 #Preview("Pinned Schedule", as: .systemSmall) {
     PinnedScheduleWidget()
 } timeline: {
-    let entry = ScheduleEntry.widgetPreview
+    let entry = PinnedScheduleEntry.widgetPreview
     return [
         entry,
         mutating(entry) { $0.config.content = .pairs() },

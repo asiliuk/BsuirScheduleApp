@@ -2,10 +2,10 @@
 import Foundation
 import BsuirUI
 
-extension ScheduleEntry {
-    static let widgetPreview = ScheduleEntry(
+extension PinnedScheduleEntry {
+    static let widgetPreview = PinnedScheduleEntry(
         date: Date().addingTimeInterval(3600 * 20),
-        config: ScheduleWidgetConfiguration(
+        config: PinnedScheduleWidgetConfiguration(
             title: "Иванов АН",
             subgroup: 1,
             content: .pairs(

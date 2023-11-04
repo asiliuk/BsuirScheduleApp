@@ -2,11 +2,11 @@ import SwiftUI
 import BsuirCore
 import ScheduleCore
 
-public struct ScheduleWidgetEntryLargeView : View {
-    var config: ScheduleWidgetConfiguration
+public struct PinnedScheduleWidgetLargeView : View {
+    var config: PinnedScheduleWidgetConfiguration
     var date: Date
 
-    public init(config: ScheduleWidgetConfiguration, date: Date) {
+    public init(config: PinnedScheduleWidgetConfiguration, date: Date) {
         self.config = config
         self.date = date
     }

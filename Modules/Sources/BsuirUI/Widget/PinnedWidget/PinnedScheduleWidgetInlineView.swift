@@ -1,10 +1,10 @@
 import SwiftUI
 import ScheduleCore
 
-public struct ScheduleWidgetEntryAccessoryInlineView: View {
-    var config: ScheduleWidgetConfiguration
+public struct PinnedScheduleWidgetInlineView: View {
+    var config: PinnedScheduleWidgetConfiguration
 
-    public init(config: ScheduleWidgetConfiguration) {
+    public init(config: PinnedScheduleWidgetConfiguration) {
         self.config = config
     }
     
@@ -45,11 +45,11 @@ private struct InlineView: View {
 struct Previews_ScheduleWidgetEntryAccessoryInlineView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ScheduleWidgetEntryAccessoryInlineView(config: .noPinned())
+            PinnedScheduleWidgetInlineView(config: .noPinned())
                 .previewDisplayName("No Pinned")
-            ScheduleWidgetEntryAccessoryInlineView(config: .placeholder)
+            PinnedScheduleWidgetInlineView(config: .placeholder)
                 .previewDisplayName("Placeholder")
-            ScheduleWidgetEntryAccessoryInlineView(config: .preview)
+            PinnedScheduleWidgetInlineView(config: .preview)
                 .previewDisplayName("Preview")
         }
     }

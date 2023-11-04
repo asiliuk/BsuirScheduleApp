@@ -2,10 +2,10 @@ import SwiftUI
 import BsuirCore
 import ScheduleCore
 
-public struct ScheduleWidgetEntryAccessoryCircularView: View {
-    var config: ScheduleWidgetConfiguration
+public struct PinnedScheduleWidgetCircularView: View {
+    var config: PinnedScheduleWidgetConfiguration
 
-    public init(config: ScheduleWidgetConfiguration) {
+    public init(config: PinnedScheduleWidgetConfiguration) {
         self.config = config
     }
     

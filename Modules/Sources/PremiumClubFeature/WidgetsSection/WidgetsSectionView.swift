@@ -12,19 +12,19 @@ struct WidgetsSectionView: View {
                 VStack(spacing: 4) {
                     HStack(spacing: 4) {
                         widgetPreview(
-                            for: ScheduleWidgetEntrySmallView(config: .preview, date: .now),
+                            for: PinnedScheduleWidgetSmallView(config: .preview, date: .now),
                             ofSize: CGSize(width: 170, height: 170),
                             targetSize: CGSize(width: widgetPreviewSize / 2, height: widgetPreviewSize / 2)
                         )
                         widgetPreview(
-                            for: ScheduleWidgetEntrySmallView(config: .preview, date: .now),
+                            for: PinnedScheduleWidgetSmallView(config: .preview, date: .now),
                             ofSize: CGSize(width: 170, height: 170),
                             targetSize: CGSize(width: widgetPreviewSize / 2, height: widgetPreviewSize / 2)
                         )
                     }
 
                     widgetPreview(
-                        for: ScheduleWidgetEntryMediumView(config: .preview, date: .now),
+                        for: PinnedScheduleWidgetMediumView(config: .preview, date: .now),
                         ofSize: CGSize(width: 364, height: 170),
                         targetSize: CGSize(width: widgetPreviewSize, height: widgetPreviewSize / 2)
                     )

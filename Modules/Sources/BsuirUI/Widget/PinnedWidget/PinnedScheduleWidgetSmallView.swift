@@ -2,14 +2,14 @@ import SwiftUI
 import BsuirCore
 import ScheduleCore
 
-public struct ScheduleWidgetEntrySmallView: View {
-    var config: ScheduleWidgetConfiguration
+public struct PinnedScheduleWidgetSmallView: View {
+    var config: PinnedScheduleWidgetConfiguration
     var date: Date
 
     @Environment(\.widgetRenderingMode) var renderingMode
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
 
-    public init(config: ScheduleWidgetConfiguration, date: Date) {
+    public init(config: PinnedScheduleWidgetConfiguration, date: Date) {
         self.config = config
         self.date = date
     }

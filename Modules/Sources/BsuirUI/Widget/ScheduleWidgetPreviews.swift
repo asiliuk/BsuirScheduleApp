@@ -30,14 +30,14 @@ public struct ScheduleWidgetPreviews: View {
                     VStack(spacing: 22) {
                         HStack(spacing: 22) {
                             WidgetDemoFrame(.small) { size, cornerRadius in
-                                ScheduleWidgetEntrySmallView(
+                                PinnedScheduleWidgetSmallView(
                                     config: .group151004,
                                     date: try! dateStyle.parse("01.09.2023")
                                 )
                             }
 
                             WidgetDemoFrame(.small) { size, cornerRadius in
-                                ScheduleWidgetEntrySmallView(
+                                PinnedScheduleWidgetSmallView(
                                     config: .lectorMarina,
                                     date: try! dateStyle.parse("01.09.2023")
                                 )
@@ -45,7 +45,7 @@ public struct ScheduleWidgetPreviews: View {
                         }
 
                         WidgetDemoFrame(.medium) { size, cornerRadius in
-                            ScheduleWidgetEntryMediumView(
+                            PinnedScheduleWidgetMediumView(
                                 config: .group010101,
                                 date: try! dateStyle.parse("04.09.2023")
                             )
@@ -54,7 +54,7 @@ public struct ScheduleWidgetPreviews: View {
 
                     if horizontalSizeClass == .regular {
                         WidgetDemoFrame(.large) { size, cornerRadius in
-                            ScheduleWidgetEntryLargeView(
+                            PinnedScheduleWidgetLargeView(
                                 config: .group151003,
                                 date: try! dateStyle.parse("04.09.2023")
                             )
@@ -135,8 +135,8 @@ private struct BackgroundGradient: View {
 }
 // MARK: - Mocked Data
 
-private extension ScheduleWidgetConfiguration {
-    static let group010101 = ScheduleWidgetConfiguration(
+private extension PinnedScheduleWidgetConfiguration {
+    static let group010101 = PinnedScheduleWidgetConfiguration(
         title: "010101",
         content: .pairs(
             passed: [
@@ -177,7 +177,7 @@ private extension ScheduleWidgetConfiguration {
         )
     )
 
-    static let group151004 = ScheduleWidgetConfiguration(
+    static let group151004 = PinnedScheduleWidgetConfiguration(
         title: "151004",
         content: .pairs(
             passed: [
@@ -230,7 +230,7 @@ private extension ScheduleWidgetConfiguration {
         )
     )
 
-    static let group151003 = ScheduleWidgetConfiguration(
+    static let group151003 = PinnedScheduleWidgetConfiguration(
         title: "151003",
         content: .pairs(
             passed: [
@@ -302,7 +302,7 @@ private extension ScheduleWidgetConfiguration {
         )
     )
 
-    static let lectorMarina = ScheduleWidgetConfiguration(
+    static let lectorMarina = PinnedScheduleWidgetConfiguration(
         title: "МаринаИМ",
         content: .pairs(
             passed: [

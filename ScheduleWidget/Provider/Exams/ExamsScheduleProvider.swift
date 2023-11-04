@@ -10,17 +10,17 @@ import Combine
 import Dependencies
 
 final class ExamsScheduleProvider: TimelineProvider {
-    typealias Entry = ScheduleEntry
+    typealias Entry = PinnedScheduleEntry
 
-    func placeholder(in context: Context) -> ScheduleEntry {
+    func placeholder(in context: Context) -> PinnedScheduleEntry {
         .placeholder
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (ScheduleEntry) -> Void) {
+    func getSnapshot(in context: Context, completion: @escaping (PinnedScheduleEntry) -> Void) {
         completion(.placeholder)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<ScheduleEntry>) -> Void) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<PinnedScheduleEntry>) -> Void) {
         completion(.init(entries: [.placeholder], policy: .never))
     }
 }

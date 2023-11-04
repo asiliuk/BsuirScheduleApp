@@ -5,8 +5,8 @@ import ScheduleCore
 import Foundation
 import Deeplinking
 
-extension ScheduleEntry {
-    init?(_ response: MostRelevantScheduleResponse, at date: Date) {
+extension PinnedScheduleEntry {
+    init?(_ response: MostRelevantPinnedScheduleResponse, at date: Date) {
         // Filter pairs based on subgroup
         let pairs: [WeekSchedule.ScheduleElement.Pair]
         if let subgroup = response.subgroup {
@@ -40,7 +40,7 @@ extension ScheduleEntry {
         self.init(
             date: date,
             relevance: relevance,
-            config: ScheduleWidgetConfiguration(
+            config: PinnedScheduleWidgetConfiguration(
                 deeplink: deeplinkRouter.url(for: response.deeplink),
                 title: response.title,
                 subgroup: response.subgroup,
@@ -55,8 +55,8 @@ extension ScheduleEntry {
 
 // MARK: - Timeline
 
-extension Timeline where EntryType == ScheduleEntry {
-    init(_ response: MostRelevantScheduleResponse) {
+extension Timeline where EntryType == PinnedScheduleEntry {
+    init(_ response: MostRelevantPinnedScheduleResponse) {
         // Generate snapshot for every 10 minutes interval in-between pairs start & end dates
         // This will allow widget to show proper progress with 10 minutes precision
         var dates = response.schedule.pairs.flatMap { pair in
@@ -72,7 +72,7 @@ extension Timeline where EntryType == ScheduleEntry {
         dates.prepend(.now)
 
         self.init(
-            entries: dates.compactMap { ScheduleEntry(response, at: $0) },
+            entries: dates.compactMap { PinnedScheduleEntry(response, at: $0) },
             policy: .atEnd
         )
     }

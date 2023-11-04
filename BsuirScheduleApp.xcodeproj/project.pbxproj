@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */; };
+		E625EFE525C3227000FD8C21 /* PinnedScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E625EFE425C3227000FD8C21 /* PinnedScheduleEntry.swift */; };
 		E6310E31292C02A10013A103 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6310E30292C02A10013A103 /* App.swift */; };
 		E6310E33292C02D20013A103 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = E6310E32292C02D20013A103 /* AppFeature */; };
 		E633DC152AF2F1030059A250 /* PinnedScheduleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E633DC142AF2F1030059A250 /* PinnedScheduleWidget.swift */; };
 		E633DC182AF2F4900059A250 /* ExamsScheduleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E633DC172AF2F4900059A250 /* ExamsScheduleWidget.swift */; };
 		E633DC1A2AF2F5B50059A250 /* ExamsScheduleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E633DC192AF2F5B50059A250 /* ExamsScheduleProvider.swift */; };
-		E633DC1C2AF2F64E0059A250 /* ScheduleEntry+WidgetPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E633DC1B2AF2F64E0059A250 /* ScheduleEntry+WidgetPreview.swift */; };
+		E633DC1C2AF2F64E0059A250 /* PinnedScheduleEntry+WidgetPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E633DC1B2AF2F64E0059A250 /* PinnedScheduleEntry+WidgetPreview.swift */; };
 		E654467829296CF000881956 /* Deeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = E654467729296CF000881956 /* Deeplinking */; };
 		E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */ = {isa = PBXBuildFile; productRef = E6611ABC293A8B59006E322B /* ScheduleCore */; };
 		E6648AEE2A8A076800D8736D /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6648AED2A8A076800D8736D /* SnapshotHelper.swift */; };
@@ -27,8 +27,8 @@
 		E6AA8D1F25162F1B00788A02 /* ScheduleWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E6B33E7C29A2B7DE0034AD63 /* Favorites in Frameworks */ = {isa = PBXBuildFile; productRef = E6B33E7B29A2B7DE0034AD63 /* Favorites */; };
 		E6B33E7F29A2BAA10034AD63 /* PinnedScheduleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */; };
-		E6B33E8329A2BB6E0034AD63 /* MostRelevantScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */; };
-		E6B33E8729A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */; };
+		E6B33E8329A2BB6E0034AD63 /* MostRelevantPinnedScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8129A2BB6B0034AD63 /* MostRelevantPinnedScheduleResponse.swift */; };
+		E6B33E8729A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8629A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift */; };
 		E6DD610B2AA52011009558A6 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E6DD610A2AA52010009558A6 /* Localizable.xcstrings */; };
 		E6DD610D2AA52011009558A6 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E6DD610C2AA52011009558A6 /* Localizable.xcstrings */; };
 		E6E1885C2A894EF200658AA8 /* AppStoreSnapshotsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6E1885B2A894EF200658AA8 /* AppStoreSnapshotsUITests.swift */; };
@@ -82,12 +82,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntry.swift; sourceTree = "<group>"; };
+		E625EFE425C3227000FD8C21 /* PinnedScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedScheduleEntry.swift; sourceTree = "<group>"; };
 		E6310E30292C02A10013A103 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E633DC142AF2F1030059A250 /* PinnedScheduleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedScheduleWidget.swift; sourceTree = "<group>"; };
 		E633DC172AF2F4900059A250 /* ExamsScheduleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamsScheduleWidget.swift; sourceTree = "<group>"; };
 		E633DC192AF2F5B50059A250 /* ExamsScheduleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamsScheduleProvider.swift; sourceTree = "<group>"; };
-		E633DC1B2AF2F64E0059A250 /* ScheduleEntry+WidgetPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleEntry+WidgetPreview.swift"; sourceTree = "<group>"; };
+		E633DC1B2AF2F64E0059A250 /* PinnedScheduleEntry+WidgetPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PinnedScheduleEntry+WidgetPreview.swift"; sourceTree = "<group>"; };
 		E64AF1732A9B6DD2002C8419 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
 		E6648AED2A8A076800D8736D /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
@@ -99,8 +99,8 @@
 		E6AA8D1825162F1B00788A02 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E6AA8D1A25162F1B00788A02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedScheduleProvider.swift; sourceTree = "<group>"; };
-		E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostRelevantScheduleResponse.swift; sourceTree = "<group>"; };
-		E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleEntry+MostRelevant.swift"; sourceTree = "<group>"; };
+		E6B33E8129A2BB6B0034AD63 /* MostRelevantPinnedScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostRelevantPinnedScheduleResponse.swift; sourceTree = "<group>"; };
+		E6B33E8629A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PinnedScheduleEntry+MostRelevant.swift"; sourceTree = "<group>"; };
 		E6CCA27A2917EF900079D815 /* ScheduleWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScheduleWidgetExtension.entitlements; sourceTree = "<group>"; };
 		E6DD610A2AA52010009558A6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E6DD610C2AA52011009558A6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -214,12 +214,8 @@
 		E6B33E8029A2BAD80034AD63 /* Provider */ = {
 			isa = PBXGroup;
 			children = (
-				E625EFE425C3227000FD8C21 /* ScheduleEntry.swift */,
-				E6B33E8629A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift */,
-				E633DC1B2AF2F64E0059A250 /* ScheduleEntry+WidgetPreview.swift */,
-				E6B33E8129A2BB6B0034AD63 /* MostRelevantScheduleResponse.swift */,
-				E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */,
-				E633DC192AF2F5B50059A250 /* ExamsScheduleProvider.swift */,
+				E6FF860C2AF67A210092D25A /* Exams */,
+				E6FF860B2AF67A170092D25A /* Pinned */,
 			);
 			path = Provider;
 			sourceTree = "<group>";
@@ -277,6 +273,26 @@
 				E69C56542A8A791D004C71D2 /* 010101.json */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E6FF860B2AF67A170092D25A /* Pinned */ = {
+			isa = PBXGroup;
+			children = (
+				E625EFE425C3227000FD8C21 /* PinnedScheduleEntry.swift */,
+				E6B33E8629A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift */,
+				E633DC1B2AF2F64E0059A250 /* PinnedScheduleEntry+WidgetPreview.swift */,
+				E6B33E8129A2BB6B0034AD63 /* MostRelevantPinnedScheduleResponse.swift */,
+				E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */,
+			);
+			path = Pinned;
+			sourceTree = "<group>";
+		};
+		E6FF860C2AF67A210092D25A /* Exams */ = {
+			isa = PBXGroup;
+			children = (
+				E633DC192AF2F5B50059A250 /* ExamsScheduleProvider.swift */,
+			);
+			path = Exams;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -435,15 +451,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6B33E8329A2BB6E0034AD63 /* MostRelevantScheduleResponse.swift in Sources */,
+				E6B33E8329A2BB6E0034AD63 /* MostRelevantPinnedScheduleResponse.swift in Sources */,
 				E6AA8D1625162F1A00788A02 /* ScheduleWidgetBundle.swift in Sources */,
-				E625EFE525C3227000FD8C21 /* ScheduleEntry.swift in Sources */,
+				E625EFE525C3227000FD8C21 /* PinnedScheduleEntry.swift in Sources */,
 				E6B33E7F29A2BAA10034AD63 /* PinnedScheduleProvider.swift in Sources */,
 				E633DC1A2AF2F5B50059A250 /* ExamsScheduleProvider.swift in Sources */,
 				E633DC152AF2F1030059A250 /* PinnedScheduleWidget.swift in Sources */,
 				E633DC182AF2F4900059A250 /* ExamsScheduleWidget.swift in Sources */,
-				E6B33E8729A2BDB80034AD63 /* ScheduleEntry+MostRelevant.swift in Sources */,
-				E633DC1C2AF2F64E0059A250 /* ScheduleEntry+WidgetPreview.swift in Sources */,
+				E6B33E8729A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift in Sources */,
+				E633DC1C2AF2F64E0059A250 /* PinnedScheduleEntry+WidgetPreview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

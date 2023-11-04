@@ -217,7 +217,7 @@ extension LecturersFeature.State {
         }
     }
 
-    /// Open shcedule screen for lector.
+    /// Open schedule screen for lector.
     public mutating func openLector(_ lector: Employee, displayType: ScheduleDisplayType) {
         if path.count == 1,
            let id = path.ids.last,
@@ -232,7 +232,7 @@ extension LecturersFeature.State {
         lectorToOpen = nil
     }
 
-    /// Open shcedule screen for lector.
+    /// Open schedule screen for lector.
     public mutating func openLector(id: Int, displayType: ScheduleDisplayType = .continuous) {
         if let lector = loadedLecturers?[id: id] {
             openLector(lector, displayType: displayType)
@@ -241,7 +241,7 @@ extension LecturersFeature.State {
         }
     }
 
-    /// Check if we have model for lecror we were trying to open if so open its schedule.
+    /// Check if we have model for lector we were trying to open if so open its schedule.
     fileprivate mutating func openLectorIfNeeded() {
         guard let lectorToOpen else { return }
         openLector(id: lectorToOpen.id, displayType: lectorToOpen.displayType)

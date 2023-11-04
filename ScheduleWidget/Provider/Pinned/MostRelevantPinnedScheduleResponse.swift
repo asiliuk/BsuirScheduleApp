@@ -3,14 +3,14 @@ import Deeplinking
 import ScheduleCore
 import BsuirApi
 
-struct MostRelevantScheduleResponse {
+struct MostRelevantPinnedScheduleResponse {
     let deeplink: Deeplink
     let title: String
     let subgroup: Int?
     let schedule: WeekSchedule.ScheduleElement
 }
 
-extension MostRelevantScheduleResponse {
+extension MostRelevantPinnedScheduleResponse {
     init?(
         deeplink: Deeplink,
         title: String,
