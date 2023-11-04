@@ -45,7 +45,11 @@ public struct PinnedScheduleWidgetMediumView : View {
 
                 Spacer(minLength: 0)
 
-                RemainingPairsView(pairs: pairs.upcomingInvisible, visibleCount: 3, showTime: .first)
+                RemainingScheduleView(
+                    prefix: pairs.upcomingInvisible.first?.from,
+                    subjects: pairs.upcomingInvisible.compactMap(\.subject),
+                    visibleCount: 3
+                )
             }
         }
         .widgetPadding()

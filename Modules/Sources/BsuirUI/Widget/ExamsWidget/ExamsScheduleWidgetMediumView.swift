@@ -62,26 +62,26 @@ public struct ExamsScheduleWidgetMediumView : View {
 
                 Spacer(minLength: 0)
 
-                RemainingPairsView(
-                    pairs: [
-                        PairViewModel(
-                            from: "14:00",
-                            to: "15:00",
-                            interval: "14",
-                            form: .exam,
-                            subject: "KSIS",
-                            subjectFullName: "",
-                            auditory: nil,
-                            note: nil,
-                            weeks: nil,
-                            subgroup: 2,
-                            progress: .init(constant: 1),
-                            lecturers: [],
-                            groups: []
-                        )][...],
-                    visibleCount: 1,
-                    showTime: .first
-                )
+//                RemainingPairsView(
+//                    pairs: [
+//                        PairViewModel(
+//                            from: "14:00",
+//                            to: "15:00",
+//                            interval: "14",
+//                            form: .exam,
+//                            subject: "KSIS",
+//                            subjectFullName: "",
+//                            auditory: nil,
+//                            note: nil,
+//                            weeks: nil,
+//                            subgroup: 2,
+//                            progress: .init(constant: 1),
+//                            lecturers: [],
+//                            groups: []
+//                        )][...],
+//                    visibleCount: 1,
+//                    showTime: .first
+//                )
             }
             .padding(.leading, 12)
             .padding(.trailing, 4)

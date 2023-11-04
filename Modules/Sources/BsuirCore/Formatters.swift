@@ -25,7 +25,11 @@ extension FormatStyle where Self == Date.FormatStyle {
         return .scheduleDay
             .year(.twoDigits)
     }
-    
+
+    public static var compactExamDay: Self {
+        return Date.FormatStyle(date: .numeric, time: .omitted)
+    }
+
     public static var widgetSmall: Self {
         return .dateTime
             .day()

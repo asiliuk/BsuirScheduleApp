@@ -39,6 +39,7 @@ public struct PinnedScheduleWidgetSmallView: View {
                 )
 
                 Spacer(minLength: 0)
+
                 ForEach(pairs.visible) { pair in
                     PairView(
                         pair: pair,
@@ -48,9 +49,13 @@ public struct PinnedScheduleWidgetSmallView: View {
                         showWeeks: false
                     )
                 }
+
                 Spacer(minLength: 0)
 
-                RemainingPairsView(pairs: pairs.upcomingInvisible, visibleCount: 1, showTime: .hide)
+                RemainingScheduleView(
+                    subjects: pairs.upcomingInvisible.compactMap(\.subject),
+                    visibleCount: 1
+                )
             }
         }
         .widgetPadding()

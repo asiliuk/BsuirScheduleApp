@@ -37,8 +37,12 @@ public struct PinnedScheduleWidgetLargeView : View {
                 )
 
                 VStack(alignment: .leading, spacing: 4) {
-                    RemainingPairsView(pairs: pairs.passedInvisible, visibleCount: 3, showTime: .last)
-                        .padding(.leading, 10)
+                    RemainingScheduleView(
+                        prefix: pairs.passedInvisible.last?.from,
+                        subjects: pairs.passedInvisible.compactMap(\.subject),
+                        visibleCount: 3
+                    )
+                    .padding(.leading, 10)
 
                     VStack(alignment: .leading, spacing: 4) {
                         ForEach(pairs.visible) { pair in
@@ -51,8 +55,12 @@ public struct PinnedScheduleWidgetLargeView : View {
 
                     Spacer(minLength: 0)
 
-                    RemainingPairsView(pairs: pairs.upcomingInvisible, visibleCount: 3, showTime: .first)
-                        .padding(.leading, 10)
+                    RemainingScheduleView(
+                        prefix: pairs.upcomingInvisible.first?.from,
+                        subjects: pairs.upcomingInvisible.compactMap(\.subject),
+                        visibleCount: 3
+                    )
+                    .padding(.leading, 10)
                 }
                 .padding(.top, 8)
             }

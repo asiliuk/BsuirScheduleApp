@@ -32,8 +32,8 @@ extension PairsToDisplay {
     }
 }
 
-private extension Array {
-    func index(_ index: Index, offsetBy offset: Int, boundedBy bound: Index) -> Index {
+extension Array {
+    public func index(_ index: Index, offsetBy offset: Int, boundedBy bound: Index) -> Index {
         self.index(index, offsetBy: offset, limitedBy: bound) ?? bound
     }
 }

@@ -38,6 +38,7 @@
 		E6F931BF22F8B1C20038FC43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931BE22F8B1C20038FC43 /* Assets.xcassets */; };
 		E6F931C222F8B1C20038FC43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C122F8B1C20038FC43 /* Preview Assets.xcassets */; };
 		E6F931C522F8B1C20038FC43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */; };
+		E6FF860E2AF67AA50092D25A /* ExamsScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FF860D2AF67AA50092D25A /* ExamsScheduleEntry.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,7 @@
 		E6F931C122F8B1C20038FC43 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E6F931C422F8B1C20038FC43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E6F931C622F8B1C20038FC43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6FF860D2AF67AA50092D25A /* ExamsScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamsScheduleEntry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				E633DC192AF2F5B50059A250 /* ExamsScheduleProvider.swift */,
+				E6FF860D2AF67AA50092D25A /* ExamsScheduleEntry.swift */,
 			);
 			path = Exams;
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 				E633DC152AF2F1030059A250 /* PinnedScheduleWidget.swift in Sources */,
 				E633DC182AF2F4900059A250 /* ExamsScheduleWidget.swift in Sources */,
 				E6B33E8729A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift in Sources */,
+				E6FF860E2AF67AA50092D25A /* ExamsScheduleEntry.swift in Sources */,
 				E633DC1C2AF2F64E0059A250 /* PinnedScheduleEntry+WidgetPreview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
