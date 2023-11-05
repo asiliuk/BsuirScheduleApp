@@ -23,7 +23,9 @@ public struct ExamsScheduleWidgetSmallView: View {
             .padding(.bottom, 4)
             .padding(.horizontal, 12)
             .background {
-                ExamsScheduleWidgetHeaderBackground()
+                if renderingMode == .fullColor {
+                    ExamsScheduleWidgetHeaderBackground(shouldFillWithExamColor: showsWidgetBackground)
+                }
             }
             .foregroundStyle(Color.white)
 

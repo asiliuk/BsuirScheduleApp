@@ -2,9 +2,10 @@ import SwiftUI
 
 struct ExamsScheduleWidgetHeaderBackground: View {
     @EnvironmentObject private var pairFormDisplayService: PairFormDisplayService
+    var shouldFillWithExamColor: Bool = true
 
     var body: some View {
-        pairFormDisplayService.color(for: .exam).color
+        fillColor
             .overlay {
                 VStack {
                     ForEach(0..<10) { row in
@@ -12,7 +13,7 @@ struct ExamsScheduleWidgetHeaderBackground: View {
                             ForEach(0..<20) { _ in
                                 Image(systemName: "graduationcap")
                                     .font(.system(size: 12, weight: .bold))
-                                    .foregroundStyle(Color.secondary.opacity(0.4))
+                                    .foregroundStyle(foregroundColor)
                                     .blendMode(.hardLight)
                             }
                         }
@@ -22,5 +23,20 @@ struct ExamsScheduleWidgetHeaderBackground: View {
                 .rotationEffect(.degrees(-15))
             }
             .clipped()
+            .contentTransition(.identity)
+    }
+
+    private var fillColor: Color {
+        shouldFillWithExamColor ? examColor : .clear
+    }
+
+    private var foregroundColor: Color {
+        shouldFillWithExamColor
+            ? Color.secondary.opacity(0.4)
+            : examColor.opacity(0.4)
+    }
+
+    private var examColor: Color {
+        pairFormDisplayService.color(for: .exam).color
     }
 }
