@@ -3,8 +3,9 @@ import SwiftUI
 import FrameUp
 import ScheduleCore
 
+let dateStyle = Date.FormatStyle(date: .numeric, time:.omitted, locale: Locale(identifier: "ru_RU"))
+
 public struct ScheduleWidgetPreviews: View {
-    let dateStyle = Date.FormatStyle(date: .numeric, time:.omitted, locale: Locale(identifier: "ru_RU"))
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     public init() {}
 
@@ -29,14 +30,14 @@ public struct ScheduleWidgetPreviews: View {
                 HStack(spacing: 22) {
                     VStack(spacing: 22) {
                         HStack(spacing: 22) {
-                            WidgetDemoFrame(.small) { size, cornerRadius in
+                            MyWidgetDemoFrame(.small) {
                                 PinnedScheduleWidgetSmallView(
                                     config: .group151004,
                                     date: try! dateStyle.parse("01.09.2023")
                                 )
                             }
 
-                            WidgetDemoFrame(.small) { size, cornerRadius in
+                            MyWidgetDemoFrame(.small) {
                                 PinnedScheduleWidgetSmallView(
                                     config: .lectorMarina,
                                     date: try! dateStyle.parse("01.09.2023")
@@ -44,16 +45,13 @@ public struct ScheduleWidgetPreviews: View {
                             }
                         }
 
-                        WidgetDemoFrame(.medium) { size, cornerRadius in
-                            PinnedScheduleWidgetMediumView(
-                                config: .group010101,
-                                date: try! dateStyle.parse("04.09.2023")
-                            )
+                        MyWidgetDemoFrame(.medium, addPadding: false) {
+                            ExamsScheduleWidgetMediumView(config: .group010101)
                         }
                     }
 
                     if horizontalSizeClass == .regular {
-                        WidgetDemoFrame(.large) { size, cornerRadius in
+                        MyWidgetDemoFrame(.large) {
                             PinnedScheduleWidgetLargeView(
                                 config: .group151003,
                                 date: try! dateStyle.parse("04.09.2023")
@@ -76,6 +74,40 @@ public struct ScheduleWidgetPreviews: View {
             ))
             .edgesIgnoringSafeArea(.all)
             .persistentSystemOverlays(.hidden)
+        }
+    }
+}
+
+private struct MyWidgetDemoFrame<Content: View>: View {
+    let widgetSize: WidgetSize
+    let addPadding: Bool
+    let content: Content
+    
+    init(_ widgetSize: WidgetSize, addPadding: Bool = true, @ViewBuilder content: () -> Content) {
+        self.widgetSize = widgetSize
+        self.content = content()
+        self.addPadding = addPadding
+    }
+
+    var body: some View {
+        WidgetDemoFrame(widgetSize) { _, _ in
+            widgetContent
+        }
+    }
+
+    @ViewBuilder
+    private var widgetContent: some View {
+        if #available(iOS 17, *) {
+            Group {
+                if addPadding {
+                    content.padding()
+                } else {
+                    content
+                }
+            }
+            .background(Color(uiColor: .systemBackground))
+        } else {
+            content
         }
     }
 }
@@ -134,6 +166,58 @@ private struct BackgroundGradient: View {
     }
 }
 // MARK: - Mocked Data
+
+private extension ExamsScheduleWidgetConfiguration {
+    static let group010101 = ExamsScheduleWidgetConfiguration(
+        title: "010101",
+        content: .exams(
+            days: [
+                ExamsScheduleWidgetConfiguration.ExamDay(
+                    date: try! dateStyle.parse("04.01.2024"),
+                    pairs: [
+                        PairViewModel(
+                            from: "09:00",
+                            to: "10:20",
+                            interval: "09:00-10:20",
+                            form: .exam,
+                            subject: "ПИСПБ",
+                            subjectFullName: "ПИСПБ",
+                            auditory: "613-2 к"
+                        ),
+                    ]
+                ),
+                ExamsScheduleWidgetConfiguration.ExamDay(
+                    date: try! dateStyle.parse("06.01.2024"),
+                    pairs: [
+                        PairViewModel(
+                            from: "09:00",
+                            to: "10:20",
+                            interval: "09:00-10:20",
+                            form: .exam,
+                            subject: "БПП",
+                            subjectFullName: "БПП",
+                            auditory: "615-2 к"
+                        ),
+                    ]
+                ),
+                ExamsScheduleWidgetConfiguration.ExamDay(
+                    date: try! dateStyle.parse("08.01.2024"),
+                    pairs: [
+                        PairViewModel(
+                            from: "09:00",
+                            to: "10:20",
+                            interval: "09:00-10:20",
+                            form: .exam,
+                            subject: "СЯП",
+                            subjectFullName: "СЯП",
+                            auditory: "601-2 к"
+                        ),
+                    ]
+                ),
+            ]
+        )
+    )
+}
 
 private extension PinnedScheduleWidgetConfiguration {
     static let group010101 = PinnedScheduleWidgetConfiguration(
