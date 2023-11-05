@@ -8,7 +8,6 @@ struct ScheduleSubgroupLabel: View {
                 Image(systemName: "person.fill")
                 Text("\(subgroup)")
             }
-            .foregroundStyle(.secondary)
             .font(.caption)
         }
     }

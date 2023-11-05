@@ -20,6 +20,7 @@ public struct PinnedScheduleWidgetSmallView: View {
                 ScheduleIdentifierTitle(title: config.title)
                 Spacer(minLength: 0)
                 ScheduleSubgroupLabel(subgroup: config.subgroup)
+                    .foregroundStyle(.secondary)
             }
 
             WidgetDateTitle(date: date, isSmall: showsWidgetBackground)

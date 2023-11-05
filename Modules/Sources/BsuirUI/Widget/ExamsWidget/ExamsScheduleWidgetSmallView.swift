@@ -17,7 +17,7 @@ public struct ExamsScheduleWidgetSmallView: View {
             HStack(alignment: .lastTextBaseline) {
                 ScheduleIdentifierTitle(title: config.title)
                 Spacer(minLength: 0)
-                ScheduleSubgroupLabel(subgroup: config.subgroup).contrast(2)
+                ScheduleSubgroupLabel(subgroup: config.subgroup)
             }
             .padding(.top, 10)
             .padding(.bottom, 4)

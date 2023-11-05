@@ -19,6 +19,7 @@ public struct PinnedScheduleWidgetLargeView : View {
                 HStack(alignment: .lastTextBaseline, spacing: 4) {
                     ScheduleIdentifierTitle(title: config.title)
                     ScheduleSubgroupLabel(subgroup: config.subgroup)
+                        .foregroundStyle(.secondary)
                 }
             }
 
