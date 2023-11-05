@@ -95,5 +95,28 @@ private extension ExamsScheduleWidgetConfiguration.Content {
                 ),
             ]
         ),
+        ExamsScheduleWidgetConfiguration.ExamDay(
+            date: .now.addingTimeInterval(3600 * 24 * 3),
+            pairs: [
+                PairViewModel(
+                    from: "10:00",
+                    to: "11:00",
+                    interval: "10:00-11:00",
+                    form: .exam,
+                    subject: "Экзамен 5",
+                    subjectFullName: "Экзамен 5",
+                    auditory: "105-5"
+                ),
+                PairViewModel(
+                    from: "12:00",
+                    to: "13:00",
+                    interval: "12:00-13:00",
+                    form: .exam,
+                    subject: "Экзамен 6",
+                    subjectFullName: "Экзамен 6",
+                    auditory: "105-6"
+                ),
+            ]
+        ),
     ])
 }
