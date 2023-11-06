@@ -57,7 +57,7 @@ public struct SettingsFeatureView: View {
                     )
 
                     NavigationLink(value: SettingsFeatureDestination.roadmap) {
-                        Label("screen.settings.roadmap.navigation.title", systemImage: "list.bullet")
+                        Label("screen.settings.roadmap.navigation.title", systemImage: "list.bullet.circle.fill")
                             .settingsRowAccent(Color.purple)
                     }
 

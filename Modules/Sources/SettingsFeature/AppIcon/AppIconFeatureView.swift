@@ -23,10 +23,18 @@ struct AppIconFeatureNavigationLink: View {
                     Label {
                         Text("screen.settings.appIcon.navigation.title")
                     } icon: {
-                        ScaledAppIconPreviewView(
-                            imageName: viewStore.currentIcon.or(.plain(.standard)).previewImageName,
-                            size: 28
-                        )
+                        SettingsRowIcon(fill: .green) {
+                            Image(systemName: "info.circle.fill")
+                        }
+                        .hidden()
+                        .overlay {
+                            GeometryReader { proxy in
+                                AppIconPreviewView(
+                                    imageName: viewStore.currentIcon.or(.plain(.standard)).previewImageName,
+                                    size: proxy.size.width
+                                )
+                            }
+                        }
                     }
                 }
             }
