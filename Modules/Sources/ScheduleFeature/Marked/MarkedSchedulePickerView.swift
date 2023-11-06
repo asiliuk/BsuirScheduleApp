@@ -45,6 +45,7 @@ struct MarkedSchedulePickerView: View {
 }
 
 private extension MarkedSchedulePickerView.ViewState {
+    @ViewBuilder
     var label: some View {
         switch self {
         case .pinned:
