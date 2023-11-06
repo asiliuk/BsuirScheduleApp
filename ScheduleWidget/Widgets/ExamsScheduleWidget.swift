@@ -66,9 +66,7 @@ struct ExamsScheduleWidgetEntryView: View {
     ExamsScheduleWidget()
 } timeline: {
     let entry = ExamsScheduleEntry.preview
-    return [
-        entry,
-        mutating(entry) { $0.config.content = .exams() },
-        mutating(entry) { $0.config.content = .noPinned }
-    ]
+    entry
+    mutating(entry) { $0.config.content = .exams() }
+    mutating(entry) { $0.config.content = .noPinned }
 }
