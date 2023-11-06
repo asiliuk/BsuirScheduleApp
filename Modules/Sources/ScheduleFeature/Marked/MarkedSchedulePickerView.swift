@@ -18,17 +18,22 @@ struct MarkedSchedulePickerView: View {
 
     var body: some View {
         WithViewStore(store, observe: ViewState.init, send: MarkedScheduleFeature.Action.init) { viewStore in
-            Picker(
-                "screen.schedule.mark.title",
-                selection: viewStore.binding(
-                    get: { $0 },
-                    send: { .setSelection($0) }
-                )
-            ) {
-                ForEach(ViewState.allCases) { $0.label(selected: $0 == viewStore.state) }
+            Menu {
+                Picker(
+                    "screen.schedule.mark.title",
+                    selection: viewStore.binding(
+                        get: { $0 },
+                        send: { .setSelection($0) }
+                    )
+                ) {
+                    ForEach(ViewState.allCases) { $0.label }
+                }
+            } label: {
+                viewStore.state.label
+                    .symbolVariant(.fill)
             }
             .task { await store.send(.task).finish() }
-            .accentColor(viewStore.tint)
+            .tint(viewStore.tint)
             .alert(
                 store: store.scope(
                     state: \.$alert,
@@ -40,13 +45,12 @@ struct MarkedSchedulePickerView: View {
 }
 
 private extension MarkedSchedulePickerView.ViewState {
-    @ViewBuilder
-    func label(selected: Bool) -> some View {
+    var label: some View {
         switch self {
         case .pinned:
-            Label("screen.schedule.mark.pin", systemImage: selected ? "pin.fill" : "pin")
+            Label("screen.schedule.mark.pin", systemImage: "pin")
         case .favorite:
-            Label("screen.schedule.mark.favorite", systemImage: selected ? "star.fill" : "star")
+            Label("screen.schedule.mark.favorite", systemImage: "star")
         case .nothing:
             Label("screen.schedule.mark.dontSave", systemImage: "square.dashed")
         }
