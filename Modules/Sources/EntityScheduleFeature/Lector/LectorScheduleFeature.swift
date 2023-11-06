@@ -13,7 +13,7 @@ public struct LectorScheduleFeature: Reducer {
 
         public init(
             lector: Employee,
-            showSubgroupPicker: Bool = false,
+            showScheduleMark: Bool = true,
             scheduleDisplayType: ScheduleDisplayType = .continuous
         ) {
             self.schedule = .init(
@@ -21,7 +21,7 @@ public struct LectorScheduleFeature: Reducer {
                 source: .lector(lector),
                 value: lector.urlId,
                 pairRowDetails: .groups,
-                showSubgroupPicker: showSubgroupPicker,
+                showScheduleMark: showScheduleMark,
                 scheduleDisplayType: scheduleDisplayType
             )
             self.lector = lector

@@ -13,7 +13,7 @@ public struct GroupScheduleFeature: Reducer {
 
         public init(
             groupName: String,
-            showSubgroupPicker: Bool = false,
+            showScheduleMark: Bool = true,
             scheduleDisplayType: ScheduleDisplayType = .continuous
         ) {
             self.schedule = .init(
@@ -21,7 +21,7 @@ public struct GroupScheduleFeature: Reducer {
                 source: .group(name: groupName),
                 value: groupName,
                 pairRowDetails: .lecturers,
-                showSubgroupPicker: showSubgroupPicker,
+                showScheduleMark: showScheduleMark,
                 scheduleDisplayType: scheduleDisplayType
             )
             self.groupName = groupName

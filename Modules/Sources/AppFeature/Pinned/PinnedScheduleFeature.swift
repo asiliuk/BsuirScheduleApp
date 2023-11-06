@@ -13,9 +13,9 @@ public struct PinnedScheduleFeature: Reducer {
         init(pinned: ScheduleSource) {
             switch pinned {
             case .group(let name):
-                entitySchedule = .group(.init(groupName: name, showSubgroupPicker: true))
+                entitySchedule = .group(.init(groupName: name, showScheduleMark: false))
             case .lector(let employee):
-                entitySchedule = .lector(.init(lector: employee, showSubgroupPicker: true))
+                entitySchedule = .lector(.init(lector: employee, showScheduleMark: false))
             }
         }
     }
