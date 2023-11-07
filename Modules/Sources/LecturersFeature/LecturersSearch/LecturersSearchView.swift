@@ -19,7 +19,7 @@ struct LecturersSearchViewModifier: ViewModifier {
                     text: viewStore.$query,
                     prompt: Text("screen.lecturers.search.placeholder")
                 )
-                .task(id: viewStore.query, throttleFor: .milliseconds(300)) {
+                .task(id: viewStore.query) {
                     await viewStore.send(.filter, animation: .default).finish()
                 }
         }
