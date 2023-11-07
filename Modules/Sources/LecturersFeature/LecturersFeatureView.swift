@@ -94,7 +94,7 @@ private struct LecturersLoadingPlaceholder: View {
 
         init(state: LecturersFeature.State) {
             self.hasPinned = state.pinned != nil
-            self.numberOfFavorites = state.favoriteIds.count
+            self.numberOfFavorites = state.favoritesPlaceholderCount
         }
     }
 

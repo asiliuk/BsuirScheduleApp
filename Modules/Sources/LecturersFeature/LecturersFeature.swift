@@ -15,21 +15,17 @@ public struct LecturersFeature: Reducer {
         @LoadableState var lecturers: IdentifiedArrayOf<LecturersRow.State>?
         fileprivate(set) var isOnTop: Bool = true
 
-        var favorites: IdentifiedArrayOf<LecturersRow.State> {
-            get {
-                IdentifiedArray(uniqueElements: favoriteIds.compactMap({ lecturers?[id: $0] }))
-            }
-            set {
-                favoriteIds = newValue.ids
-            }
-        }
+        var pinned: LecturersRow.State?
+        var favorites: IdentifiedArrayOf<LecturersRow.State> = []
 
-        var pinned: LecturersRow.State? = {
+        fileprivate var pinnedLector: Employee? = {
             @Dependency(\.favorites.currentPinnedSchedule) var pinned
-            return (pinned?.lector).map(LecturersRow.State.init(lector:))
+            return pinned?.lector
         }()
 
-        var favoriteIds: OrderedSet<Int> = {
+        var favoritesPlaceholderCount: Int { favoriteIds.count }
+
+        fileprivate var favoriteIds: OrderedSet<Int> = {
             @Dependency(\.favorites.currentLectorIds) var currentLectorIds
             return currentLectorIds
         }()
@@ -79,7 +75,6 @@ public struct LecturersFeature: Reducer {
         }
         .forEach(\.favorites, action: /Action.favorite) {
             LecturersRow()
-
         }
         .ifLet(\.lecturers, action: /Action.lector) {
             EmptyReducer<IdentifiedArrayOf<LecturersRow.State>, _>()
@@ -128,23 +123,31 @@ public struct LecturersFeature: Reducer {
 
         case .loading(.started(\.$loadedLecturers)):
             filteredLecturers(state: &state)
+            filteredFavorites(state: &state)
+            filteredPinned(state: &state)
             return .none
 
         case .loading(.finished(\.$loadedLecturers)):
             filteredLecturers(state: &state)
+            filteredFavorites(state: &state)
+            filteredPinned(state: &state)
             state.openLectorIfNeeded()
             return .none
 
         case .search(.delegate(.didUpdateImportantState)):
             filteredLecturers(state: &state)
+            filteredFavorites(state: &state)
+            filteredPinned(state: &state)
             return .none
 
         case let ._favoritesUpdate(value):
             state.favoriteIds = value
+            filteredFavorites(state: &state)
             return .none
 
         case let ._pinnedUpdate(value):
-            state.pinned = value.map(LecturersRow.State.init(lector:))
+            state.pinnedLector = value
+            filteredPinned(state: &state)
             return .none
 
         case .favorite(_, .mark(.delegate(let action))),
@@ -181,7 +184,17 @@ public struct LecturersFeature: Reducer {
                 )
             }
     }
-    
+
+    private func filteredFavorites(state: inout State) {
+        state.favorites = IdentifiedArray(
+            uniqueElements: state.favoriteIds.compactMap({ state.lecturers?[id: $0] })
+        )
+    }
+
+    private func filteredPinned(state: inout State) {
+        state.pinned = state.pinnedLector.flatMap { state.lecturers?[id: $0.id] }
+    }
+
     private func listenToFavoriteUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.lecturerIds.values {
