@@ -17,9 +17,10 @@ struct WidgetsSectionView: View {
                             targetSize: CGSize(width: widgetPreviewSize / 2, height: widgetPreviewSize / 2)
                         )
                         widgetPreview(
-                            for: PinnedScheduleWidgetSmallView(config: .preview, date: .now),
+                            for: ExamsScheduleWidgetSmallView(config: .preview),
                             ofSize: CGSize(width: 170, height: 170),
-                            targetSize: CGSize(width: widgetPreviewSize / 2, height: widgetPreviewSize / 2)
+                            targetSize: CGSize(width: widgetPreviewSize / 2, height: widgetPreviewSize / 2),
+                            addPadding: false
                         )
                     }
 
@@ -38,16 +39,26 @@ struct WidgetsSectionView: View {
         }
     }
 
-    private func widgetPreview(for widget: some View, ofSize size: CGSize, targetSize: CGSize) -> some View {
+    @ViewBuilder
+    private func widgetPreview(
+        for widget: some View,
+        ofSize size: CGSize,
+        targetSize: CGSize,
+        addPadding: Bool = true
+    ) -> some View {
         let scale = targetSize.height / size.height
-        return widget
-            .padding()
-            .frame(width: size.width, height: size.height)
-            .background {
-                RoundedRectangle(cornerRadius: size.height * 0.11, style: .continuous)
-                    .fill(Color(uiColor: .systemBackground))
+        let backgroundShape = RoundedRectangle(cornerRadius: size.height * 0.11, style: .continuous)
+        Group {
+            if addPadding {
+                widget.padding()
+            } else {
+                widget
             }
-            .scaleEffect(x: scale, y: scale)
-            .frame(width: targetSize.width, height: targetSize.height)
+        }
+        .frame(width: size.width, height: size.height)
+        .background { backgroundShape.fill(Color(uiColor: .systemBackground)) }
+        .clipShape(backgroundShape)
+        .scaleEffect(x: scale, y: scale)
+        .frame(width: targetSize.width, height: targetSize.height)
     }
 }
