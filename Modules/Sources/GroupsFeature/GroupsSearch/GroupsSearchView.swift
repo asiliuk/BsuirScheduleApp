@@ -19,7 +19,7 @@ struct GroupsSearchViewModifier: ViewModifier {
                     text: viewStore.$query,
                     prompt: Text("screen.groups.search.placeholder")
                 )
-                .task(id: viewStore.query, throttleFor: .milliseconds(300)) {
+                .task(id: viewStore.query) {
                     await viewStore.send(.filter, animation: .default).finish()
                 }
         }

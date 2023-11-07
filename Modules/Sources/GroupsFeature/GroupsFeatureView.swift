@@ -55,6 +55,15 @@ private struct LoadingGroupsView: View {
             }
             .listStyle(.insetGrouped)
             .refreshable { await store.send(.refresh).finish() }
+            .overlay {
+                if #available(iOS 17, *) {
+                    WithViewStore(store.loaded(), observe: \.isEmpty) { viewStore in
+                        if viewStore.state {
+                            ContentUnavailableView.search
+                        }
+                    }
+                }
+            }
             .groupsSearchable(store: self.store.scope(state: \.search, action: { .search($0) }))
         } loading: {
             GroupsLoadingPlaceholder(store: store)
