@@ -44,7 +44,7 @@ public struct GroupsSearch: Reducer {
 // MARK: - Update
 
 extension GroupsSearch.State {
-    mutating func updateSuggestedTokens(for groups: [StudentGroup]) {
+    mutating func updateSuggestedTokens(for groups: IdentifiedArray<String, StudentGroup>) {
         suggestedTokens = {
             switch tokens.last {
             case nil:

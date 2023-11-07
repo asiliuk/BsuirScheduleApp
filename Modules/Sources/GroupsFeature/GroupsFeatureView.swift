@@ -72,8 +72,8 @@ private struct GroupsLoadingPlaceholder: View {
         let numberOfFavorites: Int
 
         init(state: GroupsFeature.State) {
-            self.hasPinned = state.pinned != nil
-            self.numberOfFavorites = state.favorites?.groupRows.count ?? 0
+            self.hasPinned = state.hasPinnedPlaceholder
+            self.numberOfFavorites = state.favoritesPlaceholderCount
         }
     }
     var body: some View {

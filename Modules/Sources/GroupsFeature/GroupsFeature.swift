@@ -34,22 +34,30 @@ public struct GroupsFeature: Reducer {
         var groupPresentationMode: GroupPresentationMode = .initial
 
         var path = StackState<EntityScheduleFeature.State>()
+        
+        var favorites: GroupsSection.State?
+        var pinned: GroupsSection.State?
         @LoadableState var sections: IdentifiedArrayOf<GroupsSection.State>?
+
         var search: GroupsSearch.State = .init()
         var isOnTop: Bool = true
 
-        fileprivate(set) var pinned: GroupsSection.State? = {
+        var hasPinnedPlaceholder: Bool { pinnedName != nil }
+
+        fileprivate var pinnedName: String? = {
             @Dependency(\.favorites.currentPinnedSchedule) var pinned
-            return (pinned?.groupName).flatMap(GroupsSection.State.pinned)
+            return pinned?.groupName
         }()
 
-        fileprivate(set) var favorites: GroupsSection.State? = {
+        var favoritesPlaceholderCount: Int { favoriteNames.count }
+
+        fileprivate var favoriteNames: OrderedSet<String> = {
             @Dependency(\.favorites.currentGroupNames) var favorites
-            return .favorites(Array(favorites))
+            return favorites
         }()
 
-        @LoadableState var loadedGroups: [StudentGroup]?
-        
+        @LoadableState var loadedGroups: IdentifiedArray<String, StudentGroup>?
+
         public init() {}
     }
     
@@ -111,18 +119,24 @@ public struct GroupsFeature: Reducer {
             case .loading(.started(\.$loadedGroups)),
                  .loading(.finished(\.$loadedGroups)):
                 filteredGroups(state: &state)
+                filteredFavorites(state: &state)
+                filteredPinned(state: &state)
                 return .none
 
             case let ._favoritesUpdate(value):
-                state.favorites = .favorites(Array(value))
+                state.favoriteNames = value
+                filteredFavorites(state: &state)
                 return .none
 
             case let ._pinnedUpdate(value):
-                state.pinned = value.flatMap(GroupsSection.State.pinned)
+                state.pinnedName = value
+                filteredPinned(state: &state)
                 return .none
 
             case .search(.delegate(.didUpdateImportantState)):
                 filteredGroups(state: &state)
+                filteredFavorites(state: &state)
+                filteredPinned(state: &state)
                 return .none
 
             case .pinned(.groupRow(_, .mark(.delegate(let action)))),
@@ -161,7 +175,9 @@ public struct GroupsFeature: Reducer {
                     GroupsSection()
                 }
         }
-        .load(\.$loadedGroups) { _, isRefresh in try await apiClient.groups(isRefresh) }
+        .load(\.$loadedGroups) { _, isRefresh in 
+            try await IdentifiedArray(uniqueElements: apiClient.groups(isRefresh), id: \.name)
+        }
         .forEach(\.path, action: /Action.path) {
             EntityScheduleFeature()
         }
@@ -180,9 +196,25 @@ public struct GroupsFeature: Reducer {
                     .makeSections()
             }
 
-        state.search.updateSuggestedTokens(for: state.loadedGroups ?? [])
+        state.search.updateSuggestedTokens(for: state.loadedGroups ?? .init(id: \.name))
     }
-    
+
+    private func filteredFavorites(state: inout State) {
+        state.favorites = .favorites(
+            state.favoriteNames
+                .compactMap { state.loadedGroups?[id: $0] }
+                .filter(state.search.matches(group:))
+                .map(\.name)
+        )
+    }
+
+    private func filteredPinned(state: inout State) {
+        state.pinned = state.pinnedName
+            .flatMap { state.loadedGroups?[id: $0] }
+            .flatMap { state.search.matches(group: $0) ? $0 : nil }
+            .flatMap { .pinned($0.name) }
+    }
+
     private func listenToFavoriteUpdates() -> Effect<Action> {
         return .run { send in
             for await value in favorites.groupNames.values {
