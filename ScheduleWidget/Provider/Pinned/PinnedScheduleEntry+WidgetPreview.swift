@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 import BsuirUI
 
@@ -108,4 +107,3 @@ extension PinnedScheduleEntry {
         )
     )
 }
-#endif
