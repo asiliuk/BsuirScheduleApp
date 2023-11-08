@@ -4,18 +4,13 @@ import BsuirUI
 import ScheduleCore
 import Foundation
 import Deeplinking
+import BsuirApi
 
 extension PinnedScheduleEntry {
     init?(_ response: MostRelevantPinnedScheduleResponse, at date: Date) {
         // Filter pairs based on subgroup
-        let pairs: [WeekSchedule.ScheduleElement.Pair]
-        if let subgroup = response.subgroup {
-            pairs = response.schedule.pairs.filter { pair in
-                pair.base.subgroup == 0 || pair.base.subgroup == subgroup
-            }
-        } else {
-            pairs = response.schedule.pairs
-        }
+        let pairs = response.schedule.pairs
+            .filter { $0.base.isSuitable(forSubgroup: response.subgroup) }
 
         // Find and split array by pair that is now in progress
         guard let index = pairs.firstIndex(where: { $0.end > date }) else { return nil }
@@ -36,6 +31,15 @@ extension PinnedScheduleEntry {
                 )
             )
         )
+    }
+}
+
+// MARK: - Pair Subgroup
+
+extension Pair {
+    func isSuitable(forSubgroup subgroup: Int?) -> Bool {
+        guard self.subgroup != 0, let subgroup else { return true }
+        return self.subgroup == subgroup
     }
 }
 

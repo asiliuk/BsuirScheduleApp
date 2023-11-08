@@ -11,7 +11,10 @@ extension ExamsScheduleEntry {
         _ response: MostRelevantExamsScheduleResponse,
         at date: Date
     ) {
-        let relevantPairs = response.exams.filter { $0.end > date }
+        // Filter pairs based on subgroup
+        let relevantPairs = response.exams.lazy
+            .filter { $0.pair.isSuitable(forSubgroup: response.subgroup) }
+            .filter { $0.end > date }
 
         guard let firstPair = relevantPairs.first else { return nil }
 
