@@ -5,6 +5,11 @@ public struct ExamsScheduleWidgetConfiguration {
     public struct ExamDay: Equatable {
         public var date: Date
         public var pairs: [PairViewModel]
+
+        public init(date: Date, pairs: [PairViewModel]) {
+            self.date = date
+            self.pairs = pairs
+        }
     }
 
     public enum Content {
@@ -36,6 +41,10 @@ extension ExamsScheduleWidgetConfiguration {
 
     public static func noPinned(deeplink: URL? = nil) -> Self {
         Self(deeplink: deeplink, title: "---", content: .noPinned)
+    }
+
+    public static func empty(title: String, deeplink: URL? = nil) -> Self {
+        Self(deeplink: deeplink, title: title, content: .exams(days: []))
     }
 }
 

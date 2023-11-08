@@ -12,15 +12,105 @@ import Dependencies
 final class ExamsScheduleProvider: TimelineProvider {
     typealias Entry = ExamsScheduleEntry
 
-    func placeholder(in context: Context) -> ExamsScheduleEntry {
-        .preview
+    func placeholder(in context: Context) -> Entry {
+        .placeholder
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (ExamsScheduleEntry) -> Void) {
-        completion(.preview)
+    func getSnapshot(in context: Context, completion: @escaping (Entry) -> Void) {
+        requestSnapshot = Task {
+            func completeCheckingPreview(with entry: ExamsScheduleEntry) {
+                completion(context.isPreview ? .preview : entry)
+            }
+
+            guard premiumService.isCurrentlyPremium else {
+                return completeCheckingPreview(with: .premiumLocked)
+            }
+
+            guard let pinnedSchedule = favoritesService.currentPinnedSchedule else {
+                return completeCheckingPreview(with: .noPinned)
+            }
+
+            guard let schedule = try? await fetchExams(for: pinnedSchedule) else {
+                return completion(.preview)
+            }
+
+            guard let entry = Entry(schedule, at: now) else {
+                return completeCheckingPreview(with: .emptyPinned(title: schedule.title))
+            }
+
+            completion(entry)
+        }
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<ExamsScheduleEntry>) -> Void) {
-        completion(.init(entries: [.preview], policy: .never))
+        @Sendable func completeCheckingPreview(with entry: Entry) {
+            completion(.init(entries: [context.isPreview ? .preview : entry], policy: .never) )
+        }
+
+        guard premiumService.isCurrentlyPremium else {
+            return completeCheckingPreview(with: .premiumLocked)
+        }
+
+        guard let pinnedSchedule = favoritesService.currentPinnedSchedule else {
+            return completeCheckingPreview(with: .noPinned)
+        }
+
+        requestTimeline = Task {
+            guard let response = try? await fetchExams(for: pinnedSchedule) else {
+                return completion(.init(entries: [], policy: .after(Date().advanced(by: 5 * 60))))
+            }
+
+            guard let timeline = Timeline(response, now: now, calendar: calendar) else {
+                return completeCheckingPreview(with: .emptyPinned(title: response.title))
+            }
+
+            completion(timeline)
+        }
+    }
+
+    private func fetchExams(for source: ScheduleSource) async throws -> MostRelevantExamsScheduleResponse {
+        switch source {
+        case .group(let name):
+            let schedule = try await apiClient.groupSchedule(name, false)
+            return MostRelevantExamsScheduleResponse(
+                deeplink: .group(name: name, displayType: .exams),
+                title: schedule.studentGroup.name,
+                subgroup: preferredSubgroup(for: source),
+                exams: schedule.examSchedules,
+                calendar: calendar
+            )
+        case .lector(let employee):
+            let schedule = try await apiClient.lecturerSchedule(employee.urlId, false)
+            return MostRelevantExamsScheduleResponse(
+                deeplink: .lector(id: schedule.employee.id, displayType: .exams),
+                title: schedule.employee.compactFio,
+                subgroup: preferredSubgroup(for: source),
+                exams: schedule.examSchedules ?? [],
+                calendar: calendar
+            )
+        }
+    }
+
+    private func preferredSubgroup(for source: ScheduleSource) -> Int? {
+        subgroupFilterService.preferredSubgroup(source).value
+    }
+
+    deinit {
+        requestSnapshot?.cancel()
+        requestTimeline?.cancel()
+    }
+
+    @Dependency(\.apiClient) private var apiClient
+    @Dependency(\.favorites) private var favoritesService
+    @Dependency(\.premiumService) private var premiumService
+    @Dependency(\.subgroupFilterService) private var subgroupFilterService
+    @Dependency(\.calendar) private var calendar
+    @Dependency(\.date.now) private var now
+
+    private var requestSnapshot: Task<Void, Never>? {
+        didSet { oldValue?.cancel() }
+    }
+    private var requestTimeline: Task<Void, Never>? {
+        didSet { oldValue?.cancel() }
     }
 }

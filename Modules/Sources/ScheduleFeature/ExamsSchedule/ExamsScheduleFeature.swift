@@ -8,13 +8,9 @@ import Dependencies
 public struct ExamsScheduleFeature: Reducer {
     public struct State: Equatable {
         var scheduleList = ScheduleListFeature.State(days: [], loading: .never)
-        private let startDate: Date?
-        private let endDate: Date?
         private var pairRowDetails: PairRowDetails?
 
         init(exams: [Pair], startDate: Date?, endDate: Date?, pairRowDetails: PairRowDetails?) {
-            self.startDate = startDate
-            self.endDate = endDate
             self.pairRowDetails = pairRowDetails
 
             @Dependency(\.calendar) var calendar

@@ -23,23 +23,9 @@ extension PinnedScheduleEntry {
         let upcomingPairs = pairs[index...]
         guard let firstUpcomingPair = upcomingPairs.first else { return nil }
 
-        var relevance: TimelineEntryRelevance?
-        let timeToFirstPair = firstUpcomingPair.start.timeIntervalSince(date)
-        let relevanceInterval: TimeInterval = 10 * 60
-        if timeToFirstPair > 0, timeToFirstPair < relevanceInterval {
-            // Score should increase and be maximum when Pair starts
-            // relevance interval is 10min so it is going to be
-            // 1 -> 10 min before
-            // 2 -> 5 min before
-            // 3 -> when Pair starts
-            let score = ((relevanceInterval - timeToFirstPair) / 5 * 60) + 1
-
-            relevance = TimelineEntryRelevance(score: Float(score), duration: timeToFirstPair)
-        }
-
         self.init(
             date: date,
-            relevance: relevance,
+            relevance: TimelineEntryRelevance(date: date, firstPairStart: firstUpcomingPair.start),
             config: PinnedScheduleWidgetConfiguration(
                 deeplink: deeplinkRouter.url(for: response.deeplink),
                 title: response.title,
@@ -50,6 +36,25 @@ extension PinnedScheduleEntry {
                 )
             )
         )
+    }
+}
+
+// MARK: - TimelineEntryRelevance
+
+extension TimelineEntryRelevance {
+    init?(date: Date, firstPairStart: Date) {
+        let timeToFirstPair = firstPairStart.timeIntervalSince(date)
+        let relevanceInterval: TimeInterval = 10 * 60
+
+        guard timeToFirstPair > 0, timeToFirstPair < relevanceInterval else { return nil }
+        
+        // Score should increase and be maximum when Pair starts
+        // relevance interval is 10min so it is going to be
+        // 1 -> 10 min before
+        // 2 -> 5 min before
+        // 3 -> when Pair starts
+        let score = ((relevanceInterval - timeToFirstPair) / 5 * 60) + 1
+        self.init(score: Float(score), duration: timeToFirstPair)
     }
 }
 

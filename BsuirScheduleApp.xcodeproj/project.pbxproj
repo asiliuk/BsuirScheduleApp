@@ -17,6 +17,8 @@
 		E654467829296CF000881956 /* Deeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = E654467729296CF000881956 /* Deeplinking */; };
 		E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */ = {isa = PBXBuildFile; productRef = E6611ABC293A8B59006E322B /* ScheduleCore */; };
 		E6648AEE2A8A076800D8736D /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6648AED2A8A076800D8736D /* SnapshotHelper.swift */; };
+		E68D48422AFACE30007A6E94 /* MostRelevantExamsScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68D48412AFACE30007A6E94 /* MostRelevantExamsScheduleResponse.swift */; };
+		E68D48442AFAD02D007A6E94 /* ExamsScheduleEntry+MostRelevant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68D48432AFAD02D007A6E94 /* ExamsScheduleEntry+MostRelevant.swift */; };
 		E6972D1A287B4A550003506F /* BsuirApi in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D19287B4A550003506F /* BsuirApi */; };
 		E6972D1C287B4A550003506F /* BsuirUI in Frameworks */ = {isa = PBXBuildFile; productRef = E6972D1B287B4A550003506F /* BsuirUI */; };
 		E69C56552A8A791D004C71D2 /* 010101.json in Resources */ = {isa = PBXBuildFile; fileRef = E69C56542A8A791D004C71D2 /* 010101.json */; };
@@ -92,6 +94,8 @@
 		E64AF1732A9B6DD2002C8419 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
 		E6648AED2A8A076800D8736D /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
+		E68D48412AFACE30007A6E94 /* MostRelevantExamsScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostRelevantExamsScheduleResponse.swift; sourceTree = "<group>"; };
+		E68D48432AFAD02D007A6E94 /* ExamsScheduleEntry+MostRelevant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExamsScheduleEntry+MostRelevant.swift"; sourceTree = "<group>"; };
 		E69C56542A8A791D004C71D2 /* 010101.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 010101.json; sourceTree = "<group>"; };
 		E6AA8D0F25162F1A00788A02 /* ScheduleWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6AA8D1025162F1A00788A02 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -292,8 +296,10 @@
 		E6FF860C2AF67A210092D25A /* Exams */ = {
 			isa = PBXGroup;
 			children = (
-				E633DC192AF2F5B50059A250 /* ExamsScheduleProvider.swift */,
 				E6FF860D2AF67AA50092D25A /* ExamsScheduleEntry.swift */,
+				E68D48432AFAD02D007A6E94 /* ExamsScheduleEntry+MostRelevant.swift */,
+				E68D48412AFACE30007A6E94 /* MostRelevantExamsScheduleResponse.swift */,
+				E633DC192AF2F5B50059A250 /* ExamsScheduleProvider.swift */,
 			);
 			path = Exams;
 			sourceTree = "<group>";
@@ -462,8 +468,10 @@
 				E633DC152AF2F1030059A250 /* PinnedScheduleWidget.swift in Sources */,
 				E633DC182AF2F4900059A250 /* ExamsScheduleWidget.swift in Sources */,
 				E6B33E8729A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift in Sources */,
+				E68D48442AFAD02D007A6E94 /* ExamsScheduleEntry+MostRelevant.swift in Sources */,
 				E6FF860E2AF67AA50092D25A /* ExamsScheduleEntry.swift in Sources */,
 				E633DC1C2AF2F64E0059A250 /* PinnedScheduleEntry+WidgetPreview.swift in Sources */,
+				E68D48422AFACE30007A6E94 /* MostRelevantExamsScheduleResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

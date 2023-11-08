@@ -12,11 +12,11 @@ import Dependencies
 final class PinnedScheduleProvider: TimelineProvider {
     typealias Entry = PinnedScheduleEntry
 
-    func placeholder(in context: Context) -> PinnedScheduleEntry {
+    func placeholder(in context: Context) -> Entry {
         .placeholder
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (PinnedScheduleEntry) -> Void) {
+    func getSnapshot(in context: Context, completion: @escaping (Entry) -> Void) {
         requestSnapshot = Task {
             func completeCheckingPreview(with entry: PinnedScheduleEntry) {
                 completion(context.isPreview ? .preview : entry)
@@ -41,8 +41,8 @@ final class PinnedScheduleProvider: TimelineProvider {
         }
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<PinnedScheduleEntry>) -> Void) {
-        func completeCheckingPreview(with entry: PinnedScheduleEntry) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
+        @Sendable func completeCheckingPreview(with entry: Entry) {
             completion(.init(entries: [context.isPreview ? .preview : entry], policy: .never))
         }
 
@@ -101,8 +101,8 @@ final class PinnedScheduleProvider: TimelineProvider {
     @Dependency(\.favorites) private var favoritesService
     @Dependency(\.premiumService) private var premiumService
     @Dependency(\.subgroupFilterService) private var subgroupFilterService
+    @Dependency(\.calendar) private var calendar
 
-    private let calendar = Calendar.current
     private var requestSnapshot: Task<Void, Never>? {
         didSet { oldValue?.cancel() }
     }
