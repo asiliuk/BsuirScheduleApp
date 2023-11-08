@@ -33,6 +33,14 @@ extension MostRelevantExamsScheduleResponse {
     }
 }
 
+extension MostRelevantExamsScheduleResponse {
+    func relevantPairs(at date: Date) -> [ExamPair] {
+        exams.lazy
+            .filter { $0.pair.isSuitable(forSubgroup: subgroup) }
+            .filter { $0.end > date }
+    }
+}
+
 private extension MostRelevantExamsScheduleResponse.ExamPair {
     init?(pair: Pair, calendar: Calendar) {
         guard

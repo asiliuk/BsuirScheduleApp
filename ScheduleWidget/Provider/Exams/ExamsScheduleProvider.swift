@@ -17,27 +17,34 @@ final class ExamsScheduleProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (Entry) -> Void) {
-        requestSnapshot = Task {
+        requestSnapshot = Task.detached(priority: .userInitiated) { [unowned self] in
             func completeCheckingPreview(with entry: ExamsScheduleEntry) {
                 completion(context.isPreview ? .preview : entry)
             }
 
+            os_log(.info, log: .examsProvider, "getSnapshot started")
+
             guard premiumService.isCurrentlyPremium else {
+                os_log(.info, log: .examsProvider, "getSnapshot no premium")
                 return completeCheckingPreview(with: .premiumLocked)
             }
 
             guard let pinnedSchedule = favoritesService.currentPinnedSchedule else {
+                os_log(.info, log: .examsProvider, "getSnapshot no pinned")
                 return completeCheckingPreview(with: .noPinned)
             }
 
             guard let schedule = try? await fetchExams(for: pinnedSchedule) else {
+                os_log(.info, log: .examsProvider, "getSnapshot failed to fetch")
                 return completion(.preview)
             }
 
             guard let entry = Entry(schedule, at: now) else {
+                os_log(.info, log: .examsProvider, "getSnapshot failed to create entry")
                 return completeCheckingPreview(with: .emptyPinned(title: schedule.title))
             }
 
+            os_log(.info, log: .examsProvider, "getSnapshot success")
             completion(entry)
         }
     }
@@ -47,23 +54,30 @@ final class ExamsScheduleProvider: TimelineProvider {
             completion(.init(entries: [context.isPreview ? .preview : entry], policy: .never) )
         }
 
+        os_log(.info, log: .examsProvider, "getTimeline started")
+
         guard premiumService.isCurrentlyPremium else {
+            os_log(.info, log: .examsProvider, "getTimeline no premium")
             return completeCheckingPreview(with: .premiumLocked)
         }
 
         guard let pinnedSchedule = favoritesService.currentPinnedSchedule else {
+            os_log(.info, log: .examsProvider, "getTimeline no pinned")
             return completeCheckingPreview(with: .noPinned)
         }
 
-        requestTimeline = Task {
+        requestTimeline = Task.detached(priority: .userInitiated) { [unowned self] in
             guard let response = try? await fetchExams(for: pinnedSchedule) else {
+                os_log(.info, log: .examsProvider, "getTimeline failed to fetch")
                 return completion(.init(entries: [], policy: .after(Date().advanced(by: 5 * 60))))
             }
 
             guard let timeline = Timeline(response, now: now, calendar: calendar) else {
+                os_log(.info, log: .examsProvider, "getTimeline failed to create timeline")
                 return completeCheckingPreview(with: .emptyPinned(title: response.title))
             }
 
+            os_log(.info, log: .examsProvider, "getTimeline success, entries: \(timeline.entries.count)")
             completion(timeline)
         }
     }
@@ -113,4 +127,10 @@ final class ExamsScheduleProvider: TimelineProvider {
     private var requestTimeline: Task<Void, Never>? {
         didSet { oldValue?.cancel() }
     }
+}
+
+import OSLog
+
+private extension OSLog {
+    static let examsProvider = bsuirSchedule(category: "Exams Provider")
 }

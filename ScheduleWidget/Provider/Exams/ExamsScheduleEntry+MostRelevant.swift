@@ -11,11 +11,22 @@ extension ExamsScheduleEntry {
         _ response: MostRelevantExamsScheduleResponse,
         at date: Date
     ) {
-        // Filter pairs based on subgroup
-        let relevantPairs = response.exams.lazy
-            .filter { $0.pair.isSuitable(forSubgroup: response.subgroup) }
-            .filter { $0.end > date }
+        self.init(
+            relevantPairs: response.relevantPairs(at: date),
+            at: date,
+            title: response.title,
+            subgroup: response.subgroup,
+            deeplink: response.deeplink
+        )
+    }
 
+    init?(
+        relevantPairs: [MostRelevantExamsScheduleResponse.ExamPair],
+        at date: Date,
+        title: String,
+        subgroup: Int?,
+        deeplink: Deeplink
+    ) {
         guard let firstPair = relevantPairs.first else { return nil }
 
         let days = Dictionary(grouping: relevantPairs, by: \.date)
@@ -37,9 +48,9 @@ extension ExamsScheduleEntry {
             date: date,
             relevance: TimelineEntryRelevance(date: date, firstPairStart: firstPair.start),
             config: ExamsScheduleWidgetConfiguration(
-                deeplink: deeplinkRouter.url(for: response.deeplink),
-                title: response.title,
-                subgroup: response.subgroup,
+                deeplink: deeplinkRouter.url(for: deeplink),
+                title: title,
+                subgroup: subgroup,
                 content: .exams(days: days)
             )
         )
@@ -50,33 +61,42 @@ extension ExamsScheduleEntry {
 
 extension Timeline where EntryType == ExamsScheduleEntry {
     init?(_ response: MostRelevantExamsScheduleResponse, now: Date, calendar: Calendar) {
-        guard let firstRelevantIndex = response.exams.firstIndex(where: { $0.end > now }) else {
+        let relevantPairs = response.relevantPairs(at: now)
+
+        guard let relevantDate = relevantPairs.first?.date else {
             // All exams have passed now
             return nil
         }
 
-        // Generate entries only for first day and then update daily
-        let relevantDate = response.exams[firstRelevantIndex].date
-        let relevantExams = response.exams[firstRelevantIndex...]
+        // Generate entries only for first two pairs of same day to reduce load on widget kit
+        let timelinePairs = relevantPairs
             .prefix(while: { calendar.isDate($0.date, inSameDayAs: relevantDate) })
+            .prefix(2)
 
-        // Generate snapshot for every 10 minutes interval in-between exams start & end dates
+        // Generate snapshot for every 15 minutes interval in-between exams start & end dates
         // This will allow widget to show proper progress with 10 minutes precision
-        var dates = relevantExams.flatMap { pair in
+        var dates = timelinePairs.flatMap { pair in
             stride(
                 from: pair.start.timeIntervalSince1970,
                 through: pair.end.timeIntervalSince1970,
-                by: 10 * 60
+                by: 15 * 60
             ).map { Date(timeIntervalSince1970: $0) }
         }
 
         // Generate initial snapshot for now as well
         // otherwise it could stuck in placeholder state until pairs start
-        dates.prepend(.now)
-
+        dates.prepend(now)
 
         self.init(
-            entries: dates.compactMap { ExamsScheduleEntry(response, at: $0) },
+            entries: dates.compactMap { date in
+                ExamsScheduleEntry(
+                    relevantPairs: relevantPairs,
+                    at: date,
+                    title: response.title,
+                    subgroup: response.subgroup,
+                    deeplink: response.deeplink
+                )
+            },
             policy: .atEnd
         )
     }
