@@ -8,8 +8,10 @@ import BsuirApi
 
 extension PinnedScheduleEntry {
     init?(_ response: MostRelevantPinnedScheduleResponse, at date: Date) {
+        guard let schedule = response.schedule else { return nil }
+        
         // Filter pairs based on subgroup
-        let pairs = response.schedule.pairs
+        let pairs = schedule.pairs
             .filter { $0.base.isSuitable(forSubgroup: response.subgroup) }
 
         // Find and split array by pair that is now in progress
@@ -65,10 +67,12 @@ extension TimelineEntryRelevance {
 // MARK: - Timeline
 
 extension Timeline where EntryType == PinnedScheduleEntry {
-    init(_ response: MostRelevantPinnedScheduleResponse) {
+    init?(_ response: MostRelevantPinnedScheduleResponse) {
+        guard let schedule = response.schedule else { return nil }
+
         // Generate snapshot for every 10 minutes interval in-between pairs start & end dates
         // This will allow widget to show proper progress with 10 minutes precision
-        var dates = response.schedule.pairs.flatMap { pair in
+        var dates = schedule.pairs.flatMap { pair in
             stride(
                 from: pair.start.timeIntervalSince1970,
                 through: pair.end.timeIntervalSince1970,

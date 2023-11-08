@@ -7,11 +7,11 @@ struct MostRelevantPinnedScheduleResponse {
     let deeplink: Deeplink
     let title: String
     let subgroup: Int?
-    let schedule: WeekSchedule.ScheduleElement
+    let schedule: WeekSchedule.ScheduleElement?
 }
 
 extension MostRelevantPinnedScheduleResponse {
-    init?(
+    init(
         deeplink: Deeplink,
         title: String,
         subgroup: Int?,
@@ -21,23 +21,24 @@ extension MostRelevantPinnedScheduleResponse {
         now: Date = .now,
         calendar: Calendar = .current
     ) {
-        guard
-            let startDate = startDate,
-            let endDate = endDate,
-            let mostRelevantElement = WeekSchedule(
-                schedule: schedule,
-                startDate: startDate,
-                endDate: endDate
-            )
-            .schedule(starting: now, now: now, calendar: calendar)
-            .first(where: { $0.hasUnfinishedPairs(now: now) })
-        else { return nil }
-
         self.init(
             deeplink: deeplink,
             title: title,
             subgroup: subgroup,
-            schedule: mostRelevantElement
+            schedule: {
+                guard
+                    let startDate = startDate,
+                    let endDate = endDate,
+                    let mostRelevantElement = WeekSchedule(
+                        schedule: schedule,
+                        startDate: startDate,
+                        endDate: endDate
+                    )
+                    .schedule(starting: now, now: now, calendar: calendar)
+                    .first(where: { $0.hasUnfinishedPairs(now: now) })
+                else { return nil }
+                return mostRelevantElement
+            }()
         )
     }
 }

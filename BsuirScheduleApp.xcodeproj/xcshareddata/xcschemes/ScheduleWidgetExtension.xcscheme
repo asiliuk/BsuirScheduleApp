@@ -56,8 +56,18 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.springboard">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "E6AA8D0E25162F1A00788A02"
+            BuildableName = "ScheduleWidgetExtension.appex"
+            BlueprintName = "ScheduleWidgetExtension"
+            ReferencedContainer = "container:BsuirScheduleApp.xcodeproj">
+         </BuildableReference>
+      </RemoteRunnable>
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E6F931B122F8B1C10038FC43"
@@ -65,7 +75,7 @@
             BlueprintName = "BsuirScheduleApp"
             ReferencedContainer = "container:BsuirScheduleApp.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "_XCWidgetKind"
