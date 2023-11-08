@@ -70,7 +70,7 @@ final class PinnedScheduleProvider: TimelineProvider {
             do {
                 let schedule = try await mostRelevantSchedule(for: pinnedSchedule)
                 guard let timeline = Timeline(schedule) else {
-                    os_log(.info, log: .pinnedProvider, "getTimeline failed to create timeline")
+                    os_log(.info, log: .pinnedProvider, "getTimeline empty timeline")
                     return completeCheckingPreview(with: .emptyPinned(title: schedule.title))
                 }
                 os_log(.info, log: .pinnedProvider, "getTimeline success, entries: \(timeline.entries.count)")

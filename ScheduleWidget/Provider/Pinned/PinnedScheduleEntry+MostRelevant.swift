@@ -9,7 +9,7 @@ import BsuirApi
 extension PinnedScheduleEntry {
     init?(_ response: MostRelevantPinnedScheduleResponse, at date: Date) {
         guard let schedule = response.schedule else { return nil }
-        
+
         // Filter pairs based on subgroup
         let pairs = schedule.pairs
             .filter { $0.base.isSuitable(forSubgroup: response.subgroup) }

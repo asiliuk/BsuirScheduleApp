@@ -73,7 +73,7 @@ final class ExamsScheduleProvider: TimelineProvider {
             }
 
             guard let timeline = Timeline(response, now: now, calendar: calendar) else {
-                os_log(.info, log: .examsProvider, "getTimeline failed to create timeline")
+                os_log(.info, log: .examsProvider, "getTimeline empty timeline")
                 return completeCheckingPreview(with: .emptyPinned(title: response.title))
             }
 
