@@ -13,8 +13,6 @@ public struct PinnedScheduleWidgetRectangularView: View {
             switch config.content {
             case .noPinned:
                 NoPinnedScheduleView()
-            case .needsConfiguration:
-                NeedsConfigurationView()
             case .pairs(_, []):
                 NoPairsView()
             case let .pairs(passed, upcoming):

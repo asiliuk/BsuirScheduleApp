@@ -4,7 +4,6 @@ import ScheduleCore
 public struct PinnedScheduleWidgetConfiguration {
     public enum Content {
         case pairs(passed: [PairViewModel] = [], upcoming: [PairViewModel] = [])
-        case needsConfiguration
         case noPinned
     }
 
@@ -28,7 +27,6 @@ public struct PinnedScheduleWidgetConfiguration {
 
 extension PinnedScheduleWidgetConfiguration {
     public static let placeholder = Self(title: "---", content: .pairs())
-    public static let needsConfiguration = Self(title: "---", content: .needsConfiguration)
     public static let preview = Self(title: "000001", content: .previewPairs)
 
     public static func noPinned(deeplink: URL? = nil) -> Self {

@@ -14,8 +14,6 @@ public struct PinnedScheduleWidgetCircularView: View {
             switch config.content {
             case .noPinned:
                 NoPinSymbol()
-            case .needsConfiguration:
-                Text("⚙️")
             case .pairs(_, []):
                 NoPairsView()
             case let .pairs(passed, upcoming):

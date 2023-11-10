@@ -13,9 +13,6 @@ public struct PinnedScheduleWidgetInlineView: View {
         case .noPinned:
             InlineView(text: "widget.noPinned.title")
 
-        case .needsConfiguration:
-            InlineView(text: "widget.needsConfiguration.selectSchedule")
-
         case .pairs(_, []):
             InlineView(text: "widget.schedule.empty")
 

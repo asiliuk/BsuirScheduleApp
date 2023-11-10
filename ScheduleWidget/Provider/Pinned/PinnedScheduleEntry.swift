@@ -13,7 +13,6 @@ struct PinnedScheduleEntry: TimelineEntry {
 
 extension PinnedScheduleEntry {
     static let placeholder = PinnedScheduleEntry(config: .placeholder)
-    static let needsConfiguration = PinnedScheduleEntry(config: .needsConfiguration)
     static let noPinned = PinnedScheduleEntry(config: .noPinned(deeplink: deeplinkRouter.url(for: .groups)))
     static let premiumLocked = PinnedScheduleEntry(config: .noPinned(deeplink: deeplinkRouter.url(for: .pinned())))
     static let preview = PinnedScheduleEntry(config: .preview)

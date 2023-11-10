@@ -1,4 +1,3 @@
 "widget.schedule.empty" = "🤩 No lessons";
 "widget.schedule.more.%lld" = "%lld more";
-"widget.needsConfiguration.selectSchedule" = "Select a schedule";
 "widget.noPinned.title" = "No pinned schedule";
