@@ -71,15 +71,14 @@ extension Timeline where EntryType == ExamsScheduleEntry {
         // Generate entries only for first two pairs of same day to reduce load on widget kit
         let timelinePairs = relevantPairs
             .prefix(while: { calendar.isDate($0.date, inSameDayAs: relevantDate) })
-            .prefix(2)
 
-        // Generate snapshot for every 15 minutes interval in-between exams start & end dates
+        // Generate snapshot for every 10 minutes interval in-between exams start & end dates
         // This will allow widget to show proper progress with 10 minutes precision
         var dates = timelinePairs.flatMap { pair in
             stride(
                 from: pair.start.timeIntervalSince1970,
                 through: pair.end.timeIntervalSince1970,
-                by: 15 * 60
+                by: 10 * 60
             ).map { Date(timeIntervalSince1970: $0) }
         }
 
