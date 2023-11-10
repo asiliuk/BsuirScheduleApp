@@ -11,23 +11,7 @@ public struct ExamsScheduleWidgetMediumView : View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            HStack(alignment: .lastTextBaseline) {
-                if let mainDate {
-                    Text(mainDate).font(.headline)
-                }
-                Spacer()
-                HStack(alignment: .lastTextBaseline, spacing: 4) {
-                    ScheduleIdentifierTitle(title: config.title)
-                    ScheduleSubgroupLabel(subgroup: config.subgroup)
-                }
-            }
-            .padding(.top, 10)
-            .padding(.bottom, 4)
-            .padding(.horizontal, 12)
-            .background {
-                ExamsScheduleWidgetHeaderBackground()
-            }
-            .foregroundStyle(Color.white)
+            ExamsScheduleWidgetHeader(config: config)
 
             switch config.content {
             case .noPinned:
@@ -74,13 +58,8 @@ public struct ExamsScheduleWidgetMediumView : View {
                 .padding(.bottom, 8)
             }
         }
-        .labeledContentStyle(ExamsSectionLabeledContentStyle(font: .footnote.bold(), highlightTitle: true))
+        .labeledContentStyle(.secondaryExamsSection)
         .widgetPadding()
         .widgetBackground(Color(.systemBackground))
-    }
-
-    private var mainDate: String? {
-        guard case let .exams(days) = config.content else { return nil }
-        return days.first?.date.formatted(.compactExamDay)
     }
 }

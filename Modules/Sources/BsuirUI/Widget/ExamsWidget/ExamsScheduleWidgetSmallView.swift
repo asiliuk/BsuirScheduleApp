@@ -14,20 +14,11 @@ public struct ExamsScheduleWidgetSmallView: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            HStack(alignment: .lastTextBaseline) {
-                ScheduleIdentifierTitle(title: config.title)
-                Spacer(minLength: 0)
-                ScheduleSubgroupLabel(subgroup: config.subgroup)
-            }
-            .padding(.top, 10)
-            .padding(.bottom, 4)
-            .padding(.horizontal, 12)
-            .background {
-                if renderingMode == .fullColor {
-                    ExamsScheduleWidgetHeaderBackground(shouldFillWithExamColor: showsWidgetBackground)
-                }
-            }
-            .foregroundStyle(Color.white)
+            ExamsScheduleWidgetHeader(
+                config: config,
+                showMainDate: false,
+                showBackground: renderingMode == .fullColor && showsWidgetBackground
+            )
 
             switch config.content {
             case .noPinned:
@@ -73,7 +64,7 @@ public struct ExamsScheduleWidgetSmallView: View {
                 .padding(.bottom, 10)
             }
         }
-        .labeledContentStyle(ExamsSectionLabeledContentStyle())
+        .labeledContentStyle(.mainExamsSection)
         .widgetPadding()
         .widgetBackground(Color(uiColor: .systemBackground))
     }

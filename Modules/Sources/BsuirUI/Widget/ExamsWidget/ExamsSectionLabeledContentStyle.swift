@@ -15,3 +15,8 @@ struct ExamsSectionLabeledContentStyle: LabeledContentStyle {
         .padding(.top, 4)
     }
 }
+
+extension LabeledContentStyle where Self == ExamsSectionLabeledContentStyle {
+    static var mainExamsSection: Self { ExamsSectionLabeledContentStyle() }
+    static var secondaryExamsSection: Self { ExamsSectionLabeledContentStyle(font: .footnote.bold(), highlightTitle: true) }
+}
