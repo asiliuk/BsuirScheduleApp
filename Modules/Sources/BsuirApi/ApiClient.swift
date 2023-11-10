@@ -24,15 +24,23 @@ extension ApiClient {
 
         @Sendable func request<Value: Decodable>(route: IISRoute, ignoreCache: Bool) async throws -> Value {
             let request = try router.request(for: route)
-            
-            // Try to read cache if needed
-            if !ignoreCache, let cached = cache.cachedResponse(for: request) {
-                return try decoder.decode(Value.self, from: cached.data)
+
+            func decodeValue(from data: Data, response: URLResponse) throws -> Value {
+                do {
+                    return try decoder.decode(Value.self, from: data)
+                } catch {
+                    throw MyURLRoutingDecodingError(bytes: data, response: response, underlyingError: error)
+                }
             }
 
-            // Fetch and decode value
+            // Try to read cache if needed
+            if !ignoreCache, let cached = cache.cachedResponse(for: request) {
+                return try decodeValue(from: cached.data, response: cached.response)
+            }
+
+            // Fetch data and decode
             let (data, response) = try await client.data(for: route)
-            let value = try decoder.decode(Value.self, from: data)
+            let value = try decodeValue(from: data, response: response)
 
             // Write back cache if decoding was success
             cache.storeCachedResponse(CachedURLResponse(response: response, data: data), for: request)
@@ -59,6 +67,12 @@ extension ApiClient {
             clearCache: { cache.removeAllCachedResponses() }
         )
     }
+}
+
+public struct MyURLRoutingDecodingError: Error {
+    public let bytes: Data
+    public let response: URLResponse
+    public let underlyingError: Error
 }
 
 // MARK: - Live

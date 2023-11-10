@@ -1,6 +1,7 @@
 import Foundation
 import BsuirCore
 import BsuirUI
+import BsuirApi
 import ComposableArchitecture
 import URLRouting
 
@@ -68,7 +69,7 @@ extension LoadingError.State {
                 assertionFailure("Unknown url error code \(urlError.code)")
                 self = .unknown
             }
-        case let decodingError as URLRoutingDecodingError:
+        case let decodingError as MyURLRoutingDecodingError:
             let url = decodingError.response.url
             let description = String(describing: decodingError.underlyingError)
 
