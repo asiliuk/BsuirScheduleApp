@@ -74,6 +74,6 @@ struct PinnedScheduleWidgetEntryView: View {
     let entry = PinnedScheduleEntry.widgetPreview
     entry
     mutating(entry) { $0.config = .noSchedule(title: "101010") }
-    mutating(entry) { $0.config.content = .empty }
+    mutating(entry) { $0.config.content = .pairs() }
     mutating(entry) { $0.config = .noPinned() }
 }

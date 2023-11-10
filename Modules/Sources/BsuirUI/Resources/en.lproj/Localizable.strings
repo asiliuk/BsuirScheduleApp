@@ -1,3 +1,4 @@
 "widget.schedule.empty" = "🤩 No lessons";
+"widget.schedule.noSchedule" = "🧑‍🏫 No schedule";
 "widget.schedule.more.%lld" = "%lld more";
 "widget.noPinned.title" = "No pinned schedule";

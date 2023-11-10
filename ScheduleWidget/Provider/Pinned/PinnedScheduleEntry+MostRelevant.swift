@@ -85,6 +85,11 @@ extension Timeline where EntryType == PinnedScheduleEntry {
         // otherwise it could stuck in placeholder state until pairs start
         dates.prepend(.now)
 
+        // Show no schedule for today widget for some time after pairs end
+        if let dayScheduleEnd = schedule.pairs.last?.end {
+            dates.append(dayScheduleEnd.advanced(by: 20 * 60))
+        }
+
         self.init(
             entries: dates.compactMap { PinnedScheduleEntry(response, at: $0) },
             policy: .atEnd

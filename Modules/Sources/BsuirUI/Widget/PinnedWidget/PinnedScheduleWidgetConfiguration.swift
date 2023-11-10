@@ -5,7 +5,7 @@ public struct PinnedScheduleWidgetConfiguration {
     public enum Content {
         case pairs(passed: [PairViewModel] = [], upcoming: [PairViewModel] = [])
         case noPinned
-        public static var empty: Self { .pairs() }
+        case noSchedule
     }
 
     public var deeplink: URL? = nil
@@ -38,7 +38,7 @@ extension PinnedScheduleWidgetConfiguration {
     }
 
     public static func noSchedule(title: String, deeplink: URL? = nil) -> Self {
-        Self(deeplink: deeplink, title: title, content: .empty)
+        Self(deeplink: deeplink, title: title, content: .noSchedule)
     }
 }
 
