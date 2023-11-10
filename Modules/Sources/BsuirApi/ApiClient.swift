@@ -16,11 +16,28 @@ public struct ApiClient: Sendable {
 
 extension ApiClient {
     static func live(
-        client: URLRoutingClient<CachingRoute<IISRoute>>,
-        clearCache: @Sendable @escaping () -> Void
+        cache: ExpiringCache,
+        router: some ParserPrinter<URLRequestData, IISRoute>,
+        decoder: JSONDecoder = .bsuirDecoder
     ) -> ApiClient {
+        let client = URLRoutingClient.live(router: router, decoder: decoder)
+
         @Sendable func request<Value: Decodable>(route: IISRoute, ignoreCache: Bool) async throws -> Value {
-            try await client.decodedResponse(for: .init(ignoreCache: ignoreCache, base: route)).value
+            let request = try router.request(for: route)
+            
+            // Try to read cache if needed
+            if !ignoreCache, let cached = cache.cachedResponse(for: request) {
+                return try decoder.decode(Value.self, from: cached.data)
+            }
+
+            // Fetch and decode value
+            let (data, response) = try await client.data(for: route)
+            let value = try decoder.decode(Value.self, from: data)
+
+            // Write back cache if decoding was success
+            cache.storeCachedResponse(CachedURLResponse(response: response, data: data), for: request)
+
+            return value
         }
 
         return ApiClient(
@@ -39,7 +56,7 @@ extension ApiClient {
             week: {
                 try await request(route: .week, ignoreCache: true)
             },
-            clearCache: clearCache
+            clearCache: { cache.removeAllCachedResponses() }
         )
     }
 }
@@ -60,12 +77,8 @@ private extension ApiClient {
         )
 
         return ApiClient.live(
-            client: .liveCaching(
-                in: cache,
-                router: iisRouter.baseURL(URL.iisApi.absoluteString),
-                decoder: .bsuirDecoder
-            ),
-            clearCache: { cache.removeAllCachedResponses() }
+            cache: cache,
+            router: iisRouter.baseURL(URL.iisApi.absoluteString)
         )
     }()
 }
