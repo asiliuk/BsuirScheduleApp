@@ -30,7 +30,8 @@ public struct AppFeature: Reducer {
         public init() {
             self.pinnedTab = .init(isPremiumLocked: !premiumClub.hasPremium)
             @Dependency(\.favorites) var favorites
-            self.handleInitialSelection(favorites: favorites)
+            @Dependency(\.pinnedScheduleService) var pinnedScheduleService
+            self.handleInitialSelection(favorites: favorites, pinnedScheduleService: pinnedScheduleService)
         }
     }
 
@@ -59,6 +60,7 @@ public struct AppFeature: Reducer {
 
     @Dependency(\.favorites) var favorites
     @Dependency(\.productsService) var productsService
+    @Dependency(\.pinnedScheduleService) var pinnedScheduleService
 
     public init() {}
 
@@ -69,7 +71,7 @@ public struct AppFeature: Reducer {
                 return .merge(
                     .send(.premiumClub(.task)),
                     .run { send in
-                        for await pinnedSchedule in favorites.pinnedSchedule.values {
+                        for await pinnedSchedule in pinnedScheduleService.schedule().values {
                             // Give time for schedule feature to handle unpin before removing tab view
                             await Task.yield()
                             await send(.setPinnedSchedule(pinnedSchedule))
@@ -207,7 +209,7 @@ private extension AppFeature {
         groupName: String,
         deeplinkDisplayType: ScheduleDeeplinkDisplayType?
     ) {
-        switch favorites.currentPinnedSchedule {
+        switch pinnedScheduleService.currentSchedule() {
         case .group(groupName):
             handlePinnedDeeplink(state: &state, deeplinkDisplayType: deeplinkDisplayType)
         case .group, .lector, nil:
@@ -221,7 +223,7 @@ private extension AppFeature {
         lectorId: Int,
         deeplinkDisplayType: ScheduleDeeplinkDisplayType?
     ) {
-        switch favorites.currentPinnedSchedule {
+        switch pinnedScheduleService.currentSchedule() {
         case .lector(let lector) where lector.id == lectorId:
             handlePinnedDeeplink(state: &state, deeplinkDisplayType: deeplinkDisplayType)
         case .lector, .group, nil:
@@ -250,8 +252,11 @@ private extension AppFeature {
 // MARK: - Selection
 
 private extension AppFeature.State {
-    mutating func handleInitialSelection(favorites: FavoritesService) {
-        if let pinnedSchedule = favorites.currentPinnedSchedule {
+    mutating func handleInitialSelection(
+        favorites: FavoritesService,
+        pinnedScheduleService: PinnedScheduleService
+    ) {
+        if let pinnedSchedule = pinnedScheduleService.currentSchedule() {
             selection = .pinned
             pinnedTab.show(pinned: pinnedSchedule)
             return

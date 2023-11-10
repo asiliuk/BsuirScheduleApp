@@ -29,7 +29,7 @@ final class PinnedScheduleProvider: TimelineProvider {
                 return completeCheckingPreview(with: .premiumLocked)
             }
 
-            guard let pinnedSchedule = favoritesService.currentPinnedSchedule else {
+            guard let pinnedSchedule = pinnedScheduleService.currentSchedule() else {
                 os_log(.info, log: .pinnedProvider, "getSnapshot no pinned")
                 return completeCheckingPreview(with: .noPinned)
             }
@@ -61,7 +61,7 @@ final class PinnedScheduleProvider: TimelineProvider {
             return completeCheckingPreview(with: .premiumLocked)
         }
 
-        guard let pinnedSchedule = favoritesService.currentPinnedSchedule else {
+        guard let pinnedSchedule = pinnedScheduleService.currentSchedule() else {
             os_log(.info, log: .pinnedProvider, "getTimeline no pinned")
             return completeCheckingPreview(with: .noPinned)
         }
@@ -117,7 +117,7 @@ final class PinnedScheduleProvider: TimelineProvider {
     }
 
     @Dependency(\.apiClient) private var apiClient
-    @Dependency(\.favorites) private var favoritesService
+    @Dependency(\.pinnedScheduleService) private var pinnedScheduleService
     @Dependency(\.premiumService) private var premiumService
     @Dependency(\.subgroupFilterService) private var subgroupFilterService
     @Dependency(\.calendar) private var calendar

@@ -19,8 +19,8 @@ public struct LecturersFeature: Reducer {
         var favorites: IdentifiedArrayOf<LecturersRow.State> = []
 
         fileprivate var pinnedLector: Employee? = {
-            @Dependency(\.favorites.currentPinnedSchedule) var pinned
-            return pinned?.lector
+            @Dependency(\.pinnedScheduleService.currentSchedule) var pinnedSchedule
+            return pinnedSchedule()?.lector
         }()
 
         var favoritesPlaceholderCount: Int { favoriteIds.count }
@@ -65,6 +65,7 @@ public struct LecturersFeature: Reducer {
     
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.favorites) var favorites
+    @Dependency(\.pinnedScheduleService.schedule) var pinnedSchedule
 
     public init() {}
     
@@ -205,7 +206,7 @@ public struct LecturersFeature: Reducer {
 
     private func listenToPinnedUpdates() -> Effect<Action> {
         return .run { send in
-            for await value in favorites.pinnedSchedule.map(\.?.lector).removeDuplicates().values {
+            for await value in pinnedSchedule().map(\.?.lector).removeDuplicates().values {
                 await send(._pinnedUpdate(value), animation: .default)
             }
         }

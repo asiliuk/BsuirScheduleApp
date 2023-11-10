@@ -19,7 +19,8 @@ public struct MarkedScheduleFeature: Reducer {
             @Dependency(\.premiumService) var premiumService
             self.isPremiumLocked = !premiumService.isCurrentlyPremium
             @Dependency(\.favorites) var favorites
-            self.update(favorites: favorites)
+            @Dependency(\.pinnedScheduleService) var pinnedScheduleService
+            self.update(favorites: favorites, pinnedScheduleService: pinnedScheduleService)
         }
     }
 
@@ -48,6 +49,7 @@ public struct MarkedScheduleFeature: Reducer {
     }
 
     @Dependency(\.favorites) var favorites
+    @Dependency(\.pinnedScheduleService) var pinnedScheduleService
     @Dependency(\.reviewRequestService) var reviewRequestService
     @Dependency(\.premiumService) var premiumService
 
@@ -111,8 +113,8 @@ public struct MarkedScheduleFeature: Reducer {
     private func favorite(source: ScheduleSource) -> Effect<Action> {
         return .run { _ in
             // Remove schedule from pinned if needed
-            if favorites.currentPinnedSchedule == source {
-                favorites.currentPinnedSchedule = nil
+            if pinnedScheduleService.currentSchedule() == source {
+                pinnedScheduleService.setCurrentSchedule(nil)
             }
             // Add schedule to favorites
             favorites.addToFavorites(source: source)
@@ -130,13 +132,13 @@ public struct MarkedScheduleFeature: Reducer {
     private func pin(source: ScheduleSource) -> Effect<Action> {
         return .run { _ in
             // Move previously pinned schedule to favorites
-            if let pinned = favorites.currentPinnedSchedule {
+            if let pinned = pinnedScheduleService.currentSchedule() {
                 favorites.addToFavorites(source: pinned)
             }
             // Remove newly pinned schedule from favorites
             favorites.removeFromFavorites(source: source)
             // Make new schedule as pinned
-            favorites.currentPinnedSchedule = source
+            pinnedScheduleService.setCurrentSchedule(source)
             // Log meaningful event
             await reviewRequestService.madeMeaningfulEvent(.pin)
         }
@@ -144,15 +146,15 @@ public struct MarkedScheduleFeature: Reducer {
 
     private func unpin(source: ScheduleSource) -> Effect<Action> {
         return .run { _ in
-            if favorites.currentPinnedSchedule == source {
-                favorites.currentPinnedSchedule = nil
+            if pinnedScheduleService.currentSchedule() == source {
+                pinnedScheduleService.setCurrentSchedule(nil)
             }
         }
     }
 
     private func observeIsPinned(source: ScheduleSource) -> Effect<Action> {
         .run { send in
-            for await value in favorites.pinnedSchedule.map({ $0 == source }).removeDuplicates().values {
+            for await value in pinnedScheduleService.schedule().map({ $0 == source }).removeDuplicates().values {
                 await send(._setIsPinned(value))
             }
         }
@@ -187,8 +189,8 @@ public struct MarkedScheduleFeature: Reducer {
 // MARK: - Update
 
 private extension MarkedScheduleFeature.State {
-    mutating func update(favorites: FavoritesService) {
-        isPinned = favorites.currentPinnedSchedule == source
+    mutating func update(favorites: FavoritesService, pinnedScheduleService: PinnedScheduleService) {
+        isPinned = pinnedScheduleService.currentSchedule() == source
         isFavorite = {
             switch source {
             case let .group(name):

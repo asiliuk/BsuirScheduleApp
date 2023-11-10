@@ -45,8 +45,8 @@ public struct GroupsFeature: Reducer {
         var hasPinnedPlaceholder: Bool { pinnedName != nil }
 
         fileprivate var pinnedName: String? = {
-            @Dependency(\.favorites.currentPinnedSchedule) var pinned
-            return pinned?.groupName
+            @Dependency(\.pinnedScheduleService.currentSchedule) var pinnedSchedule
+            return pinnedSchedule()?.groupName
         }()
 
         var favoritesPlaceholderCount: Int { favoriteNames.count }
@@ -84,6 +84,7 @@ public struct GroupsFeature: Reducer {
 
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.favorites) var favorites
+    @Dependency(\.pinnedScheduleService.schedule) var pinnedSchedule
 
     public init() {}
     
@@ -225,7 +226,7 @@ public struct GroupsFeature: Reducer {
 
     private func listenToPinnedUpdates() -> Effect<Action> {
         return .run { send in
-            for await value in favorites.pinnedSchedule.map(\.?.groupName).removeDuplicates().values {
+            for await value in pinnedSchedule().map(\.?.groupName).removeDuplicates().values {
                 await send(._pinnedUpdate(value), animation: .default)
             }
         }

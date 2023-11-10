@@ -7,18 +7,15 @@ import Collections
 final class FavoriteServiceMock {
     let _groupNames: CurrentValueSubject<OrderedSet<String>, Never>
     let _lecturerIds: CurrentValueSubject<OrderedSet<Int>, Never>
-    let _pinnedSchedule: CurrentValueSubject<ScheduleSource?, Never>
     var _freeLoveHighScore: Int
 
     init(
         groupNames: OrderedSet<String> = [],
         lecturerIds: OrderedSet<Int> = [],
-        pinnedSchedule: ScheduleSource? = nil,
         freeLoveHighScore: Int = 0
     ) {
         _groupNames = CurrentValueSubject(groupNames)
         _lecturerIds = CurrentValueSubject(lecturerIds)
-        _pinnedSchedule = CurrentValueSubject(pinnedSchedule)
         _freeLoveHighScore = freeLoveHighScore
     }
 }
@@ -42,15 +39,6 @@ extension FavoriteServiceMock: FavoritesService {
 
     var lecturerIds: AnyPublisher<OrderedSet<Int>, Never> {
         _lecturerIds.eraseToAnyPublisher()
-    }
-
-    var currentPinnedSchedule: ScheduleSource? {
-        get { _pinnedSchedule.value }
-        set { _pinnedSchedule.value = newValue }
-    }
-
-    var pinnedSchedule: AnyPublisher<ScheduleCore.ScheduleSource?, Never> {
-        _pinnedSchedule.eraseToAnyPublisher()
     }
 
     var freeLoveHighScore: Int {

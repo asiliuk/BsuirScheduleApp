@@ -37,11 +37,6 @@ public final class LiveFavoritesService {
         .unwrap(withDefault: [])
         .withPublisher()
 
-    private lazy var pinnedScheduleStorage = storage
-        .persistedDictionary(forKey: "pinned-schedule")
-        .codable(ScheduleSource.self)
-        .withPublisher()
-
     private lazy var freeLoveHighScoreStorage = storage
         .persistedInteger(forKey: "free-love-hich-score")
 
@@ -93,20 +88,6 @@ extension LiveFavoritesService: FavoritesService {
 
     public var lecturerIds: AnyPublisher<OrderedSet<Int>, Never> {
         lecturerIDsStorage.publisher
-    }
-
-    public var currentPinnedSchedule: ScheduleSource? {
-        get { pinnedScheduleStorage.persisted.value }
-        set {
-            pinnedScheduleStorage.persisted.value = newValue
-            // Make sure widget UI is also updated
-            widgetService.reload(.pinnedSchedule)
-            widgetService.reload(.examsSchedule)
-        }
-    }
-
-    public var pinnedSchedule: AnyPublisher<ScheduleSource?, Never> {
-        pinnedScheduleStorage.publisher
     }
 
     public var freeLoveHighScore: Int {
