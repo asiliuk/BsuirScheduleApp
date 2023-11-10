@@ -16,7 +16,12 @@ public struct SubgroupFilterService {
 private enum SubgroupFilterServiceKey: DependencyKey {
     static let liveValue: SubgroupFilterService = {
         @Dependency(\.widgetService) var widgetService
-        return .live(storage: .asiliukShared, widgetService: widgetService)
+        @Dependency(\.pinnedScheduleService) var pinnedScheduleService
+        return .live(
+            storage: .asiliukShared,
+            widgetService: widgetService,
+            pinnedScheduleService: pinnedScheduleService
+        )
     }()
     
     static let previewValue = SubgroupFilterService(preferredSubgroup: { _ in .constant(1) })
@@ -25,13 +30,18 @@ private enum SubgroupFilterServiceKey: DependencyKey {
 // MARK: - Live
 
 private extension SubgroupFilterService {
-    static func live(storage: UserDefaults, widgetService: WidgetService) -> Self {
+    static func live(
+        storage: UserDefaults,
+        widgetService: WidgetService,
+        pinnedScheduleService: PinnedScheduleService
+    ) -> Self {
         return SubgroupFilterService { source in
             return storage
                 .persistedInteger(forKey: source.preferredSubgroupKey)
                 // Transform 0 subgroup to nil
                 .map(fromValue: { $0 == 0 ? nil : $0 }, toValue: { $0 ?? 0 })
                 .onSet { _ in
+                    guard pinnedScheduleService.currentSchedule() == source else { return }
                     widgetService.reload(.pinnedSchedule)
                     widgetService.reload(.examsSchedule)
                 }
