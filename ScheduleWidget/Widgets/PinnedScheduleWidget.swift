@@ -44,11 +44,11 @@ struct PinnedScheduleWidgetEntryView: View {
         Group {
             switch size {
             case .systemSmall:
-                PinnedScheduleWidgetSmallView(config: entry.config, date: entry.date)
+                PinnedScheduleWidgetSmallView(config: entry.config)
             case .systemMedium:
-                PinnedScheduleWidgetMediumView(config: entry.config, date: entry.date)
+                PinnedScheduleWidgetMediumView(config: entry.config)
             case .systemLarge:
-                PinnedScheduleWidgetLargeView(config: entry.config, date: entry.date)
+                PinnedScheduleWidgetLargeView(config: entry.config)
             case .systemExtraLarge:
                 EmptyView()
             case .accessoryCircular:
@@ -73,6 +73,7 @@ struct PinnedScheduleWidgetEntryView: View {
 } timeline: {
     let entry = PinnedScheduleEntry.widgetPreview
     entry
-    mutating(entry) { $0.config.content = .pairs() }
-    mutating(entry) { $0.config.content = .noPinned }
+    mutating(entry) { $0.config = .noSchedule(title: "101010") }
+    mutating(entry) { $0.config.content = .empty }
+    mutating(entry) { $0.config = .noPinned() }
 }

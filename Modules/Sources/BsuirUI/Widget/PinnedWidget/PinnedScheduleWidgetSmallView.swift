@@ -4,14 +4,12 @@ import ScheduleCore
 
 public struct PinnedScheduleWidgetSmallView: View {
     var config: PinnedScheduleWidgetConfiguration
-    var date: Date
 
     @Environment(\.widgetRenderingMode) var renderingMode
     @Environment(\.showsWidgetContainerBackground) var showsWidgetBackground
 
-    public init(config: PinnedScheduleWidgetConfiguration, date: Date) {
+    public init(config: PinnedScheduleWidgetConfiguration) {
         self.config = config
-        self.date = date
     }
 
     public var body: some View {
@@ -23,7 +21,9 @@ public struct PinnedScheduleWidgetSmallView: View {
                     .foregroundStyle(.secondary)
             }
 
-            WidgetDateTitle(date: date, isSmall: showsWidgetBackground)
+            if let day = config.day {
+                WidgetDateTitle(date: day, isSmall: showsWidgetBackground)
+            }
 
             switch config.content {
             case .noPinned:

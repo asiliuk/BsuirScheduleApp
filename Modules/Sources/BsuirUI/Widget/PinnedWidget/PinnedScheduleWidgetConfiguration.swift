@@ -5,36 +5,40 @@ public struct PinnedScheduleWidgetConfiguration {
     public enum Content {
         case pairs(passed: [PairViewModel] = [], upcoming: [PairViewModel] = [])
         case noPinned
+        public static var empty: Self { .pairs() }
     }
 
     public var deeplink: URL? = nil
     public var title: String
     public var subgroup: Int?
+    public var day: Date?
     public var content: Content
 
     public init(
         deeplink: URL? = nil,
         title: String,
         subgroup: Int? = nil,
+        day: Date? = nil,
         content: Content
     ) {
         self.deeplink = deeplink
         self.title = title
         self.subgroup = subgroup
+        self.day = day
         self.content = content
     }
 }
 
 extension PinnedScheduleWidgetConfiguration {
     public static let placeholder = Self(title: "---", content: .pairs())
-    public static let preview = Self(title: "000001", content: .previewPairs)
+    public static let preview = Self(title: "000001", day: .now, content: .previewPairs)
 
     public static func noPinned(deeplink: URL? = nil) -> Self {
         Self(deeplink: deeplink, title: "---", content: .noPinned)
     }
 
-    public static func empty(title: String, deeplink: URL? = nil) -> Self {
-        Self(deeplink: deeplink, title: title, content: .pairs(passed: [], upcoming: []))
+    public static func noSchedule(title: String, deeplink: URL? = nil) -> Self {
+        Self(deeplink: deeplink, title: title, content: .empty)
     }
 }
 

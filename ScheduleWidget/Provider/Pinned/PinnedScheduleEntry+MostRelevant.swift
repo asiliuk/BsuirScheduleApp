@@ -27,6 +27,7 @@ extension PinnedScheduleEntry {
                 deeplink: deeplinkRouter.url(for: response.deeplink),
                 title: response.title,
                 subgroup: response.subgroup,
+                day: schedule.date,
                 content: .pairs(
                     passed: passedPairs.map { PairViewModel(pair: $0, date: date) },
                     upcoming: upcomingPairs.map { PairViewModel(pair: $0, date: date) }

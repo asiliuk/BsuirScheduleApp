@@ -31,17 +31,11 @@ public struct ScheduleWidgetPreviews: View {
                     VStack(spacing: 22) {
                         HStack(spacing: 22) {
                             MyWidgetDemoFrame(.small) {
-                                PinnedScheduleWidgetSmallView(
-                                    config: .group151004,
-                                    date: try! dateStyle.parse("01.09.2023")
-                                )
+                                PinnedScheduleWidgetSmallView(config: .group151004)
                             }
 
                             MyWidgetDemoFrame(.small) {
-                                PinnedScheduleWidgetSmallView(
-                                    config: .lectorMarina,
-                                    date: try! dateStyle.parse("01.09.2023")
-                                )
+                                PinnedScheduleWidgetSmallView(config: .lectorMarina)
                             }
                         }
 
@@ -52,10 +46,7 @@ public struct ScheduleWidgetPreviews: View {
 
                     if horizontalSizeClass == .regular {
                         MyWidgetDemoFrame(.large) {
-                            PinnedScheduleWidgetLargeView(
-                                config: .group151003,
-                                date: try! dateStyle.parse("04.09.2023")
-                            )
+                            PinnedScheduleWidgetLargeView(config: .group151003)
                         }
                     }
                 }
@@ -263,6 +254,7 @@ private extension PinnedScheduleWidgetConfiguration {
 
     static let group151004 = PinnedScheduleWidgetConfiguration(
         title: "151004",
+        day: try? dateStyle.parse("01.09.2023"),
         content: .pairs(
             passed: [
                 PairViewModel(
@@ -316,6 +308,7 @@ private extension PinnedScheduleWidgetConfiguration {
 
     static let group151003 = PinnedScheduleWidgetConfiguration(
         title: "151003",
+        day: try? dateStyle.parse("04.09.2023"),
         content: .pairs(
             passed: [
                 PairViewModel(
@@ -388,6 +381,7 @@ private extension PinnedScheduleWidgetConfiguration {
 
     static let lectorMarina = PinnedScheduleWidgetConfiguration(
         title: "МаринаИМ",
+        day: try? dateStyle.parse("01.09.2023"),
         content: .pairs(
             passed: [
                 PairViewModel(

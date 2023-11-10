@@ -160,8 +160,8 @@
 		E633DC162AF2F46D0059A250 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				E633DC142AF2F1030059A250 /* PinnedScheduleWidget.swift */,
 				E6AA8D1525162F1A00788A02 /* ScheduleWidgetBundle.swift */,
+				E633DC142AF2F1030059A250 /* PinnedScheduleWidget.swift */,
 				E633DC172AF2F4900059A250 /* ExamsScheduleWidget.swift */,
 			);
 			path = Widgets;

@@ -7,6 +7,7 @@ extension PinnedScheduleEntry {
         config: PinnedScheduleWidgetConfiguration(
             title: "Иванов АН",
             subgroup: 1,
+            day: Date().addingTimeInterval(3600 * 20),
             content: .pairs(
                 passed: [
                     .init(

@@ -4,17 +4,15 @@ import ScheduleCore
 
 public struct PinnedScheduleWidgetLargeView : View {
     var config: PinnedScheduleWidgetConfiguration
-    var date: Date
 
-    public init(config: PinnedScheduleWidgetConfiguration, date: Date) {
+    public init(config: PinnedScheduleWidgetConfiguration) {
         self.config = config
-        self.date = date
     }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
-                WidgetDateTitle(date: date)
+                config.day.map { WidgetDateTitle(date: $0) }
                 Spacer()
                 HStack(alignment: .lastTextBaseline, spacing: 4) {
                     ScheduleIdentifierTitle(title: config.title)

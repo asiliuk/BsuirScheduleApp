@@ -17,9 +17,9 @@ extension PinnedScheduleEntry {
     static let premiumLocked = PinnedScheduleEntry(config: .noPinned(deeplink: deeplinkRouter.url(for: .pinned())))
     static let preview = PinnedScheduleEntry(config: .preview)
 
-    static func emptyPinned(title: String) -> PinnedScheduleEntry {
+    static func noScheduleForPinned(title: String) -> PinnedScheduleEntry {
         PinnedScheduleEntry(
-            config: .empty(
+            config: .noSchedule(
                 title: title,
                 deeplink: deeplinkRouter.url(for: .pinned())
             )
