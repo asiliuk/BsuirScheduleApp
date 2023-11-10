@@ -6,11 +6,15 @@ import BsuirApi
 public struct LoadedScheduleReducer: Reducer {
     public struct State: Equatable {
         public var maxSubgroup: Int?
+        var response: ScheduleRequestResponse
+
         var compact: DayScheduleFeature.State
         var continuous: ContinuousScheduleFeature.State
         var exams: ExamsScheduleFeature.State
 
         init(response: ScheduleRequestResponse, pairRowDetails: PairRowDetails?) {
+            self.response = response
+
             self.compact = DayScheduleFeature.State(
                 schedule: response.schedule
             )

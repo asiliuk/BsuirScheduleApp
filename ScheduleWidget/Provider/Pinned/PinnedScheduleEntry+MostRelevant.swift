@@ -6,10 +6,6 @@ import Foundation
 import Deeplinking
 import BsuirApi
 
-// TODO: for future me
-// - Find a way to reload widget on pinned schedule changes
-//    - Maybe when new one received in model and it's not equal?
-//    - Maybe reload it on every force reload of pinned schedule
 extension PinnedScheduleEntry {
     init?(_ response: MostRelevantPinnedScheduleResponse, at date: Date) {
         guard let schedule = response.schedule else { return nil }

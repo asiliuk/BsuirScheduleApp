@@ -6,8 +6,9 @@ import ScheduleCore
 import LoadableFeature
 import ComposableArchitecture
 import Dependencies
+import CryptoKit
 
-public struct ScheduleRequestResponse {
+public struct ScheduleRequestResponse: Equatable, Encodable {
     public let startDate: Date?
     public let endDate: Date?
 
@@ -43,8 +44,8 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType
         var subgroupPicker: SubgroupPickerFeature.State?
-        fileprivate var pairRowDetails: PairRowDetails?
 
+        fileprivate var pairRowDetails: PairRowDetails?
         fileprivate var source: ScheduleSource
 
         public init(
@@ -88,6 +89,7 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
     let fetch: @Sendable (Value, _ ignoreCache: Bool) async throws -> ScheduleRequestResponse
     @Dependency(\.reviewRequestService) var reviewRequestService
     @Dependency(\.subgroupFilterService) var subgroupFilterService
+    @Dependency(\.pinnedScheduleHashService) var pinnedScheduleHashService
 
     public init(fetch: @Sendable @escaping (Value, _ ignoreCache: Bool) async throws -> ScheduleRequestResponse) {
         self.fetch = fetch
@@ -122,9 +124,10 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                     state.subgroupPicker = nil
                 }
 
-                return .run { _ in
-                    await reviewRequestService.madeMeaningfulEvent(.scheduleRequested)
-                }
+                return .merge(
+                    .run { _ in await reviewRequestService.madeMeaningfulEvent(.scheduleRequested) },
+                    updateScheduleLastKnownHash(source: state.source, response: state.schedule?.response)
+                )
 
             case let .mark(.delegate(action)):
                 switch action {
@@ -169,6 +172,23 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                     subgroupFilterService.preferredSubgroup(source).value = newValue
                 }
             }
+        }
+    }
+
+    private func updateScheduleLastKnownHash(
+        source: ScheduleSource,
+        response: ScheduleRequestResponse?
+    ) -> Effect<Action> {
+        return .run { _ in
+            let hashStorage = pinnedScheduleHashService.lastKnownHash(source)
+            guard let response else { return hashStorage.value = nil }
+
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .sortedKeys
+
+            let responseData = try encoder.encode(response)
+            let responseHash = SHA256.hash(data: responseData).description
+            hashStorage.value = responseHash
         }
     }
 }
