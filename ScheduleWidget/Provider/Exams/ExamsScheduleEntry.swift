@@ -17,9 +17,9 @@ extension ExamsScheduleEntry {
     static let premiumLocked = ExamsScheduleEntry(config: .noPinned(deeplink: deeplinkRouter.url(for: .pinned())))
     static let preview = ExamsScheduleEntry(config: .preview)
     
-    static func emptyPinned(title: String) -> ExamsScheduleEntry {
+    static func noScheduleForPinned(title: String) -> ExamsScheduleEntry {
         ExamsScheduleEntry(
-            config: .empty(
+            config: .noSchedule(
                 title: title,
                 deeplink: deeplinkRouter.url(for: .pinned(displayType: .exams))
             )

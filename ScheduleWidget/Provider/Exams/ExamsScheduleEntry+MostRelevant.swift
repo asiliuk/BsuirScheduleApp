@@ -86,6 +86,11 @@ extension Timeline where EntryType == ExamsScheduleEntry {
         // otherwise it could stuck in placeholder state until pairs start
         dates.prepend(now)
 
+        // Show no schedule for today widget for some time after pairs end
+        if let dayScheduleEnd = timelinePairs.last?.end {
+            dates.append(dayScheduleEnd.advanced(by: 20 * 60))
+        }
+
         self.init(
             entries: dates.compactMap { date in
                 ExamsScheduleEntry(

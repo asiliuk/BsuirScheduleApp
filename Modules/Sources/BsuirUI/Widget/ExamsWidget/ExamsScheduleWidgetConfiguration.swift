@@ -14,6 +14,7 @@ public struct ExamsScheduleWidgetConfiguration {
 
     public enum Content {
         case exams(days: [ExamDay] = [])
+        case noSchedule
         case noPinned
     }
 
@@ -43,8 +44,8 @@ extension ExamsScheduleWidgetConfiguration {
         Self(deeplink: deeplink, title: "---", content: .noPinned)
     }
 
-    public static func empty(title: String, deeplink: URL? = nil) -> Self {
-        Self(deeplink: deeplink, title: title, content: .exams(days: []))
+    public static func noSchedule(title: String, deeplink: URL? = nil) -> Self {
+        Self(deeplink: deeplink, title: title, content: .noSchedule)
     }
 }
 

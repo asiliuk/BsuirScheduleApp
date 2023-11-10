@@ -17,6 +17,9 @@ public struct ExamsScheduleWidgetMediumView : View {
             case .noPinned:
                 NoPinnedScheduleView()
                     .padding(.horizontal)
+            case .noSchedule:
+                NoScheduleView()
+                    .padding(.horizontal)
             case .exams(days: []):
                 NoPairsView()
                     .padding(.horizontal)

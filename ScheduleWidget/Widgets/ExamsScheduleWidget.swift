@@ -68,5 +68,6 @@ struct ExamsScheduleWidgetEntryView: View {
     let entry = ExamsScheduleEntry.preview
     entry
     mutating(entry) { $0.config.content = .exams() }
-    mutating(entry) { $0.config.content = .noPinned }
+    mutating(entry) { $0.config = .noSchedule(title: "151004") }
+    mutating(entry) { $0.config = .noPinned() }
 }
