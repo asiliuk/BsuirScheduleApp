@@ -67,7 +67,7 @@ private extension PairFormDisplayService {
         objectWillChange.send()
         update()
         // Make sure widget UI is also updated
-        widgetService.reloadAllPinned()
+        widgetService.reloadAll()
     }
 }
 

@@ -51,7 +51,7 @@ extension PinnedScheduleHashService {
                     guard scheduleHash.value != nil else { return }
 
                     // Reload widgets to show new schedule
-                    widgetService.reloadAllPinned()
+                    widgetService.reloadAll()
                 }
             )
         }

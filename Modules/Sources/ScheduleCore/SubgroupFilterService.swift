@@ -42,7 +42,7 @@ private extension SubgroupFilterService {
                 .map(fromValue: { $0 == 0 ? nil : $0 }, toValue: { $0 ?? 0 })
                 .onSet { _ in
                     guard pinnedScheduleService.currentSchedule() == source else { return }
-                    widgetService.reloadAllPinned()
+                    widgetService.reloadAll()
                 }
         }
     }

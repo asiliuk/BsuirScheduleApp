@@ -10,18 +10,11 @@ public struct WidgetService {
     }
 
     public let reload: (Timeline) -> Void
+    public let reloadAll: () -> Void
 }
 
 extension WidgetService {
-    public func reloadAllPinned() {
-        reload(.pinnedSchedule)
-        reload(.examsSchedule)
-        reload(.examsSchedule)
-    }
-}
-
-extension WidgetService {
-    public static let noop = WidgetService { _ in }
+    public static let noop = WidgetService(reload: { _ in }, reloadAll: {})
 }
 
 // MARK: - Dependency
@@ -34,11 +27,13 @@ extension DependencyValues {
 }
 
 private enum WidgetServiceKey: DependencyKey {
-    static let liveValue = WidgetService(
-        reload: { timeline in
-            WidgetCenter.shared.reloadTimelines(ofKind: timeline.rawValue)
-        }
-    )
+    static let liveValue: WidgetService = {
+        let widgetCenter = WidgetCenter.shared
+        return WidgetService(
+            reload: { widgetCenter.reloadTimelines(ofKind: $0.rawValue) },
+            reloadAll: { widgetCenter.reloadAllTimelines() }
+        )
+    }()
 
     static let previewValue = WidgetService.noop
     static let testValue = WidgetService.noop

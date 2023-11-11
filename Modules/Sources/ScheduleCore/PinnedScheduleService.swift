@@ -42,7 +42,7 @@ extension PinnedScheduleService {
             setCurrentSchedule: { newValue in
                 pinnedScheduleStorage.persisted.value = newValue
                 // Make sure widget UI is also updated
-                widgetService.reloadAllPinned()
+                widgetService.reloadAll()
             },
             schedule: {
                 pinnedScheduleStorage.publisher

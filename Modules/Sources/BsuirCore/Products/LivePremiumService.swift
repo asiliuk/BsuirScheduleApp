@@ -7,7 +7,7 @@ final class LivePremiumService: PremiumService {
     @PersistedValue public var isCurrentlyPremium: Bool {
         didSet {
             guard oldValue != isCurrentlyPremium else { return }
-            widgetService.reloadAllPinned()
+            widgetService.reloadAll()
         }
     }
 
