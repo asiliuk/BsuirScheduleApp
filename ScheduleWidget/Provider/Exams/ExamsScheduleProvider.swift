@@ -9,52 +9,51 @@ import Favorites
 import Combine
 import Dependencies
 
-final class ExamsScheduleProvider: TimelineProvider {
+final class ExamsScheduleProvider {
     typealias Entry = ExamsScheduleEntry
+    typealias Context = TimelineProviderContext
 
-    func placeholder(in context: Context) -> Entry {
-        .placeholder
+    init(onlyExams: Bool) {
+        self.staticOnlyExams = onlyExams
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (Entry) -> Void) {
-        requestSnapshot = Task.detached(priority: .userInitiated) { [unowned self] in
-            func completeCheckingPreview(with entry: ExamsScheduleEntry) {
-                completion(context.isPreview ? .preview : entry)
-            }
-
-            os_log(.info, log: .examsProvider, "getSnapshot started")
-
-            guard premiumService.isCurrentlyPremium else {
-                os_log(.info, log: .examsProvider, "getSnapshot no premium")
-                return completeCheckingPreview(with: .premiumLocked)
-            }
-
-            guard let pinnedSchedule = pinnedScheduleService.currentSchedule() else {
-                os_log(.info, log: .examsProvider, "getSnapshot no pinned")
-                return completeCheckingPreview(with: .noPinned)
-            }
-
-            guard let schedule = try? await fetchExams(for: pinnedSchedule) else {
-                os_log(.info, log: .examsProvider, "getSnapshot failed to fetch")
-                return completion(.preview)
-            }
-
-            guard let entry = Entry(schedule, at: now) else {
-                os_log(.info, log: .examsProvider, "getSnapshot failed to create entry")
-                return completeCheckingPreview(with: .noScheduleForPinned(
-                    title: schedule.title,
-                    subgroup: preferredSubgroup(for: pinnedSchedule)
-                ))
-            }
-
-            os_log(.info, log: .examsProvider, "getSnapshot success")
-            completion(entry)
+    private func snapshot(in context: Context, onlyExams: Bool) async -> Entry {
+        func completeCheckingPreview(with entry: ExamsScheduleEntry) -> Entry {
+            return context.isPreview ? .preview(onlyExams: onlyExams) : entry
         }
+
+        os_log(.info, log: .examsProvider, "getSnapshot started")
+
+        guard premiumService.isCurrentlyPremium else {
+            os_log(.info, log: .examsProvider, "getSnapshot no premium")
+            return completeCheckingPreview(with: .premiumLocked)
+        }
+
+        guard let pinnedSchedule = pinnedScheduleService.currentSchedule() else {
+            os_log(.info, log: .examsProvider, "getSnapshot no pinned")
+            return completeCheckingPreview(with: .noPinned)
+        }
+
+        guard let schedule = try? await fetchExams(for: pinnedSchedule, onlyExams: onlyExams) else {
+            os_log(.info, log: .examsProvider, "getSnapshot failed to fetch")
+            return .preview(onlyExams: onlyExams)
+        }
+
+        guard let entry = Entry(schedule, at: now) else {
+            os_log(.info, log: .examsProvider, "getSnapshot failed to create entry")
+            return completeCheckingPreview(with: .noScheduleForPinned(
+                title: schedule.title,
+                subgroup: preferredSubgroup(for: pinnedSchedule)
+            ))
+        }
+
+        os_log(.info, log: .examsProvider, "getSnapshot success")
+        return entry
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<ExamsScheduleEntry>) -> Void) {
-        @Sendable func completeCheckingPreview(with entry: Entry) {
-            completion(.init(entries: [context.isPreview ? .preview : entry], policy: .never) )
+    private func timeline(in context: Context, onlyExams: Bool) async -> Timeline<Entry> {
+        @Sendable func completeCheckingPreview(with entry: Entry) -> Timeline<Entry> {
+            return .init(entries: [context.isPreview ? .preview(onlyExams: onlyExams) : entry], policy: .never)
         }
 
         os_log(.info, log: .examsProvider, "getTimeline started")
@@ -69,26 +68,24 @@ final class ExamsScheduleProvider: TimelineProvider {
             return completeCheckingPreview(with: .noPinned)
         }
 
-        requestTimeline = Task.detached(priority: .userInitiated) { [unowned self] in
-            guard let response = try? await fetchExams(for: pinnedSchedule) else {
-                os_log(.info, log: .examsProvider, "getTimeline failed to fetch")
-                return completion(.init(entries: [], policy: .after(Date().advanced(by: 5 * 60))))
-            }
-
-            guard let timeline = Timeline(response, now: now, calendar: calendar) else {
-                os_log(.info, log: .examsProvider, "getTimeline empty timeline")
-                return completeCheckingPreview(with: .noScheduleForPinned(
-                    title: response.title,
-                    subgroup: preferredSubgroup(for: pinnedSchedule)
-                ))
-            }
-
-            os_log(.info, log: .examsProvider, "getTimeline success, entries: \(timeline.entries.count)")
-            completion(timeline)
+        guard let response = try? await fetchExams(for: pinnedSchedule, onlyExams: onlyExams) else {
+            os_log(.info, log: .examsProvider, "getTimeline failed to fetch")
+            return .init(entries: [], policy: .after(Date().advanced(by: 5 * 60)))
         }
+
+        guard let timeline = Timeline(response, now: now, calendar: calendar) else {
+            os_log(.info, log: .examsProvider, "getTimeline empty timeline")
+            return completeCheckingPreview(with: .noScheduleForPinned(
+                title: response.title,
+                subgroup: preferredSubgroup(for: pinnedSchedule)
+            ))
+        }
+
+        os_log(.info, log: .examsProvider, "getTimeline success, entries: \(timeline.entries.count)")
+        return timeline
     }
 
-    private func fetchExams(for source: ScheduleSource) async throws -> MostRelevantExamsScheduleResponse {
+    private func fetchExams(for source: ScheduleSource, onlyExams: Bool) async throws -> MostRelevantExamsScheduleResponse {
         switch source {
         case .group(let name):
             let schedule = try await apiClient.groupSchedule(name, false)
@@ -97,7 +94,8 @@ final class ExamsScheduleProvider: TimelineProvider {
                 title: schedule.studentGroup.name,
                 subgroup: preferredSubgroup(for: source),
                 exams: schedule.examSchedules,
-                calendar: calendar
+                calendar: calendar,
+                onlyExams: onlyExams
             )
         case .lector(let employee):
             let schedule = try await apiClient.lecturerSchedule(employee.urlId, false)
@@ -106,7 +104,8 @@ final class ExamsScheduleProvider: TimelineProvider {
                 title: schedule.employee.compactFio,
                 subgroup: preferredSubgroup(for: source),
                 exams: schedule.examSchedules ?? [],
-                calendar: calendar
+                calendar: calendar,
+                onlyExams: onlyExams
             )
         }
     }
@@ -120,6 +119,7 @@ final class ExamsScheduleProvider: TimelineProvider {
         requestTimeline?.cancel()
     }
 
+    private var staticOnlyExams: Bool
     @Dependency(\.apiClient) private var apiClient
     @Dependency(\.pinnedScheduleService) private var pinnedScheduleService
     @Dependency(\.premiumService) private var premiumService
@@ -134,6 +134,28 @@ final class ExamsScheduleProvider: TimelineProvider {
         didSet { oldValue?.cancel() }
     }
 }
+
+// MARK: - TimelineProvider
+
+extension ExamsScheduleProvider: TimelineProvider {
+    func placeholder(in context: Context) -> ExamsScheduleEntry {
+        .placeholder
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (ExamsScheduleEntry) -> Void) {
+        requestSnapshot = Task.detached(priority: .userInitiated) {
+            completion(await self.snapshot(in: context, onlyExams: self.staticOnlyExams))
+        }
+    }
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<ExamsScheduleEntry>) -> Void) {
+        requestTimeline = Task.detached(priority: .userInitiated) {
+            completion(await self.timeline(in: context, onlyExams: self.staticOnlyExams))
+        }
+    }
+}
+
+// MARK: - Log
 
 import OSLog
 

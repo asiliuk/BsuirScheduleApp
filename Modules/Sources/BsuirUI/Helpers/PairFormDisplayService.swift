@@ -67,8 +67,7 @@ private extension PairFormDisplayService {
         objectWillChange.send()
         update()
         // Make sure widget UI is also updated
-        widgetService.reload(.pinnedSchedule)
-        widgetService.reload(.examsSchedule)
+        widgetService.reloadAllPinned()
     }
 }
 

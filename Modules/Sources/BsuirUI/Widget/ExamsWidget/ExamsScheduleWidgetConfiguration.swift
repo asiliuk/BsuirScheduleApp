@@ -38,7 +38,9 @@ public struct ExamsScheduleWidgetConfiguration {
 
 extension ExamsScheduleWidgetConfiguration {
     public static let placeholder = Self(title: "---", content: .exams())
-    public static let preview = Self(title: "000001", content: .previewExams)
+    public static func preview(onlyExams: Bool) -> Self {
+        Self(title: "000001", content:  onlyExams ? .previewOnlyExams : .previewExams)
+    }
 
     public static func noPinned(deeplink: URL? = nil) -> Self {
         Self(deeplink: deeplink, title: "---", content: .noPinned)
@@ -52,6 +54,19 @@ extension ExamsScheduleWidgetConfiguration {
 // MARK: - Preview
 
 private extension ExamsScheduleWidgetConfiguration.Content {
+    static let previewOnlyExams: Self = {
+        guard case var .exams(days) = previewExams else {
+            assertionFailure()
+            return .noSchedule
+        }
+
+        return .exams(days: days.map { day in
+            var copy = day
+            copy.pairs = copy.pairs.filter { $0.form == .exam }
+            return copy
+        })
+    }()
+
     static let previewExams = Self.exams(days: [
         ExamsScheduleWidgetConfiguration.ExamDay(
             date: .now,
@@ -60,9 +75,9 @@ private extension ExamsScheduleWidgetConfiguration.Content {
                     from: "10:00",
                     to: "11:00",
                     interval: "10:00-11:00",
-                    form: .exam,
-                    subject: "Экзамен",
-                    subjectFullName: "Экзамен",
+                    form: .consultation,
+                    subject: "Консультация",
+                    subjectFullName: "Консультация",
                     auditory: "101-1",
                     progress: .init(constant: 0.5)
                 ),
@@ -76,17 +91,17 @@ private extension ExamsScheduleWidgetConfiguration.Content {
                     to: "13:00",
                     interval: "12:00-13:00",
                     form: .exam,
-                    subject: "Экзамен 2",
-                    subjectFullName: "Экзамен 2",
+                    subject: "Экзамен",
+                    subjectFullName: "Экзамен",
                     auditory: "102-2"
                 ),
                 PairViewModel(
                     from: "13:15",
                     to: "14:30",
                     interval: "13:15-14:30",
-                    form: .exam,
-                    subject: "Экзамен 3",
-                    subjectFullName: "Экзамен 3",
+                    form: .lecture,
+                    subject: "Лекция",
+                    subjectFullName: "Лекция",
                     auditory: "103-2"
                 ),
             ]
@@ -98,9 +113,9 @@ private extension ExamsScheduleWidgetConfiguration.Content {
                     from: "10:00",
                     to: "11:00",
                     interval: "10:00-11:00",
-                    form: .exam,
-                    subject: "Экзамен 4",
-                    subjectFullName: "Экзамен 4",
+                    form: .practice,
+                    subject: "Практика",
+                    subjectFullName: "Прктика",
                     auditory: "104-4"
                 ),
             ]
@@ -112,9 +127,9 @@ private extension ExamsScheduleWidgetConfiguration.Content {
                     from: "10:00",
                     to: "11:00",
                     interval: "10:00-11:00",
-                    form: .exam,
-                    subject: "Экзамен 5",
-                    subjectFullName: "Экзамен 5",
+                    form: .consultation,
+                    subject: "Консультация 2",
+                    subjectFullName: "Консультация 2",
                     auditory: "105-5"
                 ),
                 PairViewModel(
@@ -122,11 +137,20 @@ private extension ExamsScheduleWidgetConfiguration.Content {
                     to: "13:00",
                     interval: "12:00-13:00",
                     form: .exam,
-                    subject: "Экзамен 6",
-                    subjectFullName: "Экзамен 6",
+                    subject: "Экзамен 2",
+                    subjectFullName: "Экзамен 2",
                     auditory: "105-6"
                 ),
             ]
         ),
     ])
+}
+
+private extension ExamsScheduleWidgetConfiguration.Content {
+    var examsDays: [ExamsScheduleWidgetConfiguration.ExamDay]? {
+        guard case .exams(let days) = self else {
+            return nil
+        }
+        return days
+    }
 }

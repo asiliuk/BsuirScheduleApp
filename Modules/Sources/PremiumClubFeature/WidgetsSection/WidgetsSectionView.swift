@@ -17,7 +17,7 @@ struct WidgetsSectionView: View {
                             targetSize: CGSize(width: widgetPreviewSize / 2, height: widgetPreviewSize / 2)
                         )
                         widgetPreview(
-                            for: ExamsScheduleWidgetSmallView(config: .preview),
+                            for: ExamsScheduleWidgetSmallView(config: .preview(onlyExams: false)),
                             ofSize: CGSize(width: 170, height: 170),
                             targetSize: CGSize(width: widgetPreviewSize / 2, height: widgetPreviewSize / 2),
                             addPadding: false

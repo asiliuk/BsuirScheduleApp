@@ -7,31 +7,87 @@
         "be" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Расклад іспытаў для замацаванай групы або выкладчыка."
+            "value" : "Расклад іспытаў і сесіі для замацаванай групы або выкладчыка."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Exam schedule for an pinned group or teacher."
+            "value" : "Exam and session schedule for an pinned group or teacher."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Расписание экзаменов для закрепленной группы или преподавателя."
+            "value" : "Расписание экзаменов и сессии для закрепленной группы или преподавателя."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Розклад іспитів для закріпленої групи чи викладача."
+            "value" : "Розклад іспитів та сесії для закріпленої групи або викладача."
           }
         }
       }
     },
     "widget.exams.displayName" : {
       "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расклад Сесіі"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Session Schedule"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расписание Сессии"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розклад Сесії"
+          }
+        }
+      }
+    },
+    "widget.onlyExams.description" : {
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Толькі расклад іспытаў для замацаванай групы або выкладчыка."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only exam schedule for an pinned group or teacher."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только расписание экзаменов  для закрепленной группы или преподавателя."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лише розклад іспитів для закріпленої групи чи викладача."
+          }
+        }
+      }
+    },
+    "widget.onlyExams.displayName" : {
       "localizations" : {
         "be" : {
           "stringUnit" : {

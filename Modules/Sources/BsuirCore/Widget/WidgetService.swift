@@ -6,9 +6,18 @@ public struct WidgetService {
     public enum Timeline: String {
         case pinnedSchedule = "PinnedScheduleWidget"
         case examsSchedule = "ExamsScheduleWidget"
+        case onlyExamsSchedule = "OnlyExamsScheduleWidget"
     }
 
     public let reload: (Timeline) -> Void
+}
+
+extension WidgetService {
+    public func reloadAllPinned() {
+        reload(.pinnedSchedule)
+        reload(.examsSchedule)
+        reload(.examsSchedule)
+    }
 }
 
 extension WidgetService {

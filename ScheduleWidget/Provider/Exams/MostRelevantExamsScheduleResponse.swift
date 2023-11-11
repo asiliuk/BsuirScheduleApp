@@ -24,12 +24,16 @@ extension MostRelevantExamsScheduleResponse {
         title: String,
         subgroup: Int?,
         exams: [Pair],
-        calendar: Calendar
+        calendar: Calendar,
+        onlyExams: Bool
     ) {
         self.deeplink = deeplink
         self.title = title
         self.subgroup = subgroup
-        self.exams = exams.compactMap { ExamPair(pair: $0, calendar: calendar) }
+        self.exams = exams.compactMap { pair in
+            if onlyExams, pair.lessonType != .exam { return nil }
+            return ExamPair(pair: pair, calendar: calendar)
+        }
     }
 }
 

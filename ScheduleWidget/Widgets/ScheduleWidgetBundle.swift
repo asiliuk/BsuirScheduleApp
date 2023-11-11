@@ -6,5 +6,6 @@ struct ScheduleWidgetBundle: WidgetBundle {
     var body: some Widget {
         PinnedScheduleWidget()
         ExamsScheduleWidget()
+        OnlyExamsScheduleWidget()
     }
 }
