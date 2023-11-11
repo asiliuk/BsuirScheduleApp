@@ -2,6 +2,7 @@
     {
       "id": "0",
       "title": "Exams Widget",
+      "isFinished": true,
       "localizedTitle": [
         {
           "language": "ru",
@@ -20,26 +21,25 @@
           "value": "Віджет для іспитів"
         }
       ],
-      "status": "planned",
+      "status": "done",
       "localizedStatus": [
         {
           "language": "ru",
-          "value": "Запланировано"
+          "value": "Готово"
         },
         {
           "language": "en",
-          "value": "Planned"
+          "value": "Done"
         },
         {
           "language": "be",
-          "value": "Запланавана"
+          "value": "Гатова"
         },
         {
           "language": "uk",
-          "value": "Заплановано"
+          "value": "Готово"
         }
       ],
-      "description": "some description",
       "localizedDescription": [
         {
           "language": "ru",
@@ -99,7 +99,6 @@
             "value": "Заплановано"
           }
         ],
-        "description": "some description",
         "localizedDescription": [
           {
             "language": "ru",
@@ -140,23 +139,23 @@
             "value": "Інтеграція команд"
           }
         ],
-        "status": "planned",
+        "status": "idea",
         "localizedStatus": [
           {
             "language": "ru",
-            "value": "Запланировано"
+            "value": "Идея"
           },
           {
             "language": "en",
-            "value": "Planned"
+            "value": "Idea"
           },
           {
             "language": "be",
-            "value": "Запланавана"
+            "value": "Ідэя"
           },
           {
             "language": "uk",
-            "value": "Заплановано"
+            "value": "Ідея"
           }
         ],
         "description": "some description",
@@ -219,7 +218,6 @@
           "value": "Заплановано"
         }
       ],
-      "description": "some description",
       "localizedDescription": [
         {
           "language": "ru",
@@ -279,7 +277,6 @@
           "value": "Ідея"
         }
       ],
-      "description": "some description",
       "localizedDescription": [
         {
           "language": "ru",
@@ -339,7 +336,6 @@
           "value": "Ідея"
         }
       ],
-      "description": "some description",
       "localizedDescription": [
         {
           "language": "ru",
