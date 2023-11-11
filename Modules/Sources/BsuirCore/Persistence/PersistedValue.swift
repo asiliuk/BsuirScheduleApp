@@ -58,22 +58,6 @@ extension PersistedValue {
     public func onSet(_ onSet: @escaping (Value) -> Void) -> PersistedValue {
         PersistedValue(get: get, set: { onSet($0); self.set($0) })
     }
-
-    public func cacheInMemory() -> Self {
-        var cache: Value?
-        return .init(
-            get: {
-                if let cache { return cache }
-                let value = get()
-                cache = value
-                return value
-            },
-            set: { newValue in
-                set(newValue)
-                cache = newValue
-            }
-        )
-    }
 }
 
 // MARK: - OrderedSet
