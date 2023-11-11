@@ -41,7 +41,10 @@ final class PinnedScheduleProvider: TimelineProvider {
 
             guard let entry = Entry(schedule, at: Date()) else {
                 os_log(.info, log: .pinnedProvider, "getSnapshot failed to create entry")
-                return completion(.noScheduleForPinned(title: schedule.title))
+                return completion(.noScheduleForPinned(
+                    title: schedule.title,
+                    subgroup: preferredSubgroup(for: pinnedSchedule)
+                ))
             }
 
             os_log(.info, log: .pinnedProvider, "getSnapshot success")
@@ -71,7 +74,10 @@ final class PinnedScheduleProvider: TimelineProvider {
                 let schedule = try await mostRelevantSchedule(for: pinnedSchedule)
                 guard let timeline = Timeline(schedule) else {
                     os_log(.info, log: .pinnedProvider, "getTimeline empty timeline")
-                    return completeCheckingPreview(with: .noScheduleForPinned(title: schedule.title))
+                    return completeCheckingPreview(with: .noScheduleForPinned(
+                        title: schedule.title,
+                        subgroup: preferredSubgroup(for: pinnedSchedule)
+                    ))
                 }
                 os_log(.info, log: .pinnedProvider, "getTimeline success, entries: \(timeline.entries.count)")
                 return completion(timeline)

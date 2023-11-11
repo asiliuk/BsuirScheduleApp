@@ -41,7 +41,10 @@ final class ExamsScheduleProvider: TimelineProvider {
 
             guard let entry = Entry(schedule, at: now) else {
                 os_log(.info, log: .examsProvider, "getSnapshot failed to create entry")
-                return completeCheckingPreview(with: .noScheduleForPinned(title: schedule.title))
+                return completeCheckingPreview(with: .noScheduleForPinned(
+                    title: schedule.title,
+                    subgroup: preferredSubgroup(for: pinnedSchedule)
+                ))
             }
 
             os_log(.info, log: .examsProvider, "getSnapshot success")
@@ -74,7 +77,10 @@ final class ExamsScheduleProvider: TimelineProvider {
 
             guard let timeline = Timeline(response, now: now, calendar: calendar) else {
                 os_log(.info, log: .examsProvider, "getTimeline empty timeline")
-                return completeCheckingPreview(with: .noScheduleForPinned(title: response.title))
+                return completeCheckingPreview(with: .noScheduleForPinned(
+                    title: response.title,
+                    subgroup: preferredSubgroup(for: pinnedSchedule)
+                ))
             }
 
             os_log(.info, log: .examsProvider, "getTimeline success, entries: \(timeline.entries.count)")

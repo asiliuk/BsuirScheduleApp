@@ -73,7 +73,7 @@ struct PinnedScheduleWidgetEntryView: View {
 } timeline: {
     let entry = PinnedScheduleEntry.widgetPreview
     entry
-    mutating(entry) { $0.config = .noSchedule(title: "101010") }
+    mutating(entry) { $0.config = .noSchedule(title: "101010", subgroup: 100) }
     mutating(entry) { $0.config.content = .pairs() }
     mutating(entry) { $0.config = .noPinned() }
 }

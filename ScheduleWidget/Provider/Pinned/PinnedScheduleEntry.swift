@@ -17,11 +17,12 @@ extension PinnedScheduleEntry {
     static let premiumLocked = PinnedScheduleEntry(config: .noPinned(deeplink: deeplinkRouter.url(for: .pinned())))
     static let preview = PinnedScheduleEntry(config: .preview)
 
-    static func noScheduleForPinned(title: String) -> PinnedScheduleEntry {
+    static func noScheduleForPinned(title: String, subgroup: Int?) -> PinnedScheduleEntry {
         PinnedScheduleEntry(
             config: .noSchedule(
+                deeplink: deeplinkRouter.url(for: .pinned()),
                 title: title,
-                deeplink: deeplinkRouter.url(for: .pinned())
+                subgroup: subgroup
             )
         )
     }

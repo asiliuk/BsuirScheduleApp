@@ -44,8 +44,8 @@ extension ExamsScheduleWidgetConfiguration {
         Self(deeplink: deeplink, title: "---", content: .noPinned)
     }
 
-    public static func noSchedule(title: String, deeplink: URL? = nil) -> Self {
-        Self(deeplink: deeplink, title: title, content: .noSchedule)
+    public static func noSchedule(deeplink: URL? = nil, title: String, subgroup: Int?) -> Self {
+        Self(deeplink: deeplink, title: title, subgroup: subgroup, content: .noSchedule)
     }
 }
 

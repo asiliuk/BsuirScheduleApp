@@ -17,11 +17,12 @@ extension ExamsScheduleEntry {
     static let premiumLocked = ExamsScheduleEntry(config: .noPinned(deeplink: deeplinkRouter.url(for: .pinned())))
     static let preview = ExamsScheduleEntry(config: .preview)
     
-    static func noScheduleForPinned(title: String) -> ExamsScheduleEntry {
+    static func noScheduleForPinned(title: String, subgroup: Int?) -> ExamsScheduleEntry {
         ExamsScheduleEntry(
             config: .noSchedule(
+                deeplink: deeplinkRouter.url(for: .pinned(displayType: .exams)),
                 title: title,
-                deeplink: deeplinkRouter.url(for: .pinned(displayType: .exams))
+                subgroup: subgroup
             )
         )
     }
