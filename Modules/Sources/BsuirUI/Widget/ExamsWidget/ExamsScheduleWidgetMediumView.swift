@@ -62,7 +62,6 @@ public struct ExamsScheduleWidgetMediumView : View {
             }
         }
         .labeledContentStyle(.secondaryExamsSection)
-        .widgetPadding()
         .widgetBackground(Color(.systemBackground))
     }
 }

@@ -71,7 +71,6 @@ public struct ExamsScheduleWidgetLargeView : View {
             }
         }
         .labeledContentStyle(.secondaryExamsSection)
-        .widgetPadding()
         .widgetBackground(Color(.systemBackground))
     }
 }

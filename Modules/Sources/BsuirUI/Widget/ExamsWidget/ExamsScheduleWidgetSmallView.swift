@@ -68,7 +68,6 @@ public struct ExamsScheduleWidgetSmallView: View {
             }
         }
         .labeledContentStyle(.mainExamsSection)
-        .widgetPadding()
         .widgetBackground(Color(uiColor: .systemBackground))
     }
 }
