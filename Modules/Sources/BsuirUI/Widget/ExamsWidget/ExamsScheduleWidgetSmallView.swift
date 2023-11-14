@@ -17,7 +17,7 @@ public struct ExamsScheduleWidgetSmallView: View {
             ExamsScheduleWidgetHeader(
                 config: config,
                 showMainDate: false,
-                showBackground: renderingMode == .fullColor && showsWidgetBackground
+                showBackground: hasBackground
             )
 
             switch config.content {
@@ -62,12 +62,16 @@ public struct ExamsScheduleWidgetSmallView: View {
                         visibleCount: 1
                     )
                 }
-                .padding(.leading, 12)
-                .padding(.trailing, 4)
-                .padding(.bottom, 10)
+                .padding(.leading, hasBackground ? 12 : 4)
+                .padding(.trailing, hasBackground ? 4 : 0)
+                .padding(.bottom, hasBackground ? 10 : 4)
             }
         }
         .labeledContentStyle(.mainExamsSection)
         .widgetBackground(Color(uiColor: .systemBackground))
+    }
+
+    private var hasBackground: Bool {
+        renderingMode == .fullColor && showsWidgetBackground
     }
 }

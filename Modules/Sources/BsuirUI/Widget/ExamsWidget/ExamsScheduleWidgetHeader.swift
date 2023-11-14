@@ -21,7 +21,7 @@ struct ExamsScheduleWidgetHeader: View {
         }
         .padding(.top, 10)
         .padding(.bottom, 4)
-        .padding(.horizontal, 12)
+        .padding(.horizontal, showBackground ? 12 : 4)
         .background {
             if showBackground {
                 pairFormDisplayService.color(for: .exam).color
