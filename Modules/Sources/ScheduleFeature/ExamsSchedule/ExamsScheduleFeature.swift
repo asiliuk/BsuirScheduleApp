@@ -89,7 +89,7 @@ private extension DaySectionFeature.State {
                     return (start, end, pair)
                 }
                 .sorted(by: optionalSort(\.0))
-                .map { PairViewModel(start: $0, end: $1, pair: $2) },
+                .map { PairViewModel(start: $0, end: $1, pair: $2, progress: .notStarted) },
             pairRowDetails: pairRowDetails,
             pairRowDay: .date(date)
         )

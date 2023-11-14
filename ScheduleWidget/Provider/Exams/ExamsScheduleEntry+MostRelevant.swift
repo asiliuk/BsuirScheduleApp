@@ -39,11 +39,7 @@ extension ExamsScheduleEntry {
                             start: $0.start,
                             end: $0.end,
                             pair: $0.pair,
-                            progress: PairProgress(
-                                constantAt: widgetDate,
-                                start: $0.start,
-                                end: $0.end
-                            )
+                            progress: .constant(at: widgetDate, start: $0.start, end: $0.end)
                         )
                     }
                 )

@@ -72,7 +72,8 @@ private extension DayScheduleFeature.State {
             PairViewModel(
                 start: calendar.date(bySetting: $0.startLessonTime, of: now),
                 end: calendar.date(bySetting: $0.endLessonTime, of: now),
-                pair: $0
+                pair: $0,
+                progress: .notStarted
             )
         }
     }

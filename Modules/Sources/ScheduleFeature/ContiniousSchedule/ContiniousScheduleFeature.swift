@@ -164,7 +164,14 @@ private extension DaySectionFeature.State {
     ) {
         self.init(
             dayDate: .continuousDate(element.date, weekNumber: element.weekNumber),
-            pairs: element.pairs.map(PairViewModel.init(pair:)),
+            pairs: element.pairs.map { pair in
+                PairViewModel(
+                    start: pair.start,
+                    end: pair.end,
+                    pair: pair.base,
+                    progress: .updating(start: pair.start, end: pair.end)
+                )
+            },
             pairRowDetails: pairRowDetails,
             pairRowDay: .date(element.date)
         )

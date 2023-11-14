@@ -102,14 +102,10 @@ extension Timeline where EntryType == PinnedScheduleEntry {
 private extension PairViewModel {
     init(pair: WeekSchedule.ScheduleElement.Pair, date: Date) {
         self.init(
-            pair: pair,
-            progress: PairProgress(at: date, pair: pair)
+            start: pair.start,
+            end: pair.end,
+            pair: pair.base,
+            progress: .constant(at: date, start: pair.start, end: pair.end)
         )
-    }
-}
-
-private extension PairProgress {
-    convenience init(at date: Date, pair: WeekSchedule.ScheduleElement.Pair) {
-        self.init(constantAt: date, start: pair.start, end: pair.end)
     }
 }

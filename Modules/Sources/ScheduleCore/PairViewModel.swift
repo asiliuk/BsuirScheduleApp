@@ -74,7 +74,7 @@ extension PairViewModel {
         start: Date?,
         end: Date?,
         pair: BsuirApi.Pair,
-        progress: PairProgress = .init(constant: 0)
+        progress: PairProgress
     ) {
         self.init(
             from: Self.time(from: start),
@@ -151,39 +151,6 @@ private extension PairViewModel {
     
     static func weeks(from weekNumber: WeekNum) -> String? {
         weekNumber.prettyName?.capitalized
-    }
-}
-
-extension PairViewModel {
-    public init(pair: WeekSchedule.ScheduleElement.Pair, progress: PairProgress) {
-        self.init(
-            start: pair.start,
-            end: pair.end,
-            pair: pair.base,
-            progress: progress
-        )
-    }
-    
-    public init(pair: WeekSchedule.ScheduleElement.Pair) {
-        self.init(
-            start: pair.start,
-            end: pair.end,
-            pair: pair.base,
-            progress: PairProgress(from: pair.start, to: pair.end)
-        )
-    }
-}
-
-private extension PairProgress {
-    convenience init(from: Date, to: Date) {
-        self.init(
-            Timer
-                .publish(every: 60, on: .main, in: .default)
-                .autoconnect()
-                .prepend(Date())
-                .map { Self.progress(at: $0, from: from, to: to) }
-                .eraseToAnyPublisher()
-        )
     }
 }
 
