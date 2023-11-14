@@ -5480,6 +5480,122 @@
         }
       }
     },
+    "screen.settings.whatsNew.3_2.examsWidgets.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дададзены новыя віджэты расклад сесіі і экзаменаў"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added new widgets for session and exam schedules"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавлены новые виджеты расписание сессии и экзаменов"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додано нові віджети розклад сесії та іспитів"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_2.examsWidgets.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віджэты Сесіі і Экзаменаў"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Session and Exam Widgets"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виджеты Сессии и Экзаменов"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віджети Сесії та Екзаменів"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_2.subgroupFilter.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цяпер можна адфільтраваць расклад па падгрупе, працуе і ў віджэтах"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now you can filter the schedule by subgroup, it also works in widgets"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Теперь можно отфильтровать расписание по подгруппе, работает и в виджетах"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тепер можна відфільтрувати розклад по підгрупі, працює і у віджетах"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_2.subgroupFilter.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фільтр па падгрупе"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter by subgroup"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фильтр по подгруппе"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фільтр по підгрупі"
+          }
+        }
+      }
+    },
     "screen.settings.whatsNew.button.gotIt" : {
       "extractionState" : "manual",
       "localizations" : {
