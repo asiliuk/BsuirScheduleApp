@@ -14,6 +14,10 @@ public final class PairProgress: ObservableObject, Equatable {
         value.removeDuplicates().assign(to: &self.$value)
     }
 
+    public convenience init(constantAt date: Date, start: Date, end: Date) {
+        self.init(constant: Self.progress(at: date, from: start, to: end))
+    }
+
     public static func progress(at date: Date, from: Date, to: Date) -> Double {
         guard date >= from else { return 0 }
         guard date <= to else { return 1 }

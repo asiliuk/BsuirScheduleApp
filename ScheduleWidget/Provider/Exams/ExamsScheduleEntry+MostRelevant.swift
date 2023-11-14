@@ -22,7 +22,7 @@ extension ExamsScheduleEntry {
 
     init?(
         relevantPairs: [MostRelevantExamsScheduleResponse.ExamPair],
-        at date: Date,
+        at widgetDate: Date,
         title: String,
         subgroup: Int?,
         deeplink: Deeplink
@@ -38,15 +38,20 @@ extension ExamsScheduleEntry {
                         PairViewModel(
                             start: $0.start,
                             end: $0.end,
-                            pair: $0.pair
+                            pair: $0.pair,
+                            progress: PairProgress(
+                                constantAt: widgetDate,
+                                start: $0.start,
+                                end: $0.end
+                            )
                         )
                     }
                 )
             }
 
         self.init(
-            date: date,
-            relevance: TimelineEntryRelevance(date: date, firstPairStart: firstPair.start),
+            date: widgetDate,
+            relevance: TimelineEntryRelevance(date: widgetDate, firstPairStart: firstPair.start),
             config: ExamsScheduleWidgetConfiguration(
                 deeplink: deeplinkRouter.url(for: deeplink),
                 title: title,

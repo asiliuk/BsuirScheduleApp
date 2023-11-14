@@ -110,6 +110,6 @@ private extension PairViewModel {
 
 private extension PairProgress {
     convenience init(at date: Date, pair: WeekSchedule.ScheduleElement.Pair) {
-        self.init(constant: Self.progress(at: date, from: pair.start, to: pair.end))
+        self.init(constantAt: date, start: pair.start, end: pair.end)
     }
 }
