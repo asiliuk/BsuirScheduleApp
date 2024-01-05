@@ -20,6 +20,7 @@ struct PairDetailsView: View {
         var auditory: String
         var weeks: String
         var notes: String?
+        var photoPreview: URL?
 
         init(_ state: PairDetailsFeature.State) {
             self.title = state.pair.subject ?? "--"
@@ -42,6 +43,7 @@ struct PairDetailsView: View {
             self.auditory = state.pair.auditory ?? "--"
             self.weeks = state.pair.weeks ?? "--"
             self.notes = state.pair.note
+            self.photoPreview = state.photoPreview
         }
     }
     let store: StoreOf<PairDetailsFeature>
@@ -58,6 +60,8 @@ struct PairDetailsView: View {
                                     name: employee.fio
                                 ) {
                                     viewStore.send(.lectorTapped(employee))
+                                } onPhotoTap: {
+                                    viewStore.send(.lectorPhotoTapped(employee))
                                 }
                             }
                         }
@@ -114,6 +118,7 @@ struct PairDetailsView: View {
                         viewStore.send(.closeButtonTapped)
                     }
                 }
+                .photoPreview(viewStore.binding(get: \.photoPreview, send: { .setPhotoPreview($0) }))
             }
         }
         .presentationDetents([.fraction(0.4), .large])
@@ -127,19 +132,17 @@ private struct LecturerCell: View {
     let photo: URL?
     let name: String
     var onTap: () -> Void = unimplemented("LecturerCell.onTap")
-//    var onPhotoTap: () -> Void = unimplemented("LecturerCell.onPhotoTap")
+    var onPhotoTap: () -> Void = unimplemented("LecturerCell.onPhotoTap")
 
     var body: some View {
         Button(action: onTap) {
             HStack {
-                // TODO: https://github.com/asiliuk/BsuirScheduleApp/issues/155
-                // Button(action: onPhotoTap) { <avatar> }
-                // .overlay(alignment: .bottomTrailing) {
-                //    Image(systemName: "magnifyingglass.circle.fill")
-                //        .font(.title3)
-                //        .foregroundStyle(Color.primary, Color(uiColor: .secondarySystemGroupedBackground))
-                //}
-                Avatar(url: photo, baseSize: 60)
+                Button(action: onPhotoTap) { Avatar(url: photo, baseSize: 60) }
+                    .overlay(alignment: .bottomTrailing) {
+                        Image(systemName: "magnifyingglass.circle.fill")
+                            .font(.title3)
+                            .foregroundStyle(Color.primary, Color(uiColor: .secondarySystemGroupedBackground))
+                    }
 
                 Text(name)
 

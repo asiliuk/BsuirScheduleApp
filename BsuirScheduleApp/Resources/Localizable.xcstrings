@@ -5596,6 +5596,64 @@
         }
       }
     },
+    "screen.settings.whatsNew.3_3.photoPreview.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фота выкладчыкаў у дэталях пары зараз можна адкрыць на ўвесь экран і нарэшце даведацца як яны выглядаюць"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos of lecturers in the pair details can now be opened in full screen, you could finally find out what they look like"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фото преподавателей в деталях пары теперь можно открыть на весь экран и наконец узнать как они выглядят"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фото викладачів у деталях пари тепер можна відкрити на весь екран та нарешті дізнатися як вони виглядають"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_3.photoPreview.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фота выкладчыка"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lector photo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фото преподавателя"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фото викладача"
+          }
+        }
+      }
+    },
     "screen.settings.whatsNew.button.gotIt" : {
       "extractionState" : "manual",
       "localizations" : {

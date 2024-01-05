@@ -8,6 +8,7 @@ public struct PairDetailsFeature: Reducer {
         var pair: PairViewModel
         var rowDetails: PairRowDetails?
         var rowDay: PairRowDay
+        var photoPreview: URL?
     }
 
     public enum Action: Equatable {
@@ -19,6 +20,8 @@ public struct PairDetailsFeature: Reducer {
         case closeButtonTapped
         case groupTapped(String)
         case lectorTapped(Employee)
+        case lectorPhotoTapped(Employee)
+        case setPhotoPreview(URL?)
         case delegate(Delegate)
     }
 
@@ -35,6 +38,14 @@ public struct PairDetailsFeature: Reducer {
 
             case .lectorTapped(let employee):
                 return .send(.delegate(.showLectorSchedule(employee)))
+
+            case .lectorPhotoTapped(let employee):
+                state.photoPreview = employee.photoLink
+                return .none
+
+            case .setPhotoPreview(let url):
+                state.photoPreview = url
+                return .none
 
             case .delegate:
                 return .none
