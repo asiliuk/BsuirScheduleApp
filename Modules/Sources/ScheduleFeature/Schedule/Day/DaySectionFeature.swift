@@ -11,12 +11,19 @@ public struct DaySectionFeature: Reducer {
             case examDate(Date?)
         }
 
+        enum Relativity {
+            case past
+            case today
+            case future
+        }
+
         public var id: UUID
         var dayDate: DayDate
         var title: String = ""
         var subtitle: String? = nil
-        var isToday: Bool = false
+        var relativity: Relativity = .future
         var pairRows: IdentifiedArrayOf<PairRowFeature.State>
+        var keepingSubgroup: Int?
 
         init(
             dayDate: DayDate,
@@ -57,16 +64,17 @@ public struct DaySectionFeature: Reducer {
                 case .continuousDate(let date, let weekNumber):
                     state.title = String(localized: "screen.schedule.day.title.\(date.formatted(.scheduleDay)).\(weekNumber)")
                     state.subtitle = Self.relativeFormatter.relativeName(for: date, now: now)
-                    state.isToday = calendar.isDate(date, inSameDayAs: now)
+                    state.relativity = State.Relativity(for: date, now: now, calendar: calendar)
                 case .weekday(let weekday):
                     state.title = weekday.localizedName(in: calendar).capitalized
                     state.subtitle = nil
-                    state.isToday = false
+                    state.relativity = .future
                 case .examDate(let date):
                     state.title = date?.formatted(.examDay) ?? "-/-"
                     state.subtitle = date.flatMap { Self.relativeFormatter.relativeName(for: $0, now: now) }
-                    state.isToday = date.map { calendar.isDate($0, inSameDayAs: now) } ?? false
+                    state.relativity = date.map { State.Relativity(for: $0, now: now, calendar: calendar) } ?? .future
                 }
+                state.filter(keepingSubgroup: state.keepingSubgroup)
                 return .none
             case .pairRow:
                 return .none
@@ -80,11 +88,24 @@ public struct DaySectionFeature: Reducer {
     private static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 }
 
+private extension DaySectionFeature.State.Relativity {
+    init(for date: Date, now: Date, calendar: Calendar) {
+        if calendar.isDate(date, inSameDayAs: now) {
+            self = .today
+        } else if date < now {
+            self = .past
+        } else {
+            self = .future
+        }
+    }
+}
+
 // MARK: - Filter
 
 extension DaySectionFeature.State {
     mutating func filter(keepingSubgroup: Int?) {
         func isFiltered(subgroup: Int) -> Bool {
+            if relativity == .past { return true }
             guard let keepingSubgroup, subgroup > 0 else { return false }
             return subgroup != keepingSubgroup
         }
@@ -92,5 +113,7 @@ extension DaySectionFeature.State {
         for index in pairRows.indices {
             pairRows[index].isFiltered = isFiltered(subgroup: pairRows[index].pair.subgroup)
         }
+
+        self.keepingSubgroup = keepingSubgroup
     }
 }

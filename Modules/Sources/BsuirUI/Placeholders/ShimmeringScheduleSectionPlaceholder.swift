@@ -18,7 +18,7 @@ public struct ShimmeringScheduleSectionPlaceholder: View {
             ScheduleDateTitle(
                 date: String(repeating: "-", count: titleLength),
                 relativeDate: nil,
-                isToday: false
+                relativity: .upcoming
             )
             .shimmeringPlaceholder()
         }

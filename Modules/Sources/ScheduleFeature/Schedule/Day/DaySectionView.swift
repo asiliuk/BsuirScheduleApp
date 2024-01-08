@@ -17,17 +17,36 @@ struct DaySectionView: View {
         } header: {
             WithViewStore(
                 store,
-                observe: { (title: $0.title, subtitle: $0.subtitle, isToday: $0.isToday) },
+                observe: {
+                    (
+                        title: $0.title,
+                        subtitle: $0.subtitle,
+                        relativity: ScheduleDateTitle.Relativity($0.relativity)
+                    )
+                },
                 removeDuplicates: ==
             ) { viewStore in
                 ScheduleDateTitle(
                     date: viewStore.title,
                     relativeDate: viewStore.subtitle,
-                    isToday: viewStore.isToday
+                    relativity: viewStore.relativity
                 )
                 .transaction { $0.animation = nil }
                 .onAppear { viewStore.send(.onAppear) }
             }
+        }
+    }
+}
+
+private extension ScheduleDateTitle.Relativity {
+    init(_ relativity: DaySectionFeature.State.Relativity) {
+        switch relativity {
+        case .past:
+            self = .passed
+        case .today:
+            self = .today
+        case .future:
+            self = .upcoming
         }
     }
 }
