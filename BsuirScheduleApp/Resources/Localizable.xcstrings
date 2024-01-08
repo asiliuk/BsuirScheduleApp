@@ -6621,13 +6621,13 @@
       "localizations" : {
         "be" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Невядома/%@"
           }
         },
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Unknown/%@"
           }
         },
@@ -6639,7 +6639,7 @@
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Невідомо/%@"
           }
         }

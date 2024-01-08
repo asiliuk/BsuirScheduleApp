@@ -2,3 +2,4 @@
 "widget.schedule.noSchedule" = "🧑‍🏫 Няма раскладу";
 "widget.schedule.more.%lld" = "яшчэ %lld";
 "widget.noPinned.title" = "Няма замацаванага раскладу";
+"view.pairView.announcement.title" = "📣 Аб'ява";

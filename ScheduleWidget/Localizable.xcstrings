@@ -1,6 +1,35 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
+    "view.pairView.announcement.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📣 Аб'ява"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📣 Announcement"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📣 Объявление"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📣 Оголошення"
+          }
+        }
+      }
+    },
     "widget.exams.description" : {
       "extractionState" : "manual",
       "localizations" : {
