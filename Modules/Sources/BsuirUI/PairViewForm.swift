@@ -8,6 +8,7 @@ public enum PairViewForm: String, CaseIterable, Identifiable {
     case lab
     case exam
     case consultation
+    case test
     case unknown
 }
 
@@ -21,6 +22,7 @@ public extension PairViewForm {
         case .lab: self = .lab
         case .lecture: self = .lecture
         case .practice: self = .practice
+        case .test: self = .test
         case .unknown: self = .unknown
         }
     }
@@ -36,6 +38,7 @@ extension PairViewForm {
         case .practice: return "view.pairView.form.name.practice"
         case .consultation: return "view.pairView.form.name.consultation"
         case .exam: return "view.pairView.form.name.exam"
+        case .test: return "view.pairView.form.name.test"
         case .unknown: return "view.pairView.form.name.unknown"
         }
     }
@@ -47,18 +50,8 @@ extension PairViewForm {
         case .practice: return "hammer"
         case .consultation: return "case"
         case .exam: return "graduationcap"
+        case .test: return "pencil.and.list.clipboard"
         case .unknown: return "questionmark"
-        }
-    }
-
-    @ViewBuilder public var shape: some View {
-        switch self {
-        case .lecture: Circle()
-        case .practice: Rectangle()
-        case .lab: Image(systemName: "triangle.fill").resizable()
-        case .consultation: Image(systemName: "hexagon.fill").resizable()
-        case .exam: Image(systemName: "star.fill").resizable()
-        case .unknown: Image(systemName: "rhombus.fill").resizable()
         }
     }
 }

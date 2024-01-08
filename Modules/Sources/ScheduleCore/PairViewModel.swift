@@ -8,6 +8,7 @@ public struct PairViewModel: Equatable, Identifiable {
         case lab
         case consultation
         case exam
+        case test
         case unknown(String?)
 
         public init(_ form: BsuirApi.Pair.Form?) {
@@ -17,6 +18,7 @@ public struct PairViewModel: Equatable, Identifiable {
             case .lab: self = .lab
             case .consultation: self = .consultation
             case .exam: self = .exam
+            case .test: self = .test
             case let .unknown(value): self = .unknown(value)
             case nil: self = .unknown(nil)
             }

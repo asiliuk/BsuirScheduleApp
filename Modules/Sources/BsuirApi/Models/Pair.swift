@@ -4,11 +4,19 @@ import BsuirCore
 public struct Pair: Codable, Equatable {
 
     public enum Form : Equatable {
+        /// Лекция
         case lecture
+        /// Практическое занятие
         case practice
+        /// Лабораторное занятие
         case lab
+        /// Консультация
         case consultation
+        /// Экзамен
         case exam
+        /// Зачет
+        case test
+        /// Неизвестно что
         case unknown(String)
     }
 
@@ -156,6 +164,8 @@ extension Pair.Form: Codable {
             self = .consultation
         case "экзамен":
             self = .exam
+        case "зачет":
+            self = .test
         case let unknown:
             self = .unknown(unknown)
         }
@@ -175,6 +185,8 @@ extension Pair.Form: Codable {
             try container.encode("консультация")
         case .exam:
             try container.encode("экзамен")
+        case .test:
+            try container.encode("зачет")
         case let .unknown(value):
             try container.encode(value)
         }

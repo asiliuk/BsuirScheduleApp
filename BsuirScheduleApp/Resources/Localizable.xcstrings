@@ -6558,6 +6558,35 @@
         }
       }
     },
+    "view.pairView.form.name.test" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Залік"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зачет"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Залік"
+          }
+        }
+      }
+    },
     "view.pairView.form.name.unknown" : {
       "extractionState" : "manual",
       "localizations" : {

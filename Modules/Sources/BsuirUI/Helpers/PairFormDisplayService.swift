@@ -88,6 +88,8 @@ private extension PairViewForm {
             return .brown
         case .exam:
             return .purple
+        case .test:
+            return .indigo
         case .unknown:
             return .gray
         }
