@@ -48,7 +48,7 @@ private extension DayScheduleFeature.State {
         let days = DaySchedule.WeekDay.allCases
             .compactMap { (weekday: DaySchedule.WeekDay) -> DaySectionFeature.State? in
                 guard
-                    let pairs = schedule[weekday],
+                    let pairs = schedule[weekday]?.filter({ $0.dateLesson == nil }),
                     !pairs.isEmpty
                 else { return nil }
 
