@@ -38,7 +38,7 @@ struct PairDetailsView: View {
                 weekDay.localizedName(in: .current).capitalized
             }
 
-            self.formName = PairViewForm(state.pair.form).name
+            self.formName = state.pair.form.name
             self.subgroup = state.pair.subgroup == 0 ? "--" : String(describing: state.pair.subgroup)
             self.auditory = state.pair.auditory ?? "--"
             self.weeks = state.pair.weeks ?? "--"
@@ -46,6 +46,7 @@ struct PairDetailsView: View {
             self.photoPreview = state.photoPreview
         }
     }
+
     let store: StoreOf<PairDetailsFeature>
 
     var body: some View {

@@ -6616,6 +6616,35 @@
         }
       }
     },
+    "view.pairView.form.name.unknown.named%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Невядома/%@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Unknown/%@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неизвестно/%@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Невідомо/%@"
+          }
+        }
+      }
+    },
     "view.subgroupPicker.allSubgroups.title" : {
       "extractionState" : "manual",
       "localizations" : {

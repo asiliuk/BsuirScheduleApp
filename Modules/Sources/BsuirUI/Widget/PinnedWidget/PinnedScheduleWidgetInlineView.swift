@@ -27,7 +27,7 @@ public struct PinnedScheduleWidgetInlineView: View {
             )
 
             if let pair = pairs.visible.last {
-                let form = Image(systemName: PairViewForm(pair.form).symbolName)
+                let form = Image(systemName: pair.form.symbolName)
                 InlineView(text: "\(pair.from) \(form) \(pair.subject ?? "")")
             }
         }

@@ -12,22 +12,6 @@ public enum PairViewForm: String, CaseIterable, Identifiable {
     case unknown
 }
 
-// MARK: - PairViewModel.Form
-
-public extension PairViewForm {
-    init(_ form: PairViewModel.Form) {
-        switch form {
-        case .exam: self = .exam
-        case .consultation: self = .consultation
-        case .lab: self = .lab
-        case .lecture: self = .lecture
-        case .practice: self = .practice
-        case .test: self = .test
-        case .unknown: self = .unknown
-        }
-    }
-}
-
 // MARK: - Details
 
 extension PairViewForm {
@@ -52,6 +36,36 @@ extension PairViewForm {
         case .exam: return "graduationcap"
         case .test: return "pencil.and.list.clipboard"
         case .unknown: return "questionmark"
+        }
+    }
+}
+
+// MARK: - PairViewModel.Form
+
+extension PairViewModel.Form {
+
+    public var name: LocalizedStringKey {
+        switch self {
+        case let .unknown(name?):
+            "view.pairView.form.name.unknown.named\(name)"
+        case let form:
+            form.viewForm.name
+        }
+    }
+
+    public var symbolName: String {
+        viewForm.symbolName
+    }
+
+    public var viewForm: PairViewForm {
+        switch self {
+        case .exam: .exam
+        case .consultation: .consultation
+        case .lab: .lab
+        case .lecture: .lecture
+        case .practice: .practice
+        case .test: .test
+        case .unknown: .unknown
         }
     }
 }

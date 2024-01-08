@@ -254,7 +254,7 @@ extension PairView {
             subgroup: pair.subgroup == 0 ? nil : String(describing: pair.subgroup),
             auditory: pair.auditory,
             note: pair.note,
-            form: PairViewForm(pair.form),
+            form: pair.form.viewForm,
             progress: pair.progress,
             distribution: distribution,
             isCompact: isCompact,
