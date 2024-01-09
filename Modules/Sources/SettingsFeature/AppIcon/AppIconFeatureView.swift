@@ -126,7 +126,7 @@ private struct AppIconGroupPicker<Icon: AppIconProtocol>: View {
     @Binding var selection: AppIcon?
     let isPremiumLocked: Bool
     let label: LocalizedStringKey
-    let casePath: CasePath<AppIcon, Icon>
+    let casePath: AnyCasePath<AppIcon, Icon>
 
     var body: some View {
         Section(label) {

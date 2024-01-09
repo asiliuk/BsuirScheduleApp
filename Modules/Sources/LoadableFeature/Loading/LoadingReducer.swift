@@ -14,7 +14,7 @@ extension Reducer where Action: LoadableAction, Action.State == State {
     
     public func load<ValueState: Equatable, ValueAction>(
         _ keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
-        action: CasePath<Action, ValueAction>,
+        action: AnyCasePath<Action, ValueAction>,
         @ReducerBuilder<ValueState, ValueAction> _ valueReducer: () -> some Reducer<ValueState, ValueAction>,
         fetch: @Sendable @escaping (State, _ isRefresh: Bool) async throws -> ValueState
     ) -> some Reducer<State, Action> {
@@ -124,11 +124,11 @@ private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
 
 // MARK: - CasePath
 
-private extension CasePath {
+private extension AnyCasePath {
     static func loading<V>(
         keyPath: WritableKeyPath<Root.State, LoadableState<V>>
-    ) -> CasePath where Root: LoadableAction, Value == LoadingAction<Root.State>.Action {
-        CasePath(
+    ) -> AnyCasePath where Root: LoadableAction, Value == LoadingAction<Root.State>.Action {
+        AnyCasePath(
             embed: { loadingAction in
                 .loading(.init(keyPath: keyPath, action: loadingAction))
             },
