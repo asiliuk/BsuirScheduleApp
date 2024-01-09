@@ -13,7 +13,7 @@ struct GroupsSectionView: View {
                 ForEachStore(
                     store.scope(
                         state: \.groupRows,
-                        action: GroupsSection.Action.groupRow
+                        action: GroupsSection.Action.groupRows
                     )
                 ) { store in
                     GroupsRowView(store: store)

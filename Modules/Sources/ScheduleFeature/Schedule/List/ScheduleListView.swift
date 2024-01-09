@@ -27,7 +27,7 @@ private struct ScheduleContentListView: View {
                     ForEachStore(
                         store.scope(
                             state: \.days,
-                            action: { .day(id: $0, action: $1) }
+                            action: \.days
                         ),
                         content: DaySectionView.init
                     )

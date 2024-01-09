@@ -14,8 +14,9 @@ public struct PairFormsColorPicker: Reducer {
         }
     }
 
+    @CasePathable
     public enum Action: Equatable {
-        case pairFormColorPickers(id: String, action: PairFormColorPicker.Action)
+        case pairFormColorPickers(IdentifiedActionOf<PairFormColorPicker>)
         case resetButtonTapped
     }
 
@@ -28,7 +29,7 @@ public struct PairFormsColorPicker: Reducer {
                 pairFormDisplayService.resetColors()
                 state.update(service: pairFormDisplayService)
                 return .none
-            case .pairFormColorPickers(let id, .delegate(.colorDidChange)):
+            case .pairFormColorPickers(.element(let id, .delegate(.colorDidChange))):
                 guard let formState = state.pairFormColorPickers[id: id] else { return .none }
                 pairFormDisplayService.setColor(formState.color, for: formState.form)
                 state.updateHasChanges(service: pairFormDisplayService)
@@ -37,7 +38,7 @@ public struct PairFormsColorPicker: Reducer {
                 return .none
             }
         }
-        .forEach(\.pairFormColorPickers, action: /Action.pairFormColorPickers) {
+        .forEach(\.pairFormColorPickers, action: \.pairFormColorPickers) {
             PairFormColorPicker()
         }
 

@@ -17,13 +17,14 @@ public struct GroupsSection: Reducer {
         }
     }
 
+    @CasePathable
     public enum Action: Equatable {
-        case groupRow(id: GroupsRow.State.ID, action: GroupsRow.Action)
+        case groupRows(IdentifiedActionOf<GroupsRow>)
     }
 
     public var body: some ReducerOf<Self> {
         EmptyReducer()
-            .forEach(\.groupRows, action: /Action.groupRow) {
+            .forEach(\.groupRows, action: \.groupRows) {
                 GroupsRow()
             }
     }

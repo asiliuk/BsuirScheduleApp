@@ -31,7 +31,7 @@ struct TipsSectionView: View {
                         ForEachStore(
                             store.scope(
                                 state: \.tipsAmounts,
-                                action: TipsSection.Action.tipsAmount
+                                action: \.tipsAmounts
                             ),
                             content: TipsAmountRow.init
                         )

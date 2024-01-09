@@ -38,7 +38,7 @@ private struct LoadingGroupsView: View {
             store,
             state: \.$sections,
             loading: \.$loadedGroups,
-            action: GroupsFeature.Action.groupSection
+            action: GroupsFeature.Action.groupSections
         ) { store in
             ScrollableToTopList(isOnTop: $isOnTop) {
                 IfLetStore(self.store.scope(state: \.pinned, action: { .pinned($0) })) { store in

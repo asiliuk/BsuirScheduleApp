@@ -10,7 +10,7 @@ struct DaySectionView: View {
             ForEachStore(
                 store.scope(
                     state: \.pairRows,
-                    action: { .pairRow(id: $0, action: $1) }
+                    action: \.pairRows
                 ),
                 content: { PairRowView(store: $0) }
             )

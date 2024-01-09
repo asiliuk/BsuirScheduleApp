@@ -61,6 +61,7 @@ public struct GroupsFeature: Reducer {
         public init() {}
     }
     
+    @CasePathable
     public enum Action: Equatable, LoadableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
@@ -70,7 +71,7 @@ public struct GroupsFeature: Reducer {
         case pinned(GroupsSection.Action)
         case favorites(GroupsSection.Action)
         case search(GroupsSearch.Action)
-        case groupSection(id: GroupsSection.State.ID, action: GroupsSection.Action)
+        case groupSections(IdentifiedActionOf<GroupsSection>)
 
         case task
         case setIsOnTop(Bool)
@@ -102,17 +103,17 @@ public struct GroupsFeature: Reducer {
                 state.isOnTop = value
                 return .none
 
-            case let .groupSection(sectionId, action: .groupRow(rowId, action: .rowTapped)):
+            case let .groupSections(.element(sectionId, action: .groupRows(.element(rowId, action: .rowTapped)))):
                 let groupName = state.sections?[id: sectionId]?.groupRows[id: rowId]?.groupName
                 state.presentGroup(groupName)
                 return .none
 
-            case let .pinned(.groupRow(rowId, .rowTapped)):
+            case let .pinned(.groupRows(.element(rowId, .rowTapped))):
                 let groupName = state.pinned?.groupRows[id: rowId]?.groupName
                 state.presentGroup(groupName)
                 return .none
 
-            case let .favorites(.groupRow(rowId, .rowTapped)):
+            case let .favorites(.groupRows(.element(rowId, .rowTapped))):
                 let groupName = state.favorites?.groupRows[id: rowId]?.groupName
                 state.presentGroup(groupName)
                 return .none
@@ -140,9 +141,9 @@ public struct GroupsFeature: Reducer {
                 filteredPinned(state: &state)
                 return .none
 
-            case .pinned(.groupRow(_, .mark(.delegate(let action)))),
-                 .favorites(.groupRow(_, .mark(.delegate(let action)))),
-                 .groupSection(_, .groupRow(_, action: .mark(.delegate(let action)))):
+            case .pinned(.groupRows(.element(_, .mark(.delegate(let action))))),
+                    .favorites(.groupRows(.element(_, .mark(.delegate(let action))))),
+                    .groupSections(.element(_, .groupRows(.element(_, .mark(.delegate(let action)))))):
                 switch action {
                 case .showPremiumClub:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -160,7 +161,7 @@ public struct GroupsFeature: Reducer {
                     return .none
                 }
 
-            case .pinned, .favorites, .search, .groupSection, .loading, .delegate, .path:
+            case .pinned, .favorites, .search, .groupSections, .loading, .delegate, .path:
                 return .none
             }
         }
@@ -170,9 +171,9 @@ public struct GroupsFeature: Reducer {
         .ifLet(\.favorites, action: /Action.favorites) {
             GroupsSection()
         }
-        .ifLet(\.sections, action: /Action.groupSection) {
-            EmptyReducer<IdentifiedArrayOf<GroupsSection.State>, _>()
-                .forEach(\.self, action: .self) {
+        .ifLet(\.sections, action: /Action.groupSections) {
+            EmptyReducer()
+                .forEach(\.self, action: \.self) {
                     GroupsSection()
                 }
         }

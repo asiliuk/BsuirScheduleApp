@@ -16,6 +16,7 @@ public struct ScheduleListFeature: Reducer {
         var loading: Loading
     }
 
+    @CasePathable
     public enum Action: Equatable {
         public enum Delegate: Equatable {
             case loadMore
@@ -25,7 +26,7 @@ public struct ScheduleListFeature: Reducer {
 
         case loadingIndicatorAppeared
         case setIsOnTop(Bool)
-        case day(id: DaySectionFeature.State.ID, action: DaySectionFeature.Action)
+        case days(IdentifiedActionOf<DaySectionFeature>)
         case delegate(Delegate)
     }
 
@@ -39,7 +40,7 @@ public struct ScheduleListFeature: Reducer {
             case .loadingIndicatorAppeared:
                 return .send(.delegate(.loadMore))
 
-            case .day(_, action: .pairRow(_ , .delegate(let action))):
+            case .days(.element(_, action: .pairRows(.element(_ , .delegate(let action))))):
                 switch action {
                 case .showGroupSchedule(let groupName):
                     return .send(.delegate(.showGroupSchedule(groupName)))
@@ -48,11 +49,11 @@ public struct ScheduleListFeature: Reducer {
                     return .send(.delegate(.showLectorSchedule(employee)))
                 }
 
-            case .day, .delegate:
+            case .days, .delegate:
                 return .none
             }
         }
-        .forEach(\.days, action: /Action.day) {
+        .forEach(\.days, action: \.days) {
             DaySectionFeature()
         }
     }

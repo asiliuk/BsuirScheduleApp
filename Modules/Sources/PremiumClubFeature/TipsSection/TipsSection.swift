@@ -14,10 +14,11 @@ public struct TipsSection: Reducer {
         var freeLove: FreeLove.State = .init()
     }
 
+    @CasePathable
     public enum Action: Equatable {
         case task
         case reloadTips
-        case tipsAmount(id: TipsAmount.State.ID, action: TipsAmount.Action)
+        case tipsAmounts(IdentifiedActionOf<TipsAmount>)
         case freeLove(FreeLove.Action)
 
         case _failedToGetProducts
@@ -50,11 +51,11 @@ public struct TipsSection: Reducer {
                 state.failedToFetchProducts = true
                 return .none
 
-            case .freeLove, .tipsAmount:
+            case .freeLove, .tipsAmounts:
                 return .none
             }
         }
-        .forEach(\.tipsAmounts, action: /Action.tipsAmount) {
+        .forEach(\.tipsAmounts, action: \.tipsAmounts) {
             TipsAmount()
         }
 

@@ -48,9 +48,10 @@ public struct DaySectionFeature: Reducer {
         }
     }
 
+    @CasePathable
     public enum Action: Equatable {
         case onAppear
-        case pairRow(id: PairRowFeature.State.ID, action: PairRowFeature.Action)
+        case pairRows(IdentifiedActionOf<PairRowFeature>)
     }
 
     @Dependency(\.date.now) var now
@@ -76,11 +77,11 @@ public struct DaySectionFeature: Reducer {
                 }
                 state.filter(keepingSubgroup: state.keepingSubgroup)
                 return .none
-            case .pairRow:
+            case .pairRows:
                 return .none
             }
         }
-        .forEach(\.pairRows, action: /Action.pairRow) {
+        .forEach(\.pairRows, action: \.pairRows) {
             PairRowFeature()
         }
     }

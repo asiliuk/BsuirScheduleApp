@@ -38,7 +38,7 @@ private struct LoadingLecturersView: View {
             store,
             state: \.$lecturers,
             loading: \.$loadedLecturers,
-            action: LecturersFeature.Action.lector
+            action: LecturersFeature.Action.lectors
         ) { store in
             ScrollableToTopList(isOnTop: $isOnTop) {
                 IfLetStore(
@@ -59,7 +59,7 @@ private struct LoadingLecturersView: View {
                             ForEachStore(
                                 self.store.scope(
                                     state: \.favorites,
-                                    action: LecturersFeature.Action.favorite
+                                    action: \.favorites
                                 )
                             ) { store in
                                 LecturersRowView(store: store)

@@ -9,7 +9,7 @@ public struct PairFormsColorPickerView: View {
         WithViewStore(store, observe: \.hasChanges) { viewStore in
             Section(header: Text("screen.settings.appearance.colors.section.header")) {
                 ForEachStore(
-                    store.scope(state: \.pairFormColorPickers, action: { .pairFormColorPickers(id: $0, action: $1) }),
+                    store.scope(state: \.pairFormColorPickers, action: \.pairFormColorPickers),
                     content: PairFormColorPickerView.init(store:)
                 )
 

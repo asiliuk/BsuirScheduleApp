@@ -42,6 +42,7 @@ public struct LecturersFeature: Reducer {
         public init() {}
     }
     
+    @CasePathable
     public enum Action: Equatable, LoadableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
@@ -50,8 +51,8 @@ public struct LecturersFeature: Reducer {
         case path(StackAction<EntityScheduleFeature.State, EntityScheduleFeature.Action>)
         case search(LecturersSearch.Action)
         case pinned(LecturersRow.Action)
-        case favorite(id: LecturersRow.State.ID, action: LecturersRow.Action)
-        case lector(id: LecturersRow.State.ID, action: LecturersRow.Action)
+        case favorites(IdentifiedActionOf<LecturersRow>)
+        case lectors(IdentifiedActionOf<LecturersRow>)
 
         case task
         case setIsOnTop(Bool)
@@ -74,12 +75,12 @@ public struct LecturersFeature: Reducer {
         .ifLet(\.pinned, action: /Action.pinned) {
             LecturersRow()
         }
-        .forEach(\.favorites, action: /Action.favorite) {
+        .forEach(\.favorites, action: \.favorites) {
             LecturersRow()
         }
-        .ifLet(\.lecturers, action: /Action.lector) {
-            EmptyReducer<IdentifiedArrayOf<LecturersRow.State>, _>()
-                .forEach(\.self, action: .self) {
+        .ifLet(\.lecturers, action: /Action.lectors) {
+            EmptyReducer()
+                .forEach(\.self, action: \.self) {
                     LecturersRow()
                 }
         }
@@ -112,12 +113,12 @@ public struct LecturersFeature: Reducer {
             state.presentLector(lector)
             return .none
 
-        case let .favorite(id, .rowTapped):
+        case let .favorites(.element(id, .rowTapped)):
             let lector = state.favorites[id: id]?.lector
             state.presentLector(lector)
             return .none
 
-        case let .lector(id, .rowTapped):
+        case let .lectors(.element(id, .rowTapped)):
             let lector = state.loadedLecturers?[id: id]
             state.presentLector(lector)
             return .none
@@ -151,8 +152,8 @@ public struct LecturersFeature: Reducer {
             filteredPinned(state: &state)
             return .none
 
-        case .favorite(_, .mark(.delegate(let action))),
-             .lector(_, .mark(.delegate(let action))):
+        case .favorites(.element(_, .mark(.delegate(let action)))),
+                .lectors(.element(_, .mark(.delegate(let action)))):
             switch action {
             case .showPremiumClub:
                 return .send(.delegate(.showPremiumClubPinned))
@@ -170,7 +171,7 @@ public struct LecturersFeature: Reducer {
                 return .none
             }
 
-        case .search, .pinned, .favorite, .lector, .loading, .delegate, .path:
+        case .search, .pinned, .favorites, .lectors, .loading, .delegate, .path:
             return .none
         }
     }
