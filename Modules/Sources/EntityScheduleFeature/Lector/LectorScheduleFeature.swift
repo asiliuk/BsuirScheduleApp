@@ -5,7 +5,8 @@ import ScheduleFeature
 import Favorites
 import ComposableArchitecture
 
-public struct LectorScheduleFeature: Reducer {
+@Reducer
+public struct LectorScheduleFeature {
     public struct State: Equatable, Identifiable {
         public var id: String { schedule.value }
         public let lector: Employee
@@ -37,7 +38,7 @@ public struct LectorScheduleFeature: Reducer {
     public init() {}
 
     public var body: some ReducerOf<Self> {
-        Scope(state: \.schedule, action: /Action.schedule) {
+        Scope(state: \.schedule, action: \.schedule) {
             ScheduleFeature { urlId, isRefresh in
                 try await ScheduleRequestResponse(response: apiClient.lecturerSchedule(urlId, isRefresh))
             }

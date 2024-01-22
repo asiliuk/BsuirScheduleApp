@@ -2,7 +2,8 @@ import Foundation
 import BsuirCore
 import ComposableArchitecture
 
-public struct AboutFeature: Reducer {
+@Reducer
+public struct AboutFeature {
     public struct State: Equatable {
         var appVersion: String = {
             @Dependency(\.appInfo.version.description) var appVersion

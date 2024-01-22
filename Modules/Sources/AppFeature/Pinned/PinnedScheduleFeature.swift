@@ -4,7 +4,8 @@ import EntityScheduleFeature
 import ScheduleCore
 import ScheduleFeature
 
-public struct PinnedScheduleFeature: Reducer {
+@Reducer
+public struct PinnedScheduleFeature {
     public struct State: Equatable {
         var title: String { entitySchedule.title }
         var entitySchedule: EntityScheduleFeature.State
@@ -31,7 +32,7 @@ public struct PinnedScheduleFeature: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        Scope(state: \.entitySchedule, action: /Action.entitySchedule) {
+        Scope(state: \.entitySchedule, action: \.entitySchedule) {
             EntityScheduleFeature()
         }
 
@@ -52,21 +53,8 @@ public struct PinnedScheduleFeature: Reducer {
                 return .none
             }
         }
-        .forEach(\.path, action: /Action.path) {
+        .forEach(\.path, action: \.path) {
             EntityScheduleFeature()
         }
-    }
-}
-
-// MARK: - Reset
-
-extension PinnedScheduleFeature.State {
-    mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {
-        entitySchedule.switchDisplayType(displayType)
-    }
-
-    mutating func reset() {
-        entitySchedule.reset()
-        path = StackState()
     }
 }

@@ -5,7 +5,8 @@ import ScheduleFeature
 import Favorites
 import ComposableArchitecture
 
-public struct GroupScheduleFeature: Reducer {
+@Reducer
+public struct GroupScheduleFeature {
     public struct State: Equatable, Identifiable {
         public var id: String { schedule.value }
         public var schedule: ScheduleFeature<String>.State
@@ -37,7 +38,7 @@ public struct GroupScheduleFeature: Reducer {
     public init() {}
 
     public var body: some ReducerOf<Self> {
-        Scope(state: \.schedule, action: /Action.schedule) {
+        Scope(state: \.schedule, action: \.schedule) {
             ScheduleFeature { name, isRefresh in
                 try await ScheduleRequestResponse(response: apiClient.groupSchedule(name, isRefresh))
             }

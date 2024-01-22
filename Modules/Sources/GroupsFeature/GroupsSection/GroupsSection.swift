@@ -4,7 +4,8 @@ import BsuirApi
 import ComposableArchitecture
 import IdentifiedCollections
 
-public struct GroupsSection: Reducer {
+@Reducer
+public struct GroupsSection {
     public struct State: Identifiable, Equatable {
         public var id: String { title }
         public let title: String
@@ -17,7 +18,6 @@ public struct GroupsSection: Reducer {
         }
     }
 
-    @CasePathable
     public enum Action: Equatable {
         case groupRows(IdentifiedActionOf<GroupsRow>)
     }

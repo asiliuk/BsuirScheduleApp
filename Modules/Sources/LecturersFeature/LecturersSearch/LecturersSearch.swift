@@ -2,10 +2,18 @@ import Foundation
 import BsuirApi
 import ComposableArchitecture
 
-public struct LecturersSearch: Reducer {
+@Reducer
+public struct LecturersSearch {
     public struct State: Equatable {
         @BindingState var query: String = ""
         fileprivate(set) var dismiss: Bool = false
+
+        @discardableResult
+        mutating func reset() -> Bool {
+            guard !query.isEmpty else { return false }
+            dismiss = true
+            return true
+        }
     }
 
     public enum Action: Equatable, BindableAction {
@@ -35,25 +43,5 @@ public struct LecturersSearch: Reducer {
                 return .none
             }
         }
-    }
-}
-
-// MARK: - Matching
-
-extension LecturersSearch.State {
-    func matches(lector: Employee) -> Bool {
-        guard !query.isEmpty else { return true }
-        return lector.fio.localizedCaseInsensitiveContains(query)
-    }
-}
-
-// MARK: - Reset
-
-extension LecturersSearch.State {
-    @discardableResult
-    mutating func reset() -> Bool {
-        guard !query.isEmpty else { return false }
-        dismiss = true
-        return true
     }
 }

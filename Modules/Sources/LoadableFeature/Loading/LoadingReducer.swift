@@ -29,8 +29,8 @@ extension Reducer where Action: LoadableAction, Action.State == State {
 
 // MARK: - LoadingReducer
 
-struct LoadingReducer<State, Action, Value: Equatable>: Reducer
-where Action: LoadableAction, State == Action.State {
+@Reducer
+struct LoadingReducer<State, Action, Value: Equatable> where Action: LoadableAction, State == Action.State {
 
     let keyPath: WritableKeyPath<State, LoadableState<Value>>
     let fetch: @Sendable (State, _ isRefresh: Bool) async throws -> Value
@@ -48,7 +48,8 @@ where Action: LoadableAction, State == Action.State {
     }
 }
 
-private struct CoreLoadingReducer<State, Value: Equatable>: Reducer {
+@Reducer
+private struct CoreLoadingReducer<State, Value: Equatable> {
 
     typealias Action = LoadingAction<State>.Action
 

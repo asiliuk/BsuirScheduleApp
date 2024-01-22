@@ -2,7 +2,8 @@ import Foundation
 import ComposableArchitecture
 import BsuirApi
 
-public struct ScheduleListFeature: Reducer {
+@Reducer
+public struct ScheduleListFeature {
     public enum Loading: Equatable {
         case loadMore
         case finished
@@ -55,22 +56,6 @@ public struct ScheduleListFeature: Reducer {
         }
         .forEach(\.days, action: \.days) {
             DaySectionFeature()
-        }
-    }
-}
-
-// MARK: - Filter
-
-extension ScheduleListFeature.State {
-    mutating func filter(keepingSubgroup subgroup: Int?) {
-        days.filter(keepingSubgroup: subgroup)
-    }
-}
-
-extension MutableCollection where Element == DaySectionFeature.State {
-    mutating func filter(keepingSubgroup subgroup: Int?) {
-        for index in indices {
-            self[index].filter(keepingSubgroup: subgroup)
         }
     }
 }

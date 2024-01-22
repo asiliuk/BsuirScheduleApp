@@ -3,7 +3,8 @@ import BsuirUI
 import SwiftUI
 import ComposableArchitecture
 
-public struct PairFormIcons: Reducer {
+@Reducer
+public struct PairFormIcons {
     public struct State: Equatable {
         @BindingState var alwaysShowIcon: Bool
         var pairForms: IdentifiedArrayOf<PairViewForm>

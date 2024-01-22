@@ -2,7 +2,8 @@ import Foundation
 import ComposableArchitecture
 import StoreKit
 
-public struct SubscriptionFooter: Reducer {
+@Reducer
+public struct SubscriptionFooter {
     public enum State: Equatable {
         case loading
         case failed

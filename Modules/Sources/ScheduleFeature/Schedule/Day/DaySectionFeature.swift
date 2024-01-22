@@ -3,7 +3,8 @@ import ScheduleCore
 import ComposableArchitecture
 import BsuirApi
 
-public struct DaySectionFeature: Reducer {
+@Reducer
+public struct DaySectionFeature {
     public struct State: Equatable, Identifiable {
         public enum DayDate: Equatable {
             case continuousDate(Date, weekNumber: Int)
@@ -15,6 +16,16 @@ public struct DaySectionFeature: Reducer {
             case past
             case today
             case future
+
+            fileprivate init(for date: Date, now: Date, calendar: Calendar) {
+                if calendar.isDate(date, inSameDayAs: now) {
+                    self = .today
+                } else if date < now {
+                    self = .past
+                } else {
+                    self = .future
+                }
+            }
         }
 
         public var id: UUID
@@ -87,34 +98,4 @@ public struct DaySectionFeature: Reducer {
     }
 
     private static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
-}
-
-private extension DaySectionFeature.State.Relativity {
-    init(for date: Date, now: Date, calendar: Calendar) {
-        if calendar.isDate(date, inSameDayAs: now) {
-            self = .today
-        } else if date < now {
-            self = .past
-        } else {
-            self = .future
-        }
-    }
-}
-
-// MARK: - Filter
-
-extension DaySectionFeature.State {
-    mutating func filter(keepingSubgroup: Int?) {
-        func isFiltered(subgroup: Int) -> Bool {
-            if relativity == .past { return true }
-            guard let keepingSubgroup, subgroup > 0 else { return false }
-            return subgroup != keepingSubgroup
-        }
-
-        for index in pairRows.indices {
-            pairRows[index].isFiltered = isFiltered(subgroup: pairRows[index].pair.subgroup)
-        }
-
-        self.keepingSubgroup = keepingSubgroup
-    }
 }

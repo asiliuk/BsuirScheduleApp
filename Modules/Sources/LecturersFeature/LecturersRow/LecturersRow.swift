@@ -3,7 +3,8 @@ import BsuirApi
 import ScheduleFeature
 import ComposableArchitecture
 
-public struct LecturersRow: Reducer {
+@Reducer
+public struct LecturersRow {
     public struct State: Identifiable, Equatable {
         public var id: Int { lector.id }
         public let lector: Employee
@@ -24,7 +25,7 @@ public struct LecturersRow: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        Scope(state: \.mark, action: /Action.mark) {
+        Scope(state: \.mark, action: \.mark) {
             MarkedScheduleFeature()
         }
     }

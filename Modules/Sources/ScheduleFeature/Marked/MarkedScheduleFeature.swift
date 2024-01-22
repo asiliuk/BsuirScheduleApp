@@ -6,7 +6,8 @@ import Favorites
 import PremiumClubFeature
 import ComposableArchitecture
 
-public struct MarkedScheduleFeature: Reducer {
+@Reducer
+public struct MarkedScheduleFeature {
     public struct State: Equatable {
         @PresentationState public var alert: AlertState<Action.AlertAction>?
         public var isFavorite: Bool = false
@@ -19,8 +20,12 @@ public struct MarkedScheduleFeature: Reducer {
             @Dependency(\.premiumService) var premiumService
             self.isPremiumLocked = !premiumService.isCurrentlyPremium
             @Dependency(\.favorites) var favorites
+            self.isFavorite = switch source {
+            case let .group(name): favorites.currentGroupNames.contains(name)
+            case let .lector(lector): favorites.currentLectorIds.contains(lector.id)
+            }
             @Dependency(\.pinnedScheduleService) var pinnedScheduleService
-            self.update(favorites: favorites, pinnedScheduleService: pinnedScheduleService)
+            self.isPinned = pinnedScheduleService.currentSchedule() == source
         }
     }
 
@@ -107,7 +112,7 @@ public struct MarkedScheduleFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.$alert, action: /Action.alert)
+        .ifLet(\.$alert, action: \.alert)
     }
 
     private func favorite(source: ScheduleSource) -> Effect<Action> {
@@ -183,22 +188,6 @@ public struct MarkedScheduleFeature: Reducer {
                 await send(._setIsPremiumLocked(!value))
             }
         }
-    }
-}
-
-// MARK: - Update
-
-private extension MarkedScheduleFeature.State {
-    mutating func update(favorites: FavoritesService, pinnedScheduleService: PinnedScheduleService) {
-        isPinned = pinnedScheduleService.currentSchedule() == source
-        isFavorite = {
-            switch source {
-            case let .group(name):
-                return favorites.currentGroupNames.contains(name)
-            case let .lector(lector):
-                return favorites.currentLectorIds.contains(lector.id)
-            }
-        }()
     }
 }
 

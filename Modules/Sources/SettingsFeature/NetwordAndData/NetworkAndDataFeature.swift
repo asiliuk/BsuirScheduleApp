@@ -2,7 +2,8 @@ import Foundation
 import ReachabilityFeature
 import ComposableArchitecture
 
-public struct NetworkAndDataFeature: Reducer {
+@Reducer
+public struct NetworkAndDataFeature {
     public struct State: Equatable {
         @PresentationState var alert: AlertState<Action.AlertAction>?
         var iisReachability = ReachabilityFeature.State(host: URL.iisApi.host()!)
@@ -53,13 +54,13 @@ public struct NetworkAndDataFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.$alert, action: /Action.alert)
+        .ifLet(\.$alert, action: \.alert)
 
-        Scope(state: \.iisReachability, action: /Action.iisReachability) {
+        Scope(state: \.iisReachability, action: \.iisReachability) {
             ReachabilityFeature()
         }
 
-        Scope(state: \.appleReachability, action: /Action.appleReachability) {
+        Scope(state: \.appleReachability, action: \.appleReachability) {
             ReachabilityFeature()
         }
     }

@@ -1,7 +1,8 @@
 import Foundation
 import ComposableArchitecture
 
-public struct LoadingErrorNoSchedule: Reducer {
+@Reducer
+public struct LoadingErrorNoSchedule {
     public typealias State = Void
 
     public enum Action: Equatable {

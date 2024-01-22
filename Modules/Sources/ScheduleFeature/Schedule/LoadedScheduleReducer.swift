@@ -3,7 +3,8 @@ import ComposableArchitecture
 import Algorithms
 import BsuirApi
 
-public struct LoadedScheduleReducer: Reducer {
+@Reducer
+public struct LoadedScheduleReducer {
     public struct State: Equatable {
         public var maxSubgroup: Int?
         var response: ScheduleRequestResponse
@@ -54,26 +55,16 @@ public struct LoadedScheduleReducer: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        Scope(state: \.compact, action: /Action.day) {
+        Scope(state: \.compact, action: \.day) {
             DayScheduleFeature()
         }
 
-        Scope(state: \.continuous, action: /Action.continuous) {
+        Scope(state: \.continuous, action: \.continuous) {
             ContinuousScheduleFeature()
         }
 
-        Scope(state: \.exams, action: /Action.exams) {
+        Scope(state: \.exams, action: \.exams) {
             ExamsScheduleFeature()
         }
-    }
-}
-
-// MARK: - Filter
-
-extension LoadedScheduleReducer.State {
-    mutating func filter(keepingSubgroup subgroup: Int?) {
-        compact.filter(keepingSubgroup: subgroup)
-        continuous.filter(keepingSubgroup: subgroup)
-        exams.filter(keepingSubgroup: subgroup)
     }
 }

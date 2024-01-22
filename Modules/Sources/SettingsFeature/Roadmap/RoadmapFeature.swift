@@ -1,7 +1,8 @@
 import Foundation
 import ComposableArchitecture
 
-public struct RoadmapFeature: Reducer {
+@Reducer
+public struct RoadmapFeature {
     public struct State: Equatable {
         var jsonURL: URL = .roadmapJSONURL
         var namespace: String = "asiliuk-bsuir-schedule"

@@ -3,7 +3,8 @@ import ComposableArchitecture
 import ScheduleCore
 import BsuirApi
 
-public struct PairDetailsFeature: Reducer {
+@Reducer
+public struct PairDetailsFeature {
     public struct State: Equatable {
         var pair: PairViewModel
         var rowDetails: PairRowDetails?

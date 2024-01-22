@@ -1,7 +1,8 @@
 import Foundation
 import ComposableArchitecture
 
-public struct LoadingErrorNotConnectedToInternet: Reducer {
+@Reducer
+public struct LoadingErrorNotConnectedToInternet {
     public typealias State = Void
 
     public enum Action: Equatable {

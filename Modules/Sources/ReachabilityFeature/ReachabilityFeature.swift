@@ -2,7 +2,8 @@ import Foundation
 import BsuirApi
 import ComposableArchitecture
 
-public struct ReachabilityFeature: Reducer {
+@Reducer
+public struct ReachabilityFeature {
     public struct State: Equatable {
         public var status: NetworkReachabilityStatus
         public var host: String

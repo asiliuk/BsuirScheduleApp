@@ -35,7 +35,8 @@ public struct ScheduleRequestResponse: Equatable, Encodable {
     }
 }
 
-public struct ScheduleFeature<Value: Equatable>: Reducer {
+@Reducer
+public struct ScheduleFeature<Value: Equatable> {
     public struct State: Equatable {
         public var title: String
         public var value: Value
@@ -159,10 +160,10 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
                 pairRowDetails: state.pairRowDetails
             )
         }
-        .ifLet(\.subgroupPicker, action: /Action.subgroupPicker) {
+        .ifLet(\.subgroupPicker, action: \.subgroupPicker) {
             SubgroupPickerFeature()
         }
-        .ifLet(\.mark, action: /Action.mark) {
+        .ifLet(\.mark, action: \.mark) {
             MarkedScheduleFeature()
         }
         .onChange(of: \.subgroupPicker?.selected) { _, newValue in
@@ -196,21 +197,4 @@ public struct ScheduleFeature<Value: Equatable>: Reducer {
 private extension MeaningfulEvent {
     static let scheduleRequested = Self(score: 2)
     static let scheduleModeSwitched = Self(score: 3)
-}
-
-extension ScheduleFeature.State {
-    public mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {
-        scheduleType = displayType
-    }
-
-    public mutating func reset() {
-        switch scheduleType {
-        case .compact:
-            schedule?.compact.reset()
-        case .exams:
-            schedule?.exams.reset()
-        case .continuous:
-            schedule?.continuous.reset()
-        }
-    }
 }

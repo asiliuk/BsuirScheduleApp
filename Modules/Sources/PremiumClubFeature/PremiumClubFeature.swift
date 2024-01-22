@@ -1,7 +1,8 @@
 import Foundation
 import ComposableArchitecture
 
-public struct PremiumClubFeature: Reducer {
+@Reducer
+public struct PremiumClubFeature {
     public enum Source {
         case pin
         case appIcon
@@ -108,15 +109,15 @@ public struct PremiumClubFeature: Reducer {
             }
         }
 
-        Scope(state: \.tips, action: /Action.tips) {
+        Scope(state: \.tips, action: \.tips) {
             TipsSection()
         }
 
-        Scope(state: \.premiumClubMembership, action: /Action.premiumClubMembership) {
+        Scope(state: \.premiumClubMembership, action: \.premiumClubMembership) {
             PremiumClubMembershipSection()
         }
 
-        Scope(state: \.subsctiptionFooter, action: /Action.subsctiptionFooter) {
+        Scope(state: \.subsctiptionFooter, action: \.subsctiptionFooter) {
             SubscriptionFooter()
         }
     }

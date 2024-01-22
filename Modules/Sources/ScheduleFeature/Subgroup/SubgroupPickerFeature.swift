@@ -1,7 +1,8 @@
 import Foundation
 import ComposableArchitecture
 
-public struct SubgroupPickerFeature: Reducer {
+@Reducer
+public struct SubgroupPickerFeature {
     public struct State: Equatable {
         var selected: Int?
         var maxSubgroup: Int

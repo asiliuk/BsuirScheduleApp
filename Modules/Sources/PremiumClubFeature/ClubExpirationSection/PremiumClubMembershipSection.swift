@@ -2,7 +2,8 @@ import Foundation
 import ComposableArchitecture
 import StoreKit
 
-public struct PremiumClubMembershipSection: Reducer {
+@Reducer
+public struct PremiumClubMembershipSection {
     public enum State: Equatable {
         case loading
         case noSubscription
@@ -63,7 +64,7 @@ public struct PremiumClubMembershipSection: Reducer {
             }
         }
 
-        Scope(state: /State.subscribed, action: /Action.subscribed) {
+        Scope(state: \.subscribed, action: \.subscribed) {
             PremiumClubMembershipSubscribed()
         }
     }
@@ -91,7 +92,8 @@ public struct PremiumClubMembershipSection: Reducer {
     }
 }
 
-public struct PremiumClubMembershipSubscribed: Reducer {
+@Reducer
+public struct PremiumClubMembershipSubscribed {
     public struct State: Equatable {
         var formattedExpiration: String { expiration?.formatted(date: .long, time: .omitted) ?? "-/-" }
         var expiration: Date?

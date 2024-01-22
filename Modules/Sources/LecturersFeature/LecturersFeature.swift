@@ -8,12 +8,13 @@ import ComposableArchitecture
 import Favorites
 import Collections
 
-public struct LecturersFeature: Reducer {
+@Reducer
+public struct LecturersFeature {
     public struct State: Equatable {
         var path = StackState<EntityScheduleFeature.State>()
         var search: LecturersSearch.State = .init()
         @LoadableState var lecturers: IdentifiedArrayOf<LecturersRow.State>?
-        fileprivate(set) var isOnTop: Bool = true
+        var isOnTop: Bool = true
 
         var pinned: LecturersRow.State?
         var favorites: IdentifiedArrayOf<LecturersRow.State> = []
@@ -33,16 +34,15 @@ public struct LecturersFeature: Reducer {
         @LoadableState var loadedLecturers: IdentifiedArrayOf<Employee>?
 
         // When deeplink was opened but no lecturers yet loaded
-        fileprivate struct LectorScheduleDeferredDetails: Equatable {
+        struct LectorScheduleDeferredDetails: Equatable {
             let id: Int
             let displayType: ScheduleDisplayType
         }
-        fileprivate var lectorToOpen: LectorScheduleDeferredDetails?
+        var lectorToOpen: LectorScheduleDeferredDetails?
 
         public init() {}
     }
-    
-    @CasePathable
+
     public enum Action: Equatable, LoadableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
@@ -72,13 +72,13 @@ public struct LecturersFeature: Reducer {
     
     public var body: some ReducerOf<Self> {
         Reduce { coreReduce(into: &$0, action: $1) }
-        .ifLet(\.pinned, action: /Action.pinned) {
+        .ifLet(\.pinned, action: \.pinned) {
             LecturersRow()
         }
         .forEach(\.favorites, action: \.favorites) {
             LecturersRow()
         }
-        .ifLet(\.lecturers, action: /Action.lectors) {
+        .ifLet(\.lecturers, action: \.lectors) {
             EmptyReducer()
                 .forEach(\.self, action: \.self) {
                     LecturersRow()
@@ -87,11 +87,11 @@ public struct LecturersFeature: Reducer {
         .load(\.$loadedLecturers) { _, isRefresh in
             try await IdentifiedArray(uniqueElements: apiClient.lecturers(isRefresh))
         }
-        .forEach(\.path, action: /Action.path) {
+        .forEach(\.path, action: \.path) {
             EntityScheduleFeature()
         }
 
-        Scope(state: \.search, action: /Action.search) {
+        Scope(state: \.search, action: \.search) {
             LecturersSearch()
         }
     }
@@ -214,56 +214,11 @@ public struct LecturersFeature: Reducer {
     }
 }
 
-// MARK: - Reset
+// MARK: - Matching
 
-extension LecturersFeature.State {
-    /// Reset navigation and inner state
-    public mutating func reset() {
-        if !path.isEmpty {
-            return path = StackState()
-        }
-
-        if search.reset() {
-            return
-        }
-
-        if !isOnTop {
-            return isOnTop = true
-        }
-    }
-
-    /// Open schedule screen for lector.
-    public mutating func openLector(_ lector: Employee, displayType: ScheduleDisplayType) {
-        if path.count == 1,
-           let id = path.ids.last,
-           case let .lector(state) = path.last,
-           state.lector == lector
-        {
-            path[id: id, case: /EntityScheduleFeature.State.lector]?.schedule.switchDisplayType(displayType)
-            return
-        }
-        search.reset()
-        presentLector(lector, displayType: displayType)
-        lectorToOpen = nil
-    }
-
-    /// Open schedule screen for lector.
-    public mutating func openLector(id: Int, displayType: ScheduleDisplayType = .continuous) {
-        if let lector = loadedLecturers?[id: id] {
-            openLector(lector, displayType: displayType)
-        } else {
-            lectorToOpen = .init(id: id, displayType: displayType)
-        }
-    }
-
-    /// Check if we have model for lector we were trying to open if so open its schedule.
-    fileprivate mutating func openLectorIfNeeded() {
-        guard let lectorToOpen else { return }
-        openLector(id: lectorToOpen.id, displayType: lectorToOpen.displayType)
-    }
-
-    fileprivate mutating func presentLector(_ lector: Employee?, displayType: ScheduleDisplayType = .continuous) {
-        guard let lector else { return }
-        path = StackState([.lector(.init(lector: lector, scheduleDisplayType: displayType))])
+private extension LecturersSearch.State {
+    func matches(lector: Employee) -> Bool {
+        guard !query.isEmpty else { return true }
+        return lector.fio.localizedCaseInsensitiveContains(query)
     }
 }

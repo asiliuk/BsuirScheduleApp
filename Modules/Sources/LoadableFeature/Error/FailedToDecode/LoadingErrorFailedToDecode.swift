@@ -2,7 +2,8 @@ import Foundation
 import ComposableArchitecture
 import BsuirCore
 
-public struct LoadingErrorFailedToDecode: Reducer {
+@Reducer
+public struct LoadingErrorFailedToDecode {
     public struct State: Equatable {
         var address: String
         var message: String

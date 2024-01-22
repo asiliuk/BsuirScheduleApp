@@ -10,8 +10,10 @@ import ComposableArchitecture
 import EntityScheduleFeature
 import ScheduleFeature
 
-public struct AppFeature: Reducer {
+@Reducer
+public struct AppFeature {
     public struct State: Equatable {
+        @CasePathable
         enum Destination: Equatable {
             case settings(SettingsFeature.State)
             case premiumClub(PremiumClubFeature.State)
@@ -36,6 +38,7 @@ public struct AppFeature: Reducer {
     }
 
     public enum Action {
+        @CasePathable
         public enum DestinationAction {
             case settings(SettingsFeature.Action)
             case premiumClub(PremiumClubFeature.Action)
@@ -115,28 +118,28 @@ public struct AppFeature: Reducer {
             case .pinnedTab(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
-                    state.showPremiumClub(source: .pin)
+                    showPremiumClub(state: &state, source: .pin)
                     return .none
                 }
 
             case .groups(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
-                    state.showPremiumClub(source: .pin)
+                    showPremiumClub(state: &state, source: .pin)
                     return .none
                 }
 
             case .lecturers(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
-                    state.showPremiumClub(source: .pin)
+                    showPremiumClub(state: &state, source: .pin)
                     return .none
                 }
 
             case .settings(.delegate(let action)):
                 switch action {
                 case let .showPremiumClub(source):
-                    state.showPremiumClub(source: source)
+                    showPremiumClub(state: &state, source: source)
                     return .none
                 }
 
@@ -144,174 +147,39 @@ public struct AppFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.$destination, action: /Action.destination) {
-            Scope(state: /State.Destination.settings, action: /Action.DestinationAction.settings) {
+        .ifLet(\.$destination, action: \.destination) {
+            Scope(state: \.settings, action: \.settings) {
                 SettingsFeature()
             }
 
-            Scope(state: /State.Destination.premiumClub, action: /Action.DestinationAction.premiumClub) {
+            Scope(state: \.premiumClub, action: \.premiumClub) {
                 PremiumClubFeature()
             }
         }
 
-        Scope(state: \.premiumClub, action: /Action.premiumClub) {
+        Scope(state: \.premiumClub, action: \.premiumClub) {
             PremiumClubFeature()
         }
 
-        Scope(state: \.pinnedTab, action: /Action.pinnedTab) {
+        Scope(state: \.pinnedTab, action: \.pinnedTab) {
             PinnedTabFeature()
         }
 
-        Scope(state: \.groups, action: /Action.groups) {
+        Scope(state: \.groups, action: \.groups) {
             GroupsFeature()
         }
 
-        Scope(state: \.lecturers, action: /Action.lecturers) {
+        Scope(state: \.lecturers, action: \.lecturers) {
             LecturersFeature()
         }
 
-        Scope(state: \.settings, action: /Action.settings) {
+        Scope(state: \.settings, action: \.settings) {
             SettingsFeature()
         }
     }
-}
 
-// MARK: - Deeplink
-
-
-private extension AppFeature {
-
-    func handleDeeplink(state: inout State, deeplink: Deeplink) {
-        switch deeplink {
-        case let .pinned(displayType):
-            handlePinnedDeeplink(state: &state, deeplinkDisplayType: displayType)
-        case .groups:
-            state.selection = .groups
-            state.groups.reset()
-        case let .group(name, displayType):
-            handleDeeplink(state: &state, groupName: name, deeplinkDisplayType: displayType)
-        case .lecturers:
-            state.selection = .lecturers
-            state.lecturers.reset()
-        case let .lector(id, displayType):
-            handleDeeplink(state: &state, lectorId: id, deeplinkDisplayType: displayType)
-        case .settings:
-            state.selection = .settings
-            state.settings.reset()
-        case let .premiumClub(source):
-            state.selection = .settings
-            state.settings.openPremiumClub(source: .init(deeplinkSource: source))
-        }
-    }
-
-    func handleDeeplink(
-        state: inout State,
-        groupName: String,
-        deeplinkDisplayType: ScheduleDeeplinkDisplayType?
-    ) {
-        switch pinnedScheduleService.currentSchedule() {
-        case .group(groupName):
-            handlePinnedDeeplink(state: &state, deeplinkDisplayType: deeplinkDisplayType)
-        case .group, .lector, nil:
-            state.selection = .groups
-            state.groups.openGroup(named: groupName, displayType: displayType(for: deeplinkDisplayType))
-        }
-    }
-
-    func handleDeeplink(
-        state: inout State,
-        lectorId: Int,
-        deeplinkDisplayType: ScheduleDeeplinkDisplayType?
-    ) {
-        switch pinnedScheduleService.currentSchedule() {
-        case .lector(let lector) where lector.id == lectorId:
-            handlePinnedDeeplink(state: &state, deeplinkDisplayType: deeplinkDisplayType)
-        case .lector, .group, nil:
-            state.selection = .lecturers
-            state.lecturers.openLector(id: lectorId, displayType: displayType(for: deeplinkDisplayType))
-        }
-    }
-
-    func handlePinnedDeeplink(
-        state: inout State,
-        deeplinkDisplayType: ScheduleDeeplinkDisplayType?
-    ) {
-        state.selection = .pinned
-        state.pinnedTab.switchDisplayType(displayType(for: deeplinkDisplayType))
-    }
-
-    func displayType(for deeplinkDisplayType: ScheduleDeeplinkDisplayType?) -> ScheduleDisplayType {
-        switch deeplinkDisplayType {
-        case .continuous, nil: .continuous
-        case .compact: .compact
-        case .exams: .exams
-        }
-    }
-}
-
-// MARK: - Selection
-
-private extension AppFeature.State {
-    mutating func handleInitialSelection(
-        favorites: FavoritesService,
-        pinnedScheduleService: PinnedScheduleService
-    ) {
-        if let pinnedSchedule = pinnedScheduleService.currentSchedule() {
-            selection = .pinned
-            pinnedTab.show(pinned: pinnedSchedule)
-            return
-        }
-
-        if let groupName = favorites.currentGroupNames.first {
-            selection = .groups
-            groups.openGroup(named: groupName)
-            return
-        }
-
-        if let lectorId = favorites.currentLectorIds.first {
-            selection = .lecturers
-            lecturers.openLector(id: lectorId)
-            return
-        }
-    }
-
-    mutating func updateSelection(_ newValue: CurrentSelection) {
-        guard newValue == selection else {
-            selection = newValue
-            return
-        }
-
-        // Handle tap on already selected tab
-        switch newValue {
-        case .pinned:
-            pinnedTab.reset()
-        case .groups:
-            groups.reset()
-        case .lecturers:
-            lecturers.reset()
-        case .settings:
-            settings.reset()
-        }
-    }
-}
-
-// MARK: - Premium Club
-
-private extension AppFeature.State {
-    mutating func showPremiumClub(source: PremiumClubFeature.Source?) {
-        premiumClub.source = source
-        destination = .premiumClub(premiumClub)
-    }
-}
-
-// MARK: - PremiumClubFeature.Source
-
-private extension PremiumClubFeature.Source {
-    init?(deeplinkSource: PremiumClubDeeplinkSource?) {
-        guard let deeplinkSource else { return nil }
-        switch deeplinkSource {
-        case .appIcon: self = .appIcon
-        case .pin: self = .pin
-        }
+    private func showPremiumClub(state: inout State, source: PremiumClubFeature.Source?) {
+        state.premiumClub.source = source
+        state.destination = .premiumClub(state.premiumClub)
     }
 }

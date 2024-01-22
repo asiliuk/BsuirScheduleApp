@@ -6,10 +6,18 @@ import ComposableArchitecture
 import Deeplinking
 import ScheduleFeature
 
-public struct EntityScheduleFeature: Reducer {
+@Reducer
+public struct EntityScheduleFeature {
     public enum State: Equatable {
         case group(GroupScheduleFeature.State)
         case lector(LectorScheduleFeature.State)
+
+        public var title: String {
+            switch self {
+            case let .group(schedule): schedule.groupName
+            case let .lector(schedule): schedule.lector.compactFio
+            }
+        }
     }
 
     public enum Action: Equatable {
@@ -45,35 +53,12 @@ public struct EntityScheduleFeature: Reducer {
             }
         }
 
-        Scope(state: /State.group, action: /Action.group) {
+        Scope(state: \.group, action: \.group) {
             GroupScheduleFeature()
         }
 
-        Scope(state: /State.lector, action: /Action.lector) {
+        Scope(state: \.lector, action: \.lector) {
             LectorScheduleFeature()
         }
-    }
-}
-
-extension EntityScheduleFeature.State {
-    public var title: String {
-        switch self {
-        case let .group(schedule):
-            return schedule.groupName
-        case let .lector(schedule):
-            return schedule.lector.compactFio
-        }
-    }
-}
-
-extension EntityScheduleFeature.State {
-    public mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {
-        try? (/Self.group).modify(&self) { $0.schedule.switchDisplayType(displayType) }
-        try? (/Self.lector).modify(&self) { $0.schedule.switchDisplayType(displayType) }
-    }
-
-    public mutating func reset() {
-        try? (/Self.group).modify(&self) { $0.schedule.reset() }
-        try? (/Self.lector).modify(&self) { $0.schedule.reset() }
     }
 }

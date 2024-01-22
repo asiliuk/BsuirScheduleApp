@@ -2,7 +2,8 @@ import Foundation
 import WhatsNewKit
 import ComposableArchitecture
 
-public struct WhatsNewFeature: Reducer {
+@Reducer
+public struct WhatsNewFeature {
     public struct State: Equatable {
         var whatsNew: WhatsNew
         var presentedWhatsNew: WhatsNew?

@@ -19,7 +19,8 @@ enum StrudentGroupSearchToken: Hashable, Identifiable {
     case course(Int?)
 }
 
-public struct GroupsFeature: Reducer {
+@Reducer
+public struct GroupsFeature {
     public struct State: Equatable {
         /// Designed to defer group presentation to the moment when component was presented
         enum GroupPresentationMode: Equatable {
@@ -60,8 +61,7 @@ public struct GroupsFeature: Reducer {
 
         public init() {}
     }
-    
-    @CasePathable
+
     public enum Action: Equatable, LoadableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
@@ -165,13 +165,13 @@ public struct GroupsFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.pinned, action: /Action.pinned) {
+        .ifLet(\.pinned, action: \.pinned) {
             GroupsSection()
         }
-        .ifLet(\.favorites, action: /Action.favorites) {
+        .ifLet(\.favorites, action: \.favorites) {
             GroupsSection()
         }
-        .ifLet(\.sections, action: /Action.groupSections) {
+        .ifLet(\.sections, action: \.groupSections) {
             EmptyReducer()
                 .forEach(\.self, action: \.self) {
                     GroupsSection()
@@ -180,11 +180,11 @@ public struct GroupsFeature: Reducer {
         .load(\.$loadedGroups) { _, isRefresh in 
             try await IdentifiedArray(uniqueElements: apiClient.groups(isRefresh), id: \.name)
         }
-        .forEach(\.path, action: /Action.path) {
+        .forEach(\.path, action: \.path) {
             EntityScheduleFeature()
         }
 
-        Scope(state: \.search, action: /Action.search) {
+        Scope(state: \.search, action: \.search) {
             GroupsSearch()
         }
     }
@@ -249,6 +249,31 @@ private extension Array where Element == StudentGroup {
     }
 }
 
+// MARK: - Matching
+
+private extension GroupsSearch.State {
+    func matches(group: StudentGroup) -> Bool {
+        guard tokens.matches(group: group) else { return false }
+        guard !query.isEmpty else { return true }
+        return group.name.localizedCaseInsensitiveContains(query)
+    }
+}
+
+private extension Array where Element == StrudentGroupSearchToken {
+    func matches(group: StudentGroup) -> Bool {
+        allSatisfy {
+            switch $0 {
+            case .faculty(group.faculty),
+                 .speciality(group.speciality),
+                 .course(group.course):
+                return true
+            case .faculty, .speciality, .course:
+                return false
+            }
+        }
+    }
+}
+
 // MARK: - GroupsSection
 
 private extension GroupsSection.State {
@@ -258,59 +283,5 @@ private extension GroupsSection.State {
 
     static func pinned(_ groupName: String) -> Self? {
         return .init(title: String(localized: "screen.groups.pinned.section.header"), groupNames: [groupName])
-    }
-}
-
-// MARK: - Reset
-
-extension GroupsFeature.State {
-    /// Reset navigation and inner state
-    public mutating func reset() {
-        if !path.isEmpty {
-            return path = StackState()
-        }
-
-        if search.reset() {
-            return
-        }
-
-        if !isOnTop {
-            return isOnTop = true
-        }
-    }
-
-    /// Open schedule screen for group.
-    mutating public func openGroup(named name: String, displayType: ScheduleDisplayType = .continuous) {
-        // Proceed only if component was presented and we could present groups immediately
-        // otherwise defer group presentation til moment component was loaded
-        guard groupPresentationMode == .immediate else {
-            groupPresentationMode = .deferred(name, displayType: displayType)
-            return
-        }
-
-        if path.count == 1,
-           let id = path.ids.last,
-           case let .group(state) = path.last,
-           state.groupName == name
-        {
-            path[id: id, case: /EntityScheduleFeature.State.group]?.schedule.switchDisplayType(displayType)
-            return
-        }
-        search.reset()
-        presentGroup(name, displayType: displayType)
-    }
-
-
-    /// Checks if presentation mode has deferred group and presents it and switch mode to immediate
-    fileprivate mutating func presentDeferredGroupIfNeeded() {
-        if case let .deferred(groupName, displayType) = groupPresentationMode {
-            presentGroup(groupName, displayType: displayType)
-        }
-        groupPresentationMode = .immediate
-    }
-
-    fileprivate mutating func presentGroup(_ groupName: String?, displayType: ScheduleDisplayType = .continuous) {
-        guard let groupName else { return }
-        path = StackState([.group(.init(groupName: groupName, scheduleDisplayType: displayType))])
     }
 }

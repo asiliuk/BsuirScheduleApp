@@ -4,7 +4,8 @@ import ScheduleCore
 import ComposableArchitecture
 import ScheduleFeature
 
-public struct PinnedTabFeature: Reducer {
+@Reducer
+public struct PinnedTabFeature {
     public struct State: Equatable {
         var isPremiumLocked: Bool
         var pinnedSchedule: PinnedScheduleFeature.State?
@@ -36,28 +37,8 @@ public struct PinnedTabFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.pinnedSchedule, action: /Action.pinnedSchedule) {
+        .ifLet(\.pinnedSchedule, action: \.pinnedSchedule) {
             PinnedScheduleFeature()
         }
-    }
-}
-
-// MARK: - Selection
-
-extension PinnedTabFeature.State {
-    mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {
-        pinnedSchedule?.switchDisplayType(displayType)
-    }
-
-    mutating func show(pinned: ScheduleSource) {
-        pinnedSchedule = .init(pinned: pinned)
-    }
-
-    mutating func resetPinned() {
-        pinnedSchedule = nil
-    }
-
-    mutating func reset() {
-        pinnedSchedule?.reset()
     }
 }

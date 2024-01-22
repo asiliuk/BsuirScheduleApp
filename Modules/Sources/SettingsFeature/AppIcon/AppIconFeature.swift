@@ -4,7 +4,8 @@ import BsuirCore
 import BsuirUI
 import ComposableArchitecture
 
-public struct AppIconFeature: Reducer {
+@Reducer
+public struct AppIconFeature {
     public struct State: Equatable {
         @PresentationState var alert: AlertState<Action.AlertAction>?
 
@@ -96,7 +97,7 @@ public struct AppIconFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.$alert, action: /Action.alert)
+        .ifLet(\.$alert, action: \.alert)
     }
 }
 

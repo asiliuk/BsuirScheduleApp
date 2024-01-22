@@ -4,7 +4,8 @@ import BsuirCore
 import ReachabilityFeature
 import ComposableArchitecture
 
-public struct LoadingErrorSomethingWrongWithBsuir: Reducer {
+@Reducer
+public struct LoadingErrorSomethingWrongWithBsuir {
     public struct State: Equatable {
         var reachability: ReachabilityFeature.State?
         var errorCode: String
@@ -38,7 +39,7 @@ public struct LoadingErrorSomethingWrongWithBsuir: Reducer {
                 return .none
             }
         }
-        .ifLet(\.reachability, action: /Action.reachability) {
+        .ifLet(\.reachability, action: \.reachability) {
             ReachabilityFeature()
         }
     }

@@ -1,7 +1,8 @@
 import Foundation
 import ComposableArchitecture
 
-public struct AppearanceFeature: Reducer {
+@Reducer
+public struct AppearanceFeature {
     public struct State: Equatable {
         var pairFormsColorPicker = PairFormsColorPicker.State()
         var pairFormIcons = PairFormIcons.State()
@@ -13,11 +14,11 @@ public struct AppearanceFeature: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        Scope(state: \.pairFormsColorPicker, action: /Action.pairFormsColorPicker) {
+        Scope(state: \.pairFormsColorPicker, action: \.pairFormsColorPicker) {
             PairFormsColorPicker()
         }
 
-        Scope(state: \.pairFormIcons, action: /Action.pairFormIcons) {
+        Scope(state: \.pairFormIcons, action: \.pairFormIcons) {
             PairFormIcons()
         }
     }

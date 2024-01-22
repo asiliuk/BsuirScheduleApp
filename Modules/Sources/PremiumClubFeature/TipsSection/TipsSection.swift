@@ -5,7 +5,8 @@ import SwiftUI
 import Favorites
 import StoreKit
 
-public struct TipsSection: Reducer {
+@Reducer
+public struct TipsSection {
     public struct State: Equatable {
         // TODO: Try to use @LoadableState here
         var failedToFetchProducts: Bool = false
@@ -14,7 +15,6 @@ public struct TipsSection: Reducer {
         var freeLove: FreeLove.State = .init()
     }
 
-    @CasePathable
     public enum Action: Equatable {
         case task
         case reloadTips
@@ -59,7 +59,7 @@ public struct TipsSection: Reducer {
             TipsAmount()
         }
 
-        Scope(state: \.freeLove, action: /Action.freeLove) {
+        Scope(state: \.freeLove, action: \.freeLove) {
             FreeLove()
         }
     }
@@ -76,7 +76,8 @@ public struct TipsSection: Reducer {
     }
 }
 
-public struct FreeLove: Reducer {
+@Reducer
+public struct FreeLove {
     public struct State: Equatable {
         var highScore: Int = {
             @Dependency(\.favorites.freeLoveHighScore) var freeLoveHighScore
@@ -127,7 +128,8 @@ public struct FreeLove: Reducer {
     }
 }
 
-public struct TipsAmount: Reducer {
+@Reducer
+public struct TipsAmount {
     public struct State: Equatable, Identifiable {
         public var id: String { product.id }
         @BindingState var confettiCounter: Int = 0

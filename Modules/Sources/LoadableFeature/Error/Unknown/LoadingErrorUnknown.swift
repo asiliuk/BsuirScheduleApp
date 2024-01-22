@@ -1,7 +1,8 @@
 import Foundation
 import ComposableArchitecture
 
-public struct LoadingErrorUnknown: Reducer {
+@Reducer
+public struct LoadingErrorUnknown {
     public typealias State = Void
 
     public enum Action: Equatable {

@@ -6,7 +6,8 @@ import ComposableArchitecture
 import Dependencies
 import SwiftUI
 
-public struct SettingsFeature: Reducer {
+@Reducer
+public struct SettingsFeature {
     public struct State: Equatable {
         public var path = NavigationPath()
         var isOnTop: Bool = true
@@ -81,53 +82,32 @@ public struct SettingsFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.whatsNew, action: /Action.whatsNew) {
+        .ifLet(\.whatsNew, action: \.whatsNew) {
             WhatsNewFeature()
         }
 
-        Scope(state: \.premiumClub, action: /Action.premiumClub) {
+        Scope(state: \.premiumClub, action: \.premiumClub) {
             PremiumClubFeature()
         }
 
-        Scope(state: \.appIcon, action: /Action.appIcon) {
+        Scope(state: \.appIcon, action: \.appIcon) {
             AppIconFeature()
         }
 
-        Scope(state: \.appearance, action: /Action.appearance) {
+        Scope(state: \.appearance, action: \.appearance) {
             AppearanceFeature()
         }
 
-        Scope(state: \.networkAndData, action: /Action.networkAndData) {
+        Scope(state: \.networkAndData, action: \.networkAndData) {
             NetworkAndDataFeature()
         }
 
-        Scope(state: \.about, action: /Action.about) {
+        Scope(state: \.about, action: \.about) {
             AboutFeature()
         }
 
-        Scope(state: \.roadmap, action: /Action.roadmap) {
+        Scope(state: \.roadmap, action: \.roadmap) {
             RoadmapFeature()
         }
-    }
-}
-
-// MARK: - Reset
-
-extension SettingsFeature.State {
-    /// Reset navigation and inner state
-    public mutating func reset() {
-        if !path.isEmpty {
-            return path = NavigationPath()
-        }
-
-        if !isOnTop {
-            return isOnTop = true
-        }
-    }
-
-    public mutating func openPremiumClub(source: PremiumClubFeature.Source?) {
-        reset()
-        premiumClub.source = source
-        path.append(SettingsFeatureDestination.premiumClub)
     }
 }

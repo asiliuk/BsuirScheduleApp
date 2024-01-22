@@ -3,7 +3,8 @@ import BsuirApi
 import ScheduleFeature
 import ComposableArchitecture
 
-public struct GroupsRow: Reducer {
+@Reducer
+public struct GroupsRow {
     public struct State: Identifiable, Equatable {
         public var id: String { groupName }
         public let groupName: String
@@ -23,7 +24,7 @@ public struct GroupsRow: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        Scope(state: \.mark, action: /Action.mark) {
+        Scope(state: \.mark, action: \.mark) {
             MarkedScheduleFeature()
         }
     }

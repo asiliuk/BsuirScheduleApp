@@ -13,7 +13,8 @@ public enum PairRowDay: Equatable {
     case weekday(DaySchedule.WeekDay)
 }
 
-public struct PairRowFeature: Reducer {
+@Reducer
+public struct PairRowFeature {
     public struct State: Equatable, Identifiable {
         public var id: UUID { pair.id }
         var isFiltered: Bool = false
@@ -70,7 +71,7 @@ public struct PairRowFeature: Reducer {
                 return .none
             }
         }
-        .ifLet(\.$pairDetails, action: /Action.pairDetails) {
+        .ifLet(\.$pairDetails, action: \.pairDetails) {
             PairDetailsFeature()
         }
     }
