@@ -36,7 +36,7 @@ public struct PremiumClubFeatureView: View {
                     SubscriptionFooterView(
                         store: store.scope(
                             state: \.subsctiptionFooter,
-                            action: { .subsctiptionFooter($0) }
+                            action: \.subsctiptionFooter
                         )
                     )
                     .padding(.horizontal)
@@ -97,14 +97,14 @@ private struct PremiumClubSections: View {
                 TipsSectionView(
                     store: store.scope(
                         state: \.tips,
-                        action: { .tips($0) }
+                        action: \.tips
                     )
                 )
             case .premiumClubMembership:
                 PremiumClubMembershipSectionView(
                     store: store.scope(
                         state: \.premiumClubMembership,
-                        action: { .premiumClubMembership($0) }
+                        action: \.premiumClubMembership
                     )
                 )
             }

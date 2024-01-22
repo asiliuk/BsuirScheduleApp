@@ -16,7 +16,7 @@ struct GroupsRowView: View {
             .markedScheduleRowActions(
                 store: store.scope(
                     state: \.mark,
-                    action: GroupsRow.Action.mark
+                    action: \.mark
                 )
             )
         }

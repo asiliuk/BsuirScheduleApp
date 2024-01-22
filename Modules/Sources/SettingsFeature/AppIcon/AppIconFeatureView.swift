@@ -67,7 +67,7 @@ struct AppIconFeatureView: View {
             .alert(
                 store: store.scope(
                     state: \.$alert,
-                    action: { .alert($0) }
+                    action: \.alert
                 )
             )
             .navigationTitle("screen.settings.appIcon.navigation.title")

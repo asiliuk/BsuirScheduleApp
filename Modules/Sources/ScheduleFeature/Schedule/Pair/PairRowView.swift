@@ -46,7 +46,7 @@ struct PairRowView: View {
             .disabled(presentsPairDetailsPopover)
             .preference(key: PresentsPairDetailsPopoverPreferenceKey.self, value: viewStore.showingDetails)
             .popover(
-                store: store.scope(state: \.$pairDetails, action: { .pairDetails($0) }), 
+                store: store.scope(state: \.$pairDetails, action: \.pairDetails), 
                 content: PairDetailsView.init
             )
         }

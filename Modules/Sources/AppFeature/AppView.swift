@@ -28,7 +28,7 @@ public struct AppView: View {
                 PinnedTabView(
                     store: store.scope(
                         state: \.pinnedTab,
-                        action: AppFeature.Action.pinnedTab
+                        action: \.pinnedTab
                     )
                 )
                 .tag(CurrentSelection.pinned)
@@ -36,7 +36,7 @@ public struct AppView: View {
                 GroupsFeatureTab(
                     store: store.scope(
                         state: \.groups,
-                        action: AppFeature.Action.groups
+                        action: \.groups
                     )
                 )
                 .tag(CurrentSelection.groups)
@@ -44,7 +44,7 @@ public struct AppView: View {
                 LecturersFeatureTab(
                     store: store.scope(
                         state: \.lecturers,
-                        action: AppFeature.Action.lecturers
+                        action: \.lecturers
                     )
                 )
                 .tag(CurrentSelection.lecturers)
@@ -52,16 +52,15 @@ public struct AppView: View {
                 SettingsFeatureTab(
                     store: store.scope(
                         state: \.settings,
-                        action: AppFeature.Action.settings
+                        action: \.settings
                     )
                 )
                 .tag(CurrentSelection.settings)
             }
-            .sheet(
-                store: store.scope(state: \.$destination, action: { .destination($0) }),
-                state: /AppFeature.State.Destination.premiumClub,
-                action: AppFeature.Action.DestinationAction.premiumClub
-            ) { store in
+            .sheet(store: store.scope(
+                state: \.$destination.premiumClub,
+                action: \.destination.premiumClub
+            )) { store in
                 NavigationStack {
                     PremiumClubFeatureView(store: store)
                         .navigationBarTitleDisplayMode(.inline)

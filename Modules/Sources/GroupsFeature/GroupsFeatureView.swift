@@ -13,7 +13,7 @@ public struct GroupsFeatureView: View {
     }
     
     public var body: some View {
-        NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
+        NavigationStackStore(store.scope(state: \.path, action: \.path)) {
             WithViewStore(store, observe: \.isOnTop) { viewStore in
                 LoadingGroupsView(
                     store: store,
@@ -41,11 +41,11 @@ private struct LoadingGroupsView: View {
             action: GroupsFeature.Action.groupSections
         ) { store in
             ScrollableToTopList(isOnTop: $isOnTop) {
-                IfLetStore(self.store.scope(state: \.pinned, action: { .pinned($0) })) { store in
+                IfLetStore(self.store.scope(state: \.pinned, action: \.pinned)) { store in
                     GroupsSectionView(store: store)
                 }
 
-                IfLetStore(self.store.scope(state: \.favorites, action: { .favorites($0) })) { store in
+                IfLetStore(self.store.scope(state: \.favorites, action: \.favorites)) { store in
                     GroupsSectionView(store: store)
                 }
 
@@ -64,7 +64,7 @@ private struct LoadingGroupsView: View {
                     }
                 }
             }
-            .groupsSearchable(store: self.store.scope(state: \.search, action: { .search($0) }))
+            .groupsSearchable(store: self.store.scope(state: \.search, action: \.search))
         } loading: {
             GroupsLoadingPlaceholder(store: store)
         } error: { store in

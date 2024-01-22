@@ -8,11 +8,11 @@ struct PinnedScheduleFeatureView: View {
     let store: StoreOf<PinnedScheduleFeature>
 
     var body: some View {
-        NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
+        NavigationStackStore(store.scope(state: \.path, action: \.path)) {
             SwitchStore(
                 store.scope(
                     state: \.entitySchedule,
-                    action: { .entitySchedule($0) }
+                    action: \.entitySchedule
                 ),
                 content: EntityScheduleView.init
             )

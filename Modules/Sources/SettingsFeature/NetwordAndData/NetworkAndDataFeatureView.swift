@@ -24,7 +24,7 @@ struct NetworkAndDataFeatureView: View {
         .alert(
             store: store.scope(
                 state: \.$alert,
-                action: { .alert($0) }
+                action: \.alert
             )
         )
         .listStyle(.insetGrouped)
@@ -41,14 +41,14 @@ private struct ReachabilitySectionView: View {
         ReachabilityView(
             store: store.scope(
                 state: \.iisReachability,
-                action: { .iisReachability($0) }
+                action: \.iisReachability
             )
         )
 
         ReachabilityView(
             store: store.scope(
                 state: \.appleReachability,
-                action: { .appleReachability($0) }
+                action: \.appleReachability
             )
         )
     }

@@ -13,7 +13,7 @@ public struct LecturersFeatureView: View {
     }
     
     public var body: some View {
-        NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
+        NavigationStackStore(store.scope(state: \.path, action: \.path)) {
             WithViewStore(store, observe: \.isOnTop) { viewStore in
                 LoadingLecturersView(
                     store: store,
@@ -44,7 +44,7 @@ private struct LoadingLecturersView: View {
                 IfLetStore(
                     self.store.scope(
                         state: \.pinned,
-                        action: { .pinned($0) }
+                        action: \.pinned
                     )
                 ) { store in
                     Section("screen.lecturers.pinned.section.header") {
@@ -85,7 +85,7 @@ private struct LoadingLecturersView: View {
                     }
                 }
             }
-            .lecturersSearchable(store: self.store.scope(state: \.search, action: { .search($0) }))
+            .lecturersSearchable(store: self.store.scope(state: \.search, action: \.search))
         } loading: {
             LecturersLoadingPlaceholder(store: store)
         } error: { store in

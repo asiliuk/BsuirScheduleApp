@@ -41,7 +41,7 @@ struct TipsSectionView: View {
                 FreeLoveView(
                     store: store.scope(
                         state: \.freeLove,
-                        action: TipsSection.Action.freeLove
+                        action: \.freeLove
                     )
                 )
             }

@@ -8,7 +8,7 @@ struct ContinuousScheduleView: View {
         ScheduleListView(
             store: store.scope(
                 state: \.scheduleList,
-                action: { .scheduleList($0) }
+                action: \.scheduleList
             )
         )
         .task { store.send(.task) }

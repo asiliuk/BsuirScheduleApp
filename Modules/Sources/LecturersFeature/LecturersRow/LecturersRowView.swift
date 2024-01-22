@@ -29,7 +29,7 @@ struct LecturersRowView: View {
             .markedScheduleRowActions(
                 store: store.scope(
                     state: \.mark,
-                    action: LecturersRow.Action.mark
+                    action: \.mark
                 )
             )
         }

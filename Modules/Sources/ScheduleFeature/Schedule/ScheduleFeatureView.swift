@@ -53,7 +53,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                     IfLetStore(
                         store.scope(
                             state: \.subgroupPicker,
-                            action: { .subgroupPicker($0) }
+                            action: \.subgroupPicker
                         ),
                         then: SubgroupPickerFeatureView.init
                     )
@@ -63,7 +63,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                     IfLetStore(
                         store.scope(
                             state: \.mark,
-                            action: { .mark($0) }
+                            action: \.mark
                         ),
                         then: MarkedSchedulePickerView.init
                     )
@@ -83,15 +83,15 @@ private struct LoadedScheduleView: View {
         switch scheduleType {
         case .continuous:
             ContinuousScheduleView(
-                store: store.scope(state: \.continuous, action: { .continuous($0) })
+                store: store.scope(state: \.continuous, action: \.continuous)
             )
         case .compact:
             DayScheduleView(
-                store: store.scope(state: \.compact, action: { .day($0) })
+                store: store.scope(state: \.compact, action: \.day)
             )
         case .exams:
             ExamsScheduleView(
-                store: store.scope(state: \.exams, action: { .exams($0) })
+                store: store.scope(state: \.exams, action: \.exams)
             )
         }
     }

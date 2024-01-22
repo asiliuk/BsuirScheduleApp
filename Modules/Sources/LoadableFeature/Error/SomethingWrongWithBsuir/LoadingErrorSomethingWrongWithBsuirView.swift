@@ -28,7 +28,7 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
                     titleText(errorCode: viewStore.errorCode)
 
                     IfLetStore(
-                        store.scope(state: \.reachability, action: { .reachability($0) })
+                        store.scope(state: \.reachability, action: \.reachability)
                     ) { store in
                         ReachabilityView(store: store)
                             .font(.headline)

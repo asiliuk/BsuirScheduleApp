@@ -26,7 +26,7 @@ private struct PinnedTabContentView: View {
                 IfLetStore(
                     store.scope(
                         state: \.pinnedSchedule,
-                        action: { .pinnedSchedule($0) }
+                        action: \.pinnedSchedule
                     )
                 ) { store in
                     PinnedScheduleFeatureView(store: store)

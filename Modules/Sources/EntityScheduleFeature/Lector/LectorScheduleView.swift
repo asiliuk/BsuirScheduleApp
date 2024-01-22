@@ -14,7 +14,7 @@ public struct LectorScheduleView: View {
         ScheduleFeatureView(
             store: store.scope(
                 state: \.schedule,
-                action: { .schedule($0) }
+                action: \.schedule
             )
         )
     }

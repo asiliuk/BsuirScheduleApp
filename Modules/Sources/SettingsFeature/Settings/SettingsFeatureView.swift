@@ -37,13 +37,13 @@ public struct SettingsFeatureView: View {
                         PremiumClubLabel(
                             store: store.scope(
                                 state: \.premiumClub,
-                                action: { .premiumClub($0) }
+                                action: \.premiumClub
                             )
                         )
                     }
                 }
 
-                IfLetStore(store.scope(state: \.whatsNew, action: { .whatsNew($0) })) { store in
+                IfLetStore(store.scope(state: \.whatsNew, action: \.whatsNew)) { store in
                     WhatsNewSectionView(store: store)
                 }
 
@@ -52,7 +52,7 @@ public struct SettingsFeatureView: View {
                         value: .appIcon,
                         store: store.scope(
                             state: \.appIcon,
-                            action: { .appIcon($0) }
+                            action: \.appIcon
                         )
                     )
 
@@ -83,7 +83,7 @@ public struct SettingsFeatureView: View {
                     PremiumClubFeatureView(
                         store: store.scope(
                             state: \.premiumClub,
-                            action: { .premiumClub($0) }
+                            action: \.premiumClub
                         )
                     )
 
@@ -91,7 +91,7 @@ public struct SettingsFeatureView: View {
                     AppIconFeatureView(
                         store: store.scope(
                             state: \.appIcon,
-                            action: { .appIcon($0) }
+                            action: \.appIcon
                         )
                     )
 
@@ -99,7 +99,7 @@ public struct SettingsFeatureView: View {
                     AppearanceFeatureView(
                         store: store.scope(
                             state: \.appearance,
-                            action: { .appearance($0) }
+                            action: \.appearance
                         )
                     )
 
@@ -107,7 +107,7 @@ public struct SettingsFeatureView: View {
                     NetworkAndDataFeatureView(
                         store: store.scope(
                             state: \.networkAndData,
-                            action: { .networkAndData($0) }
+                            action: \.networkAndData
                         )
                     )
 
@@ -115,7 +115,7 @@ public struct SettingsFeatureView: View {
                     AboutFeatureView(
                         store: store.scope(
                             state: \.about,
-                            action: { .about($0) }
+                            action: \.about
                         )
                     )
 
@@ -123,7 +123,7 @@ public struct SettingsFeatureView: View {
                     RoadmapFeatureView(
                         store: store.scope(
                             state: \.roadmap,
-                            action: { .roadmap($0) }
+                            action: \.roadmap
                         )
                     )
                 }

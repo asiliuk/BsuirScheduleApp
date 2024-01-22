@@ -15,14 +15,14 @@ struct AppearanceFeatureView: View {
             PairFormsColorPickerView(
                 store: store.scope(
                     state: \.pairFormsColorPicker,
-                    action: { .pairFormsColorPicker($0) }
+                    action: \.pairFormsColorPicker
                 )
             )
 
             PairFormIconsView(
                 store: store.scope(
                     state: \.pairFormIcons,
-                    action: { .pairFormIcons($0) }
+                    action: \.pairFormIcons
                 )
             )
         }

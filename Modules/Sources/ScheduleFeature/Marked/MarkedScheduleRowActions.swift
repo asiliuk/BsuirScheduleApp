@@ -33,7 +33,7 @@ struct MarkedScheduleRowActions: ViewModifier {
         .alert(
             store: store.scope(
                 state: \.$alert,
-                action: MarkedScheduleFeature.Action.alert
+                action: \.alert
             )
         )
     }
