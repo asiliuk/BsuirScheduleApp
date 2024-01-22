@@ -32,5 +32,5 @@ jobs:
           set -o pipefail
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
           device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
-          xcodebuild -scheme "BsuirScheduleApp" -project "BsuirScheduleApp.xcodeproj" -destination "platform=$platform,name=$device" -skipPackagePluginValidation clean test | xcpretty
+          xcodebuild -scheme "BsuirScheduleApp" -project "BsuirScheduleApp.xcodeproj" -destination "platform=$platform,name=$device" -skipMacroValidation clean test | xcpretty
 
