@@ -40,7 +40,10 @@ extension StudentGroup {
 
         public let studentGroup: StudentGroup
 
-        public let schedules: DaySchedule
+        public let previousSchedules: TermSchedule?
+        public let currentSchedules: TermSchedule?
+        public let currentTerm: String?
+
         public let examSchedules: [Pair]
         
         private enum CodingKeys: String, CodingKey {
@@ -49,7 +52,9 @@ extension StudentGroup {
             case startExamsDate
             case endExamsDate
             case studentGroup = "studentGroupDto"
-            case schedules
+            case previousSchedules
+            case currentSchedules
+            case currentTerm = "currentPeriod"
             case examSchedules = "exams"
         }
     }

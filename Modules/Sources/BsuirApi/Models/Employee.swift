@@ -36,7 +36,9 @@ extension Employee {
         public let endExamsDate: Date?
         
         public let employee: Employee
-        public let schedules: DaySchedule?
+        public let previousSchedules: TermSchedule?
+        public let currentSchedules: TermSchedule?
+        public let currentTerm: String?
         public let examSchedules: [Pair]?
         
         private enum CodingKeys: String, CodingKey {
@@ -45,7 +47,9 @@ extension Employee {
             case startExamsDate
             case endExamsDate
             case employee = "employeeDto"
-            case schedules
+            case previousSchedules
+            case currentSchedules
+            case currentTerm = "currentPeriod"
             case examSchedules = "exams"
         }
     }
