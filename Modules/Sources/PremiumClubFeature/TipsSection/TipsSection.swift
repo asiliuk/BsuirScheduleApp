@@ -84,21 +84,18 @@ public struct FreeLove {
             return freeLoveHighScore
         }()
         var counter: Int = 0
-        @BindingState var confettiCounter: Int = 0
+        var confettiCounter: Int = 0
     }
 
-    public enum Action: Equatable, BindableAction {
+    public enum Action: Equatable {
         case loveButtonTapped
         case _resetCounter
-        case binding(BindingAction<State>)
     }
 
     @Dependency(\.continuousClock) var clock
     @Dependency(\.favorites) var favorites
 
     public var body: some ReducerOf<Self> {
-        BindingReducer()
-
         Reduce { state, action in
             switch action {
             case .loveButtonTapped:
@@ -117,8 +114,6 @@ public struct FreeLove {
                 state.highScore = score
                 state.confettiCounter += 1
                 return .run { _ in favorites.freeLoveHighScore = score }
-            case .binding:
-                return .none
             }
         }
     }
@@ -132,23 +127,20 @@ public struct FreeLove {
 public struct TipsAmount {
     public struct State: Equatable, Identifiable {
         public var id: String { product.id }
-        @BindingState var confettiCounter: Int = 0
+        var confettiCounter: Int = 0
         var product: Product
         var title: TextState { TextState(LocalizedStringKey(product.id)) }
         var amount: TextState { TextState(product.displayPrice) }
     }
 
-    public enum Action: Equatable, BindableAction {
+    public enum Action: Equatable {
         case buyButtonTapped
         case _productPurchased(success: Bool)
-        case binding(BindingAction<State>)
     }
 
     @Dependency(\.productsService) var productsService
 
     public var body: some ReducerOf<Self> {
-        BindingReducer()
-
         Reduce { state, action in
             switch action {
             case .buyButtonTapped:
@@ -159,7 +151,7 @@ public struct TipsAmount {
             case ._productPurchased(true):
                 state.confettiCounter += 1
                 return .none
-            case .binding, ._productPurchased(false):
+            case ._productPurchased(false):
                 return .none
             }
         }

@@ -46,6 +46,7 @@ let package = Package(
          .package(url: "https://github.com/TelemetryDeck/SwiftClient.git", from: "1.4.0"),
          .package(url: "https://github.com/SvenTiigi/WhatsNewKit.git", from: "2.1.0"),
          .package(url: "https://github.com/AvdLee/Roadmap.git", branch: "main"),
+         .package(url: "https://github.com/EmergeTools/Pow", from: "1.0.0"),
     ],
     targets: [
         // MARK: - Features
@@ -64,7 +65,7 @@ let package = Package(
         ),
         .target(
             name: "PremiumClubFeature",
-            dependencies: ["BsuirUI", "Favorites", .tca, .dependencies, .confetti]
+            dependencies: ["BsuirUI", "Favorites", .tca, .dependencies, .confetti, .pow]
         ),
         .target(
             name: "GroupsFeature",
@@ -138,4 +139,5 @@ private extension Target.Dependency {
     static let telemetryClient: Self = .product(name: "TelemetryClient", package: "SwiftClient")
     static let whatsNewKit: Self = .product(name: "WhatsNewKit", package: "WhatsNewKit")
     static let roadmap: Self = .product(name: "Roadmap", package: "Roadmap")
+    static let pow: Self = .product(name: "Pow", package: "Pow")
 }
