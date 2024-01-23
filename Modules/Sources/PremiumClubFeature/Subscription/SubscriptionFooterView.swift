@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirUI
 import ComposableArchitecture
+import Pow
 
 struct SubscriptionFooterView: View {
     let store: StoreOf<SubscriptionFooter>
@@ -29,6 +30,13 @@ struct SubscriptionFooterView: View {
                             .bold()
                             .frame(maxWidth: .infinity)
                     }
+                    .conditionalEffect(
+                        .repeat(
+                            .shine.delay(0.5),
+                            every: 2.5
+                        ),
+                        condition: true
+                    )
                     .controlSize(.large)
                     .buttonStyle(.borderedProminent)
                     .tint(.indigo)
