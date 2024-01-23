@@ -15,12 +15,13 @@ public struct LoadedScheduleReducer {
 
         init(response: ScheduleRequestResponse, pairRowDetails: PairRowDetails?) {
             self.response = response
-            let schedule = response.schedule ?? DaySchedule()
 
-            self.compact = DayScheduleFeature.State(schedule: schedule)
+            self.compact = DayScheduleFeature.State(
+                schedule: response.schedule
+            )
 
             self.continuous = ContinuousScheduleFeature.State(
-                schedule: schedule,
+                schedule: response.schedule,
                 startDate: response.startDate,
                 endDate: response.endDate,
                 pairRowDetails: pairRowDetails
@@ -35,7 +36,7 @@ public struct LoadedScheduleReducer {
 
             let allSchedulePairs = DaySchedule.WeekDay.allCases
                 .lazy
-                .compactMap { schedule[$0] }
+                .compactMap { response.schedule[$0] }
                 .flatMap { $0 }
 
             let allPairs = chain(allSchedulePairs, response.exams)

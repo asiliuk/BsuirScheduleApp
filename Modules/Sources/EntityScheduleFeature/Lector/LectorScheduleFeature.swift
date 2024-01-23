@@ -55,7 +55,7 @@ private extension ScheduleRequestResponse {
             endDate: response.endDate,
             startExamsDate: response.startExamsDate,
             endExamsDate: response.endExamsDate,
-            schedule: response.currentSchedules?.schedules,
+            schedule: response.schedules ?? DaySchedule(),
             exams: response.examSchedules ?? []
         )
     }

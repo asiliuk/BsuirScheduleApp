@@ -15,7 +15,7 @@ public struct ScheduleRequestResponse: Equatable, Encodable {
     public let startExamsDate: Date?
     public let endExamsDate: Date?
 
-    public let schedule: DaySchedule?
+    public let schedule: DaySchedule
     public let exams: [BsuirApi.Pair]
 
     public init(
@@ -23,7 +23,7 @@ public struct ScheduleRequestResponse: Equatable, Encodable {
         endDate: Date?,
         startExamsDate: Date?,
         endExamsDate: Date?,
-        schedule: DaySchedule?,
+        schedule: DaySchedule,
         exams: [BsuirApi.Pair]
     ) {
         self.startDate = startDate

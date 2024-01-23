@@ -17,7 +17,7 @@ extension MostRelevantPinnedScheduleResponse {
         subgroup: Int?,
         startDate: Date?,
         endDate: Date?,
-        schedule: DaySchedule?,
+        schedule: DaySchedule,
         now: Date = .now,
         calendar: Calendar = .current
     ) {
@@ -27,7 +27,6 @@ extension MostRelevantPinnedScheduleResponse {
             subgroup: subgroup,
             schedule: {
                 guard
-                    let schedule,
                     let startDate = startDate,
                     let endDate = endDate,
                     let mostRelevantElement = WeekSchedule(
