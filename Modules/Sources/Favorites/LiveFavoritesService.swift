@@ -40,7 +40,11 @@ public final class LiveFavoritesService {
     private lazy var freeLoveHighScoreStorage = storage
         .persistedInteger(forKey: "free-love-hich-score")
 
-    init(storage: UserDefaults, legacyStorage: UserDefaults, widgetService: WidgetService) {
+    init(
+        storage: UserDefaults,
+        legacyStorage: UserDefaults,
+        widgetService: WidgetService
+    ) {
         self.storage = storage
         self.legacyStorage = legacyStorage
         self.widgetService = widgetService
