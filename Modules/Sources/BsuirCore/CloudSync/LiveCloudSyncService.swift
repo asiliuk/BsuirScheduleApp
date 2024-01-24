@@ -59,7 +59,8 @@ private extension LiveCloudSyncService {
 
         for key in keys {
             let observer = observers[key]
-            observer?(self[key])
+            let value = self[key]
+            DispatchQueue.main.async { observer?(value) }
         }
     }
 }
