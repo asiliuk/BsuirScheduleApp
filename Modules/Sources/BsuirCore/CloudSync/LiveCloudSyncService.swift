@@ -29,6 +29,9 @@ extension LiveCloudSyncService: CloudSyncService {
 
         if keyValueStore.synchronize() == false {
             assertionFailure("This app was not built with the proper entitlement requests.")
+            os_log(.error, log: .cloudSync, "Load failed")
+        } else {
+            os_log(.info, log: .cloudSync, "Load succeed")
         }
     }
 
@@ -52,9 +55,17 @@ private extension LiveCloudSyncService {
             let keys = userInfo[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String]
         else { return }
 
+        os_log(.info, log: .cloudSync, "Values did change for keys: \(keys)")
+
         for key in keys {
             let observer = observers[key]
             observer?(self[key])
         }
     }
+}
+
+import OSLog
+
+private extension OSLog {
+    static let cloudSync = bsuirSchedule(category: "Cloud Sync")
 }

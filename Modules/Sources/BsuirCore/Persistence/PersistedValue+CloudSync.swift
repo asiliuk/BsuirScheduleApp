@@ -6,15 +6,15 @@ extension PersistedValue {
         syncInitialValues(with: cloudSyncService, forKey: key)
         let cancellable = cloudSyncService.observeChanges(forKey: key, update: updateWithCloudValue)
 
-        return PersistedValue(
-            get: {
+        return self.map(
+            fromValue: { value in
                 // Keep cancellable alive for same time as new persisted value
                 _ = cancellable
-                return (cloudSyncService[key] as? Value) ?? self.value
+                return (cloudSyncService[key] as? Value) ?? value
             },
-            set: { newValue in
+            toValue: { newValue in
                 cloudSyncService[key] = newValue
-                self.value = newValue
+                return newValue
             }
         )
     }
