@@ -40,7 +40,7 @@ private extension SubgroupFilterService {
                 .persistedInteger(forKey: source.preferredSubgroupKey)
                 // Transform 0 subgroup to nil
                 .map(fromValue: { $0 == 0 ? nil : $0 }, toValue: { $0 ?? 0 })
-                .onSet { _ in
+                .onDidSet {
                     guard pinnedScheduleService.currentSchedule() == source else { return }
                     widgetService.reloadAll()
                 }

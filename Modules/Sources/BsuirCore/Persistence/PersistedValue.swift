@@ -18,12 +18,40 @@ public struct PersistedValue<Value> {
         get: @escaping () -> Value,
         set: @escaping (Value) -> Void
     ) {
+        self.init(get: get, set: set, accessTracker: nil)
+    }
+
+    private init(
+        get: @escaping () -> Value,
+        set: @escaping (Value) -> Void,
+        accessTracker: PersistedValueAccessTracker?
+    ) {
         self.get = get
-        self.set = set
+        if let accessTracker {
+            // Assuming this is intermediate persisted value
+            // No need to call `accessTracker` because it would be done at leaf component level
+            // Otherwise we could end up calling it on each level of persisted value nesting
+            self.accessTracker = accessTracker
+            self.set = set
+        } else {
+            // Assuming we're in initial (leaf) persisted value
+            // so we're creating first access tracker and notifying it when needed
+            let newAccessTracker = PersistedValueAccessTracker()
+            self.accessTracker = newAccessTracker
+            self.set = { newValue in
+                set(newValue)
+                newAccessTracker.onDidSet()
+            }
+        }
     }
 
     private let get: () -> Value
     private let set: (Value) -> Void
+    private let accessTracker: PersistedValueAccessTracker
+}
+
+private final class PersistedValueAccessTracker {
+    var onDidSet: () -> Void = {}
 }
 
 // MARK: - Operators
@@ -37,16 +65,17 @@ extension PersistedValue {
         fromValue: @escaping (Value) -> U,
         toValue: @escaping (U) -> Value
     ) -> PersistedValue<U> {
-        PersistedValue<U>(
+        return PersistedValue<U>(
             get: { fromValue(self.get()) },
-            set: { self.set(toValue($0)) }
+            set: { self.set(toValue($0)) },
+            accessTracker: accessTracker
         )
     }
 
     public func withPublisher() -> (persisted: PersistedValue, publisher:  AnyPublisher<Value, Never>) {
         let subject = CurrentValueSubject<Value, Never>(get())
         return (
-            persisted: onSet(subject.send),
+            persisted: onDidSet { subject.value = get() },
             publisher: subject.eraseToAnyPublisher()
         )
     }
@@ -55,8 +84,9 @@ extension PersistedValue {
         map(fromValue: { $0 ?? `default` }, toValue: { .some($0) })
     }
 
-    public func onSet(_ onSet: @escaping (Value) -> Void) -> PersistedValue {
-        PersistedValue(get: get, set: { onSet($0); self.set($0) })
+    public func onDidSet(_ onDidSet: @escaping () -> Void) -> PersistedValue {
+        self.accessTracker.onDidSet = onDidSet
+        return self
     }
 }
 
