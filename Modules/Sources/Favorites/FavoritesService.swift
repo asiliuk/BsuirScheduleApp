@@ -48,10 +48,12 @@ extension DependencyValues {
 private enum FavoritesServiceKey: DependencyKey {
     static let liveValue: any FavoritesService = {
         @Dependency(\.widgetService) var widgetService
+        @Dependency(\.cloudSyncService) var cloudSyncService
         return LiveFavoritesService(
             storage: .asiliukShared,
             legacyStorage: .standard,
-            widgetService: widgetService
+            widgetService: widgetService,
+            cloudSyncService: cloudSyncService
         )
     }()
 

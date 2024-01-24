@@ -21,7 +21,8 @@ extension DependencyValues {
 extension PinnedScheduleService: DependencyKey {
     public static let liveValue: PinnedScheduleService = {
         @Dependency(\.widgetService) var widgetService
-        return .live(storage: .asiliukShared, widgetService: widgetService)
+        @Dependency(\.cloudSyncService) var cloudSyncService
+        return .live(storage: .asiliukShared, widgetService: widgetService, cloudSyncService: cloudSyncService)
     }()
 
     public static let previewValue: PinnedScheduleService = .constant(.group(name: "151004"))
@@ -30,11 +31,17 @@ extension PinnedScheduleService: DependencyKey {
 // MARK: - Live
 
 extension PinnedScheduleService {
-    static func live(storage: UserDefaults, widgetService: WidgetService) -> Self {
+    static func live(
+        storage: UserDefaults,
+        widgetService: WidgetService,
+        cloudSyncService: CloudSyncService
+    ) -> Self {
         let pinnedScheduleStorage = storage
             .persistedDictionary(forKey: "pinned-schedule")
+            .sync(with: cloudSyncService, forKey: "cloud-pinned-schedule")
             .codable(ScheduleSource.self)
             .withPublisher()
+
         return Self(
             currentSchedule: {
                 pinnedScheduleStorage.persisted.value

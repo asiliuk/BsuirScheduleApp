@@ -8,6 +8,7 @@ import Dependencies
 
 public final class LiveFavoritesService {
     private let widgetService: WidgetService
+    private let cloudSyncService: CloudSyncService
     private let storage: UserDefaults
     private let legacyStorage: UserDefaults
 
@@ -27,27 +28,32 @@ public final class LiveFavoritesService {
     // MARK: - Storage
     private lazy var groupNamesStorage = storage
         .persistedArray(of: String.self, forKey: "favorite-group-names")
+        .sync(with: cloudSyncService, forKey: "cloud-favorite-group-names")
         .toOrderedSet()
         .unwrap(withDefault: [])
         .withPublisher()
 
     private lazy var lecturerIDsStorage = storage
         .persistedArray(of: Int.self, forKey: "favorite-lector-ids")
+        .sync(with: cloudSyncService, forKey: "cloud-favorite-lector-ids")
         .toOrderedSet()
         .unwrap(withDefault: [])
         .withPublisher()
 
     private lazy var freeLoveHighScoreStorage = storage
         .persistedInteger(forKey: "free-love-hich-score")
+        .sync(with: cloudSyncService, forKey: "cloud-free-love-high-score")
 
     init(
         storage: UserDefaults,
         legacyStorage: UserDefaults,
-        widgetService: WidgetService
+        widgetService: WidgetService,
+        cloudSyncService: CloudSyncService
     ) {
         self.storage = storage
         self.legacyStorage = legacyStorage
         self.widgetService = widgetService
+        self.cloudSyncService = cloudSyncService
         migrateIfNeeded()
     }
 
