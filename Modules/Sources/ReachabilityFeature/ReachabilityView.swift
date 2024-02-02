@@ -10,15 +10,11 @@ public struct ReachabilityView: View {
     }
 
     public var body: some View {
-        WithViewStore(
-            store,
-            observe: { (host: $0.host, status: $0.status) },
-            removeDuplicates: ==
-        ) { viewStore in
+        WithPerceptionTracking {
             Label {
-                Text(viewStore.host)
+                Text(store.host)
             } icon: {
-                switch viewStore.status {
+                switch store.status {
                 case .unknown:
                     Image(systemName: "questionmark.circle.fill")
                         .foregroundColor(.yellow)
@@ -30,7 +26,7 @@ public struct ReachabilityView: View {
                         .foregroundColor(.green)
                 }
             }
-            .task { await viewStore.send(.task).finish() }
+            .task { await store.send(.task).finish() }
         }
     }
 }

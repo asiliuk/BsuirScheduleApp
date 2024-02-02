@@ -110,28 +110,18 @@ private struct LecturersFeatureTab: View {
 }
 
 private struct SettingsFeatureTab: View {
-    struct ViewState: Equatable {
-        var path: NavigationPath
-        var hasWhatsNew: Bool
-
-        init(state: SettingsFeature.State) {
-            self.path = state.path
-            self.hasWhatsNew = state.hasWhatsNew
-        }
-    }
-
-    let store: StoreOf<SettingsFeature>
+    @Perception.Bindable var store: StoreOf<SettingsFeature>
 
     var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
-            NavigationStack(path: viewStore.binding(get: \.path, send: { .setPath($0) })) {
+        WithPerceptionTracking {
+            NavigationStack(path: $store.path) {
                 SettingsFeatureView(store: store)
                     .navigationBarTitleDisplayMode(.inline)
             }
             .tabItem {
                 Label("view.tabBar.settings.title", systemImage: "gearshape")
             }
-            .badge(viewStore.hasWhatsNew ? "✦" : nil)
+            .badge(store.hasWhatsNew ? "✦" : nil)
         }
     }
 }

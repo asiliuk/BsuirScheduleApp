@@ -8,6 +8,7 @@ import SwiftUI
 
 @Reducer
 public struct SettingsFeature {
+    @ObservableState
     public struct State: Equatable {
         public var path = NavigationPath()
         var isOnTop: Bool = true
@@ -26,7 +27,7 @@ public struct SettingsFeature {
         public init() {}
     }
     
-    public enum Action: Equatable {
+    public enum Action: Equatable, BindableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClub(source: PremiumClubFeature.Source?)
         }
@@ -39,25 +40,17 @@ public struct SettingsFeature {
         case about(AboutFeature.Action)
         case roadmap(RoadmapFeature.Action)
 
-        case setIsOnTop(Bool)
-        case setPath(NavigationPath)
-
         case delegate(DelegateAction)
+        case binding(BindingAction<State>)
     }
 
     public init() {}
     
     public var body: some ReducerOf<Self> {
+        BindingReducer()
+
         Reduce { state, action in
             switch action {
-            case let .setIsOnTop(value):
-                state.isOnTop = value
-                return .none
-
-            case let .setPath(value):
-                state.path = value
-                return .none
-
             case .appIcon(.delegate(let action)):
                 switch action {
                 case .showPremiumClub:
@@ -78,7 +71,7 @@ public struct SettingsFeature {
                     return .none
                 }
 
-            case .premiumClub, .whatsNew, .appIcon, .appearance, .networkAndData, .about, .delegate:
+            case .premiumClub, .whatsNew, .appIcon, .appearance, .networkAndData, .about, .delegate, .binding:
                 return .none
             }
         }

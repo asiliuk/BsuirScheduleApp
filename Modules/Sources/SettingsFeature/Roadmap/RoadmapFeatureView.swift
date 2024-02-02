@@ -6,11 +6,11 @@ struct RoadmapFeatureView: View {
     let store: StoreOf<RoadmapFeature>
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithPerceptionTracking {
             let configuration = RoadmapConfiguration(
-                roadmapJSONURL: viewStore.jsonURL,
-                voter: FeatureVoterTallyAPI(namespace: viewStore.namespace),
-                namespace: viewStore.namespace,
+                roadmapJSONURL: store.jsonURL,
+                voter: FeatureVoterTallyAPI(namespace: store.namespace),
+                namespace: store.namespace,
                 style: .bsuir
             )
 

@@ -6,8 +6,9 @@ import ComposableArchitecture
 
 @Reducer
 public struct AppIconFeature {
+    @ObservableState
     public struct State: Equatable {
-        @PresentationState var alert: AlertState<Action.AlertAction>?
+        @Presents var alert: AlertState<Action.AlertAction>?
 
         var supportsIconPicking: Bool = {
             @Dependency(\.application.supportsAlternateIcons) var supportsAlternateIcons

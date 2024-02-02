@@ -5,8 +5,9 @@ import ComposableArchitecture
 
 @Reducer
 public struct PairFormIcons {
+    @ObservableState
     public struct State: Equatable {
-        @BindingState var alwaysShowIcon: Bool
+        var alwaysShowIcon: Bool
         var pairForms: IdentifiedArrayOf<PairViewForm>
 
         public init() {
@@ -24,15 +25,11 @@ public struct PairFormIcons {
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
-
-        Reduce { state, action in
-            switch action {
-            case .binding(\.$alwaysShowIcon):
-                pairFormDisplayService.alwaysShowFormIcon = state.alwaysShowIcon
-                return .none
-            case .binding:
-                return .none
+            .onChange(of: \.alwaysShowIcon) { _, newValue in
+                Reduce { _, _ in
+                    pairFormDisplayService.alwaysShowFormIcon = newValue
+                    return .none
+                }
             }
-        }
     }
 }

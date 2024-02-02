@@ -3,6 +3,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct RoadmapFeature {
+    @ObservableState
     public struct State: Equatable {
         var jsonURL: URL = .roadmapJSONURL
         var namespace: String = "asiliuk-bsuir-schedule"

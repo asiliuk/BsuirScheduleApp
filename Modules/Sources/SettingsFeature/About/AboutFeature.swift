@@ -4,6 +4,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct AboutFeature {
+    @ObservableState
     public struct State: Equatable {
         var appVersion: String = {
             @Dependency(\.appInfo.version.description) var appVersion

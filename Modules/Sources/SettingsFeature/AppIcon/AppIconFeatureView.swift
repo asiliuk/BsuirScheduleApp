@@ -3,37 +3,29 @@ import BsuirUI
 import ComposableArchitecture
 
 struct AppIconFeatureNavigationLink: View {
-    struct ViewState: Equatable {
-        var supportsIconPicking: Bool
-        var currentIcon: AppIcon?
-
-        init(_ state: AppIconFeature.State) {
-            supportsIconPicking = state.supportsIconPicking
-            currentIcon = state.currentIcon
-        }
-    }
-
     let value: SettingsFeatureDestination
     let store: StoreOf<AppIconFeature>
 
     var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
-            if viewStore.supportsIconPicking {
+        WithPerceptionTracking {
+            if store.supportsIconPicking {
                 NavigationLink(value: value) {
                     Label {
                         Text("screen.settings.appIcon.navigation.title")
                     } icon: {
-                        SettingsRowIcon(fill: .green) {
-                            Image(systemName: "info.circle.fill")
-                        }
-                        .hidden()
-                        .overlay {
-                            GeometryReader { proxy in
-                                AppIconPreviewView(
-                                    imageName: viewStore.currentIcon.or(.plain(.standard)).previewImageName,
-                                    size: proxy.size.width
-                                )
+                            SettingsRowIcon(fill: .green) {
+                                Image(systemName: "info.circle.fill")
                             }
+                            .hidden()
+                            .overlay {
+                                GeometryReader { proxy in
+                                    WithPerceptionTracking {
+                                        AppIconPreviewView(
+                                            imageName: store.currentIcon.or(.plain(.standard)).previewImageName,
+                                            size: proxy.size.width
+                                        )
+                                    }
+                                }
                         }
                     }
                 }
@@ -43,35 +35,17 @@ struct AppIconFeatureNavigationLink: View {
 }
 
 struct AppIconFeatureView: View {
-    struct ViewState: Equatable {
-        var currentIcon: AppIcon?
-        var isPremiumLocked: Bool
-
-        init(_ state: AppIconFeature.State) {
-            currentIcon = state.currentIcon
-            isPremiumLocked = state.isPremiumLocked
-        }
-    }
-
-    let store: StoreOf<AppIconFeature>
+    @Perception.Bindable var store: StoreOf<AppIconFeature>
 
     var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
+        WithPerceptionTracking {
             AppIconPickerView(
-                selection: viewStore.binding(
-                    get: \.currentIcon,
-                    send: { .iconPicked($0) }
-                ),
-                isPremiumLocked: viewStore.isPremiumLocked
+                selection: $store.currentIcon.sending(\.iconPicked),
+                isPremiumLocked: store.isPremiumLocked
             )
-            .alert(
-                store: store.scope(
-                    state: \.$alert,
-                    action: \.alert
-                )
-            )
+            .alert($store.scope(state: \.alert, action: \.alert))
             .navigationTitle("screen.settings.appIcon.navigation.title")
-            .task { await viewStore.send(.task).finish() }
+            .task { await store.send(.task).finish() }
         }
     }
 }

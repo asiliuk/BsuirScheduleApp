@@ -4,8 +4,9 @@ import ComposableArchitecture
 
 @Reducer
 public struct NetworkAndDataFeature {
+    @ObservableState
     public struct State: Equatable {
-        @PresentationState var alert: AlertState<Action.AlertAction>?
+        @Presents var alert: AlertState<Action.AlertAction>?
         var iisReachability = ReachabilityFeature.State(host: URL.iisApi.host()!)
         var appleReachability = ReachabilityFeature.State(host: "apple.com")
     }

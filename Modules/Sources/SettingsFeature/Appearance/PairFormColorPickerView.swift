@@ -6,16 +6,16 @@ public struct PairFormsColorPickerView: View {
     let store: StoreOf<PairFormsColorPicker>
 
     public var body: some View {
-        WithViewStore(store, observe: \.hasChanges) { viewStore in
-            Section(header: Text("screen.settings.appearance.colors.section.header")) {
-                ForEachStore(
+        Section(header: Text("screen.settings.appearance.colors.section.header")) {
+            WithPerceptionTracking {
+                ForEach(
                     store.scope(state: \.pairFormColorPickers, action: \.pairFormColorPickers),
                     content: PairFormColorPickerView.init(store:)
                 )
-
-                if viewStore.state {
+                
+                if store.hasChanges {
                     Button("screen.settings.appearance.colors.reset.title") {
-                        viewStore.send(.resetButtonTapped, animation: .default)
+                        store.send(.resetButtonTapped, animation: .default)
                     }
                 }
             }
@@ -25,11 +25,11 @@ public struct PairFormsColorPickerView: View {
 }
 
 private struct PairFormColorPickerView: View {
-    let store: StoreOf<PairFormColorPicker>
+    @Perception.Bindable var store: StoreOf<PairFormColorPicker>
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
-            Picker(viewStore.name, selection: viewStore.$color) {
+        WithPerceptionTracking {
+            Picker(store.name, selection: $store.color) {
                 ForEach(PairFormColor.allCases, id: \.self) { color in
                     ColorView(color: color.color, name: color.name)
                 }

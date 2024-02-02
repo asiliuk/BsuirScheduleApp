@@ -5,6 +5,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct PairFormsColorPicker {
+    @ObservableState
     public struct State: Equatable {
         var hasChanges: Bool = false
         var pairFormColorPickers: IdentifiedArrayOf<PairFormColorPicker.State> = []
@@ -62,11 +63,12 @@ public struct PairFormsColorPicker {
 
 @Reducer
 public struct PairFormColorPicker {
+    @ObservableState
     public struct State: Equatable, Identifiable {
         public var id: String { form.rawValue }
         var name: LocalizedStringKey { form.name }
         let form: PairViewForm
-        @BindingState var color: PairFormColor
+        var color: PairFormColor
     }
 
     public enum Action: Equatable, BindableAction {
@@ -80,14 +82,10 @@ public struct PairFormColorPicker {
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
-
-        Reduce { state, action in
-            switch action {
-            case .binding(\.$color):
-                return .send(.delegate(.colorDidChange))
-            case .delegate, .binding:
-                return .none
+            .onChange(of: \.color) { _, _ in
+                Reduce { _, _ in
+                    .send(.delegate(.colorDidChange))
+                }
             }
-        }
     }
 }

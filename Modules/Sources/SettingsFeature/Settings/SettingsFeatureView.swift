@@ -16,7 +16,7 @@ enum SettingsFeatureDestination: Hashable {
 }
 
 public struct SettingsFeatureView: View {
-    public let store: StoreOf<SettingsFeature>
+    @Perception.Bindable public var store: StoreOf<SettingsFeature>
     @State var hasActivePass = false
     
     public init(store: StoreOf<SettingsFeature>) {
@@ -24,14 +24,8 @@ public struct SettingsFeatureView: View {
     }
     
     public var body: some View {
-        WithViewStore(store, observe: \.isOnTop) { viewStore in
-            ScrollableToTopList(
-                isOnTop: viewStore.binding(
-                    get: { $0 },
-                    send: { .setIsOnTop($0) }
-                )
-            ) {
-
+        WithPerceptionTracking {
+            ScrollableToTopList(isOnTop: $store.isOnTop) {
                 Section {
                     NavigationLink(value: SettingsFeatureDestination.premiumClub) {
                         PremiumClubLabel(
@@ -43,8 +37,8 @@ public struct SettingsFeatureView: View {
                     }
                 }
 
-                IfLetStore(store.scope(state: \.whatsNew, action: \.whatsNew)) { store in
-                    WhatsNewSectionView(store: store)
+                if let whatsNewStore = store.scope(state: \.whatsNew, action: \.whatsNew) {
+                    WhatsNewSectionView(store: whatsNewStore)
                 }
 
                 Section {

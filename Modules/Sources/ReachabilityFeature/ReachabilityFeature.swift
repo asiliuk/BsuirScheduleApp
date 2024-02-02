@@ -4,6 +4,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct ReachabilityFeature {
+    @ObservableState
     public struct State: Equatable {
         public var status: NetworkReachabilityStatus
         public var host: String
@@ -16,7 +17,7 @@ public struct ReachabilityFeature {
 
     public enum Action: Equatable {
         case task
-        case setStatus(NetworkReachabilityStatus)
+        case _setStatus(NetworkReachabilityStatus)
     }
 
     @Dependency(\.networkReachabilityTracker) var networkReachabilityTracker
@@ -29,11 +30,11 @@ public struct ReachabilityFeature {
             let tracker = networkReachabilityTracker.track(state.host)
             return .run { send in
                 for try await status in tracker.status().values {
-                    await send(.setStatus(status))
+                    await send(._setStatus(status))
                 }
             }
 
-        case let .setStatus(value):
+        case let ._setStatus(value):
             state.status = value
             return .none
         }

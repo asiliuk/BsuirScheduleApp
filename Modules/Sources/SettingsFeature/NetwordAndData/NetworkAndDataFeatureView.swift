@@ -3,7 +3,7 @@ import ReachabilityFeature
 import ComposableArchitecture
 
 struct NetworkAndDataFeatureView: View {
-    let store: StoreOf<NetworkAndDataFeature>
+    @Perception.Bindable var store: StoreOf<NetworkAndDataFeature>
 
     var body: some View {
         List {
@@ -21,12 +21,7 @@ struct NetworkAndDataFeatureView: View {
                 }
             }
         }
-        .alert(
-            store: store.scope(
-                state: \.$alert,
-                action: \.alert
-            )
-        )
+        .alert($store.scope(state: \.alert, action: \.alert))
         .listStyle(.insetGrouped)
         .navigationTitle("screen.settings.networkAndData.navigation.title")
     }
