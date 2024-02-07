@@ -1,6 +1,9 @@
 import Foundation
+import ComposableArchitecture
 
 @propertyWrapper
+@CasePathable
+@ObservableState
 public enum LoadableState<Value> {
     case initial
     case loading
@@ -46,27 +49,5 @@ extension LoadableState {
         case let .error(error): return .error(error)
         case let .some(value): return .some(transform(value))
         }
-    }
-}
-
-extension LoadableState {
-    var isInitial: Bool {
-        guard case .initial = self else { return false }
-        return true
-    }
-
-    var isLoading: Bool {
-        guard case .loading = self else { return false }
-        return true
-    }
-
-    var isError: Bool {
-        guard case .error = self else { return false }
-        return true
-    }
-
-    var isSome: Bool {
-        guard case .some = self else { return false }
-        return true
     }
 }

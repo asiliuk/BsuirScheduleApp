@@ -65,21 +65,21 @@ private struct CoreLoadingReducer<State, Value: Equatable> {
         }
 
         switch action {
-        case .onAppear where valueState.isInitial:
+        case .onAppear where valueState.is(\.initial):
             valueState = .loading
             return .merge(
                 load(state, isRefresh: false),
                 loadingStarted()
             )
 
-        case .loadingError(.reload) where valueState.isError:
+        case .loadingError(.reload) where valueState.is(\.error):
             valueState = .loading
             return .merge(
                 load(state, isRefresh: true),
                 loadingStarted()
             )
 
-        case .refresh where valueState.isError || valueState.isSome:
+        case .refresh where valueState.is(\.error) || valueState.is(\.some):
             return load(state, isRefresh: true)
 
         case let ._loaded(value, _):
