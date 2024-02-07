@@ -35,7 +35,7 @@ extension MostRelevantPinnedScheduleResponse {
                         endDate: endDate
                     )
                     .schedule(starting: now, now: now, calendar: calendar)
-                    .first(where: { $0.hasUnfinishedPairs(now: now) })
+                    .first(where: { $0.hasUnfinishedPairs(now: now, subgroup: subgroup) })
                 else { return nil }
                 return mostRelevantElement
             }()

@@ -37,15 +37,6 @@ extension PinnedScheduleEntry {
     }
 }
 
-// MARK: - Pair Subgroup
-
-extension Pair {
-    func isSuitable(forSubgroup subgroup: Int?) -> Bool {
-        guard self.subgroup != 0, let subgroup else { return true }
-        return self.subgroup == subgroup
-    }
-}
-
 // MARK: - TimelineEntryRelevance
 
 extension TimelineEntryRelevance {

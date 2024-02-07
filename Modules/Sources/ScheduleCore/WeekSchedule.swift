@@ -112,8 +112,17 @@ extension WeekSchedule {
 }
 
 extension WeekSchedule.ScheduleElement {
-    public func hasUnfinishedPairs(now: Date) -> Bool {
-        pairs.contains { $0.end > now }
+    public func hasUnfinishedPairs(now: Date, subgroup: Int?) -> Bool {
+        pairs
+            .filter { $0.base.isSuitable(forSubgroup: subgroup) }
+            .contains { $0.end > now }
+    }
+}
+
+extension Pair {
+    public func isSuitable(forSubgroup subgroup: Int?) -> Bool {
+        guard self.subgroup != 0, let subgroup else { return true }
+        return self.subgroup == subgroup
     }
 }
 
