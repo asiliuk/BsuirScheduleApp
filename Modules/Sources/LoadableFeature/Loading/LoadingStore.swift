@@ -2,6 +2,7 @@ import SwiftUI
 import BsuirCore
 import ComposableArchitecture
 
+@available(*, deprecated, renamed: "LoadingView", message: "Old style is deprecated. Please use `LoadingView` now")
 public struct LoadingStore<
     ValueState: Equatable,
     ValueAction,

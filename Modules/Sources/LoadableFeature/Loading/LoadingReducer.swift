@@ -2,6 +2,7 @@ import Foundation
 import ComposableArchitecture
 
 extension Reducer where Action: LoadableAction, Action.State == State {
+    @available(*, deprecated, message: "PropertyWrapper approach is deprecated, please use new LoadingState type and new `load` method for it")
     public func load<Value: Equatable>(
         _ keyPath: WritableKeyPath<State, LoadableState<Value>>,
         fetch: @Sendable @escaping (State, _ isRefresh: Bool) async throws -> Value
@@ -11,7 +12,8 @@ extension Reducer where Action: LoadableAction, Action.State == State {
             self
         }
     }
-    
+
+    @available(*, deprecated, message: "PropertyWrapper approach is deprecated, please use new LoadingState type and new `load` method for it")
     public func load<ValueState: Equatable, ValueAction>(
         _ keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
         action: AnyCasePath<Action, ValueAction>,
