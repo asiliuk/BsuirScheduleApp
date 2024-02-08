@@ -7,6 +7,7 @@ import URLRouting
 
 @Reducer
 public struct LoadingError {
+    @ObservableState
     public enum State: Equatable {
         case unknown
         case notConnectedToInternet
