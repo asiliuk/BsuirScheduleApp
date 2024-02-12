@@ -40,7 +40,8 @@ extension StudentGroup {
 
         public let studentGroup: StudentGroup
 
-        public let schedules: DaySchedule
+        public let schedules: DaySchedule?
+        public let previousSchedules: DaySchedule?
         public let examSchedules: [Pair]
         
         private enum CodingKeys: String, CodingKey {
@@ -50,7 +51,19 @@ extension StudentGroup {
             case endExamsDate
             case studentGroup = "studentGroupDto"
             case schedules
+            case previousSchedules
             case examSchedules = "exams"
         }
+    }
+}
+
+extension StudentGroup.Schedule {
+    /// Actual schedule of the group
+    ///
+    /// Sometimes API returns nil in `schedules` field and current schedule is passed as `previousSchedule` for some reason. This property allows to hide this complexity
+    ///
+    /// - Returns: Current schedule or previous if current is empty
+    public var actualSchedule: DaySchedule {
+        schedules.or(previousSchedules).or(DaySchedule())
     }
 }

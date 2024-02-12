@@ -37,6 +37,7 @@ extension Employee {
         
         public let employee: Employee
         public let schedules: DaySchedule?
+        public let previousSchedules: DaySchedule?
         public let examSchedules: [Pair]?
         
         private enum CodingKeys: String, CodingKey {
@@ -46,8 +47,20 @@ extension Employee {
             case endExamsDate
             case employee = "employeeDto"
             case schedules
+            case previousSchedules
             case examSchedules = "exams"
         }
+    }
+}
+
+extension Employee.Schedule {
+    /// Actual schedule of the group
+    ///
+    /// Sometimes API returns nil in `schedules` field and current schedule is passed as `previousSchedule` for some reason. This property allows to hide this complexity
+    ///
+    /// - Returns: Current schedule or previous if current is empty
+    public var actualSchedule: DaySchedule {
+        schedules.or(previousSchedules).or(DaySchedule())
     }
 }
 
