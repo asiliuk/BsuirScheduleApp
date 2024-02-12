@@ -17,7 +17,9 @@ public struct LoadedScheduleReducer {
             self.response = response
 
             self.compact = DayScheduleFeature.State(
-                schedule: response.schedule
+                schedule: response.schedule,
+                startDate: response.startDate,
+                endDate: response.endDate
             )
 
             self.continuous = ContinuousScheduleFeature.State(

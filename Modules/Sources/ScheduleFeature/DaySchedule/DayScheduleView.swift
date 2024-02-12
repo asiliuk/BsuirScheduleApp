@@ -18,16 +18,20 @@ struct DayScheduleView: View {
 
 struct DayScheduleView_Previews: PreviewProvider {
     static var previews: some View {
-        let initialState = DayScheduleFeature.State(schedule: DaySchedule(days: [
-            .monday: [
-                Pair(subject: "POIT"),
-                Pair(subject: "OSiSP")
-            ],
-            .sunday: [
-                Pair(subject: "POIT", weekNumber: .evenWeeks),
-                Pair(subject: "OSiSP", weekNumber: .oddWeeks)
-            ]
-        ]))
+        let initialState = DayScheduleFeature.State(
+            schedule: DaySchedule(days: [
+                .monday: [
+                    Pair(subject: "POIT"),
+                    Pair(subject: "OSiSP")
+                ],
+                .sunday: [
+                    Pair(subject: "POIT", weekNumber: .evenWeeks),
+                    Pair(subject: "OSiSP", weekNumber: .oddWeeks)
+                ]
+            ]),
+            startDate: .now,
+            endDate: .now.addingTimeInterval(3600 * 24 * 3)
+        )
 
         DayScheduleView(
             store: Store(initialState: initialState) {

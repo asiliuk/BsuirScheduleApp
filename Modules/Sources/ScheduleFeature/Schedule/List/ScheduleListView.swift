@@ -24,6 +24,13 @@ private struct ScheduleContentListView: View {
         WithViewStore(store, observe: \.isOnTop) { viewStore in
             ScrollableToTopList(isOnTop: viewStore.binding(send: { .setIsOnTop($0) })) {
                 Group {
+                    WithViewStore(store, observe: \.header) { viewStore in
+                        if let header = viewStore.state {
+                            Text(header)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
                     ForEachStore(
                         store.scope(
                             state: \.days,

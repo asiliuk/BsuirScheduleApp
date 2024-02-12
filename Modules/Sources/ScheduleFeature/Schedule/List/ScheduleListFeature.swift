@@ -15,6 +15,7 @@ public struct ScheduleListFeature {
         var hasSchedule: Bool { !days.isEmpty }
         var days: IdentifiedArrayOf<DaySectionFeature.State>
         var loading: Loading
+        var header: LocalizedStringResource?
     }
 
     @CasePathable

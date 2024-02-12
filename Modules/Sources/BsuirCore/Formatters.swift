@@ -47,6 +47,13 @@ extension FormatStyle where Self == Date.IntervalFormatStyle {
             .hour(.defaultDigits(amPM: .narrow))
             .minute()
     }
+
+    public static var scheduleDates: Self {
+        return .interval
+            .day()
+            .month()
+            .year()
+    }
 }
 
 extension Collection where Element == String {

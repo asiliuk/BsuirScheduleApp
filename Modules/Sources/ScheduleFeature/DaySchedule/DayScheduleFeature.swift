@@ -7,7 +7,7 @@ import Dependencies
 @Reducer
 public struct DayScheduleFeature {
     public struct State: Equatable {
-        var scheduleList = ScheduleListFeature.State(days: [], loading: .never)
+        var scheduleList: ScheduleListFeature.State
 
         mutating func filter(keepingSubgroup subgroup: Int?) {
             scheduleList.filter(keepingSubgroup: subgroup)
@@ -17,9 +17,18 @@ public struct DayScheduleFeature {
             scheduleList.isOnTop = true
         }
 
-        init(schedule: DaySchedule) {
+        init(schedule: DaySchedule, startDate: Date?, endDate: Date?) {
             @Dependency(\.calendar) var calendar
             @Dependency(\.date.now) var now
+
+            self.scheduleList = ScheduleListFeature.State(
+                days: [],
+                loading: .never,
+                header: {
+                    guard let startDate, let endDate else { return nil }
+                    return "screen.schedule.pairs.interval.title\((startDate..<endDate).formatted(.scheduleDates))"
+                }()
+            )
 
             self.loadDays(
                 schedule: schedule,
