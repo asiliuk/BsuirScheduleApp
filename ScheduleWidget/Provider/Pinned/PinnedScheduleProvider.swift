@@ -98,7 +98,7 @@ final class PinnedScheduleProvider: TimelineProvider {
                 subgroup: preferredSubgroup(for: source),
                 startDate: schedule.startDate,
                 endDate: schedule.endDate,
-                schedule: schedule.schedules
+                schedule: schedule.actualSchedule
             )
         case let .lector(lector):
             let schedule = try await apiClient.lecturerSchedule(lector.urlId, false)
@@ -108,7 +108,7 @@ final class PinnedScheduleProvider: TimelineProvider {
                 subgroup: preferredSubgroup(for: source),
                 startDate: schedule.startDate,
                 endDate: schedule.endDate,
-                schedule: schedule.schedules ?? DaySchedule()
+                schedule: schedule.actualSchedule
             )
         }
     }
