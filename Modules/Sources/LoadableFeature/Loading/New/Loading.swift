@@ -46,14 +46,18 @@ extension LoadingState {
 
 // MARK: - Action
 
+public typealias LoadingActionOf<R: Reducer> = LoadingActionV2<R.State, R.Action>
+
 @CasePathable
-public enum LoadingActionV2<Action> {
+public enum LoadingActionV2<State, Action> {
     case fetch
     case refresh
-    case fetchFinished(Result<Any, Error>)
+    case fetchFinished(Result<State, NSError>)
     case failed(LoadingError.Action)
     case loaded(Action)
 }
+
+extension LoadingActionV2: Equatable where State: Equatable, Action: Equatable {}
 
 // MARK: - Reducer
 
@@ -68,7 +72,7 @@ extension Reducer where Action: CasePathable {
     /// - Returns: Reducer that incorporates loading logic
     public func load<LoadedState, LoadedAction>(
         state: WritableKeyPath<State, LoadingState<LoadedState>>,
-        action: CaseKeyPath<Action, LoadingActionV2<LoadedAction>>,
+        action: CaseKeyPath<Action, LoadingActionV2<LoadedState, LoadedAction>>,
         fetch: @escaping (State, Bool) async throws -> LoadedState
     ) -> some Reducer<State, Action> {
         load(
@@ -90,7 +94,7 @@ extension Reducer where Action: CasePathable {
     /// - Returns: Reducer that incorporates loading logic
     public func load<LoadedState, LoadedAction>(
         state: WritableKeyPath<State, LoadingState<LoadedState>>,
-        action: CaseKeyPath<Action, LoadingActionV2<LoadedAction>>,
+        action: CaseKeyPath<Action, LoadingActionV2<LoadedState, LoadedAction>>,
         fetch: @escaping (State, _ isRefresh: Bool) async throws -> LoadedState,
         @ReducerBuilder<LoadedState, LoadedAction> loaded: () -> some Reducer<LoadedState, LoadedAction>
     ) -> some Reducer<State, Action> {
@@ -111,7 +115,7 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
     let fetch: (Parent.State, Bool) async throws -> Loaded.State
 
     let toLoadingState: WritableKeyPath<Parent.State, LoadingState<Loaded.State>>
-    let toLoadingAction: CaseKeyPath<Parent.Action, LoadingActionV2<Loaded.Action>>
+    let toLoadingAction: CaseKeyPath<Parent.Action, LoadingActionV2<Loaded.State, Loaded.Action>>
 
     @Dependency(\.continuousClock) var clock
 
@@ -143,7 +147,7 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
                 return load(state: state, isRefresh: true)
 
             case .fetchFinished(let .success(childState)):
-                loadingState = .loaded(childState as! Loaded.State)
+                loadingState = .loaded(childState)
                 return .none
 
             case .fetchFinished(let .failure(error)):
@@ -178,7 +182,7 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
             let childState = try await fetch(state, isRefresh)
             await send(toLoadingAction(.fetchFinished(.success(childState))))
         } catch: { error, send in
-            await send(toLoadingAction(.fetchFinished(.failure(error))))
+            await send(toLoadingAction(.fetchFinished(.failure(error as NSError))))
         }
         .animation()
         .cancellable(id: CancelID.fetching, cancelInFlight: true)
