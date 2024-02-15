@@ -11,14 +11,14 @@ public struct TipsSection {
         // TODO: Try to use @LoadableState here
         var failedToFetchProducts: Bool = false
         var isLoadingProducts: Bool = false
-        var tipsAmounts: IdentifiedArrayOf<TipsAmount.State> = []
+        var tipsAmounts: TipsAmounts.State = .init()
         var freeLove: FreeLove.State = .init()
     }
 
     public enum Action: Equatable {
         case task
         case reloadTips
-        case tipsAmounts(IdentifiedActionOf<TipsAmount>)
+        case tipsAmounts(TipsAmounts.Action)
         case freeLove(FreeLove.Action)
 
         case _failedToGetProducts
@@ -39,11 +39,7 @@ public struct TipsSection {
             case let ._receivedProducts(products):
                 state.isLoadingProducts = false
                 state.failedToFetchProducts = false
-                state.tipsAmounts = []
-                for product in products where product.type == .consumable {
-                    let tipsAmount = TipsAmount.State(product: product)
-                    state.tipsAmounts.append(tipsAmount)
-                }
+                state.tipsAmounts = .init(products: products)
                 return .none
 
             case ._failedToGetProducts:
@@ -55,8 +51,9 @@ public struct TipsSection {
                 return .none
             }
         }
-        .forEach(\.tipsAmounts, action: \.tipsAmounts) {
-            TipsAmount()
+
+        Scope(state: \.tipsAmounts, action: \.tipsAmounts) {
+            TipsAmounts()
         }
 
         Scope(state: \.freeLove, action: \.freeLove) {
@@ -72,88 +69,6 @@ public struct TipsSection {
             await send(._receivedProducts(products))
         } catch: { _, send in
             await send(._failedToGetProducts)
-        }
-    }
-}
-
-@Reducer
-public struct FreeLove {
-    public struct State: Equatable {
-        var highScore: Int = {
-            @Dependency(\.favorites.freeLoveHighScore) var freeLoveHighScore
-            return freeLoveHighScore
-        }()
-        var counter: Int = 0
-        var confettiCounter: Int = 0
-    }
-
-    public enum Action: Equatable {
-        case loveButtonTapped
-        case _resetCounter
-    }
-
-    @Dependency(\.continuousClock) var clock
-    @Dependency(\.favorites) var favorites
-
-    public var body: some ReducerOf<Self> {
-        Reduce { state, action in
-            switch action {
-            case .loveButtonTapped:
-                state.counter += 1
-                return .run { send in
-                    try await clock.sleep(for: .seconds(1))
-                    await send(._resetCounter)
-                }
-                .animation(.easeIn)
-                .cancellable(id: CancelID.reset, cancelInFlight: true)
-
-            case ._resetCounter:
-                let score = state.counter
-                state.counter = 0
-                guard score > state.highScore else { return .none }
-                state.highScore = score
-                state.confettiCounter += 1
-                return .run { _ in favorites.freeLoveHighScore = score }
-            }
-        }
-    }
-
-    private enum CancelID {
-        case reset
-    }
-}
-
-@Reducer
-public struct TipsAmount {
-    public struct State: Equatable, Identifiable {
-        public var id: String { product.id }
-        var confettiCounter: Int = 0
-        var product: Product
-        var title: TextState { TextState(LocalizedStringKey(product.id)) }
-        var amount: TextState { TextState(product.displayPrice) }
-    }
-
-    public enum Action: Equatable {
-        case buyButtonTapped
-        case _productPurchased(success: Bool)
-    }
-
-    @Dependency(\.productsService) var productsService
-
-    public var body: some ReducerOf<Self> {
-        Reduce { state, action in
-            switch action {
-            case .buyButtonTapped:
-                return .run { [product = state.product] send in
-                    let success = try await productsService.purchase(product)
-                    await send(._productPurchased(success: success))
-                }
-            case ._productPurchased(true):
-                state.confettiCounter += 1
-                return .none
-            case ._productPurchased(false):
-                return .none
-            }
         }
     }
 }
