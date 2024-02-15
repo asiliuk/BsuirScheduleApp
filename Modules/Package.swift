@@ -65,7 +65,7 @@ let package = Package(
         ),
         .target(
             name: "PremiumClubFeature",
-            dependencies: ["BsuirUI", "Favorites", .tca, .dependencies, .confetti, .pow]
+            dependencies: ["BsuirUI", "Favorites", "LoadableFeature", .tca, .dependencies, .confetti, .pow]
         ),
         .target(
             name: "GroupsFeature",

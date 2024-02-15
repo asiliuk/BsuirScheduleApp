@@ -61,6 +61,8 @@ extension LoadingActionV2: Equatable where State: Equatable, Action: Equatable {
 
 // MARK: - Reducer
 
+public typealias LoadingStoreOf<R: Reducer> = Store<LoadingState<R.State>, LoadingActionOf<R>>
+
 extension Reducer where Action: CasePathable {
     /// Asynchronously fetch child state and run its logic when succeed or show error logic on failure
     /// - Parameters:

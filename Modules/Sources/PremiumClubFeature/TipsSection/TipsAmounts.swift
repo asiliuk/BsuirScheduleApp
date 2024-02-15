@@ -5,6 +5,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct TipsAmounts {
+    @ObservableState
     public struct State: Equatable {
         var amounts: IdentifiedArrayOf<TipsAmount.State> = []
 
@@ -33,6 +34,7 @@ public struct TipsAmounts {
 
 @Reducer
 public struct TipsAmount {
+    @ObservableState
     public struct State: Equatable, Identifiable {
         public var id: String { product.id }
         var confettiCounter: Int = 0

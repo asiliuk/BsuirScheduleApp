@@ -1,18 +1,52 @@
 import SwiftUI
 import ComposableArchitecture
 import BsuirUI
+import LoadableFeature
+import Pow
 
-struct TipsAmountsView: View {
+struct LoadingTipsAmountsView: View {
+    let store: LoadingStoreOf<TipsAmounts>
+
+    var body: some View {
+        LoadingView(
+            store: store, 
+            inProgress: {
+                VStack {
+                    LabeledContent("Small tip") { Button("X.XX", action: {}) }
+                    LabeledContent("Medium tip") { Button("X.XX", action: {}) }
+                    LabeledContent("Large tip") { Button("X.XX", action: {}) }
+                }
+                .redacted(reason: .placeholder)
+            }, 
+            failed: { store in
+                LabeledContent("screen.premiumClub.section.tips.failed.message") {
+                    Button("screen.premiumClub.section.tips.failed.button.retry") {
+                        store.send(.reload)
+                    }
+                }
+            },
+            loaded: { store, _ in
+                TipsAmountsView(store: store)
+            }
+        )
+    }
+}
+
+private struct TipsAmountsView: View {
     let store: StoreOf<TipsAmounts>
 
     var body: some View {
-        ForEachStore(
-            store.scope(
-                state: \.amounts,
-                action: \.amounts
-            ),
-            content: TipsAmountRow.init
-        )
+        WithPerceptionTracking {
+            VStack {
+                ForEachStore(
+                    store.scope(
+                        state: \.amounts,
+                        action: \.amounts
+                    ),
+                    content: TipsAmountRow.init
+                )
+            }
+        }
     }
 }
 
@@ -20,19 +54,19 @@ private struct TipsAmountRow: View {
     let store: StoreOf<TipsAmount>
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithPerceptionTracking {
             LabeledContent {
                 AsyncButton {
-                    await viewStore.send(.buyButtonTapped).finish()
+                    await store.send(.buyButtonTapped).finish()
                 } label: {
-                    Text(viewStore.amount)
+                    Text(store.amount)
                 }
                 .changeEffect(
                     .spray { Text("💸") },
-                    value: viewStore.confettiCounter
+                    value: store.confettiCounter
                 )
             } label: {
-                Text(viewStore.title)
+                Text(store.title)
             }
         }
     }
