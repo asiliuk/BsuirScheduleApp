@@ -176,7 +176,7 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
         }
     }
 
-    private func load(state: State, isRefresh: Bool) -> Effect<Action> {
+    private func load(state: Parent.State, isRefresh: Bool) -> Effect<Parent.Action> {
         .run { send in
             if isRefresh {
                 try await clock.sleep(for: .milliseconds(200))
