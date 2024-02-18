@@ -3,7 +3,7 @@ import XCTest
 
 final class StudentGroupTests: XCTestCase {
 
-    func testScheduleParse_withOnlyExams() throws {
+    func testScheduleIsNil_withOnlyExams() throws {
         // Given
         let data = try loadJson(named: "only_exams")
 
@@ -11,7 +11,7 @@ final class StudentGroupTests: XCTestCase {
         let schedule = try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
 
         // Then
-        XCTAssertEqual(schedule.schedules.isEmpty, true)
+        XCTAssertNil(schedule.schedules)
     }
     
     func testScheduleParse_withNoStartEndLessonDates() throws {
@@ -22,7 +22,7 @@ final class StudentGroupTests: XCTestCase {
         let schedule = try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
 
         // Then
-        XCTAssertEqual(schedule.schedules.isEmpty, false)
+        XCTAssertEqual(schedule.schedules?.isEmpty, false)
         XCTAssertEqual(schedule.examSchedules.isEmpty, false)
     }
     
@@ -34,7 +34,7 @@ final class StudentGroupTests: XCTestCase {
         let schedule = try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
 
         // Then
-        let announcement = try XCTUnwrap(schedule.schedules[.saturday]?.last)
+        let announcement = try XCTUnwrap(schedule.schedules?[.saturday]?.last)
         XCTAssertEqual(announcement.weekNumber, .always)
         XCTAssertTrue(announcement.announcement)
     }
