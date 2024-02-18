@@ -11,6 +11,7 @@ import ComposableArchitecture
 public enum CurrentSelection: Hashable {
     case pinned
     case groups
+    case groupsV2
     case lecturers
     case settings
 }
@@ -40,6 +41,14 @@ public struct AppView: View {
                     )
                 )
                 .tag(CurrentSelection.groups)
+
+                GroupsFeatureTabV2(
+                    store: store.scope(
+                        state: \.groupsV2,
+                        action: \.groupsV2
+                    )
+                )
+                .tag(CurrentSelection.groupsV2)
 
                 LecturersFeatureTab(
                     store: store.scope(
@@ -93,6 +102,20 @@ private struct GroupsFeatureTab: View {
         .tabItem {
             Label("view.tabBar.groups.title", systemImage: "person.2")
         }
+    }
+}
+
+private struct GroupsFeatureTabV2: View {
+    let store: StoreOf<GroupsFeatureV2>
+
+    var body: some View {
+        GroupsFeatureViewV2(
+            store: store
+        )
+        .tabItem {
+            Label("view.tabBar.groups.title", systemImage: "person.2")
+        }
+        .badge("⍺")
     }
 }
 

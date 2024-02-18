@@ -8,6 +8,7 @@ import ScheduleFeature
 
 @Reducer
 public struct EntityScheduleFeature {
+    @ObservableState
     public enum State: Equatable {
         case group(GroupScheduleFeature.State)
         case lector(LectorScheduleFeature.State)

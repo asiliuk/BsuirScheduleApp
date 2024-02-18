@@ -7,6 +7,9 @@ extension AppFeature.State {
         favorites: FavoritesService,
         pinnedScheduleService: PinnedScheduleService
     ) {
+        // TODO: !!! REMOVE THIS !!!
+        return selection = .groupsV2
+
         if let pinnedSchedule = pinnedScheduleService.currentSchedule() {
             selection = .pinned
             pinnedTab.show(pinned: pinnedSchedule)
@@ -38,6 +41,8 @@ extension AppFeature.State {
             pinnedTab.reset()
         case .groups:
             groups.reset()
+        case .groupsV2:
+            groupsV2.reset()
         case .lecturers:
             lecturers.reset()
         case .settings:

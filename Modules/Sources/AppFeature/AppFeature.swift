@@ -12,9 +12,9 @@ import ScheduleFeature
 
 @Reducer
 public struct AppFeature {
-    public struct State: Equatable {
+    public struct State {
         @CasePathable
-        enum Destination: Equatable {
+        enum Destination {
             case settings(SettingsFeature.State)
             case premiumClub(PremiumClubFeature.State)
         }
@@ -26,6 +26,7 @@ public struct AppFeature {
         var premiumClub = PremiumClubFeature.State(isModal: true)
         var pinnedTab: PinnedTabFeature.State
         var groups = GroupsFeature.State()
+        var groupsV2 = GroupsFeatureV2.State()
         var lecturers = LecturersFeature.State()
         var settings = SettingsFeature.State()
 
@@ -57,6 +58,7 @@ public struct AppFeature {
         case premiumClub(PremiumClubFeature.Action)
         case pinnedTab(PinnedTabFeature.Action)
         case groups(GroupsFeature.Action)
+        case groupsV2(GroupsFeatureV2.Action)
         case lecturers(LecturersFeature.Action)
         case settings(SettingsFeature.Action)
     }
@@ -143,7 +145,7 @@ public struct AppFeature {
                     return .none
                 }
 
-            case .groups, .lecturers, .settings, .pinnedTab, .premiumClub, .destination:
+            case .groups, .groupsV2, .lecturers, .settings, .pinnedTab, .premiumClub, .destination:
                 return .none
             }
         }
@@ -167,6 +169,10 @@ public struct AppFeature {
 
         Scope(state: \.groups, action: \.groups) {
             GroupsFeature()
+        }
+
+        Scope(state: \.groupsV2, action: \.groupsV2) {
+            GroupsFeatureV2()
         }
 
         Scope(state: \.lecturers, action: \.lecturers) {

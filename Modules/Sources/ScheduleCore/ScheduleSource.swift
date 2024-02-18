@@ -1,6 +1,8 @@
 import Foundation
 import BsuirApi
+import CasePaths
 
+@CasePathable
 public enum ScheduleSource: Equatable, Codable {
     case group(name: String)
     case lector(Employee)
