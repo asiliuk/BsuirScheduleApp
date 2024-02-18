@@ -23,8 +23,16 @@ public struct GroupsFeatureViewV2: View {
                             )
                         }
                     },
-                    failed: LoadingErrorView.init,
-                    loaded: LoadedGroupsFeatureView.init
+                    failed: { store in
+                        LoadingErrorView(store: store)
+                    },
+                    loaded: { loadedStore, refresh in
+                        LoadedGroupsFeatureView(
+                            store: loadedStore,
+                            searchStore: store.scope(state: \.search, action: \.search),
+                            refresh: refresh
+                        )
+                    }
                 )
                 .navigationTitle("screen.groups.navigation.title")
                 .navigationBarTitleDisplayMode(.inline)

@@ -9,18 +9,18 @@ extension View {
 }
 
 struct GroupsSearchViewModifier: ViewModifier {
-    let store: StoreOf<GroupsSearch>
+    @Perception.Bindable var store: StoreOf<GroupsSearch>
 
     func body(content: Content) -> some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithPerceptionTracking {
             content
-                .dismissSearch(viewStore.dismiss)
+                .dismissSearch(store.dismiss)
                 .searchable(
-                    text: viewStore.$query,
+                    text: $store.query,
                     prompt: Text("screen.groups.search.placeholder")
                 )
-                .task(id: viewStore.query) {
-                    await viewStore.send(.filter, animation: .default).finish()
+                .task(id: store.query) {
+                    await store.send(.filter, animation: .default).finish()
                 }
         }
     }

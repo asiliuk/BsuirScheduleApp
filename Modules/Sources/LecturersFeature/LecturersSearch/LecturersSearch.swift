@@ -4,14 +4,15 @@ import ComposableArchitecture
 
 @Reducer
 public struct LecturersSearch {
+    @ObservableState
     public struct State: Equatable {
-        @BindingState var query: String = ""
-        fileprivate(set) var dismiss: Bool = false
+        var query: String = ""
+        fileprivate(set) var dismiss: Int = 0
 
         @discardableResult
         mutating func reset() -> Bool {
             guard !query.isEmpty else { return false }
-            dismiss = true
+            dismiss += 1
             return true
         }
     }
@@ -27,15 +28,17 @@ public struct LecturersSearch {
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
+            .onChange(of: \.query) { _, query in
+                if query.isEmpty {
+                    Reduce { state, _ in
+                        state.dismiss += 1
+                        return .none
+                    }
+                }
+            }
 
         Reduce { state, action in
             switch action {
-            case .binding(\.$query):
-                if state.query.isEmpty {
-                    state.dismiss = false
-                }
-                return .none
-
             case .filter:
                 return .send(.delegate(.didUpdateImportantState))
 

@@ -8,8 +8,13 @@ public struct GroupsFeatureV2 {
     @ObservableState
     public struct State {
         var path = StackState<EntityScheduleFeatureV2.State>()
+        var search: GroupsSearch.State = .init()
+
+        // Placeholder
         var hasPinnedPlaceholder: Bool  = false
         var favoritesPlaceholderCount: Int = 0
+
+        // Groups
         var groups: LoadingState<LoadedGroupsFeature.State> = .initial
 
         public init() {}
@@ -20,6 +25,7 @@ public struct GroupsFeatureV2 {
 
         case groups(LoadingActionOf<LoadedGroupsFeature>)
         case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
+        case search(GroupsSearch.Action)
     }
 
     @Dependency(\.apiClient) var apiClient
@@ -36,7 +42,14 @@ public struct GroupsFeatureV2 {
                 state.favoritesPlaceholderCount = favoriteGroupNames.count
                 return .none
 
-            case .groups, .path:
+            case .search(.delegate(let action)):
+                switch action {
+                case .didUpdateImportantState:
+                    state.groups.modify(\.loaded) { $0.isEmpty.toggle() }
+                    return .none
+                }
+
+            case .groups, .path, .search:
                 return .none
             }
         }
@@ -53,5 +66,9 @@ public struct GroupsFeatureV2 {
             LoadedGroupsFeature()
         }
         .forEach(\.path, action: \.path)
+
+        Scope(state: \.search, action: \.search) {
+            GroupsSearch()
+        }
     }
 }

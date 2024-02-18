@@ -9,7 +9,7 @@ public struct LoadedGroupsFeature {
     @ObservableState
     public struct State: Equatable {
         var isOnTop: Bool = true
-
+        var isEmpty: Bool = false
         fileprivate var favoritesNames: OrderedSet<String>
         fileprivate var pinnedName: String?
         fileprivate var sections: IdentifiedArrayOf<GroupsSection.State> = []

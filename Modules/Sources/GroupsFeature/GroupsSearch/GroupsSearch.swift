@@ -4,16 +4,17 @@ import ComposableArchitecture
 
 @Reducer
 public struct GroupsSearch {
+    @ObservableState
     public struct State: Equatable {
-        @BindingState var tokens: [StrudentGroupSearchToken] = []
-        @BindingState var suggestedTokens: [StrudentGroupSearchToken] = []
-        @BindingState var query: String = ""
-        fileprivate(set) var dismiss: Bool = false
+        var tokens: [StrudentGroupSearchToken] = []
+        var suggestedTokens: [StrudentGroupSearchToken] = []
+        var query: String = ""
+        fileprivate(set) var dismiss: Int = 0
 
         @discardableResult
         mutating func reset() -> Bool {
             guard !query.isEmpty else { return false }
-            dismiss = true
+            dismiss += 1
             return true
         }
     }
@@ -30,16 +31,23 @@ public struct GroupsSearch {
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
+            .onChange(of: \.query) { _, query in
+                if query.isEmpty {
+                    Reduce { state, _ in
+                        state.dismiss += 1
+                        return .none
+                    }
+                }
+            }
+            .onChange(of: \.tokens) { _, _ in
+                Reduce { _, _ in
+                    .send(.delegate(.didUpdateImportantState))
+                }
+            }
 
         Reduce { state, action in
             switch action {
-            case .binding(\.$query):
-                if state.query.isEmpty {
-                    state.dismiss = false
-                }
-                return .none
-
-            case .filter, .binding(\.$tokens):
+            case .filter:
                 return .send(.delegate(.didUpdateImportantState))
 
             case .binding, .delegate:

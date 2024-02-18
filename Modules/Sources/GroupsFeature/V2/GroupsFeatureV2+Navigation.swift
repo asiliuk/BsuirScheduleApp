@@ -8,9 +8,9 @@ extension GroupsFeatureV2.State {
             return path = StackState()
         }
 
-//        if search.reset() {
-//            return
-//        }
+        if search.reset() {
+            return
+        }
 
         if groups.loaded?.isOnTop == false {
             groups.loaded?.isOnTop = true
