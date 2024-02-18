@@ -7,7 +7,7 @@ import LoadableFeature
 public struct GroupsFeatureV2 {
     @ObservableState
     public struct State {
-        var path = StackState<EntityScheduleFeature.State>()
+        var path = StackState<EntityScheduleFeatureV2.State>()
         var hasPinnedPlaceholder: Bool  = false
         var favoritesPlaceholderCount: Int = 0
         var groups: LoadingState<LoadedGroupsFeature.State> = .initial
@@ -19,7 +19,7 @@ public struct GroupsFeatureV2 {
         case onAppear
 
         case groups(LoadingActionOf<LoadedGroupsFeature>)
-        case path(StackAction<EntityScheduleFeature.State, EntityScheduleFeature.Action>)
+        case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
     }
 
     @Dependency(\.apiClient) var apiClient
@@ -52,8 +52,6 @@ public struct GroupsFeatureV2 {
         } loaded: {
             LoadedGroupsFeature()
         }
-        .forEach(\.path, action: \.path) {
-            EntityScheduleFeature()
-        }
+        .forEach(\.path, action: \.path)
     }
 }

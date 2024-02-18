@@ -29,17 +29,7 @@ public struct GroupsFeatureViewV2: View {
                 .navigationTitle("screen.groups.navigation.title")
                 .navigationBarTitleDisplayMode(.inline)
             } destination: { store in
-                switch store.state {
-                case .group:
-                    if let groupStore = store.scope(state: \.group, action: \.group) {
-                        GroupScheduleView(store: groupStore)
-                    }
-
-                case .lector:
-                    if let lectorStore = store.scope(state: \.lector, action: \.lector) {
-                        LectorScheduleView(store: lectorStore)
-                    }
-                }
+                EntityScheduleFeatureViewV2(store: store)
             }
         }
         .onAppear { store.send(.onAppear) }
