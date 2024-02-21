@@ -3,29 +3,24 @@ import ComposableArchitecture
 import WhatsNewKit
 
 struct WhatsNewSectionView: View {
-    let store: StoreOf<WhatsNewFeature>
+    @Perception.Bindable var store: StoreOf<WhatsNewFeature>
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithPerceptionTracking {
             Section {
                 Button {
-                    viewStore.send(.whatsNewTapped)
+                    store.send(.whatsNewTapped)
                 } label: {
                     Label("screen.settings.whatsNew.navigation.title", systemImage: "sparkles")
                         .settingsRowAccent(Color.red)
-                        .badge(viewStore.whatsNew.version.description)
+                        .badge(store.whatsNew.version.description)
                 }
                 .foregroundColor(.primary)
 
             }
             .sheet(
-                item: viewStore.binding(
-                    get: \.presentedWhatsNew,
-                    send: { .setPresentedWhatsNew($0) }
-                ),
-                onDismiss: {
-                    viewStore.send(.whatsNewDismissed)
-                }
+                item: $store.presentedWhatsNew,
+                onDismiss: { store.send(.whatsNewDismissed) }
             ) { whatsNew in
                 WhatsNewView(whatsNew: whatsNew)
             }
