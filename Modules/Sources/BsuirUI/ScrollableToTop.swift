@@ -32,7 +32,7 @@ public struct ScrollableToTopList<Content: View>: View {
                 withAnimation { proxy.scrollTo(InitialPositionID(), anchor: .bottom) }
             }
             .onChange(of: scrollModel.isDragging) { newValue in
-                if newValue { isOnTop = false }
+                if newValue, isOnTop { isOnTop = false }
             }
         }
     }

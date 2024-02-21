@@ -17,7 +17,7 @@ public enum LoadingState<State> {
         get { if case .failed(let state) = self { state } else { nil } }
         set {
             guard let newValue else { return }
-            modify(\.failed) { $0 = newValue }
+            self = .failed(newValue)
         }
     }
 
@@ -25,7 +25,7 @@ public enum LoadingState<State> {
         get { if case .loaded(let state) = self { state } else { nil } }
         set {
             guard let newValue else { return }
-            modify(\.loaded) { $0 = newValue }
+            self = .loaded(newValue)
         }
     }
 }
