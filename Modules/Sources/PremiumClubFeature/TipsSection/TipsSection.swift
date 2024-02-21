@@ -8,6 +8,7 @@ import LoadableFeature
 
 @Reducer
 public struct TipsSection {
+    @ObservableState
     public struct State: Equatable {
         var tipsAmounts: LoadingState<TipsAmounts.State> = .initial
         var freeLove: FreeLove.State = .init()

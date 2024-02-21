@@ -6,15 +6,15 @@ struct FreeLoveView: View {
     @State var buttonTappedCount: UInt = 0
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithPerceptionTracking {
             LabeledContent {
                 Button {
-                    viewStore.send(.loveButtonTapped)
+                    store.send(.loveButtonTapped)
                     buttonTappedCount += 1
                 } label: {
                     HStack {
-                        AnimatableFreeLoveText(counter: Double(viewStore.counter))
-                        if viewStore.counter > 0 {
+                        AnimatableFreeLoveText(counter: Double(store.counter))
+                        if store.counter > 0 {
                             Text("\(Image(systemName: "heart.fill"))")
                         } else {
                             Text("\(Image(systemName: "heart"))")
@@ -26,7 +26,7 @@ struct FreeLoveView: View {
                         Image(systemName: "heart.fill")
                             .foregroundStyle(.red)
                     },
-                    value: viewStore.confettiCounter
+                    value: store.confettiCounter
                 )
                 .changeEffect(
                     .rise(origin: UnitPoint(x: 1, y: 0.5)) {
@@ -38,8 +38,8 @@ struct FreeLoveView: View {
                 )
             } label: {
                 Text("screen.premiumClub.section.tips.freeLove.title")
-                if viewStore.highScore > 0 {
-                    Text("screen.premiumClub.section.tips.freeLove.count\(String(viewStore.highScore))")
+                if store.highScore > 0 {
+                    Text("screen.premiumClub.section.tips.freeLove.count\(String(store.highScore))")
                 }
             }
         }

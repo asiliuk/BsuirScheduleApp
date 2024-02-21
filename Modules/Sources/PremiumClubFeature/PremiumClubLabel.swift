@@ -10,7 +10,7 @@ public struct PremiumClubLabel: View {
     }
 
     public var body: some View {
-        WithViewStore(store, observe: \.hasPremium) { viewStore in
+        WithPerceptionTracking {
             HStack(spacing: 12) {
                 SettingsRowIcon(fill: .premiumGradient) {
                     Image(systemName: "flame.fill")
@@ -20,13 +20,13 @@ public struct PremiumClubLabel: View {
                 VStack(alignment: .leading) {
                     let statusText = Text(" \(Image(systemName: "checkmark.seal.fill"))")
                         // Make it clear to keep space in layout and prevent jumping
-                        .foregroundColor(viewStore.state ? .indigo : .clear)
+                        .foregroundColor(store.hasPremium ? .indigo : .clear)
 
                     (Text("screen.premiumClub.navigation.title") + statusText)
                         .font(.headline)
 
                     ZStack {
-                        if viewStore.state {
+                        if store.hasPremium {
                             Text("screen.premiumClub.navigation.member.message")
                         } else {
                             Text("screen.premiumClub.navigation.notMember.message")
@@ -36,7 +36,7 @@ public struct PremiumClubLabel: View {
                     .foregroundStyle(.secondary)
                 }
             }
-            .task { await viewStore.send(.task).finish() }
+            .task { await store.send(.task).finish() }
         }
     }
 }

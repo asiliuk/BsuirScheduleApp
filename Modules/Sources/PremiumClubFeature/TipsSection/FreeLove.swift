@@ -3,6 +3,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct FreeLove {
+    @ObservableState
     public struct State: Equatable {
         var highScore: Int = {
             @Dependency(\.favorites.freeLoveHighScore) var freeLoveHighScore

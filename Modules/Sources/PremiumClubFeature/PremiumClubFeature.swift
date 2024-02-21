@@ -18,6 +18,7 @@ public struct PremiumClubFeature {
         case premiumClubMembership
     }
 
+    @ObservableState
     public struct State: Equatable {
         public var source: Source?
         public var hasPremium: Bool
@@ -52,16 +53,16 @@ public struct PremiumClubFeature {
         }
     }
 
-    public enum Action: Equatable {
+    public enum Action: Equatable, BindableAction {
         case task
         case restoreButtonTapped
         case redeemCodeButtonTapped
-        case setConfettiCounter(Int)
-        case setRedeemCodePresent(Bool)
         case _setIsPremium(Bool)
         case tips(TipsSection.Action)
         case premiumClubMembership(PremiumClubMembershipSection.Action)
         case subsctiptionFooter(SubscriptionFooter.Action)
+
+        case binding(BindingAction<State>)
     }
 
     @Dependency(\.productsService) var productsService
@@ -73,6 +74,8 @@ public struct PremiumClubFeature {
     public init() {}
 
     public var body: some ReducerOf<Self> {
+        BindingReducer()
+
         Reduce { state, action in
             switch action {
             case .task:
@@ -96,15 +99,7 @@ public struct PremiumClubFeature {
                     await dismiss()
                 }
 
-            case .setConfettiCounter(let value):
-                state.confettiCounter = value
-                return .none
-
-            case .setRedeemCodePresent(let value):
-                state.redeemCodePresent = value
-                return .none
-
-            case .tips, .premiumClubMembership, .subsctiptionFooter:
+            case .tips, .premiumClubMembership, .subsctiptionFooter, .binding:
                 return .none
             }
         }

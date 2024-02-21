@@ -4,6 +4,7 @@ import StoreKit
 
 @Reducer
 public struct PremiumClubMembershipSection {
+    @ObservableState
     public enum State: Equatable {
         case loading
         case noSubscription
@@ -94,11 +95,12 @@ public struct PremiumClubMembershipSection {
 
 @Reducer
 public struct PremiumClubMembershipSubscribed {
+    @ObservableState
     public struct State: Equatable {
         var formattedExpiration: String { expiration?.formatted(date: .long, time: .omitted) ?? "-/-" }
         var expiration: Date?
         var willAutoRenew: Bool
-        @BindingState var manageSubscriptionPresented: Bool = false
+        var manageSubscriptionPresented: Bool = false
     }
 
     public enum Action: Equatable, BindableAction {

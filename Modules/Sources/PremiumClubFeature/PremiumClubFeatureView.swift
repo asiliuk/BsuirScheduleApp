@@ -19,20 +19,20 @@ public struct PremiumClubFeatureView: View {
         }
     }
 
-    let store: StoreOf<PremiumClubFeature>
+    @Perception.Bindable var store: StoreOf<PremiumClubFeature>
 
     public init(store: StoreOf<PremiumClubFeature>) {
         self.store = store
     }
 
     public var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
+        WithPerceptionTracking {
             ScrollView {
-                PremiumClubSections(sections: viewStore.sections, store: store)
+                PremiumClubSections(sections: store.sections, store: store)
             }
             .labelStyle(PremiumGroupTitleLabelStyle())
             .safeAreaInset(edge: .bottom) {
-                if !viewStore.hasPremium {
+                if !store.hasPremium {
                     SubscriptionFooterView(
                         store: store.scope(
                             state: \.subsctiptionFooter,
@@ -44,19 +44,8 @@ public struct PremiumClubFeatureView: View {
                     .background(.regularMaterial)
                 }
             }
-            .premiumClubConfettiCannon(
-                counter: viewStore.binding(
-                    get: \.confettiCounter,
-                    send: { .setConfettiCounter($0) }
-                )
-            )
-            .offerCodeRedemption(
-                isPresented: viewStore.binding(
-                    get: \.redeemCodePresent,
-                    send: { .setRedeemCodePresent($0) }
-                )
-                ._onMainQueue()
-            )
+            .premiumClubConfettiCannon(counter: $store.confettiCounter)
+            .offerCodeRedemption(isPresented: $store.redeemCodePresent._onMainQueue())
         }
         .navigationTitle("screen.premiumClub.navigation.title")
         .toolbar {
@@ -86,27 +75,29 @@ private struct PremiumClubSections: View {
 
     var body: some View {
         ForEach(sections) { section in
-            switch section {
-            case .pinnedSchedule:
-                PinnedScheduleSectionView()
-            case .widgets:
-                WidgetsSectionView()
-            case .appIcons:
-                AppIconsSectionView()
-            case .tips:
-                TipsSectionView(
-                    store: store.scope(
-                        state: \.tips,
-                        action: \.tips
+            WithPerceptionTracking {
+                switch section {
+                case .pinnedSchedule:
+                    PinnedScheduleSectionView()
+                case .widgets:
+                    WidgetsSectionView()
+                case .appIcons:
+                    AppIconsSectionView()
+                case .tips:
+                    TipsSectionView(
+                        store: store.scope(
+                            state: \.tips,
+                            action: \.tips
+                        )
                     )
-                )
-            case .premiumClubMembership:
-                PremiumClubMembershipSectionView(
-                    store: store.scope(
-                        state: \.premiumClubMembership,
-                        action: \.premiumClubMembership
+                case .premiumClubMembership:
+                    PremiumClubMembershipSectionView(
+                        store: store.scope(
+                            state: \.premiumClubMembership,
+                            action: \.premiumClubMembership
+                        )
                     )
-                )
+                }
             }
         }
         .padding()

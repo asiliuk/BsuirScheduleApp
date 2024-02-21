@@ -7,8 +7,8 @@ struct SubscriptionFooterView: View {
     let store: StoreOf<SubscriptionFooter>
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
-            switch viewStore.state {
+        WithPerceptionTracking {
+            switch store.state {
             case .loading:
                 ProgressView()
                     .progressViewStyle(.circular)
@@ -22,7 +22,7 @@ struct SubscriptionFooterView: View {
                     }
 
                     AsyncButton {
-                        await viewStore.send(.buttonTapped).finish()
+                        await store.send(.buttonTapped).finish()
                     } label: {
                         let period = String(localized: subscription.subscriptionPeriod.makeName())
                         let offer = product.displayPrice

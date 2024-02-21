@@ -4,6 +4,7 @@ import StoreKit
 
 @Reducer
 public struct SubscriptionFooter {
+    @ObservableState
     public enum State: Equatable {
         case loading
         case failed
