@@ -17,15 +17,15 @@ public enum CurrentSelection: Hashable {
 }
 
 public struct AppView: View {
-    let store: StoreOf<AppFeature>
+    @Perception.Bindable var store: StoreOf<AppFeature>
 
     public init(store: StoreOf<AppFeature>) {
         self.store = store
     }
 
     public var body: some View {
-        WithViewStore(store, observe: \.selection) { viewStore in
-            TabView(selection: viewStore.binding(send: AppFeature.Action.setSelection)) {
+        WithPerceptionTracking {
+            TabView(selection: $store.selection.sending(\.setSelection)) {
                 PinnedTabView(
                     store: store.scope(
                         state: \.pinnedTab,
@@ -66,10 +66,12 @@ public struct AppView: View {
                 )
                 .tag(CurrentSelection.settings)
             }
-            .sheet(store: store.scope(
-                state: \.$destination.premiumClub,
-                action: \.destination.premiumClub
-            )) { store in
+            .sheet(
+                item: $store.scope(
+                    state: \.destination?.premiumClub,
+                    action: \.destination.premiumClub
+                )
+            ) { store in
                 NavigationStack {
                     PremiumClubFeatureView(store: store)
                         .navigationBarTitleDisplayMode(.inline)

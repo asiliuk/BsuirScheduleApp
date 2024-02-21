@@ -6,6 +6,7 @@ import ScheduleFeature
 
 @Reducer
 public struct PinnedScheduleFeature {
+    @ObservableState
     public struct State: Equatable {
         var title: String { entitySchedule.title }
         var entitySchedule: EntityScheduleFeature.State

@@ -17,22 +17,15 @@ private struct PinnedTabContentView: View {
     let store: StoreOf<PinnedTabFeature>
 
     var body: some View {
-        WithViewStore(store, observe: \.isPremiumLocked) { viewStore in
-            if viewStore.state {
+        WithPerceptionTracking {
+            if store.isPremiumLocked {
                 PinnedScheduleLockedView {
-                    viewStore.send(.learnAboutPremiumClubTapped)
+                    store.send(.learnAboutPremiumClubTapped)
                 }
+            } else if let store = store.scope(state: \.pinnedSchedule, action: \.pinnedSchedule) {
+                PinnedScheduleFeatureView(store: store)
             } else {
-                IfLetStore(
-                    store.scope(
-                        state: \.pinnedSchedule,
-                        action: \.pinnedSchedule
-                    )
-                ) { store in
-                    PinnedScheduleFeatureView(store: store)
-                } else: {
-                    PinnedScheduleEmptyView()
-                }
+                PinnedScheduleEmptyView()
             }
         }
     }
@@ -42,11 +35,8 @@ private struct PinnedTabItem: View {
     let store: StoreOf<PinnedTabFeature>
 
     var body: some View {
-        WithViewStore(
-            store,
-            observe: { $0.isPremiumLocked ? nil : $0.pinnedSchedule?.title }
-        ) { viewStore in
-            if let title = viewStore.state {
+        WithPerceptionTracking {
+            if !store.isPremiumLocked, let title = store.pinnedSchedule?.title {
                 Label(title, systemImage: "pin")
             } else {
                 Label("view.tabBar.pinned.empty.title", systemImage: "pin")

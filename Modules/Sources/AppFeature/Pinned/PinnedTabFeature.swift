@@ -6,6 +6,7 @@ import ScheduleFeature
 
 @Reducer
 public struct PinnedTabFeature {
+    @ObservableState
     public struct State: Equatable {
         var isPremiumLocked: Bool
         var pinnedSchedule: PinnedScheduleFeature.State?

@@ -5,19 +5,17 @@ import PremiumClubFeature
 import ComposableArchitecture
 
 struct PinnedScheduleFeatureView: View {
-    let store: StoreOf<PinnedScheduleFeature>
+    @Perception.Bindable var store: StoreOf<PinnedScheduleFeature>
 
     var body: some View {
-        NavigationStackStore(store.scope(state: \.path, action: \.path)) {
-            SwitchStore(
-                store.scope(
-                    state: \.entitySchedule,
-                    action: \.entitySchedule
-                ),
-                content: EntityScheduleView.init
-            )
-        } destination: { state in
-            EntityScheduleView(state: state)
+        WithPerceptionTracking {
+            NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+                EntityScheduleObservableView(
+                    store: store.scope(state: \.entitySchedule, action: \.entitySchedule)
+                )
+            } destination: { store in
+                EntityScheduleObservableView(store: store)
+            }
         }
     }
 }

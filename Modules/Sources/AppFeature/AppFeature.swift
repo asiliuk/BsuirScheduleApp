@@ -12,14 +12,15 @@ import ScheduleFeature
 
 @Reducer
 public struct AppFeature {
-    public struct State {
-        @CasePathable
-        enum Destination {
-            case settings(SettingsFeature.State)
-            case premiumClub(PremiumClubFeature.State)
-        }
+    @Reducer
+    public enum Destination {
+        case settings(SettingsFeature)
+        case premiumClub(PremiumClubFeature)
+    }
 
-        @PresentationState var destination: Destination?
+    @ObservableState
+    public struct State {
+        @Presents var destination: Destination.State?
 
         var selection: CurrentSelection = .groups
 
@@ -31,7 +32,7 @@ public struct AppFeature {
         var settings = SettingsFeature.State()
 
         public init() {
-            self.pinnedTab = .init(isPremiumLocked: !premiumClub.hasPremium)
+            self._pinnedTab = .init(isPremiumLocked: !_premiumClub.hasPremium)
             @Dependency(\.favorites) var favorites
             @Dependency(\.pinnedScheduleService) var pinnedScheduleService
             self.handleInitialSelection(favorites: favorites, pinnedScheduleService: pinnedScheduleService)
@@ -39,13 +40,7 @@ public struct AppFeature {
     }
 
     public enum Action {
-        @CasePathable
-        public enum DestinationAction {
-            case settings(SettingsFeature.Action)
-            case premiumClub(PremiumClubFeature.Action)
-        }
-
-        case destination(PresentationAction<DestinationAction>)
+        case destination(PresentationAction<Destination.Action>)
 
         case task
         case closePremiumClubButtonTapped
@@ -149,15 +144,7 @@ public struct AppFeature {
                 return .none
             }
         }
-        .ifLet(\.$destination, action: \.destination) {
-            Scope(state: \.settings, action: \.settings) {
-                SettingsFeature()
-            }
-
-            Scope(state: \.premiumClub, action: \.premiumClub) {
-                PremiumClubFeature()
-            }
-        }
+        .ifLet(\.$destination, action: \.destination)
 
         Scope(state: \.premiumClub, action: \.premiumClub) {
             PremiumClubFeature()
