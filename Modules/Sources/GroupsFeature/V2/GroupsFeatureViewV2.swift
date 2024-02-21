@@ -23,7 +23,7 @@ public struct GroupsFeatureViewV2: View {
                             )
                         }
                     },
-                    failed: { store in
+                    failed: { store, _ in
                         LoadingErrorView(store: store)
                     },
                     loaded: { loadedStore, refresh in

@@ -38,5 +38,5 @@ public struct LoadingErrorNoScheduleView: View, Animatable {
 }
 
 #Preview {
-    LoadingErrorNoScheduleView(store: Store(initialState: ()) {})
+    LoadingErrorNoScheduleView(store: Store(initialState: .init()) {})
 }

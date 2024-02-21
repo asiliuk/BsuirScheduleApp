@@ -4,6 +4,7 @@ import BsuirCore
 
 @Reducer
 public struct LoadingErrorFailedToDecode {
+    @ObservableState
     public struct State: Equatable {
         var address: String
         var message: String

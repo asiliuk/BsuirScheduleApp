@@ -11,11 +11,7 @@ public struct LoadingErrorFailedToDecodeView: View, Animatable {
     }
 
     public var body: some View {
-        WithViewStore(
-            store,
-            observe: { (address: $0.address, message: $0.message) },
-            removeDuplicates: ==
-        ) { viewStore in
+        WithPerceptionTracking {
             VStack(spacing: 24) {
                 Spacer()
 
@@ -33,15 +29,15 @@ public struct LoadingErrorFailedToDecodeView: View, Animatable {
                         .foregroundColor(.secondary)
 
                     NetworkErrorMessageField(
-                        address: viewStore.address,
-                        message: viewStore.message
+                        address: store.address,
+                        message: store.message
                     )
                 }
                 .multilineTextAlignment(.leading)
                 .padding(.horizontal, 24)
 
                 Button {
-                    viewStore.send(.openIssueTapped)
+                    store.send(.openIssueTapped)
                 } label: {
                     Label("view.errorState.parsing.button.label", systemImage: "plus.diamond.fill")
                 }

@@ -6,6 +6,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct LoadingErrorSomethingWrongWithBsuir {
+    @ObservableState
     public struct State: Equatable {
         var reachability: ReachabilityFeature.State?
         var errorCode: String

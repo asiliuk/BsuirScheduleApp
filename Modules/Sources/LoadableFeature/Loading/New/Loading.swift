@@ -52,6 +52,7 @@ public typealias LoadingActionOf<R: Reducer> = LoadingActionV2<R.State, R.Action
 public enum LoadingActionV2<State, Action> {
     case fetch
     case refresh
+    case reload
     case fetchFinished(Result<State, NSError>)
     case failed(LoadingError.Action)
     case loaded(Action)
@@ -138,7 +139,12 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
                 loadingState = .inProgress
                 return load(state: state, isRefresh: false)
 
-            case .failed(.reload) where loadingState.is(\.failed):
+            case .reload where loadingState.is(\.failed):
+                // Reload and show full loading animation again
+                loadingState = .inProgress
+                return load(state: state, isRefresh: true)
+
+            case .failed(let action) where action.isReload && loadingState.is(\.failed):
                 // Reload and show full loading animation again
                 loadingState = .inProgress
                 return load(state: state, isRefresh: true)
@@ -156,7 +162,7 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
                 loadingState = .failed(.init(error))
                 return .none
 
-            case .fetch, .refresh, .failed, .loaded:
+            case .fetch, .refresh, .reload, .failed, .loaded:
                 return .none
             }
         }
@@ -167,7 +173,7 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
         // Run loading logic last
         Scope(state: toLoadingState, action: toLoadingAction) {
             Scope(state: \.failed, action: \.failed) {
-                LoadingError()
+                LoadingError.body
             }
 
             Scope(state: \.loaded, action: \.loaded) {

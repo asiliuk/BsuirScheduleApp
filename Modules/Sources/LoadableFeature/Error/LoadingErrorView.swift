@@ -10,47 +10,18 @@ public struct LoadingErrorView: View {
     }
 
     public var body: some View {
-        SwitchStore(store) { state in
-            switch state {
-            case .unknown:
-                CaseLet(
-                    /LoadingError.State.unknown,
-                     action: LoadingError.Action.unknown
-                ) { store in
-                    LoadingErrorUnknownView(store: store)
-                }
-
-            case .notConnectedToInternet:
-                CaseLet(
-                    /LoadingError.State.notConnectedToInternet,
-                     action: LoadingError.Action.notConnectedToInternet
-                ) { store in
-                    LoadingErrorNotConnectedToInternetView(store: store)
-                }
-
-            case .failedToDecode:
-                CaseLet(
-                    /LoadingError.State.failedToDecode,
-                     action: LoadingError.Action.failedToDecode
-                ) { store in
-                    LoadingErrorFailedToDecodeView(store: store)
-                }
-
-            case .noSchedule:
-                CaseLet(
-                    /LoadingError.State.noSchedule,
-                     action: LoadingError.Action.noSchedule
-                ) { store in
-                    LoadingErrorNoScheduleView(store: store)
-                }
-
-            case .somethingWrongWithBsuir:
-                CaseLet(
-                    /LoadingError.State.somethingWrongWithBsuir,
-                     action: LoadingError.Action.somethingWrongWithBsuir
-                ) { store in
-                    LoadingErrorSomethingWrongWithBsuirView(store: store)
-                }
+        WithPerceptionTracking {
+            switch store.case {
+            case .unknown(let store):
+                LoadingErrorUnknownView(store: store)
+            case .notConnectedToInternet(let store):
+                LoadingErrorNotConnectedToInternetView(store: store)
+            case .failedToDecode(let store):
+                LoadingErrorFailedToDecodeView(store: store)
+            case .noSchedule(let store):
+                LoadingErrorNoScheduleView(store: store)
+            case .somethingWrongWithBsuir(let store):
+                LoadingErrorSomethingWrongWithBsuirView(store: store)
             }
         }
     }

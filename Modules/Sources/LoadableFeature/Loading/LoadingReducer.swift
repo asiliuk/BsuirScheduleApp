@@ -40,7 +40,7 @@ struct LoadingReducer<State, Action, Value: Equatable> where Action: LoadableAct
     var body: some Reducer<State, Action> {
         Scope(state: keyPath, action: .loading(keyPath: keyPath)) {
             Scope(state: /LoadableState.error, action: /LoadingAction<State>.Action.loadingError) {
-                LoadingError()
+                LoadingError.body
             }
         }
 
@@ -74,7 +74,7 @@ private struct CoreLoadingReducer<State, Value: Equatable> {
                 loadingStarted()
             )
 
-        case .loadingError(.reload) where valueState.is(\.error):
+        case .loadingError(let action) where action.isReload && valueState.is(\.error):
             valueState = .loading
             return .merge(
                 load(state, isRefresh: true),

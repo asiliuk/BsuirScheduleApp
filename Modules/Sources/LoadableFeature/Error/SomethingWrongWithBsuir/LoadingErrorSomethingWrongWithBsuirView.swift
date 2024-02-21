@@ -12,11 +12,7 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
     }
 
     public var body: some View {
-        WithViewStore(
-            store,
-            observe: { (errorCode: $0.errorCode, address: $0.address, message: $0.message) },
-            removeDuplicates: ==
-        ) { viewStore in
+        WithPerceptionTracking {
             VStack(spacing: 24) {
                 Spacer()
 
@@ -25,11 +21,9 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
 
                 VStack(spacing: 12) {
 
-                    titleText(errorCode: viewStore.errorCode)
+                    titleText(errorCode: store.errorCode)
 
-                    IfLetStore(
-                        store.scope(state: \.reachability, action: \.reachability)
-                    ) { store in
+                    if let store = store.scope(state: \.reachability, action: \.reachability) {
                         ReachabilityView(store: store)
                             .font(.headline)
                     }
@@ -39,21 +33,21 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
                         .foregroundColor(.secondary)
 
                     NetworkErrorMessageField(
-                        address: viewStore.address,
-                        message: viewStore.message
+                        address: store.address,
+                        message: store.message
                     )
                 }
                 .multilineTextAlignment(.leading)
                 .padding(.horizontal, 24)
 
                 let openIssue = Button {
-                    viewStore.send(.openIssueTapped)
+                    store.send(.openIssueTapped)
                 } label: {
                     Label("view.errorState.apiDown.button.issue.label", systemImage: "plus.diamond.fill")
                 }
 
                 let retry = Button {
-                    viewStore.send(.reloadButtonTapped)
+                    store.send(.reloadButtonTapped)
                 } label: {
                     Label("view.errorState.apiDown.button.retry.label", systemImage: "arrow.clockwise")
                 }

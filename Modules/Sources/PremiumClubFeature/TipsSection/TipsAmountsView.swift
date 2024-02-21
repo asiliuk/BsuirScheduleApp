@@ -18,11 +18,9 @@ struct LoadingTipsAmountsView: View {
                 }
                 .redacted(reason: .placeholder)
             }, 
-            failed: { store in
+            failed: { store, reload in
                 LabeledContent("screen.premiumClub.section.tips.failed.message") {
-                    Button("screen.premiumClub.section.tips.failed.button.retry") {
-                        store.send(.reload)
-                    }
+                    Button("screen.premiumClub.section.tips.failed.button.retry", action: reload)
                 }
             },
             loaded: { store, _ in

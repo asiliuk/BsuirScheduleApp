@@ -3,13 +3,10 @@ import ComposableArchitecture
 
 @Reducer
 public struct LoadingErrorNoSchedule {
-    public typealias State = Void
+    @ObservableState
+    public struct State: Equatable {}
 
     public enum Action: Equatable {
         case reloadButtonTapped
-    }
-
-    public var body: some ReducerOf<Self> {
-        EmptyReducer()
     }
 }

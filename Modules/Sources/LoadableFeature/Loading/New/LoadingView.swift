@@ -11,13 +11,13 @@ public struct LoadingView<
     private let store: Store<LoadingState<LoadedState>, LoadingActionV2<LoadedState, LoadedAction>>
 
     private let inProgress: () -> InProgressView
-    private let failed: (StoreOf<LoadingError>) -> FailedView
+    private let failed: (StoreOf<LoadingError>, _ reload: @escaping () -> Void) -> FailedView
     private let loaded: (Store<LoadedState, LoadedAction>, _ refresh: @escaping () async -> Void) -> LoadedView
 
     public init(
         store: Store<LoadingState<LoadedState>, LoadingActionV2<LoadedState, LoadedAction>>,
     @ViewBuilder inProgress: @escaping () -> InProgressView,
-    @ViewBuilder failed: @escaping (StoreOf<LoadingError>) -> FailedView,
+    @ViewBuilder failed: @escaping (StoreOf<LoadingError>, _ reload: @escaping () -> Void) -> FailedView,
     @ViewBuilder loaded: @escaping (Store<LoadedState, LoadedAction>, _ refresh: @escaping () async -> Void) -> LoadedView
     ) {
         self.store = store
@@ -35,7 +35,7 @@ public struct LoadingView<
                         .onAppear { store.send(.fetch) }
                 case .failed:
                     if let failedStore = store.scope(state: \.failed, action: \.failed) {
-                        failed(failedStore)
+                        failed(failedStore, { store.send(.reload) })
                     }
                 case .loaded:
                     if let loadedStore = store.scope(state: \.loaded, action: \.loaded) {

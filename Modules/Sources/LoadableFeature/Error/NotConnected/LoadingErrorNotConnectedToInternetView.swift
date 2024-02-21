@@ -40,7 +40,7 @@ public struct LoadingErrorNotConnectedToInternetView: View, Animatable {
 struct LoadingErrorNotConnectedToInternetView_Previews: PreviewProvider {
     static var previews: some View {
         LoadingErrorNotConnectedToInternetView(
-            store: Store(initialState: ()) {}
+            store: Store(initialState: .init()) {}
         )
     }
 }
