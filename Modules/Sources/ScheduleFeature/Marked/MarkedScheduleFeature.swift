@@ -12,13 +12,10 @@ public struct MarkedScheduleFeature {
         @PresentationState public var alert: AlertState<Action.AlertAction>?
         public var isFavorite: Bool = false
         public var isPinned: Bool = false
-        var isPremiumLocked: Bool
         let source: ScheduleSource
 
         public init(source: ScheduleSource) {
             self.source = source
-            @Dependency(\.premiumService) var premiumService
-            self.isPremiumLocked = !premiumService.isCurrentlyPremium
             @Dependency(\.favorites) var favorites
             self.isFavorite = switch source {
             case let .group(name): favorites.currentGroupNames.contains(name)
@@ -47,7 +44,6 @@ public struct MarkedScheduleFeature {
 
         case _setIsFavorite(Bool)
         case _setIsPinned(Bool)
-        case _setIsPremiumLocked(Bool)
 
         case delegate(DelegateAction)
         case alert(PresentationAction<AlertAction>)
@@ -55,8 +51,8 @@ public struct MarkedScheduleFeature {
 
     @Dependency(\.favorites) var favorites
     @Dependency(\.pinnedScheduleService) var pinnedScheduleService
-    @Dependency(\.reviewRequestService) var reviewRequestService
     @Dependency(\.premiumService) var premiumService
+    @Dependency(\.reviewRequestService) var reviewRequestService
 
     public init() {}
 
@@ -66,8 +62,7 @@ public struct MarkedScheduleFeature {
             case .task:
                 return .merge(
                     observeIsPinned(source: state.source),
-                    observeIsFavorite(source: state.source),
-                    observeIsPremium()
+                    observeIsFavorite(source: state.source)
                 )
 
             case .favoriteButtonTapped:
@@ -77,11 +72,11 @@ public struct MarkedScheduleFeature {
                 return unfavorite(source: state.source)
 
             case .pinButtonTapped:
-                if state.isPremiumLocked {
+                if premiumService.isCurrentlyPremium {
+                    return pin(source: state.source)
+                } else {
                     state.alert = .premiumLocked
                     return .none
-                } else {
-                    return pin(source: state.source)
                 }
 
             case .unpinButtonTapped:
@@ -99,10 +94,6 @@ public struct MarkedScheduleFeature {
 
             case let ._setIsPinned(value):
                 state.isPinned = value
-                return .none
-
-            case let ._setIsPremiumLocked(value):
-                state.isPremiumLocked = value
                 return .none
 
             case .alert(.presented(.learnAboutPremiumClubButtonTapped)):
@@ -178,14 +169,6 @@ public struct MarkedScheduleFeature {
         return .run { send in
             for await value in source.removeDuplicates().values {
                 await send(._setIsFavorite(value))
-            }
-        }
-    }
-
-    private func observeIsPremium() -> Effect<Action> {
-        return .run { send in
-            for await value in premiumService.isPremium.removeDuplicates().values {
-                await send(._setIsPremiumLocked(!value))
             }
         }
     }
