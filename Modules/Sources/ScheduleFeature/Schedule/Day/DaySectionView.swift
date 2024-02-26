@@ -6,33 +6,23 @@ struct DaySectionView: View {
     let store: StoreOf<DaySectionFeature>
 
     var body: some View {
-        Section {
-            ForEachStore(
-                store.scope(
-                    state: \.pairRows,
-                    action: \.pairRows
-                ),
-                content: { PairRowView(store: $0) }
-            )
-        } header: {
-            WithViewStore(
-                store,
-                observe: {
-                    (
-                        title: $0.title,
-                        subtitle: $0.subtitle,
-                        relativity: ScheduleDateTitle.Relativity($0.relativity)
-                    )
-                },
-                removeDuplicates: ==
-            ) { viewStore in
+        WithPerceptionTracking {
+            Section {
+                ForEach(
+                    store.scope(
+                        state: \.pairRows,
+                        action: \.pairRows
+                    ),
+                    content: { PairRowView(store: $0) }
+                )
+            } header:{
                 ScheduleDateTitle(
-                    date: viewStore.title,
-                    relativeDate: viewStore.subtitle,
-                    relativity: viewStore.relativity
+                    date: store.title,
+                    relativeDate: store.subtitle,
+                    relativity: ScheduleDateTitle.Relativity(store.relativity)
                 )
                 .transaction { $0.animation = nil }
-                .onAppear { viewStore.send(.onAppear) }
+                .onAppear { store.send(.onAppear) }
             }
         }
     }

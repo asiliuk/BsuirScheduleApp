@@ -6,6 +6,7 @@ import Dependencies
 
 @Reducer
 public struct DayScheduleFeature {
+    @ObservableState
     public struct State: Equatable {
         var scheduleList: ScheduleListFeature.State
 

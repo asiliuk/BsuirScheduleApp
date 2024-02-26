@@ -7,6 +7,7 @@ import Dependencies
 
 @Reducer
 public struct ContinuousScheduleFeature {
+    @ObservableState
     public struct State: Equatable {
         public var hasSchedule: Bool { scheduleList.hasSchedule }
 

@@ -6,126 +6,118 @@ import ComposableArchitecture
 import ScheduleCore
 
 struct PairDetailsView: View {
-    struct ViewState: Equatable {
-        var title: String
-
-        var lecturers: [Employee]
-        var groups: [String]
-
-        var fullName: String?
-        var timeInterval: String
-        var date: String
-        var formName: LocalizedStringKey
-        var subgroup: String
-        var auditory: String
-        var weeks: String
-        var notes: String?
-        var photoPreview: URL?
-
-        init(_ state: PairDetailsFeature.State) {
-            self.title = state.pair.subject ?? "--"
-
-            self.lecturers = (state.rowDetails != .groups) ? state.pair.lecturers : []
-            self.groups = (state.rowDetails != .lecturers) ? state.pair.groups : []
-
-            self.fullName = state.pair.subjectFullName
-            self.timeInterval = state.pair.interval
-
-            self.date =  switch state.rowDay {
-            case .date(let date):
-                date?.formatted(.pairDate) ?? "--"
-            case .weekday(let weekDay):
-                weekDay.localizedName(in: .current).capitalized
-            }
-
-            self.formName = state.pair.form.name
-            self.subgroup = state.pair.subgroup == 0 ? "--" : String(describing: state.pair.subgroup)
-            self.auditory = state.pair.auditory ?? "--"
-            self.weeks = state.pair.weeks ?? "--"
-            self.notes = state.pair.note
-            self.photoPreview = state.photoPreview
-        }
-    }
-
-    let store: StoreOf<PairDetailsFeature>
+    @Perception.Bindable var store: StoreOf<PairDetailsFeature>
 
     var body: some View {
         NavigationStack {
-            WithViewStore(store, observe: ViewState.init) { viewStore in
+            WithPerceptionTracking {
                 List {
-                    if !viewStore.lecturers.isEmpty {
-                        Section("screen.pairDetails.lecturers.section.title") {
-                            ForEach(viewStore.lecturers, id: \.id) { employee in
-                                LecturerCell(
-                                    photo: employee.photoLink,
-                                    name: employee.fio
-                                ) {
-                                    viewStore.send(.lectorTapped(employee))
-                                } onPhotoTap: {
-                                    viewStore.send(.lectorPhotoTapped(employee))
-                                }
-                            }
-                        }
-                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                    }
-
-                    if !viewStore.groups.isEmpty {
-                        Section("screen.pairDetails.groups.section.title") {
-                            ForEach(viewStore.groups, id: \.self) { group in
-                                GroupCell(name: group) { viewStore.send(.groupTapped(group)) }
-                            }
-                        }
-                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                    }
-
-                    Section {
-                        if let fullName = viewStore.fullName {
-                            Text(fullName).font(.title3.bold())
-                        }
-
-                        LabeledContent("screen.pairDetails.details.time.title") {
-                            Text(viewStore.timeInterval)
-                        }
-                        LabeledContent("screen.pairDetails.details.day.title") {
-                            Text(viewStore.date)
-                        }
-                        LabeledContent("screen.pairDetails.details.type.title") {
-                            Text(viewStore.formName)
-                        }
-                        LabeledContent("screen.pairDetails.details.subgroup.title") {
-                            Text(viewStore.subgroup)
-                        }
-                        LabeledContent("screen.pairDetails.details.auditory.title") {
-                            Text(viewStore.auditory)
-                        }
-                        LabeledContent("screen.pairDetails.details.weeks.title") {
-                            Text(viewStore.weeks)
-                        }
-
-                        if let notes = viewStore.notes {
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("screen.pairDetails.details.notes.title")
-                                Text(notes).foregroundColor(.secondary)
-                            }
-                        }
-                    } header: {
-                        Text("screen.pairDetails.details.header.title")
-                    }
+                    PairDetailsLecturersSectionView(store: store)
+                    PairDetailsGroupsSectionView(store: store)
+                    PairDetailsSectionView(store: store)
                 }
-                .navigationTitle(viewStore.title)
+                .navigationTitle(store.pair.subject ?? "--")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     CloseModalToolbarItem {
-                        viewStore.send(.closeButtonTapped)
+                        store.send(.closeButtonTapped)
                     }
                 }
-                .photoPreview(viewStore.binding(get: \.photoPreview, send: { .setPhotoPreview($0) }))
+                .photoPreview($store.photoPreview.sending(\.setPhotoPreview))
             }
         }
         .presentationDetents([.fraction(0.4), .large])
         .presentationDragIndicator(.hidden)
         .scrollIndicators(.never)
         .frame(idealWidth: 400, idealHeight: 600)
+    }
+}
+
+private struct PairDetailsLecturersSectionView: View {
+    let store: StoreOf<PairDetailsFeature>
+
+    var body: some View {
+        WithPerceptionTracking {
+            if store.rowDetails != .groups {
+                Section("screen.pairDetails.lecturers.section.title") {
+                    ForEach(store.pair.lecturers, id: \.id) { employee in
+                        LecturerCell(
+                            photo: employee.photoLink,
+                            name: employee.fio
+                        ) {
+                            store.send(.lectorTapped(employee))
+                        } onPhotoTap: {
+                            store.send(.lectorPhotoTapped(employee))
+                        }
+                    }
+                }
+                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+            }
+        }
+    }
+}
+
+private struct PairDetailsGroupsSectionView: View {
+    let store: StoreOf<PairDetailsFeature>
+
+    var body: some View {
+        WithPerceptionTracking {
+            if store.rowDetails != .lecturers {
+                Section("screen.pairDetails.groups.section.title") {
+                    ForEach(store.pair.groups, id: \.self) { group in
+                        GroupCell(name: group) { store.send(.groupTapped(group)) }
+                    }
+                }
+                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+            }
+        }
+    }
+}
+
+private struct PairDetailsSectionView: View {
+    let store: StoreOf<PairDetailsFeature>
+
+    var body: some View {
+        Section {
+            WithPerceptionTracking {
+                if let fullName = store.pair.subjectFullName {
+                    Text(fullName).font(.title3.bold())
+                }
+
+                LabeledContent("screen.pairDetails.details.time.title") {
+                    Text(store.pair.interval)
+                }
+                LabeledContent("screen.pairDetails.details.day.title") {
+                    switch store.rowDay {
+                    case .date(let date):
+                        Text(date?.formatted(.pairDate) ?? "--")
+                    case .weekday(let weekDay):
+                        Text(weekDay.localizedName(in: .current).capitalized)
+                    }
+                }
+                LabeledContent("screen.pairDetails.details.type.title") {
+                    Text(store.pair.form.name)
+                }
+                LabeledContent("screen.pairDetails.details.subgroup.title") {
+                    Text(store.pair.subgroup == 0 ? "--" : store.pair.subgroup.description)
+                }
+                LabeledContent("screen.pairDetails.details.auditory.title") {
+                    Text(store.pair.auditory ?? "--")
+                }
+                LabeledContent("screen.pairDetails.details.weeks.title") {
+                    Text(store.pair.weeks ?? "--")
+                }
+
+                if let notes = store.pair.note {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("screen.pairDetails.details.notes.title")
+                        Text(notes).foregroundColor(.secondary)
+                    }
+                }
+            }
+        } header: {
+            Text("screen.pairDetails.details.header.title")
+        }
     }
 }
 

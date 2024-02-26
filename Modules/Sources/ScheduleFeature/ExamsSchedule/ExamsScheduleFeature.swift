@@ -7,6 +7,7 @@ import Dependencies
 
 @Reducer
 public struct ExamsScheduleFeature {
+    @ObservableState
     public struct State: Equatable {
         var scheduleList: ScheduleListFeature.State
         var pairRowDetails: PairRowDetails?

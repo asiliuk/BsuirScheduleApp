@@ -5,6 +5,7 @@ import BsuirApi
 
 @Reducer
 public struct DaySectionFeature {
+    @ObservableState
     public struct State: Equatable, Identifiable {
         public enum DayDate: Equatable {
             case continuousDate(Date, weekNumber: Int)

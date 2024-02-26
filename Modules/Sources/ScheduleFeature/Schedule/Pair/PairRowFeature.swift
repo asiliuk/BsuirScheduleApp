@@ -15,6 +15,7 @@ public enum PairRowDay: Equatable {
 
 @Reducer
 public struct PairRowFeature {
+    @ObservableState
     public struct State: Equatable, Identifiable {
         public var id: UUID { pair.id }
         var isFiltered: Bool = false
@@ -22,7 +23,7 @@ public struct PairRowFeature {
         var showWeeks: Bool
         var details: PairRowDetails?
         var day: PairRowDay
-        @PresentationState var pairDetails: PairDetailsFeature.State?
+        @Presents var pairDetails: PairDetailsFeature.State?
 
         public init(
             pair: PairViewModel,

@@ -4,49 +4,33 @@ import BsuirUI
 import ScheduleCore
 
 struct PairRowView: View {
-    struct ViewState: Equatable {
-        let pair: PairViewModel
-        let showWeeks: Bool
-        let details: PairRowDetails?
-        let showingDetails: Bool
-        let isFiltered: Bool
-
-        init(_ state: PairRowFeature.State) {
-            self.pair = state.pair
-            self.showWeeks = state.showWeeks
-            self.details = state.details
-            self.showingDetails = state.pairDetails != nil
-            self.isFiltered = state.isFiltered
-        }
-    }
-
-    let store: StoreOf<PairRowFeature>
+    @Perception.Bindable var store: StoreOf<PairRowFeature>
     @Environment(\.presentsPairDetailsPopover) var presentsPairDetailsPopover
 
     var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
+        WithPerceptionTracking {
             Button {
-                viewStore.send(.rowTapped)
+                store.send(.rowTapped)
             } label: {
-                if viewStore.isFiltered {
+                if store.isFiltered {
                     FilteredPairCell(
-                        pair: viewStore.pair,
-                        showWeeks: viewStore.showWeeks
+                        pair: store.pair,
+                        showWeeks: store.showWeeks
                     )
                 } else {
                     PairCell(
-                        pair: viewStore.pair,
-                        showWeeks: viewStore.showWeeks,
-                        details: detailsView(pair: viewStore.pair, details: viewStore.details)
+                        pair: store.pair,
+                        showWeeks: store.showWeeks,
+                        details: detailsView(pair: store.pair, details: store.details)
                     )
                 }
             }
             .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
             .buttonStyle(PairRowButtonStyle())
             .disabled(presentsPairDetailsPopover)
-            .preference(key: PresentsPairDetailsPopoverPreferenceKey.self, value: viewStore.showingDetails)
+            .preference(key: PresentsPairDetailsPopoverPreferenceKey.self, value: store.pairDetails != nil)
             .popover(
-                store: store.scope(state: \.$pairDetails, action: \.pairDetails), 
+                item: $store.scope(state: \.pairDetails, action: \.pairDetails),
                 content: PairDetailsView.init
             )
         }

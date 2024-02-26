@@ -10,6 +10,7 @@ public struct ScheduleListFeature {
         case never
     }
 
+    @ObservableState
     public struct State: Equatable {
         var isOnTop: Bool = true
         var hasSchedule: Bool { !days.isEmpty }

@@ -6,8 +6,8 @@ struct ScheduleListView: View {
     let store: StoreOf<ScheduleListFeature>
 
     var body: some View {
-        WithViewStore(store, observe: \.hasSchedule) { viewStore in
-            if viewStore.state {
+        WithPerceptionTracking {
+            if store.hasSchedule {
                 ScheduleContentListView(store: store)
             } else {
                 ScheduleEmptyView()
@@ -17,21 +17,21 @@ struct ScheduleListView: View {
 }
 
 private struct ScheduleContentListView: View {
-    let store: StoreOf<ScheduleListFeature>
+    @Perception.Bindable var store: StoreOf<ScheduleListFeature>
     @State var presentsPairDetailsPopover: Bool = false
 
     var body: some View {
-        WithViewStore(store, observe: \.isOnTop) { viewStore in
-            ScrollableToTopList(isOnTop: viewStore.binding(send: { .setIsOnTop($0) })) {
+        WithPerceptionTracking {
+            ScrollableToTopList(isOnTop: $store.isOnTop.sending(\.setIsOnTop)) {
                 Group {
-                    WithViewStore(store, observe: \.header) { viewStore in
-                        if let header = viewStore.state {
+                    WithPerceptionTracking {
+                        if let header = store.header {
                             Text(header)
                                 .foregroundStyle(.secondary)
                         }
                     }
 
-                    ForEachStore(
+                    ForEach(
                         store.scope(
                             state: \.days,
                             action: \.days
@@ -39,12 +39,12 @@ private struct ScheduleContentListView: View {
                         content: DaySectionView.init
                     )
 
-                    WithViewStore(store, observe: \.loading) { viewStore in
-                        switch viewStore.state {
+                    WithPerceptionTracking {
+                        switch store.loading {
                         case .loadMore:
                             ShimmeringPairPlaceholder()
                                 .frame(minWidth: 0, maxWidth: .infinity)
-                                .onAppear { viewStore.send(.loadingIndicatorAppeared) }
+                                .onAppear { store.send(.loadingIndicatorAppeared) }
                         case .finished:
                             NoMorePairsIndicator()
                         case .never:

@@ -5,6 +5,7 @@ import BsuirApi
 
 @Reducer
 public struct PairDetailsFeature {
+    @ObservableState
     public struct State: Equatable {
         var pair: PairViewModel
         var rowDetails: PairRowDetails?

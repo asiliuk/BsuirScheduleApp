@@ -5,12 +5,14 @@ struct ContinuousScheduleView: View {
     let store: StoreOf<ContinuousScheduleFeature>
 
     var body: some View {
-        ScheduleListView(
-            store: store.scope(
-                state: \.scheduleList,
-                action: \.scheduleList
+        WithPerceptionTracking {
+            ScheduleListView(
+                store: store.scope(
+                    state: \.scheduleList,
+                    action: \.scheduleList
+                )
             )
-        )
-        .task { store.send(.task) }
+            .task { store.send(.task) }
+        }
     }
 }
