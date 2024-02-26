@@ -9,7 +9,7 @@ import ComposableArchitecture
 @Reducer
 public struct MarkedScheduleFeature {
     public struct State: Equatable {
-        @PresentationState public var alert: AlertState<Action.AlertAction>?
+        @PresentationState var alert: AlertState<PinPremiumAlertAction>?
         var isFavorite: Bool = false
         var isPinned: Bool = false
         let source: ScheduleSource
@@ -23,10 +23,6 @@ public struct MarkedScheduleFeature {
     }
 
     public enum Action: Equatable {
-        public enum AlertAction: Equatable {
-            case learnAboutPremiumClubButtonTapped
-        }
-
         public enum DelegateAction: Equatable {
             case showPremiumClub
         }
@@ -42,7 +38,7 @@ public struct MarkedScheduleFeature {
         case _setIsPinned(Bool)
 
         case delegate(DelegateAction)
-        case alert(PresentationAction<AlertAction>)
+        case alert(PresentationAction<PinPremiumAlertAction>)
     }
 
     @Dependency(\.premiumService) var premiumService
@@ -139,19 +135,4 @@ public struct MarkedScheduleFeature {
             }
         }
     }
-}
-// MARK: - Alert
-
-private extension AlertState where Action == MarkedScheduleFeature.Action.AlertAction {
-    static let premiumLocked = AlertState(
-        title: TextState("alert.premiumClub.pinnedSchedule.title"),
-        message: TextState("alert.premiumClub.pinnedSchedule.message"),
-        buttons: [
-            .default(
-                TextState("alert.premiumClub.pinnedSchedule.button"),
-                action: .send(.learnAboutPremiumClubButtonTapped)
-            ),
-            .cancel(TextState("alert.premiumClub.pinnedSchedule.cancel"))
-        ]
-    )
 }
