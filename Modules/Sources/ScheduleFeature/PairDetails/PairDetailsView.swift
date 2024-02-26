@@ -109,7 +109,7 @@ struct PairDetailsView: View {
                             }
                         }
                     } header: {
-                        Text("Детали")
+                        Text("screen.pairDetails.details.header.title")
                     }
                 }
                 .navigationTitle(viewStore.title)
