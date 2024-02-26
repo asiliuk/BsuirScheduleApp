@@ -42,13 +42,13 @@ public struct AppView: View {
                 )
                 .tag(CurrentSelection.groups)
 
-                GroupsFeatureTabV2(
-                    store: store.scope(
-                        state: \.groupsV2,
-                        action: \.groupsV2
-                    )
-                )
-                .tag(CurrentSelection.groupsV2)
+//                GroupsFeatureTabV2(
+//                    store: store.scope(
+//                        state: \.groupsV2,
+//                        action: \.groupsV2
+//                    )
+//                )
+//                .tag(CurrentSelection.groupsV2)
 
                 LecturersFeatureTab(
                     store: store.scope(
