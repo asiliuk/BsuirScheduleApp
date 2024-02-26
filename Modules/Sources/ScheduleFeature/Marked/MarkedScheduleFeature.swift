@@ -16,13 +16,9 @@ public struct MarkedScheduleFeature {
 
         public init(source: ScheduleSource) {
             self.source = source
-            @Dependency(\.favorites) var favorites
-            self.isFavorite = switch source {
-            case let .group(name): favorites.currentGroupNames.contains(name)
-            case let .lector(lector): favorites.currentLectorIds.contains(lector.id)
-            }
-            @Dependency(\.pinnedScheduleService) var pinnedScheduleService
-            self.isPinned = pinnedScheduleService.currentSchedule() == source
+            @Dependency(\.scheduleMarkingService) var scheduleMarkingService
+            self.isFavorite = scheduleMarkingService.isCurrentlyFavorite(source)
+            self.isPinned = scheduleMarkingService.isCurrentlyPinned(source)
         }
     }
 
@@ -49,9 +45,8 @@ public struct MarkedScheduleFeature {
         case alert(PresentationAction<AlertAction>)
     }
 
-    @Dependency(\.favorites) var favorites
-    @Dependency(\.pinnedScheduleService) var pinnedScheduleService
     @Dependency(\.premiumService) var premiumService
+    @Dependency(\.scheduleMarkingService) var scheduleMarkingService
     @Dependency(\.reviewRequestService) var reviewRequestService
 
     public init() {}
@@ -108,12 +103,8 @@ public struct MarkedScheduleFeature {
 
     private func favorite(source: ScheduleSource) -> Effect<Action> {
         return .run { _ in
-            // Remove schedule from pinned if needed
-            if pinnedScheduleService.currentSchedule() == source {
-                pinnedScheduleService.setCurrentSchedule(nil)
-            }
-            // Add schedule to favorites
-            favorites.addToFavorites(source: source)
+            // Mark as favorite
+            await scheduleMarkingService.favorite(source)
             // Log meaningful event
             await reviewRequestService.madeMeaningfulEvent(.addToFavorites)
         }
@@ -121,20 +112,14 @@ public struct MarkedScheduleFeature {
 
     private func unfavorite(source: ScheduleSource) -> Effect<Action> {
         return .run { _ in
-            favorites.removeFromFavorites(source: source)
+            await scheduleMarkingService.unfavorite(source)
         }
     }
 
     private func pin(source: ScheduleSource) -> Effect<Action> {
         return .run { _ in
-            // Move previously pinned schedule to favorites
-            if let pinned = pinnedScheduleService.currentSchedule() {
-                favorites.addToFavorites(source: pinned)
-            }
-            // Remove newly pinned schedule from favorites
-            favorites.removeFromFavorites(source: source)
-            // Make new schedule as pinned
-            pinnedScheduleService.setCurrentSchedule(source)
+            // Pin schedule
+            await scheduleMarkingService.pin(source)
             // Log meaningful event
             await reviewRequestService.madeMeaningfulEvent(.pin)
         }
@@ -142,32 +127,21 @@ public struct MarkedScheduleFeature {
 
     private func unpin(source: ScheduleSource) -> Effect<Action> {
         return .run { _ in
-            if pinnedScheduleService.currentSchedule() == source {
-                pinnedScheduleService.setCurrentSchedule(nil)
-            }
+            await scheduleMarkingService.unpin(source)
         }
     }
 
     private func observeIsPinned(source: ScheduleSource) -> Effect<Action> {
         .run { send in
-            for await value in pinnedScheduleService.schedule().map({ $0 == source }).removeDuplicates().values {
+            for await value in scheduleMarkingService.isPinned(source).values {
                 await send(._setIsPinned(value))
             }
         }
     }
 
     private func observeIsFavorite(source: ScheduleSource) -> Effect<Action> {
-        switch source {
-        case let .group(name):
-            return observeIsFavorite(source: favorites.groupNames.map { $0.contains(name) })
-        case let .lector(lector):
-            return observeIsFavorite(source: favorites.lecturerIds.map { $0.contains(lector.id) })
-        }
-    }
-
-    private func observeIsFavorite(source: some Publisher<Bool, Never>) -> Effect<Action> {
-        return .run { send in
-            for await value in source.removeDuplicates().values {
+        .run { send in
+            for await value in scheduleMarkingService.isFavorite(source).values {
                 await send(._setIsFavorite(value))
             }
         }
