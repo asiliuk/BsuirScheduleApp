@@ -1,9 +1,10 @@
 import Foundation
 import Combine
-import Favorites
-import ScheduleCore
 import Dependencies
 import DependenciesMacros
+import Favorites
+import ScheduleCore
+import BsuirCore
 
 @DependencyClient
 struct ScheduleMarkingService {
@@ -39,6 +40,7 @@ private extension ScheduleMarkingService {
     static let live: ScheduleMarkingService = {
         @Dependency(\.favorites) var favorites
         @Dependency(\.pinnedScheduleService) var pinnedScheduleService
+        @Dependency(\.reviewRequestService) var reviewRequestService
         return ScheduleMarkingService(
             isCurrentlyFavorite: { source in
                 switch source {
@@ -63,6 +65,9 @@ private extension ScheduleMarkingService {
                 }
                 // Add schedule to favorites
                 favorites.addToFavorites(source: source)
+
+                // Log meaningful event
+                await reviewRequestService.madeMeaningfulEvent(.addToFavorites)
             },
             unfavorite: { source in
                 favorites.removeFromFavorites(source: source)
@@ -82,6 +87,9 @@ private extension ScheduleMarkingService {
                 favorites.removeFromFavorites(source: source)
                 // Make new schedule as pinned
                 pinnedScheduleService.setCurrentSchedule(source)
+
+                // Log meaningful event
+                await reviewRequestService.madeMeaningfulEvent(.pin)
             },
             unpin: { source in
                 if pinnedScheduleService.currentSchedule() == source {
@@ -90,4 +98,11 @@ private extension ScheduleMarkingService {
             }
         )
     }()
+}
+
+// MARK: - MeaningfulEvent
+
+private extension MeaningfulEvent {
+    static let addToFavorites = Self(score: 5)
+    static let pin = Self(score: 5)
 }

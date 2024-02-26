@@ -10,8 +10,8 @@ import ComposableArchitecture
 public struct MarkedScheduleFeature {
     public struct State: Equatable {
         @PresentationState public var alert: AlertState<Action.AlertAction>?
-        public var isFavorite: Bool = false
-        public var isPinned: Bool = false
+        var isFavorite: Bool = false
+        var isPinned: Bool = false
         let source: ScheduleSource
 
         public init(source: ScheduleSource) {
@@ -47,7 +47,6 @@ public struct MarkedScheduleFeature {
 
     @Dependency(\.premiumService) var premiumService
     @Dependency(\.scheduleMarkingService) var scheduleMarkingService
-    @Dependency(\.reviewRequestService) var reviewRequestService
 
     public init() {}
 
@@ -103,10 +102,7 @@ public struct MarkedScheduleFeature {
 
     private func favorite(source: ScheduleSource) -> Effect<Action> {
         return .run { _ in
-            // Mark as favorite
             await scheduleMarkingService.favorite(source)
-            // Log meaningful event
-            await reviewRequestService.madeMeaningfulEvent(.addToFavorites)
         }
     }
 
@@ -118,10 +114,7 @@ public struct MarkedScheduleFeature {
 
     private func pin(source: ScheduleSource) -> Effect<Action> {
         return .run { _ in
-            // Pin schedule
             await scheduleMarkingService.pin(source)
-            // Log meaningful event
-            await reviewRequestService.madeMeaningfulEvent(.pin)
         }
     }
 
@@ -147,14 +140,6 @@ public struct MarkedScheduleFeature {
         }
     }
 }
-
-// MARK: - MeaningfulEvent
-
-private extension MeaningfulEvent {
-    static let addToFavorites = Self(score: 5)
-    static let pin = Self(score: 5)
-}
-
 // MARK: - Alert
 
 private extension AlertState where Action == MarkedScheduleFeature.Action.AlertAction {
