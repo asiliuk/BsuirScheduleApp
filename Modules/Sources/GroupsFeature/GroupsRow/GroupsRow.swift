@@ -10,7 +10,7 @@ public struct GroupsRow {
         public let groupName: String
 
         var title: String { groupName }
-        var mark: MarkedScheduleFeature.State
+        var mark: MarkedScheduleRowFeature.State
 
         init(groupName: String) {
             self.groupName = groupName
@@ -20,12 +20,12 @@ public struct GroupsRow {
 
     public enum Action: Equatable {
         case rowTapped
-        case mark(MarkedScheduleFeature.Action)
+        case mark(MarkedScheduleRowFeature.Action)
     }
 
     public var body: some ReducerOf<Self> {
         Scope(state: \.mark, action: \.mark) {
-            MarkedScheduleFeature()
+            MarkedScheduleRowFeature()
         }
     }
 }

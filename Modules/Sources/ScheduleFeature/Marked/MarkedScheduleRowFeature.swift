@@ -1,18 +1,15 @@
 import Foundation
-import Combine
-import BsuirCore
-import ScheduleCore
-import Favorites
-import PremiumClubFeature
 import ComposableArchitecture
+import ScheduleCore
 
 @Reducer
-public struct MarkedScheduleFeature {
+public struct MarkedScheduleRowFeature {
+    @ObservableState
     public struct State: Equatable {
-        @PresentationState var alert: AlertState<PinPremiumAlertAction>?
-        var isFavorite: Bool = false
-        var isPinned: Bool = false
         let source: ScheduleSource
+        var isFavorite: Bool
+        var isPinned: Bool
+        @Presents var alert: AlertState<PinPremiumAlertAction>?
 
         public init(source: ScheduleSource) {
             self.source = source
@@ -28,11 +25,8 @@ public struct MarkedScheduleFeature {
         }
 
         case task
-        case favoriteButtonTapped
-        case unfavoriteButtonTapped
-        case pinButtonTapped
-        case unpinButtonTapped
-        case unsaveButtonTapped
+        case toggleFavoriteTapped
+        case togglePinnedTapped
 
         case _setIsFavorite(Bool)
         case _setIsPinned(Bool)
@@ -41,13 +35,13 @@ public struct MarkedScheduleFeature {
         case alert(PresentationAction<PinPremiumAlertAction>)
     }
 
-    @Dependency(\.premiumService) var premiumService
     @Dependency(\.scheduleMarkingService) var scheduleMarkingService
+    @Dependency(\.premiumService) var premiumService
 
     public init() {}
 
     public var body: some ReducerOf<Self> {
-        Reduce<State, Action> { state, action in
+        Reduce { state, action in
             switch action {
             case .task:
                 return .merge(
@@ -55,34 +49,32 @@ public struct MarkedScheduleFeature {
                     observeIsFavorite(source: state.source)
                 )
 
-            case .favoriteButtonTapped:
-                return favorite(source: state.source)
+            case .toggleFavoriteTapped:
+                state.isFavorite.toggle()
+                return .run { [isFavorite = state.isFavorite, source = state.source] _ in
+                    await isFavorite
+                        ? scheduleMarkingService.favorite(source)
+                        : scheduleMarkingService.unfavorite(source)
+                }
 
-            case .unfavoriteButtonTapped:
-                return unfavorite(source: state.source)
-
-            case .pinButtonTapped:
-                if premiumService.isCurrentlyPremium {
-                    return pin(source: state.source)
-                } else {
+            case .togglePinnedTapped:
+                if !state.isPinned, !premiumService.isCurrentlyPremium {
                     state.alert = .premiumLocked
                     return .none
                 }
 
-            case .unpinButtonTapped:
-                return favorite(source: state.source)
+                state.isPinned.toggle()
+                return .run { [isPinned = state.isPinned, source = state.source] _ in
+                    await isPinned
+                        ? scheduleMarkingService.pin(source)
+                        : scheduleMarkingService.unpin(source)
+                }
 
-            case .unsaveButtonTapped:
-                return .merge(
-                    unfavorite(source: state.source),
-                    unpin(source: state.source)
-                )
-
-            case let ._setIsFavorite(value):
+            case ._setIsFavorite(let value):
                 state.isFavorite = value
                 return .none
 
-            case let ._setIsPinned(value):
+            case ._setIsPinned(let value):
                 state.isPinned = value
                 return .none
 
@@ -93,31 +85,7 @@ public struct MarkedScheduleFeature {
                 return .none
             }
         }
-        .ifLet(\.$alert, action: \.alert)
-    }
-
-    private func favorite(source: ScheduleSource) -> Effect<Action> {
-        return .run { _ in
-            await scheduleMarkingService.favorite(source)
-        }
-    }
-
-    private func unfavorite(source: ScheduleSource) -> Effect<Action> {
-        return .run { _ in
-            await scheduleMarkingService.unfavorite(source)
-        }
-    }
-
-    private func pin(source: ScheduleSource) -> Effect<Action> {
-        return .run { _ in
-            await scheduleMarkingService.pin(source)
-        }
-    }
-
-    private func unpin(source: ScheduleSource) -> Effect<Action> {
-        return .run { _ in
-            await scheduleMarkingService.unpin(source)
-        }
+        .ifLet(\.alert, action: \.alert)
     }
 
     private func observeIsPinned(source: ScheduleSource) -> Effect<Action> {

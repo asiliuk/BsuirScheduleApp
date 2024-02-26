@@ -11,7 +11,7 @@ public struct LecturersRow {
 
         var fullName: String { lector.fio }
         var imageUrl: URL? { lector.photoLink }
-        var mark: MarkedScheduleFeature.State
+        var mark: MarkedScheduleRowFeature.State
 
         init(lector: Employee) {
             self.lector = lector
@@ -21,12 +21,12 @@ public struct LecturersRow {
 
     public enum Action: Equatable {
         case rowTapped
-        case mark(MarkedScheduleFeature.Action)
+        case mark(MarkedScheduleRowFeature.Action)
     }
 
     public var body: some ReducerOf<Self> {
         Scope(state: \.mark, action: \.mark) {
-            MarkedScheduleFeature()
+            MarkedScheduleRowFeature()
         }
     }
 }
