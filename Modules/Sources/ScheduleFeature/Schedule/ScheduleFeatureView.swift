@@ -5,71 +5,52 @@ import LoadableFeature
 import ComposableArchitecture
 
 public struct ScheduleFeatureView<Value: Equatable>: View {
-    struct ViewState: Equatable {
-        let title: String
-        let scheduleType: ScheduleDisplayType
+    @Perception.Bindable public var store: StoreOf<ScheduleFeature<Value>>
 
-        init(state: ScheduleFeature<Value>.State) {
-            self.title = state.title
-            self.scheduleType = state.scheduleType
-        }
-    }
-
-    public let store: StoreOf<ScheduleFeature<Value>>
-    
     public init(store: StoreOf<ScheduleFeature<Value>>) {
         self.store = store
     }
 
     public var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
-            LoadingStore(
-                store,
-                state: \.schedule,
-                action: { .schedule($0) }
-            ) { store in
-                LoadedScheduleView(
-                    store: store.loaded(),
-                    scheduleType: viewStore.scheduleType
-                )
-                .refreshable { await store.send(.refresh).finish() }
-            } loading: {
-                ShimmeringSchedulePlaceholder()
-            } error: { store in
-                LoadingErrorView(store: store)
-            }
+        WithPerceptionTracking {
+            LoadingView(
+                store: store.scope(state: \.schedule, action: \.schedule),
+                inProgress: {
+                    ShimmeringSchedulePlaceholder()
+                }, 
+                failed: { store, _ in
+                    LoadingErrorView(store: store)
+                },
+                loaded: { store, refresh in
+                    LoadedScheduleView(
+                        store: store,
+                        scheduleType: self.store.scheduleType
+                    )
+                    .refreshable { await refresh() }
+                }
+            )
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     ScheduleDisplayTypePicker(
-                        scheduleType: viewStore
-                            .binding(get: \.scheduleType, send: { .setScheduleType($0) })
-                            .animation(.default)
+                        scheduleType: $store.scheduleType.animation(.default)
                     )
                     .pickerStyle(.segmented)
                     .frame(width: 200)
                 }
 
-                ToolbarItemGroup(placement: .primaryAction) {
-                    IfLetStore(
-                        store.scope(
-                            state: \.subgroupPicker,
-                            action: \.subgroupPicker
-                        ),
-                        then: SubgroupPickerFeatureView.init
-                    )
+                if let store = store.scope(state: \.subgroupPicker, action: \.subgroupPicker) {
+                    ToolbarItemGroup(placement: .primaryAction) {
+                        SubgroupPickerFeatureView(store: store)
+                    }
                 }
 
-                ToolbarItemGroup(placement: .primaryAction) {
-                    IfLetStore(
-                        store.scope(
-                            state: \.mark,
-                            action: \.mark
-                        ),
-                        then: MarkedSchedulePickerView.init
-                    )
+                if let store = store.scope(state: \.mark, action: \.mark) {
+                    ToolbarItemGroup(placement: .primaryAction) {
+                        MarkedSchedulePickerView(store: store)
+                    }
                 }
             }
-            .navigationTitle(viewStore.title)
+            .navigationTitle(store.title)
             .navigationBarTitleDisplayMode(.large)
         }
     }

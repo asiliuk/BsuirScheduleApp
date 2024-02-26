@@ -37,12 +37,13 @@ public struct ScheduleRequestResponse: Equatable, Encodable {
 
 @Reducer
 public struct ScheduleFeature<Value: Equatable> {
+    @ObservableState
     public struct State: Equatable {
         public var title: String
         public var value: Value
         public var mark: MarkedSchedulePickerFeature.State?
         public var isOnTop: Bool = true
-        var schedule: LoadableState<LoadedScheduleReducer.State> = .initial
+        var schedule: LoadingState<LoadedScheduleReducer.State> = .initial
         var scheduleType: ScheduleDisplayType
         var subgroupPicker: SubgroupPickerFeature.State?
 
@@ -70,7 +71,7 @@ public struct ScheduleFeature<Value: Equatable> {
         }
     }
 
-    public enum Action: Equatable, LoadableAction {
+    public enum Action: Equatable, BindableAction {
         public enum DelegateAction: Equatable {
             case showPremiumClubPinned
             case showLectorSchedule(Employee)
@@ -78,13 +79,11 @@ public struct ScheduleFeature<Value: Equatable> {
         }
 
         case mark(MarkedSchedulePickerFeature.Action)
-        case schedule(LoadedScheduleReducer.Action)
+        case schedule(LoadingActionOf<LoadedScheduleReducer>)
         case subgroupPicker(SubgroupPickerFeature.Action)
 
-        case setScheduleType(ScheduleDisplayType)
-
-        case loading(LoadingAction<State>)
         case delegate(DelegateAction)
+        case binding(BindingAction<State>)
     }
 
     let fetch: @Sendable (Value, _ ignoreCache: Bool) async throws -> ScheduleRequestResponse
@@ -97,37 +96,38 @@ public struct ScheduleFeature<Value: Equatable> {
     }
     
     public var body: some ReducerOf<Self> {
+        BindingReducer()
+            .onChange(of: \.scheduleType) { _, _ in
+                Reduce { _, _ in
+                    .run { _ in await reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched) }
+                }
+            }
+
         Reduce { state, action in
             switch action {
-            case let .setScheduleType(value):
-                defer { state.scheduleType = value }
-                guard state.scheduleType != value else { return .none }
-                return .run { _ in
-                    await reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
-                }
-                
-            case .loading(.finished(\.schedule)):
+            case .schedule(.fetchFinished):
                 // Switch to exams if no regular schedule available
-                if state.schedule[case: \.some]?.continuous.hasSchedule == false {
+
+                if state.schedule.loaded?.continuous.hasSchedule == false {
                     state.scheduleType = .exams
                 }
 
                 // Show subgroup picker if needed
-                if let maxSubgroup = state.schedule[case: \.some]?.maxSubgroup {
+                if let maxSubgroup = state.schedule.loaded?.maxSubgroup {
                     let savedSubgroupSelection = subgroupFilterService.preferredSubgroup(state.source).value
                     state.subgroupPicker = SubgroupPickerFeature.State(
                         maxSubgroup: maxSubgroup,
                         selected: savedSubgroupSelection
                     )
 
-                    state.schedule.modify(\.some) { $0.filter(keepingSubgroup: savedSubgroupSelection) }
+                    state.schedule.loaded?.filter(keepingSubgroup: savedSubgroupSelection)
                 } else {
                     state.subgroupPicker = nil
                 }
 
                 return .merge(
                     .run { _ in await reviewRequestService.madeMeaningfulEvent(.scheduleRequested) },
-                    updateScheduleLastKnownHash(source: state.source, response: state.schedule[case: \.some]?.response)
+                    updateScheduleLastKnownHash(source: state.source, response: state.schedule.loaded?.response)
                 )
 
             case let .mark(.delegate(action)):
@@ -136,9 +136,9 @@ public struct ScheduleFeature<Value: Equatable> {
                     return .send(.delegate(.showPremiumClubPinned))
                 }
 
-            case .schedule(.continuous(.scheduleList(.delegate(let action)))),
-                 .schedule(.day(.scheduleList(.delegate(let action)))),
-                 .schedule(.exams(.scheduleList(.delegate(let action)))):
+            case .schedule(.loaded(.continuous(.scheduleList(.delegate(let action))))),
+                 .schedule(.loaded(.day(.scheduleList(.delegate(let action))))),
+                 .schedule(.loaded(.exams(.scheduleList(.delegate(let action))))):
                 switch action {
                 case .loadMore:
                     return .none
@@ -148,17 +148,17 @@ public struct ScheduleFeature<Value: Equatable> {
                     return .send(.delegate(.showLectorSchedule(employee)))
                 }
 
-            case .schedule, .mark, .delegate, .loading, .subgroupPicker:
+            case .schedule, .mark, .delegate, .subgroupPicker, .binding:
                 return .none
             }
         }
-        .load(\.schedule, action: \.schedule) {
-            LoadedScheduleReducer()
-        } fetch: { state, isRefresh in
+        .load(state: \.schedule, action: \.schedule) { state, isRefresh in
             try await LoadedScheduleReducer.State(
                 response: fetch(state.value, isRefresh),
                 pairRowDetails: state.pairRowDetails
             )
+        } loaded: {
+            LoadedScheduleReducer()
         }
         .ifLet(\.subgroupPicker, action: \.subgroupPicker) {
             SubgroupPickerFeature()
@@ -168,7 +168,7 @@ public struct ScheduleFeature<Value: Equatable> {
         }
         .onChange(of: \.subgroupPicker?.selected) { _, newValue in
             Reduce { state, _ in
-                state.schedule.modify(\.some) { $0.filter(keepingSubgroup: newValue) }
+                state.schedule.loaded?.filter(keepingSubgroup: newValue)
                 return .run { [source = state.source] _ in
                     subgroupFilterService.preferredSubgroup(source).value = newValue
                 }

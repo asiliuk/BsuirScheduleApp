@@ -6,7 +6,7 @@ extension ScheduleFeature.State {
     }
 
     public mutating func reset() {
-        schedule.modify(\.some) {
+        schedule.modify(\.loaded) { [scheduleType] in
             switch scheduleType {
             case .compact: $0.compact.reset()
             case .exams: $0.exams.reset()
