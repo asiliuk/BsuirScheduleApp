@@ -2,49 +2,28 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MarkedSchedulePickerView: View {
-    enum ViewState: Identifiable, Hashable, CaseIterable {
-        var id: Self { self }
-        case pinned
-        case favorite
-        case nothing
-    }
-
-    enum ViewAction: Equatable {
-        case task
-        case setSelection(ViewState)
-    }
-
-    let store: StoreOf<MarkedScheduleFeature>
+    @Perception.Bindable var store: StoreOf<MarkedSchedulePickerFeature>
 
     var body: some View {
-        WithViewStore(store, observe: ViewState.init, send: MarkedScheduleFeature.Action.init) { viewStore in
+        WithPerceptionTracking {
             Menu {
-                Picker(
-                    "screen.schedule.mark.title",
-                    selection: viewStore.binding(
-                        get: { $0 },
-                        send: { .setSelection($0) }
-                    )
-                ) {
-                    ForEach(ViewState.allCases) { $0.label }
+                Picker("screen.schedule.mark.title", selection: $store.selection) {
+                    ForEach(MarkedSchedulePickerFeature.State.Selection.allCases) { selection in
+                        selection.label
+                    }
                 }
             } label: {
-                viewStore.state.label
+                store.selection.label
                     .symbolVariant(.fill)
             }
             .task { await store.send(.task).finish() }
-            .tint(viewStore.tint)
-            .alert(
-                store: store.scope(
-                    state: \.$alert,
-                    action: \.alert
-                )
-            )
+            .tint(store.selection.tint)
+            .alert($store.scope(state: \.alert, action: \.alert))
         }
     }
 }
 
-private extension MarkedSchedulePickerView.ViewState {
+private extension MarkedSchedulePickerFeature.State.Selection {
     @ViewBuilder
     var label: some View {
         switch self {
@@ -62,33 +41,6 @@ private extension MarkedSchedulePickerView.ViewState {
         case .pinned: return .red
         case .favorite: return .yellow
         case .nothing: return .gray
-        }
-    }
-}
-
-private extension MarkedSchedulePickerView.ViewState {
-    init(_ state: MarkedScheduleFeature.State) {
-        if state.isPinned {
-            self = .pinned
-        } else if state.isFavorite {
-            self = .favorite
-        } else {
-            self = .nothing
-        }
-    }
-}
-
-private extension MarkedScheduleFeature.Action {
-    init(_ action: MarkedSchedulePickerView.ViewAction) {
-        switch action {
-        case .task:
-            self = .task
-        case .setSelection(.pinned):
-            self = .pinButtonTapped
-        case .setSelection(.favorite):
-            self = .favoriteButtonTapped
-        case .setSelection(.nothing):
-            self = .unsaveButtonTapped
         }
     }
 }

@@ -40,7 +40,7 @@ public struct ScheduleFeature<Value: Equatable> {
     public struct State: Equatable {
         public var title: String
         public var value: Value
-        public var mark: MarkedScheduleFeature.State?
+        public var mark: MarkedSchedulePickerFeature.State?
         public var isOnTop: Bool = true
         @LoadableState var schedule: LoadedScheduleReducer.State?
         var scheduleType: ScheduleDisplayType
@@ -77,7 +77,7 @@ public struct ScheduleFeature<Value: Equatable> {
             case showGroupSchedule(String)
         }
 
-        case mark(MarkedScheduleFeature.Action)
+        case mark(MarkedSchedulePickerFeature.Action)
         case schedule(LoadedScheduleReducer.Action)
         case subgroupPicker(SubgroupPickerFeature.Action)
 
@@ -164,7 +164,7 @@ public struct ScheduleFeature<Value: Equatable> {
             SubgroupPickerFeature()
         }
         .ifLet(\.mark, action: \.mark) {
-            MarkedScheduleFeature()
+            MarkedSchedulePickerFeature()
         }
         .onChange(of: \.subgroupPicker?.selected) { _, newValue in
             Reduce { state, _ in
