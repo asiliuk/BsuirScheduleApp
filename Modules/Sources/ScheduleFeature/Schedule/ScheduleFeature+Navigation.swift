@@ -6,13 +6,12 @@ extension ScheduleFeature.State {
     }
 
     public mutating func reset() {
-        switch scheduleType {
-        case .compact:
-            schedule?.compact.reset()
-        case .exams:
-            schedule?.exams.reset()
-        case .continuous:
-            schedule?.continuous.reset()
+        schedule.modify(\.some) {
+            switch scheduleType {
+            case .compact: $0.compact.reset()
+            case .exams: $0.exams.reset()
+            case .continuous: $0.continuous.reset()
+            }
         }
     }
 }

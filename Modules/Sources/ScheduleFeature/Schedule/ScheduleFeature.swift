@@ -42,7 +42,7 @@ public struct ScheduleFeature<Value: Equatable> {
         public var value: Value
         public var mark: MarkedSchedulePickerFeature.State?
         public var isOnTop: Bool = true
-        @LoadableState var schedule: LoadedScheduleReducer.State?
+        var schedule: LoadableState<LoadedScheduleReducer.State> = .initial
         var scheduleType: ScheduleDisplayType
         var subgroupPicker: SubgroupPickerFeature.State?
 
@@ -106,28 +106,28 @@ public struct ScheduleFeature<Value: Equatable> {
                     await reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched)
                 }
                 
-            case .loading(.finished(\.$schedule)):
+            case .loading(.finished(\.schedule)):
                 // Switch to exams if no regular schedule available
-                if state.schedule?.continuous.hasSchedule == false {
+                if state.schedule[case: \.some]?.continuous.hasSchedule == false {
                     state.scheduleType = .exams
                 }
 
                 // Show subgroup picker if needed
-                if let maxSubgroup = state.schedule?.maxSubgroup {
+                if let maxSubgroup = state.schedule[case: \.some]?.maxSubgroup {
                     let savedSubgroupSelection = subgroupFilterService.preferredSubgroup(state.source).value
                     state.subgroupPicker = SubgroupPickerFeature.State(
                         maxSubgroup: maxSubgroup,
                         selected: savedSubgroupSelection
                     )
 
-                    state.schedule?.filter(keepingSubgroup: savedSubgroupSelection)
+                    state.schedule.modify(\.some) { $0.filter(keepingSubgroup: savedSubgroupSelection) }
                 } else {
                     state.subgroupPicker = nil
                 }
 
                 return .merge(
                     .run { _ in await reviewRequestService.madeMeaningfulEvent(.scheduleRequested) },
-                    updateScheduleLastKnownHash(source: state.source, response: state.schedule?.response)
+                    updateScheduleLastKnownHash(source: state.source, response: state.schedule[case: \.some]?.response)
                 )
 
             case let .mark(.delegate(action)):
@@ -152,7 +152,7 @@ public struct ScheduleFeature<Value: Equatable> {
                 return .none
             }
         }
-        .load(\.$schedule, action: /Action.schedule) {
+        .load(\.schedule, action: \.schedule) {
             LoadedScheduleReducer()
         } fetch: { state, isRefresh in
             try await LoadedScheduleReducer.State(
@@ -168,7 +168,7 @@ public struct ScheduleFeature<Value: Equatable> {
         }
         .onChange(of: \.subgroupPicker?.selected) { _, newValue in
             Reduce { state, _ in
-                state.schedule?.filter(keepingSubgroup: newValue)
+                state.schedule.modify(\.some) { $0.filter(keepingSubgroup: newValue) }
                 return .run { [source = state.source] _ in
                     subgroupFilterService.preferredSubgroup(source).value = newValue
                 }

@@ -16,7 +16,7 @@ extension Reducer where Action: LoadableAction, Action.State == State {
     @available(*, deprecated, message: "PropertyWrapper approach is deprecated, please use new LoadingState type and new `load` method for it")
     public func load<ValueState: Equatable, ValueAction>(
         _ keyPath: WritableKeyPath<State, LoadableState<ValueState>>,
-        action: AnyCasePath<Action, ValueAction>,
+        action: CaseKeyPath<Action, ValueAction>,
         @ReducerBuilder<ValueState, ValueAction> _ valueReducer: () -> some Reducer<ValueState, ValueAction>,
         fetch: @Sendable @escaping (State, _ isRefresh: Bool) async throws -> ValueState
     ) -> some Reducer<State, Action> {

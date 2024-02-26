@@ -25,7 +25,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
         WithViewStore(store, observe: ViewState.init) { viewStore in
             LoadingStore(
                 store,
-                state: \.$schedule,
+                state: \.schedule,
                 action: { .schedule($0) }
             ) { store in
                 LoadedScheduleView(
