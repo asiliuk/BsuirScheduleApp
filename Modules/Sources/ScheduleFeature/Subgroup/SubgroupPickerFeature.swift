@@ -3,6 +3,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct SubgroupPickerFeature {
+    @ObservableState
     public struct State: Equatable {
         var selected: Int?
         var maxSubgroup: Int
@@ -13,17 +14,11 @@ public struct SubgroupPickerFeature {
         }
     }
 
-    public enum Action: Equatable {
-        case setSelected(Int?)
+    public enum Action: Equatable, BindableAction {
+        case binding(BindingAction<State>)
     }
 
     public var body: some ReducerOf<Self> {
-        Reduce{ state, action in
-            switch action {
-            case .setSelected(let value):
-                state.selected = value
-                return .none
-            }
-        }
+        BindingReducer()
     }
 }
