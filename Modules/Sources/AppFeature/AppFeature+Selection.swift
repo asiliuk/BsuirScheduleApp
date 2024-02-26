@@ -7,8 +7,8 @@ extension AppFeature.State {
         favorites: FavoritesService,
         pinnedScheduleService: PinnedScheduleService
     ) {
-//        // TODO: !!! REMOVE THIS !!!
-//        return selection = .groupsV2
+        // TODO: !!! REMOVE THIS !!!
+        return selection = .groupsV2
 
         if let pinnedSchedule = pinnedScheduleService.currentSchedule() {
             selection = .pinned
