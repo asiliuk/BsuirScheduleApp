@@ -45,9 +45,12 @@ public struct GroupsFeatureV2 {
             case .search(.delegate(let action)):
                 switch action {
                 case .didUpdateImportantState:
-                    state.groups.modify(\.loaded) { $0.isEmpty.toggle() }
                     return .none
                 }
+
+            case .groups(.loaded(.groupRows(.element(let groupName, action: .rowTapped)))):
+                state.presentGroup(groupName)
+                return .none
 
             case .groups, .path, .search:
                 return .none
@@ -56,7 +59,7 @@ public struct GroupsFeatureV2 {
         .load(state: \.groups, action: \.groups) { _, isRefresh in
             let groups = try await apiClient.groups(isRefresh)
             // TODO: !!! REMOVE THIS!!!
-            try await Task.sleep(for: .seconds(5))
+            try await Task.sleep(for: .seconds(1))
             return LoadedGroupsFeature.State(
                 groups: groups,
                 favoritesNames: favoriteGroupNames,

@@ -16,12 +16,10 @@ public struct GroupsFeatureViewV2: View {
                 LoadingView(
                     store: store.scope(state: \.groups, action: \.groups),
                     inProgress: {
-                        WithPerceptionTracking {
-                            GroupsPlaceholderView(
-                                hasPinned: store.hasPinnedPlaceholder,
-                                numberOfFavorites: store.favoritesPlaceholderCount
-                            )
-                        }
+                        GroupsPlaceholderView(
+                            hasPinned: store.hasPinnedPlaceholder,
+                            numberOfFavorites: store.favoritesPlaceholderCount
+                        )
                     },
                     failed: { store, _ in
                         LoadingErrorView(store: store)
@@ -39,7 +37,21 @@ public struct GroupsFeatureViewV2: View {
             } destination: { store in
                 EntityScheduleFeatureViewV2(store: store)
             }
+            .onAppear { store.send(.onAppear) }
         }
-        .onAppear { store.send(.onAppear) }
     }
 }
+
+private struct GroupsFeatureLoadingPlaceholderView: View {
+    let store: StoreOf<GroupsFeatureV2>
+
+    var body: some View {
+        WithPerceptionTracking {
+            GroupsPlaceholderView(
+                hasPinned: store.hasPinnedPlaceholder,
+                numberOfFavorites: store.favoritesPlaceholderCount
+            )
+        }
+    }
+}
+

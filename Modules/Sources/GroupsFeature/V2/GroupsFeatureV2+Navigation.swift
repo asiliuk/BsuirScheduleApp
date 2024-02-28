@@ -1,5 +1,6 @@
 import Foundation
 import ComposableArchitecture
+import ScheduleFeature
 
 extension GroupsFeatureV2.State {
     /// Reset navigation and inner state
@@ -15,5 +16,9 @@ extension GroupsFeatureV2.State {
         if groups.loaded?.isOnTop == false {
             groups.loaded?.isOnTop = true
         }
+    }
+
+    mutating func presentGroup(_ groupName: String, displayType: ScheduleDisplayType = .continuous) {
+        path = StackState([.group(.init(groupName: groupName, scheduleDisplayType: displayType))])
     }
 }

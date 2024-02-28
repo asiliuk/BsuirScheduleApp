@@ -7,8 +7,8 @@ public struct MarkedScheduleRowFeature {
     @ObservableState
     public struct State: Equatable {
         let source: ScheduleSource
-        var isFavorite: Bool
-        var isPinned: Bool
+        public var isFavorite: Bool
+        public var isPinned: Bool
         @Presents var alert: AlertState<PinPremiumAlertAction>?
 
         public init(source: ScheduleSource) {

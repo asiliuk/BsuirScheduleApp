@@ -60,8 +60,7 @@ public struct MarkedSchedulePickerFeature {
         BindingReducer()
             .onChange(of: \.selection) { _, selection in
                 Reduce { state, action in
-                    guard case .binding = action else { return .none }
-                    return updateSelection(state: &state, selection: selection)
+                    updateSelection(state: &state, selection: selection)
                 }
             }
 
