@@ -41,7 +41,8 @@ struct LoadedGroupsFeatureView: View {
                     }
                 }
             }
-            .groupsSearchable(store: store.scope(state: \.search, action: \.search))
+            .dismissSearch(store.searchDismiss)
+            .searchable(text: $store.searchQuery, prompt: "screen.groups.search.placeholder")
             .task { await store.send(.task).finish() }
         }
     }

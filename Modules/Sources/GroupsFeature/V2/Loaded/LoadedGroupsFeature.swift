@@ -13,7 +13,8 @@ public struct LoadedGroupsFeature {
         var isOnTop: Bool = true
 
         // MARK: Search
-        var search = GroupsSearch.State()
+        var searchQuery: String = ""
+        var searchDismiss: Int = 0
 
         // MARK: Rows
         var isEmpty: Bool {
@@ -22,16 +23,21 @@ public struct LoadedGroupsFeature {
 
         var pinnedRow: IdentifiedArrayOf<GroupsRowV2.State> {
             guard let pinnedName else { return [] }
-            return IdentifiedArray(uniqueElements: [GroupsRowV2.State(groupName: pinnedName)])
+            return IdentifiedArray(
+                uniqueElements: [GroupsRowV2.State(groupName: pinnedName)]
+                    .filter { $0.matches(query: searchQuery) }
+            )
         }
 
         var favoriteRows: IdentifiedArrayOf<GroupsRowV2.State> {
-            IdentifiedArray(uniqueElements: favoritesNames.map(GroupsRowV2.State.init))
+            IdentifiedArray(
+                uniqueElements: favoritesNames
+                    .map(GroupsRowV2.State.init)
+                    .filter { $0.matches(query: searchQuery) }
+            )
         }
 
-        var visibleRows: IdentifiedArrayOf<GroupsRowV2.State> {
-            groupRows
-        }
+        var visibleRows: IdentifiedArrayOf<GroupsRowV2.State> = []
 
         // MARK: State
         fileprivate var favoritesNames: OrderedSet<String>
@@ -50,13 +56,13 @@ public struct LoadedGroupsFeature {
                     .sorted(by: { $0.name < $1.name })
                     .map { GroupsRowV2.State(groupName: $0.name) }
             )
+            self.visibleRows = groupRows
         }
     }
 
     public enum Action: BindableAction, Equatable {
         case task
         case groupRows(IdentifiedActionOf<GroupsRowV2>)
-        case search(GroupsSearch.Action)
 
         case _favoritesUpdate(OrderedSet<String>)
         case _pinnedUpdate(String?)
@@ -69,6 +75,17 @@ public struct LoadedGroupsFeature {
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
+            .onChange(of: \.searchQuery) { _, query in
+                Reduce { state, _ in
+                    if query.isEmpty {
+                        state.visibleRows = state.groupRows
+                        state.searchDismiss += 1
+                    } else {
+                        state.visibleRows = state.groupRows.filter { $0.matches(query: query) }
+                    }
+                    return .none
+                }
+            }
 
         Reduce { state, action in
             switch action {
@@ -78,12 +95,6 @@ public struct LoadedGroupsFeature {
                     listenToPinnedUpdates()
                 )
 
-            case .search(.delegate(let action)):
-                switch action {
-                case .didUpdateImportantState:
-                    return .none
-                }
-
             case ._favoritesUpdate(let value):
                 state.favoritesNames = value
                 return .none
@@ -92,7 +103,7 @@ public struct LoadedGroupsFeature {
                 state.pinnedName = value
                 return .none
 
-            case .groupRows, .search, .binding:
+            case .groupRows, .binding:
                 return .none
             }
         }
@@ -119,10 +130,6 @@ public struct LoadedGroupsFeature {
                 return .none
             }
         }
-
-        Scope(state: \.search, action: \.search) {
-            GroupsSearch()
-        }
     }
 
     private func listenToFavoriteUpdates() -> Effect<Action> {
@@ -139,5 +146,12 @@ public struct LoadedGroupsFeature {
                 await send(._pinnedUpdate(value), animation: .default)
             }
         }
+    }
+}
+
+private extension GroupsRowV2.State {
+    func matches(query: String) -> Bool {
+        guard !query.isEmpty else { return true }
+        return title.localizedCaseInsensitiveContains(query)
     }
 }

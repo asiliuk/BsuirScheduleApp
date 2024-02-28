@@ -27,7 +27,7 @@ struct GroupsPlaceholderView: View {
             groupsSection(title: "------", numberOfRows: 8)
         }
         .listStyle(.insetGrouped)
-        .groupsSearchable(store: Store(initialState: GroupsSearch.State(), reducer: {}))
+        .searchable(text: .constant(""), prompt: "screen.groups.search.placeholder")
         .allowsHitTesting(false)
     }
 
