@@ -29,10 +29,6 @@ struct MarkedScheduleRowActions: ViewModifier {
                     }
                     .tint(.yellow)
                 }
-                // This triggers listening for favorites & pinned updates
-                // since we have correct initial value it is *ok* to wait some time before triggering this
-                // otherwise it is very heavy load when list is scrolled
-                .task(throttleFor: .seconds(2) - .milliseconds(Int.random(in: 0..<10) * 50)) { await store.send(.task).finish() }
                 .alert($store.scope(state: \.alert, action: \.alert))
         }
     }

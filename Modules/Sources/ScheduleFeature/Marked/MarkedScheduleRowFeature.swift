@@ -24,7 +24,6 @@ public struct MarkedScheduleRowFeature {
             case showPremiumClub
         }
 
-        case task
         case toggleFavoriteTapped
         case togglePinnedTapped
 
@@ -43,12 +42,6 @@ public struct MarkedScheduleRowFeature {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .task:
-                return .merge(
-                    observeIsPinned(source: state.source),
-                    observeIsFavorite(source: state.source)
-                )
-
             case .toggleFavoriteTapped:
                 state.isFavorite.toggle()
                 return .run { [isFavorite = state.isFavorite, source = state.source] _ in
@@ -86,21 +79,5 @@ public struct MarkedScheduleRowFeature {
             }
         }
         .ifLet(\.alert, action: \.alert)
-    }
-
-    private func observeIsPinned(source: ScheduleSource) -> Effect<Action> {
-        .run { send in
-            for await value in scheduleMarkingService.isPinned(source).values {
-                await send(._setIsPinned(value))
-            }
-        }
-    }
-
-    private func observeIsFavorite(source: ScheduleSource) -> Effect<Action> {
-        .run { send in
-            for await value in scheduleMarkingService.isFavorite(source).values {
-                await send(._setIsFavorite(value))
-            }
-        }
     }
 }

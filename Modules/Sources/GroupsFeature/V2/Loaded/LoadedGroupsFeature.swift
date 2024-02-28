@@ -99,32 +99,26 @@ public struct LoadedGroupsFeature {
         .forEach(\.groupRows, action: \.groupRows) {
             GroupsRowV2()
         }
-//        .onChange(of: \.pinnedName) { oldPinned, newPinned in
-//            Reduce { state, _ in
-//                if let oldPinned {
-//                    state[groupSection: oldPinned]?[groupNamed: oldPinned]?.mark.isPinned = false
-//                }
-//
-//                if let newPinned {
-//                    state[groupSection: newPinned]?[groupNamed: newPinned]?.mark.isPinned = true
-//                }
-//
-//                return .none
-//            }
-//        }
-//        .onChange(of: \.favoritesNames) { oldFavorites, newFavorites in
-//            Reduce { state, _ in
-//                for difference in oldFavorites.difference(from: newFavorites) {
-//                    switch difference {
-//                    case .insert(_, let groupName, _):
-//                        state[groupSection: groupName]?[groupNamed: groupName]?.mark.isFavorite = true
-//                    case .remove(_, let groupName, _):
-//                        state[groupSection: groupName]?[groupNamed: groupName]?.mark.isFavorite = false
-//                    }
-//                }
-//                return .none
-//            }
-//        }
+        .onChange(of: \.pinnedName) { oldPinned, newPinned in
+            Reduce { state, _ in
+                if let oldPinned { state.groupRows[id: oldPinned]?.mark.isPinned = false }
+                if let newPinned { state.groupRows[id: newPinned]?.mark.isPinned = true }
+                return .none
+            }
+        }
+        .onChange(of: \.favoritesNames) { oldFavorites, newFavorites in
+            Reduce { state, _ in
+                for difference in newFavorites.difference(from: oldFavorites) {
+                    switch difference {
+                    case .insert(_, let groupName, _):
+                        state.groupRows[id: groupName]?.mark.isFavorite = true
+                    case .remove(_, let groupName, _):
+                        state.groupRows[id: groupName]?.mark.isFavorite = false
+                    }
+                }
+                return .none
+            }
+        }
 
         Scope(state: \.search, action: \.search) {
             GroupsSearch()
