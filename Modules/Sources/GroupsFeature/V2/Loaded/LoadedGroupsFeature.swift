@@ -110,10 +110,19 @@ public struct LoadedGroupsFeature {
         .forEach(\.groupRows, action: \.groupRows) {
             GroupsRowV2()
         }
+        .forEach(\.visibleRows, action: \.groupRows) {
+            GroupsRowV2()
+        }
         .onChange(of: \.pinnedName) { oldPinned, newPinned in
             Reduce { state, _ in
-                if let oldPinned { state.groupRows[id: oldPinned]?.mark.isPinned = false }
-                if let newPinned { state.groupRows[id: newPinned]?.mark.isPinned = true }
+                if let oldPinned { 
+                    state.groupRows[id: oldPinned]?.mark.isPinned = false
+                    state.visibleRows[id: oldPinned]?.mark.isPinned = false
+                }
+                if let newPinned {
+                    state.groupRows[id: newPinned]?.mark.isPinned = true
+                    state.visibleRows[id: newPinned]?.mark.isPinned = true
+                }
                 return .none
             }
         }
@@ -123,8 +132,10 @@ public struct LoadedGroupsFeature {
                     switch difference {
                     case .insert(_, let groupName, _):
                         state.groupRows[id: groupName]?.mark.isFavorite = true
+                        state.visibleRows[id: groupName]?.mark.isFavorite = true
                     case .remove(_, let groupName, _):
                         state.groupRows[id: groupName]?.mark.isFavorite = false
+                        state.visibleRows[id: groupName]?.mark.isFavorite = false
                     }
                 }
                 return .none
