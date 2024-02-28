@@ -24,10 +24,9 @@ public struct GroupsFeatureViewV2: View {
                     failed: { store, _ in
                         LoadingErrorView(store: store)
                     },
-                    loaded: { loadedStore, refresh in
+                    loaded: { store, refresh in
                         LoadedGroupsFeatureView(
-                            store: loadedStore,
-                            searchStore: store.scope(state: \.search, action: \.search),
+                            store: store,
                             refresh: refresh
                         )
                     }

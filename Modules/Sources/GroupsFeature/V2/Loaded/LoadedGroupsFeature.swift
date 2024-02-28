@@ -9,8 +9,16 @@ import Algorithms
 public struct LoadedGroupsFeature {
     @ObservableState
     public struct State: Equatable {
+        // MARK: Scroll
         var isOnTop: Bool = true
-        var isEmpty: Bool { visibleRows.isEmpty }
+
+        // MARK: Search
+        var search = GroupsSearch.State()
+
+        // MARK: Rows
+        var isEmpty: Bool {
+            visibleRows.isEmpty && pinnedRow.isEmpty && favoriteRows.isEmpty
+        }
 
         var pinnedRow: IdentifiedArrayOf<GroupsRowV2.State> {
             guard let pinnedName else { return [] }
@@ -25,6 +33,7 @@ public struct LoadedGroupsFeature {
             groupRows
         }
 
+        // MARK: State
         fileprivate var favoritesNames: OrderedSet<String>
         fileprivate var pinnedName: String?
         fileprivate var groupRows: IdentifiedArrayOf<GroupsRowV2.State> = []
@@ -47,6 +56,7 @@ public struct LoadedGroupsFeature {
     public enum Action: BindableAction, Equatable {
         case task
         case groupRows(IdentifiedActionOf<GroupsRowV2>)
+        case search(GroupsSearch.Action)
 
         case _favoritesUpdate(OrderedSet<String>)
         case _pinnedUpdate(String?)
@@ -68,6 +78,12 @@ public struct LoadedGroupsFeature {
                     listenToPinnedUpdates()
                 )
 
+            case .search(.delegate(let action)):
+                switch action {
+                case .didUpdateImportantState:
+                    return .none
+                }
+
             case ._favoritesUpdate(let value):
                 state.favoritesNames = value
                 return .none
@@ -76,11 +92,7 @@ public struct LoadedGroupsFeature {
                 state.pinnedName = value
                 return .none
 
-            case .groupRows(.element(let id, .rowTapped)):
-                print("row rapped \(id)")
-                return .none
-
-            case .groupRows, .binding:
+            case .groupRows, .search, .binding:
                 return .none
             }
         }
@@ -113,6 +125,10 @@ public struct LoadedGroupsFeature {
 //                return .none
 //            }
 //        }
+
+        Scope(state: \.search, action: \.search) {
+            GroupsSearch()
+        }
     }
 
     private func listenToFavoriteUpdates() -> Effect<Action> {

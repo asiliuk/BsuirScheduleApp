@@ -5,7 +5,6 @@ import Algorithms
 
 struct LoadedGroupsFeatureView: View {
     @Perception.Bindable var store: StoreOf<LoadedGroupsFeature>
-    let searchStore: StoreOf<GroupsSearch>
     let refresh: () async -> Void
 
     var body: some View {
@@ -42,7 +41,7 @@ struct LoadedGroupsFeatureView: View {
                     }
                 }
             }
-            .groupsSearchable(store: searchStore)
+            .groupsSearchable(store: store.scope(state: \.search, action: \.search))
             .task { await store.send(.task).finish() }
         }
     }

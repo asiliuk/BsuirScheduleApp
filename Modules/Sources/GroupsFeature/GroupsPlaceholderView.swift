@@ -1,5 +1,6 @@
 import SwiftUI
 import BsuirUI
+import ComposableArchitecture
 
 struct GroupsPlaceholderView: View {
     private let hasPinned: Bool
@@ -26,6 +27,7 @@ struct GroupsPlaceholderView: View {
             groupsSection(title: "------", numberOfRows: 8)
         }
         .listStyle(.insetGrouped)
+        .groupsSearchable(store: Store(initialState: GroupsSearch.State(), reducer: {}))
         .allowsHitTesting(false)
     }
 

@@ -8,7 +8,6 @@ public struct GroupsFeatureV2 {
     @ObservableState
     public struct State {
         var path = StackState<EntityScheduleFeatureV2.State>()
-        var search: GroupsSearch.State = .init()
 
         // Placeholder
         var hasPinnedPlaceholder: Bool  = false
@@ -25,7 +24,6 @@ public struct GroupsFeatureV2 {
 
         case groups(LoadingActionOf<LoadedGroupsFeature>)
         case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
-        case search(GroupsSearch.Action)
     }
 
     @Dependency(\.apiClient) var apiClient
@@ -42,17 +40,11 @@ public struct GroupsFeatureV2 {
                 state.favoritesPlaceholderCount = favoriteGroupNames.count
                 return .none
 
-            case .search(.delegate(let action)):
-                switch action {
-                case .didUpdateImportantState:
-                    return .none
-                }
-
             case .groups(.loaded(.groupRows(.element(let groupName, action: .rowTapped)))):
                 state.presentGroup(groupName)
                 return .none
 
-            case .groups, .path, .search:
+            case .groups, .path:
                 return .none
             }
         }
@@ -69,9 +61,5 @@ public struct GroupsFeatureV2 {
             LoadedGroupsFeature()
         }
         .forEach(\.path, action: \.path)
-
-        Scope(state: \.search, action: \.search) {
-            GroupsSearch()
-        }
     }
 }

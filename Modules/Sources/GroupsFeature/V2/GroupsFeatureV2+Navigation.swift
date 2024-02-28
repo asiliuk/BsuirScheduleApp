@@ -9,13 +9,7 @@ extension GroupsFeatureV2.State {
             return path = StackState()
         }
 
-        if search.reset() {
-            return
-        }
-
-        if groups.loaded?.isOnTop == false {
-            groups.loaded?.isOnTop = true
-        }
+        groups.loaded?.reset()
     }
 
     mutating func presentGroup(_ groupName: String, displayType: ScheduleDisplayType = .continuous) {
