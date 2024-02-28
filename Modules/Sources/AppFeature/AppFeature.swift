@@ -126,6 +126,13 @@ public struct AppFeature {
                     return .none
                 }
 
+            case .groupsV2(.delegate(let action)):
+                switch action {
+                case .showPremiumClubPinned:
+                    showPremiumClub(state: &state, source: .pin)
+                    return .none
+                }
+
             case .lecturers(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:

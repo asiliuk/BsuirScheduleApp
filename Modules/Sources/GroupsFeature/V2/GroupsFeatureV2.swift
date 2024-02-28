@@ -20,10 +20,15 @@ public struct GroupsFeatureV2 {
     }
 
     public enum Action {
+        public enum DelegateAction: Equatable {
+            case showPremiumClubPinned
+        }
+
         case onAppear
 
         case groups(LoadingActionOf<LoadedGroupsFeature>)
         case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
+        case delegate(DelegateAction)
     }
 
     @Dependency(\.apiClient) var apiClient
@@ -44,7 +49,13 @@ public struct GroupsFeatureV2 {
                 state.presentGroup(groupName)
                 return .none
 
-            case .groups, .path:
+            case .groups(.loaded(.groupRows(.element(_, action: .mark(.delegate(let action)))))):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClubPinned))
+                }
+
+            case .groups, .path, .delegate:
                 return .none
             }
         }
