@@ -179,7 +179,28 @@ final class PersistedValueTests: XCTestCase {
         XCTAssertEqual(value, 100)
     }
 
-    func testSync_readsInnerStorage_whenNoCloudValue() {
+    func testSync_doesNothing_whenNoValues() {
+        // Given
+        let cloudKey = "cloud-sync-value-key"
+        var storedValue: Int?
+        let innerPersistedValue = PersistedValue(
+            get: { storedValue },
+            set: { storedValue = $0 }
+        )
+
+        let cloudSyncService = CloudSyncServiceMock()
+        let syncedPersistedValue = innerPersistedValue
+            .sync(with: cloudSyncService, forKey: cloudKey)
+
+        // When
+        let value = syncedPersistedValue.value
+
+        // Then
+        XCTAssertNil(value)
+        XCTAssertNil(cloudSyncService.storage[cloudKey])
+    }
+
+    func testSync_readsInnerStorage_andUpdatesSyncService_whenNoCloudValue() {
         // Given
         let cloudKey = "cloud-sync-value-key"
         var storedValue: Int? = 100
@@ -197,6 +218,7 @@ final class PersistedValueTests: XCTestCase {
 
         // Then
         XCTAssertEqual(value, 100)
+        XCTAssertEqual(cloudSyncService.storage[cloudKey] as? Int, 100)
     }
 
     func testSync_updatesInnerStorage_whenCloudValueIsUpdated() {

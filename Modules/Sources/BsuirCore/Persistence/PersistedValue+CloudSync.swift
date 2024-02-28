@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-extension PersistedValue {
+extension PersistedValue where Value: CloudSyncabelValue {
     public func sync(with cloudSyncService: any CloudSyncService, forKey key: String) -> PersistedValue {
         syncInitialValues(with: cloudSyncService, forKey: key)
         let cancellable = cloudSyncService.observeChanges(forKey: key, update: updateWithCloudValue)
@@ -13,7 +13,7 @@ extension PersistedValue {
                 return (cloudSyncService[key] as? Value) ?? value
             },
             toValue: { newValue in
-                cloudSyncService[key] = newValue
+                cloudSyncService[key] = newValue.value
                 return newValue
             }
         )
@@ -25,7 +25,7 @@ extension PersistedValue {
             updateWithCloudValue(cloudValue)
         } else {
             // Set initial cloud value if it was empty
-            cloudSyncService[key] = value
+            cloudSyncService[key] = value.value
         }
     }
 
@@ -36,5 +36,38 @@ extension PersistedValue {
         }
 
         self.value = typedValue
+    }
+}
+
+// MARK: - Syncable
+
+public protocol CloudSyncabelValue {
+    var value: Any? { get }
+}
+
+extension Int: CloudSyncabelValue {
+    public var value: Any? { self }
+}
+
+extension String: CloudSyncabelValue {
+    public var value: Any? { self }
+}
+
+extension Array: CloudSyncabelValue where Element: CloudSyncabelValue {
+    public var value: Any? { self }
+}
+
+extension Dictionary<String, Any>: CloudSyncabelValue {
+    public var value: Any? { self }
+}
+
+extension Optional: CloudSyncabelValue where Wrapped: CloudSyncabelValue {
+    public var value: Any? {
+        switch self {
+        case .none:
+            return nil
+        case .some(let value):
+            return value
+        }
     }
 }
