@@ -38,7 +38,7 @@ extension PinnedScheduleService {
     ) -> Self {
         let pinnedScheduleStorage = storage
             .persistedDictionary(forKey: "pinned-schedule")
-            .sync(with: cloudSyncService, forKey: "cloud-pinned-schedule")
+            .sync(with: cloudSyncService, forKey: "cloud-pinned-schedule", shouldSyncInitialLocalValue: true)
             .codable(ScheduleSource.self)
             .withPublisher()
 

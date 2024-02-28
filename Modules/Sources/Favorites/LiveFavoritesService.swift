@@ -28,21 +28,21 @@ public final class LiveFavoritesService {
     // MARK: - Storage
     private lazy var groupNamesStorage = storage
         .persistedArray(of: String.self, forKey: "favorite-group-names")
-        .sync(with: cloudSyncService, forKey: "cloud-favorite-group-names")
+        .sync(with: cloudSyncService, forKey: "cloud-favorite-group-names", shouldSyncInitialLocalValue: true)
         .toOrderedSet()
         .unwrap(withDefault: [])
         .withPublisher()
 
     private lazy var lecturerIDsStorage = storage
         .persistedArray(of: Int.self, forKey: "favorite-lector-ids")
-        .sync(with: cloudSyncService, forKey: "cloud-favorite-lector-ids")
+        .sync(with: cloudSyncService, forKey: "cloud-favorite-lector-ids", shouldSyncInitialLocalValue: true)
         .toOrderedSet()
         .unwrap(withDefault: [])
         .withPublisher()
 
     private lazy var freeLoveHighScoreStorage = storage
         .persistedInteger(forKey: "free-love-hich-score")
-        .sync(with: cloudSyncService, forKey: "cloud-free-love-high-score")
+        .sync(with: cloudSyncService, forKey: "cloud-free-love-high-score", shouldSyncInitialLocalValue: true)
 
     init(
         storage: UserDefaults,

@@ -1,16 +1,32 @@
 import Foundation
 import Combine
+import Dependencies
 
 extension PersistedValue where Value: CloudSyncabelValue {
-    public func sync(with cloudSyncService: any CloudSyncService, forKey key: String) -> PersistedValue {
-        syncInitialValues(with: cloudSyncService, forKey: key)
+    public func sync(
+        with cloudSyncService: any CloudSyncService,
+        forKey key: String,
+        shouldSyncInitialLocalValue: Bool = false,
+        userDefaults: UserDefaults = .asiliukShared
+    ) -> PersistedValue {
+        syncInitialValues(
+            with: cloudSyncService,
+            forKey: key,
+            shouldSyncInitialLocalValue: shouldSyncInitialLocalValue,
+            userDefaults: userDefaults
+        )
+
         let cancellable = cloudSyncService.observeChanges(forKey: key, update: updateWithCloudValue)
 
         return self.map(
             fromValue: { value in
                 // Keep cancellable alive for same time as new persisted value
                 _ = cancellable
-                return (cloudSyncService[key] as? Value) ?? value
+                guard 
+                    let cloudValueRaw = cloudSyncService[key],
+                    let cloudValue = cloudValueRaw as? Value
+                else { return value }
+                return cloudValue
             },
             toValue: { newValue in
                 cloudSyncService[key] = newValue.value
@@ -19,13 +35,22 @@ extension PersistedValue where Value: CloudSyncabelValue {
         )
     }
 
-    private func syncInitialValues(with cloudSyncService: any CloudSyncService, forKey key: String) {
+    private func syncInitialValues(
+        with cloudSyncService: any CloudSyncService,
+        forKey key: String,
+        shouldSyncInitialLocalValue: Bool,
+        userDefaults: UserDefaults
+    ) {
         if let cloudValue = cloudSyncService[key] {
             // Update persisted value with most recent cloud value
             updateWithCloudValue(cloudValue)
-        } else {
-            // Set initial cloud value if it was empty
-            cloudSyncService[key] = value.value
+        } else if shouldSyncInitialLocalValue {
+            let valueSyncedKey = "\(key)-was-synced"
+            if !userDefaults.bool(forKey: valueSyncedKey) {
+                // Set initial cloud value if it was empty
+                cloudSyncService[key] = value.value
+                userDefaults.set(true, forKey: valueSyncedKey)
+            }
         }
     }
 

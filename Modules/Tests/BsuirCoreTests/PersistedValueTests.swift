@@ -200,7 +200,7 @@ final class PersistedValueTests: XCTestCase {
         XCTAssertNil(cloudSyncService.storage[cloudKey])
     }
 
-    func testSync_readsInnerStorage_andUpdatesSyncService_whenNoCloudValue() {
+    func testSync_readsInnerStorage_andUpdatesSyncService_whenNoCloudValue_andSyncInitialFlagTrue() {
         // Given
         let cloudKey = "cloud-sync-value-key"
         var storedValue: Int? = 100
@@ -211,7 +211,12 @@ final class PersistedValueTests: XCTestCase {
 
         let cloudSyncService = CloudSyncServiceMock()
         let syncedPersistedValue = innerPersistedValue
-            .sync(with: cloudSyncService, forKey: cloudKey)
+            .sync(
+                with: cloudSyncService,
+                forKey: cloudKey,
+                shouldSyncInitialLocalValue: true,
+                userDefaults: .mock(suiteName: "sync test")
+            )
 
         // When
         let value = syncedPersistedValue.value
@@ -219,6 +224,70 @@ final class PersistedValueTests: XCTestCase {
         // Then
         XCTAssertEqual(value, 100)
         XCTAssertEqual(cloudSyncService.storage[cloudKey] as? Int, 100)
+    }
+
+    func testSync_uUpdatesSyncServiceOnce_whenNoCloudValue_andSyncInitialFlagTrue() {
+        // Given
+        let cloudKey = "cloud-sync-value-key"
+        let userDefaults = UserDefaults.mock(suiteName: "sync test")
+        var storedValue: Int? = 100
+        let innerPersistedValue = PersistedValue(
+            get: { storedValue },
+            set: { storedValue = $0 }
+        )
+
+        let cloudSyncService = CloudSyncServiceMock()
+        _ = innerPersistedValue
+            .sync(
+                with: cloudSyncService,
+                forKey: cloudKey,
+                shouldSyncInitialLocalValue: true,
+                userDefaults: userDefaults
+            )
+
+        storedValue = 200
+        cloudSyncService[cloudKey] = nil
+
+        let syncedPersistedValue = innerPersistedValue
+            .sync(
+                with: cloudSyncService,
+                forKey: cloudKey,
+                shouldSyncInitialLocalValue: true,
+                userDefaults: userDefaults
+            )
+
+        // When
+        let value = syncedPersistedValue.value
+
+        // Then
+        XCTAssertEqual(value, 200)
+        XCTAssertNil(cloudSyncService.storage[cloudKey])
+    }
+
+    func testSync_readsInnerStorage_andDoesNotUpdateSyncService_whenNoCloudValue_andSyncInitialFlagFalse() {
+        // Given
+        let cloudKey = "cloud-sync-value-key"
+        var storedValue: Int? = 100
+        let innerPersistedValue = PersistedValue(
+            get: { storedValue },
+            set: { storedValue = $0 }
+        )
+
+        let cloudSyncService = CloudSyncServiceMock()
+        let syncedPersistedValue = innerPersistedValue
+            .sync(
+                with: cloudSyncService,
+                forKey: cloudKey,
+                shouldSyncInitialLocalValue: false,
+                userDefaults: .mock(suiteName: "sync test")
+            )
+
+        // When
+        let value = syncedPersistedValue.value
+
+        // Then
+        XCTAssertEqual(value, 100)
+        XCTAssertNil(cloudSyncService.storage[cloudKey])
     }
 
     func testSync_updatesInnerStorage_whenCloudValueIsUpdated() {
