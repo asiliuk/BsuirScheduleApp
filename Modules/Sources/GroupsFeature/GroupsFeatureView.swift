@@ -37,7 +37,7 @@ public struct GroupsFeatureView: View {
                 EntityScheduleFeatureViewV2(store: store)
             }
             .onAppear { store.send(.onAppear) }
-            .task { store.send(.task) }
+            .task { await store.send(.task).finish() }
         }
     }
 }

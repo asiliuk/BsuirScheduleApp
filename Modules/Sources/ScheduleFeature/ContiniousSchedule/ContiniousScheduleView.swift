@@ -12,7 +12,7 @@ struct ContinuousScheduleView: View {
                     action: \.scheduleList
                 )
             )
-            .task { store.send(.task) }
+            .task { await store.send(.task).finish() }
         }
     }
 }

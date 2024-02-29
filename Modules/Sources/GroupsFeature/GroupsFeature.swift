@@ -33,7 +33,7 @@ public struct GroupsFeature {
     }
 
     public enum Action {
-        public enum DelegateAction: Equatable {
+        public enum Delegate: Equatable {
             case showPremiumClubPinned
         }
 
@@ -42,7 +42,7 @@ public struct GroupsFeature {
 
         case groups(LoadingActionOf<LoadedGroupsFeature>)
         case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
-        case delegate(DelegateAction)
+        case delegate(Delegate)
     }
 
     @Dependency(\.apiClient) var apiClient
