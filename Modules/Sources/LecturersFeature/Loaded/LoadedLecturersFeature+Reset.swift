@@ -1,6 +1,6 @@
 import Foundation
 
-extension LoadedGroupsFeature.State {
+extension LoadedLecturersFeature.State {
     /// Reset search and scroll state
     mutating func reset() {
         if !searchQuery.isEmpty {

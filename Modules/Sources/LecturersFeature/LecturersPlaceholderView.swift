@@ -31,6 +31,7 @@ struct LecturersPlaceholderView: View {
             lecturersSection(nameLengthOffsets: lecturersOffsets)
         }
         .listStyle(.insetGrouped)
+        .searchable(text: .constant(""), prompt: "screen.lecturers.search.placeholder")
         .allowsHitTesting(false)
     }
 

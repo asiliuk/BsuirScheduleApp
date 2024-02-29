@@ -1,8 +1,8 @@
 import Foundation
 import ComposableArchitecture
 import BsuirApi
-import EntityScheduleFeature
 import ScheduleFeature
+import EntityScheduleFeature
 
 extension LecturersFeature.State {
     /// Reset navigation and inner state
@@ -11,47 +11,59 @@ extension LecturersFeature.State {
             return path = StackState()
         }
 
-        if search.reset() {
-            return
-        }
-
-        if !isOnTop {
-            return isOnTop = true
-        }
+        lecturers.loaded?.reset()
     }
 
     /// Open schedule screen for lector.
-    public mutating func openLector(_ lector: Employee, displayType: ScheduleDisplayType) {
+    public mutating func openLector(
+        _ lector: Employee,
+        displayType: ScheduleDisplayType
+    ) {
         if path.count == 1,
            let id = path.ids.last,
            case let .lector(state) = path.last,
            state.lector == lector
         {
-            path[id: id, case: /EntityScheduleFeature.State.lector]?.schedule.switchDisplayType(displayType)
-            return
-        }
-        search.reset()
-        presentLector(lector, displayType: displayType)
-        lectorToOpen = nil
-    }
-
-    /// Open schedule screen for lector.
-    public mutating func openLector(id: Int, displayType: ScheduleDisplayType = .continuous) {
-        if let lector = loadedLecturers?[id: id] {
-            openLector(lector, displayType: displayType)
+            path[id: id, case: \.lector]?.schedule.switchDisplayType(displayType)
         } else {
-            lectorToOpen = .init(id: id, displayType: displayType)
+            lecturers.loaded?.reset()
+            presentLector(lector, displayType: displayType)
         }
     }
 
-    /// Check if we have model for lector we were trying to open if so open its schedule.
-    mutating func openLectorIfNeeded() {
-        guard let lectorToOpen else { return }
-        openLector(id: lectorToOpen.id, displayType: lectorToOpen.displayType)
+    /// Open schedule screen for lector and defer presentation if needed
+    public mutating func openLector(
+        id: Int,
+        displayType: ScheduleDisplayType = .continuous
+    ) {
+        if let lector = lecturers.loaded?.lector(withId: id) {
+            openLector(lector, displayType: displayType)
+            lectorPresentationMode = .immediate
+        } else {
+            lectorPresentationMode = .deferred(id: id, displayType: displayType)
+        }
     }
 
-    mutating func presentLector(_ lector: Employee?, displayType: ScheduleDisplayType = .continuous) {
+    /// Checks if presentation mode has deferred lector and presents it and switch mode to immediate
+    mutating func presentDeferredLectorIfNeeded() {
+        if case let .deferred(id, displayType) = lectorPresentationMode {
+            openLector(id: id, displayType: displayType)
+        } else {
+            lectorPresentationMode = .immediate
+        }
+    }
+
+    /// Present lector schedule on stack
+    mutating func presentLector(
+        _ lector: Employee?,
+        displayType: ScheduleDisplayType = .continuous
+    ) {
         guard let lector else { return }
-        path = StackState([.lector(.init(lector: lector, scheduleDisplayType: displayType))])
+        path = StackState([
+            .lector(LectorScheduleFeature.State(
+                lector: lector,
+                scheduleDisplayType: displayType
+            ))
+        ])
     }
 }

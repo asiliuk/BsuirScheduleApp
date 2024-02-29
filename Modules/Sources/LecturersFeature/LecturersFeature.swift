@@ -1,224 +1,105 @@
 import Foundation
-import BsuirApi
-import BsuirCore
-import LoadableFeature
-import EntityScheduleFeature
-import ScheduleFeature
 import ComposableArchitecture
-import Favorites
-import Collections
+import EntityScheduleFeature
+import LoadableFeature
+import ScheduleFeature
 
 @Reducer
 public struct LecturersFeature {
-    public struct State: Equatable {
-        var path = StackState<EntityScheduleFeature.State>()
-        var search: LecturersSearch.State = .init()
-        @LoadableState var lecturers: IdentifiedArrayOf<LecturersRow.State>?
-        var isOnTop: Bool = true
-
-        var pinned: LecturersRow.State?
-        var favorites: IdentifiedArrayOf<LecturersRow.State> = []
-
-        fileprivate var pinnedLector: Employee? = {
-            @Dependency(\.pinnedScheduleService.currentSchedule) var pinnedSchedule
-            return pinnedSchedule()?.lector
-        }()
-
-        var favoritesPlaceholderCount: Int { favoriteIds.count }
-
-        fileprivate var favoriteIds: OrderedSet<Int> = {
-            @Dependency(\.favorites.currentLectorIds) var currentLectorIds
-            return currentLectorIds
-        }()
-
-        @LoadableState var loadedLecturers: IdentifiedArrayOf<Employee>?
-
-        // When deeplink was opened but no lecturers yet loaded
-        struct LectorScheduleDeferredDetails: Equatable {
-            let id: Int
-            let displayType: ScheduleDisplayType
+    @ObservableState
+    public struct State {
+        /// Designed to defer lector schedule presentation to the moment when lectors list was loaded
+        enum LectorPresentationMode: Equatable {
+            /// initial state, attempts to present lector in this mode would end up deferred
+            case initial
+            /// deferred, means that there were attempt to present lector before data was loaded
+            case deferred(id: Int, displayType: ScheduleDisplayType)
+            /// immediate, meaning component was presented and all attempts to present lector should not be deferred
+            case immediate
         }
-        var lectorToOpen: LectorScheduleDeferredDetails?
+
+        // MARK: Navigation
+        var path = StackState<EntityScheduleFeatureV2.State>()
+        var lectorPresentationMode: LectorPresentationMode = .initial
+
+        // MARK: Placeholder
+        var hasPinnedPlaceholder: Bool  = false
+        var favoritesPlaceholderCount: Int = 0
+
+        // MARK: Lecturers
+        var lecturers: LoadingState<LoadedLecturersFeature.State> = .initial
 
         public init() {}
     }
 
-    public enum Action: Equatable, LoadableAction {
-        public enum DelegateAction: Equatable {
+    public enum Action {
+        public enum Delegate {
             case showPremiumClubPinned
         }
 
-        case path(StackAction<EntityScheduleFeature.State, EntityScheduleFeature.Action>)
-        case search(LecturersSearch.Action)
-        case pinned(LecturersRow.Action)
-        case favorites(IdentifiedActionOf<LecturersRow>)
-        case lectors(IdentifiedActionOf<LecturersRow>)
+        case onAppear
 
-        case task
-        case setIsOnTop(Bool)
-        
-        case _favoritesUpdate(OrderedSet<Int>)
-        case _pinnedUpdate(Employee?)
+        case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
+        case lecturers(LoadingActionOf<LoadedLecturersFeature>)
 
-        case loading(LoadingAction<State>)
-        case delegate(DelegateAction)
+        case delegate(Delegate)
     }
-    
+
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.favorites) var favorites
-    @Dependency(\.pinnedScheduleService.schedule) var pinnedSchedule
+    @Dependency(\.favorites.currentLectorIds) var favoriteLectorIds
+    @Dependency(\.pinnedScheduleService.currentSchedule) var pinnedSchedule
 
     public init() {}
-    
+
     public var body: some ReducerOf<Self> {
-        Reduce { coreReduce(into: &$0, action: $1) }
-        .ifLet(\.pinned, action: \.pinned) {
-            LecturersRow()
-        }
-        .forEach(\.favorites, action: \.favorites) {
-            LecturersRow()
-        }
-        .ifLet(\.lecturers, action: \.lectors) {
-            EmptyReducer()
-                .forEach(\.self, action: \.self) {
-                    LecturersRow()
+        Reduce { state, action in
+            switch action {
+            case .onAppear:
+                state.hasPinnedPlaceholder = pinnedSchedule()?.lector != nil
+                state.favoritesPlaceholderCount = favoriteLectorIds.count
+                return .none
+
+            case .lecturers(.fetchFinished):
+                state.presentDeferredLectorIfNeeded()
+                return .none
+
+            case .lecturers(.loaded(.lecturerRows(.element(let lectorId, action: .rowTapped)))):
+                state.presentLector(state.lecturers.loaded?.lector(withId: lectorId))
+                return .none
+
+            case .lecturers(.loaded(.lecturerRows(.element(_, action: .mark(.delegate(let action)))))):
+                switch action {
+                case .showPremiumClub:
+                    return .send(.delegate(.showPremiumClubPinned))
                 }
-        }
-        .load(\.$loadedLecturers) { _, isRefresh in
-            try await IdentifiedArray(uniqueElements: apiClient.lecturers(isRefresh))
-        }
-        .forEach(\.path, action: \.path) {
-            EntityScheduleFeature()
-        }
 
-        Scope(state: \.search, action: \.search) {
-            LecturersSearch()
-        }
-    }
+            case .path(.element(_, .group(.schedule(.delegate(let action))))),
+                 .path(.element(_, .lector(.schedule(.delegate(let action))))):
+                switch action {
+                case .showPremiumClubPinned:
+                    return .send(.delegate(.showPremiumClubPinned))
+                case .showLectorSchedule(let employee):
+                    state.path.append(.lector(.init(lector: employee)))
+                    return .none
+                case .showGroupSchedule(let groupName):
+                    state.path.append(.group(.init(groupName: groupName)))
+                    return .none
+                }
 
-    private func coreReduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .task:
-            return .merge(
-                listenToFavoriteUpdates(),
-                listenToPinnedUpdates()
+            case .delegate, .path, .lecturers:
+                return .none
+            }
+        }
+        .load(state: \.lecturers, action: \.lecturers) { _, isRefresh in
+            let lecturers = try await apiClient.lecturers(isRefresh)
+            return LoadedLecturersFeature.State(
+                lecturers: lecturers,
+                favoritesIds: favoriteLectorIds,
+                pinnedId: pinnedSchedule()?.lector?.id
             )
-
-        case let .setIsOnTop(value):
-            state.isOnTop = value
-            return .none
-
-        case .pinned(.rowTapped):
-            let lector = state.pinned?.lector
-            state.presentLector(lector)
-            return .none
-
-        case let .favorites(.element(id, .rowTapped)):
-            let lector = state.favorites[id: id]?.lector
-            state.presentLector(lector)
-            return .none
-
-        case let .lectors(.element(id, .rowTapped)):
-            let lector = state.loadedLecturers?[id: id]
-            state.presentLector(lector)
-            return .none
-
-        case .loading(.started(\.$loadedLecturers)):
-            filteredLecturers(state: &state)
-            filteredFavorites(state: &state)
-            filteredPinned(state: &state)
-            return .none
-
-        case .loading(.finished(\.$loadedLecturers)):
-            filteredLecturers(state: &state)
-            filteredFavorites(state: &state)
-            filteredPinned(state: &state)
-            state.openLectorIfNeeded()
-            return .none
-
-        case .search(.delegate(.didUpdateImportantState)):
-            filteredLecturers(state: &state)
-            filteredFavorites(state: &state)
-            filteredPinned(state: &state)
-            return .none
-
-        case let ._favoritesUpdate(value):
-            state.favoriteIds = value
-            filteredFavorites(state: &state)
-            return .none
-
-        case let ._pinnedUpdate(value):
-            state.pinnedLector = value
-            filteredPinned(state: &state)
-            return .none
-
-        case .favorites(.element(_, .mark(.delegate(let action)))),
-                .lectors(.element(_, .mark(.delegate(let action)))):
-            switch action {
-            case .showPremiumClub:
-                return .send(.delegate(.showPremiumClubPinned))
-            }
-
-        case .path(.element(_, .delegate(let action))):
-            switch action {
-            case .showPremiumClubPinned:
-                return .send(.delegate(.showPremiumClubPinned))
-            case .showLectorSchedule(let employee):
-                state.path.append(.lector(.init(lector: employee)))
-                return .none
-            case .showGroupSchedule(let groupName):
-                state.path.append(.group(.init(groupName: groupName)))
-                return .none
-            }
-
-        case .search, .pinned, .favorites, .lectors, .loading, .delegate, .path:
-            return .none
+        } loaded: {
+            LoadedLecturersFeature()
         }
-    }
-
-    private func filteredLecturers(state: inout State) {
-        state.$lecturers = state.$loadedLecturers
-            .map { lecturers in
-                IdentifiedArray(
-                    uniqueElements: lecturers
-                        .filter(state.search.matches(lector:))
-                        .map(LecturersRow.State.init(lector:))
-                )
-            }
-    }
-
-    private func filteredFavorites(state: inout State) {
-        state.favorites = IdentifiedArray(
-            uniqueElements: state.favoriteIds.compactMap({ state.lecturers?[id: $0] })
-        )
-    }
-
-    private func filteredPinned(state: inout State) {
-        state.pinned = state.pinnedLector.flatMap { state.lecturers?[id: $0.id] }
-    }
-
-    private func listenToFavoriteUpdates() -> Effect<Action> {
-        return .run { send in
-            for await value in favorites.lecturerIds.values {
-                await send(._favoritesUpdate(value), animation: .default)
-            }
-        }
-    }
-
-    private func listenToPinnedUpdates() -> Effect<Action> {
-        return .run { send in
-            for await value in pinnedSchedule().map(\.?.lector).removeDuplicates().values {
-                await send(._pinnedUpdate(value), animation: .default)
-            }
-        }
-    }
-}
-
-// MARK: - Matching
-
-private extension LecturersSearch.State {
-    func matches(lector: Employee) -> Bool {
-        guard !query.isEmpty else { return true }
-        return lector.fio.localizedCaseInsensitiveContains(query)
+        .forEach(\.path, action: \.path)
     }
 }

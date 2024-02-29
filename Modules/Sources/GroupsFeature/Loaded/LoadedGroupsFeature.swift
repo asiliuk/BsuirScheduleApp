@@ -17,6 +17,7 @@ public struct LoadedGroupsFeature {
         var searchDismiss: Int = 0
 
         mutating func dismissSearch() {
+            searchQuery = ""
             visibleRows = groupRows
             searchDismiss += 1
         }

@@ -5,6 +5,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct LecturersRow {
+    @ObservableState
     public struct State: Identifiable, Equatable {
         public var id: Int { lector.id }
         public let lector: Employee

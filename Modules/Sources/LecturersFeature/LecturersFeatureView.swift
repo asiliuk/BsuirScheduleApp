@@ -1,118 +1,42 @@
 import SwiftUI
-import BsuirUI
-import BsuirApi
-import LoadableFeature
-import EntityScheduleFeature
 import ComposableArchitecture
+import EntityScheduleFeature
+import LoadableFeature
 
 public struct LecturersFeatureView: View {
-    public let store: StoreOf<LecturersFeature>
-    
+    @Perception.Bindable var store: StoreOf<LecturersFeature>
+
     public init(store: StoreOf<LecturersFeature>) {
         self.store = store
     }
-    
+
     public var body: some View {
-        NavigationStackStore(store.scope(state: \.path, action: \.path)) {
-            WithViewStore(store, observe: \.isOnTop) { viewStore in
-                LoadingLecturersView(
-                    store: store,
-                    isOnTop: viewStore.binding(send: { .setIsOnTop($0) })
+        WithPerceptionTracking {
+            NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+                LoadingView(
+                    store: store.scope(state: \.lecturers, action: \.lecturers),
+                    inProgress: {
+                        LecturersPlaceholderView(
+                            hasPinned: store.hasPinnedPlaceholder,
+                            numberOfFavorites: store.favoritesPlaceholderCount
+                        )
+                    },
+                    failed: { store, _ in
+                        LoadingErrorView(store: store)
+                    },
+                    loaded: { store, refresh in
+                        LoadedLecturersFeatureView(
+                            store: store,
+                            refresh: refresh
+                        )
+                    }
                 )
                 .navigationTitle("screen.lecturers.navigation.title")
                 .navigationBarTitleDisplayMode(.inline)
-                .task { await viewStore.send(.task).finish() }
+            } destination: { store in
+                EntityScheduleFeatureViewV2(store: store)
             }
-        } destination: { state in
-            EntityScheduleView(state: state)
-        }
-    }
-}
-
-private struct LoadingLecturersView: View {
-    let store: StoreOf<LecturersFeature>
-    @Binding var isOnTop: Bool
-
-    var body: some View {
-        LoadingStore(
-            store,
-            state: \.$lecturers,
-            loading: \.$loadedLecturers,
-            action: LecturersFeature.Action.lectors
-        ) { store in
-            ScrollableToTopList(isOnTop: $isOnTop) {
-                IfLetStore(
-                    self.store.scope(
-                        state: \.pinned,
-                        action: \.pinned
-                    )
-                ) { store in
-                    Section("screen.lecturers.pinned.section.header") {
-                        LecturersRowView(store: store)
-                    }
-                }
-
-                WithViewStore(self.store, observe: { $0.favorites.isEmpty }) { viewStore in
-                    // show only if have some favorites
-                    if !viewStore.state {
-                        Section("screen.lecturers.favorites.section.header") {
-                            ForEachStore(
-                                self.store.scope(
-                                    state: \.favorites,
-                                    action: \.favorites
-                                )
-                            ) { store in
-                                LecturersRowView(store: store)
-                            }
-                        }
-                    }
-                }
-
-                Section {
-                    ForEachStore(store.loaded()) { store in
-                        LecturersRowView(store: store)
-                    }
-                }
-            }
-            .listStyle(.insetGrouped)
-            .refreshable { await store.send(.refresh).finish() }
-            .overlay {
-                if #available(iOS 17, *) {
-                    WithViewStore(store.loaded(), observe: \.isEmpty) { viewStore in
-                        if viewStore.state {
-                            ContentUnavailableView.search
-                        }
-                    }
-                }
-            }
-            .lecturersSearchable(store: self.store.scope(state: \.search, action: \.search))
-        } loading: {
-            LecturersLoadingPlaceholder(store: store)
-        } error: { store in
-            LoadingErrorView(store: store)
-        }
-    }
-}
-
-private struct LecturersLoadingPlaceholder: View {
-    let store: StoreOf<LecturersFeature>
-
-    struct ViewState: Equatable {
-        let hasPinned: Bool
-        let numberOfFavorites: Int
-
-        init(state: LecturersFeature.State) {
-            self.hasPinned = state.pinned != nil
-            self.numberOfFavorites = state.favoritesPlaceholderCount
-        }
-    }
-
-    var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
-            LecturersPlaceholderView(
-                hasPinned: viewStore.hasPinned,
-                numberOfFavorites: viewStore.numberOfFavorites
-            )
+            .onAppear { store.send(.onAppear) }
         }
     }
 }
