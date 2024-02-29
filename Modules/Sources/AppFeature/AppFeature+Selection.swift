@@ -14,8 +14,8 @@ extension AppFeature.State {
         }
 
         if let groupName = favorites.currentGroupNames.first {
-            selection = .groupsV2
-            groupsV2.openGroup(named: groupName)
+            selection = .groups
+            groups.openGroup(named: groupName)
             return
         }
 
@@ -38,8 +38,6 @@ extension AppFeature.State {
             pinnedTab.reset()
         case .groups:
             groups.reset()
-        case .groupsV2:
-            groupsV2.reset()
         case .lecturers:
             lecturers.reset()
         case .settings:

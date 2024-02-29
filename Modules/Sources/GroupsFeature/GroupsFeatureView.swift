@@ -1,96 +1,57 @@
 import SwiftUI
-import BsuirUI
-import BsuirApi
+import ComposableArchitecture
 import LoadableFeature
 import EntityScheduleFeature
-import ComposableArchitecture
 
 public struct GroupsFeatureView: View {
-    public let store: StoreOf<GroupsFeature>
-    
+    @Perception.Bindable var store: StoreOf<GroupsFeature>
+
     public init(store: StoreOf<GroupsFeature>) {
         self.store = store
     }
-    
+
     public var body: some View {
-        NavigationStackStore(store.scope(state: \.path, action: \.path)) {
-            WithViewStore(store, observe: \.isOnTop) { viewStore in
-                LoadingGroupsView(
-                    store: store,
-                    isOnTop: viewStore.binding(send: { .setIsOnTop($0) })
+        WithPerceptionTracking {
+            NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+                LoadingView(
+                    store: store.scope(state: \.groups, action: \.groups),
+                    inProgress: {
+                        GroupsPlaceholderView(
+                            hasPinned: store.hasPinnedPlaceholder,
+                            numberOfFavorites: store.favoritesPlaceholderCount
+                        )
+                    },
+                    failed: { store, _ in
+                        LoadingErrorView(store: store)
+                    },
+                    loaded: { store, refresh in
+                        LoadedGroupsFeatureView(
+                            store: store,
+                            refresh: refresh
+                        )
+                    }
                 )
                 .navigationTitle("screen.groups.navigation.title")
                 .navigationBarTitleDisplayMode(.inline)
-                .task { await viewStore.send(.task).finish() }
+            } destination: { store in
+                EntityScheduleFeatureViewV2(store: store)
             }
-        } destination: { state in
-            EntityScheduleView(state: state)
+            .onAppear { store.send(.onAppear) }
+            .task { store.send(.task) }
         }
     }
 }
 
-private struct LoadingGroupsView: View {
-    let store: StoreOf<GroupsFeature>
-    @Binding var isOnTop: Bool
-
-    var body: some View {
-        LoadingStore(
-            store,
-            state: \.$sections,
-            loading: \.$loadedGroups,
-            action: GroupsFeature.Action.groupSections
-        ) { store in
-            ScrollableToTopList(isOnTop: $isOnTop) {
-                IfLetStore(self.store.scope(state: \.pinned, action: \.pinned)) { store in
-                    GroupsSectionView(store: store)
-                }
-
-                IfLetStore(self.store.scope(state: \.favorites, action: \.favorites)) { store in
-                    GroupsSectionView(store: store)
-                }
-
-                ForEachStore(store.loaded()) { store in
-                    GroupsSectionView(store: store)
-                }
-            }
-            .listStyle(.insetGrouped)
-            .refreshable { await store.send(.refresh).finish() }
-            .overlay {
-                if #available(iOS 17, *) {
-                    WithViewStore(store.loaded(), observe: \.isEmpty) { viewStore in
-                        if viewStore.state {
-                            ContentUnavailableView.search
-                        }
-                    }
-                }
-            }
-            .groupsSearchable(store: self.store.scope(state: \.search, action: \.search))
-        } loading: {
-            GroupsLoadingPlaceholder(store: store)
-        } error: { store in
-            LoadingErrorView(store: store)
-        }
-    }
-}
-
-private struct GroupsLoadingPlaceholder: View {
+private struct GroupsFeatureLoadingPlaceholderView: View {
     let store: StoreOf<GroupsFeature>
 
-    struct ViewState: Equatable {
-        let hasPinned: Bool
-        let numberOfFavorites: Int
-
-        init(state: GroupsFeature.State) {
-            self.hasPinned = state.hasPinnedPlaceholder
-            self.numberOfFavorites = state.favoritesPlaceholderCount
-        }
-    }
     var body: some View {
-        WithViewStore(store, observe: ViewState.init) { viewStore in
+        WithPerceptionTracking {
             GroupsPlaceholderView(
-                hasPinned: viewStore.hasPinned,
-                numberOfFavorites: viewStore.numberOfFavorites
+                hasPinned: store.hasPinnedPlaceholder,
+                numberOfFavorites: store.favoritesPlaceholderCount
             )
         }
     }
 }
+

@@ -10,8 +10,8 @@ extension AppFeature {
         case let .pinned(displayType):
             handlePinnedDeeplink(state: &state, deeplinkDisplayType: displayType)
         case .groups:
-            state.selection = .groupsV2
-            state.groupsV2.reset()
+            state.selection = .groups
+            state.groups.reset()
         case let .group(name, displayType):
             handleDeeplink(state: &state, groupName: name, deeplinkDisplayType: displayType)
         case .lecturers:
@@ -37,8 +37,8 @@ extension AppFeature {
         case .group(groupName):
             handlePinnedDeeplink(state: &state, deeplinkDisplayType: deeplinkDisplayType)
         case .group, .lector, nil:
-            state.selection = .groupsV2
-            state.groupsV2.openGroup(named: groupName, displayType: displayType(for: deeplinkDisplayType))
+            state.selection = .groups
+            state.groups.openGroup(named: groupName, displayType: displayType(for: deeplinkDisplayType))
         }
     }
 

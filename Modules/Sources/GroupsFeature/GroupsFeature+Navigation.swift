@@ -1,6 +1,5 @@
 import Foundation
 import ComposableArchitecture
-import EntityScheduleFeature
 import ScheduleFeature
 
 extension GroupsFeature.State {
@@ -10,17 +9,17 @@ extension GroupsFeature.State {
             return path = StackState()
         }
 
-        if search.reset() {
-            return
-        }
-
-        if !isOnTop {
-            return isOnTop = true
-        }
+        groups.loaded?.reset()
     }
 
-    /// Open schedule screen for group.
-    mutating public func openGroup(named name: String, displayType: ScheduleDisplayType = .continuous) {
+    /// Present group schedule screen on the stack
+    ///
+    /// Defers presentation until groups list appears.
+    /// Checks stack for already presented schedule screen.
+    mutating public func openGroup(
+        named name: String,
+        displayType: ScheduleDisplayType = .continuous
+    ) {
         // Proceed only if component was presented and we could present groups immediately
         // otherwise defer group presentation til moment component was loaded
         guard groupPresentationMode == .immediate else {
@@ -33,13 +32,14 @@ extension GroupsFeature.State {
            case let .group(state) = path.last,
            state.groupName == name
         {
-            path[id: id, case: /EntityScheduleFeature.State.group]?.schedule.switchDisplayType(displayType)
-            return
+            // Switch schedule display type if screen already presented
+            path[id: id, case: \.group]?.schedule.switchDisplayType(displayType)
+        } else {
+            // Present group screen on stack
+            groups.loaded?.reset()
+            presentGroup(name, displayType: displayType)
         }
-        search.reset()
-        presentGroup(name, displayType: displayType)
     }
-
 
     /// Checks if presentation mode has deferred group and presents it and switch mode to immediate
     mutating func presentDeferredGroupIfNeeded() {
@@ -49,8 +49,8 @@ extension GroupsFeature.State {
         groupPresentationMode = .immediate
     }
 
-    mutating func presentGroup(_ groupName: String?, displayType: ScheduleDisplayType = .continuous) {
-        guard let groupName else { return }
+    /// Present group schedule screen on the stack
+    mutating func presentGroup(_ groupName: String, displayType: ScheduleDisplayType = .continuous) {
         path = StackState([.group(.init(groupName: groupName, scheduleDisplayType: displayType))])
     }
 }

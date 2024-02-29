@@ -21,28 +21,28 @@ public struct LoadedGroupsFeature {
             visibleRows.isEmpty && pinnedRow.isEmpty && favoriteRows.isEmpty
         }
 
-        var pinnedRow: IdentifiedArrayOf<GroupsRowV2.State> {
+        var pinnedRow: IdentifiedArrayOf<GroupsRow.State> {
             guard let pinnedName else { return [] }
             return IdentifiedArray(
-                uniqueElements: [GroupsRowV2.State(groupName: pinnedName)]
+                uniqueElements: [GroupsRow.State(groupName: pinnedName)]
                     .filter { $0.matches(query: searchQuery) }
             )
         }
 
-        var favoriteRows: IdentifiedArrayOf<GroupsRowV2.State> {
+        var favoriteRows: IdentifiedArrayOf<GroupsRow.State> {
             IdentifiedArray(
                 uniqueElements: favoritesNames
-                    .map(GroupsRowV2.State.init)
+                    .map(GroupsRow.State.init)
                     .filter { $0.matches(query: searchQuery) }
             )
         }
 
-        var visibleRows: IdentifiedArrayOf<GroupsRowV2.State> = []
+        var visibleRows: IdentifiedArrayOf<GroupsRow.State> = []
 
         // MARK: State
         fileprivate var favoritesNames: OrderedSet<String>
         fileprivate var pinnedName: String?
-        fileprivate var groupRows: IdentifiedArrayOf<GroupsRowV2.State> = []
+        fileprivate var groupRows: IdentifiedArrayOf<GroupsRow.State> = []
 
         init(
             groups: [StudentGroup],
@@ -54,7 +54,7 @@ public struct LoadedGroupsFeature {
             self.groupRows = IdentifiedArray(
                 uniqueElements: groups
                     .sorted(by: { $0.name < $1.name })
-                    .map { GroupsRowV2.State(groupName: $0.name) }
+                    .map { GroupsRow.State(groupName: $0.name) }
             )
             self.visibleRows = groupRows
         }
@@ -62,7 +62,7 @@ public struct LoadedGroupsFeature {
 
     public enum Action: BindableAction, Equatable {
         case task
-        case groupRows(IdentifiedActionOf<GroupsRowV2>)
+        case groupRows(IdentifiedActionOf<GroupsRow>)
 
         case _favoritesUpdate(OrderedSet<String>)
         case _pinnedUpdate(String?)
@@ -108,10 +108,10 @@ public struct LoadedGroupsFeature {
             }
         }
         .forEach(\.groupRows, action: \.groupRows) {
-            GroupsRowV2()
+            GroupsRow()
         }
         .forEach(\.visibleRows, action: \.groupRows) {
-            GroupsRowV2()
+            GroupsRow()
         }
         .onChange(of: \.pinnedName) { oldPinned, newPinned in
             Reduce { state, _ in
@@ -160,7 +160,7 @@ public struct LoadedGroupsFeature {
     }
 }
 
-private extension GroupsRowV2.State {
+private extension GroupsRow.State {
     func matches(query: String) -> Bool {
         guard !query.isEmpty else { return true }
         return title.localizedCaseInsensitiveContains(query)

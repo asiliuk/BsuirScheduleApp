@@ -7,18 +7,13 @@ struct GroupsRowView: View {
     let store: StoreOf<GroupsRow>
 
     var body: some View {
-        WithViewStore(store, observe: \.title) { viewStore in
+        WithPerceptionTracking {
             NavigationLinkButton {
-                viewStore.send(.rowTapped)
+                store.send(.rowTapped)
             } label: {
-                Text(viewStore.state).monospacedDigit()
+                Text(store.title).monospacedDigit()
             }
-            .markedScheduleRowActions(
-                store: store.scope(
-                    state: \.mark,
-                    action: \.mark
-                )
-            )
+            .markedScheduleRowActions(store: store.scope(state: \.mark, action: \.mark))
         }
     }
 }

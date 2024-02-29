@@ -5,6 +5,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct GroupsRow {
+    @ObservableState
     public struct State: Identifiable, Equatable {
         public var id: String { groupName }
         public let groupName: String
@@ -14,7 +15,7 @@ public struct GroupsRow {
 
         init(groupName: String) {
             self.groupName = groupName
-            self.mark = .init(source: .group(name: groupName))
+            self.mark = MarkedScheduleRowFeature.State(source: .group(name: groupName))
         }
     }
 

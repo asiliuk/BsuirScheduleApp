@@ -11,12 +11,12 @@ struct LoadedGroupsFeatureView: View {
         WithPerceptionTracking {
             ScrollableToTopList(isOnTop: $store.isOnTop) {
 
-                GroupsSectionViewV2(
+                GroupsSectionView(
                     title: "screen.groups.pinned.section.header",
                     rows: store.scope(state: \.pinnedRow, action: \.groupRows)
                 )
 
-                GroupsSectionViewV2(
+                GroupsSectionView(
                     title: "screen.groups.favorites.section.header",
                     rows: store.scope(state: \.favoriteRows, action: \.groupRows)
                 )
@@ -26,7 +26,7 @@ struct LoadedGroupsFeatureView: View {
                     .chunked(on: \.sectionTitle)
 
                 ForEach(sections, id: \.0) { (sectionTitle, rows) in
-                    GroupsSectionViewV2(
+                    GroupsSectionView(
                         title: LocalizedStringKey(String(sectionTitle)),
                         rows: rows
                     )
@@ -48,14 +48,14 @@ struct LoadedGroupsFeatureView: View {
     }
 }
 
-private extension GroupsRowV2.State {
+private extension GroupsRow.State {
     var sectionTitle: Substring {
         title.prefix(3)
     }
 }
 
-private struct GroupsSectionViewV2<Rows>: View
-where Rows: RandomAccessCollection, Rows.Element == StoreOf<GroupsRowV2> {
+private struct GroupsSectionView<Rows>: View
+where Rows: RandomAccessCollection, Rows.Element == StoreOf<GroupsRow> {
     var title: LocalizedStringKey
     var rows: Rows
 
@@ -63,7 +63,7 @@ where Rows: RandomAccessCollection, Rows.Element == StoreOf<GroupsRowV2> {
         if !rows.isEmpty {
             Section(title) {
                 ForEach(rows) { store in
-                    GroupsRowViewV2(store: store)
+                    GroupsRowView(store: store)
                 }
             }
         }
