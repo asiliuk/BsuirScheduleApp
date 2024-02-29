@@ -5,7 +5,7 @@ extension LoadedGroupsFeature.State {
     mutating func reset() {
         if !searchQuery.isEmpty {
             searchQuery = ""
-            searchDismiss += 1
+            dismissSearch()
         } else if !isOnTop {
             isOnTop = true
         }

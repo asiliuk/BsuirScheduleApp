@@ -16,6 +16,11 @@ public struct LoadedGroupsFeature {
         var searchQuery: String = ""
         var searchDismiss: Int = 0
 
+        mutating func dismissSearch() {
+            visibleRows = groupRows
+            searchDismiss += 1
+        }
+
         // MARK: Rows
         var isEmpty: Bool {
             visibleRows.isEmpty && pinnedRow.isEmpty && favoriteRows.isEmpty
@@ -78,8 +83,7 @@ public struct LoadedGroupsFeature {
             .onChange(of: \.searchQuery) { _, query in
                 Reduce { state, _ in
                     if query.isEmpty {
-                        state.visibleRows = state.groupRows
-                        state.searchDismiss += 1
+                        state.dismissSearch()
                     } else {
                         state.visibleRows = state.groupRows.filter { $0.matches(query: query) }
                     }
