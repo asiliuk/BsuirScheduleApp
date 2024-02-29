@@ -32,24 +32,12 @@ public enum LoadingState<State> {
 
 extension LoadingState: Equatable where State: Equatable {}
 
-extension LoadingState {
-    // TODO: Try to deprecate and use computed vars on the state instead
-    public func map<U>(_ transform: (State) -> U) -> LoadingState<U> {
-        switch self {
-        case .initial: .initial
-        case .inProgress: .inProgress
-        case .failed(let state): .failed(state)
-        case .loaded(let state): .loaded(transform(state))
-        }
-    }
-}
-
 // MARK: - Action
 
-public typealias LoadingActionOf<R: Reducer> = LoadingActionV2<R.State, R.Action>
+public typealias LoadingActionOf<R: Reducer> = LoadingAction<R.State, R.Action>
 
 @CasePathable
-public enum LoadingActionV2<State, Action> {
+public enum LoadingAction<State, Action> {
     case fetch
     case refresh
     case reload
@@ -58,7 +46,7 @@ public enum LoadingActionV2<State, Action> {
     case loaded(Action)
 }
 
-extension LoadingActionV2: Equatable where State: Equatable, Action: Equatable {}
+extension LoadingAction: Equatable where State: Equatable, Action: Equatable {}
 
 // MARK: - Reducer
 
@@ -75,7 +63,7 @@ extension Reducer where Action: CasePathable {
     /// - Returns: Reducer that incorporates loading logic
     public func load<LoadedState, LoadedAction>(
         state: WritableKeyPath<State, LoadingState<LoadedState>>,
-        action: CaseKeyPath<Action, LoadingActionV2<LoadedState, LoadedAction>>,
+        action: CaseKeyPath<Action, LoadingAction<LoadedState, LoadedAction>>,
         fetch: @escaping (State, Bool) async throws -> LoadedState
     ) -> some Reducer<State, Action> {
         load(
@@ -97,7 +85,7 @@ extension Reducer where Action: CasePathable {
     /// - Returns: Reducer that incorporates loading logic
     public func load<LoadedState, LoadedAction>(
         state: WritableKeyPath<State, LoadingState<LoadedState>>,
-        action: CaseKeyPath<Action, LoadingActionV2<LoadedState, LoadedAction>>,
+        action: CaseKeyPath<Action, LoadingAction<LoadedState, LoadedAction>>,
         fetch: @escaping (State, _ isRefresh: Bool) async throws -> LoadedState,
         @ReducerBuilder<LoadedState, LoadedAction> loaded: () -> some Reducer<LoadedState, LoadedAction>
     ) -> some Reducer<State, Action> {
@@ -118,7 +106,7 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
     let fetch: (Parent.State, Bool) async throws -> Loaded.State
 
     let toLoadingState: WritableKeyPath<Parent.State, LoadingState<Loaded.State>>
-    let toLoadingAction: CaseKeyPath<Parent.Action, LoadingActionV2<Loaded.State, Loaded.Action>>
+    let toLoadingAction: CaseKeyPath<Parent.Action, LoadingAction<Loaded.State, Loaded.Action>>
 
     @Dependency(\.continuousClock) var clock
 

@@ -8,14 +8,14 @@ public struct LoadingView<
     FailedView: View,
     LoadedView: View
 >: View {
-    private let store: Store<LoadingState<LoadedState>, LoadingActionV2<LoadedState, LoadedAction>>
+    private let store: Store<LoadingState<LoadedState>, LoadingAction<LoadedState, LoadedAction>>
 
     private let inProgress: () -> InProgressView
     private let failed: (StoreOf<LoadingError>, _ reload: @escaping () -> Void) -> FailedView
     private let loaded: (Store<LoadedState, LoadedAction>, _ refresh: @escaping () async -> Void) -> LoadedView
 
     public init(
-        store: Store<LoadingState<LoadedState>, LoadingActionV2<LoadedState, LoadedAction>>,
+        store: Store<LoadingState<LoadedState>, LoadingAction<LoadedState, LoadedAction>>,
     @ViewBuilder inProgress: @escaping () -> InProgressView,
     @ViewBuilder failed: @escaping (StoreOf<LoadingError>, _ reload: @escaping () -> Void) -> FailedView,
     @ViewBuilder loaded: @escaping (Store<LoadedState, LoadedAction>, _ refresh: @escaping () async -> Void) -> LoadedView
