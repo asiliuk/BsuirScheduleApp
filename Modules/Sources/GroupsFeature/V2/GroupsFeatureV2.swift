@@ -2,18 +2,31 @@ import Foundation
 import ComposableArchitecture
 import EntityScheduleFeature
 import LoadableFeature
+import ScheduleFeature
 
 @Reducer
 public struct GroupsFeatureV2 {
     @ObservableState
     public struct State {
-        var path = StackState<EntityScheduleFeatureV2.State>()
+        /// Designed to defer group presentation to the moment when component was presented
+        enum GroupPresentationMode: Equatable {
+            /// initial state, attempts to present group in this mode would end up deferred
+            case initial
+            /// deferred, means that there were attempt to present group before component appeared
+            case deferred(String, displayType: ScheduleDisplayType)
+            /// immediate, meaning component was presented and all attempts to present group should not be deferred
+            case immediate
+        }
 
-        // Placeholder
+        // MARK: Navigation
+        var path = StackState<EntityScheduleFeatureV2.State>()
+        var groupPresentationMode: GroupPresentationMode = .initial
+
+        // MARK: Placeholder
         var hasPinnedPlaceholder: Bool  = false
         var favoritesPlaceholderCount: Int = 0
 
-        // Groups
+        // MARK: Groups
         var groups: LoadingState<LoadedGroupsFeature.State> = .initial
 
         public init() {}
@@ -24,6 +37,7 @@ public struct GroupsFeatureV2 {
             case showPremiumClubPinned
         }
 
+        case task
         case onAppear
 
         case groups(LoadingActionOf<LoadedGroupsFeature>)
@@ -43,6 +57,12 @@ public struct GroupsFeatureV2 {
             case .onAppear:
                 state.hasPinnedPlaceholder = pinnedSchedule()?.groupName != nil
                 state.favoritesPlaceholderCount = favoriteGroupNames.count
+                return .none
+
+            case .task:
+                // Very important to do in task if done in `onAppear`
+                // schedule screen is not properly loaded and got stuck in placeholder state
+                state.presentDeferredGroupIfNeeded()
                 return .none
 
             case .groups(.loaded(.groupRows(.element(let groupName, action: .rowTapped)))):

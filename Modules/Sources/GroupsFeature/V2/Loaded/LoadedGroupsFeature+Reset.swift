@@ -6,10 +6,7 @@ extension LoadedGroupsFeature.State {
         if !searchQuery.isEmpty {
             searchQuery = ""
             searchDismiss += 1
-            return
-        }
-
-        if !isOnTop {
+        } else if !isOnTop {
             isOnTop = true
         }
     }
