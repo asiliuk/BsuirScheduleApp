@@ -36,7 +36,7 @@ private struct TipsAmountsView: View {
     var body: some View {
         WithPerceptionTracking {
             VStack {
-                ForEachStore(
+                ForEach(
                     store.scope(
                         state: \.amounts,
                         action: \.amounts
