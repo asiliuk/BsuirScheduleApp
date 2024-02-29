@@ -46,6 +46,12 @@ private struct PhotoPreviewView: View {
                     .opacity(interpolate(from: 1, to: 0.4, progress: dismissProgress))
 
                 KFImage(url)
+                    .placeholder {
+                        ZStack {
+                            Color.secondary
+                            Image(systemName: "photo").foregroundColor(.black)
+                        }
+                    }
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 16))

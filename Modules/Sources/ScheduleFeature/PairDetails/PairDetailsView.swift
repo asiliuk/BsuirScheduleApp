@@ -130,12 +130,16 @@ private struct LecturerCell: View {
     var body: some View {
         Button(action: onTap) {
             HStack {
-                Button(action: onPhotoTap) { Avatar(url: photo, baseSize: 60) }
-                    .overlay(alignment: .bottomTrailing) {
-                        Image(systemName: "magnifyingglass.circle.fill")
-                            .font(.title3)
-                            .foregroundStyle(Color.primary, Color(uiColor: .secondarySystemGroupedBackground))
-                    }
+                if let photo {
+                    Button(action: onPhotoTap) { Avatar(url: photo, baseSize: 60) }
+                        .overlay(alignment: .bottomTrailing) {
+                            Image(systemName: "magnifyingglass.circle.fill")
+                                .font(.title3)
+                                .foregroundStyle(Color.primary, Color(uiColor: .secondarySystemGroupedBackground))
+                        }
+                } else {
+                    Avatar(url: photo, baseSize: 60)
+                }
 
                 Text(name)
 
