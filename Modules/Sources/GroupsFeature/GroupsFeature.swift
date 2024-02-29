@@ -75,6 +75,19 @@ public struct GroupsFeature {
                     return .send(.delegate(.showPremiumClubPinned))
                 }
 
+            case .path(.element(_, .group(.schedule(.delegate(let action))))),
+                 .path(.element(_, .lector(.schedule(.delegate(let action))))):
+                switch action {
+                case .showPremiumClubPinned:
+                    return .send(.delegate(.showPremiumClubPinned))
+                case .showLectorSchedule(let employee):
+                    state.path.append(.lector(.init(lector: employee)))
+                    return .none
+                case .showGroupSchedule(let groupName):
+                    state.path.append(.group(.init(groupName: groupName)))
+                    return .none
+                }
+
             case .groups, .path, .delegate:
                 return .none
             }
