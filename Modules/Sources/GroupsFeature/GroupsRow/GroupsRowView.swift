@@ -11,7 +11,15 @@ struct GroupsRowView: View {
             NavigationLinkButton {
                 store.send(.rowTapped)
             } label: {
-                Text(store.title).monospacedDigit()
+                VStack(alignment: .leading) {
+                    Text(store.title)
+                        .monospacedDigit()
+                    if let subtitle = store.subtitle {
+                        Text(subtitle)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
             }
             .markedScheduleRowActions(store: store.scope(state: \.mark, action: \.mark))
         }

@@ -29,16 +29,14 @@ public struct LoadedGroupsFeature {
 
         var pinnedRow: IdentifiedArrayOf<GroupsRow.State> {
             guard let pinnedName else { return [] }
-            return IdentifiedArray(
-                uniqueElements: [GroupsRow.State(groupName: pinnedName)]
-                    .filter { $0.matches(query: searchQuery) }
-            )
+            let row = groupRows[id: pinnedName].or(GroupsRow.State(groupName: pinnedName, subtitle: nil))
+            return IdentifiedArray(uniqueElements: [row].filter { $0.matches(query: searchQuery) })
         }
 
         var favoriteRows: IdentifiedArrayOf<GroupsRow.State> {
             IdentifiedArray(
                 uniqueElements: favoritesNames
-                    .map(GroupsRow.State.init)
+                    .map { groupRows[id: $0].or(GroupsRow.State(groupName: $0, subtitle: nil)) }
                     .filter { $0.matches(query: searchQuery) }
             )
         }
@@ -60,7 +58,7 @@ public struct LoadedGroupsFeature {
             self.groupRows = IdentifiedArray(
                 uniqueElements: groups
                     .sorted(by: { $0.name < $1.name })
-                    .map { GroupsRow.State(groupName: $0.name) }
+                    .map(GroupsRow.State.init(group:))
             )
             self.visibleRows = groupRows
         }

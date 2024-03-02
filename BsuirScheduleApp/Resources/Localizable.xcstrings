@@ -1078,6 +1078,35 @@
         }
       }
     },
+    "screen.groups.row.course%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ курс"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Course %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ курс"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ курс"
+          }
+        }
+      }
+    },
     "screen.groups.search.placeholder" : {
       "comment" : "MARK: - Groups",
       "extractionState" : "manual",

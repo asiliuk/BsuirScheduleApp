@@ -11,11 +11,27 @@ public struct GroupsRow {
         public let groupName: String
 
         var title: String { groupName }
+        var subtitle: String?
         var mark: MarkedScheduleRowFeature.State
 
-        init(groupName: String) {
+        init(groupName: String, subtitle: String?) {
             self.groupName = groupName
+            self.subtitle = subtitle
             self.mark = MarkedScheduleRowFeature.State(source: .group(name: groupName))
+        }
+
+        init(group: StudentGroup) {
+            self.init(
+                groupName: group.name,
+                subtitle: [
+                    group.faculty,
+                    group.speciality,
+                    group.course.map { String(localized: "screen.groups.row.course\($0.description)") }
+                ]
+                .compacted()
+                .filter { !$0.isEmpty }
+                .joined(separator: " · ")
+            )
         }
     }
 
