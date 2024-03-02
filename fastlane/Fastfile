@@ -34,7 +34,6 @@ platform :ios do
       code_coverage: false,
       output_files: "./test_output",
       derived_data_path: derived_data_path,
-      devices: devices,
       scheme: scheme
     )
 
