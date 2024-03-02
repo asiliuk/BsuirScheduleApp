@@ -18,6 +18,7 @@ struct LecturersRowView: View {
                     subtitle2: store.subtitle2
                 )
             }
+            .accessibilityIdentifier(store.fullName)
             .markedScheduleRowActions(store: store.scope(state: \.mark, action: \.mark))
         }
     }
