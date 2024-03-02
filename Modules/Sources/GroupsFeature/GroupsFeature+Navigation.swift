@@ -51,6 +51,12 @@ extension GroupsFeature.State {
 
     /// Present group schedule screen on the stack
     mutating func presentGroup(_ groupName: String, displayType: ScheduleDisplayType = .continuous) {
-        path = StackState([.group(.init(groupName: groupName, scheduleDisplayType: displayType))])
+        path.removeAll()
+        path.append(.group(
+            .init(
+                groupName: groupName,
+                scheduleDisplayType: displayType
+            )
+        ))
     }
 }

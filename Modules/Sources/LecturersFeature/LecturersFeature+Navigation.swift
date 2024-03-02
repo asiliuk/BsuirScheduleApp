@@ -59,11 +59,12 @@ extension LecturersFeature.State {
         displayType: ScheduleDisplayType = .continuous
     ) {
         guard let lector else { return }
-        path = StackState([
+        path.removeAll()
+        path.append(
             .lector(LectorScheduleFeature.State(
                 lector: lector,
                 scheduleDisplayType: displayType
             ))
-        ])
+        )
     }
 }
