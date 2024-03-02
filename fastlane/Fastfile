@@ -25,6 +25,7 @@ platform :ios do
       "iPhone 8 Plus", # 5.5" Display
       "iPhone 11 Pro Max", # 6.5" Display
       "iPhone 15 Pro Max", # 6.7" Display
+      "iPhone 15 Pro",
       "iPad Pro (12.9-inch) (6th generation)",
     ]
 
@@ -43,7 +44,6 @@ platform :ios do
       languages: [
         "en-US",
         "ru-RU",
-        "be-BY",
         "uk-UA",
       ],
       scheme: scheme,
