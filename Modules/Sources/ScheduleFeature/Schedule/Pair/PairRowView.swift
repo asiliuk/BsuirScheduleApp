@@ -2,6 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 import BsuirUI
 import ScheduleCore
+import Pow
 
 struct PairRowView: View {
     @Perception.Bindable var store: StoreOf<PairRowFeature>
@@ -93,7 +94,7 @@ private struct PairRowButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .opacity(configuration.isPressed ? 0.8 : 1)
-            .scaleEffect(configuration.isPressed ? 0.99 : 1)
+            .conditionalEffect(.pushDown, condition: configuration.isPressed)
     }
 }
 

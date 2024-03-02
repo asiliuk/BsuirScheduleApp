@@ -81,7 +81,7 @@ let package = Package(
         ),
         .target(
             name: "ScheduleFeature",
-            dependencies: ["LoadableFeature", "Favorites", "PremiumClubFeature", "ScheduleCore", "BsuirUI", .tca, .swiftAlgorithms]
+            dependencies: ["LoadableFeature", "Favorites", "PremiumClubFeature", "ScheduleCore", "BsuirUI", .tca, .swiftAlgorithms, .pow]
         ),
         .target(
             name: "LoadableFeature",
