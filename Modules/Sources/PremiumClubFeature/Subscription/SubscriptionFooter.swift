@@ -5,14 +5,21 @@ import StoreKit
 @Reducer
 public struct SubscriptionFooter {
     @ObservableState
-    public enum State: Equatable {
-        case loading
-        case failed
-        case available(Product, Product.SubscriptionInfo, isEligibleForIntroOffer: Bool)
-
-        init() {
-            self = .loading
+    public struct State: Equatable {
+        enum ProductState: Equatable {
+            case loading
+            case failed
+            case available(ProductInfo)
         }
+
+        public struct ProductInfo: Equatable {
+            var product: Product
+            var subscription: Product.SubscriptionInfo
+            var isEligibleForIntroOffer: Bool
+        }
+
+        var productState: ProductState = .loading
+        var isPurchasing: Bool = false
     }
 
     public enum Action: Equatable {
@@ -20,7 +27,8 @@ public struct SubscriptionFooter {
         case buttonTapped
 
         case _failedToGetProduct
-        case _received(product: Product, subscription: Product.SubscriptionInfo, isEligibleForIntroOffer: Bool)
+        case _received(State.ProductInfo)
+        case _purchaseFinished(success: Bool, info: State.ProductInfo)
     }
 
     @Dependency(\.productsService) var productsService
@@ -32,22 +40,30 @@ public struct SubscriptionFooter {
                 return loadSubscriptionProducts(state: &state)
 
             case .buttonTapped:
-                guard case let .available(product, _, _) = state else { return .none }
-                return .run { _ in try await productsService.purchase(product) }
+                guard case let .available(info) = state.productState else { return .none }
+                state.isPurchasing = true
+                return .run { send in
+                    try await send(._purchaseFinished(success: productsService.purchase(info.product), info: info))
+                }
 
-            case let ._received(product, subscription, isEligibleForIntroOffer):
-                state = .available(product, subscription, isEligibleForIntroOffer: isEligibleForIntroOffer)
+            case let ._received(info):
+                state.productState = .available(info)
                 return .none
 
             case ._failedToGetProduct:
-                state = .failed
+                state.productState = .failed
+                return .none
+
+            case ._purchaseFinished(_, let info):
+                state.isPurchasing = false
+                state.productState = .available(info)
                 return .none
             }
         }
     }
 
     private func loadSubscriptionProducts(state: inout State) -> Effect<Action> {
-        state = .loading
+        state.productState = .loading
         return .run { send in
             let product = try await productsService.subscription
             guard let subscription = product.subscription else {
@@ -56,11 +72,11 @@ public struct SubscriptionFooter {
             }
 
             let isEligibleForIntroOffer = await subscription.isEligibleForIntroOffer
-            await send(._received(
+            await send(._received(.init(
                 product: product,
                 subscription: subscription,
                 isEligibleForIntroOffer: isEligibleForIntroOffer
-            ))
+            )))
         } catch: { _, send in
             await send(._failedToGetProduct)
         }

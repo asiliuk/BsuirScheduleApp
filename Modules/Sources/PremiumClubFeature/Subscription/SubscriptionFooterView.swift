@@ -8,15 +8,15 @@ struct SubscriptionFooterView: View {
 
     var body: some View {
         WithPerceptionTracking {
-            switch store.state {
+            switch store.productState {
             case .loading:
                 ProgressView()
                     .progressViewStyle(.circular)
             case .failed:
                 Text("screen.premiumClub.subscribe.failed.title")
-            case let .available(product, subscription, isEligibleForIntroOffer):
+            case let .available(info):
                 VStack(spacing: 8) {
-                    if isEligibleForIntroOffer, let introductoryOffer = subscription.introductoryOffer {
+                    if info.isEligibleForIntroOffer, let introductoryOffer = info.subscription.introductoryOffer {
                         Text(introductoryOffer.makeName())
                             .font(.subheadline)
                     }
@@ -24,8 +24,8 @@ struct SubscriptionFooterView: View {
                     AsyncButton {
                         await store.send(.buttonTapped).finish()
                     } label: {
-                        let period = String(localized: subscription.subscriptionPeriod.makeName())
-                        let offer = product.displayPrice
+                        let period = String(localized: info.subscription.subscriptionPeriod.makeName())
+                        let offer = info.product.displayPrice
                         Text("screen.premiumClub.subscribe.button.title\(offer)\(period)")
                             .bold()
                             .frame(maxWidth: .infinity)
@@ -35,7 +35,7 @@ struct SubscriptionFooterView: View {
                             .shine.delay(0.5),
                             every: 2.5
                         ),
-                        condition: true
+                        condition: !store.isPurchasing
                     )
                     .controlSize(.large)
                     .buttonStyle(.borderedProminent)
