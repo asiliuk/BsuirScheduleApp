@@ -12,6 +12,18 @@ public struct LecturersRow {
 
         var fullName: String { lector.fio }
         var imageUrl: URL? { lector.photoLink }
+
+        var subtitle: String? {
+            lector.academicDepartment?.joined(separator: " · ")
+        }
+
+        var subtitle2: String? {
+            [lector.degree, lector.rank]
+                .compacted()
+                .joined(separator: ", ")
+
+        }
+
         var mark: MarkedScheduleRowFeature.State
 
         init(lector: Employee) {

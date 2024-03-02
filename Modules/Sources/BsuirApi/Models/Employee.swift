@@ -7,7 +7,11 @@ public struct Employee: Codable, Equatable, Identifiable, Hashable {
     public let firstName: String
     public let middleName: String?
     public let lastName: String
-    
+
+    public let rank: String?
+    public let degree: String?
+    public let academicDepartment: [String]?
+
     public let photoLink: URL?
 
     public init(
@@ -16,6 +20,9 @@ public struct Employee: Codable, Equatable, Identifiable, Hashable {
         firstName: String,
         middleName: String?,
         lastName: String,
+        rank: String?,
+        degree: String?,
+        academicDepartment: [String]?,
         photoLink: URL?
     ) {
         self.id = id
@@ -24,6 +31,9 @@ public struct Employee: Codable, Equatable, Identifiable, Hashable {
         self.middleName = middleName
         self.lastName = lastName
         self.photoLink = photoLink
+        self.rank = rank
+        self.degree = degree
+        self.academicDepartment = academicDepartment
     }
 }
 

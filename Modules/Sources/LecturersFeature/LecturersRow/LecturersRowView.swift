@@ -13,7 +13,9 @@ struct LecturersRowView: View {
             } label: {
                 LecturerCellView(
                     fullName: store.fullName,
-                    imageUrl: store.imageUrl
+                    imageUrl: store.imageUrl,
+                    subtitle: store.subtitle,
+                    subtitle2: store.subtitle2
                 )
             }
             .markedScheduleRowActions(store: store.scope(state: \.mark, action: \.mark))

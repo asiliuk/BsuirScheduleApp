@@ -51,7 +51,9 @@ struct LecturersPlaceholderView: View {
     func lecturerRowPlaceholder(nameLengthOffset: Int = 0) -> some View {
         LecturerCellView(
             fullName: placeholderText(length: 15 + nameLengthOffset),
-            imageUrl: nil
+            imageUrl: nil, 
+            subtitle: "something",
+            subtitle2: "something 2"
         )
         .shimmeringPlaceholder()
     }

@@ -193,6 +193,9 @@ private extension PairViewModel {
                 firstName: "Артём",
                 middleName: "Александрович",
                 lastName: "Фещенко",
+                rank: nil,
+                degree: nil,
+                academicDepartment: nil,
                 photoLink: URL(string: "https://iis.bsuir.by/api/v1/employees/photo/515644")
             ),
             Employee(
@@ -201,6 +204,9 @@ private extension PairViewModel {
                 firstName: "Андрей",
                 middleName: "Игоревич",
                 lastName: "Бересневич",
+                rank: nil,
+                degree: nil,
+                academicDepartment: nil,
                 photoLink: URL(string: "https://iis.bsuir.by/api/v1/employees/photo/500023")
             )
         ],
