@@ -21,10 +21,10 @@ struct App: SwiftUI.App {
 }
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
-    private(set) lazy var store = Store(initialState: .init()) {
+    private(set) lazy var store = Store(initialState: .init()) { [isTestingEnabled] in
         AppFeature()
             .dependency(\.imageCache, .default)
-            .transformDependency(\.date.now) { [isTestingEnabled] now in
+            .transformDependency(\.date.now) { now in
                 if isTestingEnabled { now = Date(timeIntervalSince1970: 1699830000) }
             }
     }
