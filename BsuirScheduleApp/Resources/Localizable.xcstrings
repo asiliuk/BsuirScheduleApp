@@ -5834,25 +5834,25 @@
         "be" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Я ізноў перапісаў усе экраны з выкарыстаннем TCA 1.9 і новых Observation Tools. Усё стала нашмат хутчэй ці павольней, я не ведаю..."
+            "value" : "Я ізноў перапісаў усе экраны з выкарыстаннем TCA 1.8 і новых Observation Tools. Усё стала нашмат хутчэй ці павольней, я не ведаю..."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I rewrote all the screens again using TCA 1.9 and the new Observation Tools. Everything has become much faster or slower, I don't know..."
+            "value" : "I rewrote all the screens again using TCA 1.8 and the new Observation Tools. Everything has become much faster or slower, I don't know..."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Я опять переписал все экраны с использованием TCA 1.9 и новых Observation Tools. Все стало намного быстрее или медленнее, я не знаю..."
+            "value" : "Я опять переписал все экраны с использованием TCA 1.8 и новых Observation Tools. Все стало намного быстрее или медленнее, я не знаю..."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Я знову переписав усі екрани з використанням TCA 1.9 та нових Observation Tools. Все стало набагато швидше чи повільніше, я не знаю..."
+            "value" : "Я знову переписав усі екрани з використанням TCA 1.8 та нових Observation Tools. Все стало набагато швидше чи повільніше, я не знаю..."
           }
         }
       }
