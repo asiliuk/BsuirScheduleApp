@@ -5770,6 +5770,122 @@
         }
       }
     },
+    "screen.settings.whatsNew.3_4.iCloud.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбраныя і запінены расклад зараз сінхранізуецца паміж прыладамі праз iCloud"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorites and pinned schedules now sync across devices via iCloud"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Избранные и запиненное расписание теперь синхронизируется между устройствами через iCloud"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибраний та закритий розклад тепер синхронізується між пристроями через iCloud"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_4.iCloud.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сінхранізацыя з iCloud"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud sync"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Синхронизация с iCloud"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Синхронізація з iCloud"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_4.observationTools.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Я ізноў перапісаў усе экраны з выкарыстаннем TCA 1.9 і новых Observation Tools. Усё стала нашмат хутчэй ці павольней, я не ведаю..."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I rewrote all the screens again using TCA 1.9 and the new Observation Tools. Everything has become much faster or slower, I don't know..."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Я опять переписал все экраны с использованием TCA 1.9 и новых Observation Tools. Все стало намного быстрее или медленнее, я не знаю..."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Я знову переписав усі екрани з використанням TCA 1.9 та нових Observation Tools. Все стало набагато швидше чи повільніше, я не знаю..."
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_4.observationTools.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Архітэктура"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Architecture"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Архитектура"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Архітектура"
+          }
+        }
+      }
+    },
     "screen.settings.whatsNew.button.gotIt" : {
       "extractionState" : "manual",
       "localizations" : {
