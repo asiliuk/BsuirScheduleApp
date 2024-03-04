@@ -22,7 +22,10 @@ struct GroupsRowView: View {
                 }
             }
             .accessibilityIdentifier(store.title)
-            .markedScheduleRowActions(store: store.scope(state: \.mark, action: \.mark))
+            .markedScheduleRowActions(
+                store: store.scope(state: \.mark, action: \.mark),
+                deleteOnUnFavorite: !store.backedByRealGroup
+            )
         }
     }
 }

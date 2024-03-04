@@ -13,11 +13,17 @@ public struct GroupsRow {
         var title: String { groupName }
         var subtitle: String?
         var mark: MarkedScheduleRowFeature.State
+        var backedByRealGroup: Bool
 
-        init(groupName: String, subtitle: String?) {
+        init(
+            groupName: String,
+            subtitle: String? = nil,
+            backedByRealGroup: Bool = false
+        ) {
             self.groupName = groupName
             self.subtitle = subtitle
             self.mark = MarkedScheduleRowFeature.State(source: .group(name: groupName))
+            self.backedByRealGroup = backedByRealGroup
         }
 
         init(group: StudentGroup) {
@@ -30,7 +36,8 @@ public struct GroupsRow {
                 ]
                 .compacted()
                 .filter { !$0.isEmpty }
-                .joined(separator: " · ")
+                .joined(separator: " · "),
+                backedByRealGroup: true
             )
         }
     }

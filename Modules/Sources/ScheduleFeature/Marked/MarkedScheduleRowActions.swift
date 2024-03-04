@@ -2,13 +2,17 @@ import SwiftUI
 import ComposableArchitecture
 
 extension View {
-    public func markedScheduleRowActions(store: StoreOf<MarkedScheduleRowFeature>) -> some View {
-        modifier(MarkedScheduleRowActions(store: store))
+    public func markedScheduleRowActions(
+        store: StoreOf<MarkedScheduleRowFeature>,
+        deleteOnUnFavorite: Bool = false
+    ) -> some View {
+        modifier(MarkedScheduleRowActions(store: store, deleteOnUnFavorite: deleteOnUnFavorite))
     }
 }
 
 struct MarkedScheduleRowActions: ViewModifier {
     @Perception.Bindable var store: StoreOf<MarkedScheduleRowFeature>
+    var deleteOnUnFavorite: Bool
 
     func body(content: Content) -> some View {
         WithPerceptionTracking {
@@ -22,12 +26,21 @@ struct MarkedScheduleRowActions: ViewModifier {
                     .tint(.red)
                 }
                 .swipeActions(edge: .trailing) {
-                    Button {
-                        store.send(.toggleFavoriteTapped)
-                    } label: {
-                        store.isFavorite ? Label.removeFromFavorites : Label.addToFavorites
+                    if deleteOnUnFavorite {
+                        Button {
+                            store.send(.removeButtonTapped)
+                        } label: {
+                            Label.deleteFromFavorites
+                        }
+                        .tint(.red)
+                    } else {
+                        Button {
+                            store.send(.toggleFavoriteTapped)
+                        } label: {
+                            store.isFavorite ? Label.removeFromFavorites : Label.addToFavorites
+                        }
+                        .tint(.yellow)
                     }
-                    .tint(.yellow)
                 }
                 .alert($store.scope(state: \.alert, action: \.alert))
         }
@@ -49,5 +62,9 @@ private extension Label<Text, Image> {
 
     static var removeFromFavorites: Label {
         Label("row.markedSchedule.actions.removeFromFavorites.title", systemImage: "star.slash")
+    }
+
+    static var deleteFromFavorites: Label {
+        Label("row.markedSchedule.actions.deleteFromFavorites.title", systemImage: "trash")
     }
 }

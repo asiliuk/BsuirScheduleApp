@@ -13,16 +13,16 @@ struct LoadedGroupsFeatureView: View {
 
                 GroupsSectionView(
                     title: "screen.groups.pinned.section.header",
-                    rows: store.scope(state: \.pinnedRow, action: \.groupRows)
+                    rows: store.scope(state: \.pinnedRows, action: \.pinnedRows)
                 )
 
                 GroupsSectionView(
                     title: "screen.groups.favorites.section.header",
-                    rows: store.scope(state: \.favoriteRows, action: \.groupRows)
+                    rows: store.scope(state: \.favoriteRows, action: \.favoriteRows)
                 )
 
                 let sections = store
-                    .scope(state: \.visibleRows, action: \.groupRows)
+                    .scope(state: \.visibleRows, action: \.visibleRows)
                     .chunked(on: \.sectionTitle)
 
                 ForEach(sections, id: \.0) { (sectionTitle, rows) in

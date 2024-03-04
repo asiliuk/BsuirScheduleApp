@@ -2,6 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 import LoadableFeature
 import EntityScheduleFeature
+import BsuirUI
 
 public struct GroupsFeatureView: View {
     @Perception.Bindable var store: StoreOf<GroupsFeature>
@@ -31,6 +32,13 @@ public struct GroupsFeatureView: View {
                         )
                     }
                 )
+                .toolbar {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button("screen.groups.add.title", systemImage: "plus") {
+                            store.send(.forceAddGroupButtonTapped)
+                        }
+                    }
+                }
                 .navigationTitle("screen.groups.navigation.title")
                 .navigationBarTitleDisplayMode(.inline)
             } destination: { store in
@@ -38,7 +46,36 @@ public struct GroupsFeatureView: View {
             }
             .onAppear { store.send(.onAppear) }
             .task { await store.send(.task).finish() }
+            .forceAddAlert(store: $store.scope(state: \.forceAddAlert, action: \.forceAddAlert))
         }
+    }
+}
+
+private extension View {
+    @MainActor 
+    func forceAddAlert(store: Binding<StoreOf<ForceAddAlert>?>) -> some View {
+        alert(
+            store,
+            title: { _ in "alert.forceAddGroup.title" },
+            actions: { store in
+                @Perception.Bindable var store = store
+                WithPerceptionTracking {
+                    TextField("alert.forceAddGroup.groupName.title", text: $store.groupName)
+                        .keyboardType(.numberPad)
+
+                    Button("alert.forceAddGroup.button.add") {
+                        store.send(.addButtonTapped)
+                    }
+
+                    Button("alert.forceAddGroup.button.cancel", role: .cancel) {
+                        store.send(.cancelButtonTapped)
+                    }
+                }
+            },
+            message: { _ in
+                Text("alert.forceAddGroup.groupName.message")
+            }
+        )
     }
 }
 
@@ -54,4 +91,3 @@ private struct GroupsFeatureLoadingPlaceholderView: View {
         }
     }
 }
-

@@ -26,6 +26,7 @@ public struct MarkedScheduleRowFeature {
 
         case toggleFavoriteTapped
         case togglePinnedTapped
+        case removeButtonTapped
 
         case _setIsFavorite(Bool)
         case _setIsPinned(Bool)
@@ -61,6 +62,14 @@ public struct MarkedScheduleRowFeature {
                     await isPinned
                         ? scheduleMarkingService.pin(source)
                         : scheduleMarkingService.unpin(source)
+                }
+
+            case .removeButtonTapped:
+                state.isFavorite = false
+                state.isPinned = false
+                return .run { [source = state.source] _ in
+                    await scheduleMarkingService.unfavorite(source)
+                    await scheduleMarkingService.unpin(source)
                 }
 
             case ._setIsFavorite(let value):

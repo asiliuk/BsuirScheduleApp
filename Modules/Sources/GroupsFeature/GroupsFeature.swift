@@ -21,13 +21,16 @@ public struct GroupsFeature {
         // MARK: Navigation
         var path = StackState<EntityScheduleFeatureV2.State>()
         var groupPresentationMode: GroupPresentationMode = .initial
-
+        
         // MARK: Placeholder
         var hasPinnedPlaceholder: Bool  = false
         var favoritesPlaceholderCount: Int = 0
 
         // MARK: Groups
         var groups: LoadingState<LoadedGroupsFeature.State> = .initial
+
+        // MARK: Force Add
+        @Presents var forceAddAlert: ForceAddAlert.State?
 
         public init() {}
     }
@@ -39,6 +42,8 @@ public struct GroupsFeature {
 
         case task
         case onAppear
+        case forceAddGroupButtonTapped
+        case forceAddAlert(PresentationAction<ForceAddAlert.Action>)
 
         case groups(LoadingActionOf<LoadedGroupsFeature>)
         case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
@@ -65,12 +70,15 @@ public struct GroupsFeature {
                 state.presentDeferredGroupIfNeeded()
                 return .none
 
-            case .groups(.loaded(.groupRows(.element(let groupName, action: .rowTapped)))):
-                state.presentGroup(groupName)
+            case .forceAddGroupButtonTapped:
+                state.forceAddAlert = .init()
                 return .none
 
-            case .groups(.loaded(.groupRows(.element(_, action: .mark(.delegate(let action)))))):
+            case .groups(.loaded(.delegate(let action))):
                 switch action {
+                case .showGroupSchedule(let groupName):
+                    state.presentGroup(groupName)
+                    return .none
                 case .showPremiumClub:
                     return .send(.delegate(.showPremiumClubPinned))
                 }
@@ -88,7 +96,7 @@ public struct GroupsFeature {
                     return .none
                 }
 
-            case .groups, .path, .delegate:
+            case .groups, .path, .forceAddAlert, .delegate:
                 return .none
             }
         }
@@ -103,5 +111,44 @@ public struct GroupsFeature {
             LoadedGroupsFeature()
         }
         .forEach(\.path, action: \.path)
+        .ifLet(\.$forceAddAlert, action: \.forceAddAlert) {
+            ForceAddAlert()
+        }
+    }
+}
+
+// MARK: - Force Add
+
+@Reducer
+public struct ForceAddAlert {
+    @ObservableState
+    public struct State: Equatable {
+        var groupName: String = ""
+    }
+
+    public enum Action: Equatable, BindableAction {
+        case addButtonTapped
+        case cancelButtonTapped
+        case binding(BindingAction<State>)
+    }
+
+    @Dependency(\.favorites) var favorites
+
+    public var body: some ReducerOf<Self> {
+        BindingReducer()
+
+        Reduce { state, action in
+            switch action {
+            case .addButtonTapped:
+                if !state.groupName.isEmpty {
+                    favorites.addToFavorites(source: .group(name: state.groupName))
+                }
+                return .none
+            case .cancelButtonTapped:
+                return .none
+            case .binding:
+                return .none
+            }
+        }
     }
 }
