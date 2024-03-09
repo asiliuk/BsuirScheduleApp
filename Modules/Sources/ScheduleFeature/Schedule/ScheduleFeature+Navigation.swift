@@ -6,6 +6,7 @@ extension ScheduleFeature.State {
     }
 
     public mutating func reset() {
+        guard schedule.is(\.loaded) else { return }
         schedule.modify(\.loaded) { [scheduleType] in
             switch scheduleType {
             case .compact: $0.compact.reset()
