@@ -172,7 +172,7 @@ public struct LoadedGroupsFeature {
 
     private func listenToFavoriteUpdates() -> Effect<Action> {
         return .run { send in
-            for await value in favoriteGroupNames.removeDuplicates().dropFirst().values {
+            for await value in favoriteGroupNames.removeDuplicates().values {
                 await send(._favoritesUpdate(value), animation: .default)
             }
         }
@@ -180,7 +180,7 @@ public struct LoadedGroupsFeature {
 
     private func listenToPinnedUpdates() -> Effect<Action> {
         return .run { send in
-            for await value in pinnedSchedule().map(\.?.groupName).removeDuplicates().dropFirst().values {
+            for await value in pinnedSchedule().map(\.?.groupName).removeDuplicates().values {
                 await send(._pinnedUpdate(value), animation: .default)
             }
         }

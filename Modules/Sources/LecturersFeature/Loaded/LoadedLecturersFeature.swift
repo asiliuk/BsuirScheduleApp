@@ -144,7 +144,7 @@ public struct LoadedLecturersFeature {
 
     private func listenToFavoriteUpdates() -> Effect<Action> {
         return .run { send in
-            for await value in lecturerIds.removeDuplicates().dropFirst().values {
+            for await value in lecturerIds.removeDuplicates().values {
                 await send(._favoritesUpdate(value), animation: .default)
             }
         }
@@ -152,7 +152,7 @@ public struct LoadedLecturersFeature {
 
     private func listenToPinnedUpdates() -> Effect<Action> {
         return .run { send in
-            for await value in pinnedSchedule().map(\.?.lector?.id).removeDuplicates().dropFirst().values {
+            for await value in pinnedSchedule().map(\.?.lector?.id).removeDuplicates().values {
                 await send(._pinnedUpdate(value), animation: .default)
             }
         }
