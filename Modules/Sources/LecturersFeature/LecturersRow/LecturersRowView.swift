@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirUI
 import ScheduleFeature
+import EntityScheduleFeature
 import ComposableArchitecture
 
 struct LecturersRowView: View {
@@ -8,9 +9,7 @@ struct LecturersRowView: View {
 
     var body: some View {
         WithPerceptionTracking {
-            NavigationLinkButton {
-                store.send(.rowTapped)
-            } label: {
+            NavigationLink(state: EntityScheduleFeatureV2.State.lector(.init(lector: store.lector))) {
                 LecturerCellView(
                     fullName: store.fullName,
                     imageUrl: store.imageUrl,

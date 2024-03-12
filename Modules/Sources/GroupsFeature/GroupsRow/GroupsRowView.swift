@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirUI
 import ScheduleFeature
+import EntityScheduleFeature
 import ComposableArchitecture
 
 struct GroupsRowView: View {
@@ -8,9 +9,7 @@ struct GroupsRowView: View {
 
     var body: some View {
         WithPerceptionTracking {
-            NavigationLinkButton {
-                store.send(.rowTapped)
-            } label: {
+            NavigationLink(state: EntityScheduleFeatureV2.State.group(.init(groupName: store.groupName))) {
                 VStack(alignment: .leading) {
                     Text(store.title)
                         .monospacedDigit()
