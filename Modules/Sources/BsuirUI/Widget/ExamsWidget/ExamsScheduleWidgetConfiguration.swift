@@ -16,6 +16,7 @@ public struct ExamsScheduleWidgetConfiguration {
         case exams(days: [ExamDay] = [])
         case noSchedule
         case noPinned
+        case failed(refresh: Date)
     }
 
     public var deeplink: URL? = nil
@@ -48,6 +49,10 @@ extension ExamsScheduleWidgetConfiguration {
 
     public static func noSchedule(deeplink: URL? = nil, title: String, subgroup: Int?) -> Self {
         Self(deeplink: deeplink, title: title, subgroup: subgroup, content: .noSchedule)
+    }
+
+    public static func failed(deeplink: URL? = nil, title: String, subgroup: Int?, refresh: Date) -> Self {
+        Self(deeplink: deeplink, title: title, subgroup: subgroup, content: .failed(refresh: refresh))
     }
 }
 

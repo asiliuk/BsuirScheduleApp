@@ -102,5 +102,6 @@ struct ExamsScheduleWidgetEntryView: View {
     entry
     mutating(entry) { $0.config.content = .exams() }
     mutating(entry) { $0.config = .noSchedule(title: "151004", subgroup: 100) }
+    mutating(entry) { $0.config = .failed(title: "151004", subgroup: 100, refresh: .now.addingTimeInterval(600)) }
     mutating(entry) { $0.config = .noPinned() }
 }

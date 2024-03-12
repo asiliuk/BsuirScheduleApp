@@ -20,6 +20,9 @@ public struct ExamsScheduleWidgetLargeView : View {
             case .noSchedule:
                 NoScheduleView()
                     .padding(.horizontal)
+            case .failed(let refresh):
+                ScheduleRequestFailedView(refresh: refresh)
+                    .padding(.horizontal)
             case .exams([]):
                 NoPairsView()
                     .padding(.horizontal)
