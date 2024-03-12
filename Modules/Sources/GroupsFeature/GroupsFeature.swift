@@ -76,9 +76,6 @@ public struct GroupsFeature {
 
             case .groups(.loaded(.delegate(let action))):
                 switch action {
-                case .showGroupSchedule(let groupName):
-                    state.presentGroup(groupName)
-                    return .none
                 case .showPremiumClub:
                     return .send(.delegate(.showPremiumClubPinned))
                 }

@@ -83,7 +83,6 @@ public struct LoadedGroupsFeature {
 
     public enum Action: BindableAction, Equatable {
         public enum Delegate: Equatable {
-            case showGroupSchedule(groupName: String)
             case showPremiumClub
         }
 
@@ -139,11 +138,6 @@ public struct LoadedGroupsFeature {
                 case .showPremiumClub:
                     return .send(.delegate(.showPremiumClub))
                 }
-
-            case .pinnedRows(.element(let groupName, .rowTapped)),
-                 .favoriteRows(.element(let groupName, .rowTapped)),
-                 .visibleRows(.element(let groupName, .rowTapped)):
-                return .send(.delegate(.showGroupSchedule(groupName: groupName)))
 
             case .pinnedRows, .favoriteRows, .visibleRows, .binding, .delegate:
                 return .none

@@ -43,7 +43,6 @@ public struct GroupsRow {
     }
 
     public enum Action: Equatable {
-        case rowTapped
         case mark(MarkedScheduleRowFeature.Action)
     }
 

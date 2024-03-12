@@ -63,10 +63,6 @@ public struct LecturersFeature {
                 state.presentDeferredLectorIfNeeded()
                 return .none
 
-            case .lecturers(.loaded(.lecturerRows(.element(let lectorId, action: .rowTapped)))):
-                state.presentLector(state.lecturers.loaded?.lector(withId: lectorId))
-                return .none
-
             case .lecturers(.loaded(.lecturerRows(.element(_, action: .mark(.delegate(let action)))))):
                 switch action {
                 case .showPremiumClub:
