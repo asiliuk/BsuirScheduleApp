@@ -15,6 +15,8 @@ public struct PinnedScheduleWidgetRectangularView: View {
                 NoPinnedScheduleView()
             case .noSchedule:
                 NoScheduleView()
+            case .failed(let refresh):
+                ScheduleRequestFailedView(refresh: refresh)
             case .pairs(_, []):
                 NoPairsView()
             case let .pairs(passed, upcoming):

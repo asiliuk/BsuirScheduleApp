@@ -2,4 +2,6 @@
 "widget.schedule.noSchedule" = "🧑‍🏫 No schedule";
 "widget.schedule.more.%lld" = "%lld more";
 "widget.noPinned.title" = "No pinned schedule";
+"widget.failed.title" = "Failed to fetch";
+"widget.failed.message%@" = "Will try again %@";
 "view.pairView.announcement.title" = "📣 Announcement";

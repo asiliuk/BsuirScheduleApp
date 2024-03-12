@@ -6,6 +6,7 @@ public struct PinnedScheduleWidgetConfiguration {
         case pairs(passed: [PairViewModel] = [], upcoming: [PairViewModel] = [])
         case noPinned
         case noSchedule
+        case failed(refresh: Date)
     }
 
     public var deeplink: URL? = nil
@@ -39,6 +40,10 @@ extension PinnedScheduleWidgetConfiguration {
 
     public static func noSchedule(deeplink: URL? = nil, title: String, subgroup: Int?) -> Self {
         Self(deeplink: deeplink, title: title, subgroup: subgroup, content: .noSchedule)
+    }
+
+    public static func failed(deeplink: URL? = nil, title: String, subgroup: Int?, refresh: Date) -> Self {
+        Self(deeplink: deeplink, title: title, subgroup: subgroup, content: .failed(refresh: refresh))
     }
 }
 

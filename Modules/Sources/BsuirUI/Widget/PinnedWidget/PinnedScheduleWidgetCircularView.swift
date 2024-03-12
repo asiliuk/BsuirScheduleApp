@@ -16,6 +16,8 @@ public struct PinnedScheduleWidgetCircularView: View {
                 NoPinSymbol()
             case .noSchedule:
                 NoScheduleView()
+            case .failed:
+                ScheduleRequestFailedSymbolView()
             case .pairs(_, []):
                 NoPairsView()
             case let .pairs(passed, upcoming):

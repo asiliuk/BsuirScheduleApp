@@ -26,4 +26,15 @@ extension PinnedScheduleEntry {
             )
         )
     }
+
+    static func pinnedFailed(title: String, subgroup: Int?, refresh: Date) -> PinnedScheduleEntry {
+        PinnedScheduleEntry(
+            config: .failed(
+                deeplink: deeplinkRouter.url(for: .pinned()),
+                title: title,
+                subgroup: subgroup,
+                refresh: refresh
+            )
+        )
+    }
 }

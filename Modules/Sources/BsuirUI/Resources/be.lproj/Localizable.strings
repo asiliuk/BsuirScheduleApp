@@ -2,4 +2,6 @@
 "widget.schedule.noSchedule" = "🧑‍🏫 Няма раскладу";
 "widget.schedule.more.%lld" = "яшчэ %lld";
 "widget.noPinned.title" = "Няма замацаванага раскладу";
+"widget.failed.title" = "Памылка загрузкі";
+"widget.failed.message%@" = "Паўторная спроба %@";
 "view.pairView.announcement.title" = "📣 Аб'ява";
