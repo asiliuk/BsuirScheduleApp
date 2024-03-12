@@ -43,8 +43,12 @@ struct GroupsPlaceholderView: View {
     }
 
     var groupRowPlaceholder: some View {
-        Text(placeholderText(length: 12))
-            .shimmeringPlaceholder()
+        VStack(alignment: .leading) {
+            Text(placeholderText(length: 12))
+            Text(placeholderText(length: 20))
+                .font(.caption)
+        }
+        .shimmeringPlaceholder()
     }
 }
 
