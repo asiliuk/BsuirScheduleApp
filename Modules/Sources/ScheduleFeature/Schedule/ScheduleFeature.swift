@@ -42,7 +42,6 @@ public struct ScheduleFeature<Value: Equatable> {
         public var title: String
         public var value: Value
         public var mark: MarkedSchedulePickerFeature.State?
-        public var isOnTop: Bool = true
         var schedule: LoadingState<LoadedScheduleReducer.State> = .initial
         var scheduleType: ScheduleDisplayType
         var subgroupPicker: SubgroupPickerFeature.State?

@@ -8,7 +8,7 @@ struct LoadedLecturersFeatureView: View {
     
     var body: some View {
         WithPerceptionTracking {
-            ScrollableToTopList(isOnTop: $store.isOnTop) {
+            List {
                 if !store.pinnedRows.isEmpty  {
                     Section("screen.lecturers.pinned.section.header") {
                         ForEach(store.scope(state: \.pinnedRows, action: \.lecturerRows)) { store in

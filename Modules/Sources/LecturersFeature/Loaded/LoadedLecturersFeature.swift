@@ -7,9 +7,6 @@ import BsuirApi
 public struct LoadedLecturersFeature {
     @ObservableState
     public struct State {
-        // MARK: Scroll
-        var isOnTop: Bool = true
-
         // MARK: Search
         var searchQuery: String = ""
         var searchDismiss: Int = 0

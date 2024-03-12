@@ -9,9 +9,6 @@ import Algorithms
 public struct LoadedGroupsFeature {
     @ObservableState
     public struct State: Equatable {
-        // MARK: Scroll
-        var isOnTop: Bool = true
-
         // MARK: Search
         var searchQuery: String = ""
         var searchDismiss: Int = 0

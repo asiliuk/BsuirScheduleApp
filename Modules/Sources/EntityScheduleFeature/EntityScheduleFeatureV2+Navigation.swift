@@ -11,13 +11,4 @@ extension EntityScheduleFeatureV2.State {
             modify(\.lector) { $0.schedule.switchDisplayType(displayType) }
         }
     }
-
-    public mutating func reset() {
-        switch self {
-        case .group:
-            modify(\.group) { $0.schedule.reset() }
-        case .lector:
-            modify(\.lector) { $0.schedule.reset() }
-        }
-    }
 }

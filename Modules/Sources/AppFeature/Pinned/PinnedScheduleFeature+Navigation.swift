@@ -8,7 +8,6 @@ extension PinnedScheduleFeature.State {
     }
 
     mutating func reset() {
-        entitySchedule.reset()
-        path = StackState()
+        path.removeAll()
     }
 }

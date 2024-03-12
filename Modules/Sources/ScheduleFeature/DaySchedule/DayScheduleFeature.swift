@@ -14,10 +14,6 @@ public struct DayScheduleFeature {
             scheduleList.filter(keepingSubgroup: subgroup)
         }
 
-        public mutating func reset() {
-            scheduleList.isOnTop = true
-        }
-
         init(schedule: DaySchedule, startDate: Date?, endDate: Date?) {
             @Dependency(\.calendar) var calendar
             @Dependency(\.date.now) var now

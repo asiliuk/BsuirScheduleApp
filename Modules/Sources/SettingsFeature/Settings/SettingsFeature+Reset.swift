@@ -8,10 +8,6 @@ extension SettingsFeature.State {
         if !path.isEmpty {
             return path = NavigationPath()
         }
-
-        if !isOnTop {
-            return isOnTop = true
-        }
     }
 
     public mutating func openPremiumClub(source: PremiumClubFeature.Source?) {

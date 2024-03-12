@@ -25,7 +25,7 @@ public struct SettingsFeatureView: View {
     
     public var body: some View {
         WithPerceptionTracking {
-            ScrollableToTopList(isOnTop: $store.isOnTop) {
+            List {
                 Section {
                     NavigationLink(value: SettingsFeatureDestination.premiumClub) {
                         PremiumClubLabel(

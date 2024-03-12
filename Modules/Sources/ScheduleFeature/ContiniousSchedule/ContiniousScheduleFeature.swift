@@ -26,10 +26,6 @@ public struct ContinuousScheduleFeature {
             scheduleList.filter(keepingSubgroup: subgroup)
         }
 
-        public mutating func reset() {
-            scheduleList.isOnTop = true
-        }
-
         init(
             schedule: DaySchedule,
             startDate: Date?,

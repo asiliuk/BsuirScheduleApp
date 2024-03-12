@@ -5,8 +5,6 @@ extension LoadedGroupsFeature.State {
     mutating func reset() {
         if !searchQuery.isEmpty {
             dismissSearch()
-        } else if !isOnTop {
-            isOnTop = true
         }
     }
 }

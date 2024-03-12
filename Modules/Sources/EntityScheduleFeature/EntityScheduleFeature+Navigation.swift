@@ -7,9 +7,4 @@ extension EntityScheduleFeature.State {
         try? (/Self.group).modify(&self) { $0.schedule.switchDisplayType(displayType) }
         try? (/Self.lector).modify(&self) { $0.schedule.switchDisplayType(displayType) }
     }
-
-    public mutating func reset() {
-        try? (/Self.group).modify(&self) { $0.schedule.reset() }
-        try? (/Self.lector).modify(&self) { $0.schedule.reset() }
-    }
 }

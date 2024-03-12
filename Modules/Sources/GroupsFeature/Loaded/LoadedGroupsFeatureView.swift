@@ -9,8 +9,7 @@ struct LoadedGroupsFeatureView: View {
 
     var body: some View {
         WithPerceptionTracking {
-            ScrollableToTopList(isOnTop: $store.isOnTop) {
-
+            List {
                 GroupsSectionView(
                     title: "screen.groups.pinned.section.header",
                     rows: store.scope(state: \.pinnedRows, action: \.pinnedRows)

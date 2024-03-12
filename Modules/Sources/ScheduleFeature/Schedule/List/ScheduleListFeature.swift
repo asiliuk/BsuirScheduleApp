@@ -12,7 +12,6 @@ public struct ScheduleListFeature {
 
     @ObservableState
     public struct State: Equatable {
-        var isOnTop: Bool = true
         var hasSchedule: Bool { !days.isEmpty }
         var days: IdentifiedArrayOf<DaySectionFeature.State>
         var loading: Loading
@@ -28,7 +27,6 @@ public struct ScheduleListFeature {
         }
 
         case loadingIndicatorAppeared
-        case setIsOnTop(Bool)
         case days(IdentifiedActionOf<DaySectionFeature>)
         case delegate(Delegate)
     }
@@ -36,10 +34,6 @@ public struct ScheduleListFeature {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .setIsOnTop(let value):
-                state.isOnTop = value
-                return .none
-
             case .loadingIndicatorAppeared:
                 return .send(.delegate(.loadMore))
 

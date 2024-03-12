@@ -11,7 +11,6 @@ public struct SettingsFeature {
     @ObservableState
     public struct State: Equatable {
         public var path = NavigationPath()
-        var isOnTop: Bool = true
 
         var premiumClub = PremiumClubFeature.State(isModal: false)
 

@@ -16,10 +16,6 @@ public struct ExamsScheduleFeature {
             scheduleList.filter(keepingSubgroup: subgroup)
         }
 
-        public mutating func reset() {
-            scheduleList.isOnTop = true
-        }
-
         init(exams: [Pair], startDate: Date?, endDate: Date?, pairRowDetails: PairRowDetails?) {
             self.pairRowDetails = pairRowDetails
 

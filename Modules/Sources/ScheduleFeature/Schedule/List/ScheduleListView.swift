@@ -22,7 +22,7 @@ private struct ScheduleContentListView: View {
 
     var body: some View {
         WithPerceptionTracking {
-            ScrollableToTopList(isOnTop: $store.isOnTop.sending(\.setIsOnTop)) {
+            List {
                 Group {
                     WithPerceptionTracking {
                         if let header = store.header {
