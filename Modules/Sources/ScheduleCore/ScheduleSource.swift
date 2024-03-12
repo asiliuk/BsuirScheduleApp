@@ -11,6 +11,13 @@ public enum ScheduleSource: Equatable, Codable {
 // MARK: - Checks
 
 extension ScheduleSource {
+    public var title: String {
+        switch self {
+        case .group(let name): name
+        case .lector(let lector): lector.compactFio
+        }
+    }
+    
     public var groupName: String? {
         switch self {
         case .group(let name):

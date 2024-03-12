@@ -68,21 +68,41 @@ final class ExamsScheduleProvider {
             return completeCheckingPreview(with: .noPinned)
         }
 
-        guard let response = try? await fetchExams(for: pinnedSchedule, onlyExams: onlyExams) else {
+        do {
+            let response = try await fetchExams(for: pinnedSchedule, onlyExams: onlyExams)
+            guard let timeline = Timeline(response, now: now, calendar: calendar) else {
+                os_log(.info, log: .examsProvider, "getTimeline empty timeline")
+                return completeCheckingPreview(with: .noScheduleForPinned(
+                    title: response.title,
+                    subgroup: preferredSubgroup(for: pinnedSchedule)
+                ))
+            }
+
+            os_log(.info, log: .examsProvider, "getTimeline success, entries: \(timeline.entries.count)")
+            return timeline
+        } catch {
             os_log(.info, log: .examsProvider, "getTimeline failed to fetch")
-            return .init(entries: [], policy: .after(Date().advanced(by: 5 * 60)))
-        }
+            let refresh = Date().advanced(by: 5 * 60)
+            let entries: [Entry] = {
+                switch RequestError(error) {
+                case .unknown, .notConnectedToInternet:
+                    return []
+                case .noSchedule:
+                    return [.noScheduleForPinned(
+                        title: pinnedSchedule.title,
+                        subgroup: preferredSubgroup(for: pinnedSchedule)
+                    )]
+                case .failedToDecode, .somethingWrongWithBsuir:
+                    return [.pinnedFailed(
+                        title: pinnedSchedule.title,
+                        subgroup: preferredSubgroup(for: pinnedSchedule),
+                        refresh: refresh
+                    )]
+                }
+            }()
 
-        guard let timeline = Timeline(response, now: now, calendar: calendar) else {
-            os_log(.info, log: .examsProvider, "getTimeline empty timeline")
-            return completeCheckingPreview(with: .noScheduleForPinned(
-                title: response.title,
-                subgroup: preferredSubgroup(for: pinnedSchedule)
-            ))
+            return Timeline(entries: entries, policy: .after(refresh))
         }
-
-        os_log(.info, log: .examsProvider, "getTimeline success, entries: \(timeline.entries.count)")
-        return timeline
     }
 
     private func fetchExams(for source: ScheduleSource, onlyExams: Bool) async throws -> MostRelevantExamsScheduleResponse {
@@ -91,7 +111,7 @@ final class ExamsScheduleProvider {
             let schedule = try await apiClient.groupSchedule(name, false)
             return MostRelevantExamsScheduleResponse(
                 deeplink: .group(name: name, displayType: .exams),
-                title: schedule.studentGroup.name,
+                title: source.title,
                 subgroup: preferredSubgroup(for: source),
                 exams: schedule.examSchedules,
                 calendar: calendar,
@@ -101,7 +121,7 @@ final class ExamsScheduleProvider {
             let schedule = try await apiClient.lecturerSchedule(employee.urlId, false)
             return MostRelevantExamsScheduleResponse(
                 deeplink: .lector(id: schedule.employee.id, displayType: .exams),
-                title: schedule.employee.compactFio,
+                title: source.title,
                 subgroup: preferredSubgroup(for: source),
                 exams: schedule.examSchedules ?? [],
                 calendar: calendar,

@@ -83,7 +83,26 @@ final class PinnedScheduleProvider: TimelineProvider {
                 return completion(timeline)
             } catch {
                 os_log(.info, log: .pinnedProvider, "getTimeline failed to fetch")
-                completion(.init(entries: [], policy: .after(Date().advanced(by: 5 * 60))))
+                let refresh = Date().advanced(by: 5 * 60)
+                let entries: [Entry] = {
+                    switch RequestError(error) {
+                    case .unknown, .notConnectedToInternet:
+                        return []
+                    case .noSchedule:
+                        return [.noScheduleForPinned(
+                            title: pinnedSchedule.title,
+                            subgroup: preferredSubgroup(for: pinnedSchedule)
+                        )]
+                    case .failedToDecode, .somethingWrongWithBsuir:
+                        return [.pinnedFailed(
+                            title: pinnedSchedule.title,
+                            subgroup: preferredSubgroup(for: pinnedSchedule),
+                            refresh: refresh
+                        )]
+                    }
+                }()
+
+                completion(Timeline(entries: entries, policy: .after(refresh)))
             }
         }
     }
@@ -94,7 +113,7 @@ final class PinnedScheduleProvider: TimelineProvider {
             let schedule = try await apiClient.groupSchedule(name, false)
             return MostRelevantPinnedScheduleResponse(
                 deeplink: .group(name: schedule.studentGroup.name),
-                title: schedule.studentGroup.name,
+                title: source.title,
                 subgroup: preferredSubgroup(for: source),
                 startDate: schedule.startDate,
                 endDate: schedule.endDate,
@@ -104,7 +123,7 @@ final class PinnedScheduleProvider: TimelineProvider {
             let schedule = try await apiClient.lecturerSchedule(lector.urlId, false)
             return MostRelevantPinnedScheduleResponse(
                 deeplink: .lector(id: schedule.employee.id),
-                title: schedule.employee.compactFio,
+                title: source.title,
                 subgroup: preferredSubgroup(for: source),
                 startDate: schedule.startDate,
                 endDate: schedule.endDate,
