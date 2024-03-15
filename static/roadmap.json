@@ -62,6 +62,7 @@
     {
         "id": "1",
         "title": "Sync with CloudKit",
+        "isFinished": true,
         "localizedTitle": [
           {
             "language": "ru",
@@ -80,23 +81,23 @@
             "value": "Синхронізація з CloudKit"
           }
         ],
-        "status": "planned",
+        "status": "done",
         "localizedStatus": [
           {
             "language": "ru",
-            "value": "Запланировано"
+            "value": "Готово"
           },
           {
             "language": "en",
-            "value": "Planned"
+            "value": "Done"
           },
           {
             "language": "be",
-            "value": "Запланавана"
+            "value": "Гатова"
           },
           {
             "language": "uk",
-            "value": "Заплановано"
+            "value": "Готово"
           }
         ],
         "localizedDescription": [
