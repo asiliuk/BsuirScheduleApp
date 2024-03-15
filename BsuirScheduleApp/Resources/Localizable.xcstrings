@@ -1107,6 +1107,35 @@
         }
       }
     },
+    "row.markedSchedule.actions.deleteFromFavorites.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выдаліць з абранага"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete from favorites"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить из избранного"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видалити з вибраного"
+          }
+        }
+      }
+    },
     "row.markedSchedule.actions.unpin.title" : {
       "extractionState" : "manual",
       "localizations" : {
