@@ -2,7 +2,7 @@ import Foundation
 import Dependencies
 
 public struct AppConfiguration: Equatable {
-    public let telemetryDeckAppId: String?
+    // Something will be added here later
 }
 
 // MARK: - Dependency
@@ -16,13 +16,13 @@ extension DependencyValues {
 
 extension AppConfiguration: DependencyKey {
     public static let liveValue = AppConfiguration(infoDictionary: Bundle.main.infoDictionary)
-    public static let previewValue = AppConfiguration(telemetryDeckAppId: "xxx-xxx-xxx")
+    public static let previewValue = AppConfiguration()
 }
 
 // MARK: - Info.plist
 
 private extension AppConfiguration {
     init(infoDictionary: [String: Any]?) {
-        self.telemetryDeckAppId = (infoDictionary?["TELEMETRY_DECK_APP_ID"] as? String)?.nilOnEmpty()
+        // Parse configuration from Info.plist
     }
 }

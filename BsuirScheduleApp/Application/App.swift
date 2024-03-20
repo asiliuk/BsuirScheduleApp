@@ -41,10 +41,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         @Dependency(\.productsService) var productsService
         productsService.load()
 
-        @Dependency(\.telemetryService) var telemetryService
-        telemetryService.setup()
-        telemetryService.sendAppDidFinishLaunching()
-
         @Dependency(\.cloudSyncService) var cloudSyncService
         cloudSyncService.load()
     }

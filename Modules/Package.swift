@@ -43,7 +43,6 @@ let package = Package(
          .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "1.0.0"),
          .package(url: "https://github.com/simibac/ConfettiSwiftUI.git", from: "1.1.0"),
          .package(url: "https://github.com/ryanlintott/FrameUp.git", from: "0.5.0"),
-         .package(url: "https://github.com/TelemetryDeck/SwiftClient.git", from: "1.4.0"),
          .package(url: "https://github.com/SvenTiigi/WhatsNewKit.git", from: "2.1.0"),
          .package(url: "https://github.com/AvdLee/Roadmap.git", branch: "main"),
          .package(url: "https://github.com/EmergeTools/Pow", from: "1.0.0"),
@@ -113,7 +112,7 @@ let package = Package(
             dependencies: ["BsuirCore", .urlRouting, .dependencies]),
         .target(
             name: "BsuirCore",
-            dependencies: [.dependencies, .swiftCollections, .telemetryClient]),
+            dependencies: [.dependencies, .swiftCollections]),
         .testTarget(
             name: "ScheduleCoreTests",
             dependencies: ["ScheduleCore"]),
@@ -136,7 +135,6 @@ private extension Target.Dependency {
     static let introspect: Self = .product(name: "SwiftUIIntrospect", package: "SwiftUI-Introspect")
     static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
     static let frameUp: Self = .product(name: "FrameUp", package: "FrameUp")
-    static let telemetryClient: Self = .product(name: "TelemetryClient", package: "SwiftClient")
     static let whatsNewKit: Self = .product(name: "WhatsNewKit", package: "WhatsNewKit")
     static let roadmap: Self = .product(name: "Roadmap", package: "Roadmap")
     static let pow: Self = .product(name: "Pow", package: "Pow")
