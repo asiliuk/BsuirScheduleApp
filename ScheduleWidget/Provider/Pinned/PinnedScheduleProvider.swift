@@ -86,14 +86,14 @@ final class PinnedScheduleProvider: TimelineProvider {
                 let refresh = Date().advanced(by: 5 * 60)
                 let entries: [Entry] = {
                     switch RequestError(error) {
-                    case .unknown, .notConnectedToInternet:
+                    case .notConnectedToInternet:
                         return []
                     case .noSchedule:
                         return [.noScheduleForPinned(
                             title: pinnedSchedule.title,
                             subgroup: preferredSubgroup(for: pinnedSchedule)
                         )]
-                    case .failedToDecode, .somethingWrongWithBsuir:
+                    case .failedToDecode, .somethingWrongWithBsuir, .unknown:
                         return [.pinnedFailed(
                             title: pinnedSchedule.title,
                             subgroup: preferredSubgroup(for: pinnedSchedule),
