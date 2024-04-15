@@ -21,43 +21,37 @@ private struct ScheduleContentListView: View {
     @State var presentsPairDetailsPopover: Bool = false
 
     var body: some View {
-        WithPerceptionTracking {
-            List {
-                Group {
-                    WithPerceptionTracking {
-                        if let header = store.header {
-                            Text(header)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-
-                    ForEach(
-                        store.scope(
-                            state: \.days,
-                            action: \.days
-                        ),
-                        content: DaySectionView.init
-                    )
-
-                    WithPerceptionTracking {
-                        switch store.loading {
-                        case .loadMore:
-                            ShimmeringPairPlaceholder()
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                .onAppear { store.send(.loadingIndicatorAppeared) }
-                        case .finished:
-                            NoMorePairsIndicator()
-                        case .never:
-                            EmptyView()
-                        }
-                    }
+        List {
+            WithPerceptionTracking {
+                if let header = store.header {
+                    Text(header)
+                        .foregroundStyle(.secondary)
                 }
-                .listRowSeparator(.hidden)
+
+                ForEach(
+                    store.scope(
+                        state: \.days,
+                        action: \.days
+                    ),
+                    content: DaySectionView.init
+                )
+
+                switch store.loading {
+                case .loadMore:
+                    ShimmeringPairPlaceholder()
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .onAppear { store.send(.loadingIndicatorAppeared) }
+                case .finished:
+                    NoMorePairsIndicator()
+                case .never:
+                    EmptyView()
+                }
             }
-            .listStyle(.plain)
-            .onPreferenceChange(PresentsPairDetailsPopoverPreferenceKey.self) { presentsPairDetailsPopover = $0 }
-            .environment(\.presentsPairDetailsPopover, presentsPairDetailsPopover)
+            .listRowSeparator(.hidden)
         }
+        .listStyle(.plain)
+        .onPreferenceChange(PresentsPairDetailsPopoverPreferenceKey.self) { presentsPairDetailsPopover = $0 }
+        .environment(\.presentsPairDetailsPopover, presentsPairDetailsPopover)
     }
 }
 
