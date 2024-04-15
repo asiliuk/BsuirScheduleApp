@@ -1,6 +1,6 @@
 import Foundation
 import StoreKit
-import os.log
+import OSLog
 import Combine
 
 final class LiveProductsService {
@@ -43,7 +43,7 @@ final class LiveProductsService {
             _tips = tipsIds.compactMap { id in products.first(where: { $0.id == id }) }
             _subscriptions = subscriptionIds.compactMap { id in products.first(where: { $0.id == id }) }
         } catch {
-            os_log(.error, log: .products, "Failed to fetch products: \(error.localizedDescription)")
+            Logger.products.error("Failed to fetch products: \(error.localizedDescription)")
         }
     }
 
@@ -52,7 +52,7 @@ final class LiveProductsService {
         updatesTask = Task(priority: .background) { [weak self] in
             for await result in Transaction.updates {
                 guard case let .verified(transaction) = result else { continue }
-                os_log(.info, log: .products, "Received transaction update")
+                Logger.products.info("Received transaction update")
                 await transaction.finish()
                 self?.updatePurchasedProducts(for: transaction)
             }
@@ -60,8 +60,8 @@ final class LiveProductsService {
     }
 
     private func updatePurchasedProductsWithCurrentEntitlements() async {
-        os_log(.info, log: .products, "Start restoring currentEntitlements")
-        defer { os_log(.info, log: .products, "Finished restoring currentEntitlements") }
+        Logger.products.info("Start restoring currentEntitlements")
+        defer { Logger.products.info("Finished restoring currentEntitlements") }
 
         for await result in Transaction.currentEntitlements {
             guard case let .verified(transaction) = result else { continue }
@@ -72,10 +72,10 @@ final class LiveProductsService {
 
     private func updatePurchasedProducts(for transaction: Transaction) {
         if transaction.revocationDate == nil {
-            os_log(.info, log: .products, "Adding product to purchased: \(transaction.productID)")
+            Logger.products.info("Adding product to purchased: \(transaction.productID)")
             purchasedProductIds.insert(transaction.productID)
         } else {
-            os_log(.info, log: .products, "Removing product from purchased: \(transaction.productID)")
+            Logger.products.info("Removing product from purchased: \(transaction.productID)")
             purchasedProductIds.remove(transaction.productID)
         }
         updatePremiumStateIfNeeded()
@@ -84,7 +84,7 @@ final class LiveProductsService {
     private func updatePremiumStateIfNeeded() {
         let isCurrentlyPremium = purchasedProductIds.contains(SubscriptionID.yearly.rawValue)
         if isCurrentlyPremium != premiumService.isCurrentlyPremium {
-            os_log(.info, log: .products, "Updating isCurrentlyPremium: \(isCurrentlyPremium)")
+            Logger.products.info("Updating isCurrentlyPremium: \(isCurrentlyPremium)")
             premiumService.isCurrentlyPremium = isCurrentlyPremium
         }
     }
@@ -126,15 +126,15 @@ extension LiveProductsService: ProductsService {
 
         switch result {
         case let .success(.verified(transaction)):
-            os_log(.info, log: .products, "Purchase succeed: \(transaction.productID)")
+            Logger.products.info("Purchase succeed: \(transaction.productID)")
             await transaction.finish()
             updatePurchasedProducts(for: transaction)
             return true
         case let .success(.unverified(transaction, error)):
-            os_log(.info, log: .products, "Purchase failed: \(transaction.productID) \(error.localizedDescription)")
+            Logger.products.info("Purchase failed: \(transaction.productID) \(error.localizedDescription)")
             return false
         case .pending:
-            os_log(.info, log: .products, "Purchase pending: \(product.id)")
+            Logger.products.info("Purchase pending: \(product.id)")
             return false
         case .userCancelled:
             return false
@@ -147,7 +147,7 @@ extension LiveProductsService: ProductsService {
         do {
             try await AppStore.sync()
         } catch {
-            os_log(.error, log: .products, "Failed to restore purchases: \(error.localizedDescription)")
+            Logger.products.error("Failed to restore purchases: \(error.localizedDescription)")
         }
     }
 }
@@ -168,6 +168,6 @@ private extension LiveProductsService {
 
 // MARK: - Helpers
 
-private extension OSLog {
+private extension Logger {
     static let products = bsuirSchedule(category: "Products")
 }

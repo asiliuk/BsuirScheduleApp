@@ -22,32 +22,32 @@ final class PinnedScheduleProvider: TimelineProvider {
                 completion(context.isPreview ? .preview : entry)
             }
 
-            os_log(.info, log: .pinnedProvider, "getSnapshot started")
+            Logger.pinnedProvider.info("getSnapshot started")
 
             guard premiumService.isCurrentlyPremium else {
-                os_log(.info, log: .pinnedProvider, "getSnapshot no premium")
+                Logger.pinnedProvider.info("getSnapshot no premium")
                 return completeCheckingPreview(with: .premiumLocked)
             }
 
             guard let pinnedSchedule = pinnedScheduleService.currentSchedule() else {
-                os_log(.info, log: .pinnedProvider, "getSnapshot no pinned")
+                Logger.pinnedProvider.info("getSnapshot no pinned")
                 return completeCheckingPreview(with: .noPinned)
             }
 
             guard let schedule = try? await mostRelevantSchedule(for: pinnedSchedule) else {
-                os_log(.info, log: .pinnedProvider, "getSnapshot failed to fetch")
+                Logger.pinnedProvider.info("getSnapshot failed to fetch")
                 return completion(.preview)
             }
 
             guard let entry = Entry(schedule, at: Date()) else {
-                os_log(.info, log: .pinnedProvider, "getSnapshot failed to create entry")
+                Logger.pinnedProvider.info("getSnapshot failed to create entry")
                 return completion(.noScheduleForPinned(
                     title: schedule.title,
                     subgroup: preferredSubgroup(for: pinnedSchedule)
                 ))
             }
 
-            os_log(.info, log: .pinnedProvider, "getSnapshot success")
+            Logger.pinnedProvider.info("getSnapshot success")
             completion(entry)
         }
     }
@@ -57,15 +57,15 @@ final class PinnedScheduleProvider: TimelineProvider {
             completion(.init(entries: [context.isPreview ? .preview : entry], policy: .never))
         }
 
-        os_log(.info, log: .pinnedProvider, "getTimeline started")
+        Logger.pinnedProvider.info("getTimeline started")
 
         guard premiumService.isCurrentlyPremium else {
-            os_log(.info, log: .pinnedProvider, "getTimeline no premium")
+            Logger.pinnedProvider.info("getTimeline no premium")
             return completeCheckingPreview(with: .premiumLocked)
         }
 
         guard let pinnedSchedule = pinnedScheduleService.currentSchedule() else {
-            os_log(.info, log: .pinnedProvider, "getTimeline no pinned")
+            Logger.pinnedProvider.info("getTimeline no pinned")
             return completeCheckingPreview(with: .noPinned)
         }
 
@@ -73,16 +73,16 @@ final class PinnedScheduleProvider: TimelineProvider {
             do {
                 let schedule = try await mostRelevantSchedule(for: pinnedSchedule)
                 guard let timeline = Timeline(schedule) else {
-                    os_log(.info, log: .pinnedProvider, "getTimeline empty timeline")
+                    Logger.pinnedProvider.info("getTimeline empty timeline")
                     return completeCheckingPreview(with: .noScheduleForPinned(
                         title: schedule.title,
                         subgroup: preferredSubgroup(for: pinnedSchedule)
                     ))
                 }
-                os_log(.info, log: .pinnedProvider, "getTimeline success, entries: \(timeline.entries.count)")
+                Logger.pinnedProvider.info("getTimeline success, entries: \(timeline.entries.count)")
                 return completion(timeline)
             } catch {
-                os_log(.info, log: .pinnedProvider, "getTimeline failed to fetch")
+                Logger.pinnedProvider.info("getTimeline failed to fetch")
                 let refresh = Date().advanced(by: 5 * 60)
                 let entries: [Entry] = {
                     switch RequestError(error) {
@@ -157,6 +157,6 @@ final class PinnedScheduleProvider: TimelineProvider {
 
 import OSLog
 
-private extension OSLog {
+private extension Logger {
     static let pinnedProvider = bsuirSchedule(category: "Pinned Provider")
 }

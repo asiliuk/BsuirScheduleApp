@@ -22,32 +22,32 @@ final class ExamsScheduleProvider {
             return context.isPreview ? .preview(onlyExams: onlyExams) : entry
         }
 
-        os_log(.info, log: .examsProvider, "getSnapshot started")
+        Logger.examsProvider.info("getSnapshot started")
 
         guard premiumService.isCurrentlyPremium else {
-            os_log(.info, log: .examsProvider, "getSnapshot no premium")
+            Logger.examsProvider.info("getSnapshot no premium")
             return completeCheckingPreview(with: .premiumLocked)
         }
 
         guard let pinnedSchedule = pinnedScheduleService.currentSchedule() else {
-            os_log(.info, log: .examsProvider, "getSnapshot no pinned")
+            Logger.examsProvider.info("getSnapshot no pinned")
             return completeCheckingPreview(with: .noPinned)
         }
 
         guard let schedule = try? await fetchExams(for: pinnedSchedule, onlyExams: onlyExams) else {
-            os_log(.info, log: .examsProvider, "getSnapshot failed to fetch")
+            Logger.examsProvider.info("getSnapshot failed to fetch")
             return .preview(onlyExams: onlyExams)
         }
 
         guard let entry = Entry(schedule, at: now) else {
-            os_log(.info, log: .examsProvider, "getSnapshot failed to create entry")
+            Logger.examsProvider.info("getSnapshot failed to create entry")
             return completeCheckingPreview(with: .noScheduleForPinned(
                 title: schedule.title,
                 subgroup: preferredSubgroup(for: pinnedSchedule)
             ))
         }
 
-        os_log(.info, log: .examsProvider, "getSnapshot success")
+        Logger.examsProvider.info("getSnapshot success")
         return entry
     }
 
@@ -56,32 +56,32 @@ final class ExamsScheduleProvider {
             return .init(entries: [context.isPreview ? .preview(onlyExams: onlyExams) : entry], policy: .never)
         }
 
-        os_log(.info, log: .examsProvider, "getTimeline started")
+        Logger.examsProvider.info("getTimeline started")
 
         guard premiumService.isCurrentlyPremium else {
-            os_log(.info, log: .examsProvider, "getTimeline no premium")
+            Logger.examsProvider.info("getTimeline no premium")
             return completeCheckingPreview(with: .premiumLocked)
         }
 
         guard let pinnedSchedule = pinnedScheduleService.currentSchedule() else {
-            os_log(.info, log: .examsProvider, "getTimeline no pinned")
+            Logger.examsProvider.info("getTimeline no pinned")
             return completeCheckingPreview(with: .noPinned)
         }
 
         do {
             let response = try await fetchExams(for: pinnedSchedule, onlyExams: onlyExams)
             guard let timeline = Timeline(response, now: now, calendar: calendar) else {
-                os_log(.info, log: .examsProvider, "getTimeline empty timeline")
+                Logger.examsProvider.info("getTimeline empty timeline")
                 return completeCheckingPreview(with: .noScheduleForPinned(
                     title: response.title,
                     subgroup: preferredSubgroup(for: pinnedSchedule)
                 ))
             }
 
-            os_log(.info, log: .examsProvider, "getTimeline success, entries: \(timeline.entries.count)")
+            Logger.examsProvider.info("getTimeline success, entries: \(timeline.entries.count)")
             return timeline
         } catch {
-            os_log(.info, log: .examsProvider, "getTimeline failed to fetch")
+            Logger.examsProvider.info("getTimeline failed to fetch")
             let refresh = Date().advanced(by: 5 * 60)
             let entries: [Entry] = {
                 switch RequestError(error) {
@@ -179,6 +179,6 @@ extension ExamsScheduleProvider: TimelineProvider {
 
 import OSLog
 
-private extension OSLog {
+private extension Logger {
     static let examsProvider = bsuirSchedule(category: "Exams Provider")
 }
