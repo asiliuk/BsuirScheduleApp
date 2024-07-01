@@ -40,10 +40,6 @@ public final class LiveFavoritesService {
         .unwrap(withDefault: [])
         .withPublisher()
 
-    private lazy var freeLoveHighScoreStorage = storage
-        .persistedInteger(forKey: "free-love-hich-score")
-        .sync(with: cloudSyncService, forKey: "cloud-free-love-high-score", shouldSyncInitialLocalValue: true)
-
     init(
         storage: UserDefaults,
         legacyStorage: UserDefaults,
@@ -98,11 +94,6 @@ extension LiveFavoritesService: FavoritesService {
 
     public var lecturerIds: AnyPublisher<OrderedSet<Int>, Never> {
         lecturerIDsStorage.publisher
-    }
-
-    public var freeLoveHighScore: Int {
-        get { freeLoveHighScoreStorage.value }
-        set { freeLoveHighScoreStorage.value = newValue }
     }
 }
 

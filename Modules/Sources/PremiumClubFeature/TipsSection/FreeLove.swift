@@ -5,10 +5,7 @@ import ComposableArchitecture
 public struct FreeLove {
     @ObservableState
     public struct State: Equatable {
-        var highScore: Int = {
-            @Dependency(\.favorites.freeLoveHighScore) var freeLoveHighScore
-            return freeLoveHighScore
-        }()
+        @Shared(.freeLoveHighScore) var highScore
         var counter: Int = 0
         var confettiCounter: Int = 0
     }
@@ -39,7 +36,7 @@ public struct FreeLove {
                 guard score > state.highScore else { return .none }
                 state.highScore = score
                 state.confettiCounter += 1
-                return .run { _ in favorites.freeLoveHighScore = score }
+                return .none
             }
         }
     }

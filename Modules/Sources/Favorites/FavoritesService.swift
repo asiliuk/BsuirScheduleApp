@@ -11,7 +11,6 @@ public protocol FavoritesService: AnyObject {
     var groupNames: AnyPublisher<OrderedSet<String>, Never> { get }
     var currentLectorIds: OrderedSet<Int> { get set }
     var lecturerIds: AnyPublisher<OrderedSet<Int>, Never> { get }
-    var freeLoveHighScore: Int { get set }
 }
 
 // MARK: - Favorites + Schedule Source
