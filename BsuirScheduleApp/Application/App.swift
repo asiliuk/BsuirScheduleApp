@@ -24,6 +24,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     private(set) lazy var store = Store(initialState: .init()) {
         AppFeature()
             .dependency(\.imageCache, .default)
+            .dependency(\.defaultAppStorage, .asiliukShared)
             #if DEBUG
             .transformDependency(\.date.now) { [isTestingEnabled] now in
                 if isTestingEnabled { now = Date(timeIntervalSince1970: 1699830000) }
