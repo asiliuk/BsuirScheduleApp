@@ -17,8 +17,9 @@ private enum SubgroupFilterServiceKey: DependencyKey {
     static let liveValue: SubgroupFilterService = {
         @Dependency(\.widgetService) var widgetService
         @Dependency(\.pinnedScheduleService) var pinnedScheduleService
+        @Dependency(\.defaultAppStorage) var storage
         return .live(
-            storage: .asiliukShared,
+            storage: storage,
             widgetService: widgetService,
             pinnedScheduleService: pinnedScheduleService
         )

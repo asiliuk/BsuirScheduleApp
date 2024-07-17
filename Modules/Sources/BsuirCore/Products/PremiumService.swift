@@ -19,7 +19,8 @@ extension DependencyValues {
 private enum PremiumServiceKey: DependencyKey {
     static let liveValue: any PremiumService = {
         @Dependency(\.widgetService) var widgetService
-        return LivePremiumService(widgetService: widgetService)
+        @Dependency(\.defaultAppStorage) var storage
+        return LivePremiumService(storage: storage, widgetService: widgetService)
     }()
 
     static let previewValue: any PremiumService = PremiumServiceMock(isPremium: true)

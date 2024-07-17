@@ -14,7 +14,7 @@ final class LivePremiumService: PremiumService {
     public let isPremium: AnyPublisher<Bool, Never>
 
     init(
-        storage: UserDefaults = .asiliukShared,
+        storage: UserDefaults,
         widgetService: WidgetService
     ) {
         self.widgetService = widgetService

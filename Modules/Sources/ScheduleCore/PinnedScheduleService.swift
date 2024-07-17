@@ -23,7 +23,8 @@ extension PinnedScheduleService: DependencyKey {
     public static let liveValue: PinnedScheduleService = {
         @Dependency(\.widgetService) var widgetService
         @Dependency(\.cloudSyncService) var cloudSyncService
-        return .live(storage: .asiliukShared, widgetService: widgetService, cloudSyncService: cloudSyncService)
+        @Dependency(\.defaultAppStorage) var storage
+        return .live(storage: storage, widgetService: widgetService, cloudSyncService: cloudSyncService)
     }()
 
     public static let previewValue: PinnedScheduleService = .constant(.group(name: "151004"))
