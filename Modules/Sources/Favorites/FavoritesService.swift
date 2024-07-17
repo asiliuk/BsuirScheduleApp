@@ -48,8 +48,9 @@ private enum FavoritesServiceKey: DependencyKey {
     static let liveValue: any FavoritesService = {
         @Dependency(\.widgetService) var widgetService
         @Dependency(\.cloudSyncService) var cloudSyncService
+        @Dependency(\.defaultAppStorage) var storage
         return LiveFavoritesService(
-            storage: .asiliukShared,
+            storage: storage,
             legacyStorage: .standard,
             widgetService: widgetService,
             cloudSyncService: cloudSyncService

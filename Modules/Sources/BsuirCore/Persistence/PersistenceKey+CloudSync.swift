@@ -16,7 +16,7 @@ extension PersistenceReaderKey {
     }
 }
 
-public struct CloudSyncablePersistenceKey<Value>: PersistenceKey {
+public struct CloudSyncablePersistenceKey<Value: Equatable>: PersistenceKey {
     private let key: String
     private let cloudKey: String
     private let shouldSyncInitialLocalValue: Bool
@@ -61,33 +61,36 @@ public struct CloudSyncablePersistenceKey<Value>: PersistenceKey {
 
         let cloudDidChange = cloudSyncService.observeChanges(forKey: cloudKey) { value in
             let newValue = value as? Value
-            defer { previousValue.withValue { $0 = newValue } }
-            guard !(_isEqual(newValue as Any, previousValue.value as Any) ?? false)
-                || (_isEqual(newValue as Any, initialValue as Any) ?? true),
-                  !(_isEqual(newValue as Any, userDefaults.object(forKey: key) as Any) ?? false)
-            else { return }
+            guard (newValue != previousValue.value) || (newValue == initialValue) else { return }
+
+            previousValue.withValue { $0 = newValue }
+
+            // Update local value
             updateWithCloudValue(value)
+
             `didSet`(newValue)
         }
 
-        let userDefaultsDidChange = NotificationCenter.default.addObserver(
+        let notificationCenter = NotificationCenter.default
+        let userDefaultsDidChange = notificationCenter.addObserver(
             forName: UserDefaults.didChangeNotification,
             object: userDefaults,
-            queue: nil
+            queue: .main
         ) { _ in
             let newValue = userDefaults.object(forKey: key) as? Value
-            defer { previousValue.withValue { $0 = newValue } }
-            guard !(_isEqual(newValue as Any, previousValue.value as Any) ?? false)
-                || (_isEqual(newValue as Any, initialValue as Any) ?? true),
-                  !(_isEqual(newValue as Any, cloudSyncService[cloudKey] as Any) ?? false)
-            else { return }
-            cloudSyncService[cloudKey] = newValue
-            didSet(newValue)
+            guard (newValue != previousValue.value) || (newValue == initialValue) else { return }
+
+            previousValue.withValue { $0 = newValue }
+
+            // Update cloud value
+            updateWithLocalValue(newValue)
+
+            `didSet`(newValue)
         }
 
         return Shared.Subscription {
             cloudDidChange.cancel()
-            NotificationCenter.default.removeObserver(userDefaultsDidChange)
+            notificationCenter.removeObserver(userDefaultsDidChange)
         }
     }
 
@@ -115,22 +118,18 @@ public struct CloudSyncablePersistenceKey<Value>: PersistenceKey {
             return
         }
 
-        guard !(_isEqual(value as Any, userDefaults.object(forKey: key) as Any) ?? false) else {
+        guard typedValue != userDefaults.object(forKey: key) as? Value else {
             return
         }
 
         userDefaults.set(typedValue, forKey: key)
     }
-}
 
-// MARK: - Equatable
+    private func updateWithLocalValue(_ value: Value?) {
+        guard value != cloudSyncService[cloudKey] as? Value else {
+            return
+        }
 
-func _isEqual(_ lhs: Any, _ rhs: Any) -> Bool? {
-    (lhs as? any Equatable)?.isEqual(other: rhs)
-}
-
-extension Equatable {
-    fileprivate func isEqual(other: Any) -> Bool {
-        self == other as? Self
+        cloudSyncService[cloudKey] = value
     }
 }
