@@ -5,31 +5,54 @@ extension PersistenceReaderKey {
     public static func cloudSyncable<Value>(
         key: String,
         cloudKey: String,
-        shouldSyncInitialLocalValue: Bool = false
+        shouldSyncInitialLocalValue: Bool = false,
+        isEqual: @escaping (Value?, Value?) -> Bool
     ) -> Self
     where Self == CloudSyncablePersistenceKey<Value> {
         CloudSyncablePersistenceKey(
             key: key,
             cloudKey: cloudKey,
-            shouldSyncInitialLocalValue: shouldSyncInitialLocalValue
+            shouldSyncInitialLocalValue: shouldSyncInitialLocalValue,
+            isEqual: isEqual
+        )
+    }
+
+    public static func cloudSyncable<Value: Equatable>(
+        key: String,
+        cloudKey: String,
+        shouldSyncInitialLocalValue: Bool = false
+    ) -> Self
+    where Self == CloudSyncablePersistenceKey<Value> {
+        cloudSyncable(
+            key: key,
+            cloudKey: cloudKey,
+            shouldSyncInitialLocalValue: shouldSyncInitialLocalValue,
+            isEqual: ==
         )
     }
 }
 
-public struct CloudSyncablePersistenceKey<Value: Equatable>: PersistenceKey {
+public struct CloudSyncablePersistenceKey<Value>: PersistenceKey {
     private let key: String
     private let cloudKey: String
     private let shouldSyncInitialLocalValue: Bool
+    private let isEqual: (Value?, Value?) -> Bool
 
     private let userDefaults: UserDefaults
     private let cloudSyncService: any CloudSyncService
 
-    init(key: String, cloudKey: String, shouldSyncInitialLocalValue: Bool) {
+    init(
+        key: String,
+        cloudKey: String,
+        shouldSyncInitialLocalValue: Bool,
+        isEqual: @escaping (Value?, Value?) -> Bool
+    ) {
         @Dependency(\.defaultAppStorage) var store
         @Dependency(\.cloudSyncService) var cloudSyncService
         self.key = key
         self.cloudKey = cloudKey
         self.shouldSyncInitialLocalValue = shouldSyncInitialLocalValue
+        self.isEqual = isEqual
         self.userDefaults = store
         self.cloudSyncService = cloudSyncService
 
@@ -61,7 +84,7 @@ public struct CloudSyncablePersistenceKey<Value: Equatable>: PersistenceKey {
 
         let cloudDidChange = cloudSyncService.observeChanges(forKey: cloudKey) { value in
             let newValue = value as? Value
-            guard (newValue != previousValue.value) || (newValue == initialValue) else { return }
+            guard !isEqual(newValue, previousValue.value) || isEqual(newValue, initialValue) else { return }
 
             previousValue.withValue { $0 = newValue }
 
@@ -78,7 +101,7 @@ public struct CloudSyncablePersistenceKey<Value: Equatable>: PersistenceKey {
             queue: .main
         ) { _ in
             let newValue = userDefaults.object(forKey: key) as? Value
-            guard (newValue != previousValue.value) || (newValue == initialValue) else { return }
+            guard !isEqual(newValue, previousValue.value) || isEqual(newValue, initialValue) else { return }
 
             previousValue.withValue { $0 = newValue }
 
@@ -118,7 +141,7 @@ public struct CloudSyncablePersistenceKey<Value: Equatable>: PersistenceKey {
             return
         }
 
-        guard typedValue != userDefaults.object(forKey: key) as? Value else {
+        guard !isEqual(typedValue, userDefaults.object(forKey: key) as? Value) else {
             return
         }
 
@@ -126,7 +149,7 @@ public struct CloudSyncablePersistenceKey<Value: Equatable>: PersistenceKey {
     }
 
     private func updateWithLocalValue(_ value: Value?) {
-        guard value != cloudSyncService[cloudKey] as? Value else {
+        guard !isEqual(value, cloudSyncService[cloudKey] as? Value) else {
             return
         }
 
