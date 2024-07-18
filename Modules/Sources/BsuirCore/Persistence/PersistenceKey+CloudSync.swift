@@ -94,13 +94,8 @@ public struct CloudSyncablePersistenceKey<Value>: PersistenceKey {
             `didSet`(newValue)
         }
 
-        let notificationCenter = NotificationCenter.default
-        let userDefaultsDidChange = notificationCenter.addObserver(
-            forName: UserDefaults.didChangeNotification,
-            object: userDefaults,
-            queue: .main
-        ) { _ in
-            let newValue = userDefaults.object(forKey: key) as? Value
+        let userDefaultsDidChange = userDefaults.bsuirObserve(forKeyPath: key) { value in
+            let newValue = value as? Value
             guard !isEqual(newValue, previousValue.value) || isEqual(newValue, initialValue) else { return }
 
             previousValue.withValue { $0 = newValue }
@@ -113,7 +108,7 @@ public struct CloudSyncablePersistenceKey<Value>: PersistenceKey {
 
         return Shared.Subscription {
             cloudDidChange.cancel()
-            notificationCenter.removeObserver(userDefaultsDidChange)
+            userDefaultsDidChange.cancel()
         }
     }
 
