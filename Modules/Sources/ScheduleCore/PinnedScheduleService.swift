@@ -77,7 +77,7 @@ extension PinnedScheduleService {
 /// at some point it sends notification that pinned was removed even if new non-nil value was set after
 /// to prevent such situation I prefer to always store `something` even if it is garbage dictionary, it seems to work well
 @CasePathable
-private enum CloudSyncableScheduleSource: Codable {
+public enum CloudSyncableScheduleSource: Equatable, Codable {
     case source(ScheduleSource)
     case nothing
 
@@ -89,7 +89,14 @@ private enum CloudSyncableScheduleSource: Codable {
         }
     }
 
-    init(from decoder: any Decoder) throws {
+    public var source: ScheduleSource? {
+        guard case .source(let source) = self else {
+            return nil
+        }
+        return source
+    }
+
+    public init(from decoder: any Decoder) throws {
         do {
             self = .source(try ScheduleSource(from: decoder))
         } catch {
@@ -97,7 +104,7 @@ private enum CloudSyncableScheduleSource: Codable {
         }
     }
 
-    func encode(to encoder: any Encoder) throws {
+    public func encode(to encoder: any Encoder) throws {
         switch self {
         case .source(let source):
             try source.encode(to: encoder)

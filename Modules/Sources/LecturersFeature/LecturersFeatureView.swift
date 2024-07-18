@@ -36,7 +36,6 @@ public struct LecturersFeatureView: View {
             } destination: { store in
                 EntityScheduleFeatureViewV2(store: store)
             }
-            .onAppear { store.send(.onAppear) }
         }
     }
 }

@@ -43,6 +43,9 @@ struct LoadedGroupsFeatureView: View {
             .dismissSearch(store.searchDismiss)
             .searchable(text: $store.searchQuery, prompt: "screen.groups.search.placeholder")
             .task { await store.send(.task).finish() }
+            .animation(.default, value: store.pinnedRows.ids)
+            .animation(.default, value: store.favoriteRows.ids)
+            .animation(.default, value: store.visibleRows.ids)
         }
     }
 }

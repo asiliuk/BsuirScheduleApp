@@ -23,11 +23,13 @@ public struct LecturersFeature {
         var lectorPresentationMode: LectorPresentationMode = .initial
 
         // MARK: Placeholder
-        var hasPinnedPlaceholder: Bool  = false
-        var favoritesPlaceholderCount: Int = 0
+        var hasPinnedPlaceholder: Bool { pinnedSchedule.source?.is(\.lector) ?? false }
+        var favoritesPlaceholderCount: Int { favoriteLecturerIDs.count }
 
         // MARK: Lecturers
         var lecturers: LoadingState<LoadedLecturersFeature.State> = .initial
+        @SharedReader(.favoriteLecturerIDs) var favoriteLecturerIDs
+        @SharedReader(.pinnedSchedule) var pinnedSchedule
 
         public init() {}
     }
@@ -37,8 +39,6 @@ public struct LecturersFeature {
             case showPremiumClubPinned
         }
 
-        case onAppear
-
         case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
         case lecturers(LoadingActionOf<LoadedLecturersFeature>)
 
@@ -46,19 +46,12 @@ public struct LecturersFeature {
     }
 
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.favorites.currentLectorIds) var favoriteLectorIds
-    @Dependency(\.pinnedScheduleService.currentSchedule) var pinnedSchedule
 
     public init() {}
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .onAppear:
-                state.hasPinnedPlaceholder = pinnedSchedule()?.lector != nil
-                state.favoritesPlaceholderCount = favoriteLectorIds.count
-                return .none
-
             case .lecturers(.fetchFinished):
                 state.presentDeferredLectorIfNeeded()
                 return .none
@@ -88,11 +81,7 @@ public struct LecturersFeature {
         }
         .load(state: \.lecturers, action: \.lecturers) { _, isRefresh in
             let lecturers = try await apiClient.lecturers(isRefresh)
-            return LoadedLecturersFeature.State(
-                lecturers: lecturers,
-                favoritesIds: favoriteLectorIds,
-                pinnedId: pinnedSchedule()?.lector?.id
-            )
+            return LoadedLecturersFeature.State(lecturers: lecturers)
         } loaded: {
             LoadedLecturersFeature()
         }

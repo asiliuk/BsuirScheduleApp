@@ -44,7 +44,6 @@ public struct GroupsFeatureView: View {
             } destination: { store in
                 EntityScheduleFeatureViewV2(store: store)
             }
-            .onAppear { store.send(.onAppear) }
             .task { await store.send(.task).finish() }
             .forceAddAlert(store: $store.scope(state: \.forceAddAlert, action: \.forceAddAlert))
         }

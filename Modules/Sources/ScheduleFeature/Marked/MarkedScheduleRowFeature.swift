@@ -2,20 +2,35 @@ import Foundation
 import ComposableArchitecture
 import ScheduleCore
 
+// TODO: Sync state with Shared
+
 @Reducer
 public struct MarkedScheduleRowFeature {
     @ObservableState
     public struct State: Equatable {
         let source: ScheduleSource
-        public var isFavorite: Bool
-        public var isPinned: Bool
+        
+        public var isFavorite: Bool {
+            switch source {
+            case .group(let name):
+                favoriteGroupNames.contains(name)
+            case .lector(let employee):
+                favoriteLecturerIDs.contains(employee.id)
+            }
+        }
+
+        public var isPinned: Bool {
+            pinnedSchedule.source == source
+        }
+
         @Presents var alert: AlertState<PinPremiumAlertAction>?
+
+        @SharedReader(.pinnedSchedule) var pinnedSchedule
+        @SharedReader(.favoriteGroupNames) var favoriteGroupNames
+        @SharedReader(.favoriteLecturerIDs) var favoriteLecturerIDs
 
         public init(source: ScheduleSource) {
             self.source = source
-            @Dependency(\.scheduleMarkingService) var scheduleMarkingService
-            self.isFavorite = scheduleMarkingService.isCurrentlyFavorite(source)
-            self.isPinned = scheduleMarkingService.isCurrentlyPinned(source)
         }
     }
 
@@ -27,9 +42,6 @@ public struct MarkedScheduleRowFeature {
         case toggleFavoriteTapped
         case togglePinnedTapped
         case removeButtonTapped
-
-        case _setIsFavorite(Bool)
-        case _setIsPinned(Bool)
 
         case delegate(DelegateAction)
         case alert(PresentationAction<PinPremiumAlertAction>)
@@ -44,11 +56,10 @@ public struct MarkedScheduleRowFeature {
         Reduce { state, action in
             switch action {
             case .toggleFavoriteTapped:
-                state.isFavorite.toggle()
                 return .run { [isFavorite = state.isFavorite, source = state.source] _ in
                     await isFavorite
-                        ? scheduleMarkingService.favorite(source)
-                        : scheduleMarkingService.unfavorite(source)
+                        ? scheduleMarkingService.unfavorite(source)
+                        : scheduleMarkingService.favorite(source)
                 }
 
             case .togglePinnedTapped:
@@ -57,28 +68,17 @@ public struct MarkedScheduleRowFeature {
                     return .none
                 }
 
-                state.isPinned.toggle()
                 return .run { [isPinned = state.isPinned, source = state.source] _ in
                     await isPinned
-                        ? scheduleMarkingService.pin(source)
-                        : scheduleMarkingService.unpin(source)
+                        ? scheduleMarkingService.unpin(source)
+                        : scheduleMarkingService.pin(source)
                 }
 
             case .removeButtonTapped:
-                state.isFavorite = false
-                state.isPinned = false
                 return .run { [source = state.source] _ in
                     await scheduleMarkingService.unfavorite(source)
                     await scheduleMarkingService.unpin(source)
                 }
-
-            case ._setIsFavorite(let value):
-                state.isFavorite = value
-                return .none
-
-            case ._setIsPinned(let value):
-                state.isPinned = value
-                return .none
 
             case .alert(.presented(.learnAboutPremiumClubButtonTapped)):
                 return .send(.delegate(.showPremiumClub))

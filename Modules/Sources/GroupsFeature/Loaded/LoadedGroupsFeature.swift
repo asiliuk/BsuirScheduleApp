@@ -25,18 +25,18 @@ public struct LoadedGroupsFeature {
             updateVisibleRows()
         }
 
-        private mutating func updatePinnedRows() {
+        fileprivate mutating func updatePinnedRows(groupName: String?? = nil) {
             pinnedRows = IdentifiedArray(
-                uniqueElements: [pinnedName]
+                uniqueElements: [groupName ?? pinnedSchedule.source?.groupName]
                     .compacted()
                     .filter { $0.matches(query: searchQuery) }
                     .map { groupRows[id: $0].or(GroupsRow.State(groupName: $0)) }
             )
         }
 
-        private mutating func updateFavoriteRows() {
+        fileprivate mutating func updateFavoriteRows(favoritesNames: [String]? = nil) {
             favoriteRows = IdentifiedArray(
-                uniqueElements: favoritesNames
+                uniqueElements: (favoritesNames ?? self.favoritesNames)
                     .filter { $0.matches(query: searchQuery) }
                     .map { groupRows[id: $0].or(GroupsRow.State(groupName: $0)) }
             )
@@ -58,17 +58,11 @@ public struct LoadedGroupsFeature {
         var visibleRows: IdentifiedArrayOf<GroupsRow.State> = []
 
         // MARK: State
-        fileprivate var favoritesNames: OrderedSet<String>
-        fileprivate var pinnedName: String?
+        @SharedReader(.favoriteGroupNames) var favoritesNames
+        @SharedReader(.pinnedSchedule) var pinnedSchedule
         fileprivate var groupRows: IdentifiedArrayOf<GroupsRow.State>
 
-        init(
-            groups: [StudentGroup],
-            favoritesNames: OrderedSet<String>,
-            pinnedName: String?
-        ) {
-            self.favoritesNames = favoritesNames
-            self.pinnedName = pinnedName
+        init(groups: [StudentGroup]) {
             self.groupRows = IdentifiedArray(
                 uniqueElements: groups
                     .sorted(by: { $0.name < $1.name })
@@ -89,15 +83,12 @@ public struct LoadedGroupsFeature {
         case favoriteRows(IdentifiedActionOf<GroupsRow>)
         case visibleRows(IdentifiedActionOf<GroupsRow>)
 
-        case _favoritesUpdate(OrderedSet<String>)
+        case _favoritesUpdate([String])
         case _pinnedUpdate(String?)
 
         case delegate(Delegate)
         case binding(BindingAction<State>)
     }
-
-    @Dependency(\.favorites.groupNames) var favoriteGroupNames
-    @Dependency(\.pinnedScheduleService.schedule) var pinnedSchedule
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -116,16 +107,24 @@ public struct LoadedGroupsFeature {
             switch action {
             case .task:
                 return .merge(
-                    listenToFavoriteUpdates(),
-                    listenToPinnedUpdates()
+                    .publisher {
+                        state.$favoritesNames.publisher
+                            .map(Action._favoritesUpdate)
+                    },
+                    .publisher {
+                        state.$pinnedSchedule.publisher
+                            .map { $0.source?.groupName }
+                            .removeDuplicates()
+                            .map(Action._pinnedUpdate)
+                    }
                 )
 
-            case ._favoritesUpdate(let value):
-                state.favoritesNames = value
+            case ._favoritesUpdate(let newValue):
+                state.updateFavoriteRows(favoritesNames: newValue)
                 return .none
 
-            case ._pinnedUpdate(let value):
-                state.pinnedName = value
+            case ._pinnedUpdate(let newValue):
+                state.updatePinnedRows(groupName: newValue)
                 return .none
 
             case .pinnedRows(.element(_, .mark(.delegate(let action)))),
@@ -149,80 +148,6 @@ public struct LoadedGroupsFeature {
         .forEach(\.visibleRows, action: \.visibleRows) {
             GroupsRow()
         }
-        .onChange(of: \.pinnedName) { oldPinned, newPinned in
-            Reduce { state, _ in
-                return updatePinned(state: &state, oldPinned: oldPinned, newPinned: newPinned)
-            }
-        }
-        .onChange(of: \.favoritesNames) { oldFavorites, newFavorites in
-            Reduce { state, _ in
-                return updateFavorites(state: &state, oldFavorites: oldFavorites, newFavorites: newFavorites)
-            }
-        }
-    }
-
-    private func listenToFavoriteUpdates() -> Effect<Action> {
-        return .run { send in
-            for await value in favoriteGroupNames.removeDuplicates().values {
-                await send(._favoritesUpdate(value), animation: .default)
-            }
-        }
-    }
-
-    private func listenToPinnedUpdates() -> Effect<Action> {
-        return .run { send in
-            for await value in pinnedSchedule().map(\.?.groupName).removeDuplicates().values {
-                await send(._pinnedUpdate(value), animation: .default)
-            }
-        }
-    }
-
-    private func updatePinned(
-        state: inout State,
-        oldPinned: String?,
-        newPinned: String?
-    ) -> Effect<Action> {
-        if let newPinned {
-            state.favoriteRows[id: newPinned]?.mark.isPinned = true
-            state.visibleRows[id: newPinned]?.mark.isPinned = true
-            state.groupRows[id: newPinned]?.mark.isPinned = true
-            if newPinned.matches(query: state.searchQuery) {
-                state.pinnedRows[id: newPinned] = state.groupRows[id: newPinned] ?? GroupsRow.State(groupName: newPinned)
-            }
-        }
-
-        if let oldPinned {
-            state.favoriteRows[id: oldPinned]?.mark.isPinned = false
-            state.visibleRows[id: oldPinned]?.mark.isPinned = false
-            state.groupRows[id: oldPinned]?.mark.isPinned = false
-            state.pinnedRows.remove(id: oldPinned)
-        }
-
-        return .none
-    }
-
-    private func updateFavorites(
-        state: inout State,
-        oldFavorites: OrderedSet<String>,
-        newFavorites: OrderedSet<String>
-    ) -> Effect<Action> {
-        for difference in newFavorites.difference(from: oldFavorites) {
-            switch difference {
-            case .insert(_, let groupName, _):
-                state.pinnedRows[id: groupName]?.mark.isFavorite = true
-                state.visibleRows[id: groupName]?.mark.isFavorite = true
-                state.groupRows[id: groupName]?.mark.isFavorite = true
-                if groupName.matches(query: state.searchQuery) {
-                    state.favoriteRows[id: groupName] = state.groupRows[id: groupName] ?? GroupsRow.State(groupName: groupName)
-                }
-            case .remove(_, let groupName, _):
-                state.pinnedRows[id: groupName]?.mark.isFavorite = false
-                state.visibleRows[id: groupName]?.mark.isFavorite = false
-                state.groupRows[id: groupName]?.mark.isFavorite = false
-                state.favoriteRows.remove(id: groupName)
-            }
-        }
-        return .none
     }
 }
 

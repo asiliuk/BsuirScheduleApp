@@ -23,8 +23,10 @@ public struct GroupsFeature {
         var groupPresentationMode: GroupPresentationMode = .initial
         
         // MARK: Placeholder
-        var hasPinnedPlaceholder: Bool  = false
-        var favoritesPlaceholderCount: Int = 0
+        var hasPinnedPlaceholder: Bool { pinnedSchedule.source?.is(\.group) ?? false }
+        var favoritesPlaceholderCount: Int { favoriteGroupNames.count }
+        @SharedReader(.favoriteGroupNames) var favoriteGroupNames
+        @SharedReader(.pinnedSchedule) var pinnedSchedule
 
         // MARK: Groups
         var groups: LoadingState<LoadedGroupsFeature.State> = .initial
@@ -41,7 +43,6 @@ public struct GroupsFeature {
         }
 
         case task
-        case onAppear
         case forceAddGroupButtonTapped
         case forceAddAlert(PresentationAction<ForceAddAlert.Action>)
 
@@ -51,19 +52,12 @@ public struct GroupsFeature {
     }
 
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.favorites.currentGroupNames) var favoriteGroupNames
-    @Dependency(\.pinnedScheduleService.currentSchedule) var pinnedSchedule
 
     public init() {}
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .onAppear:
-                state.hasPinnedPlaceholder = pinnedSchedule()?.groupName != nil
-                state.favoritesPlaceholderCount = favoriteGroupNames.count
-                return .none
-
             case .task:
                 // Very important to do in task if done in `onAppear`
                 // schedule screen is not properly loaded and got stuck in placeholder state
@@ -99,11 +93,7 @@ public struct GroupsFeature {
         }
         .load(state: \.groups, action: \.groups) { _, isRefresh in
             let groups = try await apiClient.groups(isRefresh)
-            return LoadedGroupsFeature.State(
-                groups: groups,
-                favoritesNames: favoriteGroupNames,
-                pinnedName: pinnedSchedule()?.groupName
-            )
+            return LoadedGroupsFeature.State(groups: groups)
         } loaded: {
             LoadedGroupsFeature()
         }
