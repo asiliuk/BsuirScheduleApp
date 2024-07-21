@@ -23,13 +23,14 @@ struct App: SwiftUI.App {
 final class AppDelegate: NSObject, UIApplicationDelegate {
     private(set) lazy var store = Store(initialState: .init()) {
         AppFeature()
-            .dependency(\.imageCache, .default)
-            .dependency(\.defaultAppStorage, .asiliukShared)
-            #if DEBUG
-            .transformDependency(\.date.now) { [isTestingEnabled] now in
-                if isTestingEnabled { now = Date(timeIntervalSince1970: 1699830000) }
-            }
-            #endif
+    } withDependencies: { [isTestingEnabled] in
+        $0.imageCache = .default
+        $0.defaultAppStorage = .asiliukShared
+        #if DEBUG
+        if isTestingEnabled {
+            $0.date.now = Date(timeIntervalSince1970: 1699830000)
+        }
+        #endif
     }
 
     override init() {
@@ -39,11 +40,17 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         if isTestingEnabled { disableAnimations() }
         #endif
 
-        @Dependency(\.productsService) var productsService
-        productsService.load()
+        // Make sure services are loaded with proper default storage
+        // because products service updates premium flag in storage
+        withDependencies {
+            $0.defaultAppStorage = .asiliukShared
+        } operation: {
+            @Dependency(\.productsService) var productsService
+            productsService.load()
 
-        @Dependency(\.cloudSyncService) var cloudSyncService
-        cloudSyncService.load()
+            @Dependency(\.cloudSyncService) var cloudSyncService
+            cloudSyncService.load()
+        }
     }
 }
 
