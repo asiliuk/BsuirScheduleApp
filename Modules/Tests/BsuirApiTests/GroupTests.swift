@@ -23,7 +23,7 @@ final class StudentGroupTests: XCTestCase {
 
         // Then
         XCTAssertEqual(schedule.schedules?.isEmpty, false)
-        XCTAssertEqual(schedule.examSchedules.isEmpty, false)
+        XCTAssertEqual(schedule.examSchedules?.isEmpty, false)
     }
     
     func testScheduleParse_withAnnouncement() throws {
