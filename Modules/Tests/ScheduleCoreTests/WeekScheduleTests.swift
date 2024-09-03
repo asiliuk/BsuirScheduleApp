@@ -89,8 +89,8 @@ final class WeekScheduleTests: XCTestCase {
         let now = date("17.11.2022")
         
         // When
-        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar)
-        
+        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar, universityCalendar: calendar)
+
         // Then
         XCTAssertEqual(calendar.weekNumber(for: from, now: now), 1)
         
@@ -137,8 +137,8 @@ final class WeekScheduleTests: XCTestCase {
         let now = date("17.11.2022")
         
         // When
-        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar)
-        
+        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar, universityCalendar: calendar)
+
         // Then
         XCTAssertEqual(Array(schedule.prefix(10)), [])
     }
@@ -158,7 +158,7 @@ final class WeekScheduleTests: XCTestCase {
         let now = date("17.11.2022")
 
         // When
-        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar)
+        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar, universityCalendar: calendar)
 
         // Then
         let element = try XCTUnwrap(Array(schedule.prefix(1)).first)
@@ -171,7 +171,7 @@ final class WeekScheduleTests: XCTestCase {
         let now = date("17.11.2022")
         
         // When
-        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar)
+        let schedule = schedule.schedule(starting: from, now: now, calendar: calendar, universityCalendar: calendar)
         
         // Then
         let element = try XCTUnwrap(Array(schedule.prefix(1)).first)
