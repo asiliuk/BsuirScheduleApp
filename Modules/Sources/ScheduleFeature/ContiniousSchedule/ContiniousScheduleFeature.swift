@@ -33,6 +33,7 @@ public struct ContinuousScheduleFeature {
             pairRowDetails: PairRowDetails?
         ) {
             @Dependency(\.calendar) var calendar
+            @Dependency(\.universityCalendar) var universityCalendar
             @Dependency(\.date.now) var now
 
             self.offset = calendar.date(byAdding: .day, value: -1, to: now)
@@ -46,7 +47,7 @@ public struct ContinuousScheduleFeature {
                 )
             }
 
-            load(count: 12, calendar: calendar, now: now)
+            load(count: 12, calendar: calendar, universityCalendar: universityCalendar, now: now)
         }
     }
     
@@ -59,6 +60,7 @@ public struct ContinuousScheduleFeature {
     @Dependency(\.reviewRequestService) var reviewRequestService
     @Dependency(\.continuousClock) var clock
     @Dependency(\.calendar) var calendar
+    @Dependency(\.universityCalendar) var universityCalendar
     @Dependency(\.date.now) var now
 
     public init() {}
@@ -77,7 +79,7 @@ public struct ContinuousScheduleFeature {
                 .cancellable(id: CancelID.loadDays, cancelInFlight: true)
 
             case ._loadMoreDays:
-                state.load(count: 10, calendar: calendar, now: now)
+                state.load(count: 10, calendar: calendar, universityCalendar: universityCalendar, now: now)
                 return .run { _ in
                     await reviewRequestService.madeMeaningfulEvent(.moreScheduleRequested)
                 }
