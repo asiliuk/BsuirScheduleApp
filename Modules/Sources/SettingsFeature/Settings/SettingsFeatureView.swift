@@ -28,10 +28,10 @@ public struct SettingsFeatureView: View {
             List {
                 Section {
                     NavigationLink(value: SettingsFeatureDestination.premiumClub) {
-                        PremiumClubLabel(
+                        PremiumClubLabelView(
                             store: store.scope(
-                                state: \.premiumClub,
-                                action: \.premiumClub
+                                state: \.premiumClubLabel,
+                                action: \.premiumClubLabel
                             )
                         )
                     }

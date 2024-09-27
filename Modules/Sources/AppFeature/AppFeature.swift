@@ -24,14 +24,12 @@ public struct AppFeature {
 
         var selection: CurrentSelection = .groups
 
-        var premiumClub = PremiumClubFeature.State(isModal: true)
-        var pinnedTab: PinnedTabFeature.State
+        var pinnedTab = PinnedTabFeature.State()
         var groups = GroupsFeature.State()
         var lecturers = LecturersFeature.State()
         var settings = SettingsFeature.State()
 
         public init() {
-            self._pinnedTab = .init(isPremiumLocked: !_premiumClub.hasPremium)
             @Dependency(\.favorites) var favorites
             @Dependency(\.pinnedScheduleService) var pinnedScheduleService
             self.handleInitialSelection(favorites: favorites, pinnedScheduleService: pinnedScheduleService)
@@ -49,7 +47,6 @@ public struct AppFeature {
         case setPinnedSchedule(ScheduleSource?)
         case showSettingsButtonTapped
 
-        case premiumClub(PremiumClubFeature.Action)
         case pinnedTab(PinnedTabFeature.Action)
         case groups(GroupsFeature.Action)
         case lecturers(LecturersFeature.Action)
@@ -66,16 +63,13 @@ public struct AppFeature {
         Reduce { state, action in
             switch action {
             case .task:
-                return .merge(
-                    .send(.premiumClub(.task)),
-                    .run { send in
-                        for await pinnedSchedule in pinnedScheduleService.schedule().values {
-                            // Give time for schedule feature to handle unpin before removing tab view
-                            await Task.yield()
-                            await send(.setPinnedSchedule(pinnedSchedule))
-                        }
+                return .run { send in
+                    for await pinnedSchedule in pinnedScheduleService.schedule().values {
+                        // Give time for schedule feature to handle unpin before removing tab view
+                        await Task.yield()
+                        await send(.setPinnedSchedule(pinnedSchedule))
                     }
-                )
+                }
 
             case .closePremiumClubButtonTapped:
                 state.destination = nil
@@ -106,10 +100,6 @@ public struct AppFeature {
                 }
                 return .none
 
-            case let .premiumClub(._setIsPremium(value)):
-                state.pinnedTab.isPremiumLocked = !value
-                return .none
-
             case .pinnedTab(.delegate(let action)):
                 switch action {
                 case .showPremiumClubPinned:
@@ -138,15 +128,11 @@ public struct AppFeature {
                     return .none
                 }
 
-            case .groups, .lecturers, .settings, .pinnedTab, .premiumClub, .destination:
+            case .groups, .lecturers, .settings, .pinnedTab, .destination:
                 return .none
             }
         }
         .ifLet(\.$destination, action: \.destination)
-
-        Scope(state: \.premiumClub, action: \.premiumClub) {
-            PremiumClubFeature()
-        }
 
         Scope(state: \.pinnedTab, action: \.pinnedTab) {
             PinnedTabFeature()
@@ -166,7 +152,9 @@ public struct AppFeature {
     }
 
     private func showPremiumClub(state: inout State, source: PremiumClubFeature.Source?) {
-        state.premiumClub.source = source
-        state.destination = .premiumClub(state.premiumClub)
+        state.destination = .premiumClub(PremiumClubFeature.State(
+            isModal: true,
+            source: source
+        ))
     }
 }

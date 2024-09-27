@@ -4,15 +4,19 @@ import StoreKit
 
 @Reducer
 public struct PremiumClubMembershipSection {
-    @ObservableState
-    public enum State: Equatable {
+    @Reducer(state: .equatable, action: .equatable)
+    public enum MembershipSubscription {
         case loading
         case noSubscription
-        case subscribed(PremiumClubMembershipSubscribed.State)
+        case subscribed(PremiumClubMembershipSubscribed)
+    }
 
-        init() {
-            self = .loading
-        }
+    @ObservableState
+    public struct State: Equatable {
+        var subscription: MembershipSubscription.State = .loading
+        @SharedReader(.isPremiumUser) var isPremiumUser
+
+        public init() {}
     }
 
     public enum Action: Equatable {
@@ -23,11 +27,10 @@ public struct PremiumClubMembershipSection {
         case _receivedNoSubscription
         case _receivedStatus(Product.SubscriptionInfo.Status)
 
-        case subscribed(PremiumClubMembershipSubscribed.Action)
+        case subscription(MembershipSubscription.Action)
     }
 
     @Dependency(\.productsService) var productsService
-    @Dependency(\.premiumService) var premiumService
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -35,15 +38,15 @@ public struct PremiumClubMembershipSection {
             case .task:
                 return .merge(
                     loadSubscriptionDetails(state: &state),
-                    listenForPremiumStateUpdates()
+                    listenForPremiumStateUpdates(state.$isPremiumUser)
                 )
             case ._premiumStateChanged:
                 return loadSubscriptionDetails(state: &state).animation()
             case ._failedToGetDetails:
-                state = .noSubscription
+                state.subscription = .noSubscription
                 return .none
             case ._receivedNoSubscription:
-                state = .noSubscription
+                state.subscription = .noSubscription
                 return .none
             case ._receivedStatus(let status):
                 guard
@@ -51,27 +54,27 @@ public struct PremiumClubMembershipSection {
                     transaction.revocationDate == nil,
                     case .verified(let renewalInfo) = status.renewalInfo
                 else {
-                    state = .noSubscription
+                    state.subscription = .noSubscription
                     return .none
                 }
-                state = .subscribed(.init(
+                state.subscription = .subscribed(.init(
                     expiration: transaction.expirationDate,
                     willAutoRenew: renewalInfo.willAutoRenew
                 ))
                 return .none
 
-            case .subscribed:
+            case .subscription:
                 return .none
             }
         }
 
-        Scope(state: \.subscribed, action: \.subscribed) {
-            PremiumClubMembershipSubscribed()
+        Scope(state: \.subscription, action: \.subscription) {
+            MembershipSubscription.body
         }
     }
 
     private func loadSubscriptionDetails(state: inout State) -> Effect<Action> {
-        state = .loading
+        state.subscription = .loading
         return .run { send in
             guard let status = await productsService.subscriptionStatus else {
                 await send(._receivedNoSubscription)
@@ -84,11 +87,10 @@ public struct PremiumClubMembershipSection {
         }
     }
 
-    private func listenForPremiumStateUpdates() -> Effect<Action> {
-        return .run { send in
-            for await _ in premiumService.isPremium.removeDuplicates().dropFirst().values {
-                await send(._premiumStateChanged)
-            }
+    private func listenForPremiumStateUpdates(_ isPremiumUser: SharedReader<Bool>) -> Effect<Action> {
+        return .publisher {
+            isPremiumUser.publisher
+                .map { _ in ._premiumStateChanged }
         }
     }
 }

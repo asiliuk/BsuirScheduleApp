@@ -20,7 +20,7 @@ public struct AppIconFeature {
             return alternateIconName().flatMap(AppIcon.init(name:)) ?? .plain(.standard)
         }()
 
-        var isPremiumLocked: Bool = false
+        @SharedReader(.isPremiumUser) var isPremiumUser
     }
     
     public enum Action: Equatable {
@@ -32,12 +32,10 @@ public struct AppIconFeature {
             case showPremiumClub
         }
 
-        case task
         case iconPicked(AppIcon?)
         
         case _iconChanged(AppIcon?)
         case _iconChangeFailed
-        case _setIsPremiumLocked(Bool)
 
         case delegate(DelegateAction)
         case alert(PresentationAction<AlertAction>)
@@ -45,19 +43,10 @@ public struct AppIconFeature {
 
     @Dependency(\.application.setAlternateIconName) var setAlternateIconName
     @Dependency(\.reviewRequestService) var reviewRequestService
-    @Dependency(\.premiumService) var premiumService
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .task:
-                state.isPremiumLocked = !premiumService.isCurrentlyPremium
-                return .run { send in
-                    for await value in premiumService.isPremium.removeDuplicates().values {
-                        await send(._setIsPremiumLocked(!value))
-                    }
-                }
-
             case .alert(.presented(.learnAboutPremiumClubButtonTapped)):
                 return .send(.delegate(.showPremiumClub))
 
@@ -66,7 +55,7 @@ public struct AppIconFeature {
                     return .none
                 }
 
-                if let icon, state.isPremiumLocked, icon.isPremium {
+                if let icon, !state.isPremiumUser, icon.isPremium {
                     state.alert = .premiumLocked
                     return .none
                 }
@@ -88,10 +77,6 @@ public struct AppIconFeature {
 
             case ._iconChangeFailed:
                 state.alert = .iconUpdateFailed
-                return .none
-
-            case ._setIsPremiumLocked(let value):
-                state.isPremiumLocked = value
                 return .none
 
             case .alert, .delegate:

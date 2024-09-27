@@ -17,6 +17,7 @@ public struct SettingsFeature {
         public var hasWhatsNew: Bool { whatsNew != nil }
         var whatsNew = WhatsNewFeature.State()
 
+        var premiumClubLabel = PremiumClubLabel.State()
         var appIcon = AppIconFeature.State()
         var appearance = AppearanceFeature.State()
         var networkAndData = NetworkAndDataFeature.State()
@@ -32,6 +33,7 @@ public struct SettingsFeature {
         }
 
         case premiumClub(PremiumClubFeature.Action)
+        case premiumClubLabel(PremiumClubLabel.Action)
         case whatsNew(WhatsNewFeature.Action)
         case appIcon(AppIconFeature.Action)
         case appearance(AppearanceFeature.Action)
@@ -80,6 +82,10 @@ public struct SettingsFeature {
 
         Scope(state: \.premiumClub, action: \.premiumClub) {
             PremiumClubFeature()
+        }
+
+        Scope(state: \.premiumClubLabel, action: \.premiumClubLabel) {
+            PremiumClubLabel()
         }
 
         Scope(state: \.appIcon, action: \.appIcon) {

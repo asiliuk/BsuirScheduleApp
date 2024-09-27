@@ -3,12 +3,13 @@ import EntityScheduleFeature
 import ScheduleCore
 import ComposableArchitecture
 import ScheduleFeature
+import BsuirCore
 
 @Reducer
 public struct PinnedTabFeature {
     @ObservableState
     public struct State: Equatable {
-        var isPremiumLocked: Bool
+        @SharedReader(.isPremiumUser) var isPremiumUser
         var pinnedSchedule: PinnedScheduleFeature.State?
     }
 

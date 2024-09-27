@@ -28,6 +28,7 @@ public struct MarkedScheduleRowFeature {
         @SharedReader(.pinnedSchedule) var pinnedSchedule
         @SharedReader(.favoriteGroupNames) var favoriteGroupNames
         @SharedReader(.favoriteLecturerIDs) var favoriteLecturerIDs
+        @SharedReader(.isPremiumUser) var isPremiumUser
 
         public init(source: ScheduleSource) {
             self.source = source
@@ -48,7 +49,6 @@ public struct MarkedScheduleRowFeature {
     }
 
     @Dependency(\.scheduleMarkingService) var scheduleMarkingService
-    @Dependency(\.premiumService) var premiumService
 
     public init() {}
 
@@ -63,7 +63,7 @@ public struct MarkedScheduleRowFeature {
                 }
 
             case .togglePinnedTapped:
-                if !state.isPinned, !premiumService.isCurrentlyPremium {
+                if !state.isPinned, !state.isPremiumUser {
                     state.alert = .premiumLocked
                     return .none
                 }

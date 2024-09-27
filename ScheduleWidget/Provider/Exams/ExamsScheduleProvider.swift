@@ -8,6 +8,7 @@ import Deeplinking
 import Favorites
 import Combine
 import Dependencies
+import ComposableArchitecture
 
 final class ExamsScheduleProvider {
     typealias Entry = ExamsScheduleEntry
@@ -24,7 +25,7 @@ final class ExamsScheduleProvider {
 
         Logger.examsProvider.info("getSnapshot started")
 
-        guard premiumService.isCurrentlyPremium else {
+        guard isPremiumUser else {
             Logger.examsProvider.info("getSnapshot no premium")
             return completeCheckingPreview(with: .premiumLocked)
         }
@@ -58,7 +59,7 @@ final class ExamsScheduleProvider {
 
         Logger.examsProvider.info("getTimeline started")
 
-        guard premiumService.isCurrentlyPremium else {
+        guard isPremiumUser else {
             Logger.examsProvider.info("getTimeline no premium")
             return completeCheckingPreview(with: .premiumLocked)
         }
@@ -142,7 +143,7 @@ final class ExamsScheduleProvider {
     private var staticOnlyExams: Bool
     @Dependency(\.apiClient) private var apiClient
     @Dependency(\.pinnedScheduleService) private var pinnedScheduleService
-    @Dependency(\.premiumService) private var premiumService
+    private var isPremiumUser: Bool { UserDefaults.asiliukShared.isUserPremium }
     @Dependency(\.subgroupFilterService) private var subgroupFilterService
     @Dependency(\.calendar) private var calendar
     @Dependency(\.date.now) private var now

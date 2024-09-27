@@ -41,11 +41,10 @@ struct AppIconFeatureView: View {
         WithPerceptionTracking {
             AppIconPickerView(
                 selection: $store.currentIcon.sending(\.iconPicked),
-                isPremiumLocked: store.isPremiumLocked
+                isPremiumLocked: !store.isPremiumUser
             )
             .alert($store.scope(state: \.alert, action: \.alert))
             .navigationTitle("screen.settings.appIcon.navigation.title")
-            .task { await store.send(.task).finish() }
         }
     }
 }

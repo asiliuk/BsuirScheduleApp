@@ -2,6 +2,7 @@ import Foundation
 import StoreKit
 import OSLog
 import Combine
+import ComposableArchitecture
 
 final class LiveProductsService {
     private enum SubscriptionError: Error {
@@ -13,10 +14,11 @@ final class LiveProductsService {
     private var updatesTask: Task<Void, Never>?
     private var _tips: [Product] = []
     private var _subscriptions: [Product] = []
-    private let premiumService: PremiumService
+    @Shared(.isPremiumUser) private var isPremiumUser
+    private let widgetService: WidgetService
 
-    init(premiumService: PremiumService) {
-        self.premiumService = premiumService
+    init(widgetService: WidgetService) {
+        self.widgetService = widgetService
     }
 
     deinit {
@@ -83,9 +85,12 @@ final class LiveProductsService {
 
     private func updatePremiumStateIfNeeded() {
         let isCurrentlyPremium = purchasedProductIds.contains(SubscriptionID.yearly.rawValue)
-        if isCurrentlyPremium != premiumService.isCurrentlyPremium {
-            Logger.products.info("Updating isCurrentlyPremium: \(isCurrentlyPremium)")
-            premiumService.isCurrentlyPremium = isCurrentlyPremium
+        DispatchQueue.main.async { [$isPremiumUser, widgetService] in
+            if isCurrentlyPremium != $isPremiumUser.wrappedValue {
+                Logger.products.info("Updating isCurrentlyPremium: \(isCurrentlyPremium)")
+                $isPremiumUser.wrappedValue = isCurrentlyPremium
+                widgetService.reloadAll()
+            }
         }
     }
 }
