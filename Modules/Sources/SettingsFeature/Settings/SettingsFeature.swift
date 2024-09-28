@@ -12,7 +12,10 @@ public struct SettingsFeature {
     @ObservableState
     public struct State: Equatable {
         public var hasWhatsNew: Bool { whatsNew != nil }
-        var whatsNew: WhatsNew?
+        var whatsNew: WhatsNew? = {
+            @Dependency(\.whatsNewService) var whatsNewService
+            return whatsNewService.whatsNew()
+        }()
 
         var premiumClubLabel = PremiumClubLabel.State()
         var appIconLabel = AppIconLabel.State()
@@ -27,8 +30,6 @@ public struct SettingsFeature {
         public enum DelegateAction: Equatable {
             case showPremiumClub(source: PremiumClubFeature.Source?)
         }
-
-        case onAppear
 
         case premiumClubLabel(PremiumClubLabel.Action)
         case appIconLabel(AppIconLabel.Action)
@@ -65,10 +66,6 @@ public struct SettingsFeature {
 
         Reduce { state, action in
             switch action {
-            case .onAppear:
-                state.whatsNew = whatsNewService.whatsNew()
-                return .none
-
             case .destination(.presented(.networkAndData(.delegate(let action)))):
                 switch action {
                 case .whatsNewCacheCleared:

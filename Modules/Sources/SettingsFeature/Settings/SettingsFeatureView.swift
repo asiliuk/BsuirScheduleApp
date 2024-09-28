@@ -114,7 +114,6 @@ public struct SettingsFeatureView: View {
                 }
             }
             .navigationSplitViewStyle(.balanced)
-            .onAppear { store.send(.onAppear)}
         }
     }
 }
