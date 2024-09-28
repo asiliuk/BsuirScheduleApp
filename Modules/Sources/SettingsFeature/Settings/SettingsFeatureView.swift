@@ -43,7 +43,7 @@ public struct SettingsFeatureView: View {
                     if let whatsNew = store.whatsNew {
                         Section {
                             Button {
-                                store.destination = .whatsNew(WhatsNewFeature.State(whatsNew: whatsNew))
+                                store.send(.whatsNewTapped)
                             } label: {
                                 Label("screen.settings.whatsNew.navigation.title", systemImage: "sparkles")
                                     .settingsRowAccent(Color.red)

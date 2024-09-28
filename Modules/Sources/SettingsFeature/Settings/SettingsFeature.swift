@@ -31,6 +31,8 @@ public struct SettingsFeature {
             case showPremiumClub(source: PremiumClubFeature.Source?)
         }
 
+        case whatsNewTapped
+
         case premiumClubLabel(PremiumClubLabel.Action)
         case appIconLabel(AppIconLabel.Action)
 
@@ -66,6 +68,12 @@ public struct SettingsFeature {
 
         Reduce { state, action in
             switch action {
+            case .whatsNewTapped:
+                guard let whatsNew = state.whatsNew else { return .none }
+                state.selectedDestination = nil
+                state.destination = .whatsNew(WhatsNewFeature.State(whatsNew: whatsNew))
+                return .none
+
             case .destination(.presented(.networkAndData(.delegate(let action)))):
                 switch action {
                 case .whatsNewCacheCleared:
