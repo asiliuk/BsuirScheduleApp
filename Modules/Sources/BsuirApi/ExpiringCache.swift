@@ -1,6 +1,6 @@
 import Foundation
 
-final class ExpiringCache: URLCache {
+final class ExpiringCache: URLCache, @unchecked Sendable {
     init(expiration: TimeInterval, memoryCapacity: Int, diskCapacity: Int, diskPath: String?) {
         self.expiration = expiration
         super.init(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: diskPath)
