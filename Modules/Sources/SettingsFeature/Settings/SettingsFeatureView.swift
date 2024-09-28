@@ -81,6 +81,7 @@ public struct SettingsFeatureView: View {
                     }
                 }
                 .labelStyle(.settings)
+                .listStyle(.insetGrouped)
                 .navigationTitle("screen.settings.navigation.title")
                 .navigationBarTitleDisplayMode(.inline)
                 .sheet(
