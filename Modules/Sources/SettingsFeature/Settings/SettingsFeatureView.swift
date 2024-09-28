@@ -5,6 +5,7 @@ import ScheduleCore
 import ReachabilityFeature
 import PremiumClubFeature
 import ComposableArchitecture
+import WhatsNewKit
 
 enum SettingsFeatureDestination: Hashable {
     case premiumClub
@@ -17,114 +18,103 @@ enum SettingsFeatureDestination: Hashable {
 
 public struct SettingsFeatureView: View {
     @Perception.Bindable public var store: StoreOf<SettingsFeature>
-    @State var hasActivePass = false
-    
+    @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
+    @State private var selection: SettingsFeatureDestination?
+
     public init(store: StoreOf<SettingsFeature>) {
         self.store = store
     }
-    
+
     public var body: some View {
         WithPerceptionTracking {
-            List {
-                Section {
-                    NavigationLink(value: SettingsFeatureDestination.premiumClub) {
-                        PremiumClubLabelView(
-                            store: store.scope(
-                                state: \.premiumClubLabel,
-                                action: \.premiumClubLabel
+            NavigationSplitView(columnVisibility: $columnVisibility) {
+                List(selection: $store.selectedDestination) {
+                    Section {
+                        NavigationLink(value: SettingsFeatureDestination.premiumClub) {
+                            PremiumClubLabelView(
+                                store: store.scope(
+                                    state: \.premiumClubLabel,
+                                    action: \.premiumClubLabel
+                                )
                             )
+                        }
+                    }
+
+                    if let whatsNew = store.whatsNew {
+                        Section {
+                            Button {
+                                store.destination = .whatsNew(WhatsNewFeature.State(whatsNew: whatsNew))
+                            } label: {
+                                Label("screen.settings.whatsNew.navigation.title", systemImage: "sparkles")
+                                    .settingsRowAccent(Color.red)
+                                    .badge(whatsNew.version.description)
+                            }
+                            .foregroundColor(.primary)
+                        }
+                    }
+
+                    Section {
+                        AppIconLabelNavigationLink(
+                            value: .appIcon,
+                            store: store.scope(state: \.appIconLabel, action: \.appIconLabel)
                         )
+
+                        NavigationLink(value: SettingsFeatureDestination.roadmap) {
+                            Label("screen.settings.roadmap.navigation.title", systemImage: "list.bullet.circle.fill")
+                                .settingsRowAccent(Color.purple)
+                        }
+
+                        NavigationLink(value: SettingsFeatureDestination.appearance) {
+                            Label("screen.settings.appearance.navigation.title", systemImage: "circle.lefthalf.filled")
+                                .settingsRowAccent(Color.orange)
+                        }
+
+                        NavigationLink(value: SettingsFeatureDestination.networkAndData) {
+                            Label("screen.settings.networkAndData.navigation.title", systemImage: "network")
+                                .settingsRowAccent(Color.blue)
+                        }
+
+                        NavigationLink(value: SettingsFeatureDestination.about) {
+                            Label("screen.settings.about.navigation.title", systemImage: "info.circle.fill")
+                                .settingsRowAccent(Color.indigo)
+                        }
                     }
                 }
-
-                if let whatsNewStore = store.scope(state: \.whatsNew, action: \.whatsNew) {
-                    WhatsNewSectionView(store: whatsNewStore)
+                .labelStyle(.settings)
+                .navigationTitle("screen.settings.navigation.title")
+                .navigationBarTitleDisplayMode(.inline)
+                .sheet(
+                    item: $store.scope(
+                        state: \.destination?.whatsNew,
+                        action: \.destination.whatsNew
+                    )
+                ) { store in
+                    WhatsNewFeatureView(store: store)
                 }
-
-                Section {
-                    AppIconFeatureNavigationLink(
-                        value: .appIcon,
-                        store: store.scope(
-                            state: \.appIcon,
-                            action: \.appIcon
-                        )
-                    )
-
-                    NavigationLink(value: SettingsFeatureDestination.roadmap) {
-                        Label("screen.settings.roadmap.navigation.title", systemImage: "list.bullet.circle.fill")
-                            .settingsRowAccent(Color.purple)
+            } detail: {
+                if let destinationStore = store.scope(state: \.destination, action: \.destination.presented) {
+                    switch destinationStore.case {
+                    case .premiumClub(let store):
+                        PremiumClubFeatureView(store: store)
+                    case .appIcon(let store):
+                        AppIconFeatureView(store: store)
+                    case .appearance(let store):
+                        AppearanceFeatureView(store: store)
+                    case .networkAndData(let store):
+                        NetworkAndDataFeatureView(store: store)
+                    case .about(let store):
+                        AboutFeatureView(store: store)
+                    case .roadmap(let store):
+                        RoadmapFeatureView(store: store)
+                    case .whatsNew:
+                        EmptyView()
                     }
-
-                    NavigationLink(value: SettingsFeatureDestination.appearance) {
-                        Label("screen.settings.appearance.navigation.title", systemImage: "circle.lefthalf.filled")
-                            .settingsRowAccent(Color.orange)
-                    }
-
-                    NavigationLink(value: SettingsFeatureDestination.networkAndData) {
-                        Label("screen.settings.networkAndData.navigation.title", systemImage: "network")
-                            .settingsRowAccent(Color.blue)
-                    }
-
-                    NavigationLink(value: SettingsFeatureDestination.about) {
-                        Label("screen.settings.about.navigation.title", systemImage: "info.circle.fill")
-                            .settingsRowAccent(Color.indigo)
-                    }
-                }
-            }
-            .navigationDestination(for: SettingsFeatureDestination.self) { destination in
-                switch destination {
-                case .premiumClub:
-                    PremiumClubFeatureView(
-                        store: store.scope(
-                            state: \.premiumClub,
-                            action: \.premiumClub
-                        )
-                    )
-
-                case .appIcon:
-                    AppIconFeatureView(
-                        store: store.scope(
-                            state: \.appIcon,
-                            action: \.appIcon
-                        )
-                    )
-
-                case .appearance:
-                    AppearanceFeatureView(
-                        store: store.scope(
-                            state: \.appearance,
-                            action: \.appearance
-                        )
-                    )
-
-                case .networkAndData:
-                    NetworkAndDataFeatureView(
-                        store: store.scope(
-                            state: \.networkAndData,
-                            action: \.networkAndData
-                        )
-                    )
-
-                case .about:
-                    AboutFeatureView(
-                        store: store.scope(
-                            state: \.about,
-                            action: \.about
-                        )
-                    )
-
-                case .roadmap:
-                    RoadmapFeatureView(
-                        store: store.scope(
-                            state: \.roadmap,
-                            action: \.roadmap
-                        )
-                    )
+                } else {
+                    Text("screen.settings.select_something.title")
                 }
             }
-            .labelStyle(.settings)
-            .listStyle(.insetGrouped)
-            .navigationTitle("screen.settings.navigation.title")
+            .navigationSplitViewStyle(.balanced)
+            .onAppear { store.send(.onAppear)}
         }
     }
 }
@@ -133,13 +123,10 @@ public struct SettingsFeatureView: View {
 
 struct SettingsFeatureView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationStack {
-            SettingsFeatureView(
-                store: Store(initialState: .init()) {
-                    SettingsFeature()
-                }
-            )
-            .navigationBarTitleDisplayMode(.inline)
-        }
+        SettingsFeatureView(
+            store: Store(initialState: .init()) {
+                SettingsFeature()
+            }
+        )
     }
 }

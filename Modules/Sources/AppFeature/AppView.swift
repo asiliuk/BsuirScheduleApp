@@ -116,10 +116,9 @@ private struct SettingsFeatureTab: View {
 
     var body: some View {
         WithPerceptionTracking {
-            NavigationStack(path: $store.path) {
-                SettingsFeatureView(store: store)
-                    .navigationBarTitleDisplayMode(.inline)
-            }
+            SettingsFeatureView(
+                store: store
+            )
             .tabItem {
                 Label("view.tabBar.settings.title", systemImage: "gearshape")
             }

@@ -9,17 +9,7 @@ public struct AppIconFeature {
     @ObservableState
     public struct State: Equatable {
         @Presents var alert: AlertState<Action.AlertAction>?
-
-        var supportsIconPicking: Bool = {
-            @Dependency(\.application.supportsAlternateIcons) var supportsAlternateIcons
-            return supportsAlternateIcons()
-        }()
-
-        var currentIcon: AppIcon? = {
-            @Dependency(\.application.alternateIconName) var alternateIconName
-            return alternateIconName().flatMap(AppIcon.init(name:)) ?? .plain(.standard)
-        }()
-
+        @Shared(.appIcon) var currentIcon
         @SharedReader(.isPremiumUser) var isPremiumUser
     }
     
@@ -123,6 +113,16 @@ private extension AppIcon {
         default:
             return false
         }
+    }
+}
+
+extension PersistenceKey where Self == PersistenceKeyDefault<InMemoryKey<AppIcon?>> {
+    static var appIcon: Self {
+        @Dependency(\.application.alternateIconName) var alternateIconName
+        return PersistenceKeyDefault(
+            .inMemory("current-app-icon"),
+            alternateIconName().flatMap(AppIcon.init(name:)) ?? .plain(.standard)
+        )
     }
 }
 

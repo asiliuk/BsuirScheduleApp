@@ -2,9 +2,9 @@ import SwiftUI
 import BsuirUI
 import ComposableArchitecture
 
-struct AppIconFeatureNavigationLink: View {
+struct AppIconLabelNavigationLink: View {
     let value: SettingsFeatureDestination
-    let store: StoreOf<AppIconFeature>
+    let store: StoreOf<AppIconLabel>
 
     var body: some View {
         WithPerceptionTracking {

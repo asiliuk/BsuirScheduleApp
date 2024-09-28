@@ -6,21 +6,24 @@ public struct PairFormsColorPickerView: View {
     let store: StoreOf<PairFormsColorPicker>
 
     public var body: some View {
-        Section(header: Text("screen.settings.appearance.colors.section.header")) {
-            WithPerceptionTracking {
+        WithPerceptionTracking {
+            Section(header: Text("screen.settings.appearance.colors.section.header")) {
                 ForEach(
-                    store.scope(state: \.pairFormColorPickers, action: \.pairFormColorPickers),
+                    store.scope(
+                        state: \.pairFormColorPickers,
+                        action: \.pairFormColorPickers
+                    ),
                     content: PairFormColorPickerView.init(store:)
                 )
-                
+
                 if store.hasChanges {
                     Button("screen.settings.appearance.colors.reset.title") {
                         store.send(.resetButtonTapped, animation: .default)
                     }
                 }
             }
+            .onAppear { store.send(.onAppear) }
         }
-        .onAppear { store.send(.onAppear) }
     }
 }
 
