@@ -127,6 +127,7 @@ private struct AppIconRow: View {
     let imageName: String
     let isPremiumLocked: Bool
     @Binding var isSelected: Bool
+    @ScaledMetric var rowHeight: CGFloat = 50
 
     var body: some View {
         Button {
@@ -147,10 +148,11 @@ private struct AppIconRow: View {
                     Text("  \(Text(title))")
                         .foregroundColor(isPremiumLocked ? .secondary : .primary)
                 } icon: {
-                    ScaledAppIconPreviewView(imageName: imageName, size: 50)
+                    ScaledAppIconPreviewView(imageName: imageName, size: rowHeight)
                 }
             }
         }
         .foregroundColor(.primary)
+        .frame(height: rowHeight + 4)
     }
 }
