@@ -35,18 +35,20 @@ private struct ReachabilitySectionView: View {
     let store: StoreOf<NetworkAndDataFeature>
 
     var body: some View {
-        ReachabilityView(
-            store: store.scope(
-                state: \.iisReachability,
-                action: \.iisReachability
+        WithPerceptionTracking {
+            ReachabilityView(
+                store: store.scope(
+                    state: \.iisReachability,
+                    action: \.iisReachability
+                )
             )
-        )
-
-        ReachabilityView(
-            store: store.scope(
-                state: \.appleReachability,
-                action: \.appleReachability
+            
+            ReachabilityView(
+                store: store.scope(
+                    state: \.appleReachability,
+                    action: \.appleReachability
+                )
             )
-        )
+        }
     }
 }
