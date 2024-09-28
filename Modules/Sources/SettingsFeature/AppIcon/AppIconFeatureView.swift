@@ -59,35 +59,35 @@ private struct AppIconPickerView: View {
                 selection: $selection,
                 isPremiumLocked: isPremiumLocked,
                 label: "screen.settings.appIcon.iconPicker.plain.title",
-                casePath: /AppIcon.plain
+                caseKeyPath: \.plain
             )
 
             AppIconGroupPicker(
                 selection: $selection,
                 isPremiumLocked: isPremiumLocked,
                 label: "screen.settings.appIcon.iconPicker.symbol.title",
-                casePath: /AppIcon.symbol
+                caseKeyPath: \.symbol
             )
 
             AppIconGroupPicker(
                 selection: $selection,
                 isPremiumLocked: isPremiumLocked,
                 label: "screen.settings.appIcon.iconPicker.metall.title",
-                casePath: /AppIcon.metal
+                caseKeyPath: \.metal
             )
 
             AppIconGroupPicker(
                 selection: $selection,
                 isPremiumLocked: isPremiumLocked,
                 label: "screen.settings.appIcon.iconPicker.neon.title",
-                casePath: /AppIcon.neon
+                caseKeyPath: \.neon
             )
 
             AppIconGroupPicker(
                 selection: $selection,
                 isPremiumLocked: isPremiumLocked,
                 label: "screen.settings.appIcon.iconPicker.glitch.title",
-                casePath: /AppIcon.glitch
+                caseKeyPath: \.glitch
             )
         }
         .pickerStyle(.inline)
@@ -99,7 +99,7 @@ private struct AppIconGroupPicker<Icon: AppIconProtocol>: View {
     @Binding var selection: AppIcon?
     let isPremiumLocked: Bool
     let label: LocalizedStringKey
-    let casePath: AnyCasePath<AppIcon, Icon>
+    let caseKeyPath: CaseKeyPath<AppIcon, Icon>
 
     var body: some View {
         Section(label) {
@@ -109,9 +109,11 @@ private struct AppIconGroupPicker<Icon: AppIconProtocol>: View {
                     imageName: icon.previewImageName,
                     isPremiumLocked: icon.isPremium && isPremiumLocked,
                     isSelected: .init(
-                        get: { $selection.wrappedValue.flatMap(casePath.extract(from:)) == icon },
+                        get: {
+                            $selection.wrappedValue?[case: caseKeyPath] == icon
+                        },
                         set: { newValue, transaction in
-                            $selection.transaction(transaction).wrappedValue = newValue ? casePath.embed(icon) : nil
+                            $selection.transaction(transaction).wrappedValue = newValue ? caseKeyPath(icon) : nil
                         }
                     )
                 )
