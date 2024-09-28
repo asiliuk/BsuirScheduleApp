@@ -3,11 +3,12 @@ import ComposableArchitecture
 
 struct SubgroupPickerFeatureView: View {
     @Perception.Bindable var store: StoreOf<SubgroupPickerFeature>
+    @State var selectedSubgroup: Int?
 
     var body: some View {
         WithPerceptionTracking {
             Menu {
-                Picker("view.subgroupPicker.title", selection: $store.selected) {
+                Picker("view.subgroupPicker.title", selection: $selectedSubgroup) {
                     ForEach(1...store.maxSubgroup, id: \.self) { subgroup in
                         Label("view.subgroupPicker.subgroup.title\(String(describing: subgroup))", systemImage: "person")
                             .tag(Int?.some(subgroup))
@@ -25,6 +26,7 @@ struct SubgroupPickerFeatureView: View {
                 }
             }
             .tint(store.selected == nil ? .secondary : .blue)
+            .bind($store.selected, to: $selectedSubgroup)
         }
     }
 }
