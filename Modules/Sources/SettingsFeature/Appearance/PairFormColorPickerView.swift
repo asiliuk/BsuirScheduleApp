@@ -12,9 +12,10 @@ public struct PairFormsColorPickerView: View {
                     store.scope(
                         state: \.pairFormColorPickers,
                         action: \.pairFormColorPickers
-                    ),
-                    content: PairFormColorPickerView.init(store:)
-                )
+                    )
+                ) { store in
+                    PairFormColorPickerView(store: store)
+                }
 
                 if store.hasChanges {
                     Button("screen.settings.appearance.colors.reset.title") {
@@ -29,14 +30,16 @@ public struct PairFormsColorPickerView: View {
 
 private struct PairFormColorPickerView: View {
     @Perception.Bindable var store: StoreOf<PairFormColorPicker>
+    @State var color: PairFormColor = .blue
 
     var body: some View {
         WithPerceptionTracking {
-            Picker(store.name, selection: $store.color) {
+            Picker(store.name, selection: $color) {
                 ForEach(PairFormColor.allCases, id: \.self) { color in
                     ColorView(color: color.color, name: color.name)
                 }
             }
+            .bind($store.color, to: $color)
         }
     }
 }
