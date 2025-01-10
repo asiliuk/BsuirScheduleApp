@@ -8,6 +8,7 @@ import Deeplinking
 import Favorites
 import Combine
 import Dependencies
+import ComposableArchitecture
 
 final class PinnedScheduleProvider: TimelineProvider {
     typealias Entry = PinnedScheduleEntry
@@ -24,7 +25,7 @@ final class PinnedScheduleProvider: TimelineProvider {
 
             Logger.pinnedProvider.info("getSnapshot started")
 
-            guard premiumService.isCurrentlyPremium else {
+            guard isPremiumUser else {
                 Logger.pinnedProvider.info("getSnapshot no premium")
                 return completeCheckingPreview(with: .premiumLocked)
             }
@@ -59,7 +60,7 @@ final class PinnedScheduleProvider: TimelineProvider {
 
         Logger.pinnedProvider.info("getTimeline started")
 
-        guard premiumService.isCurrentlyPremium else {
+        guard isPremiumUser else {
             Logger.pinnedProvider.info("getTimeline no premium")
             return completeCheckingPreview(with: .premiumLocked)
         }
@@ -143,7 +144,7 @@ final class PinnedScheduleProvider: TimelineProvider {
 
     @Dependency(\.apiClient) private var apiClient
     @Dependency(\.pinnedScheduleService) private var pinnedScheduleService
-    @Dependency(\.premiumService) private var premiumService
+    private var isPremiumUser: Bool { UserDefaults.asiliukShared.isUserPremium }
     @Dependency(\.subgroupFilterService) private var subgroupFilterService
     @Dependency(\.calendar) private var calendar
 

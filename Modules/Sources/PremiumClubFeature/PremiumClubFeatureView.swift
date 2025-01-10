@@ -5,20 +5,6 @@ import ConfettiSwiftUI
 import ComposableArchitecture
 
 public struct PremiumClubFeatureView: View {
-    struct ViewState: Equatable {
-        var confettiCounter: Int
-        var redeemCodePresent: Bool
-        var hasPremium: Bool
-        var sections: [PremiumClubFeature.Section]
-
-        init(_ state: PremiumClubFeature.State) {
-            self.confettiCounter = state.confettiCounter
-            self.redeemCodePresent = state.redeemCodePresent
-            self.sections = state.sections
-            self.hasPremium = state.hasPremium
-        }
-    }
-
     @Perception.Bindable var store: StoreOf<PremiumClubFeature>
 
     public init(store: StoreOf<PremiumClubFeature>) {
@@ -32,7 +18,7 @@ public struct PremiumClubFeatureView: View {
             }
             .labelStyle(PremiumGroupTitleLabelStyle())
             .safeAreaInset(edge: .bottom) {
-                if !store.hasPremium {
+                if !store.isPremiumUser {
                     SubscriptionFooterView(
                         store: store.scope(
                             state: \.subsctiptionFooter,

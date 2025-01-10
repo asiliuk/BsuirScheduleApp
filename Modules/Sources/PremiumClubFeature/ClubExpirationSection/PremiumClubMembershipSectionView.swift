@@ -9,23 +9,12 @@ struct PremiumClubMembershipSectionView: View {
     var body: some View {
         WithPerceptionTracking {
             GroupBox {
-                Group {
-                    switch store.state {
-                    case .loading:
-                        ProgressView()
-                            .progressViewStyle(.circular)
-                            .frame(maxWidth: .infinity)
-                    case .noSubscription:
-                        VStack(alignment: .leading, spacing: 16) {
-                            Text("screen.premiumClub.section.membership.message")
-                            LegalInfoView()
-                        }
-                    case .subscribed:
-                        if let store = store.scope(state: \.subscribed, action: \.subscribed) {
-                            PremiumClubMembershipSubscribedView(store: store)
-                        }
-                    }
-                }
+                MembershipSubscriptionView(
+                    store: store.scope(
+                        state: \.subscription,
+                        action: \.subscription
+                    )
+                )
                 .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
                 .padding(.vertical, 4)
             } label: {
@@ -33,6 +22,28 @@ struct PremiumClubMembershipSectionView: View {
                     .settingsRowAccent(.premiumGradient)
             }
             .task { await store.send(.task).finish() }
+        }
+    }
+}
+
+private struct MembershipSubscriptionView: View {
+    let store: StoreOf<PremiumClubMembershipSection.MembershipSubscription>
+
+    var body: some View {
+        WithPerceptionTracking {
+            switch store.case {
+            case .loading:
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .frame(maxWidth: .infinity)
+            case .noSubscription:
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("screen.premiumClub.section.membership.message")
+                    LegalInfoView()
+                }
+            case .subscribed(let store):
+                PremiumClubMembershipSubscribedView(store: store)
+            }
         }
     }
 }

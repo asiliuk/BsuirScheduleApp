@@ -3,11 +3,12 @@ import ComposableArchitecture
 
 struct MarkedSchedulePickerView: View {
     @Perception.Bindable var store: StoreOf<MarkedSchedulePickerFeature>
+    @State var selection: MarkedSchedulePickerFeature.State.Selection = .nothing
 
     var body: some View {
         WithPerceptionTracking {
             Menu {
-                Picker("screen.schedule.mark.title", selection: $store.selection) {
+                Picker("screen.schedule.mark.title", selection: $selection) {
                     ForEach(MarkedSchedulePickerFeature.State.Selection.allCases) { selection in
                         selection.label
                     }
@@ -19,6 +20,7 @@ struct MarkedSchedulePickerView: View {
             .task { await store.send(.task).finish() }
             .tint(store.selection.tint)
             .alert($store.scope(state: \.alert, action: \.alert))
+            .bind($store.selection, to: $selection)
         }
     }
 }

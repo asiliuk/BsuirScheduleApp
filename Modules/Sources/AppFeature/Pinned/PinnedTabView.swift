@@ -18,7 +18,7 @@ private struct PinnedTabContentView: View {
 
     var body: some View {
         WithPerceptionTracking {
-            if store.isPremiumLocked {
+            if !store.isPremiumUser {
                 PinnedScheduleLockedView {
                     store.send(.learnAboutPremiumClubTapped)
                 }
@@ -36,7 +36,7 @@ private struct PinnedTabItem: View {
 
     var body: some View {
         WithPerceptionTracking {
-            if !store.isPremiumLocked, let title = store.pinnedSchedule?.title {
+            if store.isPremiumUser, let title = store.pinnedSchedule?.title {
                 Label(title, systemImage: "pin")
             } else {
                 Label("view.tabBar.pinned.empty.title", systemImage: "pin")

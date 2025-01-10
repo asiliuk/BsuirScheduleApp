@@ -1,8 +1,10 @@
 import Foundation
 import SwiftUI
 import BsuirCore
+import CasePaths
 
 @dynamicMemberLookup
+@CasePathable
 public enum AppIcon: Hashable {
     public enum Plain: String, CaseIterable {
         case standard = "AppIconStandart"

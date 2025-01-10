@@ -3,6 +3,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct AppearanceFeature {
+    @ObservableState
     public struct State: Equatable {
         var pairFormsColorPicker = PairFormsColorPicker.State()
         var pairFormIcons = PairFormIcons.State()

@@ -3,13 +3,13 @@ import ComposableArchitecture
 
 public struct PersistenceKeyTransform<Base: PersistenceKey, Value>: PersistenceKey {
     let base: Base
-    let fromValue: (Value) -> Base.Value?
-    let toValue: (Base.Value) -> Value?
+    let fromValue: @Sendable (Value) -> Base.Value?
+    let toValue: @Sendable  (Base.Value) -> Value?
 
     public init(
         base: Base,
-        fromValue: @escaping (Value) -> Base.Value?,
-        toValue: @escaping (Base.Value) -> Value?
+        fromValue: @Sendable  @escaping (Value) -> Base.Value?,
+        toValue: @Sendable  @escaping (Base.Value) -> Value?
     ) {
         self.base = base
         self.fromValue = fromValue

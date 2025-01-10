@@ -5335,6 +5335,35 @@
         }
       }
     },
+    "screen.settings.select_something.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберыце што-небудзь"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select something"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите что-нибудь"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виберіть щось"
+          }
+        }
+      }
+    },
     "screen.settings.whatsNew.3_0.appIcons.subtitle" : {
       "extractionState" : "manual",
       "localizations" : {

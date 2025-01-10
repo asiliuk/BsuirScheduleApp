@@ -5,23 +5,23 @@ import PremiumClubFeature
 import ComposableArchitecture
 import Dependencies
 import SwiftUI
+import WhatsNewKit
 
 @Reducer
 public struct SettingsFeature {
     @ObservableState
     public struct State: Equatable {
-        public var path = NavigationPath()
-
-        var premiumClub = PremiumClubFeature.State(isModal: false)
-
         public var hasWhatsNew: Bool { whatsNew != nil }
-        var whatsNew = WhatsNewFeature.State()
+        var whatsNew: WhatsNew? = {
+            @Dependency(\.whatsNewService) var whatsNewService
+            return whatsNewService.whatsNew()
+        }()
 
-        var appIcon = AppIconFeature.State()
-        var appearance = AppearanceFeature.State()
-        var networkAndData = NetworkAndDataFeature.State()
-        var about = AboutFeature.State()
-        var roadmap = RoadmapFeature.State()
+        var premiumClubLabel = PremiumClubLabel.State()
+        var appIconLabel = AppIconLabel.State()
+
+        @Presents var destination: Destination.State?
+        var selectedDestination: SettingsFeatureDestination?
 
         public init() {}
     }
@@ -31,75 +31,101 @@ public struct SettingsFeature {
             case showPremiumClub(source: PremiumClubFeature.Source?)
         }
 
-        case premiumClub(PremiumClubFeature.Action)
-        case whatsNew(WhatsNewFeature.Action)
-        case appIcon(AppIconFeature.Action)
-        case appearance(AppearanceFeature.Action)
-        case networkAndData(NetworkAndDataFeature.Action)
-        case about(AboutFeature.Action)
-        case roadmap(RoadmapFeature.Action)
+        case whatsNewTapped
+
+        case premiumClubLabel(PremiumClubLabel.Action)
+        case appIconLabel(AppIconLabel.Action)
+
+        case destination(PresentationAction<Destination.Action>)
 
         case delegate(DelegateAction)
         case binding(BindingAction<State>)
     }
 
+    @Reducer(state: .equatable, action: .equatable)
+    public enum Destination {
+        case premiumClub(PremiumClubFeature)
+        case whatsNew(WhatsNewFeature)
+        case appIcon(AppIconFeature)
+        case appearance(AppearanceFeature)
+        case networkAndData(NetworkAndDataFeature)
+        case about(AboutFeature)
+        case roadmap(RoadmapFeature)
+    }
+
     public init() {}
-    
+
+    @Dependency(\.whatsNewService) var whatsNewService
+
     public var body: some ReducerOf<Self> {
         BindingReducer()
+            .onChange(of: \.selectedDestination) { _, newValue in
+                Reduce { state, _ in
+                    state.destination = newValue.flatMap(Destination.State.init)
+                    return .none
+                }
+            }
 
         Reduce { state, action in
             switch action {
-            case .appIcon(.delegate(let action)):
+            case .whatsNewTapped:
+                guard let whatsNew = state.whatsNew else { return .none }
+                state.selectedDestination = nil
+                state.destination = .whatsNew(WhatsNewFeature.State(whatsNew: whatsNew))
+                return .none
+
+            case .destination(.presented(.networkAndData(.delegate(let action)))):
+                switch action {
+                case .whatsNewCacheCleared:
+                    state.whatsNew = whatsNewService.whatsNew()
+                    return .none
+                }
+
+            case .destination(.presented(.appIcon(.delegate(let action)))):
                 switch action {
                 case .showPremiumClub:
                     return .send(.delegate(.showPremiumClub(source: .appIcon)))
                 }
 
-            case .whatsNew(.delegate(let action)):
-                switch action {
-                case .whatsNewDismissed:
-                    state.whatsNew = nil
-                    return .none
+            case .destination(.dismiss):
+                guard case .whatsNew(let whatsNewState) = state.destination else { return .none }
+                state.whatsNew = nil
+                return .run { [version = whatsNewState.whatsNew.version] _ in
+                    whatsNewService.markWhatsNewPresented(version: version)
                 }
 
-            case .networkAndData(.delegate(let action)):
-                switch action {
-                case .whatsNewCacheCleared:
-                    state.whatsNew = WhatsNewFeature.State()
-                    return .none
-                }
-
-            case .premiumClub, .whatsNew, .appIcon, .appearance, .networkAndData, .about, .delegate, .binding:
+            case .appIconLabel, .delegate, .binding, .destination:
                 return .none
             }
         }
-        .ifLet(\.whatsNew, action: \.whatsNew) {
-            WhatsNewFeature()
+        .ifLet(\.$destination, action: \.destination)
+
+
+        Scope(state: \.premiumClubLabel, action: \.premiumClubLabel) {
+            PremiumClubLabel()
         }
 
-        Scope(state: \.premiumClub, action: \.premiumClub) {
-            PremiumClubFeature()
+        Scope(state: \.appIconLabel, action: \.appIconLabel) {
+            AppIconLabel()
         }
+    }
+}
 
-        Scope(state: \.appIcon, action: \.appIcon) {
-            AppIconFeature()
-        }
-
-        Scope(state: \.appearance, action: \.appearance) {
-            AppearanceFeature()
-        }
-
-        Scope(state: \.networkAndData, action: \.networkAndData) {
-            NetworkAndDataFeature()
-        }
-
-        Scope(state: \.about, action: \.about) {
-            AboutFeature()
-        }
-
-        Scope(state: \.roadmap, action: \.roadmap) {
-            RoadmapFeature()
+private extension SettingsFeature.Destination.State {
+    init?(selection: SettingsFeatureDestination) {
+        switch selection {
+        case .premiumClub:
+            self = .premiumClub(PremiumClubFeature.State(isModal: false))
+        case .appIcon:
+            self = .appIcon(AppIconFeature.State())
+        case .appearance:
+            self = .appearance(AppearanceFeature.State())
+        case .networkAndData:
+            self = .networkAndData(NetworkAndDataFeature.State())
+        case .about:
+            self = .about(AboutFeature.State())
+        case .roadmap:
+            self = .roadmap(RoadmapFeature.State())
         }
     }
 }

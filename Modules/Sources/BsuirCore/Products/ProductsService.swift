@@ -25,8 +25,8 @@ extension DependencyValues {
 
 private enum ProductsServiceKey: DependencyKey {
     public static let liveValue: any ProductsService = {
-        @Dependency(\.premiumService) var premiumService
-        return LiveProductsService(premiumService: premiumService)
+        @Dependency(\.widgetService) var widgetService
+        return LiveProductsService(widgetService: widgetService)
     }()
 
     public static let previewValue: any ProductsService = ProductsServiceMock()

@@ -1,5 +1,6 @@
 import Foundation
 import ComposableArchitecture
+import BsuirCore
 
 @Reducer
 public struct PremiumClubFeature {
@@ -21,7 +22,7 @@ public struct PremiumClubFeature {
     @ObservableState
     public struct State: Equatable {
         public var source: Source?
-        public var hasPremium: Bool
+        @SharedReader(.isPremiumUser) var isPremiumUser
         var isModal: Bool
         var confettiCounter: Int = 0
         var redeemCodePresent = false
@@ -43,13 +44,10 @@ public struct PremiumClubFeature {
 
         public init(
             isModal: Bool,
-            source: Source? = nil,
-            hasPremium: Bool? = nil
+            source: Source? = nil
         ) {
             self.isModal = isModal
             self.source = source
-            @Dependency(\.premiumService) var premiumService
-            self.hasPremium = hasPremium ?? premiumService.isCurrentlyPremium
         }
     }
 
@@ -57,16 +55,16 @@ public struct PremiumClubFeature {
         case task
         case restoreButtonTapped
         case redeemCodeButtonTapped
-        case _setIsPremium(Bool)
         case tips(TipsSection.Action)
         case premiumClubMembership(PremiumClubMembershipSection.Action)
         case subsctiptionFooter(SubscriptionFooter.Action)
+
+        case _successfullyBecamePremiumUser
 
         case binding(BindingAction<State>)
     }
 
     @Dependency(\.productsService) var productsService
-    @Dependency(\.premiumService) var premiumService
     @Dependency(\.isPresented) var isPresented
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.continuousClock) var clock
@@ -79,7 +77,7 @@ public struct PremiumClubFeature {
         Reduce { state, action in
             switch action {
             case .task:
-                return listenToPremiumUpdates()
+                return listenToPremiumUpdates(state.$isPremiumUser)
 
             case .restoreButtonTapped:
                 return .run { _ in await productsService.restore() }
@@ -88,10 +86,7 @@ public struct PremiumClubFeature {
                 state.redeemCodePresent = true
                 return .none
 
-            case let ._setIsPremium(value):
-                guard value != state.hasPremium else { return .none }
-                state.hasPremium = value
-                guard value else { return .none }
+            case ._successfullyBecamePremiumUser:
                 state.confettiCounter += 1
                 guard isPresented, state.isModal else { return .none }
                 return .run { _ in
@@ -117,11 +112,19 @@ public struct PremiumClubFeature {
         }
     }
 
-    private func listenToPremiumUpdates() -> Effect<Action> {
-        return .run { send in
-            for await value in premiumService.isPremium.removeDuplicates().values {
-                await send(._setIsPremium(value))
-            }
+    private func listenToPremiumUpdates(_ isPremiumUser: SharedReader<Bool>) -> Effect<Action> {
+        return .publisher {
+            isPremiumUser.publisher
+                .prepend(isPremiumUser.wrappedValue)
+                .removeDuplicates()
+                // Drop first value
+                // if user was not premium, next filter would catch change
+                // if user was premium next operators would never be called
+                .dropFirst()
+                // Take first true value, meaning user become premium
+                .filter { $0 }
+                .first()
+                .map { _ in Action._successfullyBecamePremiumUser }
         }
     }
 }

@@ -4,7 +4,11 @@ import ScheduleFeature
 
 extension EntityScheduleFeature.State {
     public mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {
-        try? (/Self.group).modify(&self) { $0.schedule.switchDisplayType(displayType) }
-        try? (/Self.lector).modify(&self) { $0.schedule.switchDisplayType(displayType) }
+        switch self {
+        case .group:
+            modify(\.group) { $0.schedule.switchDisplayType(displayType) }
+        case .lector:
+            modify(\.lector) { $0.schedule.switchDisplayType(displayType) }
+        }
     }
 }

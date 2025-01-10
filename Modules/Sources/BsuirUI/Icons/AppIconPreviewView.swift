@@ -2,11 +2,11 @@ import SwiftUI
 
 public struct ScaledAppIconPreviewView: View {
     let imageName: String
-    @ScaledMetric var size: CGFloat
+    let size: CGFloat
 
     public init(imageName: String, size: CGFloat = 34) {
         self.imageName = imageName
-        self._size = ScaledMetric(wrappedValue: size, relativeTo: .body)
+        self.size = size
     }
 
     public var body: some View {

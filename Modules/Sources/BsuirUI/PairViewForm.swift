@@ -34,7 +34,7 @@ extension PairViewForm {
         case .practice: return "hammer"
         case .consultation: return "case"
         case .exam: return "graduationcap"
-        case .test: return "pencil.and.list.clipboard"
+        case .test: return "pencil.and.ruler"
         case .unknown: return "questionmark"
         }
     }

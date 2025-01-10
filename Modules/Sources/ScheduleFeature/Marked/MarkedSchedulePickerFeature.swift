@@ -27,6 +27,7 @@ public struct MarkedSchedulePickerFeature {
         let source: ScheduleSource
         var selection: Selection
         @Presents var alert: AlertState<PinPremiumAlertAction>?
+        @SharedReader(.isPremiumUser) var isPremiumUser
 
         init(source: ScheduleSource) {
             self.source = source
@@ -54,7 +55,6 @@ public struct MarkedSchedulePickerFeature {
     }
 
     @Dependency(\.scheduleMarkingService) var scheduleMarkingService
-    @Dependency(\.premiumService) var premiumService
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -118,7 +118,7 @@ public struct MarkedSchedulePickerFeature {
         case .favorite:
             return .run { _ in await scheduleMarkingService.favorite(source) }
         case .pinned:
-            if premiumService.isCurrentlyPremium {
+            if state.isPremiumUser {
                 return .run { _ in
                     await scheduleMarkingService.pin(source)
                 }

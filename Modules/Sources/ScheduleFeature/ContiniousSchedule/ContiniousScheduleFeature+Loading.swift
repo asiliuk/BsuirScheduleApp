@@ -15,20 +15,27 @@ extension ContinuousScheduleFeature {
 
         // Load more schedule if clipping almost all
         if state.scheduleList.days.count <= 4 {
-            state.load(count: 10, calendar: calendar, now: now)
+            state.load(count: 10, calendar: calendar, universityCalendar: universityCalendar, now: now)
         }
     }
 }
 
 extension ContinuousScheduleFeature.State {
-    mutating func load(count: Int, calendar: Calendar, now: Date) {
+    mutating func load(count: Int, calendar: Calendar, universityCalendar: Calendar, now: Date) {
         guard
             let weekSchedule = weekSchedule,
             let offset = offset,
             let start = calendar.date(byAdding: .day, value: 1, to: offset)
         else { return }
 
-        let days = Array(weekSchedule.schedule(starting: start, now: now, calendar: calendar).prefix(count))
+        let days = Array(
+            weekSchedule.schedule(
+                starting: start,
+                now: now,
+                calendar: calendar,
+                universityCalendar: universityCalendar
+            ).prefix(count)
+        )
         scheduleList.loading = (days.count < count) ? .finished : .loadMore
 
         self.offset = days.last?.date

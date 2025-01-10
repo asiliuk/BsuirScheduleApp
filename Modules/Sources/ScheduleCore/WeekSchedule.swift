@@ -46,7 +46,8 @@ extension WeekSchedule {
     public func schedule(
         starting start: Date,
         now: Date,
-        calendar: Calendar
+        calendar: Calendar,
+        universityCalendar: Calendar
     ) -> AnySequence<ScheduleElement> {
         guard !schedule.isEmpty else {
             return AnySequence([])
@@ -61,7 +62,7 @@ extension WeekSchedule {
 
                     guard
                         let date = calendar.date(byAdding: .day, value: offset, to: start).map(calendar.startOfDay(for:)),
-                        let rawWeekNumber = calendar.weekNumber(for: date, now: now),
+                        let rawWeekNumber = universityCalendar.weekNumber(for: date, now: now),
                         let weekNumber = WeekNum(weekNum: rawWeekNumber),
                         calendar.isDate(date, inSameDayAs: endDate) || date < endDate
                     else {
@@ -187,5 +188,24 @@ private extension DaySchedule.WeekDay {
         case 7: self = .saturday
         default: return nil
         }
+    }
+}
+
+// MARK: University Calendar
+
+import Dependencies
+
+extension Calendar {
+    public static let bsuir = mutating(Calendar(identifier: .gregorian)) { $0.locale = Locale(identifier: "ru_BY") }
+}
+
+private enum UniversityCalendarKey: DependencyKey {
+    static let liveValue: Calendar = .bsuir
+}
+
+extension DependencyValues {
+    public var universityCalendar: Calendar {
+        get { self[UniversityCalendarKey.self] }
+        set { self[UniversityCalendarKey.self] = newValue }
     }
 }

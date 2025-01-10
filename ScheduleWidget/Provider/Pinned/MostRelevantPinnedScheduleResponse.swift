@@ -19,7 +19,8 @@ extension MostRelevantPinnedScheduleResponse {
         endDate: Date?,
         schedule: DaySchedule,
         now: Date = .now,
-        calendar: Calendar = .current
+        calendar: Calendar = .current,
+        universityCalendar: Calendar = .bsuir
     ) {
         self.init(
             deeplink: deeplink,
@@ -34,7 +35,7 @@ extension MostRelevantPinnedScheduleResponse {
                         startDate: startDate,
                         endDate: endDate
                     )
-                    .schedule(starting: now, now: now, calendar: calendar)
+                    .schedule(starting: now, now: now, calendar: calendar, universityCalendar: universityCalendar)
                     .first(where: { $0.hasUnfinishedPairs(now: now, subgroup: subgroup) })
                 else { return nil }
                 return mostRelevantElement
