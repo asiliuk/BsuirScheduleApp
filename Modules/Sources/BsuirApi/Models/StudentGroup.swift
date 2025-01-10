@@ -42,7 +42,7 @@ extension StudentGroup {
 
         public let schedules: DaySchedule?
         public let previousSchedules: DaySchedule?
-        public let examSchedules: [Pair]
+        public let examSchedules: [Pair]?
         
         private enum CodingKeys: String, CodingKey {
             case startDate

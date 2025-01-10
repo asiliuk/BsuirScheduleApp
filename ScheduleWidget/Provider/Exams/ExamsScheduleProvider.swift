@@ -114,7 +114,7 @@ final class ExamsScheduleProvider {
                 deeplink: .group(name: name, displayType: .exams),
                 title: source.title,
                 subgroup: preferredSubgroup(for: source),
-                exams: schedule.examSchedules,
+                exams: schedule.examSchedules ?? [],
                 calendar: calendar,
                 onlyExams: onlyExams
             )
