@@ -34,7 +34,7 @@ let package = Package(
             targets: ["SettingsFeature"]),
     ],
     dependencies: [
-         .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.9.0"),
+         .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.0.0"),
          .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", exact: "1.15.2"),
          .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.6.0"),
          .package(url: "https://github.com/pointfreeco/swift-navigation.git", from: "2.3.0"),

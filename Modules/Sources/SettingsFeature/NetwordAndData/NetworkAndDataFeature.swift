@@ -38,7 +38,7 @@ public struct NetworkAndDataFeature {
                 )
                 return .run { _ in
                     await clearNetworkCache()
-                    imageCache.clearCache()
+                    await imageCache.clearCache()
                 }
 
             case .clearWhatsNewTapped:
