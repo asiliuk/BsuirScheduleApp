@@ -73,6 +73,7 @@ public struct AppView: View {
                         }
                 }
             }
+            .bsuirTabbarSidebarAdaptable()
         }
         .onOpenURL(perform: { store.send(.handleDeeplink($0)) })
         .task { await store.send(.task).finish() }

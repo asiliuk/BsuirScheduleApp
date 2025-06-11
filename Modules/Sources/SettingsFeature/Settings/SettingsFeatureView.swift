@@ -92,6 +92,7 @@ public struct SettingsFeatureView: View {
                 ) { store in
                     WhatsNewFeatureView(store: store)
                 }
+                .bsuirRemovingSidebarToggle()
             } detail: {
                 if let destinationStore = store.scope(state: \.destination, action: \.destination.presented) {
                     switch destinationStore.case {
