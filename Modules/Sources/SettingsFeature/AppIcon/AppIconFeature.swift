@@ -80,27 +80,31 @@ public struct AppIconFeature {
 // MARK: - AlertState
 
 private extension AlertState where Action == AppIconFeature.Action.AlertAction {
-    static let premiumLocked = AlertState(
-        title: TextState("alert.premiumClub.appIconChange.title"),
-        message: TextState("alert.premiumClub.appIconChange.message"),
-        buttons: [
-            .default(
-                TextState("alert.premiumClub.appIconChange.button"),
-                action: .send(.learnAboutPremiumClubButtonTapped)
-            ),
-            .cancel(TextState("alert.premiumClub.appIconChange.cancel"))
-        ]
-    )
+    static let premiumLocked = AlertState {
+        TextState("alert.premiumClub.appIconChange.title")
+    } actions: {
+        ButtonState(action: .send(.learnAboutPremiumClubButtonTapped)) {
+            TextState("alert.premiumClub.appIconChange.button")
+        }
 
-    static let goodIconChoice = AlertState(
-        title: TextState("alert.goodIconChoice.title"),
-        message: TextState("alert.goodIconChoice.message")
-    )
+        ButtonState(role: .cancel) {
+            TextState("alert.premiumClub.appIconChange.cancel")
+        }
+    } message: {
+        TextState("alert.premiumClub.appIconChange.message")
+    }
 
-    static let iconUpdateFailed = AlertState(
-        title: TextState("alert.iconUpdateFailed.title"),
-        message: TextState("alert.iconUpdateFailed.message")
-    )
+    static let goodIconChoice = AlertState {
+        TextState("alert.goodIconChoice.title")
+    } message: {
+        TextState("alert.goodIconChoice.message")
+    }
+
+    static let iconUpdateFailed = AlertState {
+        TextState("alert.iconUpdateFailed.title")
+    } message: {
+        TextState("alert.iconUpdateFailed.message")
+    }
 }
 
 // MARK: - AppIcon

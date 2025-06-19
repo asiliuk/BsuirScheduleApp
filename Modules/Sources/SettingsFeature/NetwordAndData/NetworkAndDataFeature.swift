@@ -32,20 +32,14 @@ public struct NetworkAndDataFeature {
         Reduce { state, action in
             switch action {
             case .clearCacheTapped:
-                state.alert = AlertState(
-                    title: TextState("alert.clearCache.title"),
-                    message: TextState("alert.clearCache.message")
-                )
+                state.alert = .clearCache
                 return .run { _ in
                     await clearNetworkCache()
                     await imageCache.clearCache()
                 }
 
             case .clearWhatsNewTapped:
-                state.alert = AlertState(
-                    title: TextState("alert.clearWhatsNewCache.title"),
-                    message: TextState("alert.clearWhatsNewCache.message")
-                )
+                state.alert = .clearWhatsNew
                 return .run { send in
                     whatsNewService.removeAllPresentationMarks()
                     await send(.delegate(.whatsNewCacheCleared))
@@ -64,5 +58,21 @@ public struct NetworkAndDataFeature {
         Scope(state: \.appleReachability, action: \.appleReachability) {
             ReachabilityFeature()
         }
+    }
+}
+
+// MARK: - AlertState
+
+private extension AlertState where Action == NetworkAndDataFeature.Action.AlertAction {
+    static let clearCache = AlertState {
+        TextState("alert.clearCache.title")
+    } message: {
+        TextState("alert.clearCache.message")
+    }
+
+    static let clearWhatsNew = AlertState {
+        TextState("alert.clearWhatsNewCache.title")
+    } message: {
+        TextState("alert.clearWhatsNewCache.message")
     }
 }
