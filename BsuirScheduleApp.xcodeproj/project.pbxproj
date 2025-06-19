@@ -33,6 +33,7 @@
 		E6B33E7F29A2BAA10034AD63 /* PinnedScheduleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */; };
 		E6B33E8329A2BB6E0034AD63 /* MostRelevantPinnedScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8129A2BB6B0034AD63 /* MostRelevantPinnedScheduleResponse.swift */; };
 		E6B33E8729A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8629A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift */; };
+		E6DA075C2DF97C9C00AAC1C5 /* AppIconStandart.icon in Resources */ = {isa = PBXBuildFile; fileRef = E6DA075B2DF97C9C00AAC1C5 /* AppIconStandart.icon */; };
 		E6DD610B2AA52011009558A6 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E6DD610A2AA52010009558A6 /* Localizable.xcstrings */; };
 		E6DD610D2AA52011009558A6 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E6DD610C2AA52011009558A6 /* Localizable.xcstrings */; };
 		E6E1885C2A894EF200658AA8 /* AppStoreSnapshotsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6E1885B2A894EF200658AA8 /* AppStoreSnapshotsUITests.swift */; };
@@ -110,6 +111,7 @@
 		E6B33E8129A2BB6B0034AD63 /* MostRelevantPinnedScheduleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostRelevantPinnedScheduleResponse.swift; sourceTree = "<group>"; };
 		E6B33E8629A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PinnedScheduleEntry+MostRelevant.swift"; sourceTree = "<group>"; };
 		E6CCA27A2917EF900079D815 /* ScheduleWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScheduleWidgetExtension.entitlements; sourceTree = "<group>"; };
+		E6DA075B2DF97C9C00AAC1C5 /* AppIconStandart.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppIconStandart.icon; sourceTree = "<group>"; };
 		E6DD610A2AA52010009558A6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E6DD610C2AA52011009558A6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E6E1882D2A80309800658AA8 /* PremiumClubProducts.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = PremiumClubProducts.storekit; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 		E695524A22F9D0E000EEFA72 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E6DA075B2DF97C9C00AAC1C5 /* AppIconStandart.icon */,
 				E6DD610A2AA52010009558A6 /* Localizable.xcstrings */,
 				E6F931BE22F8B1C20038FC43 /* Assets.xcassets */,
 				E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */,
@@ -448,6 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6E1886A2A896AEA00658AA8 /* 151004.json in Resources */,
+				E6DA075C2DF97C9C00AAC1C5 /* AppIconStandart.icon in Resources */,
 				E69C56552A8A791D004C71D2 /* 010101.json in Resources */,
 				E6E188722A896E7C00658AA8 /* employees.json in Resources */,
 				E60D3C9A2BA7668500683808 /* PrivacyInfo.xcprivacy in Resources */,
