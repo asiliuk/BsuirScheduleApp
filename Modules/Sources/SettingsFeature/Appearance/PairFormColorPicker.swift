@@ -6,12 +6,12 @@ import ComposableArchitecture
 @Reducer
 public struct PairFormsColorPicker {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var hasChanges: Bool = false
         var pairFormColorPickers: IdentifiedArrayOf<PairFormColorPicker.State> = []
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case onAppear
         case pairFormColorPickers(IdentifiedActionOf<PairFormColorPicker>)
         case resetButtonTapped
@@ -64,15 +64,15 @@ public struct PairFormsColorPicker {
 @Reducer
 public struct PairFormColorPicker {
     @ObservableState
-    public struct State: Equatable, Identifiable {
+    public struct State: Identifiable {
         public var id: String { form.rawValue }
         var name: LocalizedStringKey { form.name }
         let form: PairViewForm
         var color: PairFormColor
     }
 
-    public enum Action: Equatable, BindableAction {
-        public enum DelegateAction: Equatable {
+    public enum Action: BindableAction {
+        public enum DelegateAction {
             case colorDidChange
         }
 

@@ -5,7 +5,7 @@ import BsuirCore
 @Reducer
 public struct PremiumClubLabel {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         @SharedReader(.isPremiumUser) var isPremiumUser
         public init() {}
     }

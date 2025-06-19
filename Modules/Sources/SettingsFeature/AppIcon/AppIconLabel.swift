@@ -7,7 +7,7 @@ import ComposableArchitecture
 @Reducer
 public struct AppIconLabel {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var supportsIconPicking: Bool {
             @Dependency(\.application.supportsAlternateIcons) var supportsAlternateIcons
             return supportsAlternateIcons()

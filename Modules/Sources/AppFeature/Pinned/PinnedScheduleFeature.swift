@@ -7,7 +7,7 @@ import ScheduleFeature
 @Reducer
 public struct PinnedScheduleFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var title: String { entitySchedule.title }
         var entitySchedule: EntityScheduleFeature.State
         var path = StackState<EntityScheduleFeature.State>()
@@ -22,8 +22,8 @@ public struct PinnedScheduleFeature {
         }
     }
 
-    public enum Action: Equatable {
-        public enum Delegate: Equatable {
+    public enum Action {
+        public enum Delegate {
             case showPremiumClubPinned
         }
 

@@ -16,7 +16,7 @@ public enum PairRowDay: Equatable {
 @Reducer
 public struct PairRowFeature {
     @ObservableState
-    public struct State: Equatable, Identifiable {
+    public struct State: Identifiable {
         public var id: UUID { pair.id }
         var isFiltered: Bool = false
         var pair: PairViewModel
@@ -38,8 +38,8 @@ public struct PairRowFeature {
         }
     }
 
-    public enum Action: Equatable {
-        public enum Delegate: Equatable {
+    public enum Action {
+        public enum Delegate {
             case showGroupSchedule(String)
             case showLectorSchedule(Employee)
         }

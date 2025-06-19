@@ -4,7 +4,7 @@ import StoreKit
 
 @Reducer
 public struct PremiumClubMembershipSection {
-    @Reducer(state: .equatable, action: .equatable)
+    @Reducer
     public enum MembershipSubscription {
         case loading
         case noSubscription
@@ -12,14 +12,14 @@ public struct PremiumClubMembershipSection {
     }
 
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var subscription: MembershipSubscription.State = .loading
         @SharedReader(.isPremiumUser) var isPremiumUser
 
         public init() {}
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case task
 
         case _premiumStateChanged
@@ -98,14 +98,14 @@ public struct PremiumClubMembershipSection {
 @Reducer
 public struct PremiumClubMembershipSubscribed {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var formattedExpiration: String { expiration?.formatted(date: .long, time: .omitted) ?? "-/-" }
         var expiration: Date?
         var willAutoRenew: Bool
         var manageSubscriptionPresented: Bool = false
     }
 
-    public enum Action: Equatable, BindableAction {
+    public enum Action: BindableAction {
         case manageButtonTapped
         case binding(BindingAction<State>)
     }

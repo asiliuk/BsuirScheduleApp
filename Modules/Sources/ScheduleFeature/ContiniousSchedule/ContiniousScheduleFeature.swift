@@ -8,7 +8,7 @@ import Dependencies
 @Reducer
 public struct ContinuousScheduleFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         public var hasSchedule: Bool { scheduleList.hasSchedule }
 
         var scheduleList = ScheduleListFeature.State(days: [], loading: .loadMore)
@@ -51,7 +51,7 @@ public struct ContinuousScheduleFeature {
         }
     }
     
-    public enum Action: Equatable {
+    public enum Action {
         case task
         case _loadMoreDays
         case scheduleList(ScheduleListFeature.Action)

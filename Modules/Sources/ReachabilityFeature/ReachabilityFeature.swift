@@ -5,7 +5,7 @@ import ComposableArchitecture
 @Reducer
 public struct ReachabilityFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         public var status: NetworkReachabilityStatus
         public var host: String
 
@@ -15,7 +15,7 @@ public struct ReachabilityFeature {
         }
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case task
         case _setStatus(NetworkReachabilityStatus)
     }

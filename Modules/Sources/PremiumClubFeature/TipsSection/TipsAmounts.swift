@@ -6,7 +6,7 @@ import ComposableArchitecture
 @Reducer
 public struct TipsAmounts {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var amounts: IdentifiedArrayOf<TipsAmount.State> = []
 
         init(products: [Product] = []) {
@@ -18,7 +18,7 @@ public struct TipsAmounts {
         }
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case amounts(IdentifiedActionOf<TipsAmount>)
     }
 
@@ -35,7 +35,7 @@ public struct TipsAmounts {
 @Reducer
 public struct TipsAmount {
     @ObservableState
-    public struct State: Equatable, Identifiable {
+    public struct State: Identifiable {
         public var id: String { product.id }
         var confettiCounter: Int = 0
         var product: Product
@@ -43,7 +43,7 @@ public struct TipsAmount {
         var amount: TextState { TextState(product.displayPrice) }
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case buyButtonTapped
         case _productPurchased(success: Bool)
     }

@@ -10,7 +10,7 @@ import WhatsNewKit
 @Reducer
 public struct SettingsFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         public var hasWhatsNew: Bool { whatsNew != nil }
         var whatsNew: WhatsNew? = {
             @Dependency(\.whatsNewService) var whatsNewService
@@ -26,8 +26,8 @@ public struct SettingsFeature {
         public init() {}
     }
     
-    public enum Action: Equatable, BindableAction {
-        public enum DelegateAction: Equatable {
+    public enum Action: BindableAction {
+        public enum DelegateAction {
             case showPremiumClub(source: PremiumClubFeature.Source?)
         }
 
@@ -42,7 +42,7 @@ public struct SettingsFeature {
         case binding(BindingAction<State>)
     }
 
-    @Reducer(state: .equatable, action: .equatable)
+    @Reducer
     public enum Destination {
         case premiumClub(PremiumClubFeature)
         case whatsNew(WhatsNewFeature)

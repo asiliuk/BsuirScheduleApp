@@ -7,7 +7,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct LectorScheduleFeature {
-    public struct State: Equatable, Identifiable {
+    public struct State: Identifiable {
         public var id: String { schedule.value }
         public let lector: Employee
         public var schedule: ScheduleFeature<String>.State
@@ -29,7 +29,7 @@ public struct LectorScheduleFeature {
         }
     }
     
-    public enum Action: Equatable {
+    public enum Action {
         case schedule(ScheduleFeature<String>.Action)
     }
 

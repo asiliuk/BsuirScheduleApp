@@ -7,7 +7,7 @@ import ScheduleCore
 @Reducer
 public struct MarkedScheduleRowFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         let source: ScheduleSource
         
         public var isFavorite: Bool {
@@ -35,8 +35,8 @@ public struct MarkedScheduleRowFeature {
         }
     }
 
-    public enum Action: Equatable {
-        public enum DelegateAction: Equatable {
+    public enum Action {
+        public enum DelegateAction {
             case showPremiumClub
         }
 

@@ -4,12 +4,12 @@ import ComposableArchitecture
 @Reducer
 public struct AppearanceFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var pairFormsColorPicker = PairFormsColorPicker.State()
         var pairFormIcons = PairFormIcons.State()
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case pairFormsColorPicker(PairFormsColorPicker.Action)
         case pairFormIcons(PairFormIcons.Action)
     }

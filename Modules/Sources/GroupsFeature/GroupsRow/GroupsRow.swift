@@ -6,7 +6,7 @@ import ComposableArchitecture
 @Reducer
 public struct GroupsRow {
     @ObservableState
-    public struct State: Identifiable, Equatable {
+    public struct State: Identifiable {
         public var id: String { groupName }
         public let groupName: String
 
@@ -42,7 +42,7 @@ public struct GroupsRow {
         }
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case mark(MarkedScheduleRowFeature.Action)
     }
 

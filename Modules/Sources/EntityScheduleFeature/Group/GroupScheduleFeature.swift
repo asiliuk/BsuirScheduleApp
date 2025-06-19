@@ -7,7 +7,7 @@ import ComposableArchitecture
 
 @Reducer
 public struct GroupScheduleFeature {
-    public struct State: Equatable, Identifiable {
+    public struct State: Identifiable {
         public var id: String { schedule.value }
         public var schedule: ScheduleFeature<String>.State
         public let groupName: String
@@ -29,7 +29,7 @@ public struct GroupScheduleFeature {
         }
     }
     
-    public enum Action: Equatable {
+    public enum Action {
         case schedule(ScheduleFeature<String>.Action)
     }
 

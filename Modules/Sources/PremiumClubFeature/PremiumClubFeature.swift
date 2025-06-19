@@ -20,7 +20,7 @@ public struct PremiumClubFeature {
     }
 
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         public var source: Source?
         @SharedReader(.isPremiumUser) var isPremiumUser
         var isModal: Bool
@@ -51,7 +51,7 @@ public struct PremiumClubFeature {
         }
     }
 
-    public enum Action: Equatable, BindableAction {
+    public enum Action: BindableAction {
         case task
         case restoreButtonTapped
         case redeemCodeButtonTapped

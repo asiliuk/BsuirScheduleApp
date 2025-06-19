@@ -30,8 +30,6 @@ public enum LoadingState<State> {
     }
 }
 
-extension LoadingState: Equatable where State: Equatable {}
-
 // MARK: - Action
 
 public typealias LoadingActionOf<R: Reducer> = LoadingAction<R.State, R.Action>
@@ -45,8 +43,6 @@ public enum LoadingAction<State, Action> {
     case failed(LoadingError.Action)
     case loaded(Action)
 }
-
-extension LoadingAction: Equatable where State: Equatable, Action: Equatable {}
 
 // MARK: - Reducer
 

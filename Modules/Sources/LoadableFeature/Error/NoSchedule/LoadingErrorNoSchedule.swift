@@ -4,9 +4,9 @@ import ComposableArchitecture
 @Reducer
 public struct LoadingErrorNoSchedule {
     @ObservableState
-    public struct State: Equatable {}
+    public struct State {}
 
-    public enum Action: Equatable {
+    public enum Action {
         case reloadButtonTapped
     }
 }

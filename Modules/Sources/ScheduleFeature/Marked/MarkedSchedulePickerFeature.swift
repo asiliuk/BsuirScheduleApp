@@ -6,7 +6,7 @@ import BsuirCore
 @Reducer
 public struct MarkedSchedulePickerFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         enum Selection: Identifiable, Hashable, CaseIterable {
             var id: Self { self }
             case pinned
@@ -39,8 +39,8 @@ public struct MarkedSchedulePickerFeature {
         }
     }
 
-    public enum Action: Equatable, BindableAction {
-        public enum DelegateAction: Equatable {
+    public enum Action: BindableAction {
+        public enum DelegateAction {
             case showPremiumClub
         }
 

@@ -6,7 +6,7 @@ import ComposableArchitecture
 @Reducer
 public struct LecturersRow {
     @ObservableState
-    public struct State: Identifiable, Equatable {
+    public struct State: Identifiable {
         public var id: Int { lector.id }
         public let lector: Employee
 
@@ -32,7 +32,7 @@ public struct LecturersRow {
         }
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case mark(MarkedScheduleRowFeature.Action)
     }
 

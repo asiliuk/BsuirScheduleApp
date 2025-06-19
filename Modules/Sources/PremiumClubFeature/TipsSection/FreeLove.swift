@@ -4,13 +4,13 @@ import ComposableArchitecture
 @Reducer
 public struct FreeLove {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         @Shared(.freeLoveHighScore) var highScore
         var counter: Int = 0
         var confettiCounter: Int = 0
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case loveButtonTapped
         case _resetCounter
     }

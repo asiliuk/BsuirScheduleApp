@@ -7,18 +7,18 @@ import ComposableArchitecture
 @Reducer
 public struct AppIconFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         @Presents var alert: AlertState<Action.AlertAction>?
         @Shared(.appIcon) var currentIcon
         @SharedReader(.isPremiumUser) var isPremiumUser
     }
     
-    public enum Action: Equatable {
-        public enum AlertAction: Equatable {
+    public enum Action {
+        public enum AlertAction {
             case learnAboutPremiumClubButtonTapped
         }
 
-        public enum DelegateAction: Equatable {
+        public enum DelegateAction {
             case showPremiumClub
         }
 

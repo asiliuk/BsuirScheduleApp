@@ -7,7 +7,7 @@ import Dependencies
 @Reducer
 public struct DayScheduleFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var scheduleList: ScheduleListFeature.State
 
         mutating func filter(keepingSubgroup subgroup: Int?) {
@@ -35,7 +35,7 @@ public struct DayScheduleFeature {
         }
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case scheduleList(ScheduleListFeature.Action)
     }
 

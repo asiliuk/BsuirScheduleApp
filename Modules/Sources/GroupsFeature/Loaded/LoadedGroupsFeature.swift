@@ -8,7 +8,7 @@ import Algorithms
 @Reducer
 public struct LoadedGroupsFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         // MARK: Search
         var searchQuery: String = ""
         var searchDismiss: Int = 0
@@ -72,8 +72,8 @@ public struct LoadedGroupsFeature {
         }
     }
 
-    public enum Action: BindableAction, Equatable {
-        public enum Delegate: Equatable {
+    public enum Action: BindableAction {
+        public enum Delegate {
             case showPremiumClub
         }
 

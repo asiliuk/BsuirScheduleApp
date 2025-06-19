@@ -48,7 +48,7 @@ struct LoadedLecturersFeatureView: View {
             .searchable(text: $store.searchQuery, prompt: "screen.lecturers.search.placeholder")
             .animation(.default, value: store.favoritesIds)
             .animation(.default, value: store.pinnedSchedule)
-            .animation(.default, value: store.visibleRows)
+            .animation(.default, value: store.visibleRows.ids)
         }
     }
 }

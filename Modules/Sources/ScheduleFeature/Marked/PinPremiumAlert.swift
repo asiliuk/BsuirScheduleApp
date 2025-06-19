@@ -1,7 +1,7 @@
 import Foundation
 import ComposableArchitecture
 
-public enum PinPremiumAlertAction: Equatable {
+public enum PinPremiumAlertAction {
     case learnAboutPremiumClubButtonTapped
 }
 

@@ -38,7 +38,7 @@ public struct ScheduleRequestResponse: Equatable, Encodable {
 @Reducer
 public struct ScheduleFeature<Value: Equatable> {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         public var title: String
         public var value: Value
         public var mark: MarkedSchedulePickerFeature.State?
@@ -70,8 +70,8 @@ public struct ScheduleFeature<Value: Equatable> {
         }
     }
 
-    public enum Action: Equatable, BindableAction {
-        public enum DelegateAction: Equatable {
+    public enum Action: BindableAction {
+        public enum DelegateAction {
             case showPremiumClubPinned
             case showLectorSchedule(Employee)
             case showGroupSchedule(String)

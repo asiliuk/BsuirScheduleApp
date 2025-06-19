@@ -8,13 +8,13 @@ import BsuirCore
 @Reducer
 public struct PinnedTabFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         @SharedReader(.isPremiumUser) var isPremiumUser
         var pinnedSchedule: PinnedScheduleFeature.State?
     }
 
-    public enum Action: Equatable {
-        public enum Delegate: Equatable {
+    public enum Action {
+        public enum Delegate {
             case showPremiumClubPinned
         }
 

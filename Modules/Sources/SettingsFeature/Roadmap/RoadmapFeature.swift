@@ -4,12 +4,12 @@ import ComposableArchitecture
 @Reducer
 public struct RoadmapFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var jsonURL: URL = .roadmapJSONURL
         var namespace: String = "asiliuk-bsuir-schedule"
     }
 
-    public enum Action: Equatable {}
+    public enum Action {}
 
     public var body: some ReducerOf<Self> {
         EmptyReducer()

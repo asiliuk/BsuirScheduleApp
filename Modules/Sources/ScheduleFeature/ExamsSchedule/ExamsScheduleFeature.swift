@@ -8,7 +8,7 @@ import Dependencies
 @Reducer
 public struct ExamsScheduleFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var scheduleList: ScheduleListFeature.State
         var pairRowDetails: PairRowDetails?
 
@@ -39,7 +39,7 @@ public struct ExamsScheduleFeature {
         }
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case scheduleList(ScheduleListFeature.Action)
     }
 

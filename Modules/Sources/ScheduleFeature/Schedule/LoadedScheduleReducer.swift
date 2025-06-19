@@ -5,7 +5,7 @@ import BsuirApi
 
 @Reducer
 public struct LoadedScheduleReducer {
-    public struct State: Equatable {
+    public struct State {
         public var maxSubgroup: Int?
         var response: ScheduleRequestResponse
 
@@ -50,7 +50,7 @@ public struct LoadedScheduleReducer {
         }
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case day(DayScheduleFeature.Action)
         case continuous(ContinuousScheduleFeature.Action)
         case exams(ExamsScheduleFeature.Action)

@@ -6,15 +6,15 @@ import BsuirApi
 @Reducer
 public struct PairDetailsFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var pair: PairViewModel
         var rowDetails: PairRowDetails?
         var rowDay: PairRowDay
         var photoPreview: URL?
     }
 
-    public enum Action: Equatable {
-        public enum Delegate: Equatable {
+    public enum Action {
+        public enum Delegate {
             case showGroupSchedule(String)
             case showLectorSchedule(Employee)
         }

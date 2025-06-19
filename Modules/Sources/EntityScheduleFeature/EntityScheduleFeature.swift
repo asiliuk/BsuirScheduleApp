@@ -9,7 +9,7 @@ import ScheduleFeature
 @Reducer
 public struct EntityScheduleFeature {
     @ObservableState
-    public enum State: Equatable {
+    public enum State {
         case group(GroupScheduleFeature.State)
         case lector(LectorScheduleFeature.State)
 
@@ -21,8 +21,8 @@ public struct EntityScheduleFeature {
         }
     }
 
-    public enum Action: Equatable {
-        public enum Delegate: Equatable {
+    public enum Action {
+        public enum Delegate {
             case showPremiumClubPinned
             case showLectorSchedule(Employee)
             case showGroupSchedule(String)

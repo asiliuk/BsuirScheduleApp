@@ -5,7 +5,7 @@ import BsuirApi
 import ComposableArchitecture
 import URLRouting
 
-@Reducer(state: .equatable, action: .equatable)
+@Reducer
 public enum LoadingError {
     case unknown(LoadingErrorUnknown)
     case notConnectedToInternet(LoadingErrorNotConnectedToInternet)

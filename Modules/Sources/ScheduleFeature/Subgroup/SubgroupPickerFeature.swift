@@ -4,7 +4,7 @@ import ComposableArchitecture
 @Reducer
 public struct SubgroupPickerFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var selected: Int?
         var maxSubgroup: Int
 
@@ -14,7 +14,7 @@ public struct SubgroupPickerFeature {
         }
     }
 
-    public enum Action: Equatable, BindableAction {
+    public enum Action: BindableAction {
         case binding(BindingAction<State>)
     }
 

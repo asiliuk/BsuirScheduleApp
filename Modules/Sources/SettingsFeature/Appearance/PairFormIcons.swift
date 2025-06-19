@@ -6,7 +6,7 @@ import ComposableArchitecture
 @Reducer
 public struct PairFormIcons {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var alwaysShowIcon: Bool
         var pairForms: IdentifiedArrayOf<PairViewForm>
 
@@ -17,7 +17,7 @@ public struct PairFormIcons {
         }
     }
 
-    public enum Action: Equatable, BindableAction {
+    public enum Action: BindableAction {
         case binding(BindingAction<State>)
     }
 

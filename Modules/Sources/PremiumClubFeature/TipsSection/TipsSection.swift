@@ -9,12 +9,12 @@ import LoadableFeature
 @Reducer
 public struct TipsSection {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var tipsAmounts: LoadingState<TipsAmounts.State> = .initial
         var freeLove: FreeLove.State = .init()
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case tipsAmounts(LoadingActionOf<TipsAmounts>)
         case freeLove(FreeLove.Action)
     }

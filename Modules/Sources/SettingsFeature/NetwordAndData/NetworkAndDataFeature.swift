@@ -5,14 +5,14 @@ import ComposableArchitecture
 @Reducer
 public struct NetworkAndDataFeature {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         @Presents var alert: AlertState<Action.AlertAction>?
         var iisReachability = ReachabilityFeature.State(host: URL.iisApi.host()!)
         var appleReachability = ReachabilityFeature.State(host: "apple.com")
     }
 
-    public enum Action: Equatable {
-        public enum Delegate: Equatable {
+    public enum Action {
+        public enum Delegate {
             case whatsNewCacheCleared
         }
         public typealias AlertAction = Never

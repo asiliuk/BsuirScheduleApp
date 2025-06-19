@@ -4,14 +4,14 @@ import BsuirApi
 
 @Reducer
 public struct ScheduleListFeature {
-    public enum Loading: Equatable {
+    public enum Loading {
         case loadMore
         case finished
         case never
     }
 
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var hasSchedule: Bool { !days.isEmpty }
         var days: IdentifiedArrayOf<DaySectionFeature.State>
         var loading: Loading
@@ -19,8 +19,8 @@ public struct ScheduleListFeature {
     }
 
     @CasePathable
-    public enum Action: Equatable {
-        public enum Delegate: Equatable {
+    public enum Action {
+        public enum Delegate {
             case loadMore
             case showGroupSchedule(String)
             case showLectorSchedule(Employee)

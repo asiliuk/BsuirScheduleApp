@@ -5,7 +5,7 @@ import BsuirCore
 @Reducer
 public struct LoadingErrorFailedToDecode {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var address: String
         var message: String
 
@@ -15,7 +15,7 @@ public struct LoadingErrorFailedToDecode {
         }
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case openIssueTapped
     }
 

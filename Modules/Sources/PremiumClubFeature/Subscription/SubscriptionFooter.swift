@@ -5,14 +5,14 @@ import StoreKit
 @Reducer
 public struct SubscriptionFooter {
     @ObservableState
-    public struct State: Equatable {
-        enum ProductState: Equatable {
+    public struct State {
+        enum ProductState {
             case loading
             case failed
             case available(ProductInfo)
         }
 
-        public struct ProductInfo: Equatable {
+        public struct ProductInfo {
             var product: Product
             var subscription: Product.SubscriptionInfo
             var isEligibleForIntroOffer: Bool
@@ -22,7 +22,7 @@ public struct SubscriptionFooter {
         var isPurchasing: Bool = false
     }
 
-    public enum Action: Equatable {
+    public enum Action {
         case task
         case buttonTapped
 

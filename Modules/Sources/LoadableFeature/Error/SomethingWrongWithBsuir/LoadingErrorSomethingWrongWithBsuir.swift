@@ -7,7 +7,7 @@ import ComposableArchitecture
 @Reducer
 public struct LoadingErrorSomethingWrongWithBsuir {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var reachability: ReachabilityFeature.State?
         var errorCode: String
         var address: String
@@ -20,7 +20,7 @@ public struct LoadingErrorSomethingWrongWithBsuir {
             self.errorCode = "\(statusCode ?? 123)"
         }
     }
-    public enum Action: Equatable {
+    public enum Action {
         case reachability(ReachabilityFeature.Action)
         case reloadButtonTapped
         case openIssueTapped

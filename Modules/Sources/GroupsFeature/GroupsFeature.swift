@@ -109,11 +109,11 @@ public struct GroupsFeature {
 @Reducer
 public struct ForceAddAlert {
     @ObservableState
-    public struct State: Equatable {
+    public struct State {
         var groupName: String = ""
     }
 
-    public enum Action: Equatable, BindableAction {
+    public enum Action: BindableAction {
         case addButtonTapped
         case cancelButtonTapped
         case binding(BindingAction<State>)

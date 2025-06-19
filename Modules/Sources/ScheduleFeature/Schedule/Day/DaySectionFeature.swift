@@ -6,8 +6,8 @@ import BsuirApi
 @Reducer
 public struct DaySectionFeature {
     @ObservableState
-    public struct State: Equatable, Identifiable {
-        public enum DayDate: Equatable {
+    public struct State: Identifiable {
+        public enum DayDate {
             case continuousDate(Date, weekNumber: Int)
             case weekday(DaySchedule.WeekDay)
             case examDate(Date?)
@@ -61,7 +61,7 @@ public struct DaySectionFeature {
     }
 
     @CasePathable
-    public enum Action: Equatable {
+    public enum Action {
         case onAppear
         case pairRows(IdentifiedActionOf<PairRowFeature>)
     }
