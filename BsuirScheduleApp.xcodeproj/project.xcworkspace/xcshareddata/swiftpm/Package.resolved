@@ -46,15 +46,6 @@
       }
     },
     {
-      "identity" : "roadmap",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AvdLee/Roadmap.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "1512fa908f33331b2a4bd21198dd29de16261196"
-      }
-    },
-    {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms.git",

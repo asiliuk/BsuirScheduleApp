@@ -44,7 +44,6 @@ let package = Package(
          .package(url: "https://github.com/simibac/ConfettiSwiftUI.git", from: "1.1.0"),
          .package(url: "https://github.com/ryanlintott/FrameUp.git", from: "0.5.0"),
          .package(url: "https://github.com/SvenTiigi/WhatsNewKit.git", from: "2.1.0"),
-         .package(url: "https://github.com/AvdLee/Roadmap.git", branch: "main"),
          .package(url: "https://github.com/EmergeTools/Pow", from: "1.0.0"),
     ],
     targets: [
@@ -60,7 +59,7 @@ let package = Package(
         ),
         .target(
             name: "SettingsFeature",
-            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies, .whatsNewKit, .roadmap]
+            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies, .whatsNewKit]
         ),
         .target(
             name: "PremiumClubFeature",
@@ -136,6 +135,5 @@ private extension Target.Dependency {
     static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
     static let frameUp: Self = .product(name: "FrameUp", package: "FrameUp")
     static let whatsNewKit: Self = .product(name: "WhatsNewKit", package: "WhatsNewKit")
-    static let roadmap: Self = .product(name: "Roadmap", package: "Roadmap")
     static let pow: Self = .product(name: "Pow", package: "Pow")
 }

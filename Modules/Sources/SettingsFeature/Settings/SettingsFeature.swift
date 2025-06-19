@@ -50,7 +50,6 @@ public struct SettingsFeature {
         case appearance(AppearanceFeature)
         case networkAndData(NetworkAndDataFeature)
         case about(AboutFeature)
-        case roadmap(RoadmapFeature)
     }
 
     public init() {}
@@ -124,8 +123,6 @@ private extension SettingsFeature.Destination.State {
             self = .networkAndData(NetworkAndDataFeature.State())
         case .about:
             self = .about(AboutFeature.State())
-        case .roadmap:
-            self = .roadmap(RoadmapFeature.State())
         }
     }
 }
