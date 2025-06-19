@@ -1,15 +1,12 @@
 import Foundation
 import ComposableArchitecture
 
-extension PersistenceKey where Self == PersistenceKeyDefault<AppStorageKey<Bool>> {
+extension SharedKey where Self == AppStorageKey<Bool>.Default {
     // It is used only for initial state check and then is updated by
     // whatever Transaction.currentEntitlements has. So it is OK to store it in user defaults
     // even if somebody overrides it, there's no security risk, it would be override back by app
     public static var isPremiumUser: Self {
-        PersistenceKeyDefault(
-            .appStorage(isUserPremiumKey),
-            false
-        )
+        Self[.appStorage(isUserPremiumKey), default: false]
     }
 }
 

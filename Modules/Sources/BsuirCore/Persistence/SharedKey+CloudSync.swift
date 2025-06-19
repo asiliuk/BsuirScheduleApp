@@ -1,15 +1,15 @@
 import Foundation
 import ComposableArchitecture
 
-extension PersistenceReaderKey {
+extension SharedReaderKey {
     public static func cloudSyncable<Value>(
         key: String,
         cloudKey: String,
         shouldSyncInitialLocalValue: Bool = false,
-        isEqual: @escaping (Value?, Value?) -> Bool
+        isEqual: @Sendable @escaping (Value?, Value?) -> Bool
     ) -> Self
-    where Self == CloudSyncablePersistenceKey<Value> {
-        CloudSyncablePersistenceKey(
+    where Self == CloudSyncableSharedKey<Value> {
+        CloudSyncableSharedKey(
             key: key,
             cloudKey: cloudKey,
             shouldSyncInitialLocalValue: shouldSyncInitialLocalValue,
@@ -22,7 +22,7 @@ extension PersistenceReaderKey {
         cloudKey: String,
         shouldSyncInitialLocalValue: Bool = false
     ) -> Self
-    where Self == CloudSyncablePersistenceKey<Value> {
+    where Self == CloudSyncableSharedKey<Value> {
         cloudSyncable(
             key: key,
             cloudKey: cloudKey,
@@ -32,11 +32,11 @@ extension PersistenceReaderKey {
     }
 }
 
-public struct CloudSyncablePersistenceKey<Value>: PersistenceKey {
+public struct CloudSyncableSharedKey<Value>: SharedKey {
     private let key: String
     private let cloudKey: String
     private let shouldSyncInitialLocalValue: Bool
-    private let isEqual: (Value?, Value?) -> Bool
+    private let isEqual: @Sendable (Value?, Value?) -> Bool
 
     private let userDefaults: UserDefaults
     private let cloudSyncService: any CloudSyncService
@@ -45,7 +45,7 @@ public struct CloudSyncablePersistenceKey<Value>: PersistenceKey {
         key: String,
         cloudKey: String,
         shouldSyncInitialLocalValue: Bool,
-        isEqual: @escaping (Value?, Value?) -> Bool
+        isEqual: @escaping @Sendable (Value?, Value?) -> Bool
     ) {
         @Dependency(\.defaultAppStorage) var store
         @Dependency(\.cloudSyncService) var cloudSyncService
@@ -61,52 +61,58 @@ public struct CloudSyncablePersistenceKey<Value>: PersistenceKey {
 
     public var id: String { key + cloudKey }
 
-    public func save(_ value: Value) {
+    public func save(_ value: Value, context: SaveContext, continuation: SaveContinuation) {
         cloudSyncService[cloudKey] = value
         userDefaults.set(value, forKey: key)
+        continuation.resume()
     }
 
-    public func load(initialValue: Value?) -> Value? {
+    public func load(context: LoadContext<Value>, continuation: LoadContinuation<Value>) {
         if let cloudValue = cloudSyncService[cloudKey], let value = cloudValue as? Value {
-            return value
+            continuation.resume(returning: value)
         } else if let localValue = userDefaults.object(forKey: key), let value = localValue as? Value {
-            return value
+            continuation.resume(returning: value)
         } else {
-            return initialValue
+            continuation.resumeReturningInitialValue()
         }
     }
 
-    public func subscribe(
-        initialValue: Value?,
-        didSet: @escaping (Value?) -> Void
-    ) -> Shared<Value>.Subscription {
-        let previousValue = LockIsolated(initialValue)
+    public func subscribe(context: LoadContext<Value>, subscriber: SharedSubscriber<Value>) -> SharedSubscription {
+        let previousValue = LockIsolated(context.initialValue)
 
         let cloudDidChange = cloudSyncService.observeChanges(forKey: cloudKey) { value in
             let newValue = value as? Value
-            guard !isEqual(newValue, previousValue.value) || isEqual(newValue, initialValue) else { return }
+            guard !isEqual(newValue, previousValue.value) || isEqual(newValue, context.initialValue) else { return }
 
             previousValue.withValue { $0 = newValue }
-
+            
             // Update local value
             updateWithCloudValue(value)
 
-            `didSet`(newValue)
+            if let newValue {
+                subscriber.yield(newValue)
+            } else {
+                subscriber.yieldReturningInitialValue()
+            }
         }
 
         let userDefaultsDidChange = userDefaults.bsuirObserve(forKeyPath: key) { value in
             let newValue = value as? Value
-            guard !isEqual(newValue, previousValue.value) || isEqual(newValue, initialValue) else { return }
+            guard !isEqual(newValue, previousValue.value) || isEqual(newValue, context.initialValue) else { return }
 
             previousValue.withValue { $0 = newValue }
 
             // Update cloud value
             updateWithLocalValue(newValue)
 
-            `didSet`(newValue)
+            if let newValue {
+                subscriber.yield(newValue)
+            } else {
+                subscriber.yieldReturningInitialValue()
+            }
         }
 
-        return Shared.Subscription {
+        return SharedSubscription {
             cloudDidChange.cancel()
             userDefaultsDidChange.cancel()
         }

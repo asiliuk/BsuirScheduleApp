@@ -59,7 +59,7 @@ public struct AppIconFeature {
                 }
 
             case let ._iconChanged(newIcon):
-                state.currentIcon = newIcon
+                state.$currentIcon.withLock { $0 = newIcon }
                 if let newIcon, newIcon.showNiceChoiceAlert {
                     state.alert = .goodIconChoice
                 }
@@ -116,13 +116,13 @@ private extension AppIcon {
     }
 }
 
-extension PersistenceKey where Self == PersistenceKeyDefault<InMemoryKey<AppIcon?>> {
+extension SharedKey where Self == InMemoryKey<AppIcon?>.Default {
     static var appIcon: Self {
         @Dependency(\.application.alternateIconName) var alternateIconName
-        return PersistenceKeyDefault(
+        return Self[
             .inMemory("current-app-icon"),
-            alternateIconName().flatMap(AppIcon.init(name:)) ?? .plain(.standard)
-        )
+            default: alternateIconName().flatMap(AppIcon.init(name:)) ?? .plain(.standard)
+        ]
     }
 }
 

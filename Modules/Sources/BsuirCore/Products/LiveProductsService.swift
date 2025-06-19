@@ -88,7 +88,7 @@ final class LiveProductsService {
         DispatchQueue.main.async { [$isPremiumUser, widgetService] in
             if isCurrentlyPremium != $isPremiumUser.wrappedValue {
                 Logger.products.info("Updating isCurrentlyPremium: \(isCurrentlyPremium)")
-                $isPremiumUser.wrappedValue = isCurrentlyPremium
+                $isPremiumUser.withLock { $0 = isCurrentlyPremium }
                 widgetService.reloadAll()
             }
         }

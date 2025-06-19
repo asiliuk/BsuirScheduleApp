@@ -34,7 +34,7 @@ public struct FreeLove {
                 let score = state.counter
                 state.counter = 0
                 guard score > state.highScore else { return .none }
-                state.highScore = score
+                state.$highScore.withLock { $0 = score }
                 state.confettiCounter += 1
                 return .none
             }

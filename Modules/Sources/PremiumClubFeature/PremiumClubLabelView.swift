@@ -50,7 +50,7 @@ public struct PremiumClubLabelView: View {
 
 #Preview("Premium") {
     @Shared(.isPremiumUser) var isPremiumUser
-    isPremiumUser = true
+    $isPremiumUser.withLock { $0 = true }
     return PremiumClubLabelView(
         store: Store(initialState: .init()) {
             PremiumClubLabel()

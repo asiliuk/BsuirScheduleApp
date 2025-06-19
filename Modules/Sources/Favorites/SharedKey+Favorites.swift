@@ -5,69 +5,61 @@ import ScheduleCore
 
 // MARK: - High Score
 
-extension PersistenceReaderKey where Self == PersistenceKeyDefault<CloudSyncablePersistenceKey<Int>> {
+extension SharedReaderKey where Self == CloudSyncableSharedKey<Int>.Default {
     public static var freeLoveHighScore: Self {
-        PersistenceKeyDefault(
+        Self[
             .cloudSyncable(
                 key: "free-love-hich-score",
                 cloudKey: "cloud-free-love-high-score",
                 shouldSyncInitialLocalValue: true
             ),
-            0
-        )
+            default: 0
+        ]
     }
 }
 
 // MARK: - Pinned
 
-extension PersistenceReaderKey 
-where Self == PersistenceKeyDefault<
-    PersistenceKeyTransform<
-        CloudSyncablePersistenceKey<[String: Any]>,
-        CloudSyncableScheduleSource
-    >
-> {
+extension SharedReaderKey
+where Self == CloudSyncableSharedKey<[String: Any]>.Map<CloudSyncableScheduleSource>.Default {
     public static var pinnedSchedule: Self {
-        let syncableDictionary = CloudSyncablePersistenceKey<[String: Any]>.cloudSyncable(
+        let syncableDictionary = CloudSyncableSharedKey<[String: Any]>.cloudSyncable(
             key: "pinned-schedule",
             cloudKey: "cloud-pinned-schedule",
             shouldSyncInitialLocalValue: true,
             isEqual: { $0 as NSDictionary? == $1 as NSDictionary? }
         )
 
-        let syncableCloudSource = PersistenceKeyTransform(
-            base: syncableDictionary,
-            coding: CloudSyncableScheduleSource.self
-        )
+        let syncableCloudSource = syncableDictionary.coding(CloudSyncableScheduleSource.self)
 
-        return PersistenceKeyDefault(syncableCloudSource, .nothing)
+        return Self[syncableCloudSource, default: .nothing]
     }
 }
 
 // MARK: - Favorites
 
-extension PersistenceReaderKey where Self == PersistenceKeyDefault<CloudSyncablePersistenceKey<[String]>> {
+extension SharedReaderKey where Self == CloudSyncableSharedKey<[String]>.Default {
     public static var favoriteGroupNames: Self {
-        PersistenceKeyDefault(
+        Self[
             .cloudSyncable(
                 key: "favorite-group-names",
                 cloudKey: "cloud-favorite-group-names",
                 shouldSyncInitialLocalValue: true
             ),
-            []
-        )
+            default: []
+        ]
     }
 }
 
-extension PersistenceReaderKey where Self == PersistenceKeyDefault<CloudSyncablePersistenceKey<[Int]>> {
+extension SharedReaderKey where Self == CloudSyncableSharedKey<[Int]>.Default {
     public static var favoriteLecturerIDs: Self {
-        PersistenceKeyDefault(
+        Self[
             .cloudSyncable(
                 key: "favorite-lector-ids",
                 cloudKey: "cloud-favorite-lector-ids",
                 shouldSyncInitialLocalValue: true
             ),
-            []
-        )
+            default: []
+        ]
     }
 }
