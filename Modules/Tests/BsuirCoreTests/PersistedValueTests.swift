@@ -1,9 +1,11 @@
 import Foundation
-import XCTest
+import Testing
 @testable import BsuirCore
 
-final class PersistedValueTests: XCTestCase {
-    func testOnDidSet_isCalled_whenCalledOnOuterPersistedValue() {
+@Suite
+struct PersistedValueTests {
+    @Test
+    func onDidSet_isCalled_whenCalledOnOuterPersistedValue() {
         // Given
         var didSetCallCount = 0
         var storedValue: Int?
@@ -18,11 +20,12 @@ final class PersistedValueTests: XCTestCase {
         outerPersistedValue.value = 100
 
         // Then
-        XCTAssertEqual(storedValue, 100)
-        XCTAssertEqual(didSetCallCount, 1)
+        #expect(storedValue == 100)
+        #expect(didSetCallCount == 1)
     }
 
-    func testOnDidSet_isCalled_whenCalledOnInnerPersistedValue() {
+    @Test
+    func onDidSet_isCalled_whenCalledOnInnerPersistedValue() {
         // Given
         var didSetCallCount = 0
         var storedValue: Int?
@@ -37,11 +40,12 @@ final class PersistedValueTests: XCTestCase {
         innerPersistedValue.value = 100
 
         // Then
-        XCTAssertEqual(storedValue, 100)
-        XCTAssertEqual(didSetCallCount, 1)
+        #expect(storedValue == 100)
+        #expect(didSetCallCount == 1)
     }
 
-    func testOnDidSet_isCalled_whenCalledOnFirstPersistedValueInLongChain() {
+    @Test
+    func onDidSet_isCalled_whenCalledOnFirstPersistedValueInLongChain() {
         // Given
         var didSetCallCount = 0
         var storedValue: Int?
@@ -63,11 +67,12 @@ final class PersistedValueTests: XCTestCase {
         innerPersistedValue.value = 100
 
         // Then
-        XCTAssertEqual(storedValue, 100)
-        XCTAssertEqual(didSetCallCount, 1)
+        #expect(storedValue == 100)
+        #expect(didSetCallCount == 1)
     }
 
-    func testOnDidSet_isCalledOnlyOnce_whenCalledOnLastPersistedValueInLongChain() {
+    @Test
+    func onDidSet_isCalledOnlyOnce_whenCalledOnLastPersistedValueInLongChain() {
         // Given
         var didSetCallCount = 0
         var storedValue: Int?
@@ -89,11 +94,12 @@ final class PersistedValueTests: XCTestCase {
         outerPersistedValue.value = 100
 
         // Then
-        XCTAssertEqual(storedValue, 100)
-        XCTAssertEqual(didSetCallCount, 1)
+        #expect(storedValue == 100)
+        #expect(didSetCallCount == 1)
     }
 
-    func testWithPublisher_emitsEvent_whenInnerPersistedValueChanges() {
+    @Test
+    func withPublisher_emitsEvent_whenInnerPersistedValueChanges() {
         // Given
         var storedValue: Int?
         let innerPersistedValue = PersistedValue(
@@ -112,11 +118,12 @@ final class PersistedValueTests: XCTestCase {
         innerPersistedValue.value = 100
 
         // Then
-        XCTAssertEqual(publisherValues, [-1, 100])
+        #expect(publisherValues == [-1, 100])
         cancellable.cancel()
     }
 
-    func testSync_emitsDidSetEvent_whenInnerPersistedValueChanges() {
+    @Test
+    func sync_emitsDidSetEvent_whenInnerPersistedValueChanges() {
         // Given
         var didSetCallCount = 0
         var storedValue: Int?
@@ -133,11 +140,12 @@ final class PersistedValueTests: XCTestCase {
         innerPersistedValue.value = 100
 
         // Then
-        XCTAssertEqual(storedValue, 100)
-        XCTAssertEqual(didSetCallCount, 1)
+        #expect(storedValue == 100)
+        #expect(didSetCallCount == 1)
     }
 
-    func testSync_updatesBothStorages_whenSyncedValueIsSet() {
+    @Test
+    func sync_updatesBothStorages_whenSyncedValueIsSet() {
         // Given
         let cloudKey = "cloud-sync-value-key"
         var storedValue: Int?
@@ -154,11 +162,12 @@ final class PersistedValueTests: XCTestCase {
         syncedPersistedValue.value = 100
 
         // Then
-        XCTAssertEqual(cloudSyncService[cloudKey] as? Int, 100)
-        XCTAssertEqual(storedValue, 100)
+        #expect(cloudSyncService[cloudKey] as? Int == 100)
+        #expect(storedValue == 100)
     }
 
-    func testSync_readsCloudStorageFirst() {
+    @Test
+    func sync_readsCloudStorageFirst() {
         // Given
         let cloudKey = "cloud-sync-value-key"
         var storedValue: Int?
@@ -176,10 +185,11 @@ final class PersistedValueTests: XCTestCase {
         let value = syncedPersistedValue.value
 
         // Then
-        XCTAssertEqual(value, 100)
+        #expect(value == 100)
     }
 
-    func testSync_doesNothing_whenNoValues() {
+    @Test
+    func sync_doesNothing_whenNoValues() {
         // Given
         let cloudKey = "cloud-sync-value-key"
         var storedValue: Int?
@@ -196,11 +206,12 @@ final class PersistedValueTests: XCTestCase {
         let value = syncedPersistedValue.value
 
         // Then
-        XCTAssertNil(value)
-        XCTAssertNil(cloudSyncService.storage[cloudKey])
+        #expect(value == nil)
+        #expect(cloudSyncService.storage[cloudKey] == nil)
     }
 
-    func testSync_readsInnerStorage_andUpdatesSyncService_whenNoCloudValue_andSyncInitialFlagTrue() {
+    @Test
+    func sync_readsInnerStorage_andUpdatesSyncService_whenNoCloudValue_andSyncInitialFlagTrue() {
         // Given
         let cloudKey = "cloud-sync-value-key"
         var storedValue: Int? = 100
@@ -222,11 +233,12 @@ final class PersistedValueTests: XCTestCase {
         let value = syncedPersistedValue.value
 
         // Then
-        XCTAssertEqual(value, 100)
-        XCTAssertEqual(cloudSyncService.storage[cloudKey] as? Int, 100)
+        #expect(value == 100)
+        #expect(cloudSyncService.storage[cloudKey] as? Int == 100)
     }
 
-    func testSync_uUpdatesSyncServiceOnce_whenNoCloudValue_andSyncInitialFlagTrue() {
+    @Test
+    func sync_uUpdatesSyncServiceOnce_whenNoCloudValue_andSyncInitialFlagTrue() {
         // Given
         let cloudKey = "cloud-sync-value-key"
         let userDefaults = UserDefaults.mock(suiteName: "sync test")
@@ -260,11 +272,12 @@ final class PersistedValueTests: XCTestCase {
         let value = syncedPersistedValue.value
 
         // Then
-        XCTAssertEqual(value, 200)
-        XCTAssertNil(cloudSyncService.storage[cloudKey])
+        #expect(value == 200)
+        #expect(cloudSyncService.storage[cloudKey] == nil)
     }
 
-    func testSync_readsInnerStorage_andDoesNotUpdateSyncService_whenNoCloudValue_andSyncInitialFlagFalse() {
+    @Test
+    func sync_readsInnerStorage_andDoesNotUpdateSyncService_whenNoCloudValue_andSyncInitialFlagFalse() {
         // Given
         let cloudKey = "cloud-sync-value-key"
         var storedValue: Int? = 100
@@ -286,11 +299,12 @@ final class PersistedValueTests: XCTestCase {
         let value = syncedPersistedValue.value
 
         // Then
-        XCTAssertEqual(value, 100)
-        XCTAssertNil(cloudSyncService.storage[cloudKey])
+        #expect(value == 100)
+        #expect(cloudSyncService.storage[cloudKey] == nil)
     }
 
-    func testSync_updatesInnerStorage_whenCloudValueIsUpdated() {
+    @Test
+    func sync_updatesInnerStorage_whenCloudValueIsUpdated() {
         // Given
         let cloudKey = "cloud-sync-value-key"
         var storedValue: Int?
@@ -307,6 +321,6 @@ final class PersistedValueTests: XCTestCase {
         cloudSyncService.observeChangesUpdates[0](100)
 
         // Then
-        XCTAssertEqual(storedValue, 100)
+        #expect(storedValue == 100)
     }
 }

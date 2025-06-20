@@ -1,9 +1,11 @@
-import XCTest
+import Foundation
+import Testing
 @testable import BsuirApi
 
-final class StudentGroupTests: XCTestCase {
-
-    func testScheduleIsNil_withOnlyExams() throws {
+@Suite
+struct StudentGroupTests {
+    @Test
+    func scheduleIsNil_withOnlyExams() throws {
         // Given
         let data = try loadJson(named: "only_exams")
 
@@ -11,10 +13,11 @@ final class StudentGroupTests: XCTestCase {
         let schedule = try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
 
         // Then
-        XCTAssertNil(schedule.schedules)
+        #expect(schedule.schedules == nil)
     }
-    
-    func testScheduleParse_withNoStartEndLessonDates() throws {
+
+    @Test
+    func scheduleParse_withNoStartEndLessonDates() throws {
         // Given
         let data = try loadJson(named: "no_start_end_lesson_date_on_exams")
 
@@ -22,11 +25,12 @@ final class StudentGroupTests: XCTestCase {
         let schedule = try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
 
         // Then
-        XCTAssertEqual(schedule.schedules?.isEmpty, false)
-        XCTAssertEqual(schedule.examSchedules.isEmpty, false)
+        #expect(schedule.schedules?.isEmpty == false)
+        #expect(schedule.examSchedules.isEmpty == false)
     }
-    
-    func testScheduleParse_withAnnouncement() throws {
+
+    @Test
+    func scheduleParse_withAnnouncement() throws {
         // Given
         let data = try loadJson(named: "with_announcement")
 
@@ -34,9 +38,9 @@ final class StudentGroupTests: XCTestCase {
         let schedule = try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
 
         // Then
-        let announcement = try XCTUnwrap(schedule.schedules?[.saturday]?.last)
-        XCTAssertEqual(announcement.weekNumber, .always)
-        XCTAssertTrue(announcement.announcement)
+        let announcement = try #require(schedule.schedules?[.saturday]?.last)
+        #expect(announcement.weekNumber == .always)
+        #expect(announcement.announcement)
     }
 }
 

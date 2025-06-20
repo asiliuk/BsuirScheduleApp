@@ -1,8 +1,11 @@
 @testable import BsuirApi
-import XCTest
+import Foundation
+import Testing
 
-final class DayScheduleTests: XCTestCase {
-    func testLocalizedWeekDayName_enUS() {
+@Suite
+struct DayScheduleTests {
+    @Test
+    func localizedWeekDayName_enUS() {
         // Given
         var calendar = Calendar(identifier: .gregorian)
         calendar.locale = Locale(identifier: "en_US")
@@ -16,8 +19,9 @@ final class DayScheduleTests: XCTestCase {
         assert(weekday: .saturday, nameIs: "Saturday", in: calendar)
         assert(weekday: .sunday, nameIs: "Sunday", in: calendar)
     }
-    
-    func testLocalizedWeekDayName_enNL() {
+
+    @Test
+    func localizedWeekDayName_enNL() {
         // Given
         var calendar = Calendar(identifier: .gregorian)
         calendar.locale = Locale(identifier: "en_NL")
@@ -31,8 +35,9 @@ final class DayScheduleTests: XCTestCase {
         assert(weekday: .saturday, nameIs: "Saturday", in: calendar)
         assert(weekday: .sunday, nameIs: "Sunday", in: calendar)
     }
-    
-    func testLocalizedWeekDayName_enRU() {
+
+    @Test
+    func localizedWeekDayName_enRU() {
         // Given
         var calendar = Calendar(identifier: .gregorian)
         calendar.locale = Locale(identifier: "en_RU")
@@ -55,9 +60,8 @@ private extension DayScheduleTests {
         weekday: DaySchedule.WeekDay,
         nameIs expectedName: String,
         in calendar: Calendar,
-        file: StaticString = #filePath,
-        line: UInt = #line
+        _ sourceLocation: SourceLocation = #_sourceLocation
     ) {
-        XCTAssertEqual(weekday.localizedName(in: calendar), expectedName, file: file, line: line)
+        #expect(weekday.localizedName(in: calendar) == expectedName, sourceLocation: sourceLocation)
     }
 }
