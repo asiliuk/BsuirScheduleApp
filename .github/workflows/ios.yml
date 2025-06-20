@@ -19,7 +19,7 @@ jobs:
           
   test:
     name: Build and Test BsuirSchedule using any available iPhone simulator
-    runs-on: macos-13
+    runs-on: macos-15
 
     steps:
       - name: Checkout
@@ -27,7 +27,7 @@ jobs:
       - name: Test
         env:
           platform: ${{ 'iOS Simulator' }}
-          DEVELOPER_DIR: /Applications/Xcode_15.2.0.app/Contents/Developer
+          DEVELOPER_DIR: /Applications/Xcode_16.4.0.app/Contents/Developer
         run: |
           set -o pipefail
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
