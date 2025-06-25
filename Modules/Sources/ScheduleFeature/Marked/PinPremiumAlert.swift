@@ -14,7 +14,7 @@ extension AlertState where Action == PinPremiumAlertAction {
         }
         
         ButtonState(role: .cancel) {
-            TextState("alert.premiumClub.pinnedSchedule.button")
+            TextState("alert.premiumClub.pinnedSchedule.cancel")
         }
     } message: {
         TextState("alert.premiumClub.pinnedSchedule.message")
