@@ -17,8 +17,8 @@ final class PinnedScheduleProvider: TimelineProvider {
         .placeholder
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (Entry) -> Void) {
-        requestSnapshot = Task.detached(priority: .userInitiated) { [unowned self] in
+    func getSnapshot(in context: Context, completion: @escaping @Sendable (Entry) -> Void) {
+        requestSnapshot = Task { [unowned self] in
             func completeCheckingPreview(with entry: PinnedScheduleEntry) {
                 completion(context.isPreview ? .preview : entry)
             }
@@ -53,8 +53,8 @@ final class PinnedScheduleProvider: TimelineProvider {
         }
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-        @Sendable func completeCheckingPreview(with entry: Entry) {
+    func getTimeline(in context: Context, completion: @escaping @Sendable (Timeline<Entry>) -> Void) {
+        func completeCheckingPreview(with entry: Entry) {
             completion(.init(entries: [context.isPreview ? .preview : entry], policy: .never))
         }
 
@@ -70,7 +70,7 @@ final class PinnedScheduleProvider: TimelineProvider {
             return completeCheckingPreview(with: .noPinned)
         }
 
-        requestTimeline = Task.detached(priority: .userInitiated) { [unowned self] in
+        requestTimeline = Task { [unowned self] in
             do {
                 let schedule = try await mostRelevantSchedule(for: pinnedSchedule)
                 guard let timeline = Timeline(schedule) else {
@@ -159,5 +159,5 @@ final class PinnedScheduleProvider: TimelineProvider {
 import OSLog
 
 private extension Logger {
-    static let pinnedProvider = bsuirSchedule(category: "Pinned Provider")
+    nonisolated static let pinnedProvider = bsuirSchedule(category: "Pinned Provider")
 }

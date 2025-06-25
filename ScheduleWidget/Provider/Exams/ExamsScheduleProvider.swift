@@ -53,7 +53,7 @@ final class ExamsScheduleProvider {
     }
 
     private func timeline(in context: Context, onlyExams: Bool) async -> Timeline<Entry> {
-        @Sendable func completeCheckingPreview(with entry: Entry) -> Timeline<Entry> {
+        func completeCheckingPreview(with entry: Entry) -> Timeline<Entry> {
             return .init(entries: [context.isPreview ? .preview(onlyExams: onlyExams) : entry], policy: .never)
         }
 
@@ -164,13 +164,13 @@ extension ExamsScheduleProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (ExamsScheduleEntry) -> Void) {
-        requestSnapshot = Task.detached(priority: .userInitiated) {
+        requestSnapshot = Task {
             completion(await self.snapshot(in: context, onlyExams: self.staticOnlyExams))
         }
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<ExamsScheduleEntry>) -> Void) {
-        requestTimeline = Task.detached(priority: .userInitiated) {
+        requestTimeline = Task {
             completion(await self.timeline(in: context, onlyExams: self.staticOnlyExams))
         }
     }

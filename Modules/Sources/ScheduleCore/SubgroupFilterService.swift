@@ -17,9 +17,7 @@ private enum SubgroupFilterServiceKey: DependencyKey {
     static let liveValue: SubgroupFilterService = {
         @Dependency(\.widgetService) var widgetService
         @Dependency(\.pinnedScheduleService) var pinnedScheduleService
-        @Dependency(\.defaultAppStorage) var storage
         return .live(
-            storage: storage,
             widgetService: widgetService,
             pinnedScheduleService: pinnedScheduleService
         )
@@ -32,11 +30,11 @@ private enum SubgroupFilterServiceKey: DependencyKey {
 
 private extension SubgroupFilterService {
     static func live(
-        storage: UserDefaults,
         widgetService: WidgetService,
         pinnedScheduleService: PinnedScheduleService
     ) -> Self {
         return SubgroupFilterService { source in
+            @Dependency(\.defaultAppStorage) var storage
             return storage
                 .persistedInteger(forKey: source.preferredSubgroupKey)
                 // Transform 0 subgroup to nil
