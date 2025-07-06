@@ -54,6 +54,12 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
+private extension AppDelegate {
+    var isTestingEnabled: Bool {
+        CommandLine.arguments.contains("enable-testing")
+    }
+}
+
 #if DEBUG
 private struct DebugAppView: View {
     let appDelegate: AppDelegate
@@ -70,10 +76,6 @@ private struct DebugAppView: View {
 }
 
 private extension AppDelegate {
-    var isTestingEnabled: Bool {
-        CommandLine.arguments.contains("enable-testing")
-    }
-
     var isWidgetsPreviewEnabled: Bool {
         CommandLine.arguments.contains("enable-widget-preview")
     }
