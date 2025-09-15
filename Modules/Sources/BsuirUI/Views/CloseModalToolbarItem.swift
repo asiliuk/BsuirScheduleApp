@@ -9,11 +9,18 @@ public struct CloseModalToolbarItem: ToolbarContent {
 
     public var body: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
-            Button(
-                action: action,
-                label: { Image(systemName: "xmark.circle.fill") }
-            )
-            .foregroundColor(Color(uiColor: .tertiaryLabel))
+            if #available(iOS 26, *) {
+                Button(
+                    action: action,
+                    label: { Image(systemName: "xmark") }
+                )
+            } else {
+                Button(
+                    action: action,
+                    label: { Image(systemName: "xmark.circle.fill") }
+                )
+                .foregroundColor(Color(uiColor: .tertiaryLabel))
+            }
         }
     }
 }
