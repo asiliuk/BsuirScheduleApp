@@ -9,7 +9,7 @@ struct GroupsRowView: View {
 
     var body: some View {
         WithPerceptionTracking {
-            NavigationLink(state: EntityScheduleFeatureV2.State.group(.init(groupName: store.groupName))) {
+            NavigationLink(state: store.schedule) {
                 VStack(alignment: .leading) {
                     Text(store.title)
                         .monospacedDigit()

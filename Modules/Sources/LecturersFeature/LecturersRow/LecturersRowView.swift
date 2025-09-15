@@ -9,7 +9,7 @@ struct LecturersRowView: View {
 
     var body: some View {
         WithPerceptionTracking {
-            NavigationLink(state: EntityScheduleFeatureV2.State.lector(.init(lector: store.lector))) {
+            NavigationLink(state: store.schedule) {
                 LecturerCellView(
                     fullName: store.fullName,
                     imageUrl: store.imageUrl,

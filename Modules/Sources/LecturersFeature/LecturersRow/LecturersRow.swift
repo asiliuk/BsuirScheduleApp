@@ -1,6 +1,7 @@
 import Foundation
 import BsuirApi
 import ScheduleFeature
+import EntityScheduleFeature
 import ComposableArchitecture
 
 @Reducer
@@ -26,9 +27,13 @@ public struct LecturersRow {
 
         var mark: MarkedScheduleRowFeature.State
 
+        @ObservationStateIgnored
+        var schedule: EntityScheduleFeatureV2.State
+
         init(lector: Employee) {
             self.lector = lector
             self.mark = .init(source: .lector(lector))
+            self.schedule = .lector(.init(lector: lector))
         }
     }
 

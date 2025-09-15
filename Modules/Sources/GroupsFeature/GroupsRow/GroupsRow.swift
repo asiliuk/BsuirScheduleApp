@@ -1,6 +1,7 @@
 import Foundation
 import BsuirApi
 import ScheduleFeature
+import EntityScheduleFeature
 import ComposableArchitecture
 
 @Reducer
@@ -15,6 +16,9 @@ public struct GroupsRow {
         var mark: MarkedScheduleRowFeature.State
         var backedByRealGroup: Bool
 
+        @ObservationStateIgnored
+        var schedule: EntityScheduleFeatureV2.State
+
         init(
             groupName: String,
             subtitle: String? = nil,
@@ -24,6 +28,7 @@ public struct GroupsRow {
             self.subtitle = subtitle
             self.mark = MarkedScheduleRowFeature.State(source: .group(name: groupName))
             self.backedByRealGroup = backedByRealGroup
+            self.schedule = .group(.init(groupName: groupName))
         }
 
         init(group: StudentGroup) {
