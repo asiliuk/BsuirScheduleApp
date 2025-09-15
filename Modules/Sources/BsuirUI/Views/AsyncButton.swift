@@ -1,12 +1,12 @@
 import SwiftUI
 
 public struct AsyncButton<Label: View>: View {
-    var action: () async -> Void
+    var action: @MainActor () async -> Void
     var label: Label
     var isInProgress: Bool { taskInProgress != nil }
     @State var taskInProgress: Task<Void, Never>?
 
-    public init(action: @escaping () async -> Void, @ViewBuilder label: () -> Label) {
+    public init(action: @MainActor @escaping () async -> Void, @ViewBuilder label: () -> Label) {
         self.action = action
         self.label = label()
     }
