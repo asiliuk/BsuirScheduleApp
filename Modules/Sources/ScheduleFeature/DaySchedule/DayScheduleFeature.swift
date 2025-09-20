@@ -21,7 +21,8 @@ public struct DayScheduleFeature {
             self.scheduleList = ScheduleListFeature.State(
                 days: [],
                 loading: .never,
-                header: {
+                title: "🗓️ \(LocalizedStringResource("screen.schedule.scheduleType.byDay"))",
+                subtitle: {
                     guard let startDate, let endDate else { return nil }
                     return "screen.schedule.pairs.interval.title\((startDate..<endDate).formatted(.scheduleDates))"
                 }()

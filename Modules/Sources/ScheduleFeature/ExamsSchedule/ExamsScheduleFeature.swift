@@ -22,7 +22,8 @@ public struct ExamsScheduleFeature {
             self.scheduleList = ScheduleListFeature.State(
                 days: [],
                 loading: .never,
-                header: {
+                title: "🎓 \(LocalizedStringResource("screen.schedule.scheduleType.exams"))",
+                subtitle: {
                     guard let startDate, let endDate else { return nil }
                     return "screen.schedule.exams.interval.title\((startDate..<endDate).formatted(.scheduleDates))"
                 }()

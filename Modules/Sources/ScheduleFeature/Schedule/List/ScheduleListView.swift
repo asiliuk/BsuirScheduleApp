@@ -23,9 +23,20 @@ private struct ScheduleContentListView: View {
     var body: some View {
         List {
             WithPerceptionTracking {
-                if let header = store.header {
-                    Text(header)
-                        .foregroundStyle(.secondary)
+                if store.title != nil || store.subtitle != nil {
+                    VStack(alignment: .leading) {
+                        if let title = store.title {
+                            Text(title)
+                                .font(.headline)
+                                .foregroundStyle(.primary)
+                        }
+                        
+                        if let subtitle = store.subtitle {
+                            Text(subtitle)
+                                .font(.body)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                 }
 
                 ForEach(
