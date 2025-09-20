@@ -38,7 +38,7 @@ struct AppearanceFeatureView: View {
 
 private struct PairPreviewSectionView: View {
     var body: some View {
-        PairCell(
+        PairView(
             from: String(localized: "screen.settings.appearance.pairPreview.from"),
             to: String(localized: "screen.settings.appearance.pairPreview.to"),
             interval: "\(String(localized: "screen.settings.appearance.pairPreview.from"))-\(String(localized: "screen.settings.appearance.pairPreview.to"))",
@@ -51,9 +51,18 @@ private struct PairPreviewSectionView: View {
             progress: PairProgress(constant: 0.5),
             details: EmptyView()
         )
+        .modifier(PairBackgroundModifier(cornerRadius: backgroundCornerRadius))
         .fixedSize(horizontal: false, vertical: true)
         .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
         .accessibility(label: Text("screen.settings.appearance.pairPreview.accessibility.label"))
         .containerShape(.rect(cornerRadius: 24))
+    }
+
+    var backgroundCornerRadius: Double {
+        if #available(iOS 26, *) {
+            24
+        } else {
+            8
+        }
     }
 }

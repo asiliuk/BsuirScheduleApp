@@ -3,6 +3,25 @@ import BsuirCore
 import BsuirApi
 import ScheduleCore
 
+public struct PairBackgroundModifier: ViewModifier {
+    public let cornerRadius: Double
+
+    public init(cornerRadius: Double) {
+        self.cornerRadius = cornerRadius
+    }
+
+    public func body(content: Content) -> some View {
+        content
+            .padding(.leading)
+            .padding(.trailing, 4)
+            .padding(.vertical, 8)
+            .background {
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .foregroundColor(Color(.secondarySystemBackground))
+            }
+    }
+}
+
 public struct PairCell<Details: View>: View {
     var pair: PairView<Details>
     public init(
@@ -35,18 +54,15 @@ public struct PairCell<Details: View>: View {
 
     public var body: some View {
         pair
-            .padding(.leading)
-            .padding(.trailing, 4)
-            .padding(.vertical, 8)
-            .background {
-                if #available(iOS 26, *) {
-                    ConcentricRectangle(corners: .concentric(minimum: 16), isUniform: true)
-                        .foregroundColor(Color(.secondarySystemBackground))
-                } else {
-                    RoundedRectangle(cornerRadius: 8)
-                        .foregroundColor(Color(.secondarySystemBackground))
-                }
-            }
+            .modifier(PairBackgroundModifier(cornerRadius: backgroundCornerRadius))
+    }
+
+    var backgroundCornerRadius: Double {
+        if #available(iOS 26, *) {
+            16
+        } else {
+            8
+        }
     }
 }
 
