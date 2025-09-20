@@ -2,19 +2,32 @@ import Foundation
 import ComposableArchitecture
 import Algorithms
 import BsuirApi
+import BsuirCore
+import ScheduleCore
 
 @Reducer
 public struct LoadedScheduleReducer {
+    @ObservableState
     public struct State {
-        public var maxSubgroup: Int?
         var response: ScheduleRequestResponse
+        var scheduleType: ScheduleDisplayType
 
         var compact: DayScheduleFeature.State
         var continuous: ContinuousScheduleFeature.State
         var exams: ExamsScheduleFeature.State
 
-        init(response: ScheduleRequestResponse, pairRowDetails: PairRowDetails?) {
+        var subgroupPicker: SubgroupPickerFeature.State?
+        fileprivate var source: ScheduleSource
+
+        init(
+            source: ScheduleSource,
+            response: ScheduleRequestResponse,
+            pairRowDetails: PairRowDetails?,
+            scheduleDisplayType: ScheduleDisplayType = .continuous
+        ) {
             self.response = response
+            self.scheduleType = scheduleDisplayType
+            self.source = source
 
             self.compact = DayScheduleFeature.State(
                 schedule: response.schedule,
@@ -43,20 +56,63 @@ public struct LoadedScheduleReducer {
 
             let allPairs = chain(allSchedulePairs, response.exams)
 
-            self.maxSubgroup = allPairs.lazy
+            let maxSubgroup = allPairs.lazy
                 .map(\.subgroup)
                 .filter { $0 != 0 }
                 .max()
+
+            @Dependency(\.subgroupFilterService) var subgroupFilterService
+            if let maxSubgroup {
+                let savedSubgroupSelection = subgroupFilterService.preferredSubgroup(source).value
+                subgroupPicker = SubgroupPickerFeature.State(
+                    maxSubgroup: maxSubgroup,
+                    selected: savedSubgroupSelection
+                )
+            }
+
+            if continuous.hasSchedule == false, scheduleDisplayType == .continuous {
+                // Switch to exams if no regular schedule available
+                scheduleType = .exams
+            }
+
+            filter(keepingSubgroup: subgroupPicker?.selected)
         }
     }
 
-    public enum Action {
+    public enum Action: BindableAction {
         case day(DayScheduleFeature.Action)
         case continuous(ContinuousScheduleFeature.Action)
         case exams(ExamsScheduleFeature.Action)
+
+        case subgroupPicker(SubgroupPickerFeature.Action)
+
+        case binding(BindingAction<State>)
     }
 
+    @Dependency(\.reviewRequestService) var reviewRequestService
+    @Dependency(\.subgroupFilterService) var subgroupFilterService
+
     public var body: some ReducerOf<Self> {
+        BindingReducer()
+            .onChange(of: \.scheduleType) { _, _ in
+                Reduce { _, _ in
+                    .run { _ in await reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched) }
+                }
+            }
+
+        EmptyReducer()
+            .ifLet(\.subgroupPicker, action: \.subgroupPicker) {
+                SubgroupPickerFeature()
+            }
+            .onChange(of: \.subgroupPicker?.selected) { _, newValue in
+                Reduce { state, _ in
+                    state.filter(keepingSubgroup: newValue)
+                    return .run { [source = state.source] _ in
+                        subgroupFilterService.preferredSubgroup(source).value = newValue
+                    }
+                }
+            }
+
         Scope(state: \.compact, action: \.day) {
             DayScheduleFeature()
         }
@@ -69,4 +125,8 @@ public struct LoadedScheduleReducer {
             ExamsScheduleFeature()
         }
     }
+}
+
+private extension MeaningfulEvent {
+    static let scheduleModeSwitched = Self(score: 3)
 }

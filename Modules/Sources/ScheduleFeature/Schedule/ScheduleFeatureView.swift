@@ -5,7 +5,7 @@ import LoadableFeature
 import ComposableArchitecture
 
 public struct ScheduleFeatureView<Value: Equatable>: View {
-    @Perception.Bindable public var store: StoreOf<ScheduleFeature<Value>>
+    public let store: StoreOf<ScheduleFeature<Value>>
 
     public init(store: StoreOf<ScheduleFeature<Value>>) {
         self.store = store
@@ -23,57 +23,60 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 },
                 loaded: { store, refresh in
                     LoadedScheduleView(
-                        store: store,
-                        scheduleType: self.store.scheduleType
+                        store: store
                     )
                     .refreshable { await refresh() }
                 }
             )
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    ScheduleDisplayTypePicker(
-                        scheduleType: $store.scheduleType.animation(.default)
-                    )
-                    .pickerStyle(.segmented)
-                    .frame(width: 200)
-                }
-
-                if let store = store.scope(state: \.subgroupPicker, action: \.subgroupPicker) {
-                    ToolbarItemGroup(placement: .primaryAction) {
-                        SubgroupPickerFeatureView(store: store)
-                    }
-                }
-
                 if let store = store.scope(state: \.mark, action: \.mark) {
+                    if #available(iOS 26, *) {
+                        ToolbarSpacer(.fixed, placement: .primaryAction)
+                    }
                     ToolbarItemGroup(placement: .primaryAction) {
                         MarkedSchedulePickerView(store: store)
                     }
                 }
             }
             .navigationTitle(store.title)
-            .navigationBarTitleDisplayMode(.large)
         }
     }
 }
 
 private struct LoadedScheduleView: View {
-    let store: StoreOf<LoadedScheduleReducer>
-    let scheduleType: ScheduleDisplayType
+    @Perception.Bindable var store: StoreOf<LoadedScheduleReducer>
 
     var body: some View {
-        switch scheduleType {
-        case .continuous:
-            ContinuousScheduleView(
-                store: store.scope(state: \.continuous, action: \.continuous)
-            )
-        case .compact:
-            DayScheduleView(
-                store: store.scope(state: \.compact, action: \.day)
-            )
-        case .exams:
-            ExamsScheduleView(
-                store: store.scope(state: \.exams, action: \.exams)
-            )
+        WithPerceptionTracking {
+            ZStack {
+                switch store.scheduleType {
+                case .continuous:
+                    ContinuousScheduleView(
+                        store: store.scope(state: \.continuous, action: \.continuous)
+                    )
+                case .compact:
+                    DayScheduleView(
+                        store: store.scope(state: \.compact, action: \.day)
+                    )
+                case .exams:
+                    ExamsScheduleView(
+                        store: store.scope(state: \.exams, action: \.exams)
+                    )
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    ScheduleDisplayTypePickerMenu(
+                        scheduleType: $store.scheduleType
+                    )
+                }
+
+                if let store = store.scope(state: \.subgroupPicker, action: \.subgroupPicker) {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        SubgroupPickerFeatureView(store: store)
+                    }
+                }
+            }
         }
     }
 }

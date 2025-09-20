@@ -43,11 +43,10 @@ public struct ScheduleFeature<Value: Equatable> {
         public var value: Value
         public var mark: MarkedSchedulePickerFeature.State?
         var schedule: LoadingState<LoadedScheduleReducer.State> = .initial
-        var scheduleType: ScheduleDisplayType
-        var subgroupPicker: SubgroupPickerFeature.State?
 
         fileprivate var pairRowDetails: PairRowDetails?
         fileprivate var source: ScheduleSource
+        var scheduleDisplayType: ScheduleDisplayType
 
         public init(
             title: String,
@@ -62,15 +61,11 @@ public struct ScheduleFeature<Value: Equatable> {
             self.value = value
             self.mark = showScheduleMark ? .init(source: source) : nil
             self.pairRowDetails = pairRowDetails
-            self.scheduleType = scheduleDisplayType
-
-            @Dependency(\.subgroupFilterService) var subgroupFilterService
-            let savedSubgroupSelection = subgroupFilterService.preferredSubgroup(source).value
-            subgroupPicker = .init(maxSubgroup: 2, selected: savedSubgroupSelection)
+            self.scheduleDisplayType = scheduleDisplayType
         }
     }
 
-    public enum Action: BindableAction {
+    public enum Action {
         public enum DelegateAction {
             case showPremiumClubPinned
             case showLectorSchedule(Employee)
@@ -79,15 +74,12 @@ public struct ScheduleFeature<Value: Equatable> {
 
         case mark(MarkedSchedulePickerFeature.Action)
         case schedule(LoadingActionOf<LoadedScheduleReducer>)
-        case subgroupPicker(SubgroupPickerFeature.Action)
 
         case delegate(DelegateAction)
-        case binding(BindingAction<State>)
     }
 
     let fetch: @Sendable (Value, _ ignoreCache: Bool) async throws -> ScheduleRequestResponse
     @Dependency(\.reviewRequestService) var reviewRequestService
-    @Dependency(\.subgroupFilterService) var subgroupFilterService
     @Dependency(\.pinnedScheduleHashService) var pinnedScheduleHashService
 
     public init(fetch: @Sendable @escaping (Value, _ ignoreCache: Bool) async throws -> ScheduleRequestResponse) {
@@ -95,35 +87,9 @@ public struct ScheduleFeature<Value: Equatable> {
     }
     
     public var body: some ReducerOf<Self> {
-        BindingReducer()
-            .onChange(of: \.scheduleType) { _, _ in
-                Reduce { _, _ in
-                    .run { _ in await reviewRequestService.madeMeaningfulEvent(.scheduleModeSwitched) }
-                }
-            }
-
         Reduce { state, action in
             switch action {
             case .schedule(.fetchFinished):
-                // Switch to exams if no regular schedule available
-
-                if state.schedule.loaded?.continuous.hasSchedule == false {
-                    state.scheduleType = .exams
-                }
-
-                // Show subgroup picker if needed
-                if let maxSubgroup = state.schedule.loaded?.maxSubgroup {
-                    let savedSubgroupSelection = subgroupFilterService.preferredSubgroup(state.source).value
-                    state.subgroupPicker = SubgroupPickerFeature.State(
-                        maxSubgroup: maxSubgroup,
-                        selected: savedSubgroupSelection
-                    )
-
-                    state.schedule.loaded?.filter(keepingSubgroup: savedSubgroupSelection)
-                } else {
-                    state.subgroupPicker = nil
-                }
-
                 return .merge(
                     .run { _ in await reviewRequestService.madeMeaningfulEvent(.scheduleRequested) },
                     updateScheduleLastKnownHash(source: state.source, response: state.schedule.loaded?.response)
@@ -147,31 +113,22 @@ public struct ScheduleFeature<Value: Equatable> {
                     return .send(.delegate(.showLectorSchedule(employee)))
                 }
 
-            case .schedule, .mark, .delegate, .subgroupPicker, .binding:
+            case .schedule, .mark, .delegate:
                 return .none
             }
         }
         .load(state: \.schedule, action: \.schedule) { state, isRefresh in
             try await LoadedScheduleReducer.State(
+                source: state.source,
                 response: fetch(state.value, isRefresh),
-                pairRowDetails: state.pairRowDetails
+                pairRowDetails: state.pairRowDetails,
+                scheduleDisplayType: state.scheduleDisplayType
             )
         } loaded: {
             LoadedScheduleReducer()
         }
-        .ifLet(\.subgroupPicker, action: \.subgroupPicker) {
-            SubgroupPickerFeature()
-        }
         .ifLet(\.mark, action: \.mark) {
             MarkedSchedulePickerFeature()
-        }
-        .onChange(of: \.subgroupPicker?.selected) { _, newValue in
-            Reduce { state, _ in
-                state.schedule.loaded?.filter(keepingSubgroup: newValue)
-                return .run { [source = state.source] _ in
-                    subgroupFilterService.preferredSubgroup(source).value = newValue
-                }
-            }
         }
     }
 
@@ -195,5 +152,4 @@ public struct ScheduleFeature<Value: Equatable> {
 
 private extension MeaningfulEvent {
     static let scheduleRequested = Self(score: 2)
-    static let scheduleModeSwitched = Self(score: 3)
 }
