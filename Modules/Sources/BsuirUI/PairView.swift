@@ -38,10 +38,15 @@ public struct PairCell<Details: View>: View {
             .padding(.leading)
             .padding(.trailing, 4)
             .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .foregroundColor(Color(.secondarySystemBackground))
-            )
+            .background {
+                if #available(iOS 26, *) {
+                    ConcentricRectangle(corners: .concentric(minimum: 16), isUniform: true)
+                        .foregroundColor(Color(.secondarySystemBackground))
+                } else {
+                    RoundedRectangle(cornerRadius: 8)
+                        .foregroundColor(Color(.secondarySystemBackground))
+                }
+            }
     }
 }
 

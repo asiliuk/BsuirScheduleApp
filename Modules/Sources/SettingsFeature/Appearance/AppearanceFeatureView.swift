@@ -54,5 +54,6 @@ private struct PairPreviewSectionView: View {
         .fixedSize(horizontal: false, vertical: true)
         .listRowInsets(EdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2))
         .accessibility(label: Text("screen.settings.appearance.pairPreview.accessibility.label"))
+        .containerShape(.rect(cornerRadius: 24))
     }
 }
