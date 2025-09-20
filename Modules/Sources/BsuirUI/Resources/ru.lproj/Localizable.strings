@@ -1,5 +1,6 @@
 "widget.schedule.empty" = "🤩 Нет занятий";
 "widget.schedule.noSchedule" = "🧑‍🏫 Нет расписания";
+"widget.schedule.noExams" = "🎓 Нет экзаменов";
 "widget.schedule.more.%lld" = "еще %lld";
 "widget.noPinned.title" = "Нет закрепленного расписания";
 "widget.failed.title" = "Ошибка загрузки";
