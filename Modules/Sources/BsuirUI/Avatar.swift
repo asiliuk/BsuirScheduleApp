@@ -32,8 +32,8 @@ private struct UserPlaceholder: View {
 
     var body: some View {
         ZStack {
-            Color.gray
-            Image(systemName: "photo").foregroundColor(.black)
+            Color(.secondarySystemFill)
+            Image(systemName: "photo").foregroundColor(.secondary)
         }
     }
 }
@@ -42,4 +42,21 @@ private struct AvatarShape: Shape {
     func path(in rect: CGRect) -> Path {
         Circle().path(in: rect)
     }
+}
+
+#Preview {
+    PairCell(
+        from: "10:00",
+        to: "11:30",
+        interval: "10:00 - 11:30",
+        subject: "POIT",
+        weeks: nil,
+        subgroup: nil,
+        auditory: "101-2",
+        note: "Don't forget your pants",
+        form: .unknown,
+        progress: .init(constant: 0),
+        details: Avatar(url: URL(string: "https://google.com"))
+    )
+    .environmentObject(PairFormDisplayService.noop)
 }
