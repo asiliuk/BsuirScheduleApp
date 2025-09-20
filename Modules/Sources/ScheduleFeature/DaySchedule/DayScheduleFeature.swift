@@ -25,7 +25,7 @@ public struct DayScheduleFeature {
                 title: "🗓️ \(LocalizedStringResource("screen.schedule.scheduleType.byDay"))",
                 subtitle: {
                     guard let startDate, let endDate else { return nil }
-                    return "screen.schedule.pairs.interval.title\((startDate..<endDate).formatted(.scheduleDates))"
+                    return "\((startDate..<endDate).formatted(.scheduleDates))"
                 }()
             )
 

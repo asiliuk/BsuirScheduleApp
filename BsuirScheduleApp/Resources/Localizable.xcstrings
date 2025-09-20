@@ -3444,35 +3444,6 @@
         }
       }
     },
-    "screen.schedule.exams.interval.title%@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "be" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сесія: %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Exams: %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сессия: %@"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сесія: %@"
-          }
-        }
-      }
-    },
     "screen.schedule.mark.dontSave" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3614,35 +3585,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Занять більше немає 🎉"
-          }
-        }
-      }
-    },
-    "screen.schedule.pairs.interval.title%@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "be" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Заняткі: %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Classes: %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Занятия: %@"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Заняття: %@"
           }
         }
       }
