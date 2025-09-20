@@ -11,7 +11,7 @@ public struct ContinuousScheduleFeature {
     public struct State {
         public var hasSchedule: Bool { scheduleList.hasSchedule }
 
-        var scheduleList = ScheduleListFeature.State(days: [], loading: .loadMore)
+        var scheduleList = ScheduleListFeature.State(scheduleType: .continuous, days: [], loading: .loadMore)
 
         var offset: Date?
         var weekSchedule: WeekSchedule?

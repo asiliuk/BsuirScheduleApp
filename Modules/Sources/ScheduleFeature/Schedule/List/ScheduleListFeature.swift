@@ -12,6 +12,7 @@ public struct ScheduleListFeature {
 
     @ObservableState
     public struct State {
+        let scheduleType: ScheduleDisplayType
         var hasSchedule: Bool { !days.isEmpty }
         var days: IdentifiedArrayOf<DaySectionFeature.State>
         var loading: Loading

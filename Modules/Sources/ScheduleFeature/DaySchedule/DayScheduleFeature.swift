@@ -19,6 +19,7 @@ public struct DayScheduleFeature {
             @Dependency(\.date.now) var now
 
             self.scheduleList = ScheduleListFeature.State(
+                scheduleType: .compact,
                 days: [],
                 loading: .never,
                 title: "🗓️ \(LocalizedStringResource("screen.schedule.scheduleType.byDay"))",

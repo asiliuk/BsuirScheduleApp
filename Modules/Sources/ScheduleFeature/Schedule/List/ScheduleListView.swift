@@ -10,7 +10,12 @@ struct ScheduleListView: View {
             if store.hasSchedule {
                 ScheduleContentListView(store: store)
             } else {
-                ScheduleEmptyView()
+                switch store.scheduleType {
+                case .continuous, .compact:
+                    ScheduleEmptyView()
+                case .exams:
+                    ExamsEmptyView()
+                }
             }
         }
     }
@@ -30,7 +35,7 @@ private struct ScheduleContentListView: View {
                                 .font(.headline)
                                 .foregroundStyle(.primary)
                         }
-                        
+
                         if let subtitle = store.subtitle {
                             Text(subtitle)
                                 .font(.body)

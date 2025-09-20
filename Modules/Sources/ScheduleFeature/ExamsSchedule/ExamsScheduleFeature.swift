@@ -20,6 +20,7 @@ public struct ExamsScheduleFeature {
             self.pairRowDetails = pairRowDetails
 
             self.scheduleList = ScheduleListFeature.State(
+                scheduleType: .exams,
                 days: [],
                 loading: .never,
                 title: "🎓 \(LocalizedStringResource("screen.schedule.scheduleType.exams"))",
