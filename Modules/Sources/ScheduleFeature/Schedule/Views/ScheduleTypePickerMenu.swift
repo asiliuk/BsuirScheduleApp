@@ -9,6 +9,7 @@ struct ScheduleDisplayTypePickerMenu: View {
         } label: {
             Label("screen.schedule.scheduleTypePicker.title", systemImage: scheduleType.imageName)
         }
+        .tint(.primary)
     }
 }
 
@@ -21,5 +22,6 @@ struct ScheduleDisplayTypePicker: View {
                 Label(scheduleType.title, systemImage: scheduleType.imageName)
             }
         }
+        .tint(nil)
     }
 }

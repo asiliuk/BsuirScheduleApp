@@ -13,6 +13,7 @@ struct MarkedSchedulePickerView: View {
                         selection.label
                     }
                 }
+                .tint(nil)
             } label: {
                 store.selection.label
                     .symbolVariant(.fill)

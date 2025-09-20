@@ -17,6 +17,7 @@ struct SubgroupPickerFeatureView: View {
 
                     Label("view.subgroupPicker.allSubgroups.title", systemImage: "person.2").tag(Int?.none)
                 }
+                .tint(nil)
             } label: {
                 if let selected = store.selected {
                     Text("\(Image(systemName: "person.fill"))\(selected)")
