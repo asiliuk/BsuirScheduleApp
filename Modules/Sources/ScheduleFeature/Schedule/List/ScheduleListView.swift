@@ -14,7 +14,7 @@ struct ScheduleListView: View {
                 case .continuous, .compact:
                     ScheduleEmptyView()
                 case .exams:
-                    ExamsEmptyView()
+                    ExamsEmptyView { store.send(.checkScheduleTapped) }
                 }
             }
         }

@@ -3386,6 +3386,35 @@
         }
       }
     },
+    "screen.schedule.exams.emptyState.schedule.button.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Адкрыць расклад"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open schedule"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть расписание"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити розклад"
+          }
+        }
+      }
+    },
     "screen.schedule.exams.emptyState.subtitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3427,7 +3456,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "It looks like there are no exams."
+            "value" : "There are no exams"
           }
         },
         "ru" : {

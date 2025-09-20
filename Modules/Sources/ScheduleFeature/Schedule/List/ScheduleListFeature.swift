@@ -26,9 +26,11 @@ public struct ScheduleListFeature {
             case loadMore
             case showGroupSchedule(String)
             case showLectorSchedule(Employee)
+            case changeScheduleType(ScheduleDisplayType)
         }
 
         case loadingIndicatorAppeared
+        case checkScheduleTapped
         case days(IdentifiedActionOf<DaySectionFeature>)
         case delegate(Delegate)
     }
@@ -38,6 +40,9 @@ public struct ScheduleListFeature {
             switch action {
             case .loadingIndicatorAppeared:
                 return .send(.delegate(.loadMore))
+
+            case .checkScheduleTapped:
+                return .send(.delegate(.changeScheduleType(.compact)))
 
             case .days(.element(_, action: .pairRows(.element(_ , .delegate(let action))))):
                 switch action {

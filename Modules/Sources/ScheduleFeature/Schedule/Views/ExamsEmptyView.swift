@@ -3,18 +3,25 @@ import SwiftUI
 import LoadableFeature
 
 struct ExamsEmptyView: View {
+    @State var didAppear = false
+    var onScheduleCheckTapped: () -> Void = {}
+
     var body: some View {
         if #available(iOS 17, *) {
-            ContentUnavailableView(
-                title,
-                systemImage: imageNames.randomElement()!,
-                description: subtitle
-            )
+            ContentUnavailableView {
+                Label(title, systemImage: imageName)
+                    .symbolEffect(symbolEffect, value: didAppear)
+            } description: {
+                subtitle
+            } actions: {
+                Button("screen.schedule.exams.emptyState.schedule.button.title", action: onScheduleCheckTapped)
+            }
+            .onAppear { didAppear = true }
         } else {
             VStack {
                 Spacer()
 
-                Image(systemName: imageNames.randomElement()!)
+                Image(systemName: imageName)
                     .font(.largeTitle)
 
                 Text(title).font(.title)
@@ -28,16 +35,15 @@ struct ExamsEmptyView: View {
     }
     
     private let title: LocalizedStringKey = "screen.schedule.exams.emptyState.title"
-    private let subtitle = Text("screen.schedule.emptyState.subtitle")
+    private let subtitle = Text("screen.schedule.exams.emptyState.subtitle")
+    private let imageName = "graduationcap"
 
-    private let imageNames = [
-        "graduationcap",
-        "brain",
-        "brain.head.profile",
-        "book",
-        "book.pages",
-        "books.vertical",
-        "book.closed",
-        "magazine",
-    ]
+    @available(iOS 17.0, *)
+    private var symbolEffect: some (DiscreteSymbolEffect & SymbolEffect) {
+        if #available(iOS 18, *) {
+            return .wiggle.clockwise.wholeSymbol
+        } else {
+            return .bounce
+        }
+    }
 }

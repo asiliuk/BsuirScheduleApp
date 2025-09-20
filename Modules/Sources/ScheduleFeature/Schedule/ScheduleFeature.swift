@@ -111,6 +111,9 @@ public struct ScheduleFeature<Value: Equatable> {
                     return .send(.delegate(.showGroupSchedule(groupName)))
                 case .showLectorSchedule(let employee):
                     return .send(.delegate(.showLectorSchedule(employee)))
+                case .changeScheduleType(let displayType):
+                    state.switchDisplayType(displayType)
+                    return .none
                 }
 
             case .schedule, .mark, .delegate:
