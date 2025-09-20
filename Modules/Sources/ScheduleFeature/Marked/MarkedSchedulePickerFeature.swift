@@ -58,9 +58,9 @@ public struct MarkedSchedulePickerFeature {
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
-            .onChange(of: \.selection) { _, selection in
+            .onChange(of: \.selection) { oldSelection, selection in
                 Reduce { state, action in
-                    updateSelection(state: &state, selection: selection)
+                    updateSelection(state: &state, oldSelection: oldSelection, selection: selection)
                 }
             }
 
@@ -112,7 +112,11 @@ public struct MarkedSchedulePickerFeature {
         }
     }
 
-    private func updateSelection(state: inout State, selection: State.Selection) -> Effect<Action> {
+    private func updateSelection(
+        state: inout State,
+        oldSelection: State.Selection,
+        selection: State.Selection
+    ) -> Effect<Action> {
         let source = state.source
         switch selection {
         case .favorite:
@@ -124,6 +128,7 @@ public struct MarkedSchedulePickerFeature {
                 }
             } else {
                 state.alert = .premiumLocked
+                state.selection = oldSelection
                 return .none
             }
         case .nothing:
