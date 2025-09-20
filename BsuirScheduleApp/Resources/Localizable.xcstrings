@@ -5072,6 +5072,35 @@
         }
       }
     },
+    "screen.settings.appIcon.safeMode.text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хто шукае - той заўсёды знойдзе"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "He who seeks will always find"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кто ищет — тот всегда найдёт"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хто шукає - той завжди знайде"
+          }
+        }
+      }
+    },
     "screen.settings.docs.links.privacy.title" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -11,6 +11,7 @@ public struct AppIconFeature {
         @Presents var alert: AlertState<Action.AlertAction>?
         @Shared(.appIcon) var currentIcon
         @SharedReader(.isPremiumUser) var isPremiumUser
+        var isSafeModeEnabled = true
     }
     
     public enum Action {
@@ -23,7 +24,8 @@ public struct AppIconFeature {
         }
 
         case iconPicked(AppIcon?)
-        
+        case disableSafeModeTapped
+
         case _iconChanged(AppIcon?)
         case _iconChangeFailed
 
@@ -57,6 +59,10 @@ public struct AppIconFeature {
                 } catch: { _, send in
                     await send(._iconChangeFailed)
                 }
+
+            case .disableSafeModeTapped:
+                state.isSafeModeEnabled.toggle()
+                return .none
 
             case let ._iconChanged(newIcon):
                 state.$currentIcon.withLock { $0 = newIcon }

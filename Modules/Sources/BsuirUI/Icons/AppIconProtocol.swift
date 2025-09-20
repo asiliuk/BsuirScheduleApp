@@ -18,6 +18,9 @@ public protocol AppIconProtocol: CaseIterable, Identifiable, Hashable where AllC
 
     /// Flag indicating that the icon is available as part of `Premium Club`
     var isPremium: Bool { get }
+
+    /// Flag indicating that the icon is safe to be always visible
+    var isSafe: Bool { get }
 }
 
 // MARK: - Helpers

@@ -112,6 +112,13 @@ extension AppIcon.Plain: AppIconProtocol {
             return true
         }
     }
+
+    public var isSafe: Bool {
+        switch self {
+        case .standard, .dark, .nostalgia, .bsuirDonalds, .premium:
+            return true
+        }
+    }
 }
 
 // MARK: - Symbol + AppIconProtocol
@@ -132,6 +139,13 @@ extension AppIcon.Symbol: AppIconProtocol {
             return false
         }
     }
+
+    public var isSafe: Bool {
+        switch self {
+        case .resist, .national, .ukrainian, .pride:
+            return false
+        }
+    }
 }
 
 // MARK: - Metal + AppIconProtocol
@@ -145,6 +159,13 @@ extension AppIcon.Metal: AppIconProtocol {
     }
 
     public var isPremium: Bool {
+        switch self {
+        case .silver, .copper:
+            return true
+        }
+    }
+
+    public var isSafe: Bool {
         switch self {
         case .silver, .copper:
             return true
@@ -170,6 +191,13 @@ extension AppIcon.Neon: AppIconProtocol {
             return true
         }
     }
+
+    public var isSafe: Bool {
+        switch self {
+        case .blue, .orange, .pink, .red:
+            return true
+        }
+    }
 }
 
 // MARK: - Glitch + AppIconProtocol
@@ -185,6 +213,13 @@ extension AppIcon.Glitch: AppIconProtocol {
     }
 
     public var isPremium: Bool {
+        switch self {
+        case .blue, .gray, .pink, .orange:
+            return true
+        }
+    }
+
+    public var isSafe: Bool {
         switch self {
         case .blue, .gray, .pink, .orange:
             return true

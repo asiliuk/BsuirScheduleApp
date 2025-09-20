@@ -13,19 +13,19 @@ struct AppIconLabelNavigationLink: View {
                     Label {
                         Text("screen.settings.appIcon.navigation.title")
                     } icon: {
-                            SettingsRowIcon(fill: .green) {
-                                Image(systemName: "info.circle.fill")
-                            }
-                            .hidden()
-                            .overlay {
-                                GeometryReader { proxy in
-                                    WithPerceptionTracking {
-                                        AppIconPreviewView(
-                                            imageName: store.currentIcon.or(.plain(.standard)).previewImageName,
-                                            size: proxy.size.width
-                                        )
-                                    }
+                        SettingsRowIcon(fill: .green) {
+                            Image(systemName: "info.circle.fill")
+                        }
+                        .hidden()
+                        .overlay {
+                            GeometryReader { proxy in
+                                WithPerceptionTracking {
+                                    AppIconPreviewView(
+                                        imageName: store.currentIcon.or(.plain(.standard)).previewImageName,
+                                        size: proxy.size.width
+                                    )
                                 }
+                            }
                         }
                     }
                 }
@@ -41,7 +41,9 @@ struct AppIconFeatureView: View {
         WithPerceptionTracking {
             AppIconPickerView(
                 selection: $store.currentIcon.sending(\.iconPicked),
-                isPremiumLocked: !store.isPremiumUser
+                isPremiumLocked: !store.isPremiumUser,
+                isSafeMode: store.isSafeModeEnabled,
+                onSafeModeDisableTapped: { store.send(.disableSafeModeTapped) }
             )
             .alert($store.scope(state: \.alert, action: \.alert))
             .navigationTitle("screen.settings.appIcon.navigation.title")
@@ -52,12 +54,15 @@ struct AppIconFeatureView: View {
 private struct AppIconPickerView: View {
     @Binding var selection: AppIcon?
     let isPremiumLocked: Bool
+    let isSafeMode: Bool
+    var onSafeModeDisableTapped: () -> Void = {}
 
     var body: some View {
         List {
             AppIconGroupPicker(
                 selection: $selection,
                 isPremiumLocked: isPremiumLocked,
+                isSafeMode: isSafeMode,
                 label: "screen.settings.appIcon.iconPicker.plain.title",
                 caseKeyPath: \.plain
             )
@@ -65,6 +70,7 @@ private struct AppIconPickerView: View {
             AppIconGroupPicker(
                 selection: $selection,
                 isPremiumLocked: isPremiumLocked,
+                isSafeMode: isSafeMode,
                 label: "screen.settings.appIcon.iconPicker.symbol.title",
                 caseKeyPath: \.symbol
             )
@@ -72,6 +78,7 @@ private struct AppIconPickerView: View {
             AppIconGroupPicker(
                 selection: $selection,
                 isPremiumLocked: isPremiumLocked,
+                isSafeMode: isSafeMode,
                 label: "screen.settings.appIcon.iconPicker.metall.title",
                 caseKeyPath: \.metal
             )
@@ -79,6 +86,7 @@ private struct AppIconPickerView: View {
             AppIconGroupPicker(
                 selection: $selection,
                 isPremiumLocked: isPremiumLocked,
+                isSafeMode: isSafeMode,
                 label: "screen.settings.appIcon.iconPicker.neon.title",
                 caseKeyPath: \.neon
             )
@@ -86,9 +94,15 @@ private struct AppIconPickerView: View {
             AppIconGroupPicker(
                 selection: $selection,
                 isPremiumLocked: isPremiumLocked,
+                isSafeMode: isSafeMode,
                 label: "screen.settings.appIcon.iconPicker.glitch.title",
                 caseKeyPath: \.glitch
             )
+
+            Section {} footer: {
+                Text("screen.settings.appIcon.safeMode.text")
+                    .gesture(TapGesture(count: 3).onEnded { _ in onSafeModeDisableTapped() })
+            }
         }
         .pickerStyle(.inline)
         .listStyle(.insetGrouped)
@@ -98,25 +112,29 @@ private struct AppIconPickerView: View {
 private struct AppIconGroupPicker<Icon: AppIconProtocol>: View {
     @Binding var selection: AppIcon?
     let isPremiumLocked: Bool
+    let isSafeMode: Bool
     let label: LocalizedStringKey
     let caseKeyPath: CaseKeyPath<AppIcon, Icon>
 
     var body: some View {
-        Section(label) {
-            ForEach(Icon.allCases) { icon in
-                AppIconRow(
-                    title: icon.title,
-                    imageName: icon.previewImageName,
-                    isPremiumLocked: icon.isPremium && isPremiumLocked,
-                    isSelected: .init(
-                        get: {
-                            $selection.wrappedValue?[case: caseKeyPath] == icon
-                        },
-                        set: { newValue, transaction in
-                            $selection.transaction(transaction).wrappedValue = newValue ? caseKeyPath(icon) : nil
-                        }
+        let icons = Icon.allCases.filter { !isSafeMode || $0.isSafe }
+        if !icons.isEmpty {
+            Section(label) {
+                ForEach(icons) { icon in
+                    AppIconRow(
+                        title: icon.title,
+                        imageName: icon.previewImageName,
+                        isPremiumLocked: icon.isPremium && isPremiumLocked,
+                        isSelected: .init(
+                            get: {
+                                $selection.wrappedValue?[case: caseKeyPath] == icon
+                            },
+                            set: { newValue, transaction in
+                                $selection.transaction(transaction).wrappedValue = newValue ? caseKeyPath(icon) : nil
+                            }
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -145,11 +163,11 @@ private struct AppIconRow: View {
                 }
             } label: {
                 Label {
-                    Text("  \(Text(title))")
-                        .foregroundColor(isPremiumLocked ? .secondary : .primary)
+                    Text(title).foregroundColor(isPremiumLocked ? .secondary : .primary)
                 } icon: {
                     ScaledAppIconPreviewView(imageName: imageName, size: rowHeight)
                 }
+                .padding(.leading, 16)
             }
         }
         .foregroundColor(.primary)
