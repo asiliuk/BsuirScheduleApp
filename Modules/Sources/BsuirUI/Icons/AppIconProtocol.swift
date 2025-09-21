@@ -21,12 +21,16 @@ public protocol AppIconProtocol: CaseIterable, Identifiable, Hashable where AllC
 
     /// Flag indicating that the icon is safe to be always visible
     var isSafe: Bool { get }
+
+    /// Flag indicating that the icon preview needs icon shaped clipping
+    var needsClipping: Bool { get }
 }
 
 // MARK: - Helpers
 
 extension AppIconProtocol {
     public var isDefault: Bool { false }
+    public var needsClipping: Bool { true }
 }
 
 extension AppIconProtocol where Self: RawRepresentable, Self.RawValue == String {

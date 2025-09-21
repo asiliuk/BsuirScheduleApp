@@ -4607,6 +4607,35 @@
         }
       }
     },
+    "screen.settings.appIcon.icon.liquid.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вадкае шкло"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liquid glass"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жидкое стекло"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рідке скло"
+          }
+        }
+      }
+    },
     "screen.settings.appIcon.icon.neon.blue.title" : {
       "extractionState" : "manual",
       "localizations" : {

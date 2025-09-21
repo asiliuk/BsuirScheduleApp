@@ -20,9 +20,11 @@ struct AppIconLabelNavigationLink: View {
                         .overlay {
                             GeometryReader { proxy in
                                 WithPerceptionTracking {
+                                    let icon = store.currentIcon.or(.plain(.liquid))
                                     AppIconPreviewView(
-                                        imageName: store.currentIcon.or(.plain(.standard)).previewImageName,
-                                        size: proxy.size.width
+                                        imageName: icon.previewImageName,
+                                        size: proxy.size.width,
+                                        needsClipping: icon.needsClipping
                                     )
                                 }
                             }
@@ -124,6 +126,7 @@ private struct AppIconGroupPicker<Icon: AppIconProtocol>: View {
                     AppIconRow(
                         title: icon.title,
                         imageName: icon.previewImageName,
+                        needsClipping: icon.needsClipping,
                         isPremiumLocked: icon.isPremium && isPremiumLocked,
                         isSelected: .init(
                             get: {
@@ -143,6 +146,7 @@ private struct AppIconGroupPicker<Icon: AppIconProtocol>: View {
 private struct AppIconRow: View {
     let title: LocalizedStringKey
     let imageName: String
+    let needsClipping: Bool
     let isPremiumLocked: Bool
     @Binding var isSelected: Bool
     @ScaledMetric var rowHeight: CGFloat = 50
@@ -165,7 +169,11 @@ private struct AppIconRow: View {
                 Label {
                     Text(title).foregroundColor(isPremiumLocked ? .secondary : .primary)
                 } icon: {
-                    ScaledAppIconPreviewView(imageName: imageName, size: rowHeight)
+                    ScaledAppIconPreviewView(
+                        imageName: imageName,
+                        size: rowHeight,
+                        needsClipping: needsClipping
+                    )
                 }
                 .padding(.leading, 16)
             }

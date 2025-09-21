@@ -131,7 +131,7 @@ extension SharedKey where Self == InMemoryKey<AppIcon?>.Default {
         @Dependency(\.application.alternateIconName) var alternateIconName
         return Self[
             .inMemory("current-app-icon"),
-            default: alternateIconName().flatMap(AppIcon.init(name:)) ?? .plain(.standard)
+            default: alternateIconName().flatMap(AppIcon.init(name:)) ?? .plain(.liquid)
         ]
     }
 }

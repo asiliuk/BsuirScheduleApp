@@ -1,0 +1,74 @@
+{
+  "fill-specializations" : [
+    {
+      "value" : "system-light"
+    },
+    {
+      "appearance" : "dark",
+      "value" : "system-dark"
+    }
+  ],
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill" : {
+            "solid" : "display-p3:0.31293,0.42189,0.56471,1.00000"
+          },
+          "glass" : true,
+          "image-name" : "Big wave.svg",
+          "name" : "Big wave",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -38,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.2
+      }
+    },
+    {
+      "blur-material" : null,
+      "layers" : [
+        {
+          "fill" : {
+            "solid" : "display-p3:0.31293,0.42189,0.56471,1.00000"
+          },
+          "image-name" : "Smal wave.svg",
+          "name" : "Smal wave",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              102
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.2
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

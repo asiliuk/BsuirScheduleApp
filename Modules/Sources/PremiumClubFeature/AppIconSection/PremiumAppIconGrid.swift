@@ -56,9 +56,11 @@ private struct AppIconsGrid: View {
                 ForEach(0..<numberOfRows, id: \.self) { rowIndex in
                     ForEach(0..<numberOfItemsInTheRow, id: \.self) { itemIndex in
                         GeometryReader { itemProxy in
+                            let icon = gridRows[rowIndex][itemIndex]
                             AppIconPreviewView(
-                                imageName: gridRows[rowIndex][itemIndex].previewImageName,
-                                size: itemProxy.size.width
+                                imageName: icon.previewImageName,
+                                size: itemProxy.size.width,
+                                needsClipping: icon.needsClipping
                             )
                             .offset(x: rowIndex.isMultiple(of: 2) ? 0 : -itemProxy.size.width / 2)
                         }
