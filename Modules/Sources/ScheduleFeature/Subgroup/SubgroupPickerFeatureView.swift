@@ -10,24 +10,35 @@ struct SubgroupPickerFeatureView: View {
             Menu {
                 Picker("view.subgroupPicker.title", selection: $selectedSubgroup) {
                     ForEach(1...store.maxSubgroup, id: \.self) { subgroup in
-                        Label("view.subgroupPicker.subgroup.title\(String(describing: subgroup))", systemImage: "person")
+                        Label.subgroup(subgroup)
                             .tag(Int?.some(subgroup))
                             .labelStyle(.titleAndIcon)
                     }
 
-                    Label("view.subgroupPicker.allSubgroups.title", systemImage: "person.2").tag(Int?.none)
+                    Label.allSubgroups.tag(Int?.none)
                 }
                 .tint(nil)
             } label: {
                 if let selected = store.selected {
-                    Text("\(Image(systemName: "person.fill"))\(selected)")
-                        .monospacedDigit()
+                    Label.compactSubgroup(selected)
                 } else {
-                    Image(systemName: "person.2")
+                    Label.allSubgroups
                 }
             }
             .tint(store.selected == nil ? .secondary : .blue)
             .bind($store.selected, to: $selectedSubgroup)
         }
+    }
+}
+
+private extension Label<Text, Image> {
+    static let allSubgroups = Label("view.subgroupPicker.allSubgroups.title", systemImage: "person.2")
+
+    static func subgroup(_ subgroup: Int) -> Label {
+        Label("view.subgroupPicker.subgroup.title\(String(describing: subgroup))", systemImage: "person")
+    }
+
+    static func compactSubgroup(_ subgroup: Int) -> Label {
+        Label("view.subgroupPicker.subgroup.title\(String(describing: subgroup))", image: "subgroup.\(subgroup).circle")
     }
 }
