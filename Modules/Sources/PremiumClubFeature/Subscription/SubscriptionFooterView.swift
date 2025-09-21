@@ -38,13 +38,21 @@ struct SubscriptionFooterView: View {
                         condition: !store.isPurchasing
                     )
                     .controlSize(.large)
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(buttonStyle)
                     .tint(.indigo)
                 }
             }
         }
         .frame(maxWidth: .infinity)
         .task { await store.send(.task).finish() }
+    }
+
+    private var buttonStyle: some PrimitiveButtonStyle {
+        if #available(iOS 26, *) {
+            return GlassProminentButtonStyle()
+        } else {
+            return BorderedProminentButtonStyle()
+        }
     }
 }
 

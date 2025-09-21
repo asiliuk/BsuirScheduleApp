@@ -17,7 +17,7 @@ public struct PremiumClubFeatureView: View {
                 PremiumClubSections(sections: store.sections, store: store)
             }
             .labelStyle(PremiumGroupTitleLabelStyle())
-            .safeAreaInset(edge: .bottom) {
+            .bsuirSafeAreaBar(edge: .bottom) {
                 if !store.isPremiumUser {
                     SubscriptionFooterView(
                         store: store.scope(
@@ -27,7 +27,7 @@ public struct PremiumClubFeatureView: View {
                     )
                     .padding(.horizontal)
                     .padding(.vertical, 8)
-                    .background(.regularMaterial)
+                    .background(subscriptionBackground)
                 }
             }
             .premiumClubConfettiCannon(counter: $store.confettiCounter)
@@ -54,7 +54,27 @@ public struct PremiumClubFeatureView: View {
         }
         .task { await store.send(.task).finish() }
     }
+
+    private var subscriptionBackground: some ShapeStyle {
+        if #available(iOS 26, *) {
+            return .clear
+        } else {
+            return .regularMaterial
+        }
+    }
 }
+
+private extension View {
+    @ViewBuilder
+    func bsuirSafeAreaBar(edge: VerticalEdge, @ViewBuilder content: @escaping () -> some View) -> some View {
+        if #available(iOS 26, *) {
+            self.safeAreaBar(edge: edge, content: content)
+        } else {
+            self.safeAreaInset(edge: edge, content: content)
+        }
+    }
+}
+
 private struct PremiumClubSections: View {
     let sections: [PremiumClubFeature.Section]
     let store: StoreOf<PremiumClubFeature>
