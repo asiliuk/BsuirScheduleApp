@@ -18,7 +18,7 @@ struct SubscriptionFooterView: View {
                 VStack(spacing: 8) {
                     if info.isEligibleForIntroOffer, let introductoryOffer = info.subscription.introductoryOffer {
                         Text(introductoryOffer.makeName())
-                            .font(.subheadline)
+                            .font(.headline)
                     }
 
                     AsyncButton {
