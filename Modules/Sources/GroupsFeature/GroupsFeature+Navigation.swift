@@ -9,7 +9,7 @@ extension GroupsFeature.State {
             return path = StackState()
         }
 
-        groups.loaded?.reset()
+        groups.modify(\.loaded) { $0.reset() }
     }
 
     /// Present group schedule screen on the stack
@@ -36,7 +36,7 @@ extension GroupsFeature.State {
             path[id: id, case: \.group]?.schedule.switchDisplayType(displayType)
         } else {
             // Present group screen on stack
-            groups.loaded?.reset()
+            groups.modify(\.loaded) { $0.reset() }
             presentGroup(name, displayType: displayType)
         }
     }

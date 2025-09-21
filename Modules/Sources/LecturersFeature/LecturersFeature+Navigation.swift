@@ -11,7 +11,7 @@ extension LecturersFeature.State {
             return path = StackState()
         }
 
-        lecturers.loaded?.reset()
+        lecturers.modify(\.loaded) { $0.reset() }
     }
 
     /// Open schedule screen for lector.
@@ -26,7 +26,7 @@ extension LecturersFeature.State {
         {
             path[id: id, case: \.lector]?.schedule.switchDisplayType(displayType)
         } else {
-            lecturers.loaded?.reset()
+            lecturers.modify(\.loaded) { $0.reset() }
             presentLector(lector, displayType: displayType)
         }
     }

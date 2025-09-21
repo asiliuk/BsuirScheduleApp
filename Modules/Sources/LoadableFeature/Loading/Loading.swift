@@ -14,19 +14,11 @@ public enum LoadingState<State> {
     public init() { self = .initial }
 
     public var failed: LoadingError.State? {
-        get { if case .failed(let state) = self { state } else { nil } }
-        set {
-            guard let newValue else { return }
-            self = .failed(newValue)
-        }
+        if case .failed(let state) = self { state } else { nil }
     }
 
     public var loaded: State? {
-        get { if case .loaded(let state) = self { state } else { nil } }
-        set {
-            guard let newValue else { return }
-            self = .loaded(newValue)
-        }
+        if case .loaded(let state) = self { state } else { nil }
     }
 }
 
