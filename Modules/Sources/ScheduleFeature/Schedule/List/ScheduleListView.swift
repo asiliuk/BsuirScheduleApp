@@ -44,13 +44,9 @@ private struct ScheduleContentListView: View {
                     }
                 }
 
-                ForEach(
-                    store.scope(
-                        state: \.days,
-                        action: \.days
-                    ),
-                    content: DaySectionView.init
-                )
+                ForEach(store.scope(state: \.days, action: \.days)) { store in
+                    DaySectionView(store: store)
+                }
 
                 switch store.loading {
                 case .loadMore:

@@ -17,23 +17,10 @@ public struct DaySectionFeature {
             case past
             case today
             case future
-
-            fileprivate init(for date: Date, now: Date, calendar: Calendar) {
-                if calendar.isDate(date, inSameDayAs: now) {
-                    self = .today
-                } else if date < now {
-                    self = .past
-                } else {
-                    self = .future
-                }
-            }
         }
 
         public var id: UUID
         var dayDate: DayDate
-        var title: String = ""
-        var subtitle: String? = nil
-        var relativity: Relativity = .future
         var pairRows: IdentifiedArrayOf<PairRowFeature.State>
 
         init(
@@ -61,38 +48,63 @@ public struct DaySectionFeature {
 
     @CasePathable
     public enum Action {
-        case onAppear
         case pairRows(IdentifiedActionOf<PairRowFeature>)
     }
 
-    @Dependency(\.date.now) var now
-    @Dependency(\.calendar) var calendar
-
     public var body: some ReducerOf<Self> {
-        Reduce { state, action in
-            switch action {
-            case .onAppear:
-                switch state.dayDate {
-                case .continuousDate(let date, let weekNumber):
-                    state.title = String(localized: "screen.schedule.day.title.\(date.formatted(.scheduleDay)).\(weekNumber)")
-                    state.subtitle = Self.relativeFormatter.relativeName(for: date, now: now)
-                    state.relativity = State.Relativity(for: date, now: now, calendar: calendar)
-                case .weekday(let weekday):
-                    state.title = weekday.localizedName(in: calendar).capitalized
-                    state.subtitle = nil
-                    state.relativity = .future
-                case .examDate(let date):
-                    state.title = date?.formatted(.examDay) ?? "-/-"
-                    state.subtitle = date.flatMap { Self.relativeFormatter.relativeName(for: $0, now: now) }
-                    state.relativity = date.map { State.Relativity(for: $0, now: now, calendar: calendar) } ?? .future
-                }
-                return .none
-            case .pairRows:
-                return .none
-            }
-        }
+        EmptyReducer()
         .forEach(\.pairRows, action: \.pairRows) {
             PairRowFeature()
+        }
+    }
+
+}
+
+// MARK: - Helpers
+
+extension DaySectionFeature.State.DayDate {
+    var title: String {
+        switch self {
+        case .continuousDate(let date, let weekNumber):
+            return String(localized: "screen.schedule.day.title.\(date.formatted(.scheduleDay)).\(weekNumber)")
+        case .weekday(let weekday):
+            @Dependency(\.calendar) var calendar
+            return weekday.localizedName(in: calendar).capitalized
+        case .examDate(let date):
+            return date?.formatted(.examDay) ?? "-/-"
+        }
+    }
+
+    func subtitle(for now: Date) -> String? {
+        switch self {
+        case .continuousDate(let date, _):
+            Self.relativeFormatter.relativeName(for: date, now: now)
+        case .weekday:
+            nil
+        case .examDate(let date):
+            date.flatMap { Self.relativeFormatter.relativeName(for: $0, now: now) }
+        }
+    }
+
+    func relativity(for now: Date) -> DaySectionFeature.State.Relativity {
+        switch self {
+        case .continuousDate(let date, let weekNumber):
+            relativity(for: date, now: now)
+        case .weekday(let weekday):
+            .future
+        case .examDate(let date):
+            date.map { relativity(for: $0, now: now) } ?? .future
+        }
+    }
+
+    private func relativity(for date: Date, now: Date) -> DaySectionFeature.State.Relativity {
+        @Dependency(\.calendar) var calendar
+        if calendar.isDate(date, inSameDayAs: now) {
+            return .today
+        } else if date < now {
+            return .past
+        } else {
+            return .future
         }
     }
 
