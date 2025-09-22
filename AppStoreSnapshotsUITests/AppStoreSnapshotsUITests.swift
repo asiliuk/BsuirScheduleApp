@@ -1,6 +1,4 @@
 import XCTest
-import BsuirCore
-import Dependencies
 
 final class AppStoreSnapshotsUITests: XCTestCase {
 
