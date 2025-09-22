@@ -4,6 +4,7 @@ import BsuirCore
 import BsuirApi
 import BsuirUI
 import ComposableArchitecture
+import Favorites
 
 @main
 struct App: SwiftUI.App {
@@ -30,8 +31,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         if isTestingEnabled {
             $0.context = .preview
             $0.date.now = Date(timeIntervalSince1970: 1699830000)
-            @Shared(\.favoriteGroupNames) = ["251003", "251004"]
-            @Shared(\.favoriteLecturerIDs) = [504394, 500570]
+            $0.defaultAppStorage.set(["151003", "151005"], forKey: StorageKeys.favoriteGroupNamesKey)
+            $0.defaultAppStorage.set([504394, 500570], forKey: StorageKeys.favoriteLecturerIDsKey)
         }
         #endif
     }
