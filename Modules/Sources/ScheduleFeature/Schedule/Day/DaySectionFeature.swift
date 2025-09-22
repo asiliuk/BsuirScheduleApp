@@ -88,9 +88,9 @@ extension DaySectionFeature.State.DayDate {
 
     func relativity(for now: Date) -> DaySectionFeature.State.Relativity {
         switch self {
-        case .continuousDate(let date, let weekNumber):
+        case .continuousDate(let date, _):
             relativity(for: date, now: now)
-        case .weekday(let weekday):
+        case .weekday:
             .future
         case .examDate(let date):
             date.map { relativity(for: $0, now: now) } ?? .future
