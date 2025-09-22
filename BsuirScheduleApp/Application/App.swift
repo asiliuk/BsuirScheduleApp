@@ -33,6 +33,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             $0.date.now = Date(timeIntervalSince1970: 1699830000)
             $0.defaultAppStorage.set(["151003", "151005"], forKey: StorageKeys.favoriteGroupNamesKey)
             $0.defaultAppStorage.set([504394, 500570], forKey: StorageKeys.favoriteLecturerIDsKey)
+            $0.defaultAppStorage.set(["group": ["name": "151004"]], forKey: StorageKeys.pinnedScheduleKey)
+            $0.defaultAppStorage.setIsPremiumUser()
         }
         #endif
     }

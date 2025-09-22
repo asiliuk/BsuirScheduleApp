@@ -18,6 +18,14 @@ extension UserDefaults {
     public var isUserPremium: Bool {
         bool(forKey: isUserPremiumKey)
     }
+
+#if DEBUG
+    /// Marc current user as premium
+    /// - Important: Should be used only for UI snapshotting
+    public func setIsPremiumUser() {
+        set(true, forKey: isUserPremiumKey)
+    }
+#endif
 }
 
 private let isUserPremiumKey = "is-premium-service-active"

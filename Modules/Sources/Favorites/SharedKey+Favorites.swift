@@ -65,6 +65,7 @@ extension SharedReaderKey where Self == CloudSyncableSharedKey<[Int]>.Default {
 }
 
 public enum StorageKeys {
+    public static let pinnedScheduleKey = "pinned-schedule"
     public static let favoriteGroupNamesKey = "favorite-group-names"
     public static let favoriteLecturerIDsKey = "favorite-lector-ids"
 }
