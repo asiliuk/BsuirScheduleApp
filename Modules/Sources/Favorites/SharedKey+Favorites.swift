@@ -42,7 +42,7 @@ extension SharedReaderKey where Self == CloudSyncableSharedKey<[String]>.Default
     public static var favoriteGroupNames: Self {
         Self[
             .cloudSyncable(
-                key: "favorite-group-names",
+                key: StorageKeys.favoriteGroupNamesKey,
                 cloudKey: "cloud-favorite-group-names",
                 shouldSyncInitialLocalValue: true
             ),
@@ -55,11 +55,16 @@ extension SharedReaderKey where Self == CloudSyncableSharedKey<[Int]>.Default {
     public static var favoriteLecturerIDs: Self {
         Self[
             .cloudSyncable(
-                key: "favorite-lector-ids",
+                key: StorageKeys.favoriteLecturerIDsKey,
                 cloudKey: "cloud-favorite-lector-ids",
                 shouldSyncInitialLocalValue: true
             ),
             default: []
         ]
     }
+}
+
+public enum StorageKeys {
+    public static let favoriteGroupNamesKey = "favorite-group-names"
+    public static let favoriteLecturerIDsKey = "favorite-lector-ids"
 }

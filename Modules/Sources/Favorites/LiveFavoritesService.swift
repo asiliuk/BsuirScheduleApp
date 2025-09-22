@@ -18,7 +18,7 @@ public final class LiveFavoritesService {
         .codable([StudentGroup].self)
 
     private lazy var legacyGroupNamesStorage = legacyStorage
-        .persistedData(forKey: "favorite-group-names")
+        .persistedData(forKey: StorageKeys.favoriteGroupNamesKey)
         .codable([String].self)
 
     private lazy var legacyLecturersStorage = legacyStorage
@@ -27,14 +27,14 @@ public final class LiveFavoritesService {
 
     // MARK: - Storage
     private lazy var groupNamesStorage = storage
-        .persistedArray(of: String.self, forKey: "favorite-group-names")
+        .persistedArray(of: String.self, forKey: StorageKeys.favoriteGroupNamesKey)
         .sync(with: cloudSyncService, forKey: "cloud-favorite-group-names", shouldSyncInitialLocalValue: true)
         .toOrderedSet()
         .unwrap(withDefault: [])
         .withPublisher()
 
     private lazy var lecturerIDsStorage = storage
-        .persistedArray(of: Int.self, forKey: "favorite-lector-ids")
+        .persistedArray(of: Int.self, forKey: StorageKeys.favoriteLecturerIDsKey)
         .sync(with: cloudSyncService, forKey: "cloud-favorite-lector-ids", shouldSyncInitialLocalValue: true)
         .toOrderedSet()
         .unwrap(withDefault: [])

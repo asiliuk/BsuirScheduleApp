@@ -28,7 +28,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         $0.defaultAppStorage = .asiliukShared
         #if DEBUG
         if isTestingEnabled {
+            $0.context = .preview
             $0.date.now = Date(timeIntervalSince1970: 1699830000)
+            @Shared(\.favoriteGroupNames) = ["251003", "251004"]
+            @Shared(\.favoriteLecturerIDs) = [504394, 500570]
         }
         #endif
     }

@@ -58,7 +58,7 @@ private enum FavoritesServiceKey: DependencyKey {
     }()
 
     static let previewValue: any FavoritesService = FavoriteServiceMock(
-        groupNames: ["151003", "151005"],
+        groupNames: ["251003", "251004"],
         lecturerIds: [504394, 500570],
         freeLoveHighScore: 69
     )
