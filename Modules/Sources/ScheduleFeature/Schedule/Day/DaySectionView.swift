@@ -34,9 +34,10 @@ struct DaySectionView: View {
                     // We should recalculate it every time view appears
                     // It is intentionally moved to view layer to prevent
                     // spamming store with `onAppear` events too often
+                    @Dependency(\.date.now) var now
                     title = store.dayDate.title
-                    subtitle = store.dayDate.subtitle(for: .now)
-                    relativity = ScheduleDateTitle.Relativity(store.dayDate.relativity(for: .now))
+                    subtitle = store.dayDate.subtitle(for: now)
+                    relativity = ScheduleDateTitle.Relativity(store.dayDate.relativity(for: now))
                 }
             }
         }
