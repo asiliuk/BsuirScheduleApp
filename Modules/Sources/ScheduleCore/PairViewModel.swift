@@ -107,7 +107,7 @@ private extension PairViewModel {
             return time(from: fromDate)
         }
         
-        return (fromDate..<toDate).formatted(.pairTime)
+        return (min(fromDate, toDate)..<max(fromDate, toDate)).formatted(.pairTime)
     }
     
     static func time(from date: Date?) -> String {
