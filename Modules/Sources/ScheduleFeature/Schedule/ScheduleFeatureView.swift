@@ -68,6 +68,7 @@ private struct LoadedScheduleView: View {
                 \.pairFilteringMode,
                  store.subgroupPicker.pairFilteringMode
             )
+            .onAppear { store.send(.onAppear) }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     ScheduleDisplayTypePickerMenu(

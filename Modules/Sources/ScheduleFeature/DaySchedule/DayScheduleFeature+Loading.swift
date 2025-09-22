@@ -21,7 +21,8 @@ extension DayScheduleFeature.State {
                     showWeeks: true,
                     pairs: pairViewModels(pairs, calendar: calendar, now: now),
                     pairRowDetails: nil,
-                    pairRowDay: .weekday(weekday)
+                    pairRowDay: .weekday(weekday),
+                    sharedNow: $sharedNow
                 )
             }
         scheduleList.days = IdentifiedArray(uniqueElements: days)

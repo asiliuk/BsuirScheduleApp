@@ -32,7 +32,8 @@ struct DayScheduleView_Previews: PreviewProvider {
                 ]
             ]),
             startDate: .now,
-            endDate: .now.addingTimeInterval(3600 * 24 * 3)
+            endDate: .now.addingTimeInterval(3600 * 24 * 3),
+            sharedNow: Shared(value: .now)
         )
 
         DayScheduleView(

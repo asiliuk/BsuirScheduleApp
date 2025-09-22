@@ -9,11 +9,12 @@ public struct DayScheduleFeature {
     @ObservableState
     public struct State {
         var scheduleList: ScheduleListFeature.State
+        @Shared var sharedNow: Date
 
-        init(schedule: DaySchedule, startDate: Date?, endDate: Date?) {
+        init(schedule: DaySchedule, startDate: Date?, endDate: Date?, sharedNow: Shared<Date>) {
             @Dependency(\.calendar) var calendar
-            @Dependency(\.date.now) var now
 
+            self._sharedNow = sharedNow
             self.scheduleList = ScheduleListFeature.State(
                 scheduleType: .compact,
                 days: [],
@@ -28,7 +29,7 @@ public struct DayScheduleFeature {
             self.loadDays(
                 schedule: schedule,
                 calendar: calendar,
-                now: now
+                now: sharedNow.wrappedValue
             )
         }
     }

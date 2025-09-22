@@ -16,18 +16,20 @@ public struct ContinuousScheduleFeature {
         var offset: Date?
         var weekSchedule: WeekSchedule?
         var pairRowDetails: PairRowDetails?
+        @Shared var sharedNow: Date
 
         init(
             schedule: DaySchedule,
             startDate: Date?,
             endDate: Date?,
-            pairRowDetails: PairRowDetails?
+            pairRowDetails: PairRowDetails?,
+            sharedNow: Shared<Date>
         ) {
             @Dependency(\.calendar) var calendar
             @Dependency(\.universityCalendar) var universityCalendar
-            @Dependency(\.date.now) var now
 
-            self.offset = calendar.date(byAdding: .day, value: -1, to: now)
+            self._sharedNow = sharedNow
+            self.offset = calendar.date(byAdding: .day, value: -1, to: sharedNow.wrappedValue)
             self.pairRowDetails = pairRowDetails
 
             if let startDate, let endDate {
@@ -38,7 +40,7 @@ public struct ContinuousScheduleFeature {
                 )
             }
 
-            load(count: 12, calendar: calendar, universityCalendar: universityCalendar, now: now)
+            load(count: 12, calendar: calendar, universityCalendar: universityCalendar, now: sharedNow.wrappedValue)
         }
     }
     

@@ -1,6 +1,7 @@
 import Foundation
 import IdentifiedCollections
 import ScheduleCore
+import Sharing
 
 extension ContinuousScheduleFeature {
     func clipSchedule(upTo clippingDate: Date, state: inout State) {
@@ -42,7 +43,8 @@ extension ContinuousScheduleFeature.State {
         let newDays = days.map { element in
             DaySectionFeature.State(
                 element: element,
-                pairRowDetails: pairRowDetails
+                pairRowDetails: pairRowDetails,
+                sharedNow: $sharedNow
             )
         }
 
@@ -55,7 +57,8 @@ extension ContinuousScheduleFeature.State {
 private extension DaySectionFeature.State {
     init(
         element: WeekSchedule.ScheduleElement,
-        pairRowDetails: PairRowDetails?
+        pairRowDetails: PairRowDetails?,
+        sharedNow: Shared<Date>
     ) {
         self.init(
             dayDate: .continuousDate(element.date, weekNumber: element.weekNumber),
@@ -68,7 +71,8 @@ private extension DaySectionFeature.State {
                 )
             },
             pairRowDetails: pairRowDetails,
-            pairRowDay: .date(element.date)
+            pairRowDay: .date(element.date),
+            sharedNow: sharedNow
         )
     }
 }

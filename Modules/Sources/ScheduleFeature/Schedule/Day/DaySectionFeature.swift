@@ -22,16 +22,19 @@ public struct DaySectionFeature {
         public var id: UUID
         var dayDate: DayDate
         var pairRows: IdentifiedArrayOf<PairRowFeature.State>
+        @Shared var sharedNow: Date
 
         init(
             dayDate: DayDate,
             showWeeks: Bool = false,
             pairs: [PairViewModel],
             pairRowDetails: PairRowDetails?,
-            pairRowDay: PairRowDay
+            pairRowDay: PairRowDay,
+            sharedNow: Shared<Date>
         ) {
             @Dependency(\.uuid) var uuid
             self.id = uuid()
+            self._sharedNow = sharedNow
             self.dayDate = dayDate
             self.pairRows = IdentifiedArray(
                 uniqueElements: pairs.map { pair in
@@ -62,9 +65,9 @@ public struct DaySectionFeature {
 
 // MARK: - Helpers
 
-extension DaySectionFeature.State.DayDate {
+extension DaySectionFeature.State {
     var title: String {
-        switch self {
+        switch dayDate {
         case .continuousDate(let date, let weekNumber):
             return String(localized: "screen.schedule.day.title.\(date.formatted(.scheduleDay)).\(weekNumber)")
         case .weekday(let weekday):
@@ -75,25 +78,25 @@ extension DaySectionFeature.State.DayDate {
         }
     }
 
-    func subtitle(for now: Date) -> String? {
-        switch self {
+    var subtitle: String? {
+        switch dayDate {
         case .continuousDate(let date, _):
-            Self.relativeFormatter.relativeName(for: date, now: now)
+            Self.relativeFormatter.relativeName(for: date, now: sharedNow)
         case .weekday:
             nil
         case .examDate(let date):
-            date.flatMap { Self.relativeFormatter.relativeName(for: $0, now: now) }
+            date.flatMap { Self.relativeFormatter.relativeName(for: $0, now: sharedNow) }
         }
     }
 
-    func relativity(for now: Date) -> DaySectionFeature.State.Relativity {
-        switch self {
+    var relativity: DaySectionFeature.State.Relativity {
+        switch dayDate {
         case .continuousDate(let date, _):
-            relativity(for: date, now: now)
+            relativity(for: date, now: sharedNow)
         case .weekday:
             .future
         case .examDate(let date):
-            date.map { relativity(for: $0, now: now) } ?? .future
+            date.map { relativity(for: $0, now: sharedNow) } ?? .future
         }
     }
 

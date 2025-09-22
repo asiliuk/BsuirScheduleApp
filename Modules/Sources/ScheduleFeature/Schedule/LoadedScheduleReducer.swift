@@ -18,6 +18,7 @@ public struct LoadedScheduleReducer {
 
         var subgroupPicker: SubgroupPickerFeature.State?
         fileprivate var source: ScheduleSource
+        @Shared var sharedNow: Date
 
         init(
             source: ScheduleSource,
@@ -29,24 +30,30 @@ public struct LoadedScheduleReducer {
             self.scheduleType = scheduleDisplayType
             self.source = source
 
+            @Dependency(\.date.now) var now
+            self._sharedNow = Shared(value: now)
+
             self.compact = DayScheduleFeature.State(
                 schedule: response.schedule,
                 startDate: response.startDate,
-                endDate: response.endDate
+                endDate: response.endDate,
+                sharedNow: _sharedNow
             )
 
             self.continuous = ContinuousScheduleFeature.State(
                 schedule: response.schedule,
                 startDate: response.startDate,
                 endDate: response.endDate,
-                pairRowDetails: pairRowDetails
+                pairRowDetails: pairRowDetails,
+                sharedNow: _sharedNow
             )
 
             self.exams = ExamsScheduleFeature.State(
                 exams: response.exams,
                 startDate: response.startExamsDate,
                 endDate: response.endExamsDate,
-                pairRowDetails: pairRowDetails
+                pairRowDetails: pairRowDetails,
+                sharedNow: _sharedNow
             )
 
             let allSchedulePairs = DaySchedule.WeekDay.allCases
@@ -78,6 +85,7 @@ public struct LoadedScheduleReducer {
     }
 
     public enum Action: BindableAction {
+        case onAppear
         case day(DayScheduleFeature.Action)
         case continuous(ContinuousScheduleFeature.Action)
         case exams(ExamsScheduleFeature.Action)
@@ -89,6 +97,7 @@ public struct LoadedScheduleReducer {
 
     @Dependency(\.reviewRequestService) var reviewRequestService
     @Dependency(\.subgroupFilterService) var subgroupFilterService
+    @Dependency(\.date.now) var now
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -98,17 +107,28 @@ public struct LoadedScheduleReducer {
                 }
             }
 
-        EmptyReducer()
-            .ifLet(\.subgroupPicker, action: \.subgroupPicker) {
-                SubgroupPickerFeature()
+        Reduce { state, action in
+            switch action {
+            case .onAppear:
+                // Update date representing `now` on every view appearance
+                // So all UI elements that depend on it could be re-rendered
+                // For example `Today` and `Yesterday` text and pairs filtered for passed days
+                state.$sharedNow.withLock { $0 = now }
+                return .none
+            case .day, .continuous, .exams, .subgroupPicker, .binding:
+                return .none
             }
-            .onChange(of: \.subgroupPicker?.selected) { _, newValue in
-                Reduce { state, _ in
-                    .run { [source = state.source] _ in
-                        subgroupFilterService.preferredSubgroup(source).value = newValue
-                    }
+        }
+        .ifLet(\.subgroupPicker, action: \.subgroupPicker) {
+            SubgroupPickerFeature()
+        }
+        .onChange(of: \.subgroupPicker?.selected) { _, newValue in
+            Reduce { state, _ in
+                .run { [source = state.source] _ in
+                    subgroupFilterService.preferredSubgroup(source).value = newValue
                 }
             }
+        }
 
         Scope(state: \.compact, action: \.day) {
             DayScheduleFeature()

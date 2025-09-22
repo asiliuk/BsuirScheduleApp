@@ -11,9 +11,17 @@ public struct ExamsScheduleFeature {
     public struct State {
         var scheduleList: ScheduleListFeature.State
         var pairRowDetails: PairRowDetails?
+        @Shared var sharedNow: Date
 
-        init(exams: [Pair], startDate: Date?, endDate: Date?, pairRowDetails: PairRowDetails?) {
+        init(
+            exams: [Pair],
+            startDate: Date?,
+            endDate: Date?,
+            pairRowDetails: PairRowDetails?,
+            sharedNow: Shared<Date>
+        ) {
             self.pairRowDetails = pairRowDetails
+            self._sharedNow = sharedNow
 
             self.scheduleList = ScheduleListFeature.State(
                 scheduleType: .exams,
@@ -27,12 +35,11 @@ public struct ExamsScheduleFeature {
             )
 
             @Dependency(\.calendar) var calendar
-            @Dependency(\.date.now) var now
 
             self.loadDays(
                 exams: exams,
                 calendar: calendar,
-                now: now
+                now: sharedNow.wrappedValue
             )
         }
     }

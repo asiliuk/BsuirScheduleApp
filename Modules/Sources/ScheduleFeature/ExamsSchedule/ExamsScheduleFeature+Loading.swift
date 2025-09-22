@@ -2,6 +2,7 @@ import Foundation
 import BsuirApi
 import IdentifiedCollections
 import ScheduleCore
+import Sharing
 
 extension ExamsScheduleFeature.State {
     mutating func loadDays(
@@ -17,7 +18,8 @@ extension ExamsScheduleFeature.State {
                     now: now,
                     pairs: $1,
                     pairRowDetails: pairRowDetails ,
-                    calendar: calendar
+                    calendar: calendar,
+                    sharedNow: $sharedNow
                 )
             }
         scheduleList.days = IdentifiedArray(uniqueElements: days)
@@ -25,7 +27,7 @@ extension ExamsScheduleFeature.State {
 }
 
 private extension DaySectionFeature.State {
-    init(date: Date?, now: Date, pairs: [Pair], pairRowDetails: PairRowDetails?, calendar: Calendar) {
+    init(date: Date?, now: Date, pairs: [Pair], pairRowDetails: PairRowDetails?, calendar: Calendar, sharedNow: Shared<Date>) {
         assert(date != nil, "Not really expecting days without date")
 
         self.init(
@@ -49,7 +51,8 @@ private extension DaySectionFeature.State {
                     )
                 },
             pairRowDetails: pairRowDetails,
-            pairRowDay: .date(date)
+            pairRowDay: .date(date),
+            sharedNow: sharedNow
         )
     }
 }
