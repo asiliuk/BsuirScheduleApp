@@ -67,15 +67,15 @@ let package = Package(
         ),
         .target(
             name: "GroupsFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", "Deeplinking", .tca]
         ),
         .target(
             name: "LecturersFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "Deeplinking", .tca]
         ),
         .target(
             name: "EntityScheduleFeature",
-            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", .tca]
+            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "Deeplinking", .tca]
         ),
         .target(
             name: "ScheduleFeature",
