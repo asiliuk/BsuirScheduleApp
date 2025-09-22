@@ -95,6 +95,7 @@ private struct GroupsFeatureTab: View {
         )
         .tabItem {
             Label("view.tabBar.groups.title", systemImage: "person.2")
+                .accessibilityIdentifier("tabview-tab-groups")
         }
     }
 }
@@ -108,6 +109,7 @@ private struct LecturersFeatureTab: View {
         )
         .tabItem {
             Label("view.tabBar.lecturers.title", systemImage: "person.text.rectangle")
+                .accessibilityIdentifier("tabview-tab-lecturers")
         }
     }
 }
@@ -122,6 +124,7 @@ private struct SettingsFeatureTab: View {
             )
             .tabItem {
                 Label("view.tabBar.settings.title", systemImage: "gearshape")
+                    .accessibilityIdentifier("tabview-tab-settings")
             }
             .badge(store.hasWhatsNew ? "✦" : nil)
         }

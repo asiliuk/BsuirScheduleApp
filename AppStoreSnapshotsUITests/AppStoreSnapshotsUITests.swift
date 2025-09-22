@@ -31,7 +31,7 @@ final class AppStoreSnapshotsUITests: XCTestCase {
         app.launch()
 
         // Snapshot pinned
-        app.tabBars.firstMatch.buttons.element(boundBy: 0).tap()
+        app.buttons["tabview-tab-pinned"].firstMatch.tap()
         _ = app.staticTexts["151004"].waitForExistence(timeout: 5)
         snapshot("1_Pinned-Light")
 
@@ -39,17 +39,21 @@ final class AppStoreSnapshotsUITests: XCTestCase {
         // snapshot("2_Schedule-Dark-XXL")
 
         // Snapshot groups
-        app.tabBars.firstMatch.buttons.element(boundBy: 1).tap()
+        app.buttons["tabview-tab-groups"].firstMatch.tap()
         _ = app.collectionViews.cells.buttons["151004"].waitForExistence(timeout: 5)
         snapshot("3_Groups")
 
         // Snapshot lecturers
-        app.tabBars.firstMatch.buttons.element(boundBy: 2).tap()
+        app.buttons["tabview-tab-lecturers"].firstMatch.tap()
         _ = app.collectionViews.cells.buttons["Куликов Святослав Святославович"].waitForExistence(timeout: 5)
         snapshot("4_Lecturers")
 
         // Snapshot settings
-        app.tabBars.firstMatch.buttons.element(boundBy: 3).tap()
+        app.buttons["tabview-tab-settings"].firstMatch.tap()
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            // Open `about` screen on iPad
+            app.buttons["settings-about-row"].firstMatch.tap()
+        }
         snapshot("5_Settings")
     }
 
@@ -67,7 +71,7 @@ final class AppStoreSnapshotsUITests: XCTestCase {
         app.launch()
 
         // Open groups screen
-        app.tabBars.firstMatch.buttons.element(boundBy: 1).tap()
+        app.buttons["tabview-tab-groups"].firstMatch.tap()
         let groupRow = app.collectionViews.cells.buttons["010101"]
         _ = groupRow.waitForExistence(timeout: 5)
 

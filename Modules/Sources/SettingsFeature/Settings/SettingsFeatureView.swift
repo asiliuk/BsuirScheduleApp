@@ -37,6 +37,7 @@ public struct SettingsFeatureView: View {
                                 )
                             )
                         }
+                        .accessibilityIdentifier("settings-premium-club-row")
                     }
 
                     if let whatsNew = store.whatsNew {
@@ -49,6 +50,7 @@ public struct SettingsFeatureView: View {
                                     .badge(whatsNew.version.description)
                             }
                             .foregroundColor(.primary)
+                            .accessibilityIdentifier("settings-whats-new-row")
                         }
                     }
 
@@ -57,21 +59,25 @@ public struct SettingsFeatureView: View {
                             value: .appIcon,
                             store: store.scope(state: \.appIconLabel, action: \.appIconLabel)
                         )
+                        .accessibilityIdentifier("settings-app-icon-row")
 
                         NavigationLink(value: SettingsFeatureDestination.appearance) {
                             Label("screen.settings.appearance.navigation.title", systemImage: "circle.lefthalf.filled")
                                 .settingsRowAccent(Color.orange)
                         }
+                        .accessibilityIdentifier("settings-appearance-row")
 
                         NavigationLink(value: SettingsFeatureDestination.networkAndData) {
                             Label("screen.settings.networkAndData.navigation.title", systemImage: "network")
                                 .settingsRowAccent(Color.blue)
                         }
+                        .accessibilityIdentifier("settings-network-row")
 
                         NavigationLink(value: SettingsFeatureDestination.about) {
                             Label("screen.settings.about.navigation.title", systemImage: "info.circle.fill")
                                 .settingsRowAccent(Color.indigo)
                         }
+                        .accessibilityIdentifier("settings-about-row")
                     }
                 }
                 .labelStyle(.settings)

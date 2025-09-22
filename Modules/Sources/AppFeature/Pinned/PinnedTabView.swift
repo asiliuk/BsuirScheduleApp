@@ -38,6 +38,7 @@ private struct PinnedTabItem: View {
         WithPerceptionTracking {
             if store.isPremiumUser, let title = store.pinnedSchedule?.title {
                 Label(title, systemImage: "pin")
+                    .accessibilityIdentifier("tabview-tab-pinned")
             } else {
                 Label("view.tabBar.pinned.empty.title", systemImage: "pin")
                     .environment(\.symbolVariants, .none)
