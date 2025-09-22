@@ -12,10 +12,6 @@ public struct ExamsScheduleFeature {
         var scheduleList: ScheduleListFeature.State
         var pairRowDetails: PairRowDetails?
 
-        mutating func filter(keepingSubgroup subgroup: Int?) {
-            scheduleList.filter(keepingSubgroup: subgroup)
-        }
-
         init(exams: [Pair], startDate: Date?, endDate: Date?, pairRowDetails: PairRowDetails?) {
             self.pairRowDetails = pairRowDetails
 

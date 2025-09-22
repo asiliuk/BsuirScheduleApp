@@ -39,15 +39,12 @@ extension ContinuousScheduleFeature.State {
         scheduleList.loading = (days.count < count) ? .finished : .loadMore
 
         self.offset = days.last?.date
-        var newDays = days.map { element in
+        let newDays = days.map { element in
             DaySectionFeature.State(
                 element: element,
                 pairRowDetails: pairRowDetails
             )
         }
-
-        // Make sure newly aded sections has pairs filtered out by subgroup
-        newDays.filter(keepingSubgroup: keepingSubgroup)
 
         scheduleList.days.append(contentsOf: newDays)
     }

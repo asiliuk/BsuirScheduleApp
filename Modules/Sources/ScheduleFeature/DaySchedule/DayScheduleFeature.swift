@@ -10,10 +10,6 @@ public struct DayScheduleFeature {
     public struct State {
         var scheduleList: ScheduleListFeature.State
 
-        mutating func filter(keepingSubgroup subgroup: Int?) {
-            scheduleList.filter(keepingSubgroup: subgroup)
-        }
-
         init(schedule: DaySchedule, startDate: Date?, endDate: Date?) {
             @Dependency(\.calendar) var calendar
             @Dependency(\.date.now) var now

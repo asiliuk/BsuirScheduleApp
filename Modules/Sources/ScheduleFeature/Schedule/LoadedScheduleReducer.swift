@@ -74,8 +74,6 @@ public struct LoadedScheduleReducer {
                 // Switch to exams if no regular schedule available
                 scheduleType = .exams
             }
-
-            filter(keepingSubgroup: subgroupPicker?.selected)
         }
     }
 
@@ -106,8 +104,7 @@ public struct LoadedScheduleReducer {
             }
             .onChange(of: \.subgroupPicker?.selected) { _, newValue in
                 Reduce { state, _ in
-                    state.filter(keepingSubgroup: newValue)
-                    return .run { [source = state.source] _ in
+                    .run { [source = state.source] _ in
                         subgroupFilterService.preferredSubgroup(source).value = newValue
                     }
                 }

@@ -35,7 +35,6 @@ public struct DaySectionFeature {
         var subtitle: String? = nil
         var relativity: Relativity = .future
         var pairRows: IdentifiedArrayOf<PairRowFeature.State>
-        var keepingSubgroup: Int?
 
         init(
             dayDate: DayDate,
@@ -87,7 +86,6 @@ public struct DaySectionFeature {
                     state.subtitle = date.flatMap { Self.relativeFormatter.relativeName(for: $0, now: now) }
                     state.relativity = date.map { State.Relativity(for: $0, now: now, calendar: calendar) } ?? .future
                 }
-                state.filter(keepingSubgroup: state.keepingSubgroup)
                 return .none
             case .pairRows:
                 return .none

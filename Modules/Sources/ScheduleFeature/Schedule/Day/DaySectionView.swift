@@ -15,6 +15,9 @@ struct DaySectionView: View {
                     ),
                     content: { PairRowView(store: $0) }
                 )
+                .transformEnvironment(\.pairFilteringMode) { mode in
+                    if store.relativity == .past { mode = .filter }
+                }
             } header:{
                 ScheduleDateTitle(
                     date: store.title,

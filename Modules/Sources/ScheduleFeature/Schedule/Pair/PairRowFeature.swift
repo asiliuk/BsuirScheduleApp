@@ -18,7 +18,6 @@ public struct PairRowFeature {
     @ObservableState
     public struct State: Identifiable {
         public var id: UUID { pair.id }
-        var isFiltered: Bool = false
         var pair: PairViewModel
         var showWeeks: Bool
         var details: PairRowDetails?

@@ -7,13 +7,14 @@ import Pow
 struct PairRowView: View {
     @Perception.Bindable var store: StoreOf<PairRowFeature>
     @Environment(\.presentsPairDetailsPopover) var presentsPairDetailsPopover
+    @Environment(\.pairFilteringMode) var pairFilteringMode
 
     var body: some View {
         WithPerceptionTracking {
             Button {
                 store.send(.rowTapped)
             } label: {
-                if store.isFiltered {
+                if isFiltered(pair: store.pair) {
                     FilteredPairCell(
                         pair: store.pair,
                         showWeeks: store.showWeeks
@@ -46,6 +47,17 @@ struct PairRowView: View {
             GroupPairDetails(groups: pair.groups)
         case nil:
             EmptyView()
+        }
+    }
+
+    private func isFiltered(pair: PairViewModel) -> Bool {
+        switch pairFilteringMode {
+        case .filter:
+            true
+        case .keepingSubgroup(let subgroup):
+            pair.subgroup != 0 && pair.subgroup != subgroup
+        case .noFiltering:
+            false
         }
     }
 }

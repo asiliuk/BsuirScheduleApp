@@ -17,15 +17,6 @@ public struct ContinuousScheduleFeature {
         var weekSchedule: WeekSchedule?
         var pairRowDetails: PairRowDetails?
 
-        // Keep track of currently applied subgroup filter
-        // to make sure we'll keep filtering newly added pairs to the list
-        var keepingSubgroup: Int?
-
-        mutating func filter(keepingSubgroup subgroup: Int?) {
-            keepingSubgroup = subgroup
-            scheduleList.filter(keepingSubgroup: subgroup)
-        }
-
         init(
             schedule: DaySchedule,
             startDate: Date?,

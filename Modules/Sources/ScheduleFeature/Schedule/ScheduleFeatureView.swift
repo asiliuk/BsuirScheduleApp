@@ -64,6 +64,10 @@ private struct LoadedScheduleView: View {
                     )
                 }
             }
+            .environment(
+                \.pairFilteringMode,
+                 store.subgroupPicker.pairFilteringMode
+            )
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     ScheduleDisplayTypePickerMenu(
@@ -78,5 +82,12 @@ private struct LoadedScheduleView: View {
                 }
             }
         }
+    }
+}
+
+private extension SubgroupPickerFeature.State? {
+    var pairFilteringMode: PairFilteringMode {
+        guard let selected = self?.selected else { return .noFiltering }
+        return .keepingSubgroup(selected)
     }
 }
