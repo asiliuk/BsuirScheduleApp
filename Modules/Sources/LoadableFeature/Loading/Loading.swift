@@ -168,7 +168,6 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
         } catch: { error, send in
             await send(toLoadingAction(.fetchFinished(.failure(error as NSError))))
         }
-        .animation()
         .cancellable(id: CancelID.fetching, cancelInFlight: true)
     }
 
