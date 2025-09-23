@@ -12,12 +12,34 @@
     {
       "layers" : [
         {
-          "fill" : {
-            "solid" : "display-p3:0.31293,0.42189,0.56471,1.00000"
-          },
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "display-p3:0.31293,0.42189,0.56471,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "display-p3:0.56058,0.68043,0.83887,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "srgb:0.60821,0.79300,1.00000,1.00000"
+              }
+            }
+          ],
           "glass" : true,
           "image-name" : "Big wave.svg",
           "name" : "Big wave",
+          "opacity-specializations" : [
+            {
+              "appearance" : "tinted",
+              "value" : 1
+            }
+          ],
           "position" : {
             "scale" : 1,
             "translation-in-points" : [
@@ -40,9 +62,25 @@
       "blur-material" : null,
       "layers" : [
         {
-          "fill" : {
-            "solid" : "display-p3:0.31293,0.42189,0.56471,1.00000"
-          },
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "display-p3:0.31293,0.42189,0.56471,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "display-p3:0.56058,0.68043,0.83887,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "srgb:0.60821,0.79300,1.00000,1.00000"
+              }
+            }
+          ],
           "image-name" : "Smal wave.svg",
           "name" : "Smal wave",
           "position" : {
