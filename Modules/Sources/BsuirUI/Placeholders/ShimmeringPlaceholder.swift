@@ -16,7 +16,8 @@ private struct ShimmeringPlaceholderView<Content: View>: View {
         content
             .redacted(reason: .placeholder)
             .foregroundStyle(.placeholderGradient(isAtStart: isAnimationAtStart))
-            .onAppear {
+            .task {
+                try? await Task.sleep(for: .seconds(1))
                 withAnimation(.linear(duration: 1).repeatForever(autoreverses: false)) {
                     isAnimationAtStart.toggle()
                 }
