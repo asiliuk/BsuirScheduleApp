@@ -6176,6 +6176,238 @@
         }
       }
     },
+    "screen.settings.whatsNew.3_5.ios26Design.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сучасны і больш зручны знешні выгляд прыкладання"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modern and more convenient app appearance"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Современный и более удобный внешний вид приложения"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сучасний і більш зручний зовнішній вигляд додатка"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_5.ios26Design.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Абноўлены дызайн для iOS 26"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Updated Design for iOS 26"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновлён дизайн для iOS 26"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оновлений дизайн для iOS 26"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_5.ipadLayout.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Палепшанае адлюстраванне інтэрфейсу на вялікіх экранах"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Improved interface display on large screens"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Улучшенное отображение интерфейса на больших экранах"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Покращене відображення інтерфейсу на великих екранах"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_5.ipadLayout.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аптымізаваны макет для iPad"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimized iPad Layout"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оптимизирован лейаут для iPad"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оптимізований макет для iPad"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_5.safeIcons.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новы рэжым абараняе ад непажаданага кантэнту пры выбары іконак"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New mode protects from unwanted content when selecting icons"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новый режим защищает от нежелательного контента при выборе иконок"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новий режим захищає від небажаного контенту при виборі іконок"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_5.safeIcons.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дададзены бяспечны рэжым прагляду іконак прыкладання"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added Safe App Icon Viewing Mode"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавлен безопасный режим просмотра иконок приложения"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додано безпечний режим перегляду іконок додатка"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_5.schedulePerf.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Экран раскладу цяпер працуе хутчэй і плаўней"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schedule screen now works faster and smoother"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Экран расписания теперь работает быстрее и плавнее"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Екран розкладу тепер працює швидше і плавніше"
+          }
+        }
+      }
+    },
+    "screen.settings.whatsNew.3_5.schedulePerf.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Павышана прадукцыйнасць экрана раскладу"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Improved Schedule Screen Performance"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повышена производительность экрана расписания"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підвищено продуктивність екрану розкладу"
+          }
+        }
+      }
+    },
     "screen.settings.whatsNew.button.gotIt" : {
       "extractionState" : "manual",
       "localizations" : {

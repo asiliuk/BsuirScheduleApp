@@ -68,6 +68,7 @@ private enum WhatsNewServiceKey: DependencyKey {
             #endif
         }(),
         whatsNewCollection: [
+            .version350,
             .version340,
             .version330,
             .version320,
