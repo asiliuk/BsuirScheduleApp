@@ -13,6 +13,7 @@ public enum AppIcon: Hashable {
         case nostalgia = "AppIconNostalgia"
         case bsuirDonalds = "AppIconBsuirDonalds"
         case premium = "AppIconPremium"
+        static let `default` = Self.liquid
     }
 
     public enum Symbol: String, CaseIterable {
@@ -46,6 +47,8 @@ public enum AppIcon: Hashable {
     case metal(Metal)
     case neon(Neon)
     case glitch(Glitch)
+
+    public static let `default` = Self.plain(.default)
 }
 
 extension AppIcon {
@@ -103,7 +106,7 @@ extension AppIcon.Plain: AppIconProtocol {
     }
 
     public var isDefault: Bool {
-        return self == .liquid
+        return self == .default
     }
 
     public var needsClipping: Bool {

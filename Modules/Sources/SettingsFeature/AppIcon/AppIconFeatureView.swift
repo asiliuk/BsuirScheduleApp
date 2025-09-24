@@ -20,7 +20,7 @@ struct AppIconLabelNavigationLink: View {
                         .overlay {
                             GeometryReader { proxy in
                                 WithPerceptionTracking {
-                                    let icon = store.currentIcon.or(.plain(.liquid))
+                                    let icon = store.currentIcon.or(.default)
                                     AppIconPreviewView(
                                         imageName: icon.previewImageName,
                                         size: proxy.size.width,
