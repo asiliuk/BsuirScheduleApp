@@ -16,6 +16,10 @@
 		E633DC182AF2F4900059A250 /* ExamsScheduleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E633DC172AF2F4900059A250 /* ExamsScheduleWidget.swift */; };
 		E633DC1A2AF2F5B50059A250 /* ExamsScheduleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E633DC192AF2F5B50059A250 /* ExamsScheduleProvider.swift */; };
 		E633DC1C2AF2F64E0059A250 /* PinnedScheduleEntry+WidgetPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E633DC1B2AF2F64E0059A250 /* PinnedScheduleEntry+WidgetPreview.swift */; };
+		E644246D2E8402D10039E83E /* AppIconStandart.icon in Resources */ = {isa = PBXBuildFile; fileRef = E644246C2E8402D10039E83E /* AppIconStandart.icon */; };
+		E64424712E840B870039E83E /* AppIconPremium.icon in Resources */ = {isa = PBXBuildFile; fileRef = E64424702E840B870039E83E /* AppIconPremium.icon */; };
+		E64424722E840B870039E83E /* AppIconNostalgia.icon in Resources */ = {isa = PBXBuildFile; fileRef = E644246F2E840B870039E83E /* AppIconNostalgia.icon */; };
+		E64424732E840B870039E83E /* AppIconBsuirDonalds.icon in Resources */ = {isa = PBXBuildFile; fileRef = E644246E2E840B870039E83E /* AppIconBsuirDonalds.icon */; };
 		E654467829296CF000881956 /* Deeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = E654467729296CF000881956 /* Deeplinking */; };
 		E6611ABD293A8B59006E322B /* ScheduleCore in Frameworks */ = {isa = PBXBuildFile; productRef = E6611ABC293A8B59006E322B /* ScheduleCore */; };
 		E6648AEE2A8A076800D8736D /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6648AED2A8A076800D8736D /* SnapshotHelper.swift */; };
@@ -33,7 +37,6 @@
 		E6B33E7F29A2BAA10034AD63 /* PinnedScheduleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E7D29A2BA6F0034AD63 /* PinnedScheduleProvider.swift */; };
 		E6B33E8329A2BB6E0034AD63 /* MostRelevantPinnedScheduleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8129A2BB6B0034AD63 /* MostRelevantPinnedScheduleResponse.swift */; };
 		E6B33E8729A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B33E8629A2BDB80034AD63 /* PinnedScheduleEntry+MostRelevant.swift */; };
-		E6DA075C2DF97C9C00AAC1C5 /* AppIconLiquid.icon in Resources */ = {isa = PBXBuildFile; fileRef = E6DA075B2DF97C9C00AAC1C5 /* AppIconLiquid.icon */; };
 		E6DD610B2AA52011009558A6 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E6DD610A2AA52010009558A6 /* Localizable.xcstrings */; };
 		E6DD610D2AA52011009558A6 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E6DD610C2AA52011009558A6 /* Localizable.xcstrings */; };
 		E6E1885C2A894EF200658AA8 /* AppStoreSnapshotsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6E1885B2A894EF200658AA8 /* AppStoreSnapshotsUITests.swift */; };
@@ -96,6 +99,9 @@
 		E633DC192AF2F5B50059A250 /* ExamsScheduleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamsScheduleProvider.swift; sourceTree = "<group>"; };
 		E633DC1B2AF2F64E0059A250 /* PinnedScheduleEntry+WidgetPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PinnedScheduleEntry+WidgetPreview.swift"; sourceTree = "<group>"; };
 		E644246C2E8402D10039E83E /* AppIconStandart.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconStandart.icon; sourceTree = "<group>"; };
+		E644246E2E840B870039E83E /* AppIconBsuirDonalds.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconBsuirDonalds.icon; sourceTree = "<group>"; };
+		E644246F2E840B870039E83E /* AppIconNostalgia.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconNostalgia.icon; sourceTree = "<group>"; };
+		E64424702E840B870039E83E /* AppIconPremium.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconPremium.icon; sourceTree = "<group>"; };
 		E64AF1732A9B6DD2002C8419 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		E660A745268B955D00851358 /* BsuirScheduleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BsuirScheduleApp.entitlements; sourceTree = "<group>"; };
 		E6648AED2A8A076800D8736D /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
@@ -193,6 +199,9 @@
 			isa = PBXGroup;
 			children = (
 				E644246C2E8402D10039E83E /* AppIconStandart.icon */,
+				E644246E2E840B870039E83E /* AppIconBsuirDonalds.icon */,
+				E644246F2E840B870039E83E /* AppIconNostalgia.icon */,
+				E64424702E840B870039E83E /* AppIconPremium.icon */,
 				E6DD610A2AA52010009558A6 /* Localizable.xcstrings */,
 				E6F931BE22F8B1C20038FC43 /* Assets.xcassets */,
 				E6F931C322F8B1C20038FC43 /* LaunchScreen.storyboard */,
@@ -451,6 +460,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E64424712E840B870039E83E /* AppIconPremium.icon in Resources */,
+				E64424722E840B870039E83E /* AppIconNostalgia.icon in Resources */,
+				E64424732E840B870039E83E /* AppIconBsuirDonalds.icon in Resources */,
 				E6E1886A2A896AEA00658AA8 /* 151004.json in Resources */,
 				E69C56552A8A791D004C71D2 /* 010101.json in Resources */,
 				E6E188722A896E7C00658AA8 /* employees.json in Resources */,

@@ -1,7 +1,7 @@
 {
   "fill-specializations" : [
     {
-      "value" : "system-light"
+      "value" : "automatic"
     },
     {
       "appearance" : "dark",
@@ -10,25 +10,31 @@
   ],
   "groups" : [
     {
-      "blur-material" : 0.1,
+      "blur-material" : 0.2,
       "layers" : [
         {
           "fill-specializations" : [
             {
               "value" : {
-                "solid" : "display-p3:0.31293,0.42189,0.56471,1.00000"
+                "solid" : "srgb:1.00000,1.00000,1.00000,1.00000"
               }
             },
             {
               "appearance" : "dark",
               "value" : {
-                "solid" : "display-p3:0.47254,0.63730,0.85275,1.00000"
+                "linear-gradient" : [
+                  "srgb:0.84720,0.15164,0.28742,1.00000",
+                  "srgb:0.36443,0.35582,0.90224,1.00000"
+                ]
               }
             },
             {
               "appearance" : "tinted",
               "value" : {
-                "solid" : "display-p3:0.55556,0.74815,1.00000,1.00000"
+                "linear-gradient" : [
+                  "srgb:0.96546,0.48523,0.48774,1.00000",
+                  "srgb:0.90224,0.20937,0.37318,1.00000"
+                ]
               }
             }
           ],
@@ -54,42 +60,37 @@
         "kind" : "neutral",
         "opacity" : 0.5
       },
-      "translucency-specializations" : [
-        {
-          "value" : {
-            "enabled" : true,
-            "value" : 0.2
-          }
-        },
-        {
-          "appearance" : "tinted",
-          "value" : {
-            "enabled" : true,
-            "value" : 0.4
-          }
-        }
-      ]
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.4
+      }
     },
     {
-      "blur-material" : 0.1,
+      "blur-material" : 0.2,
       "layers" : [
         {
           "fill-specializations" : [
             {
               "value" : {
-                "solid" : "display-p3:0.31293,0.42189,0.56471,1.00000"
+                "solid" : "srgb:1.00000,1.00000,1.00000,1.00000"
               }
             },
             {
               "appearance" : "dark",
               "value" : {
-                "solid" : "display-p3:0.47254,0.63730,0.85275,1.00000"
+                "linear-gradient" : [
+                  "srgb:0.84720,0.15164,0.28742,1.00000",
+                  "srgb:0.36443,0.35582,0.90224,1.00000"
+                ]
               }
             },
             {
               "appearance" : "tinted",
               "value" : {
-                "solid" : "display-p3:0.55556,0.74815,1.00000,1.00000"
+                "linear-gradient" : [
+                  "srgb:0.96546,0.48523,0.48774,1.00000",
+                  "srgb:0.90224,0.20937,0.37318,1.00000"
+                ]
               }
             }
           ],
@@ -109,21 +110,38 @@
         "opacity" : 0.5
       },
       "specular" : true,
-      "translucency-specializations" : [
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.4
+      }
+    },
+    {
+      "layers" : [
         {
-          "value" : {
-            "enabled" : true,
-            "value" : 0.2
-          }
-        },
-        {
-          "appearance" : "tinted",
-          "value" : {
-            "enabled" : true,
-            "value" : 0.4
-          }
+          "glass" : false,
+          "hidden-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : true
+            },
+            {
+              "appearance" : "tinted",
+              "value" : true
+            }
+          ],
+          "image-name" : "oremium-bg.svg",
+          "name" : "oremium-bg"
         }
-      ]
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "specular" : false,
+      "translucency" : {
+        "enabled" : false,
+        "value" : 0.5
+      }
     }
   ],
   "supported-platforms" : {

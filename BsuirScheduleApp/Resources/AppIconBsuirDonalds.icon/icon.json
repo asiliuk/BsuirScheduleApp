@@ -10,25 +10,24 @@
   ],
   "groups" : [
     {
-      "blur-material" : 0.1,
       "layers" : [
         {
           "fill-specializations" : [
             {
               "value" : {
-                "solid" : "display-p3:0.31293,0.42189,0.56471,1.00000"
+                "solid" : "srgb:0.99714,0.76558,0.00000,1.00000"
               }
             },
             {
               "appearance" : "dark",
               "value" : {
-                "solid" : "display-p3:0.47254,0.63730,0.85275,1.00000"
+                "solid" : "srgb:0.99714,0.76558,0.00000,1.00000"
               }
             },
             {
               "appearance" : "tinted",
               "value" : {
-                "solid" : "display-p3:0.55556,0.74815,1.00000,1.00000"
+                "solid" : "srgb:0.60821,0.79300,1.00000,1.00000"
               }
             }
           ],
@@ -54,42 +53,31 @@
         "kind" : "neutral",
         "opacity" : 0.5
       },
-      "translucency-specializations" : [
-        {
-          "value" : {
-            "enabled" : true,
-            "value" : 0.2
-          }
-        },
-        {
-          "appearance" : "tinted",
-          "value" : {
-            "enabled" : true,
-            "value" : 0.4
-          }
-        }
-      ]
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.2
+      }
     },
     {
-      "blur-material" : 0.1,
+      "blur-material" : null,
       "layers" : [
         {
           "fill-specializations" : [
             {
               "value" : {
-                "solid" : "display-p3:0.31293,0.42189,0.56471,1.00000"
+                "solid" : "srgb:0.99714,0.76558,0.00000,1.00000"
               }
             },
             {
               "appearance" : "dark",
               "value" : {
-                "solid" : "display-p3:0.47254,0.63730,0.85275,1.00000"
+                "solid" : "srgb:0.99714,0.76558,0.00000,1.00000"
               }
             },
             {
               "appearance" : "tinted",
               "value" : {
-                "solid" : "display-p3:0.55556,0.74815,1.00000,1.00000"
+                "solid" : "srgb:0.60821,0.79300,1.00000,1.00000"
               }
             }
           ],
@@ -109,21 +97,10 @@
         "opacity" : 0.5
       },
       "specular" : true,
-      "translucency-specializations" : [
-        {
-          "value" : {
-            "enabled" : true,
-            "value" : 0.2
-          }
-        },
-        {
-          "appearance" : "tinted",
-          "value" : {
-            "enabled" : true,
-            "value" : 0.4
-          }
-        }
-      ]
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.2
+      }
     }
   ],
   "supported-platforms" : {
