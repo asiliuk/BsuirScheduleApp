@@ -7,13 +7,12 @@ import CasePaths
 @CasePathable
 public enum AppIcon: Hashable {
     public enum Plain: String, CaseIterable {
-        case liquid = "AppIconLiquid"
         case standard = "AppIconStandart"
         case dark = "AppIconDark"
         case nostalgia = "AppIconNostalgia"
         case bsuirDonalds = "AppIconBsuirDonalds"
         case premium = "AppIconPremium"
-        static let `default` = Self.liquid
+        static let `default` = Self.standard
     }
 
     public enum Symbol: String, CaseIterable {
@@ -96,7 +95,6 @@ extension AppIcon: CaseIterable {
 extension AppIcon.Plain: AppIconProtocol {
     public var title: LocalizedStringKey {
         switch self {
-        case .liquid: return "screen.settings.appIcon.icon.liquid.title"
         case .standard: return "screen.settings.appIcon.icon.default.title"
         case .dark: return "screen.settings.appIcon.icon.dark.title"
         case .nostalgia: return "screen.settings.appIcon.icon.nostalgia.title"
@@ -109,13 +107,9 @@ extension AppIcon.Plain: AppIconProtocol {
         return self == .default
     }
 
-    public var needsClipping: Bool {
-        return self != .liquid
-    }
-
     public var isPremium: Bool {
         switch self {
-        case .standard, .liquid, .dark, .nostalgia:
+        case .standard, .dark, .nostalgia:
             return false
         case .bsuirDonalds, .premium:
             return true
@@ -124,7 +118,7 @@ extension AppIcon.Plain: AppIconProtocol {
 
     public var isSafe: Bool {
         switch self {
-        case .standard, .liquid, .dark, .nostalgia, .bsuirDonalds, .premium:
+        case .standard, .dark, .nostalgia, .bsuirDonalds, .premium:
             return true
         }
     }
