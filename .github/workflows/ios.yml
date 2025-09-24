@@ -27,7 +27,7 @@ jobs:
       - name: Test
         env:
           platform: ${{ 'iOS Simulator' }}
-          DEVELOPER_DIR: /Applications/Xcode_16.4.0.app/Contents/Developer
+          DEVELOPER_DIR: /Applications/Xcode_26.0.0.app/Contents/Developer
         run: |
           set -o pipefail
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
