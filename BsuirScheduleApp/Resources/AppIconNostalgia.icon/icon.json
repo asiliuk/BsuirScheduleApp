@@ -35,6 +35,7 @@
             }
           ],
           "glass" : true,
+          "hidden" : false,
           "image-name" : "Big wave.svg",
           "name" : "Big wave",
           "opacity-specializations" : [
@@ -44,10 +45,10 @@
             }
           ],
           "position" : {
-            "scale" : 1,
+            "scale" : 1.13,
             "translation-in-points" : [
               0,
-              0
+              1
             ]
           }
         }
@@ -84,13 +85,14 @@
               }
             }
           ],
+          "hidden" : false,
           "image-name" : "Smal wave.svg",
           "name" : "Smal wave",
           "position" : {
-            "scale" : 1,
+            "scale" : 1.13,
             "translation-in-points" : [
               34,
-              102
+              114
             ]
           }
         }
