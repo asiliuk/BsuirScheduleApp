@@ -5,6 +5,7 @@ struct ExamsScheduleWidgetHeader: View {
     var showMainDate: Bool = true
     var showBackground: Bool = true
     @EnvironmentObject private var pairFormDisplayService: PairFormDisplayService
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
 
     var body: some View {
         HStack(alignment: .lastTextBaseline) {
@@ -24,7 +25,8 @@ struct ExamsScheduleWidgetHeader: View {
         .padding(.horizontal, showBackground ? 12 : 4)
         .background {
             if showBackground {
-                pairFormDisplayService.color(for: .exam).color
+                let color = pairFormDisplayService.color(for: .exam).color
+                widgetRenderingMode == .accented ? color.opacity(0.3) : color
             }
         }
         .foregroundStyle(Color.white)
@@ -34,4 +36,9 @@ struct ExamsScheduleWidgetHeader: View {
         guard case let .exams(days) = config.content else { return nil }
         return days.first?.date.formatted(.compactExamDay)
     }
+}
+
+#Preview {
+    ExamsScheduleWidgetHeader(config: .noPinned())
+        .environmentObject(PairFormDisplayService.noop)
 }

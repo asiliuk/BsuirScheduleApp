@@ -22,7 +22,7 @@ public struct PinnedScheduleWidgetSmallView: View {
             }
 
             if let day = config.day {
-                WidgetDateTitle(date: day, isSmall: showsWidgetBackground)
+                WidgetDateTitle(date: day, isSmall: increasePaddings)
             }
 
             switch config.content {
@@ -47,8 +47,8 @@ public struct PinnedScheduleWidgetSmallView: View {
                     PairView(
                         pair: pair,
                         distribution: .vertical,
-                        isCompact: showsWidgetBackground,
-                        spellForm: renderingMode == .vibrant,
+                        isCompact: increasePaddings,
+                        spellForm: spellForm,
                         showWeeks: false
                     )
                 }
@@ -62,8 +62,23 @@ public struct PinnedScheduleWidgetSmallView: View {
             }
         }
         .widgetPadding()
-        .padding(.horizontal, showsWidgetBackground ? -4 : 0)
-        .padding(.vertical, showsWidgetBackground ? -6 : 0)
+        .padding(.horizontal, increasePaddings ? -4 : 0)
+        .padding(.vertical, increasePaddings ? -6 : 0)
         .widgetBackground(Color(.systemBackground))
+    }
+
+    private var spellForm: Bool {
+        switch renderingMode {
+        case .vibrant, .accented: true
+        default: false
+        }
+    }
+
+    private var increasePaddings: Bool {
+        switch renderingMode {
+        case .fullColor: showsWidgetBackground
+        case .vibrant: false
+        default: true
+        }
     }
 }

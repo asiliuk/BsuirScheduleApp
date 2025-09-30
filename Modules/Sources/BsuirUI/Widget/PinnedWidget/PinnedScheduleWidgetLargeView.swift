@@ -1,9 +1,11 @@
 import SwiftUI
+import WidgetKit
 import BsuirCore
 import ScheduleCore
 
 public struct PinnedScheduleWidgetLargeView : View {
     var config: PinnedScheduleWidgetConfiguration
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
 
     public init(config: PinnedScheduleWidgetConfiguration) {
         self.config = config
@@ -47,10 +49,19 @@ public struct PinnedScheduleWidgetLargeView : View {
 
                     VStack(alignment: .leading, spacing: 4) {
                         ForEach(pairs.visible) { pair in
-                            PairView<EmptyView>(pair: pair, isCompact: true, showWeeks: false)
-                                .padding(.leading, 10)
-                                .padding(.vertical, 2)
-                                .background(ContainerRelativeShape().foregroundColor(Color(.secondarySystemBackground)))
+                            PairView<EmptyView>(
+                                pair: pair,
+                                isCompact: true,
+                                spellForm: widgetRenderingMode == .accented,
+                                showWeeks: false
+                            )
+                            .padding(.leading, 10)
+                            .padding(.vertical, 2)
+                            .background {
+                                let color = Color(uiColor: .secondarySystemBackground)
+                                RoundedRectangle(cornerRadius: 4)
+                                    .foregroundStyle(color.opacity(widgetRenderingMode == .accented ? 0.2  : 1))
+                            }
                         }
                     }
 
@@ -70,3 +81,4 @@ public struct PinnedScheduleWidgetLargeView : View {
         .widgetBackground(Color(.systemBackground))
     }
 }
+

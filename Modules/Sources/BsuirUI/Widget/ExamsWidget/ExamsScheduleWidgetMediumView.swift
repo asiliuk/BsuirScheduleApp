@@ -4,6 +4,7 @@ import ScheduleCore
 
 public struct ExamsScheduleWidgetMediumView : View {
     var config: ExamsScheduleWidgetConfiguration
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
 
     public init(config: ExamsScheduleWidgetConfiguration) {
         self.config = config
@@ -39,6 +40,7 @@ public struct ExamsScheduleWidgetMediumView : View {
                             PairView<EmptyView>(
                                 pair: pair,
                                 isCompact: true,
+                                spellForm: widgetRenderingMode == .accented,
                                 showWeeks: false
                             )
                         } label: {

@@ -4,6 +4,7 @@ import ScheduleCore
 
 public struct PinnedScheduleWidgetMediumView : View {
     var config: PinnedScheduleWidgetConfiguration
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
 
     public init(config: PinnedScheduleWidgetConfiguration) {
         self.config = config
@@ -39,7 +40,12 @@ public struct PinnedScheduleWidgetMediumView : View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     ForEach(pairs.visible) { pair in
-                        PairView<EmptyView>(pair: pair, isCompact: true, showWeeks: false)
+                        PairView<EmptyView>(
+                            pair: pair,
+                            isCompact: true,
+                            spellForm: widgetRenderingMode == .accented,
+                            showWeeks: false
+                        )
                     }
                 }
                 .padding(.top, 6)

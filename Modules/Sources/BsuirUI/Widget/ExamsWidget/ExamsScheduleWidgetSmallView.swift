@@ -17,7 +17,7 @@ public struct ExamsScheduleWidgetSmallView: View {
             ExamsScheduleWidgetHeader(
                 config: config,
                 showMainDate: false,
-                showBackground: hasBackground
+                showBackground: showHeaderBackground
             )
 
             switch config.content {
@@ -47,8 +47,8 @@ public struct ExamsScheduleWidgetSmallView: View {
                             PairView(
                                 pair: pair,
                                 distribution: .vertical,
-                                isCompact: showsWidgetBackground,
-                                spellForm: renderingMode == .vibrant,
+                                isCompact: showHeaderBackground,
+                                spellForm: spellForm,
                                 showWeeks: false
                             )
                         } label: {
@@ -65,16 +65,27 @@ public struct ExamsScheduleWidgetSmallView: View {
                         visibleCount: 1
                     )
                 }
-                .padding(.leading, hasBackground ? 12 : 4)
-                .padding(.trailing, hasBackground ? 4 : 0)
-                .padding(.bottom, hasBackground ? 10 : 4)
+                .padding(.leading, showHeaderBackground ? 12 : 4)
+                .padding(.trailing, showHeaderBackground ? 4 : 0)
+                .padding(.bottom, showHeaderBackground ? 10 : 4)
             }
         }
         .labeledContentStyle(.mainExamsSection)
         .widgetBackground(Color(uiColor: .systemBackground))
     }
 
-    private var hasBackground: Bool {
-        renderingMode == .fullColor && showsWidgetBackground
+    private var spellForm: Bool {
+        switch renderingMode {
+        case .vibrant, .accented: true
+        default: false
+        }
+    }
+
+    private var showHeaderBackground: Bool {
+        switch renderingMode {
+        case .fullColor: showsWidgetBackground
+        case .vibrant: false
+        default: true
+        }
     }
 }

@@ -4,6 +4,7 @@ import ScheduleCore
 
 public struct ExamsScheduleWidgetLargeView : View {
     var config: ExamsScheduleWidgetConfiguration
+    @Environment(\.widgetRenderingMode) var widgetRenderingMode
 
     public init(config: ExamsScheduleWidgetConfiguration) {
         self.config = config
@@ -40,13 +41,15 @@ public struct ExamsScheduleWidgetLargeView : View {
                                 PairView<EmptyView>(
                                     pair: pair,
                                     isCompact: true,
+                                    spellForm: widgetRenderingMode == .accented,
                                     showWeeks: false
                                 )
                                 .padding(.leading, 10)
                                 .padding(.vertical, 2)
                                 .background {
+                                    let color = Color(uiColor: .secondarySystemBackground)
                                     RoundedRectangle(cornerRadius: 4)
-                                        .foregroundStyle(Color(uiColor: .secondarySystemBackground))
+                                        .foregroundStyle(color.opacity(widgetRenderingMode == .accented ? 0.2  : 1))
                                 }
                             } label: {
                                 if let date {
