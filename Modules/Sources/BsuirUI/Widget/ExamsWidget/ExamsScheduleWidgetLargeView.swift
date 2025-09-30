@@ -47,7 +47,7 @@ public struct ExamsScheduleWidgetLargeView : View {
                                 .padding(.leading, 10)
                                 .padding(.vertical, 2)
                                 .background {
-                                    let color = Color(uiColor: .secondarySystemBackground)
+                                    let color = Color(uiColor: .secondarySystemGroupedBackground)
                                     RoundedRectangle(cornerRadius: 4)
                                         .foregroundStyle(color.opacity(widgetRenderingMode == .accented ? 0.2  : 1))
                                 }
