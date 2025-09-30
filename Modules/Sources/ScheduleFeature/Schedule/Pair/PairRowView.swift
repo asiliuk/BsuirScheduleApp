@@ -8,6 +8,7 @@ struct PairRowView: View {
     @Perception.Bindable var store: StoreOf<PairRowFeature>
     @Environment(\.presentsPairDetailsPopover) var presentsPairDetailsPopover
     @Environment(\.pairFilteringMode) var pairFilteringMode
+    @Environment(\.sizeCategory) var sizeCategory
 
     var body: some View {
         WithPerceptionTracking {
@@ -44,7 +45,12 @@ struct PairRowView: View {
         case .lecturers:
             LecturerAvatarsDetails(lecturers: pair.lecturers)
         case .groups:
-            GroupPairDetails(groups: pair.groups)
+            Text(pair.groups.joined(separator: sizeCategory.isAccessibilityCategory ? ", " : "\n"))
+                .font(.caption2)
+                .monospacedDigit()
+                .foregroundStyle(.secondary)
+                .lineLimit(3)
+                .padding(.trailing, 4)
         case nil:
             EmptyView()
         }
