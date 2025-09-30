@@ -19,9 +19,11 @@ extension PinnedScheduleHashService: DependencyKey {
     public static let liveValue: PinnedScheduleHashService = {
         @Dependency(\.widgetService) var widgetService
         @Dependency(\.pinnedScheduleService) var pinnedScheduleService
+        @Dependency(\.defaultAppStorage) var storage
         return .live(
             widgetService: widgetService,
-            pinnedScheduleService: pinnedScheduleService
+            pinnedScheduleService: pinnedScheduleService,
+            storage: UncheckedSendable(storage)
         )
     }()
 }
@@ -31,11 +33,11 @@ extension PinnedScheduleHashService: DependencyKey {
 extension PinnedScheduleHashService {
     static func live(
         widgetService: WidgetService,
-        pinnedScheduleService: PinnedScheduleService
+        pinnedScheduleService: PinnedScheduleService,
+        storage: UncheckedSendable<UserDefaults>
     ) -> Self {
         return Self { source in
-            @Dependency(\.defaultAppStorage) var storage
-            let scheduleHash = storage.persistedString(forKey: source.scheduleHashKey)
+            let scheduleHash = storage.wrappedValue.persistedString(forKey: source.scheduleHashKey)
             return PersistedValue(
                 get: { scheduleHash.value },
                 set: { newValue in

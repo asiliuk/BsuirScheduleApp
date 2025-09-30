@@ -13,7 +13,11 @@ struct PinnedScheduleWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(
             kind: WidgetService.Timeline.pinnedSchedule.rawValue,
-            provider: PinnedScheduleProvider()
+            provider: withDependencies {
+                $0.defaultAppStorage = .asiliukShared
+            } operation: {
+                PinnedScheduleProvider()
+            }
         ) { entry in
             PinnedScheduleWidgetEntryView(entry: entry)
                 .environmentObject({

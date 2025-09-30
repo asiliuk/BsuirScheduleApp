@@ -13,7 +13,11 @@ struct OnlyExamsScheduleWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(
             kind: WidgetService.Timeline.onlyExamsSchedule.rawValue,
-            provider: ExamsScheduleProvider(onlyExams: true)
+            provider: withDependencies {
+                $0.defaultAppStorage = .asiliukShared
+            } operation: {
+                ExamsScheduleProvider(onlyExams: true)
+            }
         ) { entry in
             ExamsScheduleWidgetEntryView(entry: entry)
                 .environmentObject({
@@ -38,7 +42,11 @@ struct ExamsScheduleWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(
             kind: WidgetService.Timeline.examsSchedule.rawValue,
-            provider: ExamsScheduleProvider(onlyExams: false)
+            provider: withDependencies {
+                $0.defaultAppStorage = .asiliukShared
+            } operation: {
+                ExamsScheduleProvider(onlyExams: false)
+            }
         ) { entry in
             ExamsScheduleWidgetEntryView(entry: entry)
                 .environmentObject({
