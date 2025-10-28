@@ -7,13 +7,11 @@ import ComposableArchitecture
 public struct PairFormIcons {
     @ObservableState
     public struct State {
-        var alwaysShowIcon: Bool
+        @Shared(.alwaysShowFormIcon) var alwaysShowIcon
         var pairForms: IdentifiedArrayOf<PairViewForm>
 
         public init() {
             pairForms = IdentifiedArray(uncheckedUniqueElements: PairViewForm.allCases)
-            @Dependency(\.pairFormDisplayService) var pairFormDisplayService
-            alwaysShowIcon = pairFormDisplayService.alwaysShowFormIcon
         }
     }
 
@@ -21,15 +19,7 @@ public struct PairFormIcons {
         case binding(BindingAction<State>)
     }
 
-    @Dependency(\.pairFormDisplayService) var pairFormDisplayService
-
     public var body: some ReducerOf<Self> {
         BindingReducer()
-            .onChange(of: \.alwaysShowIcon) { _, newValue in
-                Reduce { _, _ in
-                    pairFormDisplayService.alwaysShowFormIcon = newValue
-                    return .none
-                }
-            }
     }
 }

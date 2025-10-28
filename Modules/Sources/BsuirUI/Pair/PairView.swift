@@ -2,6 +2,7 @@ import SwiftUI
 import BsuirCore
 import BsuirApi
 import ScheduleCore
+import Sharing
 
 public struct PairBackgroundModifier: ViewModifier {
     public let cornerRadius: Double
@@ -90,6 +91,7 @@ public struct PairView<Details: View>: View {
     @Environment(\.sizeCategory) var sizeCategory
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
     @EnvironmentObject private var pairFormDisplayService: PairFormDisplayService
+    @SharedReader(.alwaysShowFormIcon) private var alwaysShowFormIcon
 
     public init(
         from: String,
@@ -223,7 +225,7 @@ public struct PairView<Details: View>: View {
     }
     
     private var formText: Text? {
-        if spellForm || differentiateWithoutColor || pairFormDisplayService.alwaysShowFormIcon {
+        if spellForm || differentiateWithoutColor || alwaysShowFormIcon {
             return Text("\(Image(systemName: form.symbolName))")
         } else {
             return nil

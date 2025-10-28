@@ -56,6 +56,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 
             @Dependency(\.cloudSyncService) var cloudSyncService
             cloudSyncService.load()
+
+            @Dependency(\.widgetReloadingService) var widgetReloadingService
+            widgetReloadingService.start()
         }
     }
 }

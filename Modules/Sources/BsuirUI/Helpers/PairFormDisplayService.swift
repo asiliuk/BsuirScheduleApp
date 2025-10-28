@@ -5,7 +5,6 @@ import WidgetKit
 public class PairFormDisplayService: ObservableObject {
     private let storage: UserDefaults
     private let widgetService: WidgetService
-    private lazy var alwaysShowFormIconStorage = storage.persistedBool(forKey: "pair-form-always-show-icon")
 
     public static let noop = PairFormDisplayService(storage: .standard, widgetService: .noop)
 
@@ -19,11 +18,6 @@ public class PairFormDisplayService: ObservableObject {
                 }
             )
         )
-    }
-
-    public var alwaysShowFormIcon: Bool {
-        get { alwaysShowFormIconStorage.value }
-        set { updatingPairDisplay { alwaysShowFormIconStorage.value = newValue } }
     }
 
     public func color(for form: PairViewForm) -> PairFormColor {
