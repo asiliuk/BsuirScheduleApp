@@ -24,6 +24,7 @@ struct MarkedScheduleRowActions: ViewModifier {
                         store.isPinned ? Label.unpin : Label.pin
                     }
                     .tint(.red)
+                    .labelStyle(.iconOnly)
                 }
                 .swipeActions(edge: .trailing) {
                     if deleteOnUnFavorite {
@@ -33,6 +34,7 @@ struct MarkedScheduleRowActions: ViewModifier {
                             Label.deleteFromFavorites
                         }
                         .tint(.red)
+                        .labelStyle(.iconOnly)
                     } else {
                         Button {
                             store.send(.toggleFavoriteTapped)
@@ -40,6 +42,7 @@ struct MarkedScheduleRowActions: ViewModifier {
                             store.isFavorite ? Label.removeFromFavorites : Label.addToFavorites
                         }
                         .tint(.yellow)
+                        .labelStyle(.iconOnly)
                     }
                 }
                 .alert($store.scope(state: \.alert, action: \.alert))
