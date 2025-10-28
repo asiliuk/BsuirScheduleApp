@@ -23,23 +23,20 @@ public struct PairFormsColorPickerView: View {
                     }
                 }
             }
-            .onAppear { store.send(.onAppear) }
         }
     }
 }
 
 private struct PairFormColorPickerView: View {
     @Perception.Bindable var store: StoreOf<PairFormColorPicker>
-    @State var color: PairFormColor = .blue
 
     var body: some View {
         WithPerceptionTracking {
-            Picker(store.name, selection: $color) {
+            Picker(store.name, selection: $store.color) {
                 ForEach(PairFormColor.allCases, id: \.self) { color in
                     ColorView(color: color.color, name: color.name)
                 }
             }
-            .bind($store.color, to: $color)
         }
     }
 }

@@ -27,5 +27,4 @@ public struct ShimmeringSchedulePlaceholder: View {
 
 #Preview {
     ShimmeringSchedulePlaceholder()
-        .environmentObject(PairFormDisplayService.noop)
 }

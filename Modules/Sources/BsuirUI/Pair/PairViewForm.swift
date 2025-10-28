@@ -17,25 +17,37 @@ public enum PairViewForm: String, CaseIterable, Identifiable {
 extension PairViewForm {
     public var name: LocalizedStringKey {
         switch self {
-        case .lecture: return "view.pairView.form.name.lecture"
-        case .lab: return "view.pairView.form.name.lab"
-        case .practice: return "view.pairView.form.name.practice"
-        case .consultation: return "view.pairView.form.name.consultation"
-        case .exam: return "view.pairView.form.name.exam"
-        case .test: return "view.pairView.form.name.test"
-        case .unknown: return "view.pairView.form.name.unknown"
+        case .lecture: "view.pairView.form.name.lecture"
+        case .lab: "view.pairView.form.name.lab"
+        case .practice: "view.pairView.form.name.practice"
+        case .consultation: "view.pairView.form.name.consultation"
+        case .exam: "view.pairView.form.name.exam"
+        case .test: "view.pairView.form.name.test"
+        case .unknown: "view.pairView.form.name.unknown"
         }
     }
 
     public var symbolName: String {
         switch self {
-        case .lecture: return "person.bust"
-        case .lab: return "chart.xyaxis.line"
-        case .practice: return "hammer"
-        case .consultation: return "case"
-        case .exam: return "graduationcap"
-        case .test: return "pencil.and.ruler"
-        case .unknown: return "questionmark"
+        case .lecture: "person.bust"
+        case .lab: "chart.xyaxis.line"
+        case .practice: "hammer"
+        case .consultation: "case"
+        case .exam: "graduationcap"
+        case .test: "pencil.and.ruler"
+        case .unknown: "questionmark"
+        }
+    }
+
+    public var defaultColor: PairFormColor {
+        switch self {
+        case .lecture: .green
+        case .practice: .red
+        case .lab: .yellow
+        case .consultation: .brown
+        case .exam: .purple
+        case .test: .indigo
+        case .unknown: .gray
         }
     }
 }

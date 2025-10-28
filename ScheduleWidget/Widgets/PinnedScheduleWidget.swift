@@ -20,10 +20,6 @@ struct PinnedScheduleWidget: Widget {
             }
         ) { entry in
             PinnedScheduleWidgetEntryView(entry: entry)
-                .environmentObject({
-                    @Dependency(\.pairFormDisplayService) var pairFormDisplayService
-                    return pairFormDisplayService
-                }())
         }
         .configurationDisplayName("widget.pinned.displayName")
         .supportedFamilies(supportedFamilies)

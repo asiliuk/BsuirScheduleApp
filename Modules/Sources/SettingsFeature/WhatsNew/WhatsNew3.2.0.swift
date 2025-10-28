@@ -2,6 +2,7 @@ import Foundation
 import WhatsNewKit
 import BsuirUI
 import Dependencies
+import Sharing
 
 extension WhatsNew {
     static let version320 = WhatsNew(
@@ -10,8 +11,8 @@ extension WhatsNew {
         features: [
             WhatsNew.Feature(
                 image: .init(systemName: "square.text.square", foregroundColor: {
-                    @Dependency(\.pairFormDisplayService) var pairFormDisplayService
-                    return pairFormDisplayService.color(for: .exam).color
+                    @SharedReader(.pairFormColor(for: .exam)) var examColor
+                    return examColor.color
                 }()),
                 localizedTitle: "screen.settings.whatsNew.3_2.examsWidgets.title",
                 localizedSubtitle: "screen.settings.whatsNew.3_2.examsWidgets.subtitle"

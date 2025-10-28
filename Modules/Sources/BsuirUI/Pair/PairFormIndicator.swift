@@ -5,6 +5,7 @@ struct PairFormIndicator: View {
     var progress: Double
     @ScaledMetric(relativeTo: .body) private var formIndicatorWidth: CGFloat = 8
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.redactionReasons) var redactionReasons
 
     var body: some View {
         GeometryReader { proxy in
@@ -14,7 +15,7 @@ struct PairFormIndicator: View {
                 passedOpacity: passedOpacity
             )
         }
-        .foregroundColor(color)
+        .foregroundColor(redactionReasons.contains(.placeholder) ? .gray : color)
         .frame(width: formIndicatorWidth)
     }
 

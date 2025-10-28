@@ -58,5 +58,4 @@ private struct AvatarShape: Shape {
         progress: .init(constant: 0),
         details: Avatar(url: URL(string: "https://google.com"))
     )
-    .environmentObject(PairFormDisplayService.noop)
 }

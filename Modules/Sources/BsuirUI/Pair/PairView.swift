@@ -90,8 +90,14 @@ public struct PairView<Details: View>: View {
     public let details: Details
     @Environment(\.sizeCategory) var sizeCategory
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
-    @EnvironmentObject private var pairFormDisplayService: PairFormDisplayService
     @SharedReader(.alwaysShowFormIcon) private var alwaysShowFormIcon
+    @SharedReader(.pairFormColor(for: .lecture)) private var lectureColor
+    @SharedReader(.pairFormColor(for: .practice)) var practiceColor
+    @SharedReader(.pairFormColor(for: .lab)) var labColor
+    @SharedReader(.pairFormColor(for: .exam)) var examColor
+    @SharedReader(.pairFormColor(for: .consultation)) var consultationColor
+    @SharedReader(.pairFormColor(for: .test)) var testColor
+    @SharedReader(.pairFormColor(for: .unknown)) var unknownColor
 
     public init(
         from: String,
@@ -195,7 +201,15 @@ public struct PairView<Details: View>: View {
     }
 
     private var formColor: Color {
-        pairFormDisplayService.color(for: form).color
+        switch form {
+        case .lecture: lectureColor.color
+        case .practice: practiceColor.color
+        case .lab: labColor.color
+        case .exam: examColor.color
+        case .consultation: consultationColor.color
+        case .test: testColor.color
+        case .unknown: unknownColor.color
+        }
     }
 
     private var title: some View {
@@ -337,7 +351,6 @@ struct PairView_Previews: PreviewProvider {
         }
         .previewLayout(.sizeThatFits)
         .background(Color.gray)
-        .environmentObject(PairFormDisplayService.noop)
     }
 
     static let pair = PairCell(

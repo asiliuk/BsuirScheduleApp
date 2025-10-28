@@ -1,10 +1,11 @@
 import SwiftUI
+import Sharing
 
 struct ExamsScheduleWidgetHeader: View {
     var config: ExamsScheduleWidgetConfiguration
     var showMainDate: Bool = true
     var showBackground: Bool = true
-    @EnvironmentObject private var pairFormDisplayService: PairFormDisplayService
+    @SharedReader(.pairFormColor(for: .exam)) var examPairColor
     @Environment(\.widgetRenderingMode) var widgetRenderingMode
 
     var body: some View {
@@ -25,7 +26,7 @@ struct ExamsScheduleWidgetHeader: View {
         .padding(.horizontal, showBackground ? 12 : 4)
         .background {
             if showBackground {
-                let color = pairFormDisplayService.color(for: .exam).color
+                let color = examPairColor.color
                 widgetRenderingMode == .accented ? color.opacity(0.3) : color
             }
         }
@@ -40,5 +41,4 @@ struct ExamsScheduleWidgetHeader: View {
 
 #Preview {
     ExamsScheduleWidgetHeader(config: .noPinned())
-        .environmentObject(PairFormDisplayService.noop)
 }

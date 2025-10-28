@@ -20,10 +20,6 @@ struct OnlyExamsScheduleWidget: Widget {
             }
         ) { entry in
             ExamsScheduleWidgetEntryView(entry: entry)
-                .environmentObject({
-                    @Dependency(\.pairFormDisplayService) var pairFormDisplayService
-                    return pairFormDisplayService
-                }())
         }
         .supportedFamilies(supportedFamilies)
         .contentMarginsDisabled()
@@ -49,10 +45,6 @@ struct ExamsScheduleWidget: Widget {
             }
         ) { entry in
             ExamsScheduleWidgetEntryView(entry: entry)
-                .environmentObject({
-                    @Dependency(\.pairFormDisplayService) var pairFormDisplayService
-                    return pairFormDisplayService
-                }())
         }
         .supportedFamilies(supportedFamilies)
         .contentMarginsDisabled()

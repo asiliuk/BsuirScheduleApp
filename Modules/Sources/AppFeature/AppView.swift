@@ -77,10 +77,6 @@ public struct AppView: View {
         }
         .onOpenURL(perform: { store.send(.handleDeeplink($0)) })
         .task { await store.send(.task).finish() }
-        .environmentObject({ () -> PairFormDisplayService in
-            @Dependency(\.pairFormDisplayService) var pairFormDisplayService
-            return pairFormDisplayService
-        }())
     }
 }
 

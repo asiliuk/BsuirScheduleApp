@@ -59,10 +59,6 @@ public struct ScheduleWidgetPreviews: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background { BackgroundGradient() }
-            .environmentObject(PairFormDisplayService(
-                storage: .mock(suiteName: "ScheduleWidgetPreviews"),
-                widgetService: .noop
-            ))
             .edgesIgnoringSafeArea(.all)
             .persistentSystemOverlays(.hidden)
         }

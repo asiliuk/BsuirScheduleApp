@@ -18,7 +18,6 @@ public struct ShimmeringPairPlaceholder: View {
             details: EmptyView()
         )
         .shimmeringPlaceholder()
-        .environmentObject(PairFormDisplayService.noop)
     }
 }
 
@@ -28,5 +27,4 @@ public func placeholderText(length: Int) -> String {
 
 #Preview {
     ShimmeringPairPlaceholder()
-        .environmentObject(PairFormDisplayService.noop)
 }
