@@ -40,21 +40,25 @@ public struct GroupScheduleFeature {
     public var body: some ReducerOf<Self> {
         Scope(state: \.schedule, action: \.schedule) {
             ScheduleFeature { name, isRefresh in
-                try await ScheduleRequestResponse(response: apiClient.groupSchedule(name, isRefresh))
+                try await ScheduleRequestResponse(
+                    response: apiClient.groupSchedule(name, isRefresh),
+                    lastUpdate: apiClient.lastUpdateGroupSchedule(name)
+                )
             }
         }
     }
 }
 
 private extension ScheduleRequestResponse {
-    init(response: StudentGroup.Schedule) {
+    init(response: StudentGroup.Schedule, lastUpdate: StudentGroup.Schedule.LastUpdate) {
         self.init(
             startDate: response.startDate,
             endDate: response.endDate,
             startExamsDate: response.startExamsDate,
             endExamsDate: response.endExamsDate,
             schedule: response.actualSchedule,
-            exams: response.examSchedules
+            exams: response.examSchedules,
+            lastUpdate: lastUpdate
         )
     }
 }

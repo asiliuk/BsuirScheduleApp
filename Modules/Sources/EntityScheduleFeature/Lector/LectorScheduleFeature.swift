@@ -40,7 +40,10 @@ public struct LectorScheduleFeature {
     public var body: some ReducerOf<Self> {
         Scope(state: \.schedule, action: \.schedule) {
             ScheduleFeature { urlId, isRefresh in
-                try await ScheduleRequestResponse(response: apiClient.lecturerSchedule(urlId, isRefresh))
+                try await ScheduleRequestResponse(
+                    response: apiClient.lecturerSchedule(urlId, isRefresh),
+                    lastUpdate: apiClient.lastUpdateLecturerSchedule(urlId)
+                )
             }
         }        
     }
@@ -49,14 +52,15 @@ public struct LectorScheduleFeature {
 // MARK: - Lector
 
 private extension ScheduleRequestResponse {
-    init(response: Employee.Schedule) {
+    init(response: Employee.Schedule, lastUpdate: Employee.Schedule.LastUpdate) {
         self.init(
             startDate: response.startDate,
             endDate: response.endDate,
             startExamsDate: response.startExamsDate,
             endExamsDate: response.endExamsDate,
             schedule: response.actualSchedule,
-            exams: response.examSchedules ?? []
+            exams: response.examSchedules ?? [],
+            lastUpdate: lastUpdate
         )
     }
 }

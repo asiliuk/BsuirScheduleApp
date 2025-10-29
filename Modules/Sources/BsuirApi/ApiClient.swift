@@ -8,6 +8,8 @@ public struct ApiClient: Sendable {
     public var lecturers: @Sendable (_ ignoreCache: Bool) async throws -> [Employee]
     public var groupSchedule: @Sendable (_ name: String, _ ignoreCache: Bool) async throws -> StudentGroup.Schedule
     public var lecturerSchedule: @Sendable (_ urlId: String, _ ignoreCache: Bool) async throws -> Employee.Schedule
+    public var lastUpdateGroupSchedule: @Sendable (_ name: String) async throws -> StudentGroup.Schedule.LastUpdate
+    public var lastUpdateLecturerSchedule: @Sendable (_ urlId: String) async throws -> Employee.Schedule.LastUpdate
     public var week: @Sendable () async throws -> Int
     public var clearCache: @Sendable () async -> Void
 }
@@ -60,6 +62,12 @@ extension ApiClient {
             },
             lecturerSchedule: { urlId, ignoreCache in
                 try await request(route: .employeeSchedule(urlId: urlId), ignoreCache: ignoreCache)
+            },
+            lastUpdateGroupSchedule: { name in
+                try await request(route: .lastUpdateGroupSchedule(groupName: name), ignoreCache: true)
+            },
+            lastUpdateLecturerSchedule: { urlId in
+                try await request(route: .lastUpdateEmployeeSchedule(urlId: urlId), ignoreCache: true)
             },
             week: {
                 try await request(route: .week, ignoreCache: true)
@@ -125,6 +133,8 @@ private enum ApiClientKey: DependencyKey {
             return try JSONDecoder.bsuirDecoder.decode(StudentGroup.Schedule.self, from: data)
         },
         lecturerSchedule: unimplemented("ApiClient.lecturerSchedule"),
+        lastUpdateGroupSchedule: unimplemented("ApiClient.lastUpdateGroupSchedule"),
+        lastUpdateLecturerSchedule: unimplemented("ApiClient.lastUpdateLecturerSchedule"),
         week: unimplemented("ApiClient.week"),
         clearCache: unimplemented("ApiClient.clearCache")
     )

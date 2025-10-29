@@ -18,13 +18,16 @@ public struct ScheduleRequestResponse: Equatable, Encodable {
     public let schedule: DaySchedule
     public let exams: [BsuirApi.Pair]
 
+    public let lastUpdate: ScheduleLastUpdate
+
     public init(
         startDate: Date?,
         endDate: Date?,
         startExamsDate: Date?,
         endExamsDate: Date?,
         schedule: DaySchedule,
-        exams: [BsuirApi.Pair]
+        exams: [BsuirApi.Pair],
+        lastUpdate: ScheduleLastUpdate
     ) {
         self.startDate = startDate
         self.endDate = endDate
@@ -32,6 +35,7 @@ public struct ScheduleRequestResponse: Equatable, Encodable {
         self.endExamsDate = endExamsDate
         self.schedule = schedule
         self.exams = exams
+        self.lastUpdate = lastUpdate
     }
 }
 

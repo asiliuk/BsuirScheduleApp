@@ -10,6 +10,8 @@ enum IISRoute {
     case studentGroups
     case employees
     case week
+    case lastUpdateGroupSchedule(groupName: String)
+    case lastUpdateEmployeeSchedule(urlId: String)
 }
 
 let iisRouter = OneOf {
@@ -37,5 +39,17 @@ let iisRouter = OneOf {
     // GET /v1/schedule/current-week
     Route(.case(IISRoute.week)) {
         Path { "v1"; "schedule"; "current-week" }
+    }
+
+    // GET /v1/last-update-date/student-group?groupNumber={groupNumber}
+    Route(.case(IISRoute.lastUpdateGroupSchedule(groupName:))) {
+        Path { "v1"; "last-update-date"; "student-group" }
+        Query { Field("groupNumber") }
+    }
+
+    // GET /v1/last-update-date/employee?url-id={urlId}
+    Route(.case(IISRoute.lastUpdateEmployeeSchedule(urlId:))) {
+        Path { "v1"; "last-update-date"; "employee" }
+        Query { Field("url-id") }
     }
 }
