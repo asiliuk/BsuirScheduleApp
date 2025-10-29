@@ -10,11 +10,11 @@ struct PinnedScheduleFeatureView: View {
     var body: some View {
         WithPerceptionTracking {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-                EntityScheduleObservableView(
+                EntityScheduleFeatureViewV2(
                     store: store.scope(state: \.entitySchedule, action: \.entitySchedule)
                 )
             } destination: { store in
-                EntityScheduleObservableView(store: store)
+                EntityScheduleFeatureViewV2(store: store)
             }
         }
     }

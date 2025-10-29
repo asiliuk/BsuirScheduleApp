@@ -8,9 +8,14 @@ import ScheduleFeature
 public struct PinnedScheduleFeature {
     @ObservableState
     public struct State {
-        var title: String { entitySchedule.title }
-        var entitySchedule: EntityScheduleFeature.State
-        var path = StackState<EntityScheduleFeature.State>()
+        var title: String {
+            switch entitySchedule {
+            case let .group(schedule): schedule.groupName
+            case let .lector(schedule): schedule.lector.compactFio
+            }
+        }
+        var entitySchedule: EntityScheduleFeatureV2.State
+        var path = StackState<EntityScheduleFeatureV2.State>()
 
         init(pinned: ScheduleSource) {
             switch pinned {
@@ -27,19 +32,22 @@ public struct PinnedScheduleFeature {
             case showPremiumClubPinned
         }
 
-        case entitySchedule(EntityScheduleFeature.Action)
-        case path(StackAction<EntityScheduleFeature.State, EntityScheduleFeature.Action>)
+        case entitySchedule(EntityScheduleFeatureV2.Action)
+        case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
         case delegate(Delegate)
     }
 
     public var body: some ReducerOf<Self> {
         Scope(state: \.entitySchedule, action: \.entitySchedule) {
-            EntityScheduleFeature()
+            EntityScheduleFeatureV2.body
         }
 
         Reduce { state, action in
             switch action {
-            case .entitySchedule(.delegate(let action)), .path(.element(_, .delegate(let action))):
+            case .path(.element(_, .group(.schedule(.delegate(let action))))),
+                 .path(.element(_, .lector(.schedule(.delegate(let action))))),
+                 .entitySchedule(.group(.schedule(.delegate(let action)))),
+                 .entitySchedule(.lector(.schedule(.delegate(let action)))):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -54,8 +62,6 @@ public struct PinnedScheduleFeature {
                 return .none
             }
         }
-        .forEach(\.path, action: \.path) {
-            EntityScheduleFeature()
-        }
+        .forEach(\.path, action: \.path)
     }
 }
