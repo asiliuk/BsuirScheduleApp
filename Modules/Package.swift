@@ -39,7 +39,7 @@ let package = Package(
          .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.6.0"),
          .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
          .package(url: "https://github.com/apple/swift-algorithms.git", from: "1.1.0"),
-         .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "0.10.0"),
+         .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "26.0.0"),
          .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "1.0.0"),
          .package(url: "https://github.com/simibac/ConfettiSwiftUI.git", from: "1.1.0"),
          .package(url: "https://github.com/ryanlintott/FrameUp.git", from: "0.5.0"),
