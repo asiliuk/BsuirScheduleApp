@@ -611,6 +611,64 @@
         }
       }
     },
+    "alert.reloadWidgets.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кэш спампаванага раскладу і фатаграфій выкладчыкаў быў выдалены"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The cache of the downloaded schedule and lecturers photos has been deleted and Widgets timelines were reloaded"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кэш с загруженным расписанием и фотографиями лекторов был удален."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кеш завантаженого розкладу та фотографій лекторів видалено"
+          }
+        }
+      }
+    },
+    "alert.reloadWidgets.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віджэты паспяхова перазагружаны"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets successfully reloaded"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виджеты успешно перезагружены"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віджети успішно перезавантажено"
+          }
+        }
+      }
+    },
     "color.blue" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5301,6 +5359,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дані"
+          }
+        }
+      }
+    },
+    "screen.settings.networkAndData.data.section.reloadWidgets.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перазагрузіць віджэты"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reload Widgets"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перезагрузить виджеты"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перезавантажити віджети"
           }
         }
       }

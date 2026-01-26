@@ -20,6 +20,10 @@ struct NetworkAndDataFeatureView: View {
                     Button("screen.settings.networkAndData.data.section.clearWhatsNew.button") {
                         store.send(.clearWhatsNewTapped)
                     }
+
+                    Button("screen.settings.networkAndData.data.section.reloadWidgets.button") {
+                        store.send(.reloadWidgetsTapped)
+                    }
                 }
             }
             .alert($store.scope(state: \.alert, action: \.alert))

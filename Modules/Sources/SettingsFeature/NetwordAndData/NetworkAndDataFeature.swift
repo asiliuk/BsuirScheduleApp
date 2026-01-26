@@ -20,6 +20,7 @@ public struct NetworkAndDataFeature {
         case appleReachability(ReachabilityFeature.Action)
         case clearCacheTapped
         case clearWhatsNewTapped
+        case reloadWidgetsTapped
         case alert(PresentationAction<AlertAction>)
         case delegate(Delegate)
     }
@@ -27,6 +28,7 @@ public struct NetworkAndDataFeature {
     @Dependency(\.apiClient.clearCache) var clearNetworkCache
     @Dependency(\.imageCache) var imageCache
     @Dependency(\.whatsNewService) var whatsNewService
+    @Dependency(\.widgetService) var widgetService
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -45,6 +47,13 @@ public struct NetworkAndDataFeature {
                     await send(.delegate(.whatsNewCacheCleared))
                 }
 
+            case .reloadWidgetsTapped:
+                state.alert = .reloadWidgets
+                return .run { send in
+                    await clearNetworkCache()
+                    await imageCache.clearCache()
+                    widgetService.reloadAll()
+                }
             case .iisReachability, .appleReachability, .alert, .delegate:
                 return .none
             }
@@ -74,5 +83,11 @@ private extension AlertState where Action == NetworkAndDataFeature.Action.AlertA
         TextState("alert.clearWhatsNewCache.title")
     } message: {
         TextState("alert.clearWhatsNewCache.message")
+    }
+
+    static let reloadWidgets = AlertState {
+        TextState("alert.reloadWidgets.title")
+    } message: {
+        TextState("alert.reloadWidgets.message")
     }
 }
