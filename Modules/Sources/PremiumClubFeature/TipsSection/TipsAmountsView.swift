@@ -34,16 +34,14 @@ private struct TipsAmountsView: View {
     let store: StoreOf<TipsAmounts>
 
     var body: some View {
-        WithPerceptionTracking {
-            VStack {
-                ForEach(
-                    store.scope(
-                        state: \.amounts,
-                        action: \.amounts
-                    ),
-                    content: TipsAmountRow.init
-                )
-            }
+        VStack {
+            ForEach(
+                store.scope(
+                    state: \.amounts,
+                    action: \.amounts
+                ),
+                content: TipsAmountRow.init
+            )
         }
     }
 }
@@ -52,20 +50,18 @@ private struct TipsAmountRow: View {
     let store: StoreOf<TipsAmount>
 
     var body: some View {
-        WithPerceptionTracking {
-            LabeledContent {
-                AsyncButton {
-                    await store.send(.buyButtonTapped).finish()
-                } label: {
-                    Text(store.amount)
-                }
-                .changeEffect(
-                    .spray { Text("💸") },
-                    value: store.confettiCounter
-                )
+        LabeledContent {
+            AsyncButton {
+                await store.send(.buyButtonTapped).finish()
             } label: {
-                Text(store.title)
+                Text(store.amount)
             }
+            .changeEffect(
+                .spray { Text("💸") },
+                value: store.confettiCounter
+            )
+        } label: {
+            Text(store.title)
         }
     }
 }

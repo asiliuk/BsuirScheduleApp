@@ -3,33 +3,31 @@ import ReachabilityFeature
 import ComposableArchitecture
 
 struct NetworkAndDataFeatureView: View {
-    @Perception.Bindable var store: StoreOf<NetworkAndDataFeature>
+    @Bindable var store: StoreOf<NetworkAndDataFeature>
 
     var body: some View {
-        WithPerceptionTracking {
-            List {
-                Section("screen.settings.networkAndData.reachability.section.header") {
-                    ReachabilitySectionView(store: store)
-                }
-                
-                Section("screen.settings.networkAndData.data.section.header") {
-                    Button("screen.settings.networkAndData.data.section.clearCache.button") {
-                        store.send(.clearCacheTapped)
-                    }
-                    
-                    Button("screen.settings.networkAndData.data.section.clearWhatsNew.button") {
-                        store.send(.clearWhatsNewTapped)
-                    }
+        List {
+            Section("screen.settings.networkAndData.reachability.section.header") {
+                ReachabilitySectionView(store: store)
+            }
 
-                    Button("screen.settings.networkAndData.data.section.reloadWidgets.button") {
-                        store.send(.reloadWidgetsTapped)
-                    }
+            Section("screen.settings.networkAndData.data.section.header") {
+                Button("screen.settings.networkAndData.data.section.clearCache.button") {
+                    store.send(.clearCacheTapped)
+                }
+
+                Button("screen.settings.networkAndData.data.section.clearWhatsNew.button") {
+                    store.send(.clearWhatsNewTapped)
+                }
+
+                Button("screen.settings.networkAndData.data.section.reloadWidgets.button") {
+                    store.send(.reloadWidgetsTapped)
                 }
             }
-            .alert($store.scope(state: \.alert, action: \.alert))
-            .listStyle(.insetGrouped)
-            .navigationTitle("screen.settings.networkAndData.navigation.title")
         }
+        .alert($store.scope(state: \.alert, action: \.alert))
+        .listStyle(.insetGrouped)
+        .navigationTitle("screen.settings.networkAndData.navigation.title")
     }
 }
 
@@ -39,20 +37,18 @@ private struct ReachabilitySectionView: View {
     let store: StoreOf<NetworkAndDataFeature>
 
     var body: some View {
-        WithPerceptionTracking {
-            ReachabilityView(
-                store: store.scope(
-                    state: \.iisReachability,
-                    action: \.iisReachability
-                )
+        ReachabilityView(
+            store: store.scope(
+                state: \.iisReachability,
+                action: \.iisReachability
             )
-            
-            ReachabilityView(
-                store: store.scope(
-                    state: \.appleReachability,
-                    action: \.appleReachability
-                )
+        )
+
+        ReachabilityView(
+            store: store.scope(
+                state: \.appleReachability,
+                action: \.appleReachability
             )
-        }
+        )
     }
 }

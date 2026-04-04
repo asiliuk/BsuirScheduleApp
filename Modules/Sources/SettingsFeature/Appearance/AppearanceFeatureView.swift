@@ -12,23 +12,19 @@ struct AppearanceFeatureView: View {
                 PairPreviewSectionView()
             }
 
-            WithPerceptionTracking {
-                PairFormsColorPickerView(
-                    store: store.scope(
-                        state: \.pairFormsColorPicker,
-                        action: \.pairFormsColorPicker
-                    )
+            PairFormsColorPickerView(
+                store: store.scope(
+                    state: \.pairFormsColorPicker,
+                    action: \.pairFormsColorPicker
                 )
-            }
+            )
 
-            WithPerceptionTracking {
-                PairFormIconsView(
-                    store: store.scope(
-                        state: \.pairFormIcons,
-                        action: \.pairFormIcons
-                    )
+            PairFormIconsView(
+                store: store.scope(
+                    state: \.pairFormIcons,
+                    action: \.pairFormIcons
                 )
-            }
+            )
         }
         .navigationTitle("screen.settings.appearance.navigation.title")
     }

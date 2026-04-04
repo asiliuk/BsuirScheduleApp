@@ -7,14 +7,12 @@ struct DayScheduleView: View {
     let store: StoreOf<DayScheduleFeature>
 
     var body: some View {
-        WithPerceptionTracking {
-            ScheduleListView(
-                store: store.scope(
-                    state: \.scheduleList,
-                    action: \.scheduleList
-                )
+        ScheduleListView(
+            store: store.scope(
+                state: \.scheduleList,
+                action: \.scheduleList
             )
-        }
+        )
     }
 }
 

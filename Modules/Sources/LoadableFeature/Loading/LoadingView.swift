@@ -27,20 +27,18 @@ public struct LoadingView<
     }
 
     public var body: some View {
-        WithPerceptionTracking {
-            ZStack {
-                switch store.state {
-                case .initial, .inProgress:
-                    inProgress()
-                        .onAppear { store.send(.fetch) }
-                case .failed:
-                    if let failedStore = store.scope(state: \.failed, action: \.failed) {
-                        failed(failedStore, { store.send(.reload) })
-                    }
-                case .loaded:
-                    if let loadedStore = store.scope(state: \.loaded, action: \.loaded) {
-                        loaded(loadedStore, { await store.send(.refresh).finish() })
-                    }
+        ZStack {
+            switch store.state {
+            case .initial, .inProgress:
+                inProgress()
+                    .onAppear { store.send(.fetch) }
+            case .failed:
+                if let failedStore = store.scope(state: \.failed, action: \.failed) {
+                    failed(failedStore, { store.send(.reload) })
+                }
+            case .loaded:
+                if let loadedStore = store.scope(state: \.loaded, action: \.loaded) {
+                    loaded(loadedStore, { await store.send(.refresh).finish() })
                 }
             }
         }

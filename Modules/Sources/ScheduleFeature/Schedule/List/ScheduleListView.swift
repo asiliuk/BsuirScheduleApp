@@ -6,28 +6,26 @@ struct ScheduleListView: View {
     let store: StoreOf<ScheduleListFeature>
 
     var body: some View {
-        WithPerceptionTracking {
-            if store.hasSchedule {
-                ScheduleContentListView(store: store)
-            } else {
-                switch store.scheduleType {
-                case .continuous, .compact:
-                    ScheduleEmptyView()
-                case .exams:
-                    ExamsEmptyView { store.send(.checkScheduleTapped) }
-                }
+        if store.hasSchedule {
+            ScheduleContentListView(store: store)
+        } else {
+            switch store.scheduleType {
+            case .continuous, .compact:
+                ScheduleEmptyView()
+            case .exams:
+                ExamsEmptyView { store.send(.checkScheduleTapped) }
             }
         }
     }
 }
 
 private struct ScheduleContentListView: View {
-    @Perception.Bindable var store: StoreOf<ScheduleListFeature>
+    @Bindable var store: StoreOf<ScheduleListFeature>
     @State var presentsPairDetailsPopover: Bool = false
 
     var body: some View {
         List {
-            WithPerceptionTracking {
+            Group {
                 if store.title != nil || store.subtitle != nil {
                     VStack(alignment: .leading) {
                         if let title = store.title {

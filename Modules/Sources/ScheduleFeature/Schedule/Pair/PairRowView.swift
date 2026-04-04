@@ -5,38 +5,36 @@ import ScheduleCore
 import Pow
 
 struct PairRowView: View {
-    @Perception.Bindable var store: StoreOf<PairRowFeature>
+    @Bindable var store: StoreOf<PairRowFeature>
     @Environment(\.presentsPairDetailsPopover) var presentsPairDetailsPopover
     @Environment(\.pairFilteringMode) var pairFilteringMode
     @Environment(\.sizeCategory) var sizeCategory
 
     var body: some View {
-        WithPerceptionTracking {
-            Button {
-                store.send(.rowTapped)
-            } label: {
-                if isFiltered(pair: store.pair) {
-                    FilteredPairCell(
-                        pair: store.pair,
-                        showWeeks: store.showWeeks
-                    )
-                } else {
-                    PairCell(
-                        pair: store.pair,
-                        showWeeks: store.showWeeks,
-                        details: detailsView(pair: store.pair, details: store.details)
-                    )
-                }
+        Button {
+            store.send(.rowTapped)
+        } label: {
+            if isFiltered(pair: store.pair) {
+                FilteredPairCell(
+                    pair: store.pair,
+                    showWeeks: store.showWeeks
+                )
+            } else {
+                PairCell(
+                    pair: store.pair,
+                    showWeeks: store.showWeeks,
+                    details: detailsView(pair: store.pair, details: store.details)
+                )
             }
-            .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
-            .buttonStyle(PairRowButtonStyle())
-            .disabled(presentsPairDetailsPopover)
-            .preference(key: PresentsPairDetailsPopoverPreferenceKey.self, value: store.pairDetails != nil)
-            .popover(
-                item: $store.scope(state: \.pairDetails, action: \.pairDetails),
-                content: PairDetailsView.init
-            )
         }
+        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+        .buttonStyle(PairRowButtonStyle())
+        .disabled(presentsPairDetailsPopover)
+        .preference(key: PresentsPairDetailsPopoverPreferenceKey.self, value: store.pairDetails != nil)
+        .popover(
+            item: $store.scope(state: \.pairDetails, action: \.pairDetails),
+            content: PairDetailsView.init
+        )
     }
 
     @ViewBuilder

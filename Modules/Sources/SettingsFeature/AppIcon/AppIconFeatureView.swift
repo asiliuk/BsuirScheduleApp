@@ -7,27 +7,23 @@ struct AppIconLabelNavigationLink: View {
     let store: StoreOf<AppIconLabel>
 
     var body: some View {
-        WithPerceptionTracking {
-            if store.supportsIconPicking {
-                NavigationLink(value: value) {
-                    Label {
-                        Text("screen.settings.appIcon.navigation.title")
-                    } icon: {
-                        SettingsRowIcon(fill: .green) {
-                            Image(systemName: "info.circle.fill")
-                        }
-                        .hidden()
-                        .overlay {
-                            GeometryReader { proxy in
-                                WithPerceptionTracking {
-                                    let icon = store.currentIcon.or(.default)
-                                    AppIconPreviewView(
-                                        imageName: icon.previewImageName,
-                                        size: proxy.size.width,
-                                        needsClipping: icon.needsClipping
-                                    )
-                                }
-                            }
+        if store.supportsIconPicking {
+            NavigationLink(value: value) {
+                Label {
+                    Text("screen.settings.appIcon.navigation.title")
+                } icon: {
+                    SettingsRowIcon(fill: .green) {
+                        Image(systemName: "info.circle.fill")
+                    }
+                    .hidden()
+                    .overlay {
+                        GeometryReader { proxy in
+                            let icon = store.currentIcon.or(.default)
+                            AppIconPreviewView(
+                                imageName: icon.previewImageName,
+                                size: proxy.size.width,
+                                needsClipping: icon.needsClipping
+                            )
                         }
                     }
                 }
@@ -37,19 +33,17 @@ struct AppIconLabelNavigationLink: View {
 }
 
 struct AppIconFeatureView: View {
-    @Perception.Bindable var store: StoreOf<AppIconFeature>
+    @Bindable var store: StoreOf<AppIconFeature>
 
     var body: some View {
-        WithPerceptionTracking {
-            AppIconPickerView(
-                selection: $store.currentIcon.sending(\.iconPicked),
-                isPremiumLocked: !store.isPremiumUser,
-                isSafeMode: store.isSafeModeEnabled,
-                onSafeModeDisableTapped: { store.send(.disableSafeModeTapped) }
-            )
-            .alert($store.scope(state: \.alert, action: \.alert))
-            .navigationTitle("screen.settings.appIcon.navigation.title")
-        }
+        AppIconPickerView(
+            selection: $store.currentIcon.sending(\.iconPicked),
+            isPremiumLocked: !store.isPremiumUser,
+            isSafeMode: store.isSafeModeEnabled,
+            onSafeModeDisableTapped: { store.send(.disableSafeModeTapped) }
+        )
+        .alert($store.scope(state: \.alert, action: \.alert))
+        .navigationTitle("screen.settings.appIcon.navigation.title")
     }
 }
 

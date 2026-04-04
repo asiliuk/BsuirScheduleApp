@@ -12,55 +12,53 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
     }
 
     public var body: some View {
-        WithPerceptionTracking {
-            VStack(spacing: 24) {
-                Spacer()
+        VStack(spacing: 24) {
+            Spacer()
 
-                AnimatableImage(systemName: "wand.and.rays")
-                    .font(.system(size: 70))
+            AnimatableImage(systemName: "wand.and.rays")
+                .font(.system(size: 70))
 
-                VStack(spacing: 12) {
+            VStack(spacing: 12) {
 
-                    titleText(errorCode: store.errorCode)
+                titleText(errorCode: store.errorCode)
 
-                    if let store = store.scope(state: \.reachability, action: \.reachability) {
-                        ReachabilityView(store: store)
-                            .font(.headline)
-                    }
-
-                    Text("view.errorState.apiDown.message")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-
-                    NetworkErrorMessageField(
-                        address: store.address,
-                        message: store.message
-                    )
-                }
-                .multilineTextAlignment(.leading)
-                .padding(.horizontal, 24)
-
-                let openIssue = Button {
-                    store.send(.openIssueTapped)
-                } label: {
-                    Label("view.errorState.apiDown.button.issue.label", systemImage: "plus.diamond.fill")
+                if let store = store.scope(state: \.reachability, action: \.reachability) {
+                    ReachabilityView(store: store)
+                        .font(.headline)
                 }
 
-                let retry = Button {
-                    store.send(.reloadButtonTapped)
-                } label: {
-                    Label("view.errorState.apiDown.button.retry.label", systemImage: "arrow.clockwise")
-                }
+                Text("view.errorState.apiDown.message")
+                    .font(.body)
+                    .foregroundColor(.secondary)
 
-                ViewThatFits {
-                    HStack { openIssue; retry }
-                    VStack { openIssue; retry }
-                }
-
-                Spacer()
+                NetworkErrorMessageField(
+                    address: store.address,
+                    message: store.message
+                )
             }
-            .buttonStyle(.borderedProminent)
+            .multilineTextAlignment(.leading)
+            .padding(.horizontal, 24)
+
+            let openIssue = Button {
+                store.send(.openIssueTapped)
+            } label: {
+                Label("view.errorState.apiDown.button.issue.label", systemImage: "plus.diamond.fill")
+            }
+
+            let retry = Button {
+                store.send(.reloadButtonTapped)
+            } label: {
+                Label("view.errorState.apiDown.button.retry.label", systemImage: "arrow.clockwise")
+            }
+
+            ViewThatFits {
+                HStack { openIssue; retry }
+                VStack { openIssue; retry }
+            }
+
+            Spacer()
         }
+        .buttonStyle(.borderedProminent)
     }
 
     func titleText(errorCode: String) -> Text {

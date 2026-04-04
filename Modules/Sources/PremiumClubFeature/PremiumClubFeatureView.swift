@@ -5,34 +5,32 @@ import ConfettiSwiftUI
 import ComposableArchitecture
 
 public struct PremiumClubFeatureView: View {
-    @Perception.Bindable var store: StoreOf<PremiumClubFeature>
+    @Bindable var store: StoreOf<PremiumClubFeature>
 
     public init(store: StoreOf<PremiumClubFeature>) {
         self.store = store
     }
 
     public var body: some View {
-        WithPerceptionTracking {
-            ScrollView {
-                PremiumClubSections(sections: store.sections, store: store)
-            }
-            .labelStyle(PremiumGroupTitleLabelStyle())
-            .bsuirSafeAreaBar(edge: .bottom) {
-                if !store.isPremiumUser {
-                    SubscriptionFooterView(
-                        store: store.scope(
-                            state: \.subsctiptionFooter,
-                            action: \.subsctiptionFooter
-                        )
-                    )
-                    .padding(.horizontal)
-                    .padding(.vertical, 8)
-                    .background(subscriptionBackground)
-                }
-            }
-            .premiumClubConfettiCannon(counter: $store.confettiCounter)
-            .offerCodeRedemption(isPresented: $store.redeemCodePresent._onMainQueue())
+        ScrollView {
+            PremiumClubSections(sections: store.sections, store: store)
         }
+        .labelStyle(PremiumGroupTitleLabelStyle())
+        .bsuirSafeAreaBar(edge: .bottom) {
+            if !store.isPremiumUser {
+                SubscriptionFooterView(
+                    store: store.scope(
+                        state: \.subsctiptionFooter,
+                        action: \.subsctiptionFooter
+                    )
+                )
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                .background(subscriptionBackground)
+            }
+        }
+        .premiumClubConfettiCannon(counter: $store.confettiCounter)
+        .offerCodeRedemption(isPresented: $store.redeemCodePresent._onMainQueue())
         .navigationTitle("screen.premiumClub.navigation.title")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -81,29 +79,27 @@ private struct PremiumClubSections: View {
 
     var body: some View {
         ForEach(sections) { section in
-            WithPerceptionTracking {
-                switch section {
-                case .pinnedSchedule:
-                    PinnedScheduleSectionView()
-                case .widgets:
-                    WidgetsSectionView()
-                case .appIcons:
-                    AppIconsSectionView()
-                case .tips:
-                    TipsSectionView(
-                        store: store.scope(
-                            state: \.tips,
-                            action: \.tips
-                        )
+            switch section {
+            case .pinnedSchedule:
+                PinnedScheduleSectionView()
+            case .widgets:
+                WidgetsSectionView()
+            case .appIcons:
+                AppIconsSectionView()
+            case .tips:
+                TipsSectionView(
+                    store: store.scope(
+                        state: \.tips,
+                        action: \.tips
                     )
-                case .premiumClubMembership:
-                    PremiumClubMembershipSectionView(
-                        store: store.scope(
-                            state: \.premiumClubMembership,
-                            action: \.premiumClubMembership
-                        )
+                )
+            case .premiumClubMembership:
+                PremiumClubMembershipSectionView(
+                    store: store.scope(
+                        state: \.premiumClubMembership,
+                        action: \.premiumClubMembership
                     )
-                }
+                )
             }
         }
         .padding()

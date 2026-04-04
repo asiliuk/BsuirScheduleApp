@@ -10,23 +10,21 @@ public struct ReachabilityView: View {
     }
 
     public var body: some View {
-        WithPerceptionTracking {
-            Label {
-                Text(store.host)
-            } icon: {
-                switch store.status {
-                case .unknown:
-                    Image(systemName: "questionmark.circle.fill")
-                        .foregroundColor(.yellow)
-                case .notReachable:
-                    Image(systemName: "x.circle.fill")
-                        .foregroundColor(.red)
-                case .reachable:
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.green)
-                }
+        Label {
+            Text(store.host)
+        } icon: {
+            switch store.status {
+            case .unknown:
+                Image(systemName: "questionmark.circle.fill")
+                    .foregroundColor(.yellow)
+            case .notReachable:
+                Image(systemName: "x.circle.fill")
+                    .foregroundColor(.red)
+            case .reachable:
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.green)
             }
-            .task { await store.send(.task).finish() }
         }
+        .task { await store.send(.task).finish() }
     }
 }

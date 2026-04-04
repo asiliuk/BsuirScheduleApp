@@ -6,21 +6,19 @@ public struct PairFormsColorPickerView: View {
     let store: StoreOf<PairFormsColorPicker>
 
     public var body: some View {
-        WithPerceptionTracking {
-            Section(header: Text("screen.settings.appearance.colors.section.header")) {
-                ForEach(
-                    store.scope(
-                        state: \.pairFormColorPickers,
-                        action: \.pairFormColorPickers
-                    )
-                ) { store in
-                    PairFormColorPickerView(store: store)
-                }
+        Section(header: Text("screen.settings.appearance.colors.section.header")) {
+            ForEach(
+                store.scope(
+                    state: \.pairFormColorPickers,
+                    action: \.pairFormColorPickers
+                )
+            ) { store in
+                PairFormColorPickerView(store: store)
+            }
 
-                if store.hasChanges {
-                    Button("screen.settings.appearance.colors.reset.title") {
-                        store.send(.resetButtonTapped, animation: .default)
-                    }
+            if store.hasChanges {
+                Button("screen.settings.appearance.colors.reset.title") {
+                    store.send(.resetButtonTapped, animation: .default)
                 }
             }
         }
@@ -28,14 +26,12 @@ public struct PairFormsColorPickerView: View {
 }
 
 private struct PairFormColorPickerView: View {
-    @Perception.Bindable var store: StoreOf<PairFormColorPicker>
+    @Bindable var store: StoreOf<PairFormColorPicker>
 
     var body: some View {
-        WithPerceptionTracking {
-            Picker(store.name, selection: $store.color) {
-                ForEach(PairFormColor.allCases, id: \.self) { color in
-                    ColorView(color: color.color, name: color.name)
-                }
+        Picker(store.name, selection: $store.color) {
+            ForEach(PairFormColor.allCases, id: \.self) { color in
+                ColorView(color: color.color, name: color.name)
             }
         }
     }

@@ -7,22 +7,20 @@ struct PremiumClubMembershipSectionView: View {
     @State var manageSubscriptionShown = false
     
     var body: some View {
-        WithPerceptionTracking {
-            GroupBox {
-                MembershipSubscriptionView(
-                    store: store.scope(
-                        state: \.subscription,
-                        action: \.subscription
-                    )
+        GroupBox {
+            MembershipSubscriptionView(
+                store: store.scope(
+                    state: \.subscription,
+                    action: \.subscription
                 )
-                .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
-                .padding(.vertical, 4)
-            } label: {
-                Label("screen.premiumClub.section.membership.title", systemImage: "checkmark.seal.fill")
-                    .settingsRowAccent(.premiumGradient)
-            }
-            .task { await store.send(.task).finish() }
+            )
+            .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
+            .padding(.vertical, 4)
+        } label: {
+            Label("screen.premiumClub.section.membership.title", systemImage: "checkmark.seal.fill")
+                .settingsRowAccent(.premiumGradient)
         }
+        .task { await store.send(.task).finish() }
     }
 }
 
@@ -30,41 +28,37 @@ private struct MembershipSubscriptionView: View {
     let store: StoreOf<PremiumClubMembershipSection.MembershipSubscription>
 
     var body: some View {
-        WithPerceptionTracking {
-            switch store.case {
-            case .loading:
-                ProgressView()
-                    .progressViewStyle(.circular)
-                    .frame(maxWidth: .infinity)
-            case .noSubscription:
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("screen.premiumClub.section.membership.message")
-                    LegalInfoView()
-                }
-            case .subscribed(let store):
-                PremiumClubMembershipSubscribedView(store: store)
+        switch store.case {
+        case .loading:
+            ProgressView()
+                .progressViewStyle(.circular)
+                .frame(maxWidth: .infinity)
+        case .noSubscription:
+            VStack(alignment: .leading, spacing: 16) {
+                Text("screen.premiumClub.section.membership.message")
+                LegalInfoView()
             }
+        case .subscribed(let store):
+            PremiumClubMembershipSubscribedView(store: store)
         }
     }
 }
 
 private struct PremiumClubMembershipSubscribedView: View {
-    @Perception.Bindable var store: StoreOf<PremiumClubMembershipSubscribed>
+    @Bindable var store: StoreOf<PremiumClubMembershipSubscribed>
 
     var body: some View {
-        WithPerceptionTracking {
-            VStack(alignment: .leading, spacing: 8) {
-                if store.willAutoRenew {
-                    Text("screen.premiumClub.section.membership.renew\(store.formattedExpiration)")
-                } else {
-                    Text("screen.premiumClub.section.membership.expire\(store.formattedExpiration)")
-                }
-                Button("screen.premiumClub.section.membership.button.manage") {
-                    store.send(.manageButtonTapped)
-                }
+        VStack(alignment: .leading, spacing: 8) {
+            if store.willAutoRenew {
+                Text("screen.premiumClub.section.membership.renew\(store.formattedExpiration)")
+            } else {
+                Text("screen.premiumClub.section.membership.expire\(store.formattedExpiration)")
             }
-            .manageSubscriptionsSheet(isPresented: $store.manageSubscriptionPresented._onMainQueue())
+            Button("screen.premiumClub.section.membership.button.manage") {
+                store.send(.manageButtonTapped)
+            }
         }
+        .manageSubscriptionsSheet(isPresented: $store.manageSubscriptionPresented._onMainQueue())
     }
 }
 

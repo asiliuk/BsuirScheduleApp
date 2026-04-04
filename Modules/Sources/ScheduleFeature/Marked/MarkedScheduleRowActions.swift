@@ -11,42 +11,40 @@ extension View {
 }
 
 struct MarkedScheduleRowActions: ViewModifier {
-    @Perception.Bindable var store: StoreOf<MarkedScheduleRowFeature>
+    @Bindable var store: StoreOf<MarkedScheduleRowFeature>
     var deleteOnUnFavorite: Bool
 
     func body(content: Content) -> some View {
-        WithPerceptionTracking {
-            content
-                .swipeActions(edge: .leading) {
+        content
+            .swipeActions(edge: .leading) {
+                Button {
+                    store.send(.togglePinnedTapped)
+                } label: {
+                    store.isPinned ? Label.unpin : Label.pin
+                }
+                .tint(.red)
+                .labelStyle(.iconOnly)
+            }
+            .swipeActions(edge: .trailing) {
+                if deleteOnUnFavorite {
                     Button {
-                        store.send(.togglePinnedTapped)
+                        store.send(.removeButtonTapped)
                     } label: {
-                        store.isPinned ? Label.unpin : Label.pin
+                        Label.deleteFromFavorites
                     }
                     .tint(.red)
                     .labelStyle(.iconOnly)
-                }
-                .swipeActions(edge: .trailing) {
-                    if deleteOnUnFavorite {
-                        Button {
-                            store.send(.removeButtonTapped)
-                        } label: {
-                            Label.deleteFromFavorites
-                        }
-                        .tint(.red)
-                        .labelStyle(.iconOnly)
-                    } else {
-                        Button {
-                            store.send(.toggleFavoriteTapped)
-                        } label: {
-                            store.isFavorite ? Label.removeFromFavorites : Label.addToFavorites
-                        }
-                        .tint(.yellow)
-                        .labelStyle(.iconOnly)
+                } else {
+                    Button {
+                        store.send(.toggleFavoriteTapped)
+                    } label: {
+                        store.isFavorite ? Label.removeFromFavorites : Label.addToFavorites
                     }
+                    .tint(.yellow)
+                    .labelStyle(.iconOnly)
                 }
-                .alert($store.scope(state: \.alert, action: \.alert))
-        }
+            }
+            .alert($store.scope(state: \.alert, action: \.alert))
     }
 }
 

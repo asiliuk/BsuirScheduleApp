@@ -7,7 +7,7 @@ struct SubscriptionFooterView: View {
     let store: StoreOf<SubscriptionFooter>
 
     var body: some View {
-        WithPerceptionTracking {
+        ZStack {
             switch store.productState {
             case .loading:
                 ProgressView()

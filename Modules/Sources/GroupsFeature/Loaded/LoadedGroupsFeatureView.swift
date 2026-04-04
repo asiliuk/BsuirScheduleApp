@@ -4,49 +4,47 @@ import BsuirUI
 import Algorithms
 
 struct LoadedGroupsFeatureView: View {
-    @Perception.Bindable var store: StoreOf<LoadedGroupsFeature>
+    @Bindable var store: StoreOf<LoadedGroupsFeature>
     let refresh: () async -> Void
 
     var body: some View {
-        WithPerceptionTracking {
-            List {
+        List {
+            GroupsSectionView(
+                title: "screen.groups.pinned.section.header",
+                rows: store.scope(state: \.pinnedRows, action: \.pinnedRows)
+            )
+
+            GroupsSectionView(
+                title: "screen.groups.favorites.section.header",
+                rows: store.scope(state: \.favoriteRows, action: \.favoriteRows)
+            )
+
+            let sections = store
+                .scope(state: \.visibleRows, action: \.visibleRows)
+                .chunked(on: \.sectionTitle)
+
+            ForEach(sections, id: \.0) { (sectionTitle, rows) in
                 GroupsSectionView(
-                    title: "screen.groups.pinned.section.header",
-                    rows: store.scope(state: \.pinnedRows, action: \.pinnedRows)
+                    title: LocalizedStringKey(String(sectionTitle)),
+                    rows: rows
                 )
-
-                GroupsSectionView(
-                    title: "screen.groups.favorites.section.header",
-                    rows: store.scope(state: \.favoriteRows, action: \.favoriteRows)
-                )
-
-                let sections = store
-                    .scope(state: \.visibleRows, action: \.visibleRows)
-                    .chunked(on: \.sectionTitle)
-
-                ForEach(sections, id: \.0) { (sectionTitle, rows) in
-                    GroupsSectionView(
-                        title: LocalizedStringKey(String(sectionTitle)),
-                        rows: rows
-                    )
-                }
             }
-            .listStyle(.insetGrouped)
-            .refreshable { await refresh() }
-            .overlay {
-                if #available(iOS 17, *) {
-                    if store.isEmpty {
-                        ContentUnavailableView.search
-                    }
-                }
-            }
-            .dismissSearch(store.searchDismiss)
-            .searchable(text: $store.searchQuery, prompt: "screen.groups.search.placeholder")
-            .task { await store.send(.task).finish() }
-            .animation(.default, value: store.pinnedRows.ids)
-            .animation(.default, value: store.favoriteRows.ids)
-            .animation(.default, value: store.visibleRows.ids)
         }
+        .listStyle(.insetGrouped)
+        .refreshable { await refresh() }
+        .overlay {
+            if #available(iOS 17, *) {
+                if store.isEmpty {
+                    ContentUnavailableView.search
+                }
+            }
+        }
+        .dismissSearch(store.searchDismiss)
+        .searchable(text: $store.searchQuery, prompt: "screen.groups.search.placeholder")
+        .task { await store.send(.task).finish() }
+        .animation(.default, value: store.pinnedRows.ids)
+        .animation(.default, value: store.favoriteRows.ids)
+        .animation(.default, value: store.visibleRows.ids)
     }
 }
 

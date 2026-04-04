@@ -16,65 +16,63 @@ public enum CurrentSelection: Hashable {
 }
 
 public struct AppView: View {
-    @Perception.Bindable var store: StoreOf<AppFeature>
+    @Bindable var store: StoreOf<AppFeature>
 
     public init(store: StoreOf<AppFeature>) {
         self.store = store
     }
 
     public var body: some View {
-        WithPerceptionTracking {
-            TabView(selection: $store.selection.sending(\.setSelection)) {
-                PinnedTabView(
-                    store: store.scope(
-                        state: \.pinnedTab,
-                        action: \.pinnedTab
-                    )
+        TabView(selection: $store.selection.sending(\.setSelection)) {
+            PinnedTabView(
+                store: store.scope(
+                    state: \.pinnedTab,
+                    action: \.pinnedTab
                 )
-                .tag(CurrentSelection.pinned)
-
-                GroupsFeatureTab(
-                    store: store.scope(
-                        state: \.groups,
-                        action: \.groups
-                    )
+            )
+            .tag(CurrentSelection.pinned)
+            
+            GroupsFeatureTab(
+                store: store.scope(
+                    state: \.groups,
+                    action: \.groups
                 )
-                .tag(CurrentSelection.groups)
-
-                LecturersFeatureTab(
-                    store: store.scope(
-                        state: \.lecturers,
-                        action: \.lecturers
-                    )
+            )
+            .tag(CurrentSelection.groups)
+            
+            LecturersFeatureTab(
+                store: store.scope(
+                    state: \.lecturers,
+                    action: \.lecturers
                 )
-                .tag(CurrentSelection.lecturers)
-
-                SettingsFeatureTab(
-                    store: store.scope(
-                        state: \.settings,
-                        action: \.settings
-                    )
+            )
+            .tag(CurrentSelection.lecturers)
+            
+            SettingsFeatureTab(
+                store: store.scope(
+                    state: \.settings,
+                    action: \.settings
                 )
-                .tag(CurrentSelection.settings)
-            }
-            .sheet(
-                item: $store.scope(
-                    state: \.destination?.premiumClub,
-                    action: \.destination.premiumClub
-                )
-            ) { store in
-                NavigationStack {
-                    PremiumClubFeatureView(store: store)
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            CloseModalToolbarItem {
-                                self.store.send(.closePremiumClubButtonTapped)
-                            }
-                        }
-                }
-            }
-            .bsuirTabbarSidebarAdaptable()
+            )
+            .tag(CurrentSelection.settings)
         }
+        .sheet(
+            item: $store.scope(
+                state: \.destination?.premiumClub,
+                action: \.destination.premiumClub
+            )
+        ) { store in
+            NavigationStack {
+                PremiumClubFeatureView(store: store)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        CloseModalToolbarItem {
+                            self.store.send(.closePremiumClubButtonTapped)
+                        }
+                    }
+            }
+        }
+        .bsuirTabbarSidebarAdaptable()
         .onOpenURL(perform: { store.send(.handleDeeplink($0)) })
         .task { await store.send(.task).finish() }
     }
@@ -111,18 +109,16 @@ private struct LecturersFeatureTab: View {
 }
 
 private struct SettingsFeatureTab: View {
-    @Perception.Bindable var store: StoreOf<SettingsFeature>
+    @Bindable var store: StoreOf<SettingsFeature>
 
     var body: some View {
-        WithPerceptionTracking {
-            SettingsFeatureView(
-                store: store
-            )
-            .tabItem {
-                Label("view.tabBar.settings.title", systemImage: "gearshape")
-                    .accessibilityIdentifier("tabview-tab-settings")
-            }
-            .badge(store.hasWhatsNew ? "✦" : nil)
+        SettingsFeatureView(
+            store: store
+        )
+        .tabItem {
+            Label("view.tabBar.settings.title", systemImage: "gearshape")
+                .accessibilityIdentifier("tabview-tab-settings")
         }
+        .badge(store.hasWhatsNew ? "✦" : nil)
     }
 }

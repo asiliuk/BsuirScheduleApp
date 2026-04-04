@@ -2,27 +2,25 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MarkedSchedulePickerView: View {
-    @Perception.Bindable var store: StoreOf<MarkedSchedulePickerFeature>
+    @Bindable var store: StoreOf<MarkedSchedulePickerFeature>
     @State var selection: MarkedSchedulePickerFeature.State.Selection = .nothing
 
     var body: some View {
-        WithPerceptionTracking {
-            Menu {
-                Picker("screen.schedule.mark.title", selection: $selection) {
-                    ForEach(MarkedSchedulePickerFeature.State.Selection.allCases) { selection in
-                        selection.label
-                    }
+        Menu {
+            Picker("screen.schedule.mark.title", selection: $selection) {
+                ForEach(MarkedSchedulePickerFeature.State.Selection.allCases) { selection in
+                    selection.label
                 }
-                .tint(nil)
-            } label: {
-                store.selection.label
-                    .symbolVariant(.fill)
             }
-            .task { await store.send(.task).finish() }
-            .tint(store.selection.tint)
-            .alert($store.scope(state: \.alert, action: \.alert))
-            .bind($store.selection, to: $selection)
+            .tint(nil)
+        } label: {
+            store.selection.label
+                .symbolVariant(.fill)
         }
+        .task { await store.send(.task).finish() }
+        .tint(store.selection.tint)
+        .alert($store.scope(state: \.alert, action: \.alert))
+        .bind($store.selection, to: $selection)
     }
 }
 

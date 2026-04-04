@@ -2,15 +2,13 @@ import SwiftUI
 import ComposableArchitecture
 
 struct PairFormIconsView: View {
-    @Perception.Bindable var store: StoreOf<PairFormIcons>
+    @Bindable var store: StoreOf<PairFormIcons>
 
     var body: some View {
         Section {
-            WithPerceptionTracking {
-                ForEach(store.pairForms) { pairForm in
-                    LabeledContent(pairForm.name) {
-                        Image(systemName: pairForm.symbolName).foregroundColor(.primary)
-                    }
+            ForEach(store.pairForms) { pairForm in
+                LabeledContent(pairForm.name) {
+                    Image(systemName: pairForm.symbolName).foregroundColor(.primary)
                 }
             }
         } header: {
@@ -20,9 +18,7 @@ struct PairFormIconsView: View {
         }
 
         Section {
-            WithPerceptionTracking {
-                Toggle("screen.settings.appearance.icons.section.alwaysShowToggle.title", isOn: $store.alwaysShowIcon)
-            }
+            Toggle("screen.settings.appearance.icons.section.alwaysShowToggle.title", isOn: $store.alwaysShowIcon)
         } footer: {
             Text("screen.settings.appearance.icons.section.alwaysShowToggle.footer")
         }

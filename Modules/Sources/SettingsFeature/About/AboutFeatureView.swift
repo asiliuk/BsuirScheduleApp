@@ -7,9 +7,7 @@ struct AboutFeatureView: View {
     var body: some View {
         List {
             Section("screen.settings.about.version.section.header") {
-                WithPerceptionTracking {
-                    Text(store.appVersion)
-                }
+                Text(store.appVersion)
             }
 
             Section("screen.settings.about.links.section.header") {

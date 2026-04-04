@@ -74,12 +74,10 @@ private struct DebugAppView: View {
     let appDelegate: AppDelegate
 
     var body: some View {
-        WithPerceptionTracking {
-            if appDelegate.isWidgetsPreviewEnabled {
-                ScheduleWidgetPreviews()
-            } else {
-                AppView(store: appDelegate.store)
-            }
+        if appDelegate.isWidgetsPreviewEnabled {
+            ScheduleWidgetPreviews()
+        } else {
+            AppView(store: appDelegate.store)
         }
     }
 }
