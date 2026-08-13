@@ -20,6 +20,7 @@ public enum RequestError: Error {
         case let decodingError as MyURLRoutingDecodingError:
             let url = decodingError.response.url
             let description = String(describing: decodingError.underlyingError)
+            let raw = String(decoding: decodingError.bytes, as: UTF8.self)
 
             switch (decodingError.response as? HTTPURLResponse)?.statusCode ?? 0 {
             case 200..<300:
@@ -27,7 +28,7 @@ public enum RequestError: Error {
             case 404:
                 self = .noSchedule
             case let statusCode:
-                self = .somethingWrongWithBsuir(url: url, description: description, statusCode: statusCode)
+                self = .somethingWrongWithBsuir(url: url, description: raw, statusCode: statusCode)
             }
         default:
             assertionFailure("Unknown error type \(error)")
