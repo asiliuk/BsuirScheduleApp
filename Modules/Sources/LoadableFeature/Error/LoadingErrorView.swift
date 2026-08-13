@@ -24,3 +24,55 @@ public struct LoadingErrorView: View {
         }
     }
 }
+
+#Preview("Unknown") {
+    LoadingErrorUnknownView(
+        store: .init(
+            initialState: .init(),
+            reducer: {}
+        )
+    )
+}
+
+#Preview("Not connected") {
+    LoadingErrorNotConnectedToInternetView(
+        store: .init(
+            initialState: .init(),
+            reducer: {}
+        )
+    )
+}
+
+#Preview("Failed to decode") {
+    LoadingErrorFailedToDecodeView(
+        store: .init(
+            initialState: .init(
+                url: URL(string: "https://iis.bsuir.by/something/something"),
+                description: "Failed to decode this shit"
+            ),
+            reducer: {}
+        )
+    )
+}
+
+#Preview("No schedule") {
+    LoadingErrorNoScheduleView(
+        store: .init(
+            initialState: .init(),
+            reducer: {}
+        )
+    )
+}
+
+#Preview("Something went wrong") {
+    LoadingErrorSomethingWrongWithBsuirView(
+        store: .init(
+            initialState: .init(
+                url: URL(string: "https://iis.bsuir.by/something/something"),
+                description: "This is error message",
+                statusCode: 500
+            ),
+            reducer: {}
+        )
+    )
+}
