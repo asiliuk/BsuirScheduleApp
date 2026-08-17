@@ -12,7 +12,7 @@ public struct LecturersRow {
         public let lector: Employee
 
         var fullName: String { lector.fio }
-        var imageUrl: URL? { lector.photoLink }
+        var imageUrl: URL? { lector.actualPhotoLink }
 
         var subtitle: String? {
             lector.academicDepartment?.joined(separator: " · ")

@@ -13,7 +13,7 @@ public struct LecturerAvatarsDetails: View {
         if !lecturers.isEmpty {
             HStack(spacing: -overlap) {
                 ForEach(lecturers, id: \.id) { lecturer in
-                    Avatar(url: lecturer.photoLink)
+                    Avatar(url: lecturer.actualPhotoLink)
                 }
             }
         }

@@ -42,7 +42,7 @@ public struct PairDetailsFeature {
                 return .send(.delegate(.showLectorSchedule(employee)))
 
             case .lectorPhotoTapped(let employee):
-                state.photoPreview = employee.photoLink
+                state.photoPreview = employee.actualPhotoLink
                 return .none
 
             case .setPhotoPreview(let url):

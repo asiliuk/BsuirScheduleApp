@@ -39,7 +39,7 @@ private struct PairDetailsLecturersSectionView: View {
             Section("screen.pairDetails.lecturers.section.title") {
                 ForEach(store.pair.lecturers, id: \.id) { employee in
                     LecturerCell(
-                        photo: employee.photoLink,
+                        photo: employee.actualPhotoLink,
                         name: employee.fio
                     ) {
                         store.send(.lectorTapped(employee))

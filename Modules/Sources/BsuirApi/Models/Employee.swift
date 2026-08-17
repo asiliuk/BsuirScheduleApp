@@ -80,6 +80,23 @@ extension Employee.Schedule {
 }
 
 extension Employee {
+    /// Actual URL for employee photo
+    ///
+    /// Sometimes API returns photo link that has no host and starts with `null`
+    /// In that case we fallback to static ID based URL
+    /// This property allows to hide this complexity
+    ///
+    /// - Returns: URL of employee photo or hardcoded ID based photo URL.
+    public var actualPhotoLink: URL? {
+        if let photoLink, photoLink.host() == nil {
+            URL(string: "https://iis.bsuir.by/api/v1/employees/photo/\(id)")
+        } else {
+            photoLink
+        }
+    }
+}
+
+extension Employee {
     public var fio: String {
         return [lastName, firstName, middleName]
             .compactMap { name in
