@@ -161,7 +161,6 @@ private extension BsuirApi.WeekNum {
     var prettyName: String? {
         switch self {
         case []: return nil
-        case .always: return "♾"
         case let numbers: return numbers.name
         }
     }

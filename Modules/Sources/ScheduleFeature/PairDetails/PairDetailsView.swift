@@ -98,7 +98,11 @@ private struct PairDetailsSectionView: View {
                 Text(store.pair.auditory ?? "--")
             }
             LabeledContent("screen.pairDetails.details.weeks.title") {
-                Text(store.pair.weeks ?? "--")
+                if let weeks = store.pair.weeks {
+                    WeekNumbersView(weeks: weeks)
+                } else {
+                    Text("--")
+                }
             }
 
             if let notes = store.pair.note {
@@ -226,6 +230,48 @@ private struct PairDetailsViewPreview: View {
                 reducer: {}
             ))
         }
+    }
+}
+
+private struct WeekNumbersView: View {
+    let weekNum: WeekNum
+
+    init(weeks: String) {
+        // I also do not like this solution
+        // first we convert WeekNum to String on view model layer
+        // then we decode it back here. But the answer is trivial: I need
+        // PairView to accept String because in settings we show it with
+        // placeholder data to explain how row works
+        // So I do not have a time for a proper refactoring and this is easiest solution
+        self.weekNum = weeks.split(separator: ",")
+            .compactMap { Int($0) }
+            .compactMap { WeekNum(weekNum: $0) }
+            .reduce([]) { result, week in
+                result.union(week)
+            }
+    }
+
+    init(weekNum: WeekNum) {
+        self.weekNum = weekNum
+    }
+
+    var body: some View {
+        Text("""
+        \(weekNumber(1, isSelected: weekNum.contains(.first)))\
+        \(weekNumber(2, isSelected: weekNum.contains(.second)))\
+        \(weekNumber(3, isSelected: weekNum.contains(.third)))\
+        \(weekNumber(4, isSelected: weekNum.contains(.forth)))
+        """)
+    }
+
+    func weekNumber(_ number: Int, isSelected: Bool) -> Text {
+        let image = if isSelected {
+            Image(systemName: "\(number).circle.fill")
+        } else {
+            Image("custom.\(number).circle.dotted")
+
+        }
+        return Text("\(image)").foregroundStyle(isSelected ? .secondary : .tertiary)
     }
 }
 
