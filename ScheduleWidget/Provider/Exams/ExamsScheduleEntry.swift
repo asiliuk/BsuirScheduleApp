@@ -27,13 +27,14 @@ extension ExamsScheduleEntry {
         )
     }
 
-    static func pinnedFailed(title: String, subgroup: Int?, refresh: Date) -> ExamsScheduleEntry {
+    static func pinnedFailed(title: String, subgroup: Int?, refresh: Date, timeline: WidgetTimeline) -> ExamsScheduleEntry {
         ExamsScheduleEntry(
             config: .failed(
                 deeplink: deeplinkRouter.url(for: .pinned(displayType: .exams)),
                 title: title,
                 subgroup: subgroup,
-                refresh: refresh
+                refresh: refresh,
+                timeline: timeline
             )
         )
     }

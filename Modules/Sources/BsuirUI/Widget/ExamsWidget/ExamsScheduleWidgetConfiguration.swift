@@ -1,5 +1,6 @@
 import Foundation
 import ScheduleCore
+import BsuirCore
 
 public struct ExamsScheduleWidgetConfiguration {
     public struct ExamDay: Equatable {
@@ -16,7 +17,7 @@ public struct ExamsScheduleWidgetConfiguration {
         case exams(days: [ExamDay] = [])
         case noSchedule
         case noPinned
-        case failed(refresh: Date)
+        case failed(refresh: Date, timeline: WidgetTimeline)
     }
 
     public var deeplink: URL? = nil
@@ -51,8 +52,8 @@ extension ExamsScheduleWidgetConfiguration {
         Self(deeplink: deeplink, title: title, subgroup: subgroup, content: .noSchedule)
     }
 
-    public static func failed(deeplink: URL? = nil, title: String, subgroup: Int?, refresh: Date) -> Self {
-        Self(deeplink: deeplink, title: title, subgroup: subgroup, content: .failed(refresh: refresh))
+    public static func failed(deeplink: URL? = nil, title: String, subgroup: Int?, refresh: Date, timeline: WidgetTimeline) -> Self {
+        Self(deeplink: deeplink, title: title, subgroup: subgroup, content: .failed(refresh: refresh, timeline: timeline))
     }
 }
 

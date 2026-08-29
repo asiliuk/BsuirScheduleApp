@@ -84,7 +84,7 @@ final class PinnedScheduleProvider: TimelineProvider {
                 return completion(timeline)
             } catch {
                 Logger.pinnedProvider.info("getTimeline failed to fetch")
-                let refresh = Date().advanced(by: 5 * 60)
+                let refresh = Date().advanced(by: 3600 * 23)
                 let entries: [Entry] = {
                     switch RequestError(error) {
                     case .notConnectedToInternet:

@@ -3,6 +3,7 @@
 "widget.schedule.noExams" = "🎓 Нет экзаменов";
 "widget.schedule.more.%lld" = "еще %lld";
 "widget.noPinned.title" = "Нет закрепленного расписания";
-"widget.failed.title" = "Ошибка загрузки";
-"widget.failed.message%@" = "Повторная попытка %@";
+"widget.failed.title" = "Ошибка";
+"widget.failed.message%@" = "Повтор через %@";
+"widget.failed.retry" = "Повторить";
 "view.pairView.announcement.title" = "📣 Объявление";

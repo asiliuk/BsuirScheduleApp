@@ -83,7 +83,7 @@ final class ExamsScheduleProvider {
             return timeline
         } catch {
             Logger.examsProvider.info("getTimeline failed to fetch")
-            let refresh = Date().advanced(by: 5 * 60)
+            let refresh = Date().advanced(by: 3600 * 23)
             let entries: [Entry] = {
                 switch RequestError(error) {
                 case .notConnectedToInternet:
@@ -97,7 +97,8 @@ final class ExamsScheduleProvider {
                     return [.pinnedFailed(
                         title: pinnedSchedule.title,
                         subgroup: preferredSubgroup(for: pinnedSchedule),
-                        refresh: refresh
+                        refresh: refresh,
+                        timeline: onlyExams ? .onlyExamsSchedule : .examsSchedule
                     )]
                 }
             }()

@@ -12,7 +12,7 @@ import Dependencies
 struct PinnedScheduleWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(
-            kind: WidgetService.Timeline.pinnedSchedule.rawValue,
+            kind: WidgetTimeline.pinnedSchedule.rawValue,
             provider: withDependencies {
                 $0.defaultAppStorage = .asiliukShared
             } operation: {

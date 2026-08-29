@@ -31,7 +31,7 @@ public struct PinnedScheduleWidgetSmallView: View {
             case .noSchedule:
                 NoScheduleView()
             case .failed(let refresh):
-                ScheduleRequestFailedView(refresh: refresh)
+                ScheduleRequestFailedView(refresh: refresh, timeline: .pinnedSchedule)
             case .pairs(_, []):
                 NoPairsView()
             case let .pairs(passed, upcoming):

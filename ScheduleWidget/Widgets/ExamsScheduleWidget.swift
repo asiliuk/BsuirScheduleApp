@@ -12,7 +12,7 @@ import Dependencies
 struct OnlyExamsScheduleWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(
-            kind: WidgetService.Timeline.onlyExamsSchedule.rawValue,
+            kind: WidgetTimeline.onlyExamsSchedule.rawValue,
             provider: withDependencies {
                 $0.defaultAppStorage = .asiliukShared
             } operation: {
@@ -37,7 +37,7 @@ struct OnlyExamsScheduleWidget: Widget {
 struct ExamsScheduleWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(
-            kind: WidgetService.Timeline.examsSchedule.rawValue,
+            kind: WidgetTimeline.examsSchedule.rawValue,
             provider: withDependencies {
                 $0.defaultAppStorage = .asiliukShared
             } operation: {
@@ -102,6 +102,6 @@ struct ExamsScheduleWidgetEntryView: View {
     entry
     mutating(entry) { $0.config.content = .exams() }
     mutating(entry) { $0.config = .noSchedule(title: "151004", subgroup: 100) }
-    mutating(entry) { $0.config = .failed(title: "151004", subgroup: 100, refresh: .now.addingTimeInterval(600)) }
+    mutating(entry) { $0.config = .failed(title: "151004", subgroup: 100, refresh: .now.addingTimeInterval(45), timeline: .examsSchedule) }
     mutating(entry) { $0.config = .noPinned() }
 }

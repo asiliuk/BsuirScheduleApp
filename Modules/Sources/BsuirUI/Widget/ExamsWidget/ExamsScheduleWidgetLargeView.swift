@@ -21,8 +21,8 @@ public struct ExamsScheduleWidgetLargeView : View {
             case .noSchedule:
                 NoExamsView()
                     .padding(.horizontal)
-            case .failed(let refresh):
-                ScheduleRequestFailedView(refresh: refresh)
+            case .failed(let refresh, let timeline):
+                ScheduleRequestFailedView(refresh: refresh, timeline: timeline)
                     .padding(.horizontal)
             case .exams([]):
                 NoPairsView()

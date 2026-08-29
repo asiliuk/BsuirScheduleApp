@@ -3,6 +3,7 @@
 "widget.schedule.noExams" = "🎓 Няма іспытаў";
 "widget.schedule.more.%lld" = "яшчэ %lld";
 "widget.noPinned.title" = "Няма замацаванага раскладу";
-"widget.failed.title" = "Памылка загрузкі";
-"widget.failed.message%@" = "Паўторная спроба %@";
+"widget.failed.title" = "Памылка";
+"widget.failed.message%@" = "Паўтор праз %@";
+"widget.failed.retry" = "Паўтарыць";
 "view.pairView.announcement.title" = "📣 Аб'ява";

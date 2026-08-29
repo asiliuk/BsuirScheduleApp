@@ -2,14 +2,14 @@ import Foundation
 import Dependencies
 import WidgetKit
 
-public struct WidgetService {
-    public enum Timeline: String {
-        case pinnedSchedule = "PinnedScheduleWidget"
-        case examsSchedule = "ExamsScheduleWidget"
-        case onlyExamsSchedule = "OnlyExamsScheduleWidget"
-    }
+public enum WidgetTimeline: String, Sendable {
+    case pinnedSchedule = "PinnedScheduleWidget"
+    case examsSchedule = "ExamsScheduleWidget"
+    case onlyExamsSchedule = "OnlyExamsScheduleWidget"
+}
 
-    public let reload: (Timeline) -> Void
+public struct WidgetService {
+    public let reload: (WidgetTimeline) -> Void
     public let reloadAll: () -> Void
 }
 
