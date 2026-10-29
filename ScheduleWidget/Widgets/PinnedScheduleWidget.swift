@@ -57,6 +57,8 @@ struct PinnedScheduleWidgetEntryView: View {
                 PinnedScheduleWidgetRectangularView(config: entry.config)
             case .accessoryInline:
                 PinnedScheduleWidgetInlineView(config: entry.config)
+            case .systemExtraLargePortrait:
+                EmptyView()
             @unknown default:
                 EmptyView()
             }

@@ -1,0 +1,9 @@
+{
+  "id" : "07c44c4e-d497-4c7e-bb14-b2596214f113",
+  "targets" : [
+    {
+      "id" : "1C66C5B4-7ED8-496C-A3AE-DCA374223145",
+      "name" : "BsuirScheduleApp"
+    }
+  ]
+}

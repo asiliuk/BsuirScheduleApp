@@ -1,5 +1,6 @@
 import SwiftUI
 import Sharing
+import WidgetKit
 
 struct ExamsScheduleWidgetHeader: View {
     var config: ExamsScheduleWidgetConfiguration

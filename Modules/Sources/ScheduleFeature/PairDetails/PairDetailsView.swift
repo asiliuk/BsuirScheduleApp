@@ -1,7 +1,6 @@
 import SwiftUI
 import BsuirUI
 import BsuirApi
-import XCTestDynamicOverlay
 import ComposableArchitecture
 import ScheduleCore
 

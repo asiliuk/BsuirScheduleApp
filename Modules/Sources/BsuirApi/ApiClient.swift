@@ -1,6 +1,5 @@
 import Foundation
 import Dependencies
-import XCTestDynamicOverlay
 @preconcurrency import URLRouting
 
 public struct ApiClient: Sendable {
