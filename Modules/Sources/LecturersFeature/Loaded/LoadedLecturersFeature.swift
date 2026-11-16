@@ -3,6 +3,8 @@ import ComposableArchitecture
 import Collections
 import BsuirApi
 import Favorites
+import ScheduleCore
+import Combine
 
 @Reducer
 public struct LoadedLecturersFeature {

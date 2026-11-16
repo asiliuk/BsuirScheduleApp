@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirCore
 import ScheduleCore
+import WidgetKit
 
 public struct ExamsScheduleWidgetSmallView: View {
     var config: ExamsScheduleWidgetConfiguration

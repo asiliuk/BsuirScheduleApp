@@ -4,6 +4,7 @@ import Collections
 import Favorites
 import BsuirApi
 import Algorithms
+import ScheduleCore
 
 @Reducer
 public struct LoadedGroupsFeature {

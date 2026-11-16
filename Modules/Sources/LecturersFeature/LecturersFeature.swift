@@ -3,6 +3,8 @@ import ComposableArchitecture
 import EntityScheduleFeature
 import LoadableFeature
 import ScheduleFeature
+import ScheduleCore
+import BsuirApi
 
 @Reducer
 public struct LecturersFeature {

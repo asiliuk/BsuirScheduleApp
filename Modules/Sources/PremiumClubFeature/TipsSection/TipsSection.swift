@@ -5,6 +5,7 @@ import SwiftUI
 import Favorites
 import StoreKit
 import LoadableFeature
+import BsuirCore
 
 @Reducer
 public struct TipsSection {

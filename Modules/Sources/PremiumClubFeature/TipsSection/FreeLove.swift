@@ -1,5 +1,6 @@
 import Foundation
 import ComposableArchitecture
+import Favorites
 
 @Reducer
 public struct FreeLove {

@@ -1,6 +1,8 @@
 import Foundation
 import ReachabilityFeature
 import ComposableArchitecture
+import Kingfisher
+import BsuirCore
 
 @Reducer
 public struct NetworkAndDataFeature {

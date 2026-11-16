@@ -2,6 +2,7 @@ import StoreKit
 import Foundation
 import SwiftUI
 import ComposableArchitecture
+import BsuirCore
 
 @Reducer
 public struct TipsAmounts {

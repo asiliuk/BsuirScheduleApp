@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirCore
 import ScheduleCore
+import WidgetKit
 
 public struct PinnedScheduleWidgetSmallView: View {
     var config: PinnedScheduleWidgetConfiguration

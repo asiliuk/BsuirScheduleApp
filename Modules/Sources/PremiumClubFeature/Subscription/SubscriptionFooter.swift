@@ -1,6 +1,7 @@
 import Foundation
 import ComposableArchitecture
 import StoreKit
+import BsuirCore
 
 @Reducer
 public struct SubscriptionFooter {

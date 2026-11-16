@@ -3,6 +3,9 @@ import ComposableArchitecture
 import EntityScheduleFeature
 import LoadableFeature
 import ScheduleFeature
+import ScheduleCore
+import BsuirApi
+import Favorites
 
 @Reducer
 public struct GroupsFeature {

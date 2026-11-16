@@ -9,6 +9,7 @@ import PremiumClubFeature
 import ComposableArchitecture
 import EntityScheduleFeature
 import ScheduleFeature
+import BsuirCore
 
 @Reducer
 public struct AppFeature {
