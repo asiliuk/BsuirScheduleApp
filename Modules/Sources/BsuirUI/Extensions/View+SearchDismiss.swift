@@ -13,7 +13,7 @@ struct SearchDismissingModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .onChange(of: dismiss) { dismiss in
+            .onChange(of: dismiss) { _, dismiss in
                 if dismiss > 0 { dismissSearch() }
             }
     }
