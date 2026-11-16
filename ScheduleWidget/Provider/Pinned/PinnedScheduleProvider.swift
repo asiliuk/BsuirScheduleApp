@@ -113,7 +113,7 @@ final class PinnedScheduleProvider: TimelineProvider {
         case let .group(name):
             let schedule = try await apiClient.groupSchedule(name, false)
             return MostRelevantPinnedScheduleResponse(
-                deeplink: .group(name: schedule.studentGroup.name),
+                deeplink: .group(schedule.studentGroup.name),
                 title: source.title,
                 subgroup: preferredSubgroup(for: source),
                 startDate: schedule.startDate,
@@ -123,7 +123,7 @@ final class PinnedScheduleProvider: TimelineProvider {
         case let .lector(lector):
             let schedule = try await apiClient.lecturerSchedule(lector.urlId, false)
             return MostRelevantPinnedScheduleResponse(
-                deeplink: .lector(id: schedule.employee.id),
+                deeplink: .lector(schedule.employee.id),
                 title: source.title,
                 subgroup: preferredSubgroup(for: source),
                 startDate: schedule.startDate,

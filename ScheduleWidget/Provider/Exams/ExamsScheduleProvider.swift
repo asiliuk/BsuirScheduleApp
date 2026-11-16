@@ -112,7 +112,7 @@ final class ExamsScheduleProvider {
         case .group(let name):
             let schedule = try await apiClient.groupSchedule(name, false)
             return MostRelevantExamsScheduleResponse(
-                deeplink: .group(name: name, displayType: .exams),
+                deeplink: .group(name, .exams),
                 title: source.title,
                 subgroup: preferredSubgroup(for: source),
                 exams: schedule.examSchedules,
@@ -122,7 +122,7 @@ final class ExamsScheduleProvider {
         case .lector(let employee):
             let schedule = try await apiClient.lecturerSchedule(employee.urlId, false)
             return MostRelevantExamsScheduleResponse(
-                deeplink: .lector(id: schedule.employee.id, displayType: .exams),
+                deeplink: .lector(schedule.employee.id, .exams),
                 title: source.title,
                 subgroup: preferredSubgroup(for: source),
                 exams: schedule.examSchedules ?? [],
