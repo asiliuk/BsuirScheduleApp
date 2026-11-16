@@ -7,31 +7,15 @@ struct ExamsEmptyView: View {
     var onScheduleCheckTapped: () -> Void = {}
 
     var body: some View {
-        if #available(iOS 17, *) {
-            ContentUnavailableView {
-                Label(title, systemImage: imageName)
-                    .symbolEffect(symbolEffect, value: didAppear)
-            } description: {
-                subtitle
-            } actions: {
-                Button("screen.schedule.exams.emptyState.schedule.button.title", action: onScheduleCheckTapped)
-            }
-            .onAppear { didAppear = true }
-        } else {
-            VStack {
-                Spacer()
-
-                Image(systemName: imageName)
-                    .font(.largeTitle)
-
-                Text(title).font(.title)
-                subtitle.font(.subheadline)
-
-                Spacer()
-            }
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(Text(title) + Text(", ") + subtitle)
+        ContentUnavailableView {
+            Label(title, systemImage: imageName)
+                .symbolEffect(symbolEffect, value: didAppear)
+        } description: {
+            subtitle
+        } actions: {
+            Button("screen.schedule.exams.emptyState.schedule.button.title", action: onScheduleCheckTapped)
         }
+        .onAppear { didAppear = true }
     }
     
     private let title: LocalizedStringKey = "screen.schedule.exams.emptyState.title"
