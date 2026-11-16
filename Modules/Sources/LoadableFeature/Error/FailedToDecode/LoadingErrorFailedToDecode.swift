@@ -22,11 +22,13 @@ public struct LoadingErrorFailedToDecode {
     @Dependency(\.openURL) var openUrl
     @Dependency(\.appInfo) var appInfo
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .openIssueTapped:
-            let url = issueUrl(state)
-            return .run { _ in await openUrl(url) }
+    public var body: some Reducer<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .openIssueTapped:
+                let url = issueUrl(state)
+                return .run { _ in await openUrl(url) }
+            }
         }
     }
 

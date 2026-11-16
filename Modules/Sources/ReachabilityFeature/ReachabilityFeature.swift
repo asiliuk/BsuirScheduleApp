@@ -24,19 +24,21 @@ public struct ReachabilityFeature {
 
     public init() {}
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .task:
-            let tracker = networkReachabilityTracker.track(state.host)
-            return .run { send in
-                for try await status in tracker.status().values {
-                    await send(._setStatus(status))
+    public var body: some Reducer<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .task:
+                let tracker = networkReachabilityTracker.track(state.host)
+                return .run { send in
+                    for try await status in tracker.status().values {
+                        await send(._setStatus(status))
+                    }
                 }
+                
+            case let ._setStatus(value):
+                state.status = value
+                return .none
             }
-
-        case let ._setStatus(value):
-            state.status = value
-            return .none
         }
     }
 }

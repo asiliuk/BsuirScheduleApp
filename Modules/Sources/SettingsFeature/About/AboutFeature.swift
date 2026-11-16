@@ -24,33 +24,35 @@ public struct AboutFeature {
     @Dependency(\.openURL) var openUrl
     @Dependency(\.reviewRequestService) var reviewRequestService
 
-    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
-        switch action {
-        case .githubButtonTapped:
-            return .run { _ in
-                await reviewRequestService.madeMeaningfulEvent(.githubOpened)
-                await openUrl(.github)
-            }
-
-        case .telegramButtonTapped:
-            return .run { _ in
-                await reviewRequestService.madeMeaningfulEvent(.telegramOpened)
-                await openUrl(.telegram)
-            }
-
-        case .reviewButtonTapped:
-            return .run { _ in
-                await openUrl(.appStoreReview)
-            }
-
-        case .privacyPolicyTapped:
-            return .run { _ in
-                await openUrl(.privacyPolicy)
-            }
-
-        case .termsAndConditionsTapped:
-            return .run { _ in
-                await openUrl(.termsAndConditions)
+    public var body: some Reducer<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .githubButtonTapped:
+                return .run { _ in
+                    await reviewRequestService.madeMeaningfulEvent(.githubOpened)
+                    await openUrl(.github)
+                }
+                
+            case .telegramButtonTapped:
+                return .run { _ in
+                    await reviewRequestService.madeMeaningfulEvent(.telegramOpened)
+                    await openUrl(.telegram)
+                }
+                
+            case .reviewButtonTapped:
+                return .run { _ in
+                    await openUrl(.appStoreReview)
+                }
+                
+            case .privacyPolicyTapped:
+                return .run { _ in
+                    await openUrl(.privacyPolicy)
+                }
+                
+            case .termsAndConditionsTapped:
+                return .run { _ in
+                    await openUrl(.termsAndConditions)
+                }
             }
         }
     }
