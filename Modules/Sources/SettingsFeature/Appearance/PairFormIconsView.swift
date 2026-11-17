@@ -18,7 +18,7 @@ struct PairFormIconsView: View {
         }
 
         Section {
-            Toggle("screen.settings.appearance.icons.section.alwaysShowToggle.title", isOn: $store.alwaysShowIcon)
+            Toggle("screen.settings.appearance.icons.section.alwaysShowToggle.title", isOn: Binding(store.$alwaysShowIcon))
         } footer: {
             Text("screen.settings.appearance.icons.section.alwaysShowToggle.footer")
         }

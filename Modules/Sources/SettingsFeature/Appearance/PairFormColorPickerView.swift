@@ -29,7 +29,7 @@ private struct PairFormColorPickerView: View {
     @Bindable var store: StoreOf<PairFormColorPicker>
 
     var body: some View {
-        Picker(store.name, selection: $store.color) {
+        Picker(store.name, selection: Binding(store.$color)) {
             ForEach(PairFormColor.allCases, id: \.self) { color in
                 ColorView(color: color.color, name: color.name)
             }
