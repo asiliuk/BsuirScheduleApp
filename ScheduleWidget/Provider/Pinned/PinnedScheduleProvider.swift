@@ -19,6 +19,8 @@ final class PinnedScheduleProvider: TimelineProvider {
 
     func getSnapshot(in context: Context, completion: @escaping @Sendable (Entry) -> Void) {
         requestSnapshot = Task { [unowned self] in
+
+            @MainActor
             func completeCheckingPreview(with entry: PinnedScheduleEntry) {
                 completion(context.isPreview ? .preview : entry)
             }
