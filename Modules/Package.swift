@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -55,73 +55,97 @@ let package = Package(
                 "Deeplinking", "Favorites",
                 "ScheduleCore", "BsuirApi", "BsuirUI",
                 .tca
-            ]
+            ],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "SettingsFeature",
-            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies, .whatsNewKit]
+            dependencies: ["PremiumClubFeature", "ReachabilityFeature", "ScheduleCore", "BsuirUI", .tca, .dependencies, .whatsNewKit],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "PremiumClubFeature",
-            dependencies: ["BsuirUI", "Favorites", "LoadableFeature", .tca, .dependencies, .confetti, .pow]
+            dependencies: ["BsuirUI", "Favorites", "LoadableFeature", .tca, .dependencies, .confetti, .pow],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "GroupsFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", "Deeplinking", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "BsuirApi", "ScheduleCore", "BsuirUI", "Deeplinking", .tca],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "LecturersFeature",
-            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "Deeplinking", .tca]
+            dependencies: ["EntityScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "Deeplinking", .tca],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "EntityScheduleFeature",
-            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "Deeplinking", .tca]
+            dependencies: ["ScheduleFeature", "LoadableFeature", "Favorites", "ScheduleCore", "BsuirUI", "Deeplinking", .tca],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "ScheduleFeature",
-            dependencies: ["LoadableFeature", "Favorites", "PremiumClubFeature", "ScheduleCore", "BsuirUI", .tca, .swiftAlgorithms, .pow]
+            dependencies: ["LoadableFeature", "Favorites", "PremiumClubFeature", "ScheduleCore", "BsuirUI", .tca, .swiftAlgorithms, .pow],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "LoadableFeature",
-            dependencies: ["BsuirCore", "BsuirUI", "ReachabilityFeature", .tca, .urlRouting]
+            dependencies: ["BsuirCore", "BsuirUI", "ReachabilityFeature", .tca, .urlRouting],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "Favorites",
-            dependencies: ["BsuirCore", "ScheduleCore", .swiftCollections, .dependencies]
+            dependencies: ["BsuirCore", "ScheduleCore", .swiftCollections, .dependencies],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "Deeplinking",
-            dependencies: [.urlRouting, .dependencies]
+            dependencies: [.urlRouting, .dependencies],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "ReachabilityFeature",
-            dependencies: ["BsuirApi", .tca]
+            dependencies: ["BsuirApi", .tca],
+            swiftSettings: .bsuirDefaults,
         ),
         // MARK: - Core
         .target(
             name: "BsuirUI",
             dependencies: ["BsuirApi", "ScheduleCore", "BsuirCore", "Kingfisher", .dependencies, .introspect, .frameUp, .tca],
-            resources: [.process("Resources")]
+            resources: [.process("Resources")],
+            swiftSettings: .bsuirDefaults,
         ),
         .target(
             name: "ScheduleCore",
-            dependencies: ["BsuirApi", .dependencies]),
+            dependencies: ["BsuirApi", .dependencies],
+            swiftSettings: .bsuirDefaults,
+        ),
         .target(
             name: "BsuirApi",
-            dependencies: ["BsuirCore", .urlRouting, .dependencies]),
+            dependencies: ["BsuirCore", .urlRouting, .dependencies],
+            swiftSettings: .bsuirDefaults,
+        ),
         .target(
             name: "BsuirCore",
-            dependencies: [.dependencies, .swiftCollections, .tca]),
+            dependencies: [.dependencies, .swiftCollections, .tca],
+            swiftSettings: .bsuirDefaults,
+        ),
         .testTarget(
             name: "ScheduleCoreTests",
-            dependencies: ["ScheduleCore"]),
+            dependencies: ["ScheduleCore"],
+            swiftSettings: .bsuirDefaults,
+        ),
         .testTarget(
             name: "BsuirCoreTests",
-            dependencies: ["BsuirCore"]),
+            dependencies: ["BsuirCore"],
+            swiftSettings: .bsuirDefaults,
+        ),
         .testTarget(
             name: "BsuirApiTests",
             dependencies: ["BsuirApi"],
-            resources: [.process("jsons")]),
+            resources: [.process("jsons")],
+            swiftSettings: .bsuirDefaults,
+        ),
     ]
 )
 
@@ -136,4 +160,11 @@ private extension Target.Dependency {
     static let frameUp: Self = .product(name: "FrameUp", package: "FrameUp")
     static let whatsNewKit: Self = .product(name: "WhatsNewKit", package: "WhatsNewKit")
     static let pow: Self = .product(name: "Pow", package: "Pow")
+}
+
+private extension [PackageDescription.SwiftSetting] {
+    static let bsuirDefaults: Self = [
+        .swiftLanguageMode(.v5),
+        .enableUpcomingFeature("InferSendableFromCaptures"),
+    ]
 }
