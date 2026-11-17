@@ -39,7 +39,7 @@ public struct CloudSyncableSharedKey<Value>: SharedKey {
     private let isEqual: @Sendable (Value?, Value?) -> Bool
 
     @UncheckedSendable private var userDefaults: UserDefaults
-    private let cloudSyncService: any CloudSyncService
+    @UncheckedSendable private var cloudSyncService: any CloudSyncService
 
     init(
         key: String,
@@ -54,7 +54,7 @@ public struct CloudSyncableSharedKey<Value>: SharedKey {
         self.shouldSyncInitialLocalValue = shouldSyncInitialLocalValue
         self.isEqual = isEqual
         self._userDefaults = UncheckedSendable(store)
-        self.cloudSyncService = cloudSyncService
+        self._cloudSyncService = UncheckedSendable(cloudSyncService)
 
         syncInitialValues()
     }
