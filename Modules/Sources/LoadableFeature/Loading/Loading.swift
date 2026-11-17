@@ -14,11 +14,25 @@ public enum LoadingState<State> {
     public init() { self = .initial }
 
     public var failed: LoadingError.State? {
-        if case .failed(let state) = self { state } else { nil }
+        get {
+            guard case .failed(let state) = self else { return nil }
+            return state
+        }
+        set {
+            guard let newValue else { fatalError() }
+            self = .failed(newValue)
+        }
     }
 
     public var loaded: State? {
-        if case .loaded(let state) = self { state } else { nil }
+        get {
+            guard case .loaded(let state) = self else { return nil }
+            return state
+        }
+        set {
+            guard let newValue else { fatalError() }
+            self = .loaded(newValue)
+        }
     }
 }
 
@@ -142,20 +156,15 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
                 return .none
             }
         }
+        .ifLet(toFailedState, action: toFailedAction) {
+            LoadingError.body
+        }
+        .ifLet(toLoadedState, action: toLoadedAction) {
+            loaded
+        }
 
         // Make sure parent runs it's logic after
         parent
-
-        // Run loading logic last
-        Scope(state: toLoadingState, action: toLoadingAction) {
-            Scope(state: \.failed, action: \.failed) {
-                LoadingError.body
-            }
-
-            Scope(state: \.loaded, action: \.loaded) {
-                loaded
-            }
-        }
     }
 
     private func load(state: Parent.State, isRefresh: Bool) -> Effect<Parent.Action> {
@@ -173,5 +182,23 @@ private struct Loading<Parent: Reducer, Loaded: Reducer> where Parent.Action: Ca
 
     private enum CancelID {
         case fetching
+    }
+}
+
+private extension Loading {
+    var toFailedState: WritableKeyPath<Parent.State, LoadingError.State?> {
+        toLoadingState.appending(path: \.failed)
+    }
+
+    var toFailedAction: CaseKeyPath<Parent.Action, LoadingError.Action> {
+        toLoadingAction.appending(path: \.failed)
+    }
+
+    var toLoadedState: WritableKeyPath<Parent.State, Loaded.State?> {
+        toLoadingState.appending(path: \.loaded)
+    }
+
+    var toLoadedAction: CaseKeyPath<Parent.Action, Loaded.Action> {
+        toLoadingAction.appending(path: \.loaded)
     }
 }
