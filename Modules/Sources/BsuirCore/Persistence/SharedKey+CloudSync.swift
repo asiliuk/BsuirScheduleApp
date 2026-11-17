@@ -27,7 +27,7 @@ extension SharedReaderKey {
             key: key,
             cloudKey: cloudKey,
             shouldSyncInitialLocalValue: shouldSyncInitialLocalValue,
-            isEqual: ==
+            isEqual: { $0 == $1 }
         )
     }
 }
