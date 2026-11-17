@@ -26,9 +26,8 @@ public struct FreeLove {
                 state.counter += 1
                 return .run { send in
                     try await clock.sleep(for: .seconds(1))
-                    await send(._resetCounter)
+                    await send(._resetCounter, animation: .easeIn)
                 }
-                .animation(.easeIn)
                 .cancellable(id: CancelID.reset, cancelInFlight: true)
 
             case ._resetCounter:

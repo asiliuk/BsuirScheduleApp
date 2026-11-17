@@ -2,6 +2,7 @@ import Foundation
 import ComposableArchitecture
 import StoreKit
 import BsuirCore
+import SwiftUI
 
 @Reducer
 public struct PremiumClubMembershipSection {
@@ -38,11 +39,11 @@ public struct PremiumClubMembershipSection {
             switch action {
             case .task:
                 return .merge(
-                    loadSubscriptionDetails(state: &state),
+                    loadSubscriptionDetails(state: &state, animated: false),
                     listenForPremiumStateUpdates(state.$isPremiumUser)
                 )
             case ._premiumStateChanged:
-                return loadSubscriptionDetails(state: &state).animation()
+                return loadSubscriptionDetails(state: &state, animated: true)
             case ._failedToGetDetails:
                 state.subscription = .noSubscription
                 return .none
@@ -74,17 +75,18 @@ public struct PremiumClubMembershipSection {
         }
     }
 
-    private func loadSubscriptionDetails(state: inout State) -> Effect<Action> {
+    private func loadSubscriptionDetails(state: inout State, animated: Bool) -> Effect<Action> {
         state.subscription = .loading
+        let animation: Animation? = animated ? .default : nil
         return .run { send in
             guard let status = await productsService.subscriptionStatus else {
-                await send(._receivedNoSubscription)
+                await send(._receivedNoSubscription, animation: animation)
                 return
             }
 
-            await send( ._receivedStatus(status))
+            await send( ._receivedStatus(status), animation: animation)
         } catch: { _, send in
-            await send(._failedToGetDetails)
+            await send(._failedToGetDetails, animation: animation)
         }
     }
 
