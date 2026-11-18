@@ -51,18 +51,7 @@ private struct ScheduleContentGridView: View {
             }
             .padding()
         }
-        .navigationSubtitle(store.fullSubtitle)
-    }
-}
-
-private extension ScheduleListFeature.State {
-    var fullSubtitle: Text {
-        switch (title, subtitle) {
-        case let (lhs?, rhs?): return Text("\(lhs) · \(rhs)")
-        case let (nil, rhs?): return Text(rhs)
-        case let (lhs?, nil): return Text(lhs)
-        case (nil, nil): return Text("")
-        }
+        .navigationSubtitle(store.subtitle)
     }
 }
 
@@ -72,15 +61,15 @@ private struct ScheduleContentListView: View {
     var body: some View {
         List {
             Group {
-                if store.title != nil || store.subtitle != nil {
+                if store.scheduleTypeName != nil || store.scheduleDuration != nil {
                     VStack(alignment: .leading) {
-                        if let title = store.title {
-                            Text(title)
+                        if let title = store.scheduleTypeName, let icon = store.scheduleTypeIcon {
+                            Text("\(icon) \(title)")
                                 .font(.headline)
                                 .foregroundStyle(.primary)
                         }
 
-                        if let subtitle = store.subtitle {
+                        if let subtitle = store.scheduleDuration {
                             Text(subtitle)
                                 .font(.body)
                                 .foregroundStyle(.secondary)
@@ -119,5 +108,37 @@ struct NoMorePairsIndicator: View {
             .font(.headline)
             .frame(minWidth: 0, maxWidth: .infinity)
             .transition(.move(edge: .bottom).combined(with: .opacity))
+    }
+}
+
+private extension ScheduleListFeature.State {
+    var scheduleTypeName: Text? {
+        switch scheduleType {
+        case .continuous: nil
+        case .compact: Text("screen.schedule.scheduleType.byDay")
+        case .exams: Text("screen.schedule.scheduleType.exams")
+        }
+    }
+
+    var scheduleTypeIcon: String? {
+        switch scheduleType {
+        case .continuous: nil
+        case .compact: "🗓️"
+        case .exams: "🎓"
+        }
+    }
+
+    var scheduleDuration: String? {
+        guard let startDate, let endDate else { return nil }
+        return (startDate..<endDate).formatted(.scheduleDates)
+    }
+
+    var subtitle: Text {
+        switch (scheduleTypeName, scheduleDuration) {
+        case let (lhs?, rhs?): return Text("\(lhs) · \(rhs)")
+        case let (nil, rhs?): return Text(rhs)
+        case let (lhs?, nil): return lhs
+        case (nil, nil): return Text("")
+        }
     }
 }

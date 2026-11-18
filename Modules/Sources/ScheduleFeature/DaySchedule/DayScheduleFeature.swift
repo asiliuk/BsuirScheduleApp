@@ -19,11 +19,8 @@ public struct DayScheduleFeature {
                 scheduleType: .compact,
                 days: [],
                 loading: .never,
-                title: "🗓️ \(LocalizedStringResource("screen.schedule.scheduleType.byDay"))",
-                subtitle: {
-                    guard let startDate, let endDate else { return nil }
-                    return "\((startDate..<endDate).formatted(.scheduleDates))"
-                }()
+                startDate: startDate,
+                endDate: endDate
             )
 
             self.loadDays(

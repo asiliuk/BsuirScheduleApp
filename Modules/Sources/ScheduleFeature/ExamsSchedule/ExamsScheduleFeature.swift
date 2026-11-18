@@ -27,11 +27,8 @@ public struct ExamsScheduleFeature {
                 scheduleType: .exams,
                 days: [],
                 loading: .never,
-                title: "🎓 \(LocalizedStringResource("screen.schedule.scheduleType.exams"))",
-                subtitle: {
-                    guard let startDate, let endDate else { return nil }
-                    return "\((startDate..<endDate).formatted(.scheduleDates))"
-                }()
+                startDate: startDate,
+                endDate: endDate
             )
 
             @Dependency(\.calendar) var calendar
