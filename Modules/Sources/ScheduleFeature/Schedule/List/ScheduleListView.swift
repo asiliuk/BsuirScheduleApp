@@ -21,7 +21,6 @@ struct ScheduleListView: View {
 
 private struct ScheduleContentListView: View {
     @Bindable var store: StoreOf<ScheduleListFeature>
-    @State var presentsPairDetailsPopover: Bool = false
 
     var body: some View {
         List {
@@ -60,8 +59,6 @@ private struct ScheduleContentListView: View {
             .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
-        .onPreferenceChange(PresentsPairDetailsPopoverPreferenceKey.self) { presentsPairDetailsPopover = $0 }
-        .environment(\.presentsPairDetailsPopover, presentsPairDetailsPopover)
     }
 }
 

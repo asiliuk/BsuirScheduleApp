@@ -6,7 +6,6 @@ import Pow
 
 struct PairRowView: View {
     @Bindable var store: StoreOf<PairRowFeature>
-    @Environment(\.presentsPairDetailsPopover) var presentsPairDetailsPopover
     @Environment(\.pairFilteringMode) var pairFilteringMode
     @Environment(\.sizeCategory) var sizeCategory
 
@@ -29,8 +28,6 @@ struct PairRowView: View {
         }
         .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
         .buttonStyle(PairRowButtonStyle())
-        .disabled(presentsPairDetailsPopover)
-        .preference(key: PresentsPairDetailsPopoverPreferenceKey.self, value: store.pairDetails != nil)
         .popover(
             item: $store.scope(state: \.pairDetails, action: \.pairDetails),
             content: PairDetailsView.init
@@ -111,29 +108,5 @@ private struct PairRowButtonStyle: ButtonStyle {
         configuration.label
             .opacity(configuration.isPressed ? 0.8 : 1)
             .conditionalEffect(.pushDown, condition: configuration.isPressed)
-    }
-}
-
-// MARK: - Popover Preference & Environment
-
-/// Pass up the chain flag that some cell presents popover
-enum PresentsPairDetailsPopoverPreferenceKey: PreferenceKey {
-    static let defaultValue = false
-
-    static func reduce(value: inout Bool, nextValue: () -> Bool) {
-        value = value || nextValue()
-    }
-}
-
-private enum PresentsPairDetailsPopoverEnvironmentKey: EnvironmentKey {
-    static let defaultValue = false
-}
-
-/// Pass down the environment chain the flag if cell button needs to be disabled due to popover presentation
-/// this fix iPad specific bug, when trying to dismiss popover by tap some cell button was activated
-extension EnvironmentValues {
-    var presentsPairDetailsPopover: Bool {
-        get { self[PresentsPairDetailsPopoverEnvironmentKey.self] }
-        set { self[PresentsPairDetailsPopoverEnvironmentKey.self] = newValue }
     }
 }
