@@ -7,7 +7,11 @@ struct ScheduleListView: View {
 
     var body: some View {
         if store.hasSchedule {
-            ScheduleContentListView(store: store)
+            if #available(iOS 26, *) {
+                ScheduleContentGridView(store: store)
+            } else {
+                ScheduleContentListView(store: store)
+            }
         } else {
             switch store.scheduleType {
             case .continuous, .compact:
@@ -15,6 +19,49 @@ struct ScheduleListView: View {
             case .exams:
                 ExamsEmptyView { store.send(.checkScheduleTapped) }
             }
+        }
+    }
+}
+
+@available(iOS 26, *)
+private struct ScheduleContentGridView: View {
+    @Bindable var store: StoreOf<ScheduleListFeature>
+
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: [.init(.adaptive(minimum: 300, maximum: 600), spacing: 16, alignment: .top)], spacing: 32, pinnedViews: .sectionHeaders) {
+                Section {
+                    ForEach(store.scope(state: \.days, action: \.days)) { store in
+                        VStack(alignment: .leading) {
+                            DaySectionHeaderView(store: store)
+                            DaySectionPairsView(store: store)
+                        }
+                    }
+                } footer: {
+                    if case .finished = store.loading {
+                        NoMorePairsIndicator()
+                    }
+                }
+
+                if case .loadMore = store.loading {
+                    ShimmeringPairPlaceholder()
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .onAppear { store.send(.loadingIndicatorAppeared) }
+                }
+            }
+            .padding()
+        }
+        .navigationSubtitle(store.fullSubtitle)
+    }
+}
+
+private extension ScheduleListFeature.State {
+    var fullSubtitle: Text {
+        switch (title, subtitle) {
+        case let (lhs?, rhs?): return Text("\(lhs) · \(rhs)")
+        case let (nil, rhs?): return Text(rhs)
+        case let (lhs?, nil): return Text(lhs)
+        case (nil, nil): return Text("")
         }
     }
 }
@@ -42,7 +89,11 @@ private struct ScheduleContentListView: View {
                 }
 
                 ForEach(store.scope(state: \.days, action: \.days)) { store in
-                    DaySectionView(store: store)
+                    Section {
+                        DaySectionPairsView(store: store)
+                    } header:{
+                        DaySectionHeaderView(store: store)
+                    }
                 }
 
                 switch store.loading {

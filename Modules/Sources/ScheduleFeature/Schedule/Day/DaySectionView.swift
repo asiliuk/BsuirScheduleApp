@@ -2,11 +2,24 @@ import SwiftUI
 import BsuirUI
 import ComposableArchitecture
 
-struct DaySectionView: View {
+struct DaySectionHeaderView: View {
     let store: StoreOf<DaySectionFeature>
 
     var body: some View {
-        Section {
+        ScheduleDateTitle(
+            date: store.title,
+            relativeDate: store.subtitle,
+            relativity: ScheduleDateTitle.Relativity(store.relativity)
+        )
+        .transaction { $0.animation = nil }
+    }
+}
+
+struct DaySectionPairsView: View {
+    let store: StoreOf<DaySectionFeature>
+
+    var body: some View {
+        VStack {
             ForEach(
                 store.scope(
                     state: \.pairRows,
@@ -18,13 +31,6 @@ struct DaySectionView: View {
                 // Filter all pairs in passed section
                 if store.relativity == .past { mode = .filter }
             }
-        } header:{
-            ScheduleDateTitle(
-                date: store.title,
-                relativeDate: store.subtitle,
-                relativity: ScheduleDateTitle.Relativity(store.relativity)
-            )
-            .transaction { $0.animation = nil }
         }
     }
 }
