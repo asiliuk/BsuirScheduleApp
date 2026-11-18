@@ -113,6 +113,7 @@ public struct SettingsFeatureView: View {
             }
         }
         .navigationSplitViewStyle(.balanced)
+        .ignoresSafeArea(.container, edges: .top)
     }
 }
 
