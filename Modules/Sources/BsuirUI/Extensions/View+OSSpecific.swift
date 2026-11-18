@@ -14,9 +14,9 @@ extension View {
 
 extension View {
     @ViewBuilder
-    public func bsuirTabbarSidebarAdaptable() -> some View {
+    public func bsuirTabbarOnly() -> some View {
         if #available(iOS 18.0, *) {
-            tabViewStyle(.sidebarAdaptable)
+            tabViewStyle(.tabBarOnly)
         } else {
             self
         }
