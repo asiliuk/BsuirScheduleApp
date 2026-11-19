@@ -50,6 +50,8 @@ public struct LoadedGroupsFeature {
         }
 
         // MARK: Rows
+        var selectedGroupName: String?
+
         var isEmpty: Bool {
             visibleRows.isEmpty && pinnedRows.isEmpty && favoriteRows.isEmpty
         }

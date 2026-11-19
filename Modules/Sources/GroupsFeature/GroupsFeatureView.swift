@@ -6,13 +6,14 @@ import BsuirUI
 
 public struct GroupsFeatureView: View {
     @Bindable var store: StoreOf<GroupsFeature>
+    @State var columnVisibility: NavigationSplitViewVisibility = .all
 
     public init(store: StoreOf<GroupsFeature>) {
         self.store = store
     }
 
     public var body: some View {
-        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
             LoadingView(
                 store: store.scope(state: \.groups, action: \.groups),
                 inProgress: {
@@ -39,12 +40,21 @@ public struct GroupsFeatureView: View {
                 }
             }
             .navigationTitle("screen.groups.navigation.title")
-            .navigationBarTitleDisplayMode(.inline)
-        } destination: { store in
-            EntityScheduleFeatureViewV2(store: store)
+        } detail: {
+            NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+                if let store = store.scope(state: \.selectedGroup, action: \.selectedGroup) {
+                    GroupScheduleView(store: store)
+                } else {
+                    Text("screen.groups.select_something.title")
+                }
+            } destination: { store in
+                EntityScheduleFeatureViewV2(store: store)
+            }
         }
+        .navigationSplitViewStyle(.balanced)
         .task { await store.send(.task).finish() }
         .forceAddAlert(store: $store.scope(state: \.forceAddAlert, action: \.forceAddAlert))
+        .ignoresSafeArea(.container, edges: .top)
     }
 }
 

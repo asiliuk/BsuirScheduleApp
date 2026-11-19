@@ -22,6 +22,7 @@ public struct GroupsFeature {
         }
 
         // MARK: Navigation
+        var selectedGroup: GroupScheduleFeature.State?
         var path = StackState<EntityScheduleFeatureV2.State>()
         var groupPresentationMode: GroupPresentationMode = .initial
         
@@ -49,6 +50,7 @@ public struct GroupsFeature {
         case forceAddGroupButtonTapped
         case forceAddAlert(PresentationAction<ForceAddAlert.Action>)
 
+        case selectedGroup(GroupScheduleFeature.Action)
         case groups(LoadingActionOf<LoadedGroupsFeature>)
         case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
         case delegate(Delegate)
@@ -78,7 +80,8 @@ public struct GroupsFeature {
                 }
 
             case .path(.element(_, .group(.schedule(.delegate(let action))))),
-                 .path(.element(_, .lector(.schedule(.delegate(let action))))):
+                 .path(.element(_, .lector(.schedule(.delegate(let action))))),
+                 .selectedGroup(.schedule(.delegate(let action))):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -90,7 +93,7 @@ public struct GroupsFeature {
                     return .none
                 }
 
-            case .groups, .path, .forceAddAlert, .delegate:
+            case .groups, .selectedGroup, .path, .forceAddAlert, .delegate:
                 return .none
             }
         }
@@ -103,6 +106,15 @@ public struct GroupsFeature {
         .forEach(\.path, action: \.path)
         .ifLet(\.$forceAddAlert, action: \.forceAddAlert) {
             ForceAddAlert()
+        }
+        .ifLet(\.selectedGroup, action: \.selectedGroup) {
+            GroupScheduleFeature()
+        }
+        .onChange(of: \.groups.loaded?.selectedGroupName) { _, selectedGroupName in
+            Reduce { state, _ in
+                state.selectedGroup = selectedGroupName.map { GroupScheduleFeature.State(groupName: $0) }
+                return .none
+            }
         }
     }
 }

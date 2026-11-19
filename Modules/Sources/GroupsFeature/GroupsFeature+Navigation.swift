@@ -27,15 +27,12 @@ extension GroupsFeature.State {
             return
         }
 
-        if path.count == 1,
-           let id = path.ids.last,
-           case let .group(state) = path.last,
-           state.groupName == name
-        {
+        if selectedGroup?.groupName == name {
             // Switch schedule display type if screen already presented
-            path[id: id, case: \.group]?.schedule.switchDisplayType(displayType)
+            path.removeAll()
+            selectedGroup?.schedule.switchDisplayType(displayType)
         } else {
-            // Present group screen on stack
+            // Present group screen
             groups.modify(\.loaded) { $0.reset() }
             presentGroup(name, displayType: displayType)
         }
@@ -52,11 +49,6 @@ extension GroupsFeature.State {
     /// Present group schedule screen on the stack
     mutating func presentGroup(_ groupName: String, displayType: ScheduleDisplayType = .continuous) {
         path.removeAll()
-        path.append(.group(
-            .init(
-                groupName: groupName,
-                scheduleDisplayType: displayType
-            )
-        ))
+        selectedGroup = .init(groupName: groupName, scheduleDisplayType: displayType)
     }
 }

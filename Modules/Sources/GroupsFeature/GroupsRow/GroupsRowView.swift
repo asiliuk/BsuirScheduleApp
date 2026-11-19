@@ -8,7 +8,7 @@ struct GroupsRowView: View {
     let store: StoreOf<GroupsRow>
 
     var body: some View {
-        NavigationLink(state: store.schedule) {
+        NavigationLink(value: store.groupName) {
             VStack(alignment: .leading) {
                 Text(store.title)
                     .monospacedDigit()

@@ -8,7 +8,7 @@ struct LoadedGroupsFeatureView: View {
     let refresh: () async -> Void
 
     var body: some View {
-        List {
+        List(selection: $store.selectedGroupName) {
             GroupsSectionView(
                 title: "screen.groups.pinned.section.header",
                 rows: store.scope(state: \.pinnedRows, action: \.pinnedRows)
