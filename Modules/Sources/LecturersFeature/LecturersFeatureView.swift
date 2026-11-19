@@ -31,7 +31,6 @@ public struct LecturersFeatureView: View {
                 }
             )
             .navigationTitle("screen.lecturers.navigation.title")
-            .navigationBarTitleDisplayMode(.inline)
         } detail: {
             NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
                 if let store = store.scope(\.selectedLector, action: \.selectedLector) {
