@@ -58,7 +58,7 @@ private struct LoadedScheduleView: View {
         )
         .onAppear { store.send(.onAppear) }
         .toolbar {
-            Menu("screen.schedule.view.title", systemImage: "line.3.horizontal.decrease.circle") {
+            Menu("screen.schedule.view.title", systemImage: "line.3.horizontal.decrease") {
                 Section {
                     ScheduleDisplayTypePicker(scheduleType: $store.scheduleType)
                         .tint(nil)
