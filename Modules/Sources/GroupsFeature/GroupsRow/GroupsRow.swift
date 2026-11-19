@@ -13,7 +13,7 @@ public struct GroupsRow {
 
         var title: String { groupName }
         var subtitle: String?
-        var mark: MarkedScheduleRowFeature.State
+        var mark: MarkedScheduleActionsFeature.State
         var backedByRealGroup: Bool
 
         @ObservationStateIgnored
@@ -26,7 +26,7 @@ public struct GroupsRow {
         ) {
             self.groupName = groupName
             self.subtitle = subtitle
-            self.mark = MarkedScheduleRowFeature.State(source: .group(name: groupName))
+            self.mark = MarkedScheduleActionsFeature.State(source: .group(name: groupName))
             self.backedByRealGroup = backedByRealGroup
             self.schedule = .group(.init(groupName: groupName))
         }
@@ -48,12 +48,12 @@ public struct GroupsRow {
     }
 
     public enum Action {
-        case mark(MarkedScheduleRowFeature.Action)
+        case mark(MarkedScheduleActionsFeature.Action)
     }
 
     public var body: some ReducerOf<Self> {
         Scope(state: \.mark, action: \.mark) {
-            MarkedScheduleRowFeature()
+            MarkedScheduleActionsFeature()
         }
     }
 }

@@ -25,7 +25,7 @@ public struct LecturersRow {
 
         }
 
-        var mark: MarkedScheduleRowFeature.State
+        var mark: MarkedScheduleActionsFeature.State
 
         @ObservationStateIgnored
         var schedule: EntityScheduleFeatureV2.State
@@ -38,12 +38,12 @@ public struct LecturersRow {
     }
 
     public enum Action {
-        case mark(MarkedScheduleRowFeature.Action)
+        case mark(MarkedScheduleActionsFeature.Action)
     }
 
     public var body: some ReducerOf<Self> {
         Scope(state: \.mark, action: \.mark) {
-            MarkedScheduleRowFeature()
+            MarkedScheduleActionsFeature()
         }
     }
 }

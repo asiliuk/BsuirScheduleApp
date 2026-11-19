@@ -2,10 +2,8 @@ import Foundation
 import ComposableArchitecture
 import ScheduleCore
 
-// TODO: Sync state with Shared
-
 @Reducer
-public struct MarkedScheduleRowFeature {
+public struct MarkedScheduleActionsFeature {
     @ObservableState
     public struct State {
         let source: ScheduleSource

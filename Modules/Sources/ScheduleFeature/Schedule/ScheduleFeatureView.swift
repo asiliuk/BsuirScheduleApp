@@ -5,7 +5,7 @@ import LoadableFeature
 import ComposableArchitecture
 
 public struct ScheduleFeatureView<Value: Equatable>: View {
-    public let store: StoreOf<ScheduleFeature<Value>>
+    public var store: StoreOf<ScheduleFeature<Value>>
 
     public init(store: StoreOf<ScheduleFeature<Value>>) {
         self.store = store
@@ -27,16 +27,7 @@ public struct ScheduleFeatureView<Value: Equatable>: View {
                 .refreshable { await refresh() }
             }
         )
-        .toolbar {
-            if let store = store.scope(state: \.mark, action: \.mark) {
-                if #available(iOS 26, *) {
-                    ToolbarSpacer(.fixed, placement: .primaryAction)
-                }
-                ToolbarItemGroup(placement: .primaryAction) {
-                    MarkedSchedulePickerView(store: store)
-                }
-            }
-        }
+        .markedScheduleToolbar(store: store.scope(\.mark, action: \.mark))
         .navigationTitle(store.title)
     }
 }

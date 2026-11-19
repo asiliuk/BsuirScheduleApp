@@ -41,7 +41,7 @@ public struct ScheduleFeature<Value: Equatable> {
     public struct State {
         public var title: String
         public var value: Value
-        public var mark: MarkedSchedulePickerFeature.State?
+        public var mark: MarkedScheduleActionsFeature.State?
         var schedule: LoadingState<LoadedScheduleReducer.State> = .initial
 
         fileprivate var pairRowDetails: PairRowDetails?
@@ -72,7 +72,7 @@ public struct ScheduleFeature<Value: Equatable> {
             case showGroupSchedule(String)
         }
 
-        case mark(MarkedSchedulePickerFeature.Action)
+        case mark(MarkedScheduleActionsFeature.Action)
         case schedule(LoadingActionOf<LoadedScheduleReducer>)
 
         case delegate(DelegateAction)
@@ -131,7 +131,7 @@ public struct ScheduleFeature<Value: Equatable> {
             LoadedScheduleReducer()
         }
         .ifLet(\.mark, action: \.mark) {
-            MarkedSchedulePickerFeature()
+            MarkedScheduleActionsFeature()
         }
     }
 

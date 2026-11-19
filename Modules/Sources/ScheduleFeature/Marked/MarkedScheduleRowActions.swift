@@ -3,48 +3,85 @@ import ComposableArchitecture
 
 extension View {
     public func markedScheduleRowActions(
-        store: StoreOf<MarkedScheduleRowFeature>,
+        store: StoreOf<MarkedScheduleActionsFeature>,
         deleteOnUnFavorite: Bool = false
     ) -> some View {
-        modifier(MarkedScheduleRowActions(store: store, deleteOnUnFavorite: deleteOnUnFavorite))
+        modifier(MarkedScheduleRowActionsModifier(store: store, deleteOnUnFavorite: deleteOnUnFavorite))
+    }
+
+    @ViewBuilder
+    public func markedScheduleToolbar(store: StoreOf<MarkedScheduleActionsFeature>?) -> some View {
+        if let store {
+            modifier(MarkedScheduleToolbarActionsModifier(store: store))
+        } else {
+            self
+        }
     }
 }
 
-struct MarkedScheduleRowActions: ViewModifier {
-    @Bindable var store: StoreOf<MarkedScheduleRowFeature>
+struct MarkedScheduleRowActionsModifier: ViewModifier {
+    @Bindable var store: StoreOf<MarkedScheduleActionsFeature>
     var deleteOnUnFavorite: Bool
 
     func body(content: Content) -> some View {
         content
             .swipeActions(edge: .leading) {
-                Button {
-                    store.send(.togglePinnedTapped)
-                } label: {
-                    store.isPinned ? Label.unpin : Label.pin
-                }
-                .tint(.red)
-                .labelStyle(.iconOnly)
-            }
-            .swipeActions(edge: .trailing) {
-                if deleteOnUnFavorite {
-                    Button {
-                        store.send(.removeButtonTapped)
-                    } label: {
-                        Label.deleteFromFavorites
-                    }
+                PinButton(store: store)
                     .tint(.red)
                     .labelStyle(.iconOnly)
-                } else {
-                    Button {
-                        store.send(.toggleFavoriteTapped)
-                    } label: {
-                        store.isFavorite ? Label.removeFromFavorites : Label.addToFavorites
-                    }
-                    .tint(.yellow)
+            }
+            .swipeActions(edge: .trailing) {
+                FavoriteButton(store: store, deleteOnUnFavorite: deleteOnUnFavorite)
+                    .tint(deleteOnUnFavorite ? .red : .yellow)
                     .labelStyle(.iconOnly)
-                }
             }
             .alert($store.scope(state: \.alert, action: \.alert))
+    }
+}
+
+struct MarkedScheduleToolbarActionsModifier: ViewModifier {
+    @Bindable var store: StoreOf<MarkedScheduleActionsFeature>
+
+    func body(content: Content) -> some View {
+        content
+            .toolbar {
+                ToolbarItem(placement: .secondaryAction) {
+                    PinButton(store: store)
+                }
+                ToolbarItem(placement: .secondaryAction) {
+                    FavoriteButton(store: store, deleteOnUnFavorite: false)
+                }
+            }
+            .alert($store.scope(\.alert, action: \.alert))
+    }
+}
+
+private struct PinButton: View {
+    let store: StoreOf<MarkedScheduleActionsFeature>
+
+    var body: some View {
+        Button {
+            store.send(.togglePinnedTapped)
+        } label: {
+            store.isPinned ? Label.unpin : Label.pin
+        }
+    }
+}
+
+private struct FavoriteButton: View {
+    let store: StoreOf<MarkedScheduleActionsFeature>
+    var deleteOnUnFavorite: Bool
+
+    var body: some View {
+        Button {
+            store.send(deleteOnUnFavorite ? .removeButtonTapped : .toggleFavoriteTapped)
+        } label: {
+            if store.isFavorite {
+                deleteOnUnFavorite ? Label.deleteFromFavorites : Label.removeFromFavorites
+            } else {
+                Label.addToFavorites
+            }
+        }
     }
 }
 
