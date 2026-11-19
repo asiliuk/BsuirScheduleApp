@@ -22,6 +22,7 @@ struct PairDetailsView: View {
                 }
             }
             .photoPreview($store.photoPreview.sending(\.setPhotoPreview))
+            .listStyle(.insetGrouped)
         }
         .presentationDetents([.fraction(0.4), .large])
         .presentationDragIndicator(.hidden)
