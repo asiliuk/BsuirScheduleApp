@@ -15,7 +15,11 @@ extension DependencyValues {
 }
 
 private enum ReviewRequestServiceKey: DependencyKey {
+    #if os(iOS)
     static let liveValue: any ReviewRequestService = LiveReviewRequestService(storage: .standard)
+    #else
+    static let liveValue: any ReviewRequestService = ReviewRequestServiceMock()
+    #endif
     static let previewValue: any ReviewRequestService = ReviewRequestServiceMock()
 }
 

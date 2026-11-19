@@ -1,3 +1,4 @@
+#if canImport(SystemConfiguration)
 import Foundation
 import SystemConfiguration
 import Combine
@@ -59,3 +60,4 @@ final class NetworkReachabilityManager {
         SCNetworkReachabilitySetDispatchQueue(reachability, nil)
     }
 }
+#endif

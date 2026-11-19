@@ -1,3 +1,4 @@
+#if os(iOS)
 import Foundation
 import UIKit
 import StoreKit
@@ -74,3 +75,4 @@ private struct ReviewRequestTracking: Equatable, Codable {
     let date: Date
     let version: ShortAppVersion
 }
+#endif

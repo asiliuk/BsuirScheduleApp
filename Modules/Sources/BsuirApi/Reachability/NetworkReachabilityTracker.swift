@@ -13,7 +13,11 @@ extension DependencyValues {
 }
 
 private enum NetworkReachabilityTrackerKey: DependencyKey {
+    #if canImport(SystemConfiguration)
     static let liveValue = NetworkReachabilityTracker(
         track: NetworkReachability.live
     )
+    #else
+    static let liveValue = NetworkReachabilityTracker { _ in .empty() }
+    #endif
 }

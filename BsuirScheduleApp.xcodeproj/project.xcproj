@@ -299,6 +299,9 @@
       ],
       "package-product-members": [
         {
+          "product-name": "BsuirApi",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
           "package": "swift-composable-architecture",
           "product-name": "ComposableArchitecture",
           "build-phase": { "build-phase": "frameworks" },
