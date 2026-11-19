@@ -19,12 +19,9 @@ extension LecturersFeature.State {
         _ lector: Employee,
         displayType: ScheduleDisplayType
     ) {
-        if path.count == 1,
-           let id = path.ids.last,
-           case let .lector(state) = path.last,
-           state.lector == lector
-        {
-            path[id: id, case: \.lector]?.schedule.switchDisplayType(displayType)
+        if selectedLector?.lector == lector {
+            path.removeAll()
+            selectedLector?.schedule.switchDisplayType(displayType)
         } else {
             lecturers.modify(\.loaded) { $0.reset() }
             presentLector(lector, displayType: displayType)
@@ -60,11 +57,9 @@ extension LecturersFeature.State {
     ) {
         guard let lector else { return }
         path.removeAll()
-        path.append(
-            .lector(LectorScheduleFeature.State(
-                lector: lector,
-                scheduleDisplayType: displayType
-            ))
+        selectedLector = LectorScheduleFeature.State(
+            lector: lector,
+            scheduleDisplayType: displayType
         )
     }
 }

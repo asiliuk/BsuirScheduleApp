@@ -8,7 +8,7 @@ struct LecturersRowView: View {
     let store: StoreOf<LecturersRow>
 
     var body: some View {
-        NavigationLink(state: store.schedule) {
+        NavigationLink(value: store.lector) {
             LecturerCellView(
                 fullName: store.fullName,
                 imageUrl: store.imageUrl,

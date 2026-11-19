@@ -21,6 +21,7 @@ public struct LecturersFeature {
         }
 
         // MARK: Navigation
+        var selectedLector: LectorScheduleFeature.State?
         var path = StackState<EntityScheduleFeatureV2.State>()
         var lectorPresentationMode: LectorPresentationMode = .initial
 
@@ -41,6 +42,7 @@ public struct LecturersFeature {
             case showPremiumClubPinned
         }
 
+        case selectedLector(LectorScheduleFeature.Action)
         case path(StackAction<EntityScheduleFeatureV2.State, EntityScheduleFeatureV2.Action>)
         case lecturers(LoadingActionOf<LoadedLecturersFeature>)
 
@@ -65,7 +67,8 @@ public struct LecturersFeature {
                 }
 
             case .path(.element(_, .group(.schedule(.delegate(let action))))),
-                 .path(.element(_, .lector(.schedule(.delegate(let action))))):
+                 .path(.element(_, .lector(.schedule(.delegate(let action))))),
+                 .selectedLector(.schedule(.delegate(let action))):
                 switch action {
                 case .showPremiumClubPinned:
                     return .send(.delegate(.showPremiumClubPinned))
@@ -77,7 +80,7 @@ public struct LecturersFeature {
                     return .none
                 }
 
-            case .delegate, .path, .lecturers:
+            case .delegate, .selectedLector, .path, .lecturers:
                 return .none
             }
         }
@@ -88,5 +91,14 @@ public struct LecturersFeature {
             LoadedLecturersFeature()
         }
         .forEach(\.path, action: \.path)
+        .ifLet(\.selectedLector, action: \.selectedLector) {
+            LectorScheduleFeature()
+        }
+        .onChange(of: \.lecturers.loaded?.selectedLector) { _, selectedLector in
+            Reduce { state, _ in
+                state.selectedLector = selectedLector.map { LectorScheduleFeature.State(lector: $0) }
+                return .none
+            }
+        }
     }
 }

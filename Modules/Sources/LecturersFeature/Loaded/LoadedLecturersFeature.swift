@@ -22,6 +22,8 @@ public struct LoadedLecturersFeature {
 
         // MARK: Rows
 
+        var selectedLector: Employee?
+
         var isEmpty: Bool {
             pinnedRows.isEmpty && favoriteRows.isEmpty && visibleRows.isEmpty
         }

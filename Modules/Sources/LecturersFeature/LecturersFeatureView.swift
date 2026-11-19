@@ -11,7 +11,7 @@ public struct LecturersFeatureView: View {
     }
 
     public var body: some View {
-        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+        NavigationSplitView {
             LoadingView(
                 store: store.scope(state: \.lecturers, action: \.lecturers),
                 inProgress: {
@@ -32,8 +32,17 @@ public struct LecturersFeatureView: View {
             )
             .navigationTitle("screen.lecturers.navigation.title")
             .navigationBarTitleDisplayMode(.inline)
-        } destination: { store in
-            EntityScheduleFeatureViewV2(store: store)
+        } detail: {
+            NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+                if let store = store.scope(\.selectedLector, action: \.selectedLector) {
+                    LectorScheduleView(store: store)
+                } else {
+                    Text("screen.lecturers.select_something.title")
+                }
+            } destination: { store in
+                EntityScheduleFeatureViewV2(store: store)
+            }
         }
+        .ignoresSafeArea(.container, edges: .top)
     }
 }

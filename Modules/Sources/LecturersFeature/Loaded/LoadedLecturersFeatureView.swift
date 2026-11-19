@@ -7,7 +7,7 @@ struct LoadedLecturersFeatureView: View {
     let refresh: () async -> Void
     
     var body: some View {
-        List {
+        List(selection: $store.selectedLector) {
             if !store.pinnedRows.isEmpty  {
                 Section("screen.lecturers.pinned.section.header") {
                     ForEach(store.scope(state: \.pinnedRows, action: \.lecturerRows)) { store in
