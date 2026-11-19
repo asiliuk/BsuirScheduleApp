@@ -14,6 +14,15 @@
       "uk",
     ],
   },
+  "packages": [
+    {
+      "kind": "remote",
+      "repository": "https://github.com/pointfreeco/swift-composable-architecture.git",
+      "version": {
+        "up-to-next-major-version": "1.26.2",
+      },
+    },
+  ],
   "files": [
     {
       "kind": "group",
@@ -287,6 +296,13 @@
         "compile-sources",
         "frameworks",
         "resources",
+      ],
+      "package-product-members": [
+        {
+          "package": "swift-composable-architecture",
+          "product-name": "ComposableArchitecture",
+          "build-phase": { "build-phase": "frameworks" },
+        },
       ],
       "build-settings": {
         "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",

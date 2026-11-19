@@ -1,25 +1,25 @@
-//
-//  ContentView.swift
-//  BsuirScheduleWatchApp Watch App
-//
-//  Created by Anton Siliuk on 19/11/2026.
-//  Copyright © 2026 Saute. All rights reserved.
-//
-
 import SwiftUI
+import ComposableArchitecture
 
 struct ContentView: View {
+    let store: StoreOf<ContentFeature>
+
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Hello, world! \(store.counter)")
+            HStack {
+                Button("+") { store.send(.incrementButtonTapped) }
+                Spacer()
+                Button("-") { store.send(.decrementButtonTapped) }
+            }
         }
         .padding()
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(store: .init(initialState: .init(), reducer: { ContentFeature() }))
 }
