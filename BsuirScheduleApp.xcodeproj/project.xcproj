@@ -130,13 +130,16 @@
         { "path": "SnapshotHelper.swift", "encoding": "utf8", "target-membership": [ "AppStoreSnapshotsUITests/compile-sources" ] },
         { "path": "AppStoreSnapshotsUITests.swift", "target-membership": [ "AppStoreSnapshotsUITests/compile-sources" ] },
       ],
-    }, {
+    },
+    { "kind": "folder", "path": "BsuirScheduleWatchApp", "target-membership": [ "BsuirScheduleWatchApp" ] },
+    {
       "kind": "group",
       "name": "Products",
       "children": [
         { "path": "<PRODUCTS>/BsuirScheduleApp.app", "id": "E6F931B222F8B1C10038FC43", "type": "wrapper.application", "index": false },
         { "path": "<PRODUCTS>/ScheduleWidgetExtension.appex", "id": "E6AA8D0F25162F1A00788A02", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "BsuirScheduleApp/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
         { "path": "<PRODUCTS>/AppStoreSnapshotsUITests.xctest", "id": "E6E188592A894EF200658AA8", "type": "wrapper.cfbundle", "index": false },
+        { "path": "<PRODUCTS>/BsuirScheduleWatchApp.app", "id": "E6F38CC930AF960200B303BF", "type": "wrapper.application", "index": false, "target-membership": [ { "build-phase": "BsuirScheduleApp/copy/Embed Watch Content", "header-preservation": "remove-on-copy" } ] },
       ],
     }, {
       "kind": "group",
@@ -155,6 +158,7 @@
       "product-type": "application",
       "dependencies": [
         "ScheduleWidgetExtension",
+        "BsuirScheduleWatchApp",
       ],
       "build-phases": [
         "compile-sources",
@@ -168,6 +172,11 @@
           "kind": "copy",
           "name": "Embed Foundation Extensions",
           "bundle-base-path": "plugins-directory",
+        }, {
+          "kind": "copy",
+          "name": "Embed Watch Content",
+          "bundle-base-path": "build-products-directory",
+          "relative-path": "$(CONTENTS_FOLDER_PATH)/Watch",
         },
       ],
       "package-product-members": [
@@ -269,6 +278,46 @@
         "TARGETED_DEVICE_FAMILY": "1,2",
         "TEST_TARGET_NAME": "BsuirScheduleApp",
       },
+    }, {
+      "name": "BsuirScheduleWatchApp",
+      "id": "E6F38CC830AF960200B303BF",
+      "product": "Products/BsuirScheduleWatchApp.app",
+      "product-type": "application",
+      "build-phases": [
+        "compile-sources",
+        "frameworks",
+        "resources",
+      ],
+      "build-settings": {
+        "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
+        "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
+        "CLANG_CXX_LANGUAGE_STANDARD": "gnu++20",
+        "CODE_SIGN_IDENTITY": "Apple Development",
+        "CODE_SIGN_STYLE": "Automatic",
+        "ENABLE_PREVIEWS": "YES",
+        "GCC_C_LANGUAGE_STANDARD": "gnu17",
+        "GENERATE_INFOPLIST_FILE": "YES",
+        "INFOPLIST_KEY_CFBundleDisplayName": "BsuirScheduleWatchApp",
+        "INFOPLIST_KEY_UISupportedInterfaceOrientations": "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown",
+        "INFOPLIST_KEY_WKCompanionAppBundleIdentifier": "com.saute.Bsuir-Schedule",
+        "LD_RUNPATH_SEARCH_PATHS": [
+          "$(inherited)",
+          "@executable_path/Frameworks",
+        ],
+        "LOCALIZATION_PREFERS_STRING_CATALOGS": "YES",
+        "PRODUCT_BUNDLE_IDENTIFIER": "com.saute.Bsuir-Schedule.watchkitapp",
+        "PRODUCT_NAME": "$(TARGET_NAME)",
+        "SDKROOT": "watchos",
+        "SKIP_INSTALL": "YES",
+        "STRING_CATALOG_GENERATE_SYMBOLS": "YES",
+        "SWIFT_ACTIVE_COMPILATION_CONDITIONS[config=Debug]": "DEBUG $(inherited)",
+        "SWIFT_APPROACHABLE_CONCURRENCY": "YES",
+        "SWIFT_DEFAULT_ACTOR_ISOLATION": "MainActor",
+        "SWIFT_EMIT_LOC_STRINGS": "YES",
+        "SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY": "YES",
+        "TARGETED_DEVICE_FAMILY": "4",
+        "WATCHOS_DEPLOYMENT_TARGET": "26.6",
+      },
     },
   ],
   "build-settings": {
@@ -348,5 +397,5 @@
     "VALIDATE_PRODUCT[config=Release]": "YES",
   },
   "last-upgrade": "26.0",
-  "last-swift-update": "14.3",
+  "last-swift-update": "27.2",
 }
