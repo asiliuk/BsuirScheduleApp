@@ -29,7 +29,7 @@ private struct ScheduleContentGridView: View {
 
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: [.init(.adaptive(minimum: 300, maximum: 600), spacing: 16, alignment: .top)], spacing: 32, pinnedViews: .sectionHeaders) {
+            LazyVGrid(columns: [.init(.adaptive(minimum: 340, maximum: 700), spacing: 12, alignment: .top)], spacing: 32, pinnedViews: .sectionHeaders) {
                 Section {
                     ForEach(store.scope(state: \.days, action: \.days)) { store in
                         VStack(alignment: .leading) {

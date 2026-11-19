@@ -1603,7 +1603,7 @@
       }
     },
     "screen.lecturers.select_something.title" : {
-      "extractionState" : "pasted",
+      "extractionState" : "manual",
       "localizations" : {
         "be" : {
           "stringUnit" : {
