@@ -1,14 +1,14 @@
 import SwiftUI
 
-func accessibilityDescription(_ tokens: LocalizedStringKey?..., separator: String = ", ") -> Text {
+public func accessibilityDescription(_ tokens: LocalizedStringKey?..., separator: String = ", ") -> Text {
     combineTexts(tokens.map { $0.map { Text($0) } }) ?? Text("")
 }
 
-func combineTexts(_ texts: Text?..., separator: String = ", ") -> Text? {
+public func combineTexts(_ texts: Text?..., separator: String = ", ") -> Text? {
     combineTexts(texts, separator: separator)
 }
 
-func combineTexts(_ texts: [Text?], separator: String = ", ") -> Text? {
+public func combineTexts(_ texts: [Text?], separator: String = ", ") -> Text? {
     let notEmptyTexts = texts.compactMap { $0 }
     guard !notEmptyTexts.isEmpty else { return nil }
 

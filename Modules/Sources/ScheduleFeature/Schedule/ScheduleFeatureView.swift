@@ -58,18 +58,22 @@ private struct LoadedScheduleView: View {
         )
         .onAppear { store.send(.onAppear) }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                ScheduleDisplayTypePickerMenu(
-                    scheduleType: $store.scheduleType
-                )
-            }
+            Menu("screen.schedule.view.title", systemImage: "line.3.horizontal.decrease.circle") {
+                Section {
+                    ScheduleDisplayTypePicker(scheduleType: $store.scheduleType)
+                        .tint(nil)
+                }
 
-            if let store = store.scope(state: \.subgroupPicker, action: \.subgroupPicker) {
-                ToolbarItem(placement: .topBarTrailing) {
-                    SubgroupPickerFeatureView(store: store)
+                if let store = store.scope(state: \.subgroupPicker, action: \.subgroupPicker) {
+                    Section {
+                        SubgroupPickerFeatureView(store: store)
+                            .tint(nil)
+                    }
                 }
             }
         }
+        .navigationTitle(store.navigationTitle)
+        .bsuirNavigationSubtitle(store.navigationSubtitle)
     }
 }
 
@@ -77,5 +81,45 @@ private extension SubgroupPickerFeature.State? {
     var pairFilteringMode: PairFilteringMode {
         guard let selected = self?.selected else { return .noFiltering }
         return .keepingSubgroup(selected)
+    }
+}
+
+private extension LoadedScheduleReducer.State {
+    var scheduleTypeName: Text? {
+        switch scheduleType {
+        case .continuous: nil
+        case .compact: Text("screen.schedule.scheduleType.byDay")
+        case .exams: Text("screen.schedule.scheduleType.exams")
+        }
+    }
+
+    var scheduleDuration: Text? {
+        let startDate: Date?
+        let endDate: Date?
+
+        switch scheduleType {
+        case .continuous, .compact:
+            startDate = response.startDate
+            endDate = response.endDate
+        case .exams:
+            startDate = response.startExamsDate
+            endDate = response.endExamsDate
+        }
+
+        guard let startDate, let endDate else { return nil }
+        return Text((startDate..<endDate).formatted(.scheduleDates))
+    }
+
+    var navigationSubtitle: Text? {
+        combineTexts(
+            scheduleTypeName,
+            scheduleDuration,
+            separator: " • "
+        )
+    }
+
+    var navigationTitle: String {
+        guard let selected = subgroupPicker?.selected else { return source.title }
+        return "\(source.title)/\(selected)"
     }
 }

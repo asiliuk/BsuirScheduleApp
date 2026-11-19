@@ -1,22 +1,16 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct SubgroupPickerFeatureView: View {
+struct SubgroupPickerFeatureMenuView: View {
     @Bindable var store: StoreOf<SubgroupPickerFeature>
     @State var selectedSubgroup: Int?
 
     var body: some View {
         Menu {
-            Picker("view.subgroupPicker.title", selection: $selectedSubgroup) {
-                ForEach(1...store.maxSubgroup, id: \.self) { subgroup in
-                    Label.subgroup(subgroup)
-                        .tag(Int?.some(subgroup))
-                        .labelStyle(.titleAndIcon)
-                }
-
-                Label.allSubgroups.tag(Int?.none)
-            }
-            .tint(nil)
+            SubgroupPickerView(
+                maxSubgroup: store.maxSubgroup,
+                selection: $selectedSubgroup
+            )
         } label: {
             if let selected = store.selected {
                 Label.compactSubgroup(selected)
@@ -26,6 +20,31 @@ struct SubgroupPickerFeatureView: View {
         }
         .tint(store.selected == nil ? .secondary : .blue)
         .bind($store.selected, to: $selectedSubgroup)
+    }
+}
+
+struct SubgroupPickerFeatureView: View {
+    @Bindable var store: StoreOf<SubgroupPickerFeature>
+
+    var body: some View {
+        SubgroupPickerView(maxSubgroup: store.maxSubgroup, selection: $store.selected)
+    }
+}
+
+private struct SubgroupPickerView: View {
+    let maxSubgroup: Int
+    @Binding var selection: Int?
+
+    var body: some View {
+        Picker("view.subgroupPicker.title", selection: $selection) {
+            ForEach(1...maxSubgroup, id: \.self) { subgroup in
+                Label.subgroup(subgroup)
+                    .tag(Int?.some(subgroup))
+                    .labelStyle(.titleAndIcon)
+            }
+
+            Label.allSubgroups.tag(Int?.none)
+        }
     }
 }
 

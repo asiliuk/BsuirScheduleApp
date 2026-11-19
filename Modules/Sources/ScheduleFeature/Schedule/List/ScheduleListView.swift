@@ -29,7 +29,11 @@ private struct ScheduleContentGridView: View {
 
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: [.init(.adaptive(minimum: 340, maximum: 700), spacing: 12, alignment: .top)], spacing: 32, pinnedViews: .sectionHeaders) {
+            LazyVGrid(
+                columns: [.init(.adaptive(minimum: 340, maximum: 700), spacing: 12, alignment: .top)],
+                spacing: 32,
+                pinnedViews: .sectionHeaders
+            ) {
                 Section {
                     ForEach(store.scope(state: \.days, action: \.days)) { store in
                         VStack(alignment: .leading) {
@@ -51,7 +55,6 @@ private struct ScheduleContentGridView: View {
             }
             .padding()
         }
-        .navigationSubtitle(store.subtitle)
     }
 }
 
@@ -131,14 +134,5 @@ private extension ScheduleListFeature.State {
     var scheduleDuration: String? {
         guard let startDate, let endDate else { return nil }
         return (startDate..<endDate).formatted(.scheduleDates)
-    }
-
-    var subtitle: Text {
-        switch (scheduleTypeName, scheduleDuration) {
-        case let (lhs?, rhs?): return Text("\(lhs) · \(rhs)")
-        case let (nil, rhs?): return Text(rhs)
-        case let (lhs?, nil): return lhs
-        case (nil, nil): return Text("")
-        }
     }
 }

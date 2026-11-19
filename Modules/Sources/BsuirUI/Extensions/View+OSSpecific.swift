@@ -22,3 +22,14 @@ extension View {
         }
     }
 }
+
+extension View {
+    @ViewBuilder
+    public func bsuirNavigationSubtitle(_ subtitle: Text?) -> some View {
+        if #available(iOS 26, *), let subtitle {
+            navigationSubtitle(subtitle)
+        } else {
+            self
+        }
+    }
+}

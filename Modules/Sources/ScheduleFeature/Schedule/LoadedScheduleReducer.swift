@@ -17,7 +17,7 @@ public struct LoadedScheduleReducer {
         var exams: ExamsScheduleFeature.State
 
         var subgroupPicker: SubgroupPickerFeature.State?
-        fileprivate var source: ScheduleSource
+        var source: ScheduleSource
         @Shared var sharedNow: Date
 
         init(
