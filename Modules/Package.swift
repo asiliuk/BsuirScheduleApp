@@ -32,6 +32,9 @@ let package = Package(
         .library(
             name: "SettingsFeature",
             targets: ["SettingsFeature"]),
+        .library(
+            name: "LoadableFeature",
+            targets: ["LoadableFeature"]),
     ],
     dependencies: [
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.0.0"),
@@ -91,7 +94,7 @@ let package = Package(
         ),
         .target(
             name: "LoadableFeature",
-            dependencies: ["BsuirCore", "BsuirUI", "ReachabilityFeature", .tca, .urlRouting],
+            dependencies: ["BsuirCore", "ReachabilityFeature", .tca, .urlRouting],
             swiftSettings: .bsuirDefaults,
         ),
         .target(

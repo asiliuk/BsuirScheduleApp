@@ -1,6 +1,5 @@
 import Foundation
 import BsuirCore
-import BsuirUI
 import BsuirApi
 import ComposableArchitecture
 import URLRouting

@@ -10,15 +10,15 @@ struct BsuirScheduleWatchApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(store: appDelegate.store)
+            RootView(store: appDelegate.store)
         }
     }
 }
 
 
 final class WatchAppDelegate: NSObject, WKApplicationDelegate {
-    private(set) lazy var store = Store(initialState: ContentFeature.State()) {
-        ContentFeature()
+    private(set) lazy var store = Store(initialState: RootFeature.State()) {
+        RootFeature()
     } withDependencies: {
         $0.defaultAppStorage = .asiliukShared
     }

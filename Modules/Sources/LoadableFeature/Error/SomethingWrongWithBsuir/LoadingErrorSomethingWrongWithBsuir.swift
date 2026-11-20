@@ -1,5 +1,4 @@
 import Foundation
-import BsuirUI
 import BsuirCore
 import ReachabilityFeature
 import ComposableArchitecture

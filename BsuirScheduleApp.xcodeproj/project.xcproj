@@ -305,6 +305,9 @@
           "product-name": "Favorites",
           "build-phase": { "build-phase": "frameworks" },
         }, {
+          "product-name": "LoadableFeature",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
           "product-name": "ScheduleCore",
           "build-phase": { "build-phase": "frameworks" },
         }, {
