@@ -9,11 +9,15 @@ struct ContentView: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world! \(store.counter)")
+            Text("Current: \(store.counter)")
+            Text("High score: \(store.highScore)")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+
             HStack {
-                Button("+") { store.send(.incrementButtonTapped) }
-                Spacer()
                 Button("-") { store.send(.decrementButtonTapped) }
+                Spacer()
+                Button("+") { store.send(.incrementButtonTapped) }
             }
         }
         .padding()
