@@ -14,6 +14,7 @@ struct NetworkErrorMessageField: View {
             field
                 .lineLimit(...10)
                 .monospaced()
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(8)
         .background(.background.secondary, in: RoundedRectangle(cornerRadius: 6))
