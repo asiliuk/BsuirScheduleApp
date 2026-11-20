@@ -95,6 +95,7 @@ let package = Package(
         .target(
             name: "LoadableFeature",
             dependencies: ["BsuirCore", "ReachabilityFeature", .tca, .urlRouting],
+            resources: [.process("Resources")],
             swiftSettings: .bsuirDefaults,
         ),
         .target(

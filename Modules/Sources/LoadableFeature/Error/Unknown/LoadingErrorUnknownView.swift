@@ -11,11 +11,11 @@ public struct LoadingErrorUnknownView: View {
     public var body: some View {
         VStack {
             Spacer()
-            Text("view.errorState.title").font(.title)
+            Text("view.errorState.title", bundle: .module).font(.title)
             Button {
                 store.send(.reloadButtonTapped)
             } label: {
-                Text("view.errorState.button.label")
+                Text("view.errorState.button.label", bundle: .module)
             }
             .buttonStyle(.bordered)
             Spacer()

@@ -18,12 +18,12 @@ public struct LoadingErrorFailedToDecodeView: View, Animatable {
                 .font(.system(size: 70))
 
             VStack(spacing: 12) {
-                Text("view.errorState.parsing.title")
+                Text("view.errorState.parsing.title", bundle: .module)
                     .font(.title2)
                     .bold()
                     .multilineTextAlignment(.center)
 
-                Text("view.errorState.parsing.message")
+                Text("view.errorState.parsing.message", bundle: .module)
                     .font(.body)
                     .foregroundColor(.secondary)
 
@@ -38,7 +38,11 @@ public struct LoadingErrorFailedToDecodeView: View, Animatable {
             Button {
                 store.send(.openIssueTapped)
             } label: {
-                Label("view.errorState.parsing.button.label", systemImage: "plus.diamond.fill")
+                Label {
+                    Text("view.errorState.parsing.button.label", bundle: .module)
+                } icon: {
+                    Image(systemName: "plus.diamond.fill")
+                }
             }
             .buttonStyle(.borderedProminent)
 

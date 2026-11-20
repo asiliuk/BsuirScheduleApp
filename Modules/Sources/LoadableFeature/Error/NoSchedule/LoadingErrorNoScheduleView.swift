@@ -13,11 +13,11 @@ public struct LoadingErrorNoScheduleView: View, Animatable {
                 .font(.system(size: 70))
 
             VStack(spacing: 12) {
-                Text("view.errorState.noSchedule.title")
+                Text("view.errorState.noSchedule.title", bundle: .module)
                     .font(.title2)
                     .bold()
 
-                Text("view.errorState.noSchedule.message")
+                Text("view.errorState.noSchedule.message", bundle: .module)
                     .font(.body)
                     .foregroundColor(.secondary)
             }
@@ -28,7 +28,7 @@ public struct LoadingErrorNoScheduleView: View, Animatable {
                 store.send(.reloadButtonTapped)
             } label: {
                 Image(systemName: "repeat")
-                Text("view.errorState.noSchedule.button.label")
+                Text("view.errorState.noSchedule.button.label", bundle: .module)
             }
             .buttonStyle(.borderedProminent)
 

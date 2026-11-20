@@ -27,7 +27,7 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
                         .font(.headline)
                 }
 
-                Text("view.errorState.apiDown.message")
+                Text("view.errorState.apiDown.message", bundle: .module)
                     .font(.body)
                     .foregroundColor(.secondary)
 
@@ -42,13 +42,21 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
             let openIssue = Button {
                 store.send(.openIssueTapped)
             } label: {
-                Label("view.errorState.apiDown.button.issue.label", systemImage: "plus.diamond.fill")
+                Label{
+                    Text("view.errorState.apiDown.button.issue.label", bundle: .module)
+                } icon: {
+                    Image(systemName: "plus.diamond.fill")
+                }
             }
 
             let retry = Button {
                 store.send(.reloadButtonTapped)
             } label: {
-                Label("view.errorState.apiDown.button.retry.label", systemImage: "arrow.clockwise")
+                Label{
+                    Text("view.errorState.apiDown.button.retry.label", bundle: .module)
+                } icon: {
+                    Image(systemName: "arrow.clockwise")
+                }
             }
 
             ViewThatFits {
@@ -63,7 +71,7 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
 
     func titleText(errorCode: String) -> Text {
         let errorCodeText = Text(errorCode).fontDesign(.monospaced)
-        return Text("view.errorState.apiDown.title.\(errorCodeText)").font(.title3)
+        return Text("view.errorState.apiDown.title.\(errorCodeText)", bundle: .module).font(.title3)
     }
 }
 

@@ -13,11 +13,11 @@ public struct LoadingErrorNotConnectedToInternetView: View, Animatable {
                 .font(.system(size: 70))
 
             VStack(spacing: 12) {
-                Text("view.errorState.noInternet.title")
+                Text("view.errorState.noInternet.title", bundle: .module)
                     .font(.title2)
                     .bold()
 
-                Text("view.errorState.noInternet.message")
+                Text("view.errorState.noInternet.message", bundle: .module)
                     .font(.body)
                     .foregroundColor(.secondary)
             }
@@ -28,7 +28,7 @@ public struct LoadingErrorNotConnectedToInternetView: View, Animatable {
                 store.send(.reloadButtonTapped)
             } label: {
                 Image(systemName: "repeat")
-                Text("view.errorState.noInternet.button.label")
+                Text("view.errorState.noInternet.button.label", bundle: .module)
             }
             .buttonStyle(.borderedProminent)
 
