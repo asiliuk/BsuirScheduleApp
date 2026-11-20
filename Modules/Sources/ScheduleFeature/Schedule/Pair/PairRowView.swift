@@ -79,7 +79,7 @@ private struct FilteredPairCell: View {
         .background {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(Color(uiColor: .systemBackground))
+                    .fill(.background)
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(Color.secondary.opacity(0.5), style: .filteredPair)
             }

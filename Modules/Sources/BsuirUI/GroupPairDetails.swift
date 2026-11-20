@@ -49,10 +49,7 @@ private struct GroupBackgroud: ViewModifier {
             .background {
                 Circle()
                     .stroke()
-                    .background {
-                        Circle()
-                            .foregroundColor(Color(uiColor: .secondarySystemGroupedBackground))
-                    }
+                    .background(.background.secondary, in: Circle())
                     .scaledToFill()
                     .foregroundColor(.primary.opacity(0.1))
             }
@@ -89,7 +86,7 @@ struct GroupPairDetails_Previews: PreviewProvider {
         }
         .previewLayout(.sizeThatFits)
         .padding(4)
-        .background(Color(uiColor: .secondarySystemBackground))
+        .background(.background.secondary)
     }
 }
 #endif

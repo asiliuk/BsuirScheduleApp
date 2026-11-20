@@ -47,11 +47,10 @@ public struct ExamsScheduleWidgetLargeView : View {
                                 )
                                 .padding(.leading, 10)
                                 .padding(.vertical, 2)
-                                .background {
-                                    let color = Color(uiColor: .secondarySystemGroupedBackground)
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .foregroundStyle(color.opacity(widgetRenderingMode == .accented ? 0.2  : 1))
-                                }
+                                .background(
+                                    .background.secondary.opacity(widgetRenderingMode == .accented ? 0.2  : 1),
+                                    in: RoundedRectangle(cornerRadius: 4)
+                                )
                             } label: {
                                 if let date {
                                     Text(date.formatted(.compactExamDay))
@@ -78,6 +77,6 @@ public struct ExamsScheduleWidgetLargeView : View {
             }
         }
         .labeledContentStyle(.secondaryExamsSection)
-        .containerBackground(for: .widget) { Color(.systemBackground) }
+        .containerBackground(.background, for: .widget)
     }
 }

@@ -91,7 +91,7 @@ private struct MyWidgetDemoFrame<Content: View>: View {
                 content
             }
         }
-        .background(Color(uiColor: .systemBackground))
+        .background(.background)
     }
 }
 

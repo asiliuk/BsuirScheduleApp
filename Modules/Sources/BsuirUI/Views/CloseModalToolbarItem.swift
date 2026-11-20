@@ -19,7 +19,7 @@ public struct CloseModalToolbarItem: ToolbarContent {
                     action: action,
                     label: { Image(systemName: "xmark.circle.fill") }
                 )
-                .foregroundColor(Color(uiColor: .tertiaryLabel))
+                .foregroundStyle(.tertiary)
             }
         }
     }

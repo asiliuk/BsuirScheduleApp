@@ -60,6 +60,6 @@ public struct PinnedScheduleWidgetMediumView : View {
                 )
             }
         }
-        .containerBackground(for: .widget) { Color(.systemBackground) }
+        .containerBackground(.background, for: .widget)
     }
 }

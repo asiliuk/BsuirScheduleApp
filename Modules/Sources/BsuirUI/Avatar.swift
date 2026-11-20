@@ -22,7 +22,7 @@ public struct Avatar: View {
             .overlay(
                 AvatarShape()
                     .stroke(lineWidth: 1)
-                    .foregroundColor(Color(.systemBackground))
+                    .foregroundStyle(.background)
                     .opacity(0.3)
             )
     }

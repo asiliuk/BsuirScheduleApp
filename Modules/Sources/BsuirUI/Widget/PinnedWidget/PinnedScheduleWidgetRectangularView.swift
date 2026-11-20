@@ -37,6 +37,6 @@ public struct PinnedScheduleWidgetRectangularView: View {
                 }
             }
         }
-        .containerBackground(for: .widget) { Color.clear }
+        .containerBackground(.clear, for: .widget)
     }
 }
