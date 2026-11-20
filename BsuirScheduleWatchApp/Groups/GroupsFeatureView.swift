@@ -10,8 +10,8 @@ struct GroupsFeatureView: View {
         NavigationStack {
             LoadingView(store: store.scope(\.groups, action: \.groups)) {
                 ProgressView()
-            } failed: { _, reload in
-                Text("Something went wrong...")
+            } failed: { store, _ in
+                LoadingErrorView(store: store)
             } loaded: { store, refresh in
                 LoadedGroupsView(store: store, refresh: refresh)
             }
