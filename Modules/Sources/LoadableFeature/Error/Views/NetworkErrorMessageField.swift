@@ -5,18 +5,18 @@ struct NetworkErrorMessageField: View {
     let message: String
 
     var body: some View {
-        GroupBox {
+        VStack {
             let field = Text("\(addressText)\n\(messageText)")
+            #if os(iOS)
                 .textSelection(.enabled)
+            #endif
 
-
-            if #available(iOS 16.1, *) {
-                field.lineLimit(...10)
-                    .monospaced()
-            } else {
-                field
-            }
+            field
+                .lineLimit(...10)
+                .monospaced()
         }
+        .padding(8)
+        .background(.background.secondary, in: RoundedRectangle(cornerRadius: 6))
     }
 
     private var addressText: Text {
@@ -35,16 +35,16 @@ struct NetworkErrorMessageField: View {
     }
 }
 
-struct NetworkErrorMessageField_Previews: PreviewProvider {
-    static var previews: some View {
-        NetworkErrorMessageField(
-            address: "https://my-address.com",
-            message: "Network request failed with most strange error ever existed"
-        )
+#Preview("Long message") {
+    NetworkErrorMessageField(
+        address: "https://my-address.com",
+        message: "Network request failed with most strange error ever existed"
+    )
+}
 
-        NetworkErrorMessageField(
-            address: "https://my-address.com",
-            message: "Tiny error message"
-        )
-    }
+#Preview("Small message") {
+    NetworkErrorMessageField(
+        address: "https://my-address.com",
+        message: "Tiny error message"
+    )
 }
