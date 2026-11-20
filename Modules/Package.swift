@@ -37,6 +37,7 @@ let package = Package(
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "8.0.0"),
          .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.15.2"),
          .package(url: "https://github.com/pointfreeco/swift-url-routing.git", from: "0.6.0"),
+         .package(url: "https://github.com/pointfreeco/swift-case-paths.git", from: "1.10.0"),
          .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.0"),
          .package(url: "https://github.com/apple/swift-algorithms.git", from: "1.1.0"),
          .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", from: "26.0.0"),
@@ -65,7 +66,7 @@ let package = Package(
         ),
         .target(
             name: "PremiumClubFeature",
-            dependencies: ["BsuirUI", "Favorites", "LoadableFeature", .tca, .dependencies, .confetti, .pow],
+            dependencies: ["BsuirUI", "Favorites", "LoadableFeature", "AppIcons", .tca, .dependencies, .confetti, .pow],
             swiftSettings: .bsuirDefaults,
         ),
         .target(
@@ -85,7 +86,7 @@ let package = Package(
         ),
         .target(
             name: "ScheduleFeature",
-            dependencies: ["LoadableFeature", "Favorites", "PremiumClubFeature", "ScheduleCore", "BsuirUI", .tca, .swiftAlgorithms, .pow],
+            dependencies: ["LoadableFeature", "Favorites", "PremiumClubFeature", "ScheduleCore", "BsuirUI", "AppIcons", .tca, .swiftAlgorithms, .pow],
             swiftSettings: .bsuirDefaults,
         ),
         .target(
@@ -106,6 +107,11 @@ let package = Package(
         .target(
             name: "ReachabilityFeature",
             dependencies: ["BsuirApi", .tca],
+            swiftSettings: .bsuirDefaults,
+        ),
+        .target(
+            name: "AppIcons",
+            dependencies: ["BsuirCore", .dependencies, .casePaths],
             swiftSettings: .bsuirDefaults,
         ),
         // MARK: - Core
@@ -153,6 +159,7 @@ private extension Target.Dependency {
     static let urlRouting: Self = .product(name: "URLRouting", package: "swift-url-routing")
     static let tca: Self = .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
     static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
+    static let casePaths: Self = .product(name: "CasePaths", package: "swift-case-paths")
     static let swiftCollections: Self = .product(name: "Collections", package: "swift-collections")
     static let swiftAlgorithms: Self = .product(name: "Algorithms", package: "swift-algorithms")
     static let introspect: Self = .product(name: "SwiftUIIntrospect", package: "SwiftUI-Introspect")

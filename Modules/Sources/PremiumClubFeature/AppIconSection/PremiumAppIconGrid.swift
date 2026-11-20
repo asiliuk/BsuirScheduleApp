@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirUI
 import Collections
+import AppIcons
 
 struct PremiumAppIconGrid: View {
     @State private var gridRows: [[AppIcon]]

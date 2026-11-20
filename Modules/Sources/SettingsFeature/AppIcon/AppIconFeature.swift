@@ -3,6 +3,7 @@ import UIKit
 import BsuirCore
 import BsuirUI
 import ComposableArchitecture
+import AppIcons
 
 @Reducer
 public struct AppIconFeature {
@@ -33,7 +34,7 @@ public struct AppIconFeature {
         case alert(PresentationAction<AlertAction>)
     }
 
-    @Dependency(\.application.setAlternateIconName) var setAlternateIconName
+    @Dependency(\.appIcons.setAlternateIconName) var setAlternateIconName
     @Dependency(\.reviewRequestService) var reviewRequestService
 
     public var body: some ReducerOf<Self> {
@@ -128,7 +129,7 @@ private extension AppIcon {
 
 extension SharedKey where Self == InMemoryKey<AppIcon?>.Default {
     static var appIcon: Self {
-        @Dependency(\.application.alternateIconName) var alternateIconName
+        @Dependency(\.appIcons.alternateIconName) var alternateIconName
         return Self[
             .inMemory("current-app-icon"),
             default: alternateIconName().flatMap(AppIcon.init(name:)) ?? .default

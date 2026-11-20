@@ -1,6 +1,7 @@
 import SwiftUI
 import BsuirUI
 import ComposableArchitecture
+import AppIcons
 
 struct AppIconLabelNavigationLink: View {
     let value: SettingsFeatureDestination
