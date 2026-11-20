@@ -22,7 +22,6 @@ struct ExamsEmptyView: View {
     private let subtitle = Text("screen.schedule.exams.emptyState.subtitle")
     private let imageName = "graduationcap"
 
-    @available(iOS 17.0, *)
     private var symbolEffect: some (DiscreteSymbolEffect & SymbolEffect) {
         if #available(iOS 18, *) {
             return .wiggle.clockwise.wholeSymbol

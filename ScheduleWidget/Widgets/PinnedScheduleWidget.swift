@@ -69,7 +69,6 @@ struct PinnedScheduleWidgetEntryView: View {
 
 // MARK: - Previews
 
-@available(iOS 17, *)
 #Preview("Pinned Schedule", as: .systemSmall) {
     PinnedScheduleWidget()
 } timeline: {

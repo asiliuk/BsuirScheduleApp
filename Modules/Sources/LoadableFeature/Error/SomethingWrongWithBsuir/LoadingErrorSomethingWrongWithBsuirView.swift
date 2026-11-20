@@ -62,12 +62,7 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
     }
 
     func titleText(errorCode: String) -> Text {
-        let errorCodeText: Text
-        if #available(iOS 16.1, *) {
-            errorCodeText = Text(errorCode).fontDesign(.monospaced)
-        } else {
-            errorCodeText = Text(errorCode)
-        }
+        let errorCodeText = Text(errorCode).fontDesign(.monospaced)
         return Text("view.errorState.apiDown.title.\(errorCodeText)").font(.title3)
     }
 }

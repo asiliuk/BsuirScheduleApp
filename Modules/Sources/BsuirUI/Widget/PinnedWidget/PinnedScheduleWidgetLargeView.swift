@@ -77,8 +77,7 @@ public struct PinnedScheduleWidgetLargeView : View {
                 .padding(.top, 8)
             }
         }
-        .widgetPadding()
-        .widgetBackground(Color(.systemBackground))
+        .containerBackground(for: .widget) { Color(.systemBackground) }
     }
 }
 

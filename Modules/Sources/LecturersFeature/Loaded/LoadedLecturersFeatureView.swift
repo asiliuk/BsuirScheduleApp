@@ -33,10 +33,8 @@ struct LoadedLecturersFeatureView: View {
         .listStyle(.insetGrouped)
         .refreshable { await refresh() }
         .overlay {
-            if #available(iOS 17, *) {
-                if store.isEmpty {
-                    ContentUnavailableView.search
-                }
+            if store.isEmpty {
+                ContentUnavailableView.search
             }
         }
         .dismissSearch(store.searchDismiss)

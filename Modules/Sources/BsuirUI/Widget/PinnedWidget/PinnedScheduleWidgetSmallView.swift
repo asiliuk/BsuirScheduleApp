@@ -62,10 +62,9 @@ public struct PinnedScheduleWidgetSmallView: View {
                 )
             }
         }
-        .widgetPadding()
         .padding(.horizontal, increasePaddings ? -4 : 0)
         .padding(.vertical, increasePaddings ? -6 : 0)
-        .widgetBackground(Color(.systemBackground))
+        .containerBackground(for: .widget) { Color(.systemBackground) }
     }
 
     private var spellForm: Bool {

@@ -84,18 +84,14 @@ private struct MyWidgetDemoFrame<Content: View>: View {
 
     @ViewBuilder
     private var widgetContent: some View {
-        if #available(iOS 17, *) {
-            Group {
-                if addPadding {
-                    content.padding()
-                } else {
-                    content
-                }
+        Group {
+            if addPadding {
+                content.padding()
+            } else {
+                content
             }
-            .background(Color(uiColor: .systemBackground))
-        } else {
-            content
         }
+        .background(Color(uiColor: .systemBackground))
     }
 }
 

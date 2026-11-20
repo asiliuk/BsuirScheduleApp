@@ -134,15 +134,7 @@ private extension PhotoPreviewView {
             additionalOffset = offset
         }
 
-        if #available(iOS 17, *) {
-            withAnimation(.spring) { update() } completion: { dismiss() }
-        } else {
-            withAnimation(.spring) { update() }
-            Task {
-                try? await Task.sleep(for: .milliseconds(200))
-                dismiss()
-            }
-        }
+        withAnimation(.spring) { update() } completion: { dismiss() }
     }
 }
 

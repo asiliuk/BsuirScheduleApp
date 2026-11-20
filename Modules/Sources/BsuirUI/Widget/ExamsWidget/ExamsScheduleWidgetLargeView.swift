@@ -78,6 +78,6 @@ public struct ExamsScheduleWidgetLargeView : View {
             }
         }
         .labeledContentStyle(.secondaryExamsSection)
-        .widgetBackground(Color(.systemBackground))
+        .containerBackground(for: .widget) { Color(.systemBackground) }
     }
 }

@@ -83,7 +83,6 @@ struct ExamsScheduleWidgetEntryView: View {
 
 // MARK: - Previews
 
-@available(iOS 17, *)
 #Preview("Exams Schedule", as: .systemSmall) {
     ExamsScheduleWidget()
 } timeline: {
@@ -94,7 +93,6 @@ struct ExamsScheduleWidgetEntryView: View {
     mutating(entry) { $0.config = .noPinned() }
 }
 
-@available(iOS 17, *)
 #Preview("Only Exams Schedule", as: .systemSmall) {
     OnlyExamsScheduleWidget()
 } timeline: {

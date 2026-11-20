@@ -36,7 +36,7 @@ public struct PinnedScheduleWidgetCircularView: View {
                 }
             }
         }
-        .widgetBackground(.clear)
+        .containerBackground(for: .widget) { Color.clear }
     }
 }
 

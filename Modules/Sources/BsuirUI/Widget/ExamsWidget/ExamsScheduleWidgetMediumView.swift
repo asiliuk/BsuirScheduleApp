@@ -68,6 +68,6 @@ public struct ExamsScheduleWidgetMediumView : View {
             }
         }
         .labeledContentStyle(.secondaryExamsSection)
-        .widgetBackground(Color(.systemBackground))
+        .containerBackground(for: .widget) { Color(.systemBackground) }
     }
 }

@@ -72,7 +72,7 @@ public struct ExamsScheduleWidgetSmallView: View {
             }
         }
         .labeledContentStyle(.mainExamsSection)
-        .widgetBackground(Color(uiColor: .systemBackground))
+        .containerBackground(for: .widget) { Color(uiColor: .systemBackground) }
     }
 
     private var spellForm: Bool {
