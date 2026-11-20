@@ -12,34 +12,25 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
     }
 
     public var body: some View {
-        VStack(spacing: 24) {
-            Spacer()
-
-            AnimatableImage(systemName: "wand.and.rays")
-                .font(.system(size: 70))
-
-            VStack(spacing: 12) {
-
+        ContentUnavailableView {
+            Label {
                 titleText(errorCode: store.errorCode)
-
-                if let store = store.scope(state: \.reachability, action: \.reachability) {
-                    ReachabilityView(store: store)
-                        .font(.headline)
-                }
-
-                Text("view.errorState.apiDown.message", bundle: .module)
-                    .font(.body)
-                    .foregroundColor(.secondary)
-
-                NetworkErrorMessageField(
-                    address: store.address,
-                    message: store.message
-                )
+            } icon: {
+                AnimatableImage(systemName: "wand.and.rays")
             }
-            .multilineTextAlignment(.leading)
-            .padding(.horizontal, 24)
+        } description: {
+            if let store = store.scope(state: \.reachability, action: \.reachability) {
+                ReachabilityView(store: store)
+            }
 
-            let openIssue = Button {
+            Text("view.errorState.apiDown.message", bundle: .module)
+
+            NetworkErrorMessageField(
+                address: store.address,
+                message: store.message
+            )
+        } actions: {
+            Button {
                 store.send(.openIssueTapped)
             } label: {
                 Label{
@@ -49,7 +40,7 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
                 }
             }
 
-            let retry = Button {
+            Button {
                 store.send(.reloadButtonTapped)
             } label: {
                 Label{
@@ -58,13 +49,6 @@ public struct LoadingErrorSomethingWrongWithBsuirView: View, Animatable {
                     Image(systemName: "arrow.clockwise")
                 }
             }
-
-            ViewThatFits {
-                HStack { openIssue; retry }
-                VStack { openIssue; retry }
-            }
-
-            Spacer()
         }
         .buttonStyle(.borderedProminent)
     }

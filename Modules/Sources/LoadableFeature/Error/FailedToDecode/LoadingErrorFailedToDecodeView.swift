@@ -11,30 +11,15 @@ public struct LoadingErrorFailedToDecodeView: View, Animatable {
     }
 
     public var body: some View {
-        VStack(spacing: 24) {
-            Spacer()
-
-            AnimatableImage(systemName: "ellipsis.curlybraces")
-                .font(.system(size: 70))
-
-            VStack(spacing: 12) {
+        ContentUnavailableView {
+            Label {
                 Text("view.errorState.parsing.title", bundle: .module)
-                    .font(.title2)
-                    .bold()
-                    .multilineTextAlignment(.center)
-
-                Text("view.errorState.parsing.message", bundle: .module)
-                    .font(.body)
-                    .foregroundColor(.secondary)
-
-                NetworkErrorMessageField(
-                    address: store.address,
-                    message: store.message
-                )
+            } icon: {
+                AnimatableImage(systemName: "ellipsis.curlybraces")
             }
-            .multilineTextAlignment(.leading)
-            .padding(.horizontal, 24)
-
+        } description: {
+            Text("view.errorState.parsing.message", bundle: .module)
+        } actions: {
             Button {
                 store.send(.openIssueTapped)
             } label: {
@@ -45,8 +30,6 @@ public struct LoadingErrorFailedToDecodeView: View, Animatable {
                 }
             }
             .buttonStyle(.borderedProminent)
-
-            Spacer()
         }
     }
 }
