@@ -9,15 +9,9 @@ struct LoadedScheduleFeatureView: View {
 
     var body: some View {
         VStack {
-            Text("Loaded schedule")
-
-            if let start = store.response.startDate, let end = store.response.endDate {
-                Text((start..<end).formatted(.scheduleDates))
-            }
-
-            if let start = store.response.startExamsDate, let end = store.response.endExamsDate {
-                Text("Exams: \((start..<end).formatted(.scheduleDates))")
-            }
+            DayScheduleFeatureView(
+                store: store.scope(\.day, action: \.day)
+            )
         }
         .refreshable { await refresh() }
     }
