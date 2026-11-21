@@ -7,19 +7,29 @@ import LoadableFeature
 struct GroupsFeature {
     @ObservableState
     struct State {
-        // MARK: Groups
         var groups: LoadingState<LoadedGroupsFeature.State> = .initial
+        var path = StackState<ScheduleFeature.State>()
     }
 
     enum Action {
         case groups(LoadingActionOf<LoadedGroupsFeature>)
+        case path(StackActionOf<ScheduleFeature>)
     }
 
     @Dependency(\.apiClient) var apiClient
 
     public var body: some Reducer<State, Action> {
         Reduce { state, action in
-            return .none
+            switch action {
+            case .groups(.loaded(.delegate(let action))):
+                switch action {
+                case .showGroupSchedule(let name):
+                    state.path.append(.group(GroupScheduleFeature.State(name: name)))
+                    return .none
+                }
+            case .path, .groups:
+                return .none
+            }
         }
         .load(state: \.groups, action: \.groups) { _, isRefresh in
             let groups = try await apiClient.groups(isRefresh)
@@ -27,5 +37,6 @@ struct GroupsFeature {
         } loaded: {
             LoadedGroupsFeature()
         }
+        .forEach(\.path, action: \.path)
     }
 }

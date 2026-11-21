@@ -4,10 +4,10 @@ import LoadableFeature
 import BsuirApi
 
 struct GroupsFeatureView: View {
-    let store: StoreOf<GroupsFeature>
+    @Bindable var store: StoreOf<GroupsFeature>
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $store.scope(\.path, action: \.path)) {
             LoadingView(store: store.scope(\.groups, action: \.groups)) {
                 ProgressView()
             } failed: { store, _ in
@@ -15,6 +15,8 @@ struct GroupsFeatureView: View {
             } loaded: { store, refresh in
                 LoadedGroupsView(store: store, refresh: refresh)
             }
+        } destination: { store in
+            ScheduleFeatureView(store: store)
         }
     }
 }

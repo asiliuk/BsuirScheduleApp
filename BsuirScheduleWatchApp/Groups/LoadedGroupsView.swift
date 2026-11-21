@@ -9,7 +9,9 @@ struct LoadedGroupsView: View {
     var body: some View {
         List {
             ForEach(store.groups) { group in
-                Text(group.name)
+                Button(group.name) {
+                    store.send(.rowTapped(group.name))
+                }
             }
         }
         .refreshable { await refresh() }
