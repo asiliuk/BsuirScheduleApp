@@ -4,6 +4,7 @@ import BsuirApi
 import ScheduleFeature
 import Favorites
 import ComposableArchitecture
+import ScheduleCore
 
 @Reducer
 public struct LectorScheduleFeature {
@@ -43,20 +44,5 @@ public struct LectorScheduleFeature {
                 try await ScheduleRequestResponse(response: apiClient.lecturerSchedule(urlId, isRefresh))
             }
         }        
-    }
-}
-
-// MARK: - Lector
-
-private extension ScheduleRequestResponse {
-    init(response: Employee.Schedule) {
-        self.init(
-            startDate: response.startDate,
-            endDate: response.endDate,
-            startExamsDate: response.startExamsDate,
-            endExamsDate: response.endExamsDate,
-            schedule: response.actualSchedule,
-            exams: response.examSchedules ?? []
-        )
     }
 }
