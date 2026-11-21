@@ -4,5 +4,3 @@ import ComposableArchitecture
 enum ScheduleFeature {
     case group(GroupScheduleFeature)
 }
-
-
