@@ -1,0 +1,47 @@
+{
+  "sourceLanguage" : "ru",
+  "strings" : {
+    "-" : {
+      "shouldTranslate" : false
+    },
+    "+" : {
+      "shouldTranslate" : false
+    },
+    "Current: %lld" : {
+      "shouldTranslate" : false
+    },
+    "High score: %lld" : {
+      "shouldTranslate" : false
+    },
+    "screen.schedule.view.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выгляд"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вид"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вигляд"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.3"
+}

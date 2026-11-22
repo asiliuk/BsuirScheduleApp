@@ -25,6 +25,8 @@ struct GroupScheduleFeature {
             let groupSchedule = try await apiClient.groupSchedule(state.name, refresh)
             let response = ScheduleRequestResponse(response: groupSchedule)
             return LoadedScheduleFeature.State(response: response)
+        } loaded: {
+            LoadedScheduleFeature()
         }
     }
 }
