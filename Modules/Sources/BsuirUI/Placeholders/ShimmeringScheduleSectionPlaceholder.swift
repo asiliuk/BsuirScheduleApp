@@ -22,7 +22,9 @@ public struct ShimmeringScheduleSectionPlaceholder: View {
             )
             .shimmeringPlaceholder()
         }
+        #if os(iOS)
         .listRowSeparator(.hidden)
+        #endif
     }
 }
 
