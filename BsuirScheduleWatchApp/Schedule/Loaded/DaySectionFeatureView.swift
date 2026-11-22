@@ -1,6 +1,7 @@
 import SwiftUI
 import ComposableArchitecture
 import ScheduleCore
+import BsuirUI
 
 struct DaySectionFeatureView: View {
     let store: StoreOf<DaySectionFeature>
@@ -20,86 +21,15 @@ private struct PairRow: View {
     let pair: PairViewModel
 
     var body: some View {
-        HStack(alignment: .center) {
-            PairFormIndicator(
-                color: pair.form.defaultColor,
-                progress: 0,
-                formIndicatorWidth: 4
-            )
-            VStack(alignment: .leading) {
-                Text(pair.interval)
-                    .font(.subheadline)
-                if let subject = pair.subject {
-                    Text(subject)
-                        .font(.headline)
-                }
-                if let note = pair.note {
-                    Text(note).font(.caption2)
-                }
-            }
-        }
-        .listItemTint(pair.form.defaultColor)
-    }
-}
-
-struct PairFormIndicator: View {
-    var color: Color
-    var progress: Double
-    @ScaledMetric(relativeTo: .body) var formIndicatorWidth: CGFloat = 8
-    @Environment(\.colorScheme) private var colorScheme
-    @Environment(\.redactionReasons) var redactionReasons
-
-    var body: some View {
-        GeometryReader { proxy in
-            PillPairFormIndicator(
-                progress: progress,
-                proxy: proxy,
-                passedOpacity: passedOpacity
-            )
-        }
-        .foregroundColor(redactionReasons.contains(.placeholder) ? .gray : color)
-        .frame(width: formIndicatorWidth)
-    }
-
-    private var passedOpacity: Double {
-        colorScheme == .dark ? 0.5 : 0.3
-    }
-}
-
-private struct PillPairFormIndicator: View {
-    var progress: Double
-    var proxy: GeometryProxy
-    var passedOpacity: Double
-
-    var body: some View {
-        ZStack(alignment: .bottom) {
-            Capsule()
-                .opacity(passedOpacity)
-
-            Capsule()
-                .frame(height: progressHeight)
-        }
-    }
-
-    private var progressHeight: CGFloat {
-        let height = proxy.size.height
-        guard progress > 0 else { return height }
-        guard progress < 1 else { return 0 }
-        return max(height * CGFloat(1 - progress), proxy.size.width)
-    }
-}
-
-private extension PairViewModel.Form {
-    var defaultColor: Color {
-        switch self {
-        case .lecture: .green
-        case .practice: .red
-        case .lab: .yellow
-        case .consultation: .brown
-        case .exam: .purple
-        case .test: .indigo
-        case .unknown: .gray
-        }
+        PairView(
+            pair: pair,
+            distribution: .vertical,
+            isCompact: true,
+            isCompactProgress: true,
+            spellForm: false,
+            showWeeks: true
+        )
+        .listItemTint(pair.form.viewForm.defaultColor.color)
     }
 }
 

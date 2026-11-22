@@ -86,6 +86,7 @@ public struct PairView<Details: View>: View {
     @ObservedObject public var progress: PairProgress
     public var distribution: Distribution
     public var isCompact: Bool
+    public var isCompactProgress: Bool
     public var spellForm: Bool
     public let details: Details
     @Environment(\.sizeCategory) var sizeCategory
@@ -112,6 +113,7 @@ public struct PairView<Details: View>: View {
         progress: PairProgress,
         distribution: Distribution = .horizontal,
         isCompact: Bool = false,
+        isCompactProgress: Bool = false,
         spellForm: Bool = false,
         details: Details
     ) {
@@ -127,6 +129,7 @@ public struct PairView<Details: View>: View {
         self.progress = progress
         self.distribution = distribution
         self.isCompact = isCompact
+        self.isCompactProgress = isCompactProgress
         self.spellForm = spellForm
         self.details = details
     }
@@ -196,7 +199,8 @@ public struct PairView<Details: View>: View {
     private var pairForm: some View {
         PairFormIndicator(
             color: formColor,
-            progress: progress.value
+            progress: progress.value,
+            formIndicatorWidth: isCompactProgress ? 4 : 8
         )
     }
 
@@ -278,6 +282,7 @@ extension PairView {
         pair: PairViewModel,
         distribution: Distribution = .horizontal,
         isCompact: Bool = false,
+        isCompactProgress: Bool = false,
         spellForm: Bool = false,
         showWeeks: Bool,
         details: Details
@@ -295,6 +300,7 @@ extension PairView {
             progress: pair.progress,
             distribution: distribution,
             isCompact: isCompact,
+            isCompactProgress: isCompactProgress,
             spellForm: spellForm,
             details: details
         )
@@ -306,6 +312,7 @@ extension PairView where Details == EmptyView {
         pair: PairViewModel,
         distribution: Distribution = .horizontal,
         isCompact: Bool = false,
+        isCompactProgress: Bool = false,
         spellForm: Bool = false,
         showWeeks: Bool
     ) {
@@ -313,6 +320,7 @@ extension PairView where Details == EmptyView {
             pair: pair,
             distribution: distribution,
             isCompact: isCompact,
+            isCompactProgress: isCompactProgress,
             spellForm: spellForm,
             showWeeks: showWeeks,
             details: Details()

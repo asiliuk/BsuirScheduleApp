@@ -302,6 +302,9 @@
           "product-name": "BsuirApi",
           "build-phase": { "build-phase": "frameworks" },
         }, {
+          "product-name": "BsuirUI",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
           "product-name": "Favorites",
           "build-phase": { "build-phase": "frameworks" },
         }, {

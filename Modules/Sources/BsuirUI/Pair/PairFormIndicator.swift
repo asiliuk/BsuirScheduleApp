@@ -5,7 +5,7 @@ import SwiftUI
 struct PairFormIndicator: View {
     var color: Color
     var progress: Double
-    @ScaledMetric(relativeTo: .body) private var formIndicatorWidth: CGFloat = 8
+    @ScaledMetric(relativeTo: .body) var formIndicatorWidth: CGFloat = 8
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.redactionReasons) var redactionReasons
 
