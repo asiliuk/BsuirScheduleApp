@@ -1,6 +1,8 @@
 import Foundation
 import SwiftUI
 
+// TODO: (watch) Move to shared place
+
 public enum ScheduleDisplayType: Hashable, CaseIterable {
     case continuous
     case compact

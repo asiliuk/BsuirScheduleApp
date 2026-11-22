@@ -14,6 +14,8 @@ public enum PairViewForm: String, CaseIterable, Identifiable {
 
 // MARK: - Details
 
+// TODO: (watch) Move to shared place
+
 extension PairViewForm {
     public var name: LocalizedStringKey {
         switch self {

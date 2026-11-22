@@ -1,5 +1,7 @@
 import SwiftUI
 
+// TODO: (watch) Move to shared place
+
 struct PairFormIndicator: View {
     var color: Color
     var progress: Double
