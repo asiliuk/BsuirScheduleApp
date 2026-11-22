@@ -18,29 +18,20 @@ public struct Avatar: View {
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: size, height: size)
-            .clipShape(AvatarShape())
-            .overlay(
-                AvatarShape()
-                    .stroke(lineWidth: 1)
-                    .foregroundStyle(.background)
-                    .opacity(0.3)
-            )
+            .clipShape(.circle)
+            .overlay {
+                Circle().strokeBorder(.background.opacity(0.3), lineWidth: 1)
+            }
     }
 }
 
 private struct UserPlaceholder: View {
 
     var body: some View {
-        ZStack {
-            Color(.secondarySystemFill)
-            Image(systemName: "photo").foregroundColor(.secondary)
-        }
-    }
-}
-
-private struct AvatarShape: Shape {
-    func path(in rect: CGRect) -> Path {
-        Circle().path(in: rect)
+        Image(systemName: "photo")
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.fill.secondary, in: .circle)
     }
 }
 

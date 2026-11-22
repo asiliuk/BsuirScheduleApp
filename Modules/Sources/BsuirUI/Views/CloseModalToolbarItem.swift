@@ -8,7 +8,7 @@ public struct CloseModalToolbarItem: ToolbarContent {
     }
 
     public var body: some ToolbarContent {
-        ToolbarItem(placement: .navigation) {
+        ToolbarItem(placement: .cancellationAction) {
             if #available(iOS 26, *) {
                 Button(
                     action: action,

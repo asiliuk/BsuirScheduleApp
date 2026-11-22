@@ -16,10 +16,10 @@ public struct PairBackgroundModifier: ViewModifier {
             .padding(.leading)
             .padding(.trailing, 4)
             .padding(.vertical, 8)
-            .background {
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .foregroundColor(Color(.secondarySystemBackground))
-            }
+            .background(
+                .background.secondary,
+                in: RoundedRectangle(cornerRadius: cornerRadius)
+            )
     }
 }
 
