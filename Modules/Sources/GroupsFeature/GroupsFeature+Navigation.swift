@@ -1,6 +1,6 @@
 import Foundation
 import ComposableArchitecture
-import ScheduleFeature
+import ScheduleCore
 
 extension GroupsFeature.State {
     /// Reset navigation and inner state

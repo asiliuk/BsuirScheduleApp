@@ -1,6 +1,7 @@
 import Foundation
 import ComposableArchitecture
 import BsuirApi
+import ScheduleCore
 
 @Reducer
 public struct ScheduleListFeature {

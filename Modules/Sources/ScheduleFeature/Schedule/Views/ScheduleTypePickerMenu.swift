@@ -1,4 +1,6 @@
 import SwiftUI
+import ScheduleCore
+import BsuirUI
 
 struct ScheduleDisplayTypePickerMenu: View {
     @Binding var scheduleType: ScheduleDisplayType
@@ -7,7 +9,11 @@ struct ScheduleDisplayTypePickerMenu: View {
         Menu {
             ScheduleDisplayTypePicker(scheduleType: $scheduleType)
         } label: {
-            Label("screen.schedule.scheduleTypePicker.title", systemImage: scheduleType.imageName)
+            Label {
+                Text(ScheduleDisplayType.pickerTitle)
+            } icon: {
+                Image(systemName: scheduleType.imageName)
+            }
         }
         .tint(.primary)
     }
@@ -17,7 +23,7 @@ struct ScheduleDisplayTypePicker: View {
     @Binding var scheduleType: ScheduleDisplayType
     
     var body: some View {
-        Picker("screen.schedule.scheduleTypePicker.title", selection: $scheduleType) {
+        Picker(ScheduleDisplayType.pickerTitle, selection: $scheduleType) {
             ForEach(ScheduleDisplayType.allCases, id: \.self) { scheduleType in
                 Label(scheduleType.title, systemImage: scheduleType.imageName)
             }

@@ -88,8 +88,7 @@ private extension LoadedScheduleReducer.State {
     var scheduleTypeName: Text? {
         switch scheduleType {
         case .continuous: nil
-        case .compact: Text("screen.schedule.scheduleType.byDay")
-        case .exams: Text("screen.schedule.scheduleType.exams")
+        case let type: Text(type.title)
         }
     }
 

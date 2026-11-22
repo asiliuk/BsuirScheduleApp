@@ -2,6 +2,7 @@ import Foundation
 import ComposableArchitecture
 import BsuirApi
 import ScheduleFeature
+import ScheduleCore
 import EntityScheduleFeature
 
 extension LecturersFeature.State {

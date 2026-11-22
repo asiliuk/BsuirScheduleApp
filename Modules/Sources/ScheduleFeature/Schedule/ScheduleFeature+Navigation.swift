@@ -1,4 +1,5 @@
 import Foundation
+import ScheduleCore
 
 extension ScheduleFeature.State {
     public mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {

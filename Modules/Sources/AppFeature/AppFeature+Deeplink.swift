@@ -1,6 +1,6 @@
 import Foundation
 import Deeplinking
-import ScheduleFeature
+import ScheduleCore
 import PremiumClubFeature
 
 extension AppFeature {

@@ -1,6 +1,7 @@
 import Foundation
 import CasePaths
 import ScheduleFeature
+import ScheduleCore
 
 extension EntityScheduleFeatureV2.State {
     public mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {

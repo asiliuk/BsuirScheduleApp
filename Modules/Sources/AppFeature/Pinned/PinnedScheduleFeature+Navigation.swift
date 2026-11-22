@@ -1,6 +1,6 @@
 import Foundation
 import ComposableArchitecture
-import ScheduleFeature
+import ScheduleCore
 
 extension PinnedScheduleFeature.State {
     mutating func switchDisplayType(_ displayType: ScheduleDisplayType) {
