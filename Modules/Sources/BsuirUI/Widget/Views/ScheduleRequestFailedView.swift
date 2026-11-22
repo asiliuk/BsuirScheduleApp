@@ -7,7 +7,7 @@ struct ScheduleRequestFailedView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("widget.failed.title", bundle: .module)
+            Text(.widgetFailedTitle)
                 .font(.headline)
             Text("widget.failed.message\(refresh, style: .relative)", bundle: .module)
                 .font(.callout)
@@ -32,7 +32,7 @@ struct ScheduleRequestFailedSymbolView: View {
 private struct ScheduleRequestFailedRetryLabel: View {
     var body: some View {
         Label {
-            Text("widget.failed.retry", bundle: .module)
+            Text(.widgetFailedRetry)
         } icon: {
             Image(systemName: "arrow.clockwise")
         }

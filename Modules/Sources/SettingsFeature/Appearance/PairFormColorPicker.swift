@@ -41,7 +41,7 @@ public struct PairFormColorPicker {
     @ObservableState
     public struct State: Identifiable {
         public var id: String { form.rawValue }
-        var name: LocalizedStringKey { form.name }
+        var name: LocalizedStringResource { form.name }
         let form: PairViewForm
         @Shared var color: PairFormColor
         var isDefault: Bool { color == form.defaultColor }

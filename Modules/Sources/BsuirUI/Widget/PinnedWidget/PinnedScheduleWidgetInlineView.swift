@@ -11,16 +11,16 @@ public struct PinnedScheduleWidgetInlineView: View {
     public var body: some View {
         switch config.content {
         case .noPinned:
-            InlineView(text: "widget.noPinned.title")
+            InlineView(text: Text(.widgetNoPinnedTitle))
 
         case .noSchedule:
-            InlineView(text: "widget.schedule.noSchedule")
+            InlineView(text: Text(.widgetScheduleNoSchedule))
 
         case .failed:
-            InlineView(text: "widget.failed.title")
+            InlineView(text: Text(.widgetFailedTitle))
 
         case .pairs(_, []):
-            InlineView(text: "widget.schedule.empty")
+            InlineView(text: Text(.widgetScheduleEmpty))
 
         case let .pairs(passed, upcoming):
             let pairs = PairsToDisplay(
@@ -31,17 +31,17 @@ public struct PinnedScheduleWidgetInlineView: View {
 
             if let pair = pairs.visible.last {
                 let form = Image(systemName: pair.form.symbolName)
-                InlineView(text: "\(pair.from) \(form) \(pair.subject ?? "")")
+                InlineView(text: Text("\(pair.from) \(form) \(pair.subject ?? "")"))
             }
         }
     }
 }
 
 private struct InlineView: View {
-    let text: LocalizedStringKey
+    let text: Text
 
     var body: some View {
-        Text("\(Image.bsuirLogo) \(Text(text, bundle: .module))")
+        Text("\(Image.bsuirLogo) \(text)")
     }
 }
 

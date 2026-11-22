@@ -24,7 +24,7 @@ struct PinnedScheduleSectionView: View {
                 .listStyle(.plain)
                 .redacted(reason: .placeholder)
                 .overlay(alignment: .top) {
-                    Text("📌").font(.system(size: 24))
+                    Text(verbatim: "📌").font(.system(size: 24))
                         .alignmentGuide(HorizontalAlignment.center) { $0[.leading] }
                         .alignmentGuide(.top) { $0[VerticalAlignment.center] }
                 }

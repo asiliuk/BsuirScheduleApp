@@ -4,7 +4,7 @@ struct NoPinnedScheduleView: View {
     var body: some View {
         VStack {
             NoPinSymbol()
-            Text("widget.noPinned.title", bundle: .module)
+            Text(.widgetNoPinnedTitle)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
 
@@ -15,8 +15,8 @@ struct NoPinnedScheduleView: View {
 
 struct NoPinSymbol: View {
     var body: some View {
-        Text("📌")
-            .overlay(alignment: .topLeading) { Text("❌").font(.system(size: 5)) }
+        Text(verbatim: "📌")
+            .overlay(alignment: .topLeading) { Text(verbatim: "❌").font(.system(size: 5)) }
     }
 }
 

@@ -1,9 +1,5 @@
 import SwiftUI
 
-public func accessibilityDescription(_ tokens: LocalizedStringKey?..., separator: String = ", ") -> Text {
-    combineTexts(tokens.map { $0.map { Text($0) } }) ?? Text("")
-}
-
 public func combineTexts(_ texts: Text?..., separator: String = ", ") -> Text? {
     combineTexts(texts, separator: separator)
 }

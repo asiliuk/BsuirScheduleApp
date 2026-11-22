@@ -7,8 +7,10 @@ struct PairFormIconsView: View {
     var body: some View {
         Section {
             ForEach(store.pairForms) { pairForm in
-                LabeledContent(pairForm.name) {
+                LabeledContent {
                     Image(systemName: pairForm.symbolName).foregroundColor(.primary)
+                } label: {
+                    Text(pairForm.name)
                 }
             }
         } header: {

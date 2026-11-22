@@ -157,7 +157,7 @@ public struct PairView<Details: View>: View {
 
             case (.oneLine, _):
                 timeInterval
-                Text("|").bold().foregroundStyle(formColor)
+                Text(verbatim: "|").bold().foregroundStyle(formColor)
                 title
                 Spacer(minLength: 0).layoutPriority(-1)
 
@@ -178,15 +178,15 @@ public struct PairView<Details: View>: View {
         }
         .fixedSize(horizontal: false, vertical: true)
         .accessibilityElement(children: .ignore)
-        .accessibility(label: accessibilityDescription(
-            subject.map { "\($0) \(Text(form.name))" },
-            progress.isNow ? "view.pairView.accessibility.label" : nil,
-            "view.pairView.accessibility.from.\(from).to.\(to)",
-            weeks.map { "view.pairView.accessibility.weeks.\($0)" },
-            subgroup.map { "view.pairView.accessibility.subgroup.\($0)" },
-            auditory.map { "view.pairView.accessibility.auditory.\($0)" },
-            note.map { "\($0)" }
-        ))
+        .accessibility(label: combineTexts(
+            subject.map { Text("\($0) \(form.name)") },
+            progress.isNow ? Text(.viewPairViewAccessibilityLabel) : nil,
+            Text(.viewPairViewAccessibilityFromTo(from, to)),
+            weeks.map { Text(.viewPairViewAccessibilityWeeks($0)) },
+            subgroup.map { Text(.viewPairViewAccessibilitySubgroup($0)) },
+            auditory.map { Text(.viewPairViewAccessibilityAuditory($0)) },
+            note.map { Text($0) }
+        ) ?? Text(verbatim: ""))
     }
 
     private var timeInterval: some View {

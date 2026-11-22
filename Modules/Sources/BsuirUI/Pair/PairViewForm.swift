@@ -17,15 +17,15 @@ public enum PairViewForm: String, CaseIterable, Identifiable {
 // TODO: (watch) Move to shared place
 
 extension PairViewForm {
-    public var name: LocalizedStringKey {
+    public var name: LocalizedStringResource {
         switch self {
-        case .lecture: "view.pairView.form.name.lecture"
-        case .lab: "view.pairView.form.name.lab"
-        case .practice: "view.pairView.form.name.practice"
-        case .consultation: "view.pairView.form.name.consultation"
-        case .exam: "view.pairView.form.name.exam"
-        case .test: "view.pairView.form.name.test"
-        case .unknown: "view.pairView.form.name.unknown"
+        case .lecture: .viewPairViewFormNameLecture
+        case .lab: .viewPairViewFormNameLab
+        case .practice: .viewPairViewFormNamePractice
+        case .consultation: .viewPairViewFormNameConsultation
+        case .exam: .viewPairViewFormNameExam
+        case .test: .viewPairViewFormNameTest
+        case .unknown: .viewPairViewFormNameUnknown
         }
     }
 
@@ -58,10 +58,10 @@ extension PairViewForm {
 
 extension PairViewModel.Form {
 
-    public var name: LocalizedStringKey {
+    public var name: LocalizedStringResource {
         switch self {
         case let .unknown(name?):
-            "view.pairView.form.name.unknown.named\(name)"
+            .viewPairViewFormNameUnknownNamed(name)
         case let form:
             form.viewForm.name
         }

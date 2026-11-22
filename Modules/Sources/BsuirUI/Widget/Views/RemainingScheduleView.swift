@@ -26,7 +26,7 @@ struct RemainingScheduleView: View {
         subjects
             .formatted(
                 visibleCount: visibleCount,
-                placeholder: { String(localized: "widget.schedule.more.\($0)", bundle: .module) }
+                placeholder: { String(localized: .widgetScheduleMore($0)) }
             )
     }
 }
