@@ -89,7 +89,7 @@ let package = Package(
         ),
         .target(
             name: "ScheduleFeature",
-            dependencies: ["LoadableFeature", "Favorites", "PremiumClubFeature", "ScheduleCore", "BsuirUI", "AppIcons", .tca, .swiftAlgorithms, .pow],
+            dependencies: ["LoadableFeature", "Favorites", "PremiumClubFeature", "ScheduleCore", "BsuirUI", "AppIcons", .tca, .pow],
             swiftSettings: .bsuirDefaults,
         ),
         .target(
@@ -127,7 +127,7 @@ let package = Package(
         ),
         .target(
             name: "ScheduleCore",
-            dependencies: ["BsuirApi", .dependencies],
+            dependencies: ["BsuirApi", .swiftAlgorithms, .dependencies],
             swiftSettings: .bsuirDefaults,
         ),
         .target(

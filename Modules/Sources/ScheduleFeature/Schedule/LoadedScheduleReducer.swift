@@ -1,6 +1,5 @@
 import Foundation
 import ComposableArchitecture
-import Algorithms
 import BsuirApi
 import BsuirCore
 import ScheduleCore
@@ -56,20 +55,8 @@ public struct LoadedScheduleReducer {
                 sharedNow: _sharedNow
             )
 
-            let allSchedulePairs = DaySchedule.WeekDay.allCases
-                .lazy
-                .compactMap { response.schedule[$0] }
-                .flatMap { $0 }
-
-            let allPairs = chain(allSchedulePairs, response.exams)
-
-            let maxSubgroup = allPairs.lazy
-                .map(\.subgroup)
-                .filter { $0 != 0 }
-                .max()
-
             @Dependency(\.subgroupFilterService) var subgroupFilterService
-            if let maxSubgroup {
+            if let maxSubgroup = response.maxSubgroup {
                 let savedSubgroupSelection = subgroupFilterService.preferredSubgroup(source).value
                 subgroupPicker = SubgroupPickerFeature.State(
                     maxSubgroup: maxSubgroup,

@@ -1,5 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
+import BsuirUI
 
 struct SubgroupPickerFeatureView: View {
     @Bindable var store: StoreOf<SubgroupPickerFeature>
@@ -14,7 +15,7 @@ private struct SubgroupPickerView: View {
     @Binding var selection: Int?
 
     var body: some View {
-        Picker("view.subgroupPicker.title", selection: $selection) {
+        Picker(.subgroupPickerTitle, selection: $selection) {
             ForEach(1...maxSubgroup, id: \.self) { subgroup in
                 Label.subgroup(subgroup)
                     .tag(Int?.some(subgroup))
@@ -23,13 +24,5 @@ private struct SubgroupPickerView: View {
 
             Label.allSubgroups.tag(Int?.none)
         }
-    }
-}
-
-private extension Label<Text, Image> {
-    static let allSubgroups = Label("view.subgroupPicker.allSubgroups.title", systemImage: "person.2")
-
-    static func subgroup(_ subgroup: Int) -> Label {
-        Label("view.subgroupPicker.subgroup.title\(String(describing: subgroup))", systemImage: "person")
     }
 }
