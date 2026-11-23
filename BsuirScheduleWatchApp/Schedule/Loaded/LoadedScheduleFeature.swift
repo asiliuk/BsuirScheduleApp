@@ -31,6 +31,8 @@ struct LoadedScheduleFeature {
 
             self.day = DayScheduleFeature.State(
                 daySchedule: response.schedule,
+                startDate: response.startDate,
+                endDate: response.endDate,
                 sharedNow: _sharedNow
             )
 

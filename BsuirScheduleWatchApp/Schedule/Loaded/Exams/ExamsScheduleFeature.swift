@@ -12,6 +12,9 @@ struct ExamsScheduleFeature {
 
         var days: IdentifiedArrayOf<DaySectionFeature.State> = []
 
+        var startDate: Date?
+        var endDate: Date?
+
         init(
             exams: [Pair],
             startDate: Date?,
@@ -19,6 +22,8 @@ struct ExamsScheduleFeature {
             sharedNow: Shared<Date>
         ) {
             self._sharedNow = sharedNow
+            self.startDate = startDate
+            self.endDate = endDate
 
             @Dependency(\.calendar) var calendar
 

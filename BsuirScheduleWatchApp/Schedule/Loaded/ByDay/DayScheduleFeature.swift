@@ -7,12 +7,25 @@ import ScheduleCore
 struct DayScheduleFeature {
     @ObservableState
     struct State {
-        var days: IdentifiedArrayOf<DaySectionFeature.State>
         @Shared var sharedNow: Date
 
-        init(daySchedule: DaySchedule, sharedNow: Shared<Date>) {
-            @Dependency(\.calendar) var calendar
+        var days: IdentifiedArrayOf<DaySectionFeature.State>
+
+        var startDate: Date?
+        var endDate: Date?
+
+        init(
+            daySchedule: DaySchedule,
+            startDate: Date?,
+            endDate: Date?,
+            sharedNow: Shared<Date>
+        ) {
             self._sharedNow = sharedNow
+            self.startDate = startDate
+            self.endDate = endDate
+
+            @Dependency(\.calendar) var calendar
+
             days = IdentifiedArray(
                 uniqueElements: Self.daySections(
                     from: daySchedule,
