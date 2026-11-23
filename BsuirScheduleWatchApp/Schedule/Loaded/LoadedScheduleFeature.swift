@@ -6,6 +6,7 @@ import ComposableArchitecture
 struct LoadedScheduleFeature {
     @ObservableState
     struct State {
+        let source: ScheduleSource
         let response: ScheduleRequestResponse
         var viewOptions: ScheduleViewOptionsFeature.State
 
@@ -15,7 +16,8 @@ struct LoadedScheduleFeature {
 
         @Shared var sharedNow: Date
 
-        init(response: ScheduleRequestResponse) {
+        init(source: ScheduleSource, response: ScheduleRequestResponse) {
+            self.source = source
             self.response = response
 
             @Dependency(\.date.now) var now
@@ -45,7 +47,10 @@ struct LoadedScheduleFeature {
             self.exams = exams
 
             self.viewOptions = ScheduleViewOptionsFeature.State(
-                displayType: continuous.days.isEmpty && !exams.days.isEmpty ? .exams : .continuous
+                source: source,
+                hasSchedule: !continuous.days.isEmpty,
+                hasExams: !exams.days.isEmpty,
+                maxSubgroup: response.maxSubgroup
             )
 
         }

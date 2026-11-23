@@ -24,7 +24,7 @@ struct GroupScheduleFeature {
         .load(state: \.schedule, action: \.schedule) { state, refresh in
             let groupSchedule = try await apiClient.groupSchedule(state.name, refresh)
             let response = ScheduleRequestResponse(response: groupSchedule)
-            return LoadedScheduleFeature.State(response: response)
+            return LoadedScheduleFeature.State(source: .group(name: state.name), response: response)
         } loaded: {
             LoadedScheduleFeature()
         }
