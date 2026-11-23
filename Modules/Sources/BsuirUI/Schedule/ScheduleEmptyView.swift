@@ -1,9 +1,10 @@
 import Foundation
 import SwiftUI
-import LoadableFeature
 
-struct ScheduleEmptyView: View {
-    var body: some View {
+public struct ScheduleEmptyView: View {
+    public init() {}
+
+    public var body: some View {
         ContentUnavailableView(
             title,
             systemImage: imageNames.randomElement()!,
@@ -11,8 +12,8 @@ struct ScheduleEmptyView: View {
         )
     }
     
-    private let title: LocalizedStringKey = "screen.schedule.emptyState.title"
-    private let subtitle = Text("screen.schedule.emptyState.subtitle")
+    private let title: LocalizedStringResource = .screenScheduleEmptyStateTitle
+    private let subtitle = Text(.screenScheduleEmptyStateSubtitle)
 
     private let imageNames = [
         "sportscourt",
