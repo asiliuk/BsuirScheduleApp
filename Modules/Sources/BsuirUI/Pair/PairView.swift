@@ -179,7 +179,8 @@ public struct PairView<Details: View>: View {
         .fixedSize(horizontal: false, vertical: true)
         .accessibilityElement(children: .ignore)
         .accessibility(label: combineTexts(
-            subject.map { Text(verbatim: "\($0) \(form.name)") },
+            subject.map { Text(verbatim: $0) },
+            Text(form.name),
             progress.isNow ? Text(.viewPairViewAccessibilityLabel) : nil,
             Text(.viewPairViewAccessibilityFromTo(from, to)),
             weeks.map { Text(.viewPairViewAccessibilityWeeks($0)) },
@@ -244,7 +245,7 @@ public struct PairView<Details: View>: View {
     
     private var formText: Text? {
         if spellForm || differentiateWithoutColor || alwaysShowFormIcon {
-            return Text(verbatim: "\(Image(systemName: form.symbolName))")
+            return Text(Image(systemName: form.symbolName))
         } else {
             return nil
         }
@@ -256,8 +257,8 @@ public struct PairView<Details: View>: View {
 
     private var periodityText: Text? {
         combineTexts(
-            weeks.map { Text(verbatim: "\(Image(systemName: "calendar"))\($0)") },
-            subgroup.map { Text(verbatim: "\(Image(systemName: "person"))\($0)") },
+            weeks.map { Text(Image(systemName: "calendar")) + Text(verbatim: $0) },
+            subgroup.map { Text(Image(systemName: "person")) + Text(verbatim: $0) },
             separator: " "
         )?.foregroundColor(Color.primary.opacity(0.8))
     }

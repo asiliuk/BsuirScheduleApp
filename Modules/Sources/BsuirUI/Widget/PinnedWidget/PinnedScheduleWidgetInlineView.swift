@@ -31,7 +31,12 @@ public struct PinnedScheduleWidgetInlineView: View {
 
             if let pair = pairs.visible.last {
                 let form = Image(systemName: pair.form.symbolName)
-                InlineView(text: Text(verbatim: "\(pair.from) \(form) \(pair.subject ?? "")"))
+                InlineView(text: combineTexts(
+                    Text(verbatim: pair.from),
+                    Text(form),
+                    Text(verbatim: pair.subject ?? ""),
+                    separator: " "
+                ) ?? Text(verbatim: ""))
             }
         }
     }
@@ -41,7 +46,7 @@ private struct InlineView: View {
     let text: Text
 
     var body: some View {
-        Text(verbatim: "\(Image.bsuirLogo) \(text)")
+        combineTexts(Text(Image.bsuirLogo), text, separator: " ")
     }
 }
 
