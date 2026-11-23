@@ -7,5 +7,5 @@ public func combineTexts(_ texts: Text?..., separator: String = ", ") -> Text? {
 public func combineTexts(_ texts: some Sequence<Text?>, separator: String = ", ") -> Text? {
     let nonEmptyTexts = texts.compactMap { $0 }
     guard let first = nonEmptyTexts.first else { return nil }
-    return nonEmptyTexts.dropFirst().reduce(first) { $0 + $1 }
+    return nonEmptyTexts.dropFirst().reduce(first) { $0 + Text(verbatim: separator) + $1 }
 }
