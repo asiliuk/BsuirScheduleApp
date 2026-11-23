@@ -56,6 +56,8 @@ private extension DaySectionFeature.State {
         case .weekDay(let weekDay):
             @Dependency(\.calendar) var calendar
             return weekDay.localizedName(in: calendar)
+        case let .exact(date):
+            return date?.formatted(.examDay) ?? "-/-"
         }
     }
 
@@ -63,7 +65,7 @@ private extension DaySectionFeature.State {
         switch day {
         case let .continuous(_, weekNumber):
             String(localized: "screen.schedule.day.subtitle.\(weekNumber)")
-        case .weekDay:
+        case .weekDay, .exact:
             nil
         }
     }

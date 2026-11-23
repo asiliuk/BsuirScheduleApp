@@ -11,27 +11,41 @@ struct LoadedScheduleFeature {
 
         var continuous: ContinuousScheduleFeature.State
         var day: DayScheduleFeature.State
+        var exams: ExamsScheduleFeature.State
 
         @Shared var sharedNow: Date
 
         init(response: ScheduleRequestResponse) {
             self.response = response
-            self.viewOptions = ScheduleViewOptionsFeature.State()
-            
+
             @Dependency(\.date.now) var now
             self._sharedNow = Shared(value: now)
 
-            self.continuous = ContinuousScheduleFeature.State(
+            let continuous = ContinuousScheduleFeature.State(
                 schedule: response.schedule,
                 startDate: response.startDate,
                 endDate: response.endDate,
                 sharedNow: _sharedNow
             )
+            self.continuous = continuous
 
             self.day = DayScheduleFeature.State(
                 daySchedule: response.schedule,
                 sharedNow: _sharedNow
             )
+
+            let exams = ExamsScheduleFeature.State(
+                exams: response.exams,
+                startDate: response.startExamsDate,
+                endDate: response.endExamsDate,
+                sharedNow: _sharedNow
+            )
+            self.exams = exams
+
+            self.viewOptions = ScheduleViewOptionsFeature.State(
+                displayType: continuous.days.isEmpty && !exams.days.isEmpty ? .exams : .continuous
+            )
+
         }
     }
 
@@ -39,6 +53,7 @@ struct LoadedScheduleFeature {
         case onAppear
         case continuous(ContinuousScheduleFeature.Action)
         case day(DayScheduleFeature.Action)
+        case exams(ExamsScheduleFeature.Action)
         case viewOptions(ScheduleViewOptionsFeature.Action)
     }
 
@@ -50,7 +65,13 @@ struct LoadedScheduleFeature {
             case .onAppear:
                 state.$sharedNow.withLock { $0 = now }
                 return .none
-            case .continuous, .day, .viewOptions:
+            case .exams(.delegate(let action)):
+                switch action {
+                case .switchToSchedule:
+                    state.viewOptions.displayType = .compact
+                    return .none
+                }
+            case .continuous, .day, .exams, .viewOptions:
                 return .none
             }
         }
@@ -65,6 +86,10 @@ struct LoadedScheduleFeature {
 
         Scope(\.day, action: \.day) {
             DayScheduleFeature()
+        }
+
+        Scope(\.exams, action: \.exams) {
+            ExamsScheduleFeature()
         }
     }
 }

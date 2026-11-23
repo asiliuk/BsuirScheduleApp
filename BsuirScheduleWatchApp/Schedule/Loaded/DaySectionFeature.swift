@@ -11,6 +11,7 @@ struct DaySectionFeature {
         nonisolated enum Day: Hashable {
             case continuous(Date, weekNumber: Int)
             case weekDay(DaySchedule.WeekDay)
+            case exact(Date?)
         }
 
         let day: Day
@@ -35,10 +36,12 @@ extension DaySectionFeature.State {
 
     var relativity: Relativity {
         switch day {
-        case let .continuous(date, _):
+        case let .continuous(date, _), let .exact(date?):
             Relativity(date: date, now: sharedNow)
         case .weekDay:
             .future
+        case .exact(nil):
+            .past
         }
     }
 }
@@ -56,6 +59,8 @@ private extension DaySectionFeature.State.Relativity {
         }
     }
 
-    static let future = Self(title: nil, order: .orderedAscending)
+    static let past = Self(title: nil, order: .orderedAscending)
+    static let future = Self(title: nil, order: .orderedDescending)
+
     private static let relativeFormatter = RelativeDateTimeFormatter.relativeNameOnly()
 }

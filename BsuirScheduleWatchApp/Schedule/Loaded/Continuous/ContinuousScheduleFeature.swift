@@ -71,8 +71,6 @@ struct ContinuousScheduleFeature {
 // MARK: - Load
 
 private extension ContinuousScheduleFeature.State {
-    static let loadBatchSize = 5
-
     mutating func load(count: Int, calendar: Calendar, universityCalendar: Calendar) {
         guard
             let weekSchedule = weekSchedule,

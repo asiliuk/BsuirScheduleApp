@@ -21,7 +21,9 @@ struct LoadedScheduleFeatureView: View {
                     store: store.scope(\.day, action: \.day)
                 )
             case .exams:
-                Text(verbatim: "Exams")
+                ExamsScheduleFeatureView(
+                    store: store.scope(\.exams, action: \.exams)
+                )
             }
 
         }
