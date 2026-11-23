@@ -6,7 +6,7 @@ struct ScheduleSubgroupLabel: View {
         if let subgroup {
             HStack(alignment: .top, spacing: 0) {
                 Image(systemName: "person.fill")
-                Text("\(subgroup)")
+                Text(subgroup.description)
             }
             .font(.caption)
         }

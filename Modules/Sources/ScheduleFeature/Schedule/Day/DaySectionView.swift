@@ -7,7 +7,7 @@ struct DaySectionHeaderView: View {
 
     var body: some View {
         ScheduleDateTitle(
-            date: store.title,
+            title: store.title,
             relativeDate: store.subtitle,
             relativity: ScheduleDateTitle.Relativity(store.relativity)
         )

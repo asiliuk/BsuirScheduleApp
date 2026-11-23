@@ -7,24 +7,32 @@ public struct ScheduleDateTitle: View {
         case upcoming
     }
 
-    public var date: String
+    public var title: String
+    public var subtitle: String?
     public var relativeDate: String?
     public var relativity: Relativity
 
-    public init(date: String, relativeDate: String?, relativity: Relativity) {
-        self.date = date
+    public init(
+        title: String,
+        subtitle: String? = nil,
+        relativeDate: String? = nil,
+        relativity: Relativity
+    ) {
+        self.title = title
+        self.subtitle = subtitle
         self.relativeDate = relativeDate
         self.relativity = relativity
     }
 
     public var body: some View {
-        ZStack {
-            if let relativeDate = relativeDate {
-                Text("\(Text(relativeDate).foregroundColor(relativity.accentColor)), \(date)")
-            } else {
-                Text(date)
-            }
-        }
+        combineTexts(
+            combineTexts(
+                relativeDate.map { Text($0).foregroundColor(relativity.accentColor) },
+                Text(title),
+            ),
+            subtitle.map { Text($0).font(.footnote).foregroundStyle(.secondary) },
+            separator: " "
+        )
         .font(relativity.font)
         .accessibility(addTraits: .isHeader)
         .foregroundStyle(relativity.color)

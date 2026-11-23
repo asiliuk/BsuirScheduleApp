@@ -13,7 +13,9 @@ struct LoadedScheduleFeatureView: View {
         ZStack {
             switch store.viewOptions.displayType {
             case .continuous:
-                Text(verbatim: "Continuous")
+                ContinuousScheduleFeatureView(
+                    store: store.scope(\.continuous, action: \.continuous)
+                )
             case .compact:
                 DayScheduleFeatureView(
                     store: store.scope(\.day, action: \.day)

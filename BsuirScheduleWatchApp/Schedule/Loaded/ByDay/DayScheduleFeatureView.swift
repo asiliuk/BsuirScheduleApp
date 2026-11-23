@@ -7,7 +7,10 @@ struct DayScheduleFeatureView: View {
     var body: some View {
         List {
             ForEach(store.scope(\.days, action: \.days)) { store in
-                DaySectionFeatureView(store: store)
+                DaySectionFeatureView(
+                    store: store,
+                    showPairWeeks: true
+                )
             }
         }
     }

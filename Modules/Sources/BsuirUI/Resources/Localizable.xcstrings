@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+      "shouldTranslate" : false
+    },
     "screen.schedule.scheduleType.byDay" : {
       "extractionState" : "manual",
       "localizations" : {

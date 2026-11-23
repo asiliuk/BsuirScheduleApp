@@ -13,6 +13,64 @@
     "High score: %lld" : {
       "shouldTranslate" : false
     },
+    "screen.schedule.continuous.finished" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉 Канец"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉 The end"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉 Конец"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉 Кінець"
+          }
+        }
+      }
+    },
+    "screen.schedule.day.subtitle.%lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тыдзень %(weekNumber)lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Week %(weekNumber)lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неделя %1$(weekNumber)lld"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тиждень %(weekNumber)lld"
+          }
+        }
+      }
+    },
     "screen.schedule.view.title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -38,6 +96,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вигляд"
+          }
+        }
+      }
+    },
+    "view.pairView.announcement.title" : {
+      "comment" : "MARK: - PairView",
+      "extractionState" : "pasted",
+      "localizations" : {
+        "be" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📣 Аб'ява"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📣 Announcement"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📣 Объявление"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📣 Оголошення"
           }
         }
       }

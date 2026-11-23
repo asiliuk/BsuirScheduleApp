@@ -8,12 +8,17 @@ struct DayScheduleFeature {
     @ObservableState
     struct State {
         var days: IdentifiedArrayOf<DaySectionFeature.State>
+        @Shared var sharedNow: Date
 
-        init(daySchedule: DaySchedule) {
+        init(daySchedule: DaySchedule, sharedNow: Shared<Date>) {
             @Dependency(\.calendar) var calendar
-            @Dependency(\.date.now) var now
+            self._sharedNow = sharedNow
             days = IdentifiedArray(
-                uniqueElements: Self.daySections(from: daySchedule, in: calendar, now: now)
+                uniqueElements: Self.daySections(
+                    from: daySchedule,
+                    in: calendar,
+                    sharedNow: sharedNow
+                )
             )
         }
     }
@@ -38,7 +43,7 @@ private extension DayScheduleFeature.State {
     static func daySections(
         from daySchedule: DaySchedule,
         in calendar: Calendar,
-        now: Date
+        sharedNow: Shared<Date>
     ) -> [DaySectionFeature.State] {
         DaySchedule.WeekDay.allCases.compactMap { weekDay -> DaySectionFeature.State? in
             guard
@@ -50,12 +55,13 @@ private extension DayScheduleFeature.State {
                 day: .weekDay(weekDay),
                 pairs: pairs.map { pair in
                     PairViewModel(
-                        start: calendar.date(bySetting: pair.startLessonTime, of: now),
-                        end: calendar.date(bySetting: pair.endLessonTime, of: now),
+                        start: calendar.date(bySetting: pair.startLessonTime, of: sharedNow.wrappedValue),
+                        end: calendar.date(bySetting: pair.endLessonTime, of: sharedNow.wrappedValue),
                         pair: pair,
                         progress: .notStarted
                     )
-                }
+                },
+                sharedNow: sharedNow
             )
         }
     }

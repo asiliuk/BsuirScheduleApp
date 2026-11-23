@@ -2,23 +2,36 @@ import SwiftUI
 import ComposableArchitecture
 import ScheduleCore
 import BsuirUI
+import BsuirCore
 
 struct DaySectionFeatureView: View {
     let store: StoreOf<DaySectionFeature>
+    let showPairWeeks: Bool
 
     var body: some View {
         Section {
             ForEach(store.pairs) { pair in
-                PairRow(pair: pair)
+                PairRow(
+                    pair: pair,
+                    showWeeks: showPairWeeks
+                )
             }
         } header: {
-            Text(store.title)
+            ScheduleDateTitle(
+                title: store.title,
+                subtitle: store.subtitle,
+                relativeDate: store.relativity.title,
+                relativity: ScheduleDateTitle.Relativity(
+                    order: store.relativity.order
+                )
+            )
         }
     }
 }
 
 private struct PairRow: View {
     let pair: PairViewModel
+    let showWeeks: Bool
 
     var body: some View {
         PairView(
@@ -27,7 +40,7 @@ private struct PairRow: View {
             isCompact: true,
             isCompactProgress: true,
             spellForm: false,
-            showWeeks: true
+            showWeeks: showWeeks
         )
         .listItemTint(pair.form.viewForm.defaultColor.color)
     }
@@ -38,9 +51,30 @@ private struct PairRow: View {
 private extension DaySectionFeature.State {
     var title: String {
         switch day {
+        case let .continuous(date, _):
+            return date.formatted(.scheduleDay)
         case .weekDay(let weekDay):
             @Dependency(\.calendar) var calendar
             return weekDay.localizedName(in: calendar)
+        }
+    }
+
+    var subtitle: String? {
+        switch day {
+        case let .continuous(_, weekNumber):
+            String(localized: "screen.schedule.day.subtitle.\(weekNumber)")
+        case .weekDay:
+            nil
+        }
+    }
+}
+
+private extension ScheduleDateTitle.Relativity {
+    init(order: ComparisonResult) {
+        switch order {
+        case .orderedSame: self = .today
+        case .orderedAscending: self = .passed
+        case .orderedDescending: self = .upcoming
         }
     }
 }
@@ -50,15 +84,18 @@ private extension DaySectionFeature.State {
 import BsuirApi
 
 #Preview("Row") {
-    PairRow(pair: PairViewModel(
-        from: "8:00",
-        to: "10:30",
-        interval: "8:30-10:30",
-        form: .practice,
-        subject: "ОАиП",
-        subjectFullName: nil,
-        auditory: "403k1"
-    ))
+    PairRow(
+        pair: PairViewModel(
+            from: "8:00",
+            to: "10:30",
+            interval: "8:30-10:30",
+            form: .practice,
+            subject: "ОАиП",
+            subjectFullName: nil,
+            auditory: "403k1"
+        ),
+        showWeeks: true
+    )
 }
 
 #Preview("Section") {
@@ -96,10 +133,11 @@ import BsuirApi
                     ),
                     progress: .init(constant: 0)
                 ),
-            ]
+            ],
+            sharedNow: Shared(value: .now)
         )
     ) { DaySectionFeature() }
     List {
-        DaySectionFeatureView(store: store)
+        DaySectionFeatureView(store: store, showPairWeeks: true)
     }
 }
