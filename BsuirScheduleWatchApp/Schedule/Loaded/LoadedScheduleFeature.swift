@@ -36,12 +36,25 @@ struct LoadedScheduleFeature {
     }
 
     enum Action {
+        case onAppear
         case continuous(ContinuousScheduleFeature.Action)
         case day(DayScheduleFeature.Action)
         case viewOptions(ScheduleViewOptionsFeature.Action)
     }
 
+    @Dependency(\.date.now) var now
+
     var body: some Reducer<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case .onAppear:
+                state.$sharedNow.withLock { $0 = now }
+                return .none
+            case .continuous, .day, .viewOptions:
+                return .none
+            }
+        }
+
         Scope(\.viewOptions, action: \.viewOptions) {
             ScheduleViewOptionsFeature()
         }
