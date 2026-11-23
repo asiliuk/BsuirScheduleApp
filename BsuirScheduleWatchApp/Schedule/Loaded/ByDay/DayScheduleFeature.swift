@@ -47,8 +47,7 @@ private extension DayScheduleFeature.State {
             else { return nil }
 
             return DaySectionFeature.State(
-                id: UUID(),
-                title: weekDay.localizedName(in: calendar).localizedCapitalized,
+                day: .weekDay(weekDay),
                 pairs: pairs.map { pair in
                     PairViewModel(
                         start: calendar.date(bySetting: pair.startLessonTime, of: now),

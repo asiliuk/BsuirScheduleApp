@@ -33,6 +33,20 @@ private struct PairRow: View {
     }
 }
 
+// MARK: - Title
+
+private extension DaySectionFeature.State {
+    var title: String {
+        switch day {
+        case .weekDay(let weekDay):
+            @Dependency(\.calendar) var calendar
+            return weekDay.localizedName(in: calendar)
+        }
+    }
+}
+
+// MARK: - Preview
+
 import BsuirApi
 
 #Preview("Row") {
@@ -50,8 +64,7 @@ import BsuirApi
 #Preview("Section") {
     let store = Store(
         initialState: DaySectionFeature.State(
-            id: UUID(),
-            title: "Понедельник",
+            day: .weekDay(.monday),
             pairs: [
                 PairViewModel(
                     start: try? Date("2026-01-01T08:00:00+03:00", strategy: .iso8601),
