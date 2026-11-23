@@ -72,6 +72,7 @@ public struct PairView<Details: View>: View {
         case vertical
         case horizontal
         case oneLine
+        case oneLineVertical
     }
 
     public var from: String
@@ -160,6 +161,25 @@ public struct PairView<Details: View>: View {
                 Text(verbatim: "|").bold().foregroundStyle(formColor)
                 title
                 Spacer(minLength: 0).layoutPriority(-1)
+
+            case (.oneLineVertical, _):
+                VStack(alignment: .leading) {
+                    HStack(alignment: .firstLabelCenter, spacing: 8) {
+                        Circle()
+                            .frame(width: isCompactProgress ? 4 : 8)
+                            .alignmentGuide(.firstLabelCenter) { $0[VerticalAlignment.center] }
+                            .foregroundStyle(formColor)
+
+                        VStack(alignment: .leading) {
+                            Text(interval)
+                                .font(.system(.footnote, design: .monospaced))
+                                .alignmentGuide(.firstLabelCenter) { $0[VerticalAlignment.center] }
+                            title
+                        }
+
+                        Spacer(minLength: 0).layoutPriority(-1)
+                    }
+                }
 
             case (.horizontal, false):
                 timeInterval
@@ -333,6 +353,15 @@ private extension PairProgress {
     var isNow: Bool {
         value > 0 && value < 1
     }
+}
+
+private extension VerticalAlignment {
+    struct FirstLabelCenter: AlignmentID {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            context[VerticalAlignment.center]
+        }
+    }
+    static let firstLabelCenter = VerticalAlignment(FirstLabelCenter.self)
 }
 
 struct PairView_Previews: PreviewProvider {

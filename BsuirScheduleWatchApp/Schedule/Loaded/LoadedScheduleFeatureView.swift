@@ -27,6 +27,7 @@ struct LoadedScheduleFeatureView: View {
             }
 
         }
+        .environment(\.pairFilteringMode, store.viewOptions.subgroup.pairFilteringMode)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(.screenScheduleViewTitle, systemImage: "line.3.horizontal.decrease") {
@@ -41,5 +42,12 @@ struct LoadedScheduleFeatureView: View {
         }
         .refreshable { await refresh() }
         .onAppear { store.send(.onAppear) }
+    }
+}
+
+private extension ScheduleSubgroupFeature.State? {
+    var pairFilteringMode: PairFilteringMode {
+        guard let selected = self?.selected else { return .noFiltering }
+        return .keepingSubgroup(selected)
     }
 }

@@ -13,7 +13,7 @@ struct PairRowView: View {
         Button {
             store.send(.rowTapped)
         } label: {
-            if isFiltered(pair: store.pair) {
+            if store.pair.matches(filteringMode: pairFilteringMode) {
                 FilteredPairCell(
                     pair: store.pair,
                     showWeeks: store.showWeeks
@@ -48,17 +48,6 @@ struct PairRowView: View {
                 .padding(.trailing, 4)
         case nil:
             EmptyView()
-        }
-    }
-
-    private func isFiltered(pair: PairViewModel) -> Bool {
-        switch pairFilteringMode {
-        case .filter:
-            true
-        case .keepingSubgroup(let subgroup):
-            pair.subgroup != 0 && pair.subgroup != subgroup
-        case .noFiltering:
-            false
         }
     }
 }

@@ -11,7 +11,7 @@ struct DaySectionFeatureView: View {
     var body: some View {
         Section {
             ForEach(store.pairs) { pair in
-                PairRow(
+                PairRowView(
                     pair: pair,
                     showWeeks: showPairWeeks
                 )
@@ -26,23 +26,10 @@ struct DaySectionFeatureView: View {
                 )
             )
         }
-    }
-}
-
-private struct PairRow: View {
-    let pair: PairViewModel
-    let showWeeks: Bool
-
-    var body: some View {
-        PairView(
-            pair: pair,
-            distribution: .vertical,
-            isCompact: true,
-            isCompactProgress: true,
-            spellForm: false,
-            showWeeks: showWeeks
-        )
-        .listItemTint(pair.form.viewForm.defaultColor.color)
+        .transformEnvironment(\.pairFilteringMode) {
+            // Filter all pairs in passed day
+            if store.relativity.order == .orderedAscending { $0 = .filter }
+        }
     }
 }
 
@@ -84,21 +71,6 @@ private extension ScheduleDateTitle.Relativity {
 // MARK: - Preview
 
 import BsuirApi
-
-#Preview("Row") {
-    PairRow(
-        pair: PairViewModel(
-            from: "8:00",
-            to: "10:30",
-            interval: "8:30-10:30",
-            form: .practice,
-            subject: "ОАиП",
-            subjectFullName: nil,
-            auditory: "403k1"
-        ),
-        showWeeks: true
-    )
-}
 
 #Preview("Section") {
     let store = Store(
