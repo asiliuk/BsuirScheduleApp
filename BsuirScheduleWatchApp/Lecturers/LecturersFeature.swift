@@ -2,6 +2,7 @@ import Foundation
 import ComposableArchitecture
 import BsuirApi
 import LoadableFeature
+import ScheduleCore
 
 @Reducer
 struct LecturersFeature {
@@ -21,6 +22,12 @@ struct LecturersFeature {
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+            case .lecturers(.loaded(.delegate(let action))):
+                switch action {
+                case .showLecturerSchedule(let lecturer):
+                    state.path.append(ScheduleFeature.State(source: .lector(lecturer)))
+                    return .none
+                }
             case .path, .lecturers:
                 return .none
             }
@@ -31,6 +38,8 @@ struct LecturersFeature {
         } loaded: {
             LoadedLecturersFeature()
         }
-        .forEach(\.path, action: \.path)
+        .forEach(\.path, action: \.path) {
+            ScheduleFeature()
+        }
     }
 }
