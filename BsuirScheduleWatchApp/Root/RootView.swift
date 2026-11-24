@@ -13,6 +13,12 @@ struct RootView: View {
             }
 
             Tab {
+                LecturersFeatureView(
+                    store: store.scope(\.lecturers, action: \.lecturers)
+                )
+            }
+
+            Tab {
                 ContentView(
                     store: store.scope(\.content, action: \.content)
                 )

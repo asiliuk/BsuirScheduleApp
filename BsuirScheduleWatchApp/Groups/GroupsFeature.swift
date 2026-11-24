@@ -18,7 +18,7 @@ struct GroupsFeature {
 
     @Dependency(\.apiClient) var apiClient
 
-    public var body: some Reducer<State, Action> {
+    var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case .groups(.loaded(.delegate(let action))):
