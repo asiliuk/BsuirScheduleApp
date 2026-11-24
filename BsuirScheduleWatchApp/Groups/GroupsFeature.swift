@@ -2,6 +2,7 @@ import Foundation
 import ComposableArchitecture
 import BsuirApi
 import LoadableFeature
+import ScheduleCore
 
 @Reducer
 struct GroupsFeature {
@@ -24,7 +25,7 @@ struct GroupsFeature {
             case .groups(.loaded(.delegate(let action))):
                 switch action {
                 case .showGroupSchedule(let name):
-                    state.path.append(.group(GroupScheduleFeature.State(name: name)))
+                    state.path.append(ScheduleFeature.State(source: .group(name: name)))
                     return .none
                 }
             case .path, .groups:
@@ -37,6 +38,8 @@ struct GroupsFeature {
         } loaded: {
             LoadedGroupsFeature()
         }
-        .forEach(\.path, action: \.path)
+        .forEach(\.path, action: \.path) {
+            ScheduleFeature()
+        }
     }
 }
