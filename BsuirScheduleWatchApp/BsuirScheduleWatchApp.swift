@@ -34,6 +34,9 @@ final class WatchAppDelegate: NSObject, WKApplicationDelegate {
         withDependencies {
             $0.defaultAppStorage = .asiliukShared
         } operation: {
+            @Dependency(\.productsService) var productsService
+            productsService.load()
+
             @Dependency(\.cloudSyncService) var cloudSyncService
             cloudSyncService.load()
         }
