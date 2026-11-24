@@ -3,6 +3,8 @@ import ComposableArchitecture
 import BsuirCore
 import Dependencies
 import WatchKit
+import BsuirUI
+import Kingfisher
 
 @main
 struct BsuirScheduleWatchApp: App {
@@ -20,6 +22,7 @@ final class WatchAppDelegate: NSObject, WKApplicationDelegate {
     private(set) lazy var store = Store(initialState: RootFeature.State()) {
         RootFeature()
     } withDependencies: {
+        $0.imageCache = .default
         $0.defaultAppStorage = .asiliukShared
     }
 
