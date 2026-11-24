@@ -7,6 +7,12 @@ struct RootView: View {
     var body: some View {
         TabView {
             Tab {
+                PinnedFeatureView(
+                    store: store.scope(\.pinned, action: \.pinned)
+                )
+            }
+
+            Tab {
                 GroupsFeatureView(
                     store: store.scope(\.groups, action: \.groups)
                 )
