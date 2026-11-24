@@ -12,7 +12,7 @@ struct PairDetailsView: View {
             List {
                 PairDetailsLecturersSectionView(store: store)
                 PairDetailsGroupsSectionView(store: store)
-                PairDetailsSectionView(store: store)
+                PairDetailsSectionView(pair: store.pair, rowDay: store.rowDay)
             }
             .navigationTitle(store.pair.subject ?? "--")
             .navigationBarTitleDisplayMode(.inline)
@@ -69,19 +69,20 @@ private struct PairDetailsGroupsSectionView: View {
 }
 
 private struct PairDetailsSectionView: View {
-    let store: StoreOf<PairDetailsFeature>
+    let pair: PairViewModel
+    let rowDay: PairRowDay
 
     var body: some View {
         Section {
-            if let fullName = store.pair.subjectFullName {
+            if let fullName = pair.subjectFullName {
                 Text(fullName).font(.title3.bold())
             }
 
             LabeledContent("screen.pairDetails.details.time.title") {
-                Text(store.pair.interval)
+                Text(pair.interval)
             }
             LabeledContent("screen.pairDetails.details.day.title") {
-                switch store.rowDay {
+                switch rowDay {
                 case .date(let date):
                     Text(date?.formatted(.pairDate) ?? "--")
                 case .weekday(let weekDay):
@@ -89,23 +90,23 @@ private struct PairDetailsSectionView: View {
                 }
             }
             LabeledContent("screen.pairDetails.details.type.title") {
-                Text(store.pair.form.name)
+                Text(pair.form.name)
             }
             LabeledContent("screen.pairDetails.details.subgroup.title") {
-                Text(store.pair.subgroup == 0 ? "--" : store.pair.subgroup.description)
+                Text(pair.subgroup == 0 ? "--" : pair.subgroup.description)
             }
             LabeledContent("screen.pairDetails.details.auditory.title") {
-                Text(store.pair.auditory ?? "--")
+                Text(pair.auditory ?? "--")
             }
             LabeledContent("screen.pairDetails.details.weeks.title") {
-                if let weeks = store.pair.weeks {
+                if let weeks = pair.weeks {
                     WeekNumbersView(weeks: weeks)
                 } else {
                     Text("--")
                 }
             }
 
-            if let notes = store.pair.note {
+            if let notes = pair.note {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("screen.pairDetails.details.notes.title")
                     Text(notes).foregroundColor(.secondary)
@@ -152,7 +153,7 @@ private struct LecturerCell: View {
 
 private struct GroupCell: View {
     let name: String
-    var onTap: () -> Void = unimplemented("LecturerCell.onTap")
+    var onTap: () -> Void = unimplemented("GroupCell.onTap")
 
     var body: some View {
         Button(action: onTap) {
