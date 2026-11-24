@@ -6,6 +6,10 @@ import ComposableArchitecture
 struct LoadedScheduleFeature {
     @ObservableState
     struct State {
+        var title: String {
+            guard let subgroup = viewOptions.subgroup?.selected else { return source.title}
+            return "\(source.title)/\(subgroup)"
+        }
         let source: ScheduleSource
         let response: ScheduleRequestResponse
         var viewOptions: ScheduleViewOptionsFeature.State

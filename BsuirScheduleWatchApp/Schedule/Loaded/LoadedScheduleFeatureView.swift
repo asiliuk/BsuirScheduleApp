@@ -42,6 +42,7 @@ struct LoadedScheduleFeatureView: View {
         }
         .refreshable { await refresh() }
         .onAppear { store.send(.onAppear) }
+        .navigationTitle(store.title)
     }
 }
 
