@@ -97,7 +97,7 @@ public struct CloudSyncableSharedKey<Value>: SharedKey {
         }
 
         let userDefaultsDidChange = userDefaults.bsuirObserve(forKeyPath: key) { value in
-            let newValue = value as? Value
+            let newValue: Value? = if let value { value as? Value } else { nil }
             guard !isEqual(newValue, previousValue.value) || isEqual(newValue, context.initialValue) else { return }
 
             previousValue.withValue { $0 = newValue }
