@@ -9,7 +9,7 @@ extension SharedReaderKey where Self == CloudSyncableSharedKey<Int>.Default {
     public static var freeLoveHighScore: Self {
         Self[
             .cloudSyncable(
-                key: "free-love-hich-score",
+                key: StorageKeys.freeLoveHighScoreKey,
                 cloudKey: "cloud-free-love-high-score",
                 shouldSyncInitialLocalValue: true
             ),
@@ -24,7 +24,7 @@ extension SharedReaderKey
 where Self == CloudSyncableSharedKey<[String: Any]>.Map<CloudSyncableScheduleSource>.Default {
     public static var pinnedSchedule: Self {
         let syncableDictionary = CloudSyncableSharedKey<[String: Any]>.cloudSyncable(
-            key: "pinned-schedule",
+            key: StorageKeys.pinnedScheduleKey,
             cloudKey: "cloud-pinned-schedule",
             shouldSyncInitialLocalValue: true,
             isEqual: { $0 as NSDictionary? == $1 as NSDictionary? }
@@ -68,4 +68,5 @@ public enum StorageKeys {
     public static let pinnedScheduleKey = "pinned-schedule"
     public static let favoriteGroupNamesKey = "favorite-group-names"
     public static let favoriteLecturerIDsKey = "favorite-lector-ids"
+    public static let freeLoveHighScoreKey = "free-love-hich-score"
 }
