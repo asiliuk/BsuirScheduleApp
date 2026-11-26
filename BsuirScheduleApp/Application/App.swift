@@ -24,20 +24,6 @@ struct App: SwiftUI.App {
 final class AppDelegate: NSObject, UIApplicationDelegate {
     private(set) lazy var store = Store(initialState: .init()) {
         AppFeature()
-    } withDependencies: { [isTestingEnabled] in
-        $0.imageCache = .default
-        $0.defaultAppStorage = .asiliukShared
-        $0.userDefaultsWatchSync = .live(defaults: $0.defaultAppStorage, keys: StorageKeys.watchSyncKeys)
-        #if DEBUG
-        if isTestingEnabled {
-            $0.context = .preview
-            $0.date.now = Date(timeIntervalSince1970: 1699830000)
-            $0.defaultAppStorage.set(["151003", "151005"], forKey: StorageKeys.favoriteGroupNamesKey)
-            $0.defaultAppStorage.set([504394, 500570], forKey: StorageKeys.favoriteLecturerIDsKey)
-            $0.defaultAppStorage.set(["group": ["name": "151004"]], forKey: StorageKeys.pinnedScheduleKey)
-            $0.defaultAppStorage.setIsPremiumUser()
-        }
-        #endif
     }
 
     override init() {
@@ -47,23 +33,34 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         if isTestingEnabled { disableAnimations() }
         #endif
 
-        // Make sure services are loaded with proper default storage
-        // because products service updates premium flag in storage
-        withDependencies {
+        prepareDependencies {
+            $0.imageCache = .default
             $0.defaultAppStorage = .asiliukShared
-        } operation: {
-            @Dependency(\.productsService) var productsService
-            productsService.load()
+            $0.userDefaultsWatchSync = .live(defaults: $0.defaultAppStorage, keys: StorageKeys.watchSyncKeys)
 
-            @Dependency(\.cloudSyncService) var cloudSyncService
-            cloudSyncService.load()
-
-            @Dependency(\.pairFormDisplayService) var pairFormDisplayService
-            pairFormDisplayService.start()
-
-            @Dependency(\.userDefaultsWatchSync) var userDefaultsWatchSync
-            userDefaultsWatchSync.start()
+            #if DEBUG
+            if isTestingEnabled {
+                $0.context = .preview
+                $0.date.now = Date(timeIntervalSince1970: 1699830000)
+                $0.defaultAppStorage.set(["151003", "151005"], forKey: StorageKeys.favoriteGroupNamesKey)
+                $0.defaultAppStorage.set([504394, 500570], forKey: StorageKeys.favoriteLecturerIDsKey)
+                $0.defaultAppStorage.set(["group": ["name": "151004"]], forKey: StorageKeys.pinnedScheduleKey)
+                $0.defaultAppStorage.setIsPremiumUser()
+            }
+            #endif
         }
+
+        @Dependency(\.productsService) var productsService
+        productsService.load()
+
+        @Dependency(\.cloudSyncService) var cloudSyncService
+        cloudSyncService.load()
+
+        @Dependency(\.pairFormDisplayService) var pairFormDisplayService
+        pairFormDisplayService.start()
+
+        @Dependency(\.userDefaultsWatchSync) var userDefaultsWatchSync
+        userDefaultsWatchSync.start()
     }
 }
 
