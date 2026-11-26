@@ -30,7 +30,6 @@ struct PairRowView: View {
                 spellForm: false,
                 showWeeks: showWeeks
             )
-            .listItemTint(pair.form.viewForm.defaultColor.color)
         }
     }
 }

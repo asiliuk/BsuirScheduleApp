@@ -208,6 +208,7 @@ public struct PairView<Details: View>: View {
             auditory.map { Text(.viewPairViewAccessibilityAuditory($0)) },
             note.map { Text(verbatim: $0) }
         ) ?? Text(verbatim: ""))
+        .listItemTint(formColor)
     }
 
     private var timeInterval: some View {
