@@ -5,6 +5,7 @@ import Dependencies
 import WatchKit
 import BsuirUI
 import Kingfisher
+import Favorites
 
 @main
 struct BsuirScheduleWatchApp: App {
@@ -24,6 +25,7 @@ final class WatchAppDelegate: NSObject, WKApplicationDelegate {
     } withDependencies: {
         $0.imageCache = .default
         $0.defaultAppStorage = .asiliukShared
+        $0.userDefaultsWatchSync = .live(defaults: $0.defaultAppStorage, keys: StorageKeys.watchSyncKeys)
     }
 
     override init() {
@@ -39,6 +41,30 @@ final class WatchAppDelegate: NSObject, WKApplicationDelegate {
 
             @Dependency(\.cloudSyncService) var cloudSyncService
             cloudSyncService.load()
+
+            @Dependency(\.userDefaultsWatchSync) var userDefaultsWatchSync
+            userDefaultsWatchSync.start()
         }
     }
+
+    func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
+        @Dependency(\.userDefaultsWatchSync) var userDefaultsWatchSync
+        userDefaultsWatchSync.handle(backgroundTasks)
+    }
 }
+
+private extension StorageKeys {
+    static var watchSyncKeys: Set<String> {
+        let favoritesKeys = [
+           pinnedScheduleKey,
+           favoriteGroupNamesKey,
+           favoriteLecturerIDsKey,
+           freeLoveHighScoreKey,
+        ]
+
+        let pairUIKeys = [pairFormAlwaysShowIconKey] + pairViewFormColorKeys
+
+        return Set(favoritesKeys + pairUIKeys)
+    }
+}
+

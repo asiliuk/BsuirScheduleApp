@@ -27,6 +27,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     } withDependencies: { [isTestingEnabled] in
         $0.imageCache = .default
         $0.defaultAppStorage = .asiliukShared
+        $0.userDefaultsWatchSync = .live(defaults: $0.defaultAppStorage, keys: StorageKeys.watchSyncKeys)
         #if DEBUG
         if isTestingEnabled {
             $0.context = .preview
@@ -59,6 +60,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 
             @Dependency(\.pairFormDisplayService) var pairFormDisplayService
             pairFormDisplayService.start()
+
+            @Dependency(\.userDefaultsWatchSync) var userDefaultsWatchSync
+            userDefaultsWatchSync.start()
         }
     }
 }
@@ -66,6 +70,21 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 private extension AppDelegate {
     var isTestingEnabled: Bool {
         CommandLine.arguments.contains("enable-testing")
+    }
+}
+
+private extension StorageKeys {
+    static var watchSyncKeys: Set<String> {
+        let favoritesKeys = [
+           pinnedScheduleKey,
+           favoriteGroupNamesKey,
+           favoriteLecturerIDsKey,
+           freeLoveHighScoreKey,
+        ]
+
+        let pairUIKeys = [pairFormAlwaysShowIconKey] + pairViewFormColorKeys
+
+        return Set(favoritesKeys + pairUIKeys)
     }
 }
 

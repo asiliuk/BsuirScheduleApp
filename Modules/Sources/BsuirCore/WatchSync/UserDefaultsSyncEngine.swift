@@ -9,7 +9,7 @@ import WatchKit
 
 // MARK: - Dependency
 
-extension UserDefaultsWatchSyncService {
+extension UserDefaultsWatchSyncService where Self == UserDefaultsSyncEngine {
     public static func live(defaults: UserDefaults, keys: Set<String>) -> any UserDefaultsWatchSyncService {
         UserDefaultsSyncEngine(defaults: defaults, keys: keys)
     }
@@ -35,7 +35,7 @@ extension UserDefaultsWatchSyncService {
 /// including our own writes (the timestamps key, applied remote values). The pipeline hops to
 /// the main queue first, so the handler never runs inside a write and can't re-enter `state`'s
 /// non-reentrant lock.
-final class UserDefaultsSyncEngine: NSObject, WCSessionDelegate, @unchecked Sendable, UserDefaultsWatchSyncService {
+public final class UserDefaultsSyncEngine: NSObject, WCSessionDelegate, @unchecked Sendable, UserDefaultsWatchSyncService {
 
     // MARK: Configuration
 
@@ -68,13 +68,13 @@ final class UserDefaultsSyncEngine: NSObject, WCSessionDelegate, @unchecked Send
 
     // MARK: Lifecycle
 
-    init(defaults: UserDefaults = .standard, keys: Set<String>) {
+    public init(defaults: UserDefaults = .standard, keys: Set<String>) {
         self.defaults = defaults
         self.keys = keys
         super.init()
     }
 
-    func start() {
+    public func start() {
         log.info("Started")
 
         // Must happen before observing, so `lastKnown` is a valid baseline for the first diff.
@@ -289,7 +289,7 @@ final class UserDefaultsSyncEngine: NSObject, WCSessionDelegate, @unchecked Send
 
     // MARK: WCSessionDelegate
 
-    func session(
+    public func session(
         _ session: WCSession,
         activationDidCompleteWith activationState: WCSessionActivationState,
         error: Error?
@@ -306,7 +306,7 @@ final class UserDefaultsSyncEngine: NSObject, WCSessionDelegate, @unchecked Send
         #endif
     }
 
-    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
+    public func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
         if merge(context: applicationContext, reason: "did receive app context") {
             push()
         }
@@ -316,16 +316,16 @@ final class UserDefaultsSyncEngine: NSObject, WCSessionDelegate, @unchecked Send
     }
 
     #if os(iOS)
-    func sessionDidBecomeInactive(_ session: WCSession) {
+    public func sessionDidBecomeInactive(_ session: WCSession) {
         // noop
     }
 
-    func sessionDidDeactivate(_ session: WCSession) {
+    public func sessionDidDeactivate(_ session: WCSession) {
         // required for switching between multiple watches
         session.activate()
     }
 
-    func sessionWatchStateDidChange(_ session: WCSession) {
+    public func sessionWatchStateDidChange(_ session: WCSession) {
         push()
     }
     #endif
@@ -336,7 +336,7 @@ final class UserDefaultsSyncEngine: NSObject, WCSessionDelegate, @unchecked Send
     /// Call from `WKApplicationDelegate.handle(_:)`.
     /// Every WatchConnectivity background task MUST be completed, or the app's
     /// background budget is used up and the system terminates it.
-    func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
+    public func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
         for task in backgroundTasks {
             if let wcTask = task as? WKWatchConnectivityRefreshBackgroundTask {
                 pendingTasks.append(wcTask)

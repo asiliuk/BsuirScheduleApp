@@ -3,7 +3,7 @@ import BsuirCore
 
 extension SharedKey where Self == AppStorageKey<Bool>.Default {
     public static var alwaysShowFormIcon: Self {
-        Self[.appStorage("pair-form-always-show-icon", store: .asiliukShared), default: false]
+        Self[.appStorage(StorageKeys.pairFormAlwaysShowIconKey, store: .asiliukShared), default: false]
     }
 }
 
@@ -21,4 +21,9 @@ extension PairViewForm {
     var legacyDefaultsKey: String {
         "pair-form-color.\(rawValue)"
     }
+}
+
+extension StorageKeys {
+    public static let pairFormAlwaysShowIconKey = "pair-form-always-show-icon"
+    public static let pairViewFormColorKeys = PairViewForm.allCases.map { $0.colorDefaultsKey }
 }
